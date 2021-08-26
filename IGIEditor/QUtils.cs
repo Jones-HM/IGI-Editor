@@ -35,20 +35,20 @@ namespace IGIEditor
         {
             public int team;
             public QTask qtask;
-            public List<string> weapons_list;
+            public List<string> weaponsList;
         };
 
         internal static string taskNew = "Task_New", taskDecl = "Task_DeclareParameters";
         internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc";
         internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, randGenScriptId = 0, gGameLevel = 1;
-        internal static string logFile = "app.log", aiIdleFile = "ai_idle.qvm", objectsMasterList, aiIdlePath;
+        internal static string logFile = "app.log", aiIdleFile = "aiIdle.qvm", objectsMasterList, aiIdlePath;
         internal static bool logEnabled = false, keyExist = false, keyFileExist = false, mapViewerMode = false;
 
         internal static string gamePath, appdataPath, igieditorTmpPath, currPath, gameAbsPath, cfgGamePath, cfgInputHumanplayerPath, cfgInputQscPath, cfgInputAiPath, cfgInputQvmPath, cfgVoidPath, qMissionsPath, qfilesPath = @"\QFiles", igiEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", cfgFile, projAppName,
-         igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayer = "humanplayer.qvm", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalDllPath = @"bin\igi1ed.dat", tmpDllPath, internalDllInjectorPath = @"bin\igi1ed_inj.exe";
+         igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayer = "humanplayer.qvm", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalDllPath = @"bin\igi1ed.dat", tmpDllPath, internalDllInjectorPath = @"bin\igi1edInj.exe";
         internal static string inputQscPath = @"\IGI_QSC", inputQvmPath = @"\IGI_QVM", inputAiPath = @"\AIFiles", inputVoidPath = @"\Void", inputMissionPath = @"\missions\location0\level", inputHumanplayerPath = @"\humanplayer";
         internal static List<string> objTypeList = new List<string>() { "Building", "EditRigidObj", "Terminal", "Elevator", "ExplodeObject", "AlarmControl", "Generator", "Radio" };
-        internal static string objects = "objects", objects_all = "objects_all", weapons = "weapons";
+        internal static string objects = "objects", objectsAll = "objectsAll", weapons = "weapons";
         internal static string qvmExt = ".qvm", qscExt = ".qsc", csvExt = ".csv", jsonExt = ".json", txtExt = ".txt", xmlExt = ".xml", dllExt = ".dll", missionExt = ".mission";
         internal static float fltInvalidAngle = -9.9999f;
         internal const string CAPTION_CONFIG_ERR = "Config - Error", CAPTION_FATAL_SYS_ERR = "Fatal sytem - Error", CAPTION_APP_ERR = "Application - Error", CAPTION_COMPILER_ERR = "Compiler - Error", alarmControl = "AlarmControl", stationaryGun = "StationaryGun";
@@ -56,7 +56,7 @@ namespace IGIEditor
         internal static string patroIdleMask = "xxxx", patroAlarmMask = "yyyy", alarmControlMask = "zzzz", gunnerIdMask = "aaaa", viewGammaMask = "bbbb";
         internal static string speedXMask = "xx", speedYMask = "yy", speedZMask = "zz", inAir1Mask = "iair1", inAir2Mask = "iair2", health1Mask = "hh1", health2Mask = "hh2", health3Mask = "hh3";
         internal static List<string> aiScriptFiles = new List<string>();
-        internal static string aiEnenmyTask = null, aiFriendTask = null, levelFlowData, missionsListFile = "MissionsList.txt", missionLevelFile = "mission_level.txt", missionDescFile = "mission_desc.txt", missionListFile = "MissionsList.txt";
+        internal static string aiEnenmyTask = null, aiFriendTask = null, levelFlowData, missionsListFile = "MissionsList.txt", missionLevelFile = "missionLevel.txt", missionDescFile = "missionDesc.txt", missionListFile = "MissionsList.txt";
         internal static double speedX = 1.75f, speedY = 17.5f, speedZ = 27, inAirVel1 = 0.5f, inAirVel2 = 0.8500000238418579f, healthScale1 = 3.0f, healthScale2 = 0.5f, healthScale3 = 0.5f;
         private static Random rand = new Random();
         internal enum QTYPES { BUILDING = 1, RIGID_OBJ = 2 };
@@ -88,26 +88,34 @@ namespace IGIEditor
         {"MEDIPACK","AMMO_ID_MEDIPACK"},
         {"PROXIMITYMINE","AMMO_ID_PROXIMITYMINE"}};
 
+        internal static string baseImgUrl = "https://static.wikia.nocookie.net/igi/images";
+        internal static string[] levelImgUrl =
+            {"/5/58/Mission_1.png","/5/5d/Mission_2.png","/5/5b/IGI_Mission_3.png","/3/35/IGI_Mission_4.png",
+              "/8/89/IGI_Mission_05.png","/9/91/IGI_Mission_06.png","/0/0f/IGI_Mission_07.png",
+              "/1/12/IGI_Mission_08.png","/6/6d/IGI_Mission_09.png","/2/2b/Mission_10.png","/e/e6/Mission_11.png",
+              "/a/af/Mission_12.png","/5/5a/Mission_13.png","/4/4a/Mission_14.png"
+        };
+
         internal static List<string> aiTypes = new List<string>() { "AITYPE_RPG", "AITYPE_GUNNER", "AITYPE_SNIPER", "AITYPE_ANYA", "AITYPE_EKK", "AITYPE_PRIBOI", "AITYPE_CIVILIAN", "AITYPE_PATROL_UZI", "AITYPE_PATROL_AK", "AITYPE_PATROL_SPAS", "AITYPE_PATROL_PISTOL", "AITYPE_GUARD_UZI", "AITYPE_GUARD_AK", "AITYPE_GUARD_SPAS", "AITYPE_GUARD_PISTOL", "AITYPE_SECURITY_PATROL_UZI", "AITYPE_SECURITY_PATROL_SPAS", "AITYPE_MAFIA_PATROL_UZI", "AITYPE_MAFIA_PATROL_AK", "AITYPE_MAFIA_PATROL_SPAS", "AITYPE_MAFIA_GUARD_UZI", "AITYPE_MAFIA_GUARD_AK", "AITYPE_MAFIA_GUARD_SPAS", "AITYPE_SPETNAZ_PATROL_UZI", "AITYPE_SPETNAZ_PATROL_AK", "AITYPE_SPETNAZ_PATROL_SPAS", "AITYPE_SPETNAZ_GUARD_UZI", "AITYPE_SPETNAZ_GUARD_AK", "AITYPE_SPETNAZ_GUARD_SPAS" };
 
-        public static void ShowWarning(string warn_msg, string caption = "WARNING")
+        public static void ShowWarning(string warnMsg, string caption = "WARNING")
         {
-            MessageBox.Show(warn_msg, caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show(warnMsg, caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        public static void ShowError(string err_msg, string caption = "ERROR")
+        public static void ShowError(string errMsg, string caption = "ERROR")
         {
-            MessageBox.Show(err_msg, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(errMsg, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        public static void ShowInfo(string info_msg, string caption = "INFO")
+        public static void ShowInfo(string infoMsg, string caption = "INFO")
         {
-            MessageBox.Show(info_msg, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(infoMsg, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        public static DialogResult ShowDialog(string info_msg, string caption = "INFO")
+        public static DialogResult ShowDialog(string infoMsg, string caption = "INFO")
         {
-            return MessageBox.Show(info_msg, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            return MessageBox.Show(infoMsg, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
         }
 
         public static void ShowConfigError(string keyword)
@@ -116,31 +124,31 @@ namespace IGIEditor
             Environment.Exit(1);
         }
 
-        public static void ShowSystemFatalError(string err_msg)
+        public static void ShowSystemFatalError(string errMsg)
         {
-            ShowError(err_msg, CAPTION_FATAL_SYS_ERR);
+            ShowError(errMsg, CAPTION_FATAL_SYS_ERR);
             Environment.Exit(1);
         }
 
-        private DialogResult ShowOptionInfo(string info_msg)
+        private DialogResult ShowOptionInfo(string infoMsg)
         {
-            return MessageBox.Show(info_msg, "INFO", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            return MessageBox.Show(infoMsg, "INFO", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
         }
 
         //Private method to get machine id.
         private static string GetUUID()
         {
-            string uid_args = "wmic csproduct get UUID";
-            string uuid_out = ShellExec(uid_args);
-            string uid = uuid_out.Split(new[] { Environment.NewLine }, StringSplitOptions.None)[1];
+            string uidArgs = "wmic csproduct get UUID";
+            string uuidOut = ShellExec(uidArgs);
+            string uid = uuidOut.Split(new[] { Environment.NewLine }, StringSplitOptions.None)[1];
             return uid.Trim();
         }
 
         //Private method to get GUID.
         private static string GetGUID()
         {
-            Guid guid_obj = Guid.NewGuid();
-            string guid = guid_obj.ToString();
+            Guid guidObj = Guid.NewGuid();
+            string guid = guidObj.ToString();
             return guid;
         }
 
@@ -148,33 +156,33 @@ namespace IGIEditor
         //Private method to get MAC/Physical address.
         internal static string GetMACAddress()
         {
-            string mac_addr_args = "wmic nic get MACAddress";
-            string mac_address_out = ShellExec(mac_addr_args);
-            var mac_address_list = mac_address_out.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            string mac_address = null;
+            string macAddrArgs = "wmic nic get MACAddress";
+            string macAddressOut = ShellExec(macAddrArgs);
+            var macAddressList = macAddressOut.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            string macAddress = null;
 
-            foreach (var address in mac_address_list)
+            foreach (var address in macAddressList)
             {
                 if (!String.IsNullOrEmpty(address) && address.Count(c => c == ':') > 4)
                 {
-                    mac_address = address;
+                    macAddress = address;
                     break;
                 }
             }
-            return mac_address.Trim();
+            return macAddress.Trim();
         }
 
         internal static string GetPrivateIP()
         {
-            string ip_addr_args = "ipconfig /all | findstr /c:IPv4";
-            const string ip_out = "   IPv4 Address. . . . . . . . . . . : ";
-            string ip_address_out = ShellExec(ip_addr_args);
-            string[] ips = ip_address_out.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            List<string> ip_addresses = new List<string>(ips);
+            string ipAddrArgs = "ipconfig /all | findstr /c:IPv4";
+            const string ipOut = "   IPv4 Address. . . . . . . . . . . : ";
+            string ipAddressOut = ShellExec(ipAddrArgs);
+            string[] ips = ipAddressOut.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            List<string> ipAddresses = new List<string>(ips);
 
-            int ip_lens = ip_addresses.Count - 1;
-            string private_ip = ip_addresses[ip_lens].Substring(ip_out.Length).Replace("(Preferred)", "").Trim();
-            return private_ip;
+            int ipLens = ipAddresses.Count - 1;
+            string privateIp = ipAddresses[ipLens].Substring(ipOut.Length).Replace("(Preferred)", "").Trim();
+            return privateIp;
         }
 
         internal static void CreateConfig(string configFile)
@@ -245,20 +253,20 @@ namespace IGIEditor
             return (string)result;
         }
 
-        private static void CreateGameShortcut(string link_name, string path_to_app, string game_args = "")
+        private static void CreateGameShortcut(string linkName, string pathToApp, string gameArgs = "")
         {
             var shell = new WshShell();
-            string shortcut_address = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + link_name + ".lnk";
+            string shortcutAddress = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + linkName + ".lnk";
 
-            if (File.Exists(shortcut_address))
-                File.Delete(shortcut_address);
+            if (File.Exists(shortcutAddress))
+                File.Delete(shortcutAddress);
 
-            var shortcut = (IWshShortcut)shell.CreateShortcut(shortcut_address);
+            var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
             shortcut.Description = "Shortcut for IGI";
             shortcut.Hotkey = "Ctrl+ALT+I";
-            shortcut.Arguments = game_args;
-            shortcut.WorkingDirectory = path_to_app;
-            shortcut.TargetPath = path_to_app + Path.DirectorySeparatorChar + "igi.exe";
+            shortcut.Arguments = gameArgs;
+            shortcut.WorkingDirectory = pathToApp;
+            shortcut.TargetPath = pathToApp + Path.DirectorySeparatorChar + "igi.exe";
             shortcut.Save();
         }
 
@@ -277,8 +285,8 @@ namespace IGIEditor
         {
             QCompiler.CheckQConvExist();
 
-            if (!Directory.Exists(QCompiler.compile_path + @"\input") || !Directory.Exists(QCompiler.compile_path + @"\output") &&
-            !Directory.Exists(QCompiler.decompile_path + @"\input") || !Directory.Exists(QCompiler.decompile_path + @"\output"))
+            if (!Directory.Exists(QCompiler.compilePath + @"\input") || !Directory.Exists(QCompiler.compilePath + @"\output") &&
+            !Directory.Exists(QCompiler.decompilePath + @"\input") || !Directory.Exists(QCompiler.decompilePath + @"\output"))
             {
                 ShowSystemFatalError("IGI QEditor directory has illegal structure");
             }
@@ -307,9 +315,9 @@ namespace IGIEditor
             igieditorTmpPath = appdataPath + Path.DirectorySeparatorChar + igiEditor;
 
             //Set new Input QSC & QVM path releative to appdata.
-            objectsMasterList = igieditorTmpPath + Path.DirectorySeparatorChar + "igi_master_list.txt";
+            objectsMasterList = igieditorTmpPath + Path.DirectorySeparatorChar + "igiMasterList.txt";
             qMissionsPath = igieditorTmpPath + @"\QMissions";
-            aiIdlePath = igieditorTmpPath + Path.DirectorySeparatorChar + "ai_idle.qvm";
+            aiIdlePath = igieditorTmpPath + Path.DirectorySeparatorChar + "aiIdle.qvm";
             cfgInputQvmPath = igieditorTmpPath + qfilesPath + inputQvmPath + inputMissionPath;
             cfgInputQscPath = igieditorTmpPath + qfilesPath + inputQscPath + inputMissionPath;
             cfgInputHumanplayerPath = igieditorTmpPath + qfilesPath + inputQscPath + inputHumanplayerPath;
@@ -337,39 +345,39 @@ namespace IGIEditor
 
         }
 
-        internal static void DeleteWholeDir(string dir_path)
+        internal static void DeleteWholeDir(string dirPath)
         {
-            DirectoryInfo di = new DirectoryInfo(dir_path);
+            DirectoryInfo di = new DirectoryInfo(dirPath);
             foreach (FileInfo file in di.GetFiles())
                 file.Delete();
             foreach (DirectoryInfo dir in di.GetDirectories())
                 dir.Delete(true);
-            Directory.Delete(dir_path);
+            Directory.Delete(dirPath);
         }
 
-        internal static void MoveDir(string src_path, string dest_path)
+        internal static void MoveDir(string srcPath, string destPath)
         {
-            var mv_cmd = "mv " + src_path + " " + dest_path;
-            var move_cmd = "move " + src_path + " " + dest_path + " /y";
+            var mvCmd = "mv " + srcPath + " " + destPath;
+            var moveCmd = "move " + srcPath + " " + destPath + " /y";
 
             try
             {
                 //#1 solution to move with same root directory.
-                Directory.Move(src_path, dest_path + Path.DirectorySeparatorChar + igiEditor);
+                Directory.Move(srcPath, destPath + Path.DirectorySeparatorChar + igiEditor);
             }
             catch (IOException ex)
             {
                 if (ex.Message.Contains("already exist"))
                 {
-                    DeleteWholeDir(src_path);
+                    DeleteWholeDir(srcPath);
                 }
                 else
                 {
                     //#2 solution to move with POSIX 'mv' command.
-                    ShellExec(mv_cmd, "powershell.exe");
-                    if (Directory.Exists(src_path))
+                    ShellExec(mvCmd, "powershell.exe");
+                    if (Directory.Exists(srcPath))
                         //#3 solution to move with 'move' command.
-                        ShellExec(move_cmd);
+                        ShellExec(moveCmd);
                 }
             }
         }
@@ -383,16 +391,16 @@ namespace IGIEditor
 
         internal static string WebReader(string url)
         {
-            string str_content = null;
+            string strContent = null;
             try
             {
-                var web_request = WebRequest.Create(url);
-                using (var response = web_request.GetResponse())
+                var webRequest = WebRequest.Create(url);
+                using (var response = webRequest.GetResponse())
                 using (var content = response.GetResponseStream())
                 using (var reader = new StreamReader(content))
                 {
-                    str_content = reader.ReadToEnd();
-                    return str_content;
+                    strContent = reader.ReadToEnd();
+                    return strContent;
                 }
             }
             catch (Exception ex)
@@ -402,7 +410,7 @@ namespace IGIEditor
                 else
                     ShowError(ex.Message, "Application Error");
             }
-            return str_content;
+            return strContent;
         }
 
         internal static void EnableMapView(bool enableMap)
@@ -522,14 +530,14 @@ namespace IGIEditor
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + authBearer);
             return client;
         }
-        protected static string EditContent(string _description, string _targetFileName, string _content)
+        protected static string EditContent(string Description, string TargetFileName, string Content)
         {
-            //dynamic _result = new DynamicJson();
-            //dynamic _file = new DynamicJson();
-            //_result.description = _description;
-            //_result.files = new { };
-            //_result.files[_targetFileName] = new { content = _content };
-            //return _result.ToString();
+            //dynamic Result = new DynamicJson();
+            //dynamic file = new DynamicJson();
+            //Result.description = Description;
+            //Result.files = new { };
+            //Result.files[TargetFileName] = new { content = Content };
+            //return Result.ToString();
             return null;
         }
 
@@ -579,7 +587,7 @@ namespace IGIEditor
             //userDataContent = userDataContent.Remove(infoStrIndex, infoStr.Length);
 
             //Check if user exist.
-            string keyFileAbsPath = igieditorTmpPath + Path.DirectorySeparatorChar + projAppName + "_key.txt";
+            string keyFileAbsPath = igieditorTmpPath + Path.DirectorySeparatorChar + projAppName + "Key.txt";
             keyFileExist = File.Exists(keyFileAbsPath);
             keyExist = true;
             return true;//Change
@@ -652,14 +660,14 @@ namespace IGIEditor
         }
 
         //Execute shell command and get std-output.
-        internal static string ShellExec(string cmd_args, string shell = "cmd.exe")
+        internal static string ShellExec(string cmdArgs, string shell = "cmd.exe")
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             startInfo.CreateNoWindow = true;
             startInfo.FileName = shell;
-            startInfo.Arguments = "/c " + cmd_args;
+            startInfo.Arguments = "/c " + cmdArgs;
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
             startInfo.UseShellExecute = false;
@@ -675,87 +683,87 @@ namespace IGIEditor
             return LoadFile(objectsQsc);
         }
 
-        internal static string LoadFile(string file_name)
+        internal static string LoadFile(string fileName)
         {
             string data = null;
-            if (File.Exists(file_name))
-                data = File.ReadAllText(file_name);
+            if (File.Exists(fileName))
+                data = File.ReadAllText(fileName);
             return data;
         }
 
-        internal static void SaveFile(string data = null, bool append_data = false)
+        internal static void SaveFile(string data = null, bool appendData = false)
         {
-            SaveFile(objectsQsc, data, append_data);
+            SaveFile(objectsQsc, data, appendData);
         }
 
-        internal static void SaveFile(string file_name, string data, bool append_data = false)
+        internal static void SaveFile(string fileName, string data, bool appendData = false)
         {
-            if (append_data)
-                File.AppendAllText(file_name, data);
+            if (appendData)
+                File.AppendAllText(fileName, data);
             else
-                File.WriteAllText(file_name, data);
+                File.WriteAllText(fileName, data);
         }
 
-        internal static void ResetFile(int game_level)
+        internal static void ResetFile(int gameLevel)
         {
-            var input_qsc_path = cfgInputQscPath + game_level + "\\" + objectsQsc;
+            var inputQscPath = cfgInputQscPath + gameLevel + "\\" + objectsQsc;
 
             if (File.Exists(objectsQsc))
                 File.Delete(objectsQsc);
 
-            File.Copy(input_qsc_path, objectsQsc);
+            File.Copy(inputQscPath, objectsQsc);
 
             var fileData = QCryptor.Decrypt(objectsQsc);
             File.WriteAllText(objectsQsc, fileData);
             levelFlowData = File.ReadLines(objectsQsc).Last();
         }
 
-        internal static void RestoreLevel(int game_level)
+        internal static void RestoreLevel(int gameLevel)
         {
-            gamePath = cfgGamePath + game_level;
-            string output_qvm_path = gamePath + "\\" + objectsQvm;
-            string input_qvm_path = cfgInputQvmPath + game_level + "\\" + objectsQvm;
+            gamePath = cfgGamePath + gameLevel;
+            string outputQvmPath = gamePath + "\\" + objectsQvm;
+            string inputQvmPath = cfgInputQvmPath + gameLevel + "\\" + objectsQvm;
 
-            File.Delete(output_qvm_path);
-            File.Copy(input_qvm_path, output_qvm_path);
+            File.Delete(outputQvmPath);
+            File.Copy(inputQvmPath, outputQvmPath);
 
-            var in_file_data = File.ReadAllText(input_qvm_path);
-            var out_file_data = File.ReadAllText(output_qvm_path);
+            var inFileData = File.ReadAllText(inputQvmPath);
+            var outFileData = File.ReadAllText(outputQvmPath);
 
-            if (in_file_data == out_file_data)
+            if (inFileData == outFileData)
             {
-                IGIEditorUI.editorRef.SetStatusText("Restrore of level '" + game_level + "' success");
+                IGIEditorUI.editorRef.SetStatusText("Restrore of level '" + gameLevel + "' success");
             }
             else
-                IGIEditorUI.editorRef.SetStatusText("Error in restroing level : " + game_level);
+                IGIEditorUI.editorRef.SetStatusText("Error in restroing level : " + gameLevel);
         }
 
 
-        internal static int FindIndex(string temp, string source_data, int source_index, int qtask_index)
+        internal static int FindIndex(string temp, string sourceData, int sourceIndex, int qtaskIndex)
         {
-            for (int i = 0; source_index < temp.Length; i++)
+            for (int i = 0; sourceIndex < temp.Length; i++)
             {
-                source_index = temp.IndexOf(source_data) + i;
-                if ((temp[source_index - 1] == ' ' || temp[source_index - 1] == ',')
-                     && temp[source_index + 1] == ',')
+                sourceIndex = temp.IndexOf(sourceData) + i;
+                if ((temp[sourceIndex - 1] == ' ' || temp[sourceIndex - 1] == ',')
+                     && temp[sourceIndex + 1] == ',')
                 {
                     break;
                 }
             }
 
             //Add the index + offset.
-            source_index += qtask_index;
-            return source_index;
+            sourceIndex += qtaskIndex;
+            return sourceIndex;
         }
 
 
         internal static bool CheckModelExist(string model)
         {
-            int game_level = QMemory.GetCurrentLevel();
-            AddLog("CheckModelExist() called with model : " + model + " for level : " + game_level);
-            var input_qsc_path = cfgInputQscPath + game_level + "\\" + objectsQsc;
-            string qsc_data = QCryptor.Decrypt(input_qsc_path);
-            bool model_exist = false;
+            int gameLevel = QMemory.GetCurrentLevel();
+            AddLog("CheckModelExist() called with model : " + model + " for level : " + gameLevel);
+            var inputQscPath = cfgInputQscPath + gameLevel + "\\" + objectsQsc;
+            string qscData = QCryptor.Decrypt(inputQscPath);
+            bool modelExist = false;
 
             if (!String.IsNullOrEmpty(model))
             {
@@ -763,40 +771,40 @@ namespace IGIEditor
                     model = "\"" + model + "\"";
             }
 
-            var model_list = Regex.Matches(qsc_data, model).Cast<Match>().Select(m => m.Value);
-            foreach (var model_obj in model_list)
-                AddLog("Models list : " + model_obj);
+            var modelList = Regex.Matches(qscData, model).Cast<Match>().Select(m => m.Value);
+            foreach (var modelObj in modelList)
+                AddLog("Models list : " + modelObj);
 
             if (!String.IsNullOrEmpty(model))
             {
-                if (model_list.Any(o => o.Contains(model)))
-                    model_exist = true;
+                if (modelList.Any(o => o.Contains(model)))
+                    modelExist = true;
             }
 
-            AddLog("CheckModelExist() returned : " + (model_exist ? "Model exist" : "Model doesn't exist"));
-            return model_exist;
+            AddLog("CheckModelExist() returned : " + (modelExist ? "Model exist" : "Model doesn't exist"));
+            return modelExist;
         }
 
         internal static int GetModelCount(string model)
         {
             if (!CheckModelExist(model)) return 0;
-            var qtask_list = GetQTaskList(false, true);
-            int count = qtask_list.Count(o => String.Compare(o.model, model, true) == 0);
+            var qtaskList = GetQTaskList(false, true);
+            int count = qtaskList.Count(o => String.Compare(o.model, model, true) == 0);
             IGIEditorUI.editorRef.SetStatusText("Model count : " + count);
             return count;
         }
 
-        internal static bool CheckModelExist(int task_id)
+        internal static bool CheckModelExist(int taskId)
         {
-            var qtask_list = GetQTaskList();
-            if (qtask_list.Count == 0)
+            var qtaskList = GetQTaskList();
+            if (qtaskList.Count == 0)
                 throw new Exception("QTask list is empty");
 
-            if (task_id != -1)
+            if (taskId != -1)
             {
-                foreach (var qtask in qtask_list)
+                foreach (var qtask in qtaskList)
                 {
-                    if (qtask.id == task_id)
+                    if (qtask.id == taskId)
                         return true;
                 }
             }
@@ -805,136 +813,136 @@ namespace IGIEditor
 
 
         //Parse the Objects.
-        private static List<QTask> ParseAllOjects(string qsc_data)
+        private static List<QTask> ParseAllOjects(string qscData)
         {
             //Remove all whitespaces.
-            qsc_data = qsc_data.Replace("\t", String.Empty);
-            string[] qsc_data_split = qsc_data.Split('\n');
-            var model_regex = @"\d{3}_\d{2}_\d{1}";
+            qscData = qscData.Replace("\t", String.Empty);
+            string[] qscDataSplit = qscData.Split('\n');
+            var modelRegex = @"\d{3}_\d{2}_\d{1}";
 
-            var qtask_list = new List<QTask>();
-            foreach (var data in qsc_data_split)
+            var qtaskList = new List<QTask>();
+            foreach (var data in qscDataSplit)
             {
                 if (data.Contains(taskNew))
                 {
                     QTask qtask = new QTask();
 
-                    string[] task_new = data.Split(',');
-                    int task_index = 0;
+                    string[] taskNew = data.Split(',');
+                    int taskIndex = 0;
 
-                    foreach (var task in task_new)
+                    foreach (var task in taskNew)
                     {
-                        if (task_index == (int)QTASKINFO.QTASK_ID)
+                        if (taskIndex == (int)QTASKINFO.QTASK_ID)
                         {
-                            var task_id = task.Substring(task.IndexOf('(') + 1);
-                            qtask.id = Convert.ToInt32(task_id);
+                            var taskId = task.Substring(task.IndexOf('(') + 1);
+                            qtask.id = Convert.ToInt32(taskId);
                         }
-                        else if (task_index == (int)QTASKINFO.QTASK_NAME)
+                        else if (taskIndex == (int)QTASKINFO.QTASK_NAME)
                             qtask.name = task.Trim();
 
-                        else if (task_index == (int)QTASKINFO.QTASK_NOTE)
+                        else if (taskIndex == (int)QTASKINFO.QTASK_NOTE)
                             qtask.note = task.Trim();
 
-                        else if (task_index == (int)QTASKINFO.QTASK_MODEL)
-                            qtask.model = Regex.Match(task.Trim(), model_regex).Value;
+                        else if (taskIndex == (int)QTASKINFO.QTASK_MODEL)
+                            qtask.model = Regex.Match(task.Trim(), modelRegex).Value;
 
-                        task_index++;
+                        taskIndex++;
                     }
-                    qtask_list.Add(qtask);
+                    qtaskList.Add(qtask);
                 }
             }
-            return qtask_list;
+            return qtaskList;
         }
 
 
         //Parse the Objects.
-        private static List<QTask> ParseObjects(string qsc_data)
+        private static List<QTask> ParseObjects(string qscData)
         {
             //Remove all whitespaces.
-            qsc_data = qsc_data.Replace("\t", String.Empty);
-            string[] qsc_data_split = qsc_data.Split('\n');
+            qscData = qscData.Replace("\t", String.Empty);
+            string[] qscDataSplit = qscData.Split('\n');
 
-            var qtask_list = new List<QTask>();
-            foreach (var data in qsc_data_split)
+            var qtaskList = new List<QTask>();
+            foreach (var data in qscDataSplit)
             {
                 if (data.Contains(taskNew))
                 {
-                    var start_index = data.IndexOf(',') + 1;
-                    var end_index = data.IndexOf(',', start_index);
-                    var task_name = data.Slice(start_index, end_index).Trim().Replace("\"", String.Empty);
+                    var startIndex = data.IndexOf(',') + 1;
+                    var endIndex = data.IndexOf(',', startIndex);
+                    var taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
 
-                    if (data.Contains("Building") && task_name != "Building")
+                    if (data.Contains("Building") && taskName != "Building")
                     {
-                        start_index = data.IndexOf(',') + 1;
-                        end_index = data.IndexOf(',', start_index);
-                        task_name = data.Slice(start_index, end_index).Trim().Replace("\"", String.Empty);
+                        startIndex = data.IndexOf(',') + 1;
+                        endIndex = data.IndexOf(',', startIndex);
+                        taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
                     }
 
-                    if (objTypeList.Any(o => o.Contains(task_name)))
+                    if (objTypeList.Any(o => o.Contains(taskName)))
                     {
 
                         QTask qtask = new QTask();
                         Real32 orientation = new Real32();
                         Real64 position = new Real64();
 
-                        string[] task_new = data.Split(',');
-                        int task_index = 0;
+                        string[] taskNew = data.Split(',');
+                        int taskIndex = 0;
 
-                        foreach (var task in task_new)
+                        foreach (var task in taskNew)
                         {
-                            if (task_index == (int)QTASKINFO.QTASK_ID)
+                            if (taskIndex == (int)QTASKINFO.QTASK_ID)
                             {
-                                var task_id = task.Substring(task.IndexOf('(') + 1);
-                                qtask.id = Convert.ToInt32(task_id);
+                                var taskId = task.Substring(task.IndexOf('(') + 1);
+                                qtask.id = Convert.ToInt32(taskId);
                             }
-                            else if (task_index == (int)QTASKINFO.QTASK_NAME)
+                            else if (taskIndex == (int)QTASKINFO.QTASK_NAME)
                                 qtask.name = task.Trim();
 
-                            else if (task_index == (int)QTASKINFO.QTASK_NOTE)
+                            else if (taskIndex == (int)QTASKINFO.QTASK_NOTE)
                                 qtask.note = task.Trim();
 
-                            else if (task_index == (int)QTASKINFO.QTASK_POSX)
+                            else if (taskIndex == (int)QTASKINFO.QTASK_POSX)
                                 position.x = Double.Parse(task);
 
-                            else if (task_index == (int)QTASKINFO.QTASK_POSY)
+                            else if (taskIndex == (int)QTASKINFO.QTASK_POSY)
                                 position.y = Double.Parse(task);
 
-                            else if (task_index == (int)QTASKINFO.QTASK_POSZ)
+                            else if (taskIndex == (int)QTASKINFO.QTASK_POSZ)
                                 position.z = Double.Parse(task);
 
-                            else if (task_index == (int)QTASKINFO.QTASK_ALPHA)
+                            else if (taskIndex == (int)QTASKINFO.QTASK_ALPHA)
                                 orientation.alpha = float.Parse(task);
 
-                            else if (task_index == (int)QTASKINFO.QTASK_BETA)
+                            else if (taskIndex == (int)QTASKINFO.QTASK_BETA)
                                 orientation.beta = float.Parse(task);
 
-                            else if (task_index == (int)QTASKINFO.QTASK_GAMMA)
+                            else if (taskIndex == (int)QTASKINFO.QTASK_GAMMA)
                                 orientation.gamma = float.Parse(task);
 
-                            else if (task_index == (int)QTASKINFO.QTASK_MODEL)
+                            else if (taskIndex == (int)QTASKINFO.QTASK_MODEL)
                                 qtask.model = task.Trim().Replace(")", String.Empty);
 
                             qtask.position = position;
                             qtask.orientation = orientation;
-                            task_index++;
+                            taskIndex++;
                         }
-                        qtask_list.Add(qtask);
+                        qtaskList.Add(qtask);
                     }
                 }
             }
-            return qtask_list;
+            return qtaskList;
         }
 
-        internal static QTask GetQTask(string task_name)
+        internal static QTask GetQTask(string taskName)
         {
-            AddLog("GetQTask(task_name) called");
-            var qtask_list = GetQTaskList();
+            AddLog("GetQTask(taskName) called");
+            var qtaskList = GetQTaskList();
 
-            foreach (var qtask in qtask_list)
+            foreach (var qtask in qtaskList)
             {
-                if (qtask.model.Contains(task_name))
+                if (qtask.model.Contains(taskName))
                 {
-                    AddLog("GetQTask() returned value for Model " + task_name);
+                    AddLog("GetQTask() returned value for Model " + taskName);
                     return qtask;
                 }
             }
@@ -942,15 +950,15 @@ namespace IGIEditor
             return null;
         }
 
-        internal static QTask GetQTask(int task_id)
+        internal static QTask GetQTask(int taskId)
         {
             AddLog("GetQTask(id) called");
-            var qtask_list = GetQTaskList();
-            foreach (var qtask in qtask_list)
+            var qtaskList = GetQTaskList();
+            foreach (var qtask in qtaskList)
             {
-                if (qtask.id == task_id)
+                if (qtask.id == taskId)
                 {
-                    AddLog("GetQTask() returned value for Task_Id " + task_id);
+                    AddLog("GetQTask() returned value for Task_Id " + taskId);
                     return qtask;
                 }
             }
@@ -958,58 +966,58 @@ namespace IGIEditor
             return null;
         }
 
-        internal static List<QTask> GetQTaskList(bool full_qtask_list = false, bool distinct = false, bool from_backup = false)
+        internal static List<QTask> GetQTaskList(bool fullQtaskList = false, bool distinct = false, bool fromBackup = false)
         {
             int level = QMemory.GetCurrentLevel();
-            string input_qsc_path = cfgInputQscPath + level + "\\" + objectsQsc;
-            AddLog("GetQTaskList() : called with level : " + level + " full_list : " + full_qtask_list.ToString() + " distinct : " + distinct.ToString() + " backup : " + from_backup);
-            string qsc_data = from_backup ? QCryptor.Decrypt(input_qsc_path) : LoadFile();
+            string inputQscPath = cfgInputQscPath + level + "\\" + objectsQsc;
+            AddLog("GetQTaskList() : called with level : " + level + " fullList : " + fullQtaskList.ToString() + " distinct : " + distinct.ToString() + " backup : " + fromBackup);
+            string qscData = fromBackup ? QCryptor.Decrypt(inputQscPath) : LoadFile();
 
-            var qtask_list = full_qtask_list ? ParseAllOjects(qsc_data) : ParseObjects(qsc_data);
+            var qtaskList = fullQtaskList ? ParseAllOjects(qscData) : ParseObjects(qscData);
             if (distinct)
-                qtask_list = qtask_list.GroupBy(p => p.model).Select(g => g.First()).ToList();
-            return qtask_list;
+                qtaskList = qtaskList.GroupBy(p => p.model).Select(g => g.First()).ToList();
+            return qtaskList;
         }
 
-        internal static List<QTask> GetQTaskList(int level, bool full_qtask_list = false, bool distinct = false, bool from_backup = false)
+        internal static List<QTask> GetQTaskList(int level, bool fullQtaskList = false, bool distinct = false, bool fromBackup = false)
         {
-            string input_qsc_path = cfgInputQscPath + level + "\\" + objectsQsc;
-            AddLog("GetQTaskList() level : called with level : " + level + " full_list : " + full_qtask_list.ToString() + " distinct : " + distinct.ToString() + " backup : " + from_backup);
-            string qsc_data = from_backup ? QCryptor.Decrypt(input_qsc_path) : LoadFile();
+            string inputQscPath = cfgInputQscPath + level + "\\" + objectsQsc;
+            AddLog("GetQTaskList() level : called with level : " + level + " fullList : " + fullQtaskList.ToString() + " distinct : " + distinct.ToString() + " backup : " + fromBackup);
+            string qscData = fromBackup ? QCryptor.Decrypt(inputQscPath) : LoadFile();
 
-            var qtask_list = full_qtask_list ? ParseAllOjects(qsc_data) : ParseObjects(qsc_data);
+            var qtaskList = fullQtaskList ? ParseAllOjects(qscData) : ParseObjects(qscData);
             if (distinct)
-                qtask_list = qtask_list.GroupBy(p => p.model).Select(g => g.First()).ToList();
-            return qtask_list;
+                qtaskList = qtaskList.GroupBy(p => p.model).Select(g => g.First()).ToList();
+            return qtaskList;
         }
 
         internal static int GenerateTaskID(bool minimalId = false)
         {
-            List<int> qids_list = new List<int>();
+            List<int> qidsList = new List<int>();
             AddLog("GenerateTaskID called minimalId : " + minimalId);
 
-            var qsc_data = LoadFile();
-            qsc_data = qsc_data.Replace("\t", String.Empty);
-            string[] qsc_data_split = qsc_data.Split('\n');
+            var qscData = LoadFile();
+            qscData = qscData.Replace("\t", String.Empty);
+            string[] qscDataSplit = qscData.Split('\n');
 
-            foreach (var data in qsc_data_split)
+            foreach (var data in qscDataSplit)
             {
                 if (data.Contains(taskNew))
                 {
-                    var start_index = data.IndexOf(',', 14) + 1;
-                    var task_name = (data.Slice(13, start_index));
+                    var startIndex = data.IndexOf(',', 14) + 1;
+                    var taskName = (data.Slice(13, startIndex));
 
-                    string[] task_new = data.Split(',');
-                    int task_index = 0;
+                    string[] taskNew = data.Split(',');
+                    int taskIndex = 0;
 
-                    foreach (var task in task_new)
+                    foreach (var task in taskNew)
                     {
-                        if (task_index == (int)QTASKINFO.QTASK_ID)
+                        if (taskIndex == (int)QTASKINFO.QTASK_ID)
                         {
-                            var task_id = task.Substring(task.IndexOf('(') + 1);
-                            int qid = Convert.ToInt32(task_id);
+                            var taskId = task.Substring(task.IndexOf('(') + 1);
+                            int qid = Convert.ToInt32(taskId);
                             if (qid > 10)//10 reserved for LevelFlow Id.
-                                qids_list.Add(qid);
+                                qidsList.Add(qid);
                             break;
                         }
                     }
@@ -1017,43 +1025,43 @@ namespace IGIEditor
                 }
             }
 
-            qids_list.Sort();
+            qidsList.Sort();
 
-            int qtask_id = qids_list[0] + 1;
+            int qtaskId = qidsList[0] + 1;
 
-            int maxVal = qids_list[0], minVal = qids_list[1];
+            int maxVal = qidsList[0], minVal = qidsList[1];
 
             if (minimalId)
             {
                 int diffVal = 0;
-                for (int index = 0; index < qids_list.Count; index++)
+                for (int index = 0; index < qidsList.Count; index++)
                 {
-                    minVal = qids_list[index];
-                    maxVal = qids_list[index + 1];
+                    minVal = qidsList[index];
+                    maxVal = qidsList[index + 1];
                     diffVal = Math.Abs(maxVal - minVal);
                     AddLog("GenerateTaskID  maxVal : " + maxVal + "\tminVal : " + minVal + "\tdiffVal : " + diffVal);
 
                     if (diffVal >= 50)
                     {
-                        qtask_id = minVal + 1;
+                        qtaskId = minVal + 1;
                         break;
                     }
                 }
             }
             else
             {
-                qids_list.Reverse();
-                maxVal = qids_list[0];
-                qtask_id = maxVal + 1;
+                qidsList.Reverse();
+                maxVal = qidsList[0];
+                qtaskId = maxVal + 1;
             }
 
-            return qtask_id;
+            return qtaskId;
         }
 
-        internal static void GenerateObjDataList(string variables_file, List<QTask> qtask_list)
+        internal static void GenerateObjDataList(string variablesFile, List<QTask> qtaskList)
         {
 
-            if (qtask_list.Count <= 0)
+            if (qtaskList.Count <= 0)
             {
                 IGIEditorUI.editorRef.SetStatusText("Qtask list is empty");
                 return;
@@ -1062,133 +1070,133 @@ namespace IGIEditor
 
 
             //Write Constants data.
-            foreach (var qtask in qtask_list)
+            foreach (var qtask in qtaskList)
             {
-                File.AppendAllText(variables_file, qtask.model + "\n");
-                string var_data = null;
+                File.AppendAllText(variablesFile, qtask.model + "\n");
+                string varData = null;
                 if (String.IsNullOrEmpty(qtask.model) || qtask.model == "" || qtask.model.Length < 3)
                     continue;
                 else
                 {
                     if (String.IsNullOrEmpty(qtask.note) || qtask.note == "" || qtask.note.Length < 3)
-                        var_data = "const string " + qtask.name.Replace("\"", String.Empty).Replace(" ", "_").ToUpperInvariant() + " = " + qtask.model + ";\n";
+                        varData = "const string " + qtask.name.Replace("\"", String.Empty).Replace(" ", "_").ToUpperInvariant() + " = " + qtask.model + ";\n";
                     else
-                        var_data = "const string " + qtask.note.Replace("\"", String.Empty).Replace(" ", "_").ToUpperInvariant() + " = " + qtask.model + ";\n";
-                    File.AppendAllText(variables_file, var_data);
+                        varData = "const string " + qtask.note.Replace("\"", String.Empty).Replace(" ", "_").ToUpperInvariant() + " = " + qtask.model + ";\n";
+                    File.AppendAllText(variablesFile, varData);
                 }
             }
         }
 
-        internal static void ExportCSV(string csv_file, List<QTask> qtask_list, bool all_objects = true)
+        internal static void ExportCSV(string csvFile, List<QTask> qtaskList, bool allObjects = true)
         {
-            if (qtask_list.Count <= 0)
+            if (qtaskList.Count <= 0)
             {
                 IGIEditorUI.editorRef.SetStatusText("Qtask list is empty");
                 return;
             }
 
             //Write CSV Header.
-            string csv_header = "Task_ID," + "Task_Name," + "Task_Note," + "X_Pos," + "Y_Pos," + "Z_Pos," + "Alpha," + "Beta," + "Gamma," + "Model" + "\n";
-            File.AppendAllText(csv_file, csv_header);
+            string csvHeader = "Task_ID," + "Task_Name," + "Task_Note," + "X_Pos," + "Y_Pos," + "Z_Pos," + "Alpha," + "Beta," + "Gamma," + "Model" + "\n";
+            File.AppendAllText(csvFile, csvHeader);
 
             //Write CSV data.
-            foreach (var qtask in qtask_list)
+            foreach (var qtask in qtaskList)
             {
-                string csv_data = null;
-                if (all_objects == false)
+                string csvData = null;
+                if (allObjects == false)
                 {
                     if (objTypeList.Any(o => o.Contains(qtask.name)))
-                        csv_data = "" + qtask.id + "," + qtask.name + "," + qtask.note + "," + qtask.position.x + "," + qtask.position.y + "," + qtask.position.z + "," + qtask.orientation.alpha + "," + qtask.orientation.beta + "," + qtask.orientation.gamma + "," + qtask.model + "\n";
+                        csvData = "" + qtask.id + "," + qtask.name + "," + qtask.note + "," + qtask.position.x + "," + qtask.position.y + "," + qtask.position.z + "," + qtask.orientation.alpha + "," + qtask.orientation.beta + "," + qtask.orientation.gamma + "," + qtask.model + "\n";
                 }
 
                 else
                 {
-                    csv_data = "" + qtask.id + "," + qtask.name + "," + qtask.note + "," + qtask.position.x + "," + qtask.position.y + "," + qtask.position.z + "," + qtask.orientation.alpha + "," + qtask.orientation.beta + "," + qtask.orientation.gamma + "," + qtask.model + "\n";
+                    csvData = "" + qtask.id + "," + qtask.name + "," + qtask.note + "," + qtask.position.x + "," + qtask.position.y + "," + qtask.position.z + "," + qtask.orientation.alpha + "," + qtask.orientation.beta + "," + qtask.orientation.gamma + "," + qtask.model + "\n";
                 }
-                File.AppendAllText(csv_file, csv_data);
+                File.AppendAllText(csvFile, csvData);
             }
         }
 
-        internal static void ExportCSV(string csv_file, List<Weapon> weapon_task_list, bool advanced_data = false)
+        internal static void ExportCSV(string csvFile, List<Weapon> weaponTaskList, bool advancedData = false)
         {
-            if (weapon_task_list.Count <= 0)
+            if (weaponTaskList.Count <= 0)
             {
                 IGIEditorUI.editorRef.SetStatusText("Weapon list is empty");
                 return;
             }
 
             //Write CSV Header.
-            string csv_header = "Name," + "Id," + "WeaponType," + "AmmoType," + "Mass," + "Damage," + "Power," + "ReloadTime," + "Bullets/Round," + "RPM," + "Magazine," + "Range," + "Burts," + "Muzzle velocity" + "\n";
-            File.AppendAllText(csv_file, csv_header);
+            string csvHeader = "Name," + "Id," + "WeaponType," + "AmmoType," + "Mass," + "Damage," + "Power," + "ReloadTime," + "Bullets/Round," + "RPM," + "Magazine," + "Range," + "Burts," + "Muzzle velocity" + "\n";
+            File.AppendAllText(csvFile, csvHeader);
 
             //Write CSV data.
-            foreach (var weapon_task in weapon_task_list)
+            foreach (var weaponTask in weaponTaskList)
             {
-                string csv_data = null;
-                if (!advanced_data)
+                string csvData = null;
+                if (!advancedData)
                 {
-                    csv_data = "" + weapon_task.name + "," + weapon_task.script_id + "," + weapon_task.type_enum + "," + weapon_task.ammo_disp_type + "," + weapon_task.mass + "," + weapon_task.damage + "," + weapon_task.power + "," + weapon_task.reload_time + "," + weapon_task.bullets + "," + weapon_task.rpm + "," + weapon_task.clips + "," + weapon_task.range + "," + weapon_task.burst + "," + weapon_task.muzzle_velocity + "," + "\n";
+                    csvData = "" + weaponTask.name + "," + weaponTask.scriptId + "," + weaponTask.typeEnum + "," + weaponTask.ammoDispType + "," + weaponTask.mass + "," + weaponTask.damage + "," + weaponTask.power + "," + weaponTask.reloadTime + "," + weaponTask.bullets + "," + weaponTask.rpm + "," + weaponTask.clips + "," + weaponTask.range + "," + weaponTask.burst + "," + weaponTask.muzzleVelocity + "," + "\n";
                 }
 
                 else
                 {
                 }
-                File.AppendAllText(csv_file, csv_data);
+                File.AppendAllText(csvFile, csvData);
             }
         }
 
-        internal static void ExportXML(string file_name)
+        internal static void ExportXML(string fileName)
         {
-            var qtask_list = GetQTaskList();
-            string csv_file = null;
+            var qtaskList = GetQTaskList();
+            string csvFile = null;
 
-            if (File.Exists(csv_file))
-                csv_file = LoadFile(csv_file);
+            if (File.Exists(csvFile))
+                csvFile = LoadFile(csvFile);
             else
             {
-                csv_file = objects + csvExt;
-                ExportCSV(csv_file, qtask_list);
+                csvFile = objects + csvExt;
+                ExportCSV(csvFile, qtaskList);
             }
 
-            var lines = File.ReadAllLines(csv_file);
+            var lines = File.ReadAllLines(csvFile);
             string[] headers = lines[0].Split(',').Select(x => x.Trim('\"')).ToArray();
 
             var xml = new XElement("root",
                lines.Where((line, index) => index > 0).Select(line => new XElement("Item",
                   line.Split(',').Select((column, index) => new XElement(headers[index], column)))));
 
-            xml.Save(file_name);
-            File.Delete(csv_file);
+            xml.Save(fileName);
+            File.Delete(csvFile);
         }
 
-        internal static void ExportJson(string file_name)
+        internal static void ExportJson(string fileName)
         {
-            string xml_file = objects + xmlExt;
-            string xml_data = null;
+            string xmlFile = objects + xmlExt;
+            string xmlData = null;
 
-            if (File.Exists(xml_file))
-                xml_data = LoadFile(xml_file);
+            if (File.Exists(xmlFile))
+                xmlData = LoadFile(xmlFile);
             else
             {
-                xml_file = objects + xmlExt;
-                ExportXML(xml_file);
-                xml_data = LoadFile(xml_file);
+                xmlFile = objects + xmlExt;
+                ExportXML(xmlFile);
+                xmlData = LoadFile(xmlFile);
             }
 
-            string json_data = null;
+            string jsonData = null;
             Thread.Sleep(1000);
 
-            if (File.Exists(xml_file))
+            if (File.Exists(xmlFile))
             {
                 XmlDocument doc = new XmlDocument();
-                doc.LoadXml(xml_data);
+                doc.LoadXml(xmlData);
 
-                json_data = JsonConvert.SerializeXmlNode(doc, Newtonsoft.Json.Formatting.Indented);
-                SaveFile(file_name, json_data);
+                jsonData = JsonConvert.SerializeXmlNode(doc, Newtonsoft.Json.Formatting.Indented);
+                SaveFile(fileName, jsonData);
             }
             else throw new FileNotFoundException("File 'objects.xml' was not found in current directory");
 
-            File.Delete(xml_file);
+            File.Delete(xmlFile);
         }
 
         internal static void InjectDllOnStart()
@@ -1203,12 +1211,12 @@ namespace IGIEditor
             AddLog("InjectDllOnStart() dllShellCmd : " + dllShellCmd);
         }
 
-        internal static string AddStatusMsg(int taskId = -1, string statusMsg = null, string varString = null, char terminator = ',', bool is_cutscene = false, bool send_once = true, float status_duration = 5.0f)
+        internal static string AddStatusMsg(int taskId = -1, string statusMsg = null, string varString = null, char terminator = ',', bool isCutsceneBool = false, bool sendOnce = true, float statusDuration = 5.0f)
         {
-            var isCutscene = is_cutscene.ToString().ToUpperInvariant();
-            var isSendt = send_once.ToString().ToUpperInvariant();
-            string status_msg_task = "Task_New(" + taskId + ",\"StatusMessage\",\"StatusMsg\",0,0,0,0,0,0,\"" + varString + "\",\"" + statusMsg + "\",\"\"," + "\"message\"," + isSendt + "," + isCutscene + "," + status_duration + ")" + terminator + "\n";
-            return status_msg_task;
+            var isCutscene = isCutsceneBool.ToString().ToUpperInvariant();
+            var isSendt = sendOnce.ToString().ToUpperInvariant();
+            string statusMsgTask = "Task_New(" + taskId + ",\"StatusMessage\",\"StatusMsg\",0,0,0,0,0,0,\"" + varString + "\",\"" + statusMsg + "\",\"\"," + "\"message\"," + isSendt + "," + isCutscene + "," + statusDuration + ")" + terminator + "\n";
+            return statusMsgTask;
         }
 
 
@@ -1224,10 +1232,10 @@ namespace IGIEditor
                 logEnabled = false;
         }
 
-        internal static void AddLog(string log_msg)
+        internal static void AddLog(string logMsg)
         {
             if (logEnabled)
-                File.AppendAllText(logFile, "[" + DateTime.Now.ToString("yyyy-MM-dd - HH:mm:ss") + "] " + log_msg + "\n");
+                File.AppendAllText(logFile, "[" + DateTime.Now.ToString("yyyy-MM-dd - HH:mm:ss") + "] " + logMsg + "\n");
         }
 
         public static string GenerateRandStr(int length)

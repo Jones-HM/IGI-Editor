@@ -8,7 +8,7 @@ namespace IGIEditor
     class QAI
     {
 
-        internal static string AddHumanSoldier(string ai_type, int ai_script_id, int graph_id, Real64 position, float angle, string model, int team, bool add_weapon, string weapon, int ammo, bool guardGenerator)
+        internal static string AddHumanSoldier(string aiType, int aiScriptId, int graphId, Real64 position, float angle, string model, int team, bool addWeapon, string weapon, int ammo, bool guardGenerator)
         {
             if (QUtils.qtaskId == 0)
             {
@@ -27,16 +27,16 @@ namespace IGIEditor
             if (model == "015_01_1" || model == "012_01_1")
                 boneHeirarchy = GetBoneHeirarchy(model);
 
-            return AddHumanSoldier(QUtils.qtaskId, "A.I", ai_type, ai_script_id, graph_id, position, angle, model, team, boneHeirarchy, -1, add_weapon, weapon, ammo, guardGenerator);
+            return AddHumanSoldier(QUtils.qtaskId, "A.I", aiType, aiScriptId, graphId, position, angle, model, team, boneHeirarchy, -1, addWeapon, weapon, ammo, guardGenerator);
         }
 
-        internal static string AddHumanSoldier(int taskId, string task_note, string ai_type, int ai_script_id, int graph_id, Real64 position, float angle, string model, int team, int bone_heirachy, int stand_animation, bool add_weapon, string weapon, int ammo, bool guardGenerator)
+        internal static string AddHumanSoldier(int taskId, string taskNote, string aiType, int aiScriptId, int graphId, Real64 position, float angle, string model, int team, int boneHeirachy, int standAnimation, bool addWeapon, string weapon, int ammo, bool guardGenerator)
         {
 
             //Add the A.I (Human soldier)
-            string humanSoldierType = (ai_type == "AITYPE_ANYA" || ai_type == "AITYPE_EKK") ? "HumanSoldierFemale" : "HumanSoldier";
-            string qtask_soldier = "\nTask_New(" + taskId + ",\"" + humanSoldierType + "\",\"" + task_note + "\"," + position.x + "," + position.y + "," + position.z + "," + angle + ",\"" + model + "\"," + team + "," + bone_heirachy + "," + stand_animation + ",\n";
-            QUtils.AddLog("AddHumanSoldier() called with ID : " + taskId + "  HumanSoldier : " + task_note + "\"," + position.x + "," + position.y + "," + position.z + "," + angle + ",\"" + model + "\"," + team + "," + bone_heirachy + "," + stand_animation + ",\n");
+            string humanSoldierType = (aiType == "AITYPE_ANYA" || aiType == "AITYPE_EKK") ? "HumanSoldierFemale" : "HumanSoldier";
+            string qtaskSoldier = "\nTask_New(" + taskId + ",\"" + humanSoldierType + "\",\"" + taskNote + "\"," + position.x + "," + position.y + "," + position.z + "," + angle + ",\"" + model + "\"," + team + "," + boneHeirachy + "," + standAnimation + ",\n";
+            QUtils.AddLog("AddHumanSoldier() called with ID : " + taskId + "  HumanSoldier : " + taskNote + "\"," + position.x + "," + position.y + "," + position.z + "," + angle + ",\"" + model + "\"," + team + "," + boneHeirachy + "," + standAnimation + ",\n");
 
             //Add A.I type to status message.
             if (team == 0)
@@ -47,18 +47,18 @@ namespace IGIEditor
 
 
             //Add the weapon.
-            if (add_weapon)
-                qtask_soldier += QHuman.Weapon(weapon, ammo);
+            if (addWeapon)
+                qtaskSoldier += QHuman.Weapon(weapon, ammo);
 
             //Add AI's script and graph data.
-            qtask_soldier += "Task_New(" + ai_script_id + ",\"HumanAI\",\"" + task_note + "\",\"" + ai_type + "\"," + graph_id;
-            qtask_soldier += (!guardGenerator) ? "));" : ")));";
-            return qtask_soldier;
+            qtaskSoldier += "Task_New(" + aiScriptId + ",\"HumanAI\",\"" + taskNote + "\",\"" + aiType + "\"," + graphId;
+            qtaskSoldier += (!guardGenerator) ? "));" : ")));";
+            return qtaskSoldier;
         }
 
-        internal static string GuardGenerator(string task_note = "AI Troops", int maxSpawn = 10)
+        internal static string GuardGenerator(string taskNote = "AI Troops", int maxSpawn = 10)
         {
-            string qTaskGuardGen = "Task_New(-1, \"GuardGenerator\",\"" + task_note + "\"," + "\"!HumanPlayer_0.isDead\"," + maxSpawn + ",";
+            string qTaskGuardGen = "Task_New(-1, \"GuardGenerator\",\"" + taskNote + "\"," + "\"!HumanPlayer_0.isDead\"," + maxSpawn + ",";
             return qTaskGuardGen;
         }
 
@@ -87,9 +87,9 @@ namespace IGIEditor
 
                 if (!patrolIdExist && !aiIdExist && graphIdExist)
                 {
-                    int aiId_i = Convert.ToInt32(aiId);
-                    int patrolId_i = Convert.ToInt32(patrolId);
-                    int graphId_i = Convert.ToInt32(graphId);
+                    int aiIdI = Convert.ToInt32(aiId);
+                    int patrolIdI = Convert.ToInt32(patrolId);
+                    int graphIdI = Convert.ToInt32(graphId);
 
                     Real64 aiPos = QGraphs.GetGraphPosition(graphId);
                     float aiAngle = QMemory.GetRealAngle();
@@ -116,7 +116,7 @@ namespace IGIEditor
                         qscData += QAI.GuardGenerator("AI Army", maxSpawns);
 
                     //Add A.I HumanSoldier.
-                    qscData += AddHumanSoldier(aiType, aiId_i, graphId_i, aiPos, aiAngle, modelId, teamId, true, aiWeapon, aiAmmo, guardGenerator);
+                    qscData += AddHumanSoldier(aiType, aiIdI, graphIdI, aiPos, aiAngle, modelId, teamId, true, aiWeapon, aiAmmo, guardGenerator);
 
                     //Add A.I Script to HumanSoldier.
                     var aiScriptData = AddAIScript(aiType, graphId, aiId, patrolId, QUtils.gGameLevel, invulnerability, advanceView);
@@ -343,36 +343,36 @@ namespace IGIEditor
             return qscData;
         }
 
-        internal static string AddPatrolTask(int patrolId, string task_note = "Patrol Path")
+        internal static string AddPatrolTask(int patrolId, string taskNote = "Patrol Path")
         {
-            string qtask_patrol_path = "Task_New(" + patrolId + ",\"PatrolPath\",\"" + task_note + "\"," + "\n";
-            return qtask_patrol_path;
+            string qtaskPatrolPath = "Task_New(" + patrolId + ",\"PatrolPath\",\"" + taskNote + "\"," + "\n";
+            return qtaskPatrolPath;
         }
 
-        internal static string AddPatrolCommand(string patrol_task, string task_note, PATROLACTIONS path_cmd, int path_param, bool last_cmd = false)
+        internal static string AddPatrolCommand(string patrolTask, string taskNote, PATROLACTIONS pathCmd, int pathParam, bool lastCmd = false)
         {
-            patrol_task += "Task_New(-1,\"PatrolPathCommand\"," + task_note + path_cmd + "," + path_param + ")";
-            patrol_task += (last_cmd) ? ")," : ",";
-            return patrol_task;
+            patrolTask += "Task_New(-1,\"PatrolPathCommand\"," + taskNote + pathCmd + "," + pathParam + ")";
+            patrolTask += (lastCmd) ? ")," : ",";
+            return patrolTask;
         }
 
-        internal static string RemoveHumanSoldier(string qsc_data, string model)
+        internal static string RemoveHumanSoldier(string qscData, string model)
         {
-            int start_index = 0, end_index = 0, lcount = 0, rcount = 0;
-            bool start_run = false;
+            int startIndex = 0, endIndex = 0, lcount = 0, rcount = 0;
+            bool startRun = false;
             QUtils.AddLog("RemoveHumanSoldier() called with model : " + model + "\n");
 
-            if (String.IsNullOrEmpty(qsc_data) || String.IsNullOrEmpty(model))
+            if (String.IsNullOrEmpty(qscData) || String.IsNullOrEmpty(model))
             {
                 QUtils.ShowError("RemoveHumanSoldier : Input is empty");
                 return null;
             }
 
-            qsc_data = qsc_data.Trim();
-            var qsc_data_split = qsc_data.Split('\n');
-            string qscTmp = String.Copy(qsc_data);
+            qscData = qscData.Trim();
+            var qscDataSplit = qscData.Split('\n');
+            string qscTmp = String.Copy(qscData);
 
-            foreach (var data in qsc_data_split)
+            foreach (var data in qscDataSplit)
             {
                 if (data.Contains(QUtils.taskNew))
                 {
@@ -380,31 +380,31 @@ namespace IGIEditor
                     {
                         if (data.Contains("Task_New(-1,"))
                         {
-                            start_run = false;
+                            startRun = false;
                         }
                         else
                         {
                             if (data.Contains('('))
                                 lcount += data.Count(o => o == '(');
 
-                            start_index = qsc_data.IndexOf(data);
-                            if (start_index == -1)
+                            startIndex = qscData.IndexOf(data);
+                            if (startIndex == -1)
                             {
                                 QUtils.ShowError("RemoveHumanSoldier : Data couldn't be found in QData file");
                                 QUtils.AddLog("RemoveHumanSoldier() : Data couldn't be found in Substring\n");
                                 QUtils.AddLog(data);
-                                QUtils.SaveFile("objects_tmp.txt", qsc_data);
+                                QUtils.SaveFile("objectsTmp.txt", qscData);
                                 return qscTmp;
                             }
-                            end_index += data.Length + 1;
-                            start_run = true;
+                            endIndex += data.Length + 1;
+                            startRun = true;
                             continue;
                         }
                     }
-                    if (start_run)
+                    if (startRun)
                     {
                         if (lcount >= 1)
-                            end_index += data.Length + 1;
+                            endIndex += data.Length + 1;
 
                         if (data.Contains('('))
                             lcount += data.Count(o => o == '(');
@@ -414,33 +414,33 @@ namespace IGIEditor
 
                         if (lcount == rcount)
                         {
-                            start_run = false;
-                            var ai_sub = qsc_data.Substring(start_index, end_index);
-                            qsc_data = qsc_data.Replace(ai_sub, String.Empty);
-                            start_index = end_index = lcount = rcount = 0;
+                            startRun = false;
+                            var aiSub = qscData.Substring(startIndex, endIndex);
+                            qscData = qscData.Replace(aiSub, String.Empty);
+                            startIndex = endIndex = lcount = rcount = 0;
                         }
                     }
                 }
             }
 
-            QUtils.AddLog("RemoveHumanSoldier() start index : " + start_index + "  end index : " + end_index + "\n");
-            return qsc_data;
+            QUtils.AddLog("RemoveHumanSoldier() start index : " + startIndex + "  end index : " + endIndex + "\n");
+            return qscData;
         }
 
         internal static List<string> GetAiModels(int level)
         {
-            string input_qsc_path = QUtils.cfgInputQscPath + level + "\\" + QUtils.objectsQsc;
+            string inputQscPath = QUtils.cfgInputQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog("GetAiModels() level : called with level : " + level);
-            string qsc_data = QCryptor.Decrypt(input_qsc_path);
+            string qscData = QCryptor.Decrypt(inputQscPath);
             List<string> aiModelsList = new List<string>();
-            var model_regex = @"\d{3}_\d{2}_\d{1}";
-            var dataLines = qsc_data.Split('\n');
+            var modelRegex = @"\d{3}_\d{2}_\d{1}";
+            var dataLines = qscData.Split('\n');
 
             foreach (var data in dataLines)
             {
                 if (data.Contains("HumanSoldier"))
                 {
-                    string model = Regex.Match(data, model_regex).Value;
+                    string model = Regex.Match(data, modelRegex).Value;
                     //Friendly A.I exclude.
                     if (model == "015_01_1" || model == "020_01_1" || model == "021_01_1"
                         || model == "022_01_1" || model == "009_01_1" || model == "000_01_1")
@@ -454,16 +454,16 @@ namespace IGIEditor
             return aiModelsList;
         }
 
-        internal static List<KeyValuePair<int, Real64>> GetDynamicIds4AI(string dynamicType, bool from_backup = true)
+        internal static List<KeyValuePair<int, Real64>> GetDynamicIds4AI(string dynamicType, bool fromBackup = true)
         {
             string qscData = null;
-            if (from_backup)
+            if (fromBackup)
             {
                 string qscBackupPath = QUtils.cfgInputQscPath + QUtils.gGameLevel + "\\" + QUtils.objectsQsc;
                 qscData = QCryptor.Decrypt(qscBackupPath);
             }
 
-            if (!from_backup)
+            if (!fromBackup)
                 qscData = QUtils.LoadFile();
 
             var qscDataLines = qscData.Split('\n');
@@ -542,18 +542,18 @@ namespace IGIEditor
         {
             int boneHeirarchy = 1;
             int level = QUtils.gGameLevel;
-            string input_qsc_path = QUtils.cfgInputQscPath + level + "\\" + QUtils.objectsQsc;
+            string inputQscPath = QUtils.cfgInputQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog("GetBoneHeirarchy() level : called with level : " + level + " model : " + model);
-            string qsc_data = QCryptor.Decrypt(input_qsc_path);
+            string qscData = QCryptor.Decrypt(inputQscPath);
             List<string> aiModelsList = new List<string>();
-            var model_regex = @"\d{3}_\d{2}_\d{1}";
-            var dataLines = qsc_data.Split('\n');
+            var modelRegex = @"\d{3}_\d{2}_\d{1}";
+            var dataLines = qscData.Split('\n');
 
             foreach (var data in dataLines)
             {
                 if (data.Contains("HumanSoldier") || data.Contains("HumanSoldierFemale"))
                 {
-                    string modelData = Regex.Match(data, model_regex, RegexOptions.RightToLeft).Value;
+                    string modelData = Regex.Match(data, modelRegex, RegexOptions.RightToLeft).Value;
                     if (model == modelData)
                     {
                         var dataSplit = data.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);

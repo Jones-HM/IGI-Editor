@@ -74,7 +74,7 @@
       <HintPath>packages\DeviceId.6.0.0\lib\net40\DeviceId.dll</HintPath>
     </Reference>
     <Reference Include="Interop.IWshRuntimeLibrary">
-      <HintPath>.\Interop.IWshRuntimeLibrary.dll</HintPath>
+      <HintPath>IGIEditor\Interop.IWshRuntimeLibrary.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />

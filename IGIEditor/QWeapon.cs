@@ -82,222 +82,222 @@ namespace IGIEditor
     public class Weapon
     {
         //Properties in int32.
-        public Int32 weapon_id, mass, caliber_id, bullets, rpm, clips, burst, weapon_length, barrel_length,
-            anim_stand, anim_move, anim_fire1, anim_fire2, anim_fire3, anim_reload, anim_upperbodystand,
-            anim_upperbodywalk, anim_, anim_upperbodycrouch, anim_upperbodycrouchrun, anim_upperbodyrun, anim_upperbodyfire, anim_upperbodyreload;
+        public Int32 weaponId, mass, caliberId, bullets, rpm, clips, burst, weaponLength, barrelLength,
+            animStand, animMove, animFire1, animFire2, animFire3, animReload, animUpperbodystand,
+            animUpperbodywalk, anim_, animUpperbodycrouch, animUpperbodycrouchrun, animUpperbodyrun, animUpperbodyfire, animUpperbodyreload;
 
         //Properties in Real32.
-        public float damage, power, reload_time, muzzle_velocity, min_rand_speed, max_range_speed, range, fix_view_x, fix_view_z, rand_view_x, rand_view_z;
+        public float damage, power, reloadTime, muzzleVelocity, minRandSpeed, maxRangeSpeed, range, fixViewX, fixViewZ, randViewX, randViewZ;
 
         //Properties in String256
-        public string script_id, name, manufacturer, description, type_str, users, gun_model, casing_model, sound_single, sound_loop;
+        public string scriptId, name, manufacturer, description, typeStr, users, gunModel, casingModel, soundSingle, soundLoop;
 
         //Properties in EnumInt32
-        public string type_enum, crosshair_type, ammo_disp_type, task_type;
+        public string typeEnum, crosshairType, ammoDispType, taskType;
 
         //Properties in EnumReal32
-        public string detection_range;
+        public string detectionRange;
 
         //Properties in bool8
-        public bool empty_on_clear;
+        public bool emptyOnClear;
     };
 
     class QWeapon
     {
-        private static string weapons_config_in = QUtils.currPath + QUtils.inputQscPath + QUtils.weaponsDirPath + "\\" + QUtils.weaponConfigQSC;
-        private static string weapons_config_out = QUtils.gameAbsPath + QUtils.weaponsDirPath;
-        private static string weapon_cfg_task = "Task_New(-1, \"WeaponConfig\",";
+        private static string weaponsConfigIn = QUtils.currPath + QUtils.inputQscPath + QUtils.weaponsDirPath + "\\" + QUtils.weaponConfigQSC;
+        private static string weaponsConfigOut = QUtils.gameAbsPath + QUtils.weaponsDirPath;
+        private static string weaponCfgTask = "Task_New(-1, \"WeaponConfig\",";
 
-        internal static List<Weapon> GetWeaponTaskList(bool advance_data = false)
+        internal static List<Weapon> GetWeaponTaskList(bool advanceData = false)
         {
-            var qsc_data = LoadWeaponsConfig();
-            var weapon_task_list = ParseWeaponConfig(qsc_data, advance_data);
-            return weapon_task_list;
+            var qscData = LoadWeaponsConfig();
+            var weaponTaskList = ParseWeaponConfig(qscData, advanceData);
+            return weaponTaskList;
         }
 
         private static string LoadWeaponsConfig()
         {
-            QUtils.AddLog("LoadWeaponsConfig() : weapons_config_in : " + weapons_config_in);
-            QUtils.AddLog("LoadWeaponsConfig() : weapons_config_out : " + weapons_config_out);
-            return QUtils.LoadFile(weapons_config_in);
+            QUtils.AddLog("LoadWeaponsConfig() : weaponsConfigIn : " + weaponsConfigIn);
+            QUtils.AddLog("LoadWeaponsConfig() : weaponsConfigOut : " + weaponsConfigOut);
+            return QUtils.LoadFile(weaponsConfigIn);
         }
 
         //Parse the Objects.
-        private static List<Weapon> ParseWeaponConfig(string qsc_data, bool advance_data = false)
+        private static List<Weapon> ParseWeaponConfig(string qscData, bool advanceData = false)
         {
             //Remove all whitespaces.
-            qsc_data = qsc_data.Replace("\t", String.Empty);
-            var qsc_data_split = qsc_data.Split('\n');
+            qscData = qscData.Replace("\t", String.Empty);
+            var qscDataSplit = qscData.Split('\n');
 
             QUtils.AddLog("ParseWeaponConfig() started ");
 
-            var weapon_list = new List<Weapon>();
-            foreach (var data in qsc_data_split)
+            var weaponList = new List<Weapon>();
+            foreach (var data in qscDataSplit)
             {
                 if (data.Contains(QUtils.taskNew))
                 {
-                    var start_index = data.IndexOf(',') + 1;
-                    var end_index = data.IndexOf(',', start_index);
-                    var task_name = data.Slice(start_index, end_index).Trim().Replace("\"", String.Empty);
+                    var startIndex = data.IndexOf(',') + 1;
+                    var endIndex = data.IndexOf(',', startIndex);
+                    var taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
 
-                    if (String.Compare(task_name, "WeaponConfig") == 0)
+                    if (String.Compare(taskName, "WeaponConfig") == 0)
                     {
                         Weapon weapon = new Weapon();
 
-                        var task_new = data.Split(',');
-                        int task_index = 0;//Skip Task_New("Task_Id","TaskType", "Task_Note"
+                        var taskNew = data.Split(',');
+                        int taskIndex = 0;//Skip Task_New("Task_Id","TaskType", "Task_Note"
 
-                        foreach (var task in task_new)
+                        foreach (var task in taskNew)
                         {
-                            // QUtils.AddLog("ParseWeaponConfig() task_name : " + task_name + " task_index " + task_index + " data  : " + task.Trim());
+                            // QUtils.AddLog("ParseWeaponConfig() taskName : " + taskName + " taskIndex " + taskIndex + " data  : " + task.Trim());
 
-                            if (task_index == (int)WEAPONCFG.WEAPON_ID)
-                                weapon.weapon_id = Convert.ToInt32(task.Trim());
+                            if (taskIndex == (int)WEAPONCFG.WEAPON_ID)
+                                weapon.weaponId = Convert.ToInt32(task.Trim());
 
-                            else if (task_index == (int)WEAPONCFG.SCRIPT_ID)
-                                weapon.script_id = task.Trim();
+                            else if (taskIndex == (int)WEAPONCFG.SCRIPT_ID)
+                                weapon.scriptId = task.Trim();
 
-                            else if (task_index == (int)WEAPONCFG.WEAPON_NAME)
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_NAME)
                                 weapon.name = task.Trim();
 
-                            else if (task_index == (int)WEAPONCFG.WEAPON_MANUFACTURER)
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_MANUFACTURER)
                                 weapon.manufacturer = task.Trim();
 
-                            else if (task_index == (int)WEAPONCFG.WEAPON_TYPE_ENUM)
-                                weapon.type_enum = task.Trim();
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_TYPE_ENUM)
+                                weapon.typeEnum = task.Trim();
 
-                            else if (task_index == (int)WEAPONCFG.AMMO_DISPLAY_TYPE)
-                                weapon.ammo_disp_type = task.Trim();
+                            else if (taskIndex == (int)WEAPONCFG.AMMO_DISPLAY_TYPE)
+                                weapon.ammoDispType = task.Trim();
 
-                            else if (task_index == (int)WEAPONCFG.WEAPON_MASS)
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_MASS)
                                 weapon.mass = Convert.ToInt32(task.Trim());
 
-                            else if (task_index == (int)WEAPONCFG.WEAPON_CALIBER_ID)
-                                weapon.caliber_id = Convert.ToInt32(task.Trim());
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_CALIBER_ID)
+                                weapon.caliberId = Convert.ToInt32(task.Trim());
 
-                            else if (task_index == (int)WEAPONCFG.WEAPON_DAMAGE)
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_DAMAGE)
                                 weapon.damage = float.Parse(task.Trim());
 
-                            else if (task_index == (int)WEAPONCFG.WEAPON_POWER)
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_POWER)
                                 weapon.power = float.Parse(task.Trim());
 
-                            else if (task_index == (int)WEAPONCFG.WEAPON_RELOAD_TIME)
-                                weapon.reload_time = float.Parse(task.Trim());
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_RELOAD_TIME)
+                                weapon.reloadTime = float.Parse(task.Trim());
 
-                            else if (task_index == (int)WEAPONCFG.WEAPON_MUZZLE_VEL)
-                                weapon.muzzle_velocity = float.Parse(task.Trim());
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_MUZZLE_VEL)
+                                weapon.muzzleVelocity = float.Parse(task.Trim());
 
-                            else if (task_index == (int)WEAPONCFG.WEAPON_DETECTION_RANGE)
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_DETECTION_RANGE)
                                 weapon.range = float.Parse(task.Trim());
 
-                            else if (task_index == (int)WEAPONCFG.WEAPON_BULLETS)
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_BULLETS)
                                 weapon.bullets = Convert.ToInt32(task.Trim());
 
-                            else if (task_index == (int)WEAPONCFG.WEAPON_RPM)
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_RPM)
                                 weapon.rpm = Convert.ToInt32(task.Trim());
 
-                            else if (task_index == (int)WEAPONCFG.WEAPON_CLIPS)
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_CLIPS)
                                 weapon.clips = Convert.ToInt32(task.Trim());
 
-                            else if (task_index == (int)WEAPONCFG.WEAPON_BURST)
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_BURST)
                                 weapon.burst = Convert.ToInt32(task.Trim());
 
                             //Parse advance data such as sounds animations and models.
-                            if (advance_data)
+                            if (advanceData)
                             {
                                 //Length and gun models and sounds.
-                                if (task_index == (int)WEAPONCFG.WEAPON_LENGTH)
-                                    weapon.weapon_length = Convert.ToInt32(task.Trim());
+                                if (taskIndex == (int)WEAPONCFG.WEAPON_LENGTH)
+                                    weapon.weaponLength = Convert.ToInt32(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.BARREL_LENGTH)
-                                    weapon.barrel_length = Convert.ToInt32(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.BARREL_LENGTH)
+                                    weapon.barrelLength = Convert.ToInt32(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_GUN_MODEL)
-                                    weapon.gun_model = task.Trim();
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_GUN_MODEL)
+                                    weapon.gunModel = task.Trim();
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_CASING_MODEL)
-                                    weapon.casing_model = task.Trim();
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_CASING_MODEL)
+                                    weapon.casingModel = task.Trim();
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_SOUND_SINGLE)
-                                    weapon.sound_single = task.Trim();
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_SOUND_SINGLE)
+                                    weapon.soundSingle = task.Trim();
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_SOUND_LOOP)
-                                    weapon.sound_loop = task.Trim();
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_SOUND_LOOP)
+                                    weapon.soundLoop = task.Trim();
 
                                 //Speed & view change.
-                                else if (task_index == (int)WEAPONCFG.WEAPON_MIN_RAND_SPEED)
-                                    weapon.min_rand_speed = float.Parse(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_MIN_RAND_SPEED)
+                                    weapon.minRandSpeed = float.Parse(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_MAX_RAND_SPEED)
-                                    weapon.max_range_speed = float.Parse(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_MAX_RAND_SPEED)
+                                    weapon.maxRangeSpeed = float.Parse(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_FIX_VIEW_CHANGE_X)
-                                    weapon.fix_view_x = float.Parse(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_FIX_VIEW_CHANGE_X)
+                                    weapon.fixViewX = float.Parse(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_FIX_VIEW_CHANGE_Z)
-                                    weapon.fix_view_z = float.Parse(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_FIX_VIEW_CHANGE_Z)
+                                    weapon.fixViewZ = float.Parse(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_RAND_VIEW_CHANGE_X)
-                                    weapon.rand_view_x = float.Parse(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_RAND_VIEW_CHANGE_X)
+                                    weapon.randViewX = float.Parse(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_RAND_VIEW_CHANGE_Z)
-                                    weapon.rand_view_z = float.Parse(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_RAND_VIEW_CHANGE_Z)
+                                    weapon.randViewZ = float.Parse(task.Trim());
 
 
                                 //Animations of fire reload/walk etc.
-                                else if (task_index == (int)WEAPONCFG.WEAPON_FIRE_ANIM1)
-                                    weapon.anim_fire1 = Convert.ToInt32(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_FIRE_ANIM1)
+                                    weapon.animFire1 = Convert.ToInt32(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_FIRE_ANIM2)
-                                    weapon.anim_fire2 = Convert.ToInt32(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_FIRE_ANIM2)
+                                    weapon.animFire2 = Convert.ToInt32(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_FIRE_ANIM3)
-                                    weapon.anim_fire3 = Convert.ToInt32(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_FIRE_ANIM3)
+                                    weapon.animFire3 = Convert.ToInt32(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_STAND_ANIM)
-                                    weapon.anim_stand = Convert.ToInt32(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_STAND_ANIM)
+                                    weapon.animStand = Convert.ToInt32(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_MOVE_ANIM)
-                                    weapon.anim_move = Convert.ToInt32(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_MOVE_ANIM)
+                                    weapon.animMove = Convert.ToInt32(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_RELOAD_ANIM)
-                                    weapon.anim_reload = Convert.ToInt32(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_RELOAD_ANIM)
+                                    weapon.animReload = Convert.ToInt32(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_UPPERBODYWALK_ANIM)
-                                    weapon.anim_upperbodywalk = Convert.ToInt32(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_UPPERBODYWALK_ANIM)
+                                    weapon.animUpperbodywalk = Convert.ToInt32(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_UPPERBODYSTAND_ANIM)
-                                    weapon.anim_upperbodystand = Convert.ToInt32(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_UPPERBODYSTAND_ANIM)
+                                    weapon.animUpperbodystand = Convert.ToInt32(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_UPPERBODYRUN_ANIM)
-                                    weapon.anim_upperbodyrun = Convert.ToInt32(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_UPPERBODYRUN_ANIM)
+                                    weapon.animUpperbodyrun = Convert.ToInt32(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_UPPERBODYRELOAD_ANIM)
-                                    weapon.anim_upperbodyreload = Convert.ToInt32(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_UPPERBODYRELOAD_ANIM)
+                                    weapon.animUpperbodyreload = Convert.ToInt32(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_UPPERBODYFIRE_ANIM)
-                                    weapon.anim_upperbodyfire = Convert.ToInt32(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_UPPERBODYFIRE_ANIM)
+                                    weapon.animUpperbodyfire = Convert.ToInt32(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_UPPERBODYCROUCH_ANIM)
-                                    weapon.anim_upperbodycrouch = Convert.ToInt32(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_UPPERBODYCROUCH_ANIM)
+                                    weapon.animUpperbodycrouch = Convert.ToInt32(task.Trim());
 
-                                else if (task_index == (int)WEAPONCFG.WEAPON_UPPERBODYCROUCHRUN_ANIM)
-                                    weapon.anim_upperbodycrouchrun = Convert.ToInt32(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_UPPERBODYCROUCHRUN_ANIM)
+                                    weapon.animUpperbodycrouchrun = Convert.ToInt32(task.Trim());
 
                                 //Empty weapon selected.
-                                else if (task_index == (int)WEAPONCFG.WEAPON_EMPTY_ON_CLEAR)
-                                    weapon.empty_on_clear = Convert.ToBoolean(task.Trim());
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_EMPTY_ON_CLEAR)
+                                    weapon.emptyOnClear = Convert.ToBoolean(task.Trim());
                             }
 
 
-                            task_index++;
+                            taskIndex++;
                         }
-                        weapon_list.Add(weapon);
+                        weaponList.Add(weapon);
                     }
                 }
             }
-            QUtils.AddLog("ParseWeaponConfig() returned list with length :  " + weapon_list.Count);
-            return weapon_list;
+            QUtils.AddLog("ParseWeaponConfig() returned list with length :  " + weaponList.Count);
+            return weaponList;
         }
     }
 

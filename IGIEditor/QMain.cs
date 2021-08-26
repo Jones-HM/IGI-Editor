@@ -11,15 +11,15 @@ namespace IGIEditor
         [STAThread]
         static void Main()
         {
-            bool instance_count = false;
+            bool instanceCount = false;
             Mutex mutex = null;
             const string PROJECT_NAME = "$(ProjectName)";
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnAppExit);
 
             try
             {
-                mutex = new Mutex(true, PROJECT_NAME, out instance_count);
-                if (instance_count)
+                mutex = new Mutex(true, PROJECT_NAME, out instanceCount);
+                if (instanceCount)
                 {
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);

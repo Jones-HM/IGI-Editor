@@ -15,26 +15,26 @@ namespace IGIEditor
         };
         private static string qpath;
 
-        private string compile_start = "compile.bat";
-        private string decompile_start = "decompile.bat";
-        internal static string compile_path = QUtils.appdataPath + @"\" + QUtils.igiEditor + @"\" + QUtils.qconv + @"\Compile";
-        private string compile_input_path = QUtils.appdataPath + @"\" + QUtils.igiEditor + @"\" + QUtils.qconv + @"\Compile\input";
-        internal static string decompile_path = QUtils.appdataPath + @"\" + QUtils.igiEditor + @"\" + QUtils.qconv + @"\Decompile";
-        private string decompile_input_path = QUtils.appdataPath + @"\" + QUtils.igiEditor + @"\" + QUtils.qconv + @"\Decompile\input";
-        private string copy_none_err = "0 File(s) copied";
-        private string move_none_err = "0 File(s) moved";
-        private string qapp_path;
+        private string compileStart = "compile.bat";
+        private string decompileStart = "decompile.bat";
+        internal static string compilePath = QUtils.appdataPath + @"\" + QUtils.igiEditor + @"\" + QUtils.qconv + @"\Compile";
+        private string compileInputPath = QUtils.appdataPath + @"\" + QUtils.igiEditor + @"\" + QUtils.qconv + @"\Compile\input";
+        internal static string decompilePath = QUtils.appdataPath + @"\" + QUtils.igiEditor + @"\" + QUtils.qconv + @"\Decompile";
+        private string decompileInputPath = QUtils.appdataPath + @"\" + QUtils.igiEditor + @"\" + QUtils.qconv + @"\Decompile\input";
+        private string copyNoneErr = "0 File(s) copied";
+        private string moveNoneErr = "0 File(s) moved";
+        private string qappPath;
 
         internal QCompiler()
         {
-            qapp_path = Directory.GetCurrentDirectory();
+            qappPath = Directory.GetCurrentDirectory();
             qpath = QUtils.appdataPath;
         }
 
         internal static void CheckQConvExist()
         {
-            var qconv_path = QUtils.appdataPath + Path.DirectorySeparatorChar + QUtils.igiEditor + Path.DirectorySeparatorChar + QUtils.qconv;
-            bool exist = Directory.Exists(qconv_path);
+            var qconvPath = QUtils.appdataPath + Path.DirectorySeparatorChar + QUtils.igiEditor + Path.DirectorySeparatorChar + QUtils.qconv;
+            bool exist = Directory.Exists(qconvPath);
             if (!exist)
             {
                 QUtils.ShowError("QConvertor tool not found in system", QUtils.CAPTION_FATAL_SYS_ERR);
@@ -49,22 +49,22 @@ namespace IGIEditor
             Directory.SetCurrentDirectory(path);
         }
 
-        private string QGetAbsPath(string dir_name)
+        private string QGetAbsPath(string dirName)
         {
-            return qpath + dir_name;
+            return qpath + dirName;
         }
 
         private bool QCopy(List<string> files, QTYPE type)
         {
             bool status = true;
-            string copy_path = (type == (int)QTYPE.COMPILE) ? (compile_input_path) : (decompile_input_path);
+            string copyPath = (type == (int)QTYPE.COMPILE) ? (compileInputPath) : (decompileInputPath);
             foreach (var file in files)
             {
-                string copy_file = "copy \"" + file + "\" \"" + copy_path + "\"";
-                var shell_out = QUtils.ShellExec(copy_file);
+                string copyFile = "copy \"" + file + "\" \"" + copyPath + "\"";
+                var shellOut = QUtils.ShellExec(copyFile);
 
                 //Check for error in copy.
-                if (shell_out.Contains(copy_none_err))
+                if (shellOut.Contains(copyNoneErr))
                 {
                     status = false;
                     break;
@@ -76,12 +76,12 @@ namespace IGIEditor
         private bool XCopy(string src, string dest)
         {
             bool status = true;
-            string xcopy_cmd = "xcopy " + src + dest + " /s /e /h /D";
+            string xcopyCmd = "xcopy " + src + dest + " /s /e /h /D";
 
-            var shell_out = QUtils.ShellExec(xcopy_cmd);
+            var shellOut = QUtils.ShellExec(xcopyCmd);
 
             //Check for error in copy.
-            if (shell_out.Contains(copy_none_err))
+            if (shellOut.Contains(copyNoneErr))
                 status = false;
             return status;
         }
@@ -94,19 +94,19 @@ namespace IGIEditor
             if (qtype == QTYPE.COMPILE) filter = "*qvm";
             else if (qtype == QTYPE.DECOMPILE) filter = "*qsc";
 
-            string xmove_cmd = "for /r \"" + src + "\" %x in (" + filter + ") do move \"%x\" \"" + dest + "\"";
+            string xmoveCmd = "for /r \"" + src + "\" %x in (" + filter + ") do move \"%x\" \"" + dest + "\"";
 
-            var shell_out = QUtils.ShellExec(xmove_cmd);
+            var shellOut = QUtils.ShellExec(xmoveCmd);
 
             //Check for error in move.
-            if (shell_out.Contains(move_none_err))
+            if (shellOut.Contains(moveNoneErr))
                 status = false;
             return status;
         }
 
 
 
-        internal static bool Compile(string qscFile, string qscPath, int __ignore)
+        internal static bool Compile(string qscFile, string qscPath, int _Ignore)
         {
             bool status = false;
             if (!String.IsNullOrEmpty(qscFile))
@@ -122,20 +122,20 @@ namespace IGIEditor
             return status;
         }
 
-        internal static bool Compile(string qsc_data, string game_path, bool append_data = false, bool restart_level = false, bool save_pos = true)
+        internal static bool Compile(string qscData, string gamePath, bool appendData = false, bool restartLevel = false, bool savePos = true)
         {
             bool status = false;
-            if (!String.IsNullOrEmpty(qsc_data))
+            if (!String.IsNullOrEmpty(qscData))
             {
-                QUtils.SaveFile(qsc_data, append_data);
+                QUtils.SaveFile(qscData, appendData);
                 var qcompiler = new QCompiler();
-                status = qcompiler.QCompile(new List<string>() { QUtils.objectsQsc }, game_path);
+                status = qcompiler.QCompile(new List<string>() { QUtils.objectsQsc }, gamePath);
 
                 if (status)
                 {
                     IGIEditorUI.editorRef.SetStatusText("QCompile success");
-                    if (restart_level)
-                        QMemory.RestartLevel(save_pos);
+                    if (restartLevel)
+                        QMemory.RestartLevel(savePos);
                 }
             }
             return status;
@@ -145,23 +145,23 @@ namespace IGIEditor
         internal static void ShowCompileErrors()
         {
             {
-                string qsc_data = QUtils.LoadFile();
+                string qscData = QUtils.LoadFile();
 
-                int start_token_count = qsc_data.Count(o => o == '(');
-                int end_token_count = qsc_data.Count(o => o == ')');
+                int startTokenCount = qscData.Count(o => o == '(');
+                int endTokenCount = qscData.Count(o => o == ')');
 
-                if (start_token_count != end_token_count)
+                if (startTokenCount != endTokenCount)
                 {
                     QUtils.ShowError("QError : Error while compiling Mismatch token '(' found in script");
                 }
                 else
                 {
-                    QUtils.AddLog("ShowCompileErrors() Start token : " + start_token_count);
-                    QUtils.AddLog("ShowCompileErrors() End token : " + end_token_count);
+                    QUtils.AddLog("ShowCompileErrors() Start token : " + startTokenCount);
+                    QUtils.AddLog("ShowCompileErrors() End token : " + endTokenCount);
                 }
 
-                var match_1 = Regex.Match(qsc_data, @",\s*\n\),");
-                var match_2 = Regex.Match(qsc_data, @""",\s\){1,},");
+                var match_1 = Regex.Match(qscData, @",\s*\n\),");
+                var match_2 = Regex.Match(qscData, @""",\s\){1,},");
 
 
                 if (!match_1.Success || !match_2.Success)
@@ -176,37 +176,37 @@ namespace IGIEditor
             }
         }
 
-        public bool QCompile(List<string> qsc_files, string output_path)
+        public bool QCompile(List<string> qscFiles, string outputPath)
         {
             bool status = true;
             try
             {
-                status = QCopy(qsc_files, QTYPE.COMPILE);
+                status = QCopy(qscFiles, QTYPE.COMPILE);
 
                 if (!status)
                     QUtils.ShowError("Error occurred while copying files");
 
                 //Change directory to compile directory.
-                QSetPath(compile_path);
+                QSetPath(compilePath);
 
                 //Start compile command.
-                string shell_out = QUtils.ShellExec(compile_start);
-                if (shell_out.Contains("Error") || shell_out.Contains("import_module") || shell_out.Contains("ModuleNotFoundError") || shell_out.Contains("Converted: 0"))
+                string shellOut = QUtils.ShellExec(compileStart);
+                if (shellOut.Contains("Error") || shellOut.Contains("importModule") || shellOut.Contains("ModuleNotFoundError") || shellOut.Contains("Converted: 0"))
                 {
                     QUtils.ShowError("Error in compiling input files");
                     return false;
                 }
 
-                var curr_dir = Directory.GetCurrentDirectory();
-                if (Directory.Exists(curr_dir))
+                var currDir = Directory.GetCurrentDirectory();
+                if (Directory.Exists(currDir))
                 {
-                    bool move_status = XMove("output", output_path, QTYPE.COMPILE);
-                    if (!move_status)
+                    bool moveStatus = XMove("output", outputPath, QTYPE.COMPILE);
+                    if (!moveStatus)
                         QUtils.ShowError("Error while moving data to Output path");
                 }
                 else
                 {
-                    QUtils.ShowError("Path '" + curr_dir + "' does not exist!");
+                    QUtils.ShowError("Path '" + currDir + "' does not exist!");
                 }
 
             }
@@ -214,39 +214,39 @@ namespace IGIEditor
             {
                 QUtils.ShowError(ex.Message);
             }
-            Directory.SetCurrentDirectory(qapp_path);
+            Directory.SetCurrentDirectory(qappPath);
             return status;
         }
 
-        public bool QDecompile(List<string> qvm_files, string output_path)
+        public bool QDecompile(List<string> qvmFiles, string outputPath)
         {
             bool status = true;
             try
             {
-                status = QCopy(qvm_files, QTYPE.DECOMPILE);
+                status = QCopy(qvmFiles, QTYPE.DECOMPILE);
 
                 if (!status)
                     QUtils.ShowError("Error occurred while copying files");
 
                 //Change directory to compile directory.
-                QSetPath(decompile_path);
+                QSetPath(decompilePath);
 
                 //Start decompile command.
-                string shell_out = QUtils.ShellExec(decompile_start);
-                if (shell_out.Contains("Error") || shell_out.Contains("ModuleNotFoundError") || shell_out.Contains("Converted: 0"))
+                string shellOut = QUtils.ShellExec(decompileStart);
+                if (shellOut.Contains("Error") || shellOut.Contains("ModuleNotFoundError") || shellOut.Contains("Converted: 0"))
                     QUtils.ShowError("Error in decompiling input files");
 
-                var curr_dir = Directory.GetCurrentDirectory();
+                var currDir = Directory.GetCurrentDirectory();
 
-                if (Directory.Exists(curr_dir))
+                if (Directory.Exists(currDir))
                 {
-                    bool move_status = XMove("output", output_path, QTYPE.DECOMPILE);
-                    if (!move_status)
+                    bool moveStatus = XMove("output", outputPath, QTYPE.DECOMPILE);
+                    if (!moveStatus)
                         QUtils.ShowError("Error while moving data to Output path");
                 }
                 else
                 {
-                    QUtils.ShowError("Path '" + curr_dir + "' does not exist!");
+                    QUtils.ShowError("Path '" + currDir + "' does not exist!");
                 }
 
             }
@@ -254,13 +254,13 @@ namespace IGIEditor
             {
                 QUtils.ShowError(ex.Message);
             }
-            Directory.SetCurrentDirectory(qapp_path);
+            Directory.SetCurrentDirectory(qappPath);
             return status;
         }
 
-        internal static bool CompileEx(string qsc_data)
+        internal static bool CompileEx(string qscData)
         {
-            return Compile(qsc_data, QUtils.gamePath, false, true, true);
+            return Compile(qscData, QUtils.gamePath, false, true, true);
         }
     }
 }

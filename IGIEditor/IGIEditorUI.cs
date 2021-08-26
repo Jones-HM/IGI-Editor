@@ -27,16 +27,9 @@ namespace IGIEditor
         static string model3d, blenderModel;
         public static int randPosOffset = 0, posOffset = 3000;
         string inputQvmPath, inputQscPath;
-        static string baseImgUrl = "https://static.wikia.nocookie.net/igi/images";
-        static string[] levelImgUrl =
-            {"/5/58/Mission_1.png","/5/5d/Mission_2.png","/5/5b/IGI_Mission_3.png","/3/35/IGI_Mission_4.png",
-              "/8/89/IGI_Mission_05.png","/9/91/IGI_Mission_06.png","/0/0f/IGI_Mission_07.png",
-              "/1/12/IGI_Mission_08.png","/6/6d/IGI_Mission_09.png","/2/2b/Mission_10.png","/e/e6/Mission_11.png",
-              "/a/af/Mission_12.png","/5/5a/Mission_13.png","/4/4a/Mission_14.png"
-        };
 
         static internal IGIEditorUI editorRef;
-        System.Windows.Forms.Timer qTimer = new System.Windows.Forms.Timer();
+        System.Windows.Forms.Timer posTimer = new System.Windows.Forms.Timer();
 
         public IGIEditorUI()
         {
@@ -45,9 +38,9 @@ namespace IGIEditor
             formMover.CustomFormMover(formMoverPnl, this);
             editorRef = this;
 
-            qTimer.Tick += new EventHandler(UpdatePositionTimer);
-            qTimer.Interval = 500;
-            qTimer.Start();
+            posTimer.Tick += new EventHandler(UpdatePositionTimer);
+            posTimer.Interval = 500;
+            posTimer.Start();
 
             //Disabling Errors and Warnings.
             GT.GT_SuppressErrors(true);
@@ -171,7 +164,7 @@ namespace IGIEditor
             QUtils.InitQCompiler();
 
             string userName = QUtils.GetCurrentUserName();
-            string keyFileAbsPath = QUtils.igieditorTmpPath + Path.DirectorySeparatorChar + QUtils.projAppName + "_key.txt";
+            string keyFileAbsPath = QUtils.igieditorTmpPath + Path.DirectorySeparatorChar + QUtils.projAppName + "Key.txt";
             string deviceKey = QUtils.GetMachineDeviceId();
             string inputKey = null, welcomeMsg = "Welcome " + userName + " to IGI 1 Editor";
 

@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Project I.G.I 1 Editor with A.I,Weapons,Level,Mission and more.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Haseeb Mir")]
-[assembly: AssemblyProduct("IGIEditor")]
+[assembly: AssemblyProduct("Project I.G.I 1 Editor with realtime data.")]
 [assembly: AssemblyCopyright("Copyright Haseeb Mir © 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

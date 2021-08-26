@@ -96,7 +96,7 @@ namespace IGIEditor
             double x = Convert.ToDouble(Decimal.Truncate(Convert.ToDecimal(xpos)));
             double y = Convert.ToDouble(Decimal.Truncate(Convert.ToDecimal(ypos)));
             double z = Convert.ToDouble(Decimal.Truncate(Convert.ToDecimal(zpos)));
-            
+
             QUtils.AddLog("GetRealPositions() : xpos: " + xpos + " ypos: " + ypos + " zpos: " + zpos);
             QUtils.AddLog("GetRealPositions() : x: " + x + " y: " + y + " z: " + z);
 
@@ -113,21 +113,21 @@ namespace IGIEditor
             IntPtr humanBasePtr = IntPtr.Zero, humanBaseAddr = IntPtr.Zero;
 
             humanBasePtr = GT.GT_ReadPointerOffset(gtGameBase, humanStaticPtr);
-            QUtils.AddLog("GetHumanBaseAddress() human_base_pointer 0x" + humanBasePtr);
+            QUtils.AddLog("GetHumanBaseAddress() humanBasePointer 0x" + humanBasePtr);
             humanBaseAddr = GT.GT_ReadPointerOffsets(humanBasePtr, humanAddrOffs, (uint)humanAddrOffs.Count() * sizeof(int));
-            QUtils.AddLog("GetHumanBaseAddress () human_base_address  : 0x" + humanBaseAddr);
+            QUtils.AddLog("GetHumanBaseAddress () humanBaseAddress  : 0x" + humanBaseAddr);
             return humanBaseAddr;
         }
 
         internal static IntPtr GetStatusMsgAddr()
         {
-            uint status_msg_static_pointer = (uint)0x001C8A20;
-            uint[] status_msg_address_offsets = { 0x8, 0x8, 0x8, 0x4E4 };
-            IntPtr status_msg_base_pointer = IntPtr.Zero, status_msg_address = IntPtr.Zero;
+            uint statusMsgStaticPointer = (uint)0x001C8A20;
+            uint[] statusMsgAddressOffsets = { 0x8, 0x8, 0x8, 0x4E4 };
+            IntPtr statusMsgBasePointer = IntPtr.Zero, statusMsgAddress = IntPtr.Zero;
 
-            status_msg_base_pointer = GT.GT_ReadPointerOffset(gtGameBase, status_msg_static_pointer);
-            status_msg_address = GT.GT_ReadPointerOffsets(status_msg_base_pointer, status_msg_address_offsets, (uint)status_msg_address_offsets.Count() * sizeof(int)) + 0x4C;
-            return status_msg_address;
+            statusMsgBasePointer = GT.GT_ReadPointerOffset(gtGameBase, statusMsgStaticPointer);
+            statusMsgAddress = GT.GT_ReadPointerOffsets(statusMsgBasePointer, statusMsgAddressOffsets, (uint)statusMsgAddressOffsets.Count() * sizeof(int)) + 0x4C;
+            return statusMsgAddress;
         }
 
         internal static bool SetStatusMsgText(string statusMsgTxt)
@@ -146,9 +146,9 @@ namespace IGIEditor
 
         static internal float GetRealAngle()
         {
-            IntPtr human_base_address = GetHumanBaseAddress() + (int)0x348;
-            var angleAddrH = human_base_address + 0x1C4;
-            var angleAddrV = human_base_address + 0xBF4;
+            IntPtr humanBaseAddress = GetHumanBaseAddress() + (int)0x348;
+            var angleAddrH = humanBaseAddress + 0x1C4;
+            var angleAddrV = humanBaseAddress + 0xBF4;
 
             float angle = GT.GT_ReadFloat(angleAddrH);
             QUtils.AddLog("GetRealAngle() Address : 0x" + angleAddrH.ToString());
@@ -161,25 +161,25 @@ namespace IGIEditor
         {
             //if (level <= 0 || level > 3) throw new ArgumentNullException("Level must be between 1-3");
 
-            var igi_proc = Process.GetProcessesByName(gameName);
-            if (igi_proc.Length > 0)
-                igi_proc[0].Kill();
+            var igiProc = Process.GetProcessesByName(gameName);
+            if (igiProc.Length > 0)
+                igiProc[0].Kill();
 
-            string igi_level_cmd = "start igi_" + (windowed ? "window" : "full") + ".lnk level" + level;
-            QUtils.ShellExec(igi_level_cmd);
+            string igiLevelCmd = "start igi_" + (windowed ? "window" : "full") + ".lnk level" + level;
+            QUtils.ShellExec(igiLevelCmd);
             FindGame(QUtils.logEnabled);
         }
 
-        internal static void RestartLevel(bool save_position = true)
+        internal static void RestartLevel(bool savePosition = true)
         {
-            if (save_position)
+            if (savePosition)
             {
                 //Set the human position.
-                var human_pos = GetRealPositions();
-                var human_angle = GetRealAngle();
-                string qsc_data = QHuman.UpdatePositionNoOffset(human_pos, human_angle);
-                if (!String.IsNullOrEmpty(qsc_data))
-                    QCompiler.Compile(qsc_data, QUtils.gamePath);
+                var humanPos = GetRealPositions();
+                var humanAngle = GetRealAngle();
+                string qscData = QHuman.UpdatePositionNoOffset(humanPos, humanAngle);
+                if (!String.IsNullOrEmpty(qscData))
+                    QCompiler.Compile(qscData, QUtils.gamePath);
             }
 
             Thread.Sleep(1000);

@@ -20,89 +20,89 @@ namespace IGIEditor
 
     class QBlender
     {
-        private static string blend_file = "", blend_models_path = @"Models\";
-        private static string data_extractor_script = "py_scripts\\data_extractor.py", rotate_0_script = "py_scripts\\rotate_0.py", rotate_90_script = "py_scripts\\rotate_90.py", rotate_180_script = "py_scripts\\rotate_180.py", rotate_360_script = "py_scripts\\rotate_360.py", rotate_custom_script = "py_scripts\\rotate_custom.py";
-        private static string run_blender = "blender";
-        private static string run_blender_file, run_blender_script;
-        private static string blender_data_file = "blender_data.txt";
+        private static string blendFile = "", blendModelsPath = @"Models\";
+        private static string dataExtractorScript = "scripts\\dataExtractor.py", rotate_0Script = "scripts\\rotate_0.py", rotate_90Script = "scripts\\rotate_90.py", rotate_180Script = "scripts\\rotate_180.py", rotate_360Script = "scripts\\rotate_360.py", rotateCustomScript = "scripts\\rotateCustom.py";
+        private static string runBlender = "blender";
+        private static string runBlenderFile, runBlenderScript;
+        private static string blenderDataFile = "blender_data.txt";
 
-        internal static void RunBlender(int blend_type, string blender_model, int script_type = 0)
+        internal static void RunBlender(int blendType, string blenderModel, int scriptType = 0)
         {
-            string blend_cmd = null, rotate_script = null;
-            if (String.IsNullOrEmpty(blender_model))
+            string blendCmd = null, rotateScript = null;
+            if (String.IsNullOrEmpty(blenderModel))
             {
                 QUtils.ShowError("Blender : run parameter file name is empty");
                 return;
             }
 
-            blend_file = blender_model;
-            var blend_script = data_extractor_script;
+            blendFile = blenderModel;
+            var blendScript = dataExtractorScript;
 
-            if (script_type == (int)SCRIPTTYPE.SCRIPT_0) rotate_script = rotate_0_script;
-            else if (script_type == (int)SCRIPTTYPE.SCRIPT_90) rotate_script = rotate_90_script;
-            else if (script_type == (int)SCRIPTTYPE.SCRIPT_180) rotate_script = rotate_180_script;
-            else if (script_type == (int)SCRIPTTYPE.SCRIPT_360) rotate_script = rotate_360_script;
-            else if (script_type == (int)SCRIPTTYPE.SCRIPT_CUSTOM) blend_script = rotate_custom_script;
+            if (scriptType == (int)SCRIPTTYPE.SCRIPT_0) rotateScript = rotate_0Script;
+            else if (scriptType == (int)SCRIPTTYPE.SCRIPT_90) rotateScript = rotate_90Script;
+            else if (scriptType == (int)SCRIPTTYPE.SCRIPT_180) rotateScript = rotate_180Script;
+            else if (scriptType == (int)SCRIPTTYPE.SCRIPT_360) rotateScript = rotate_360Script;
+            else if (scriptType == (int)SCRIPTTYPE.SCRIPT_CUSTOM) blendScript = rotateCustomScript;
 
             //Append model path and blend/scripts files.
-            run_blender_file = "blender " + blend_models_path + blend_file + " --python " + blend_models_path + rotate_script;
-            run_blender_script = "blender " + blend_models_path + blend_file + ((blend_script == data_extractor_script) ? " --background" : "") + " --python " + blend_models_path + blend_script;
+            runBlenderFile = "blender " + blendModelsPath + blendFile + " --python " + blendModelsPath + rotateScript;
+            runBlenderScript = "blender " + blendModelsPath + blendFile + ((blendScript == dataExtractorScript) ? " --background" : "") + " --python " + blendModelsPath + blendScript;
 
-            if (blend_type == (int)BLENDTYPE.BLEND) blend_cmd = run_blender;
-            else if (blend_type == (int)BLENDTYPE.BLEND_FILE)
+            if (blendType == (int)BLENDTYPE.BLEND) blendCmd = runBlender;
+            else if (blendType == (int)BLENDTYPE.BLEND_FILE)
             {
-                blend_cmd = run_blender_file;
-                QUtils.AddLog("RunBlender file cmd : " + run_blender_file);
+                blendCmd = runBlenderFile;
+                QUtils.AddLog("RunBlender file cmd : " + runBlenderFile);
             }
-            else if (blend_type == (int)BLENDTYPE.BLEND_SCRIPT)
+            else if (blendType == (int)BLENDTYPE.BLEND_SCRIPT)
             {
-                blend_cmd = run_blender_script;
-                QUtils.AddLog("RunBlender script cmd : " + run_blender_script);
+                blendCmd = runBlenderScript;
+                QUtils.AddLog("RunBlender script cmd : " + runBlenderScript);
             }
 
-            QUtils.AddLog("RunBlender called with blend type : " + (blend_type == 1 ? "FILE" : "SCRIPT") + " and model  : " + blender_model);
+            QUtils.AddLog("RunBlender called with blend type : " + (blendType == 1 ? "FILE" : "SCRIPT") + " and model  : " + blenderModel);
 
-            if (!String.IsNullOrEmpty(blend_cmd))
-                QUtils.ShellExec(blend_cmd);
+            if (!String.IsNullOrEmpty(blendCmd))
+                QUtils.ShellExec(blendCmd);
         }
 
-        internal static T ParseBlenderData<T>(bool position_extract, bool rotation_extract)
+        internal static T ParseBlenderData<T>(bool positionExtract, bool rotationExtract)
         {
             Real32 rotation = null;
             Real64 position = null;
-            QUtils.AddLog("ParseBlenderData called with data PositionExtract : " + position_extract.ToString() + " and RotationExtract  : " + rotation_extract.ToString());
+            QUtils.AddLog("ParseBlenderData called with data PositionExtract : " + positionExtract.ToString() + " and RotationExtract  : " + rotationExtract.ToString());
 
-            var blender_data = QUtils.LoadFile(blend_models_path + blender_data_file);
-            if (string.IsNullOrEmpty(blender_data)) QUtils.ShowError("Blender model data is empty", "Blender - Error");
-            var blender_line = blender_data.Replace("=", String.Empty).Split('\n');
+            var blenderData = QUtils.LoadFile(blendModelsPath + blenderDataFile);
+            if (string.IsNullOrEmpty(blenderData)) QUtils.ShowError("Blender model data is empty", "Blender - Error");
+            var blenderLine = blenderData.Replace("=", String.Empty).Split('\n');
 
-            foreach (var data in blender_line)
+            foreach (var data in blenderLine)
             {
-                if (data.Contains("Position") && position_extract)
+                if (data.Contains("Position") && positionExtract)
                 {
-                    var sub_str_pos = data.Slice(data.IndexOf('(') + 1, data.IndexOf(')'));
-                    var pos_data = sub_str_pos.Split(',');
+                    var subStrPos = data.Slice(data.IndexOf('(') + 1, data.IndexOf(')'));
+                    var posData = subStrPos.Split(',');
                     position = new Real64();
 
                     //Parse the positions.
-                    position.x = double.Parse(pos_data[0].Trim());
-                    position.y = double.Parse(pos_data[1].Trim());
-                    position.z = double.Parse(pos_data[2].Trim());
+                    position.x = double.Parse(posData[0].Trim());
+                    position.y = double.Parse(posData[1].Trim());
+                    position.z = double.Parse(posData[2].Trim());
 
                     QUtils.AddLog("ParseBlenderData  PositionExtract data : x : " + position.x.ToString() + ", y : " + position.y.ToString() + ", z : " + position.z.ToString());
                 }
 
-                else if (data.Contains("Rotation") && rotation_extract)
+                else if (data.Contains("Rotation") && rotationExtract)
                 {
-                    var sub_str_rot = data.Slice(data.IndexOf('(') + 1, data.IndexOf(')'));
-                    QUtils.AddLog("ParseBlenderData sub_str : " + sub_str_rot);
-                    var pos_data = sub_str_rot.Split(',');
+                    var subStrRot = data.Slice(data.IndexOf('(') + 1, data.IndexOf(')'));
+                    QUtils.AddLog("ParseBlenderData subStr : " + subStrRot);
+                    var posData = subStrRot.Split(',');
                     rotation = new Real32();
 
                     //Parse the rotation.
-                    rotation.beta = float.Parse(pos_data[0].Trim().Replace("x", String.Empty));
-                    rotation.alpha = float.Parse(pos_data[1].Trim().Replace("y", String.Empty));
-                    rotation.gamma = float.Parse(pos_data[2].Trim().Replace("z", String.Empty));
+                    rotation.beta = float.Parse(posData[0].Trim().Replace("x", String.Empty));
+                    rotation.alpha = float.Parse(posData[1].Trim().Replace("y", String.Empty));
+                    rotation.gamma = float.Parse(posData[2].Trim().Replace("z", String.Empty));
 
                     QUtils.AddLog("ParseBlenderData  RotationExtract data : x : " + rotation.alpha.ToString() + ", y : " + rotation.beta.ToString() + ", z : " + rotation.gamma.ToString());
 
@@ -111,22 +111,22 @@ namespace IGIEditor
 
 
             object value = null;
-            if (position_extract) value = position; else value = rotation;
+            if (positionExtract) value = position; else value = rotation;
 
             return (T)Convert.ChangeType(value, typeof(T));
         }
 
-        internal static void LoadModelRotation(string blender_model, Real32 rotation)
+        internal static void LoadModelRotation(string blenderModel, Real32 rotation)
         {
-            string rotate_custom_script =
+            string rotateCustomScript =
                 "import bpy\n" +
                  "obj = bpy.context.object\n" +
-                 "obj.rotation_euler = (" + rotation.beta + "," + rotation.alpha + "," + rotation.gamma + ")";
+                 "obj.rotationEuler = (" + rotation.beta + "," + rotation.alpha + "," + rotation.gamma + ")";
 
-            QUtils.SaveFile(blend_models_path + QBlender.rotate_custom_script, rotate_custom_script);
-            QUtils.AddLog("LoadModelRotation() called with data model : " + blender_model + " and rotation alpha : " + rotation.alpha + ", beta : " + rotation.beta + ", gamma : " + rotation.gamma);
+            QUtils.SaveFile(blendModelsPath + QBlender.rotateCustomScript, rotateCustomScript);
+            QUtils.AddLog("LoadModelRotation() called with data model : " + blenderModel + " and rotation alpha : " + rotation.alpha + ", beta : " + rotation.beta + ", gamma : " + rotation.gamma);
 
-            RunBlender((int)BLENDTYPE.BLEND_SCRIPT, blender_model, (int)SCRIPTTYPE.SCRIPT_CUSTOM);
+            RunBlender((int)BLENDTYPE.BLEND_SCRIPT, blenderModel, (int)SCRIPTTYPE.SCRIPT_CUSTOM);
         }
 
     }

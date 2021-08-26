@@ -40,7 +40,7 @@ namespace IGIEditor
             }
         }
 
-        internal static byte[] Decrypt(string fileName, bool supress_err = false)
+        internal static byte[] Decrypt(string fileName, bool suppressErr = false)
         {
             byte[] deserializedByte = null;
             try
@@ -60,7 +60,7 @@ namespace IGIEditor
             }
             catch (Exception ex)
             {
-                if (!supress_err)
+                if (!suppressErr)
                     throw new Exception("Exception occured : " + ex.Message);
                 else
                     decryptCount--;

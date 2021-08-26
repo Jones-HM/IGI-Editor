@@ -9,18 +9,18 @@ namespace IGIEditor
     class QHuman
     {
 
-        internal static string AddWeapon(string weapon, int ammo, bool auto_model)
+        internal static string AddWeapon(string weapon, int ammo, bool autoModel)
         {
-            string qsc_data = QUtils.LoadFile();
-            if (!auto_model)
+            string qscData = QUtils.LoadFile();
+            if (!autoModel)
                 weapon = QUtils.weaponId + weapon;
 
             QUtils.AddLog("AddWeapon()  Trying to add weapon : " + weapon + " with ammo : " + ammo);
 
-            string id_index_str = "Task_New(0";
-            string gun_index_str = "Task_New(-1, \"Gun\"";
-            int id_index = qsc_data.IndexOf(id_index_str);
-            int gun_index = qsc_data.IndexOf(gun_index_str, id_index);
+            string idIndexStr = "Task_New(0";
+            string gunIndexStr = "Task_New(-1, \"Gun\"";
+            int idIndex = qscData.IndexOf(idIndexStr);
+            int gunIndex = qscData.IndexOf(gunIndexStr, idIndex);
 
             if (CheckWeaponExist(weapon))
             {
@@ -30,57 +30,57 @@ namespace IGIEditor
             }
 
             string gun = Weapon(weapon, ammo);
-            qsc_data = qsc_data.Insert(gun_index, gun);
-            return qsc_data;
+            qscData = qscData.Insert(gunIndex, gun);
+            return qscData;
         }
 
 
         internal static string Weapon(string weapon, int ammo)
         {
             //Primary ammo slot.
-            string ammo_id_primary = GetAmmo4Weapon(weapon);
-            string ammo_id_secondary = null;
+            string ammoIdPrimary = GetAmmo4Weapon(weapon);
+            string ammoIdSecondary = null;
 
             //Secondary ammo slot.
             if (weapon.Contains("M16A2"))
-                ammo_id_secondary = GetAmmo4Weapon("M203");
+                ammoIdSecondary = GetAmmo4Weapon("M203");
 
-            string gun_str = "Gun", weapon_str = (weapon.Replace(QUtils.weaponId, String.Empty));
+            string gunStr = "Gun", weaponStr = (weapon.Replace(QUtils.weaponId, String.Empty));
 
             //Exceptions for special weapons like Dragunov,MP5 with zoom functionality.
             if (weapon.Contains("MP5SD") || weapon.Contains("DRAGUNOV")
                 || weapon.Contains("M16A2") || weapon.Contains("SPAS12"))
-                gun_str += weapon_str;
+                gunStr += weaponStr;
 
             //For Mine types.
             if (weapon.Contains("PROXIMITYMINE"))
-                gun_str = "ProximityMine";
+                gunStr = "ProximityMine";
 
             //For Binocular.
             if (weapon.Contains("BINOCULARS"))
-                gun_str = "Binocular";
+                gunStr = "Binocular";
 
-            string gun_task = "Task_New(-1, \"" + gun_str + "\", \"WEAPON\"," + "\"" + weapon + "\"" + ",0)," + "\n";
-            string weapon_task = gun_task;
+            string gunTask = "Task_New(-1, \"" + gunStr + "\", \"WEAPON\"," + "\"" + weapon + "\"" + ",0)," + "\n";
+            string weaponTask = gunTask;
 
             //If ammo not found then don't add ammo task.
-            if (!String.IsNullOrEmpty(ammo_id_primary))
+            if (!String.IsNullOrEmpty(ammoIdPrimary))
             {
-                string ammo_task_primary = "Task_New(-1, \"AddAmmo\", \"AMMO\"," + "\"" + ammo_id_primary + "\"" + "," + ammo + ")," + "\n";
-                string ammo_task_secondary = "Task_New(-1, \"AddAmmo\", \"AMMO\"," + "\"" + ammo_id_secondary + "\"" + "," + ammo + ")," + "\n";
-                weapon_task += ammo_task_primary;
+                string ammoTaskPrimary = "Task_New(-1, \"AddAmmo\", \"AMMO\"," + "\"" + ammoIdPrimary + "\"" + "," + ammo + ")," + "\n";
+                string ammoTaskSecondary = "Task_New(-1, \"AddAmmo\", \"AMMO\"," + "\"" + ammoIdSecondary + "\"" + "," + ammo + ")," + "\n";
+                weaponTask += ammoTaskPrimary;
 
-                if (!String.IsNullOrEmpty(ammo_id_secondary))
-                    weapon_task += ammo_task_secondary;
+                if (!String.IsNullOrEmpty(ammoIdSecondary))
+                    weaponTask += ammoTaskSecondary;
             }
 
-            return weapon_task;
+            return weaponTask;
         }
 
-        internal static string RemoveWeapon(string weapon, bool auto_model)
+        internal static string RemoveWeapon(string weapon, bool autoModel)
         {
-            string qsc_data = QUtils.LoadFile();
-            if (!auto_model)
+            string qscData = QUtils.LoadFile();
+            if (!autoModel)
                 weapon = QUtils.weaponId + weapon;
 
             QUtils.AddLog("RemoveWeapon()  Trying to remove weapon : " + weapon);
@@ -92,33 +92,33 @@ namespace IGIEditor
             }
 
             QUtils.AddLog("RemoveWeapon()  Weapon found to remove weapon : " + weapon);
-            string id_index_str = "Task_New(0";
-            int id_index = qsc_data.IndexOf(id_index_str);
-            var qsc_temp = qsc_data.Substring(id_index).Split('\n');
-            string gun_sub_str = null;
+            string idIndexStr = "Task_New(0";
+            int idIndex = qscData.IndexOf(idIndexStr);
+            var qscTemp = qscData.Substring(idIndex).Split('\n');
+            string gunSubStr = null;
 
-            foreach (var data in qsc_temp)
+            foreach (var data in qscTemp)
             {
                 if (data.Contains(weapon))
-                    gun_sub_str = data;
+                    gunSubStr = data;
             }
 
-            QUtils.AddLog("RemoveWeapon()  Weapon string : " + gun_sub_str);
-            var gun_index = qsc_data.LastIndexOf(gun_sub_str);
+            QUtils.AddLog("RemoveWeapon()  Weapon string : " + gunSubStr);
+            var gunIndex = qscData.LastIndexOf(gunSubStr);
 
-            qsc_data = qsc_data.Remove(gun_index, gun_sub_str.Length);
-            qsc_data = Regex.Replace(qsc_data, @"^\s+$[\r\n]*", string.Empty, RegexOptions.Multiline);
-            qsc_data = qsc_data.Replace("\t", String.Empty);
+            qscData = qscData.Remove(gunIndex, gunSubStr.Length);
+            qscData = Regex.Replace(qscData, @"^\s+$[\r\n]*", string.Empty, RegexOptions.Multiline);
+            qscData = qscData.Replace("\t", String.Empty);
 
-            if (!String.IsNullOrEmpty(qsc_data))
+            if (!String.IsNullOrEmpty(qscData))
                 IGIEditorUI.editorRef.SetStatusText("Weapon removed successfully");
-            return qsc_data;
+            return qscData;
         }
 
 
         private static string GetAmmo4Weapon(string weapon)
         {
-            string ammo_id = null;
+            string ammoId = null;
             if (weapon == null) { QUtils.ShowError("GetAmmo4Weapon : Weapon name not provided"); return null; }
             weapon = weapon.Replace(QUtils.weaponId, String.Empty);
 
@@ -126,13 +126,13 @@ namespace IGIEditor
             {
                 if (ammo.Key.Contains(weapon))
                 {
-                    ammo_id = ammo.Value;
+                    ammoId = ammo.Value;
                     break;
                 }
             }
-            QUtils.AddLog("GetAmmo4Weapon() weapon : " + weapon + " with ammo : " + ammo_id);
+            QUtils.AddLog("GetAmmo4Weapon() weapon : " + weapon + " with ammo : " + ammoId);
 
-            return ammo_id;
+            return ammoId;
         }
 
         internal static List<Dictionary<string, string>> GetWeaponsList()
@@ -152,12 +152,12 @@ namespace IGIEditor
             weapon = weapon.Replace(QUtils.weaponId, String.Empty);
             QUtils.AddLog("CheckWeaponExist() : checking for weapon : " + weapon);
 
-            var human_data = GetHumanTaskList();
+            var humanData = GetHumanTaskList();
             bool found = false;
-            foreach (var human_weapon in human_data.weapons_list)
+            foreach (var humanWeapon in humanData.weaponsList)
             {
-                QUtils.AddLog("CheckWeaponExist() : Weapon_List : " + human_weapon);
-                if (human_weapon.Contains(weapon))
+                QUtils.AddLog("CheckWeaponExist() : Weapon_List : " + humanWeapon);
+                if (humanWeapon.Contains(weapon))
                 {
                     found = true;
                     break;
@@ -172,114 +172,114 @@ namespace IGIEditor
             //Declare types to store position to qtask.
             QUtils.HTask htask = new QUtils.HTask();
             htask.qtask = new QUtils.QTask();
-            htask.weapons_list = new List<string>();
+            htask.weaponsList = new List<string>();
 
             Real32 orientation = new Real32();
             Real64 position = new Real64();
 
-            string qsc_data = QUtils.LoadFile();
+            string qscData = QUtils.LoadFile();
 
-            string id_index_str = "Task_New(0";
-            int id_index = qsc_data.IndexOf(id_index_str);
-            string qsc_temp = qsc_data.Substring(id_index);
-            string[] task_new = qsc_temp.Split(',');
+            string idIndexStr = "Task_New(0";
+            int idIndex = qscData.IndexOf(idIndexStr);
+            string qscTemp = qscData.Substring(idIndex);
+            string[] taskNew = qscTemp.Split(',');
 
             //Parse all the data.
-            position.x = Double.Parse(task_new[(int)QTASKINFO.QTASK_POSX]);
-            position.y = Double.Parse(task_new[(int)QTASKINFO.QTASK_POSY]);
-            position.z = Double.Parse(task_new[(int)QTASKINFO.QTASK_POSZ]);
-            orientation.alpha = float.Parse(task_new[(int)QTASKINFO.QTASK_ALPHA]);
-            htask.team = Convert.ToInt32(task_new[(int)QTASKINFO.QTASK_GAMMA].Trim());
+            position.x = Double.Parse(taskNew[(int)QTASKINFO.QTASK_POSX]);
+            position.y = Double.Parse(taskNew[(int)QTASKINFO.QTASK_POSY]);
+            position.z = Double.Parse(taskNew[(int)QTASKINFO.QTASK_POSZ]);
+            orientation.alpha = float.Parse(taskNew[(int)QTASKINFO.QTASK_ALPHA]);
+            htask.team = Convert.ToInt32(taskNew[(int)QTASKINFO.QTASK_GAMMA].Trim());
 
             //Adding position and orientation to qtask.
             htask.qtask.position = position;
             htask.qtask.orientation = orientation;
 
-            string weapon_regex = "[A-Z]{6}_[A-Z]{2}_[A-Z0-9]*";
-            var qsc_sub = qsc_data.Substring(id_index).Split('\n');
-            int weapons_index = 0;
-            int max_weapons = 0xA;
+            string weaponRegex = "[A-Z]{6}_[A-Z]{2}_[A-Z0-9]*";
+            var qscSub = qscData.Substring(idIndex).Split('\n');
+            int weaponsIndex = 0;
+            int maxWeapons = 0xA;
 
-            foreach (var data in qsc_sub)
+            foreach (var data in qscSub)
             {
-                var match_data = Regex.Match(data, weapon_regex);
-                if (match_data.Success)
-                    htask.weapons_list.Add(match_data.Value);
+                var matchData = Regex.Match(data, weaponRegex);
+                if (matchData.Success)
+                    htask.weaponsList.Add(matchData.Value);
 
                 //Break after reaching max weapons limit.
-                if (weapons_index > max_weapons) break;
-                weapons_index++;
+                if (weaponsIndex > maxWeapons) break;
+                weaponsIndex++;
             }
             return htask;
         }
 
         internal static string UpdatePositionNoOffset(Real64 position, float angle = 0.0f)
         {
-            var human_data = GetHumanTaskList();
-            string qsc_data = QUtils.LoadFile();
+            var humanData = GetHumanTaskList();
+            string qscData = QUtils.LoadFile();
 
             QUtils.AddLog("UpdateHumanPositionNoOffset() called with position : X:" + position.x + " Y: " + position.y + " Z: " + position.z + ", Alpha : " + angle);
-            string human_angle = angle == 0.0f ? human_data.qtask.orientation.alpha.ToString() : angle.ToString("0.0");
+            string humanAngle = angle == 0.0f ? humanData.qtask.orientation.alpha.ToString() : angle.ToString("0.0");
 
-            string human_task_id = "Task_New(0";
-            int qtask_index = qsc_data.IndexOf(human_task_id);
-            int newline_index = qsc_data.IndexOf("\n", qtask_index);
+            string humanTaskId = "Task_New(0";
+            int qtaskIndex = qscData.IndexOf(humanTaskId);
+            int newlineIndex = qscData.IndexOf("\n", qtaskIndex);
 
-            string human_task = "Task_New(0,\"HumanPlayer\",\"Jones\"," + position.x + "," + position.y + "," + position.z + "," + human_angle + ",\"000_01_1\",0,";
-            qsc_data = qsc_data.Remove(qtask_index, newline_index - qtask_index).Insert(qtask_index, human_task);
-            return qsc_data;
+            string humanTask = "Task_New(0,\"HumanPlayer\",\"Jones\"," + position.x + "," + position.y + "," + position.z + "," + humanAngle + ",\"000_01_1\",0,";
+            qscData = qscData.Remove(qtaskIndex, newlineIndex - qtaskIndex).Insert(qtaskIndex, humanTask);
+            return qscData;
         }
 
         internal static string UpdatePositionOffset(Real64 position, float alpha = 0.0f)
         {
-            var human_data = GetHumanTaskList();
-            bool x_val = (position.x == 0.0f) ? false : true;
-            bool y_val = (position.y == 0.0f) ? false : true;
-            bool z_val = (position.z == 0.0f) ? false : true;
+            var humanData = GetHumanTaskList();
+            bool xVal = (position.x == 0.0f) ? false : true;
+            bool yVal = (position.y == 0.0f) ? false : true;
+            bool zVal = (position.z == 0.0f) ? false : true;
 
-            int x_len = x_val ? position.x.ToString().Length : 0;
-            int y_len = y_val ? position.y.ToString().Length : 0;
-            int z_len = z_val ? position.z.ToString().Length : 0;
+            int xLen = xVal ? position.x.ToString().Length : 0;
+            int yLen = yVal ? position.y.ToString().Length : 0;
+            int zLen = zVal ? position.z.ToString().Length : 0;
 
-            QUtils.AddLog("Update PositionOffset()  length : X:" + x_len + " Y: " + y_len + " Z: " + z_len);
+            QUtils.AddLog("Update PositionOffset()  length : X:" + xLen + " Y: " + yLen + " Z: " + zLen);
             QUtils.AddLog("Update PositionOffset() called with offset : X:" + position.x + " Y: " + position.y + " Z: " + position.z);
 
 
             //Check for length error.
-            if (x_len > 3 || y_len > 3 || z_len > 3)
+            if (xLen > 3 || yLen > 3 || zLen > 3)
                 throw new ArgumentOutOfRangeException("Offsets are out of range");
 
-            int[] meter_offsets = { 100000, 1000000, 10000000 };
+            int[] meterOffsets = { 100000, 1000000, 10000000 };
 
             //Add meter offset to distance. (M/S) .
-            if (x_val) position.x = human_data.qtask.position.x + meter_offsets[x_len - 1];
-            if (y_val) position.y = human_data.qtask.position.y + meter_offsets[y_len - 1];
-            if (z_val) position.z = human_data.qtask.position.z + meter_offsets[z_len - 1];
+            if (xVal) position.x = humanData.qtask.position.x + meterOffsets[xLen - 1];
+            if (yVal) position.y = humanData.qtask.position.y + meterOffsets[yLen - 1];
+            if (zVal) position.z = humanData.qtask.position.z + meterOffsets[zLen - 1];
 
-            string human_x_pos = position.x == 0.0f ? human_data.qtask.position.x.ToString("0.0") : position.x.ToString("0.0");
-            string human_y_pos = position.y == 0.0f ? human_data.qtask.position.y.ToString("0.0") : position.y.ToString("0.0");
-            string human_z_pos = position.z == 0.0f ? human_data.qtask.position.z.ToString("0.0") : position.z.ToString("0.0");
-            string human_alpha = alpha == 0.0f ? human_data.qtask.orientation.alpha.ToString() : alpha.ToString("0.0");
+            string humanXPos = position.x == 0.0f ? humanData.qtask.position.x.ToString("0.0") : position.x.ToString("0.0");
+            string humanYPos = position.y == 0.0f ? humanData.qtask.position.y.ToString("0.0") : position.y.ToString("0.0");
+            string humanZPos = position.z == 0.0f ? humanData.qtask.position.z.ToString("0.0") : position.z.ToString("0.0");
+            string humanAlpha = alpha == 0.0f ? humanData.qtask.orientation.alpha.ToString() : alpha.ToString("0.0");
 
 
-            string qsc_data = QUtils.LoadFile();
+            string qscData = QUtils.LoadFile();
 
             QUtils.AddLog("Update PositionOffset() calculated positions with offsets : X:" + position.x + " Y: " + position.y + " Z: " + position.z);
 
-            string human_task_id = "Task_New(0";
-            int qtask_index = qsc_data.IndexOf(human_task_id);
-            int newline_index = qsc_data.IndexOf("\n", qtask_index);
+            string humanTaskId = "Task_New(0";
+            int qtaskIndex = qscData.IndexOf(humanTaskId);
+            int newlineIndex = qscData.IndexOf("\n", qtaskIndex);
 
-            string human_task = "Task_New(0,\"HumanPlayer\",\"Jones\"," + human_x_pos + "," + human_y_pos + "," + human_z_pos + "," + human_alpha + ",\"000_01_1\",0,";
-            qsc_data = qsc_data.Remove(qtask_index, newline_index - qtask_index).Insert(qtask_index, human_task);
-            return qsc_data;
+            string humanTask = "Task_New(0,\"HumanPlayer\",\"Jones\"," + humanXPos + "," + humanYPos + "," + humanZPos + "," + humanAlpha + ",\"000_01_1\",0,";
+            qscData = qscData.Remove(qtaskIndex, newlineIndex - qtaskIndex).Insert(qtaskIndex, humanTask);
+            return qscData;
         }
 
         internal static string UpdateOrientation(float alpha)
         {
-            var human_data = GetHumanTaskList();
+            var humanData = GetHumanTaskList();
             QUtils.AddLog("UpdateOrientation() called with alpha : " + alpha);
-            return UpdatePositionNoOffset(human_data.qtask.position, alpha);
+            return UpdatePositionNoOffset(humanData.qtask.position, alpha);
         }
 
         internal static void UpdateHumanPlayerSpeed(double speedX = 1.75f, double speedY = 17.5f, double speedZ = 27)
