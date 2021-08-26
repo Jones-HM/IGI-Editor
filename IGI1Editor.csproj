@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>igi1ed</RootNamespace>
+    <RootNamespace>IGIEditor</RootNamespace>
     <AssemblyName>IGIEditor</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -51,7 +51,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>app_icon.ico</ApplicationIcon>
+    <ApplicationIcon>IGIEditor\app_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -94,35 +94,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutomateLib.cs" />
-    <Compile Include="QAI.cs" />
-    <Compile Include="QBlender.cs" />
-    <Compile Include="QBuildings.cs" />
-    <Compile Include="QCompiler.cs" />
-    <Compile Include="QCryptor.cs" />
-    <Compile Include="QGraphs.cs" />
-    <Compile Include="QHuman.cs" />
-    <Compile Include="QLibc.cs" />
-    <Compile Include="QMemory.cs" />
-    <Compile Include="QMisc.cs" />
-    <Compile Include="QMission.cs" />
-    <Compile Include="QObjects.cs" />
-    <Compile Include="QSerialize.cs" />
-    <Compile Include="QSerializeLib.cs" />
-    <Compile Include="QUtils.cs" />
-    <Compile Include="QWeapon.cs" />
-    <Compile Include="QZip.cs" />
-    <Compile Include="QZipStorer.cs" />
-    <Compile Include="UXLib.cs" />
-    <Compile Include="IGIEditorUI.cs">
+    <Compile Include="IGIEditor\AutomateLib.cs" />
+    <Compile Include="IGIEditor\QAI.cs" />
+    <Compile Include="IGIEditor\QBlender.cs" />
+    <Compile Include="IGIEditor\QBuildings.cs" />
+    <Compile Include="IGIEditor\QCompiler.cs" />
+    <Compile Include="IGIEditor\QCryptor.cs" />
+    <Compile Include="IGIEditor\QGraphs.cs" />
+    <Compile Include="IGIEditor\QHuman.cs" />
+    <Compile Include="IGIEditor\QLibc.cs" />
+    <Compile Include="IGIEditor\QMemory.cs" />
+    <Compile Include="IGIEditor\QMisc.cs" />
+    <Compile Include="IGIEditor\QMission.cs" />
+    <Compile Include="IGIEditor\QObjects.cs" />
+    <Compile Include="IGIEditor\QSerialize.cs" />
+    <Compile Include="IGIEditor\QSerializeLib.cs" />
+    <Compile Include="IGIEditor\QUtils.cs" />
+    <Compile Include="IGIEditor\QWeapon.cs" />
+    <Compile Include="IGIEditor\QZip.cs" />
+    <Compile Include="IGIEditor\QZipStorer.cs" />
+    <Compile Include="IGIEditor\UXLib.cs" />
+    <Compile Include="IGIEditor\IGIEditorUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="IGIEditorUI.Designer.cs">
+    <Compile Include="IGIEditor\IGIEditorUI.Designer.cs">
       <DependentUpon>IGIEditorUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="QMain.cs" />
+    <Compile Include="IGIEditor\QMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="IGIEditorUI.resx">
+    <EmbeddedResource Include="IGIEditor\IGIEditorUI.resx">
       <DependentUpon>IGIEditorUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -135,7 +135,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="packages.config" />
+    <None Include="IGIEditor\packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -147,11 +147,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="IGIEditor\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app_icon.ico" />
-    <Content Include="Icon4.ico" />
+    <Content Include="IGIEditor\app_icon.ico" />
+    <Content Include="IGIEditor\Icon4.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
