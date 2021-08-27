@@ -9,7 +9,7 @@ namespace IGIEditor
     class QMemory
     {
         internal static string gameName = "IGI";
-        private static float deltaToGround = 7000.0f;
+        internal static float deltaToGround = 7000.0f;
         internal static IntPtr gtGameBase = (IntPtr)0x00400000; //Game base address.
 
         internal static void StartGame(string args = "window")
@@ -56,66 +56,20 @@ namespace IGIEditor
             return GT.GT_GetGameBaseAddress(pid);
         }
 
-        static internal Real32 GetGamePositions()
-        {
-            uint posBaseAddr = (uint)GetHumanBaseAddress() + (uint)0x24;
-            QUtils.AddLog("GetGamePositions() : posBaseAddr : " + posBaseAddr);
-
-            IntPtr xPosAddr = (IntPtr)posBaseAddr + 0x0;
-            IntPtr yPosAddr = (IntPtr)posBaseAddr + 0x8;
-            IntPtr zPosAddr = (IntPtr)posBaseAddr + 0x10;
-
-            QUtils.AddLog("GetGamePositions() xPosAddr : " + xPosAddr);
-            QUtils.AddLog("GetGamePositions() yPosAddr : " + yPosAddr);
-            QUtils.AddLog("GetGamePositions() zPosAddr : " + zPosAddr);
-
-            var xpos = GT.GT_ReadFloat(xPosAddr);
-            var ypos = GT.GT_ReadFloat(yPosAddr);
-            var zpos = GT.GT_ReadFloat(zPosAddr);
-
-            QUtils.AddLog("GetGamePositions() xpos : " + xpos);
-            QUtils.AddLog("GetGamePositions() ypos : " + ypos);
-            QUtils.AddLog("GetGamePositions() zpos : " + zpos);
-
-            var position = new Real32(xpos, ypos, zpos);
-            QUtils.AddLog("GetRealPositions() : position: " + position);
-            return position;
-        }
-
-        static internal Real64 GetRealPositions()
-        {
-            uint posBaseAddr = (uint)0x005CA138;
-            IntPtr xPosAddr = (IntPtr)posBaseAddr + 0x0;
-            IntPtr yPosAddr = (IntPtr)posBaseAddr + 0x8;
-            IntPtr zPosAddr = (IntPtr)posBaseAddr + 0x10;
-
-            var xpos = GT.GT_ReadDouble(xPosAddr);
-            var ypos = GT.GT_ReadDouble(yPosAddr);
-            var zpos = GT.GT_ReadDouble(zPosAddr);
-
-            double x = Convert.ToDouble(Decimal.Truncate(Convert.ToDecimal(xpos)));
-            double y = Convert.ToDouble(Decimal.Truncate(Convert.ToDecimal(ypos)));
-            double z = Convert.ToDouble(Decimal.Truncate(Convert.ToDecimal(zpos)));
-
-            QUtils.AddLog("GetRealPositions() : xpos: " + xpos + " ypos: " + ypos + " zpos: " + zpos);
-            QUtils.AddLog("GetRealPositions() : x: " + x + " y: " + y + " z: " + z);
-
-            //Fix this angle for Ground reference.
-            var position = new Real64(x, y, z - deltaToGround);
-            QUtils.AddLog("GetRealPositions() : position: " + position);
-            return position;
-        }
-
-        private static IntPtr GetHumanBaseAddress()
+        internal static IntPtr GetHumanBaseAddress(bool addLog = true)
         {
             uint humanStaticPtr = (uint)0x0016E210;
             uint[] humanAddrOffs = { 0x8, 0x7CC, 0x14 };
             IntPtr humanBasePtr = IntPtr.Zero, humanBaseAddr = IntPtr.Zero;
 
             humanBasePtr = GT.GT_ReadPointerOffset(gtGameBase, humanStaticPtr);
-            QUtils.AddLog("GetHumanBaseAddress() humanBasePointer 0x" + humanBasePtr);
             humanBaseAddr = GT.GT_ReadPointerOffsets(humanBasePtr, humanAddrOffs, (uint)humanAddrOffs.Count() * sizeof(int));
-            QUtils.AddLog("GetHumanBaseAddress () humanBaseAddress  : 0x" + humanBaseAddr);
+
+            if (addLog)
+            {
+                QUtils.AddLog("GetHumanBaseAddress() humanBasePointer 0x" + humanBasePtr);
+                QUtils.AddLog("GetHumanBaseAddress () humanBaseAddress  : 0x" + humanBaseAddr);
+            }
             return humanBaseAddr;
         }
 
@@ -175,9 +129,9 @@ namespace IGIEditor
             if (savePosition)
             {
                 //Set the human position.
-                var humanPos = GetRealPositions();
+                var humanPos = QHuman.GetPositionInMeter();
                 var humanAngle = GetRealAngle();
-                string qscData = QHuman.UpdatePositionNoOffset(humanPos, humanAngle);
+                string qscData = QHuman.UpdatePositionInMeter(humanPos, humanAngle);
                 if (!String.IsNullOrEmpty(qscData))
                     QCompiler.Compile(qscData, QUtils.gamePath);
             }

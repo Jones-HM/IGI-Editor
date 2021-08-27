@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Threading;
 using System.Windows.Forms;
 using UXLib.UX;
@@ -21,7 +22,7 @@ namespace IGIEditor
         List<QUtils.QTask> qtaskList = new List<QUtils.QTask>();
         int buildingsCount = 0, rigidObjCount = 0;
         //Variables section.
-        static bool gameReset = false, gameLogs = false, gameFound = false;
+        static bool gameReset = false, gameLogs = false, gameFound = false, isBuildingDD = false, isObjectDD = true;
         static int width = Console.LargestWindowWidth - 150;
         static int height = Console.LargestWindowHeight - 5;
         static string model3d, blenderModel;
@@ -114,13 +115,20 @@ namespace IGIEditor
         {
             if (gameFound)
             {
-                DisableLogs();
-                var realPos = QMemory.GetGamePositions();
-                xPosLbl.Text = realPos.alpha.ToString("0.0000");
-                yPosLbl.Text = realPos.beta.ToString("0.0000");
-                zPosLbl.Text = realPos.gamma.ToString("0.0000");
-                if (logEnabled)
-                    EnableLogs();
+                if (posMetreCb.Checked)
+                {
+                    var metrePos = QHuman.GetPositionInMeter(false);
+                    xPosLbl.Text = metrePos.x.ToString();
+                    yPosLbl.Text = metrePos.y.ToString();
+                    zPosLbl.Text = metrePos.z.ToString();
+                }
+                else if (posCoordCb.Checked)
+                {
+                    var realPos = QHuman.GetPositionAuto(false);
+                    xPosLbl.Text = realPos.alpha.ToString("0.0000");
+                    yPosLbl.Text = realPos.beta.ToString("0.0000");
+                    zPosLbl.Text = realPos.gamma.ToString("0.0000");
+                }
             }
         }
 
@@ -148,7 +156,9 @@ namespace IGIEditor
             {
                 QUtils.objectRigidListStr.Add(rigidObj.Keys.ElementAt(0));
                 if (initialInit)
+                {
                     objectSelectDD.Items.Add(rigidObj.Keys.ElementAt(0));
+                }
             }
         }
 
@@ -229,6 +239,7 @@ namespace IGIEditor
 
         internal void SetStatusText(string text)
         {
+            statusLbl.Text = null;
             statusLbl.Text = text;
         }
 
@@ -358,64 +369,119 @@ namespace IGIEditor
 
         private void addWeaponBtn_Click(object sender, EventArgs e)
         {
-            var weaponsModel = QUtils.weaponList[weaponSelectDD.SelectedIndex].Values.ElementAt(0);
+            var weaponModel = QUtils.weaponList[weaponSelectDD.SelectedIndex].Values.ElementAt(0);
+            var weaponName = QUtils.weaponList[weaponSelectDD.SelectedIndex].Keys.ElementAt(0);
+            string qscData = null;
 
+            int weaponAmmo = 0;
+            weaponAmmo = Convert.ToInt32(weaponAmmoTxt.Text);
+
+            qscData = QHuman.AddWeapon(weaponModel, weaponAmmo, true);
+            if (!String.IsNullOrEmpty(qscData))
+                compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, false, true);
+
+            if (compileStatus)
+                SetStatusText("Weapon " + weaponName + " added successfully");
         }
 
         private void addBuildingBtn_Click(object sender, EventArgs e)
         {
-            var buildingName = QUtils.buildingList[buildingSelectDD.SelectedIndex].Keys.ElementAt(0);
-            var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
-            AddBuildingRigidObj(buildingModel);
+            try
+            {
+                var buildingName = QUtils.buildingList[buildingSelectDD.SelectedIndex].Keys.ElementAt(0);
+                var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
+                AddBuildingRigidObj(buildingModel);
 
-            if (compileStatus)
-                SetStatusText("Buildiing " + buildingName + " added successfully");
+                if (compileStatus)
+                    SetStatusText("Buildiing " + buildingName + " added successfully");
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("Index was out of range"))
+                {
+                    QUtils.ShowError("No Building or Object have been selected to perfom this operation");
+                }
+                else
+                    QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
         }
 
         private void removeBuildingBtn_Click(object sender, EventArgs e)
         {
-            var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
-            var buildingName = QUtils.buildingList[buildingSelectDD.SelectedIndex].Keys.ElementAt(0);
+            try
+            {
+                var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
+                var buildingName = QUtils.buildingList[buildingSelectDD.SelectedIndex].Keys.ElementAt(0);
 
-            if (String.IsNullOrEmpty(buildingModel)) return;
-            var qscData = QUtils.LoadFile();
-            qscData = QObjects.RemoveObject(qscData, buildingModel, true, false);
-            compileStatus = QCompiler.CompileEx(qscData);
-            if (compileStatus)
-                SetStatusText("Buildiing " + buildingName + " removed successfully");
+                if (String.IsNullOrEmpty(buildingModel)) return;
+                var qscData = QUtils.LoadFile();
+                qscData = QObjects.RemoveObject(qscData, buildingModel, true, false);
+                compileStatus = QCompiler.CompileEx(qscData);
+                if (compileStatus)
+                    SetStatusText("Buildiing " + buildingName + " removed successfully");
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("Index was out of range"))
+                {
+                    QUtils.ShowError("No Building or Object have been selected to perfom this operation");
+                }
+                else
+                    QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
         }
+
 
         private void addObjectBtn_Click(object sender, EventArgs e)
         {
-            var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
-            var objectRigidName = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Keys.ElementAt(0);
-            AddBuildingRigidObj(objectRigidModel, true);
+            try
+            {
+                var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
+                var objectRigidName = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Keys.ElementAt(0);
+                AddBuildingRigidObj(objectRigidModel, true);
 
-            if (compileStatus)
-                SetStatusText("Object " + objectRigidName + " added successfully");
+                if (compileStatus)
+                    SetStatusText("Object " + objectRigidName + " added successfully");
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("Index was out of range"))
+                {
+                    QUtils.ShowError("No Building or Object have been selected to perfom this operation");
+                }
+                else
+                    QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
         }
 
         private void removeObjectBtn_Click(object sender, EventArgs e)
         {
-            var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
-            var objectRigidName = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Keys.ElementAt(0);
+            try
+            {
+                var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
+                var objectRigidName = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Keys.ElementAt(0);
 
-            if (String.IsNullOrEmpty(objectRigidModel)) return;
-            var qscData = QUtils.LoadFile();
-            qscData = QObjects.RemoveObject(qscData, objectRigidModel, true, false);
-            compileStatus = QCompiler.CompileEx(qscData);
-            if (compileStatus)
-                SetStatusText("Object " + objectRigidName + " removed successfully");
+                if (String.IsNullOrEmpty(objectRigidModel)) return;
+                var qscData = QUtils.LoadFile();
+                qscData = QObjects.RemoveObject(qscData, objectRigidModel, true, false);
+                compileStatus = QCompiler.CompileEx(qscData);
+                if (compileStatus)
+                    SetStatusText("Object " + objectRigidName + " removed successfully");
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("Index was out of range"))
+                {
+                    QUtils.ShowError("No Building or Object have been selected to perfom this operation");
+                }
+                else
+                    QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
         }
 
         private void minimizeBtn_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void customSettingsCb_CheckedChanged(object sender, EventArgs e)
-        {
-            alphaTxt.Enabled = betaTxt.Enabled = gammaTxt.Enabled = customSettingsCb.Checked;
         }
 
         private void closeBtn_MouseMove(object sender, MouseEventArgs e)
@@ -446,6 +512,266 @@ namespace IGIEditor
                 inputQvmPath = QUtils.cfgInputQvmPath + level + "\\" + QUtils.objectsQvm;
                 QUtils.RestoreLevel(level);
             }
+        }
+
+        private void xPosLbl_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(xPosLbl.Text);
+            SetStatusText("X-Position Copied successfully");
+        }
+
+        private void yPosLbl_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(yPosLbl.Text);
+            SetStatusText("Y-Position Copied successfully");
+        }
+
+        private void zPosLbl_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(zPosLbl.Text);
+            SetStatusText("Z-Position Copied successfully");
+        }
+
+        private void posMetreCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (posMetreCb.Checked) posCoordCb.Checked = false;
+        }
+
+        private void posCoordCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (posCoordCb.Checked) posMetreCb.Checked = false;
+        }
+
+        private void posOffCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (posOffCb.Checked) posMeterCb.Checked = posCurrentCb.Checked = false;
+        }
+
+        private void posMeterCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (posMeterCb.Checked) posOffCb.Checked = posCurrentCb.Checked = false;
+        }
+
+        private void posCurrentCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (posCurrentCb.Checked) posOffCb.Checked = posMeterCb.Checked = false;
+        }
+
+        private void refreshGame_Click(object sender, EventArgs e)
+        {
+            gameFound = QMemory.FindGame();
+            if (!gameFound)
+            {
+                QMemory.StartGame();
+                SetStatusText("Game not found! starting new game");
+                Thread.Sleep(10000);
+
+                QUtils.gGameLevel = QMemory.GetCurrentLevel();
+                levelStartTxt.Text = QUtils.gGameLevel.ToString();
+                gameFound = true;
+            }
+            else
+                SetStatusText("Game found success");
+            if (gameFound)
+            {
+                Thread.Sleep(1000);
+                QUtils.gGameLevel = QMemory.GetCurrentLevel();
+                LoadLevelDetails(QUtils.gGameLevel);
+                RefreshUIComponents(QUtils.gGameLevel);
+                QUtils.InjectDllOnStart();
+            }
+        }
+
+        private void updateObjPosition_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
+                var buildingName = QUtils.buildingList[buildingSelectDD.SelectedIndex].Keys.ElementAt(0);
+
+                var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
+                var objectRigidName = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Keys.ElementAt(0);
+
+                string model = isBuildingDD ? buildingModel : objectRigidModel;
+
+                Double xpos, ypos, zpos;
+                string qscData = null;
+
+                if (posCurrentCb.Checked)
+                {
+                    var meterPos = QHuman.GetPositionInMeter();
+
+                    xPosTxt.Text = meterPos.x.ToString();
+                    yPosTxt.Text = meterPos.y.ToString();
+                    zPosTxt.Text = meterPos.z.ToString();
+                }
+
+                xpos = Convert.ToDouble(xPosTxt.Text);
+                ypos = Convert.ToDouble(yPosTxt.Text);
+                zpos = Convert.ToDouble(zPosTxt.Text);
+
+                var objectPos = new Real64(xpos, ypos, zpos);
+                if (posOffCb.Checked)
+                    qscData = QObjects.UpdatePositionOffset(model, ref objectPos);
+                else if (posMeterCb.Checked)
+                    qscData = QObjects.UpdatePositionMeter(model, ref objectPos);
+                else if (posCurrentCb.Checked)
+                    qscData = QObjects.UpdatePositionMeter(model, ref objectPos);
+
+                if (!String.IsNullOrEmpty(qscData))
+                    compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, false, true, true);
+
+                if (compileStatus)
+                {
+                    string statusText = (isBuildingDD ? (buildingName) : (objectRigidName)) + " updated successfully";
+                    SetStatusText(statusText);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("Index was out of range"))
+                    QUtils.ShowError("No building or object have been selected to perfom this operation");
+                else if (ex.Message.Contains("not in a correct format"))
+                    QUtils.ShowError("Position parameters are empty or invalid");
+                else
+                    QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
+        }
+
+        private void updateObjOrientation_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
+                var buildingName = QUtils.buildingList[buildingSelectDD.SelectedIndex].Keys.ElementAt(0);
+
+                var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
+                var objectRigidName = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Keys.ElementAt(0);
+
+                string model = isBuildingDD ? buildingModel : objectRigidModel;
+
+                float alpha, beta, gamma;
+                alpha = float.Parse(alphaTxt.Text);
+                beta = float.Parse(betaTxt.Text);
+                gamma = float.Parse(gammaTxt.Text);
+                string qscData = null;
+
+                var orientation = new Real32(alpha, beta, gamma);
+                qscData = QObjects.UpdateOrientation(model, ref orientation);
+
+                if (!String.IsNullOrEmpty(qscData))
+                    compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, false, true, true);
+
+                if (compileStatus)
+                {
+                    string statusText = (isBuildingDD ? (buildingName) : (objectRigidName)) + " orientation updated successfully";
+                    SetStatusText(statusText);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("Index was out of range"))
+                    QUtils.ShowError("No Building or Object have been selected to perfom this operation");
+                else if (ex.Message.Contains("not in a correct format"))
+                    QUtils.ShowError("Position parameters are empty or invalid");
+                else
+                    QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
+        }
+
+        private void humanPosOffCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (humanPosOffCb.Checked) humanPosMeterCb.Checked = false;
+        }
+
+        private void humanPosMeterCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (humanPosMeterCb.Checked) humanPosOffCb.Checked = false;
+        }
+
+        private void updateHumaPosition_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Double xpos, ypos, zpos;
+                string qscData = null;
+
+                xpos = Convert.ToDouble(xPosTxt_H.Text);
+                ypos = Convert.ToDouble(yPosTxt_H.Text);
+                zpos = Convert.ToDouble(zPosTxt_H.Text);
+
+                var humanPos = new Real64(xpos, ypos, zpos);
+                if (humanPosOffCb.Checked)
+                    qscData = QHuman.UpdatePositionOffset(humanPos);
+
+                if (humanPosMeterCb.Checked)
+                {
+                    humanPos = new Real64(xpos, ypos, zpos);
+                    qscData = QHuman.UpdatePositionInMeter(humanPos);
+                }
+
+                if (!string.IsNullOrEmpty(qscData))
+                    compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, false, true, true);
+
+                if (compileStatus)
+                    SetStatusText("Human position updated successfully");
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("not in a correct format"))
+                    QUtils.ShowError("Position parameters are empty or invalid");
+                else
+                    QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
+        }
+
+        private void weaponSelectDD_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var weaponModel = QUtils.weaponList[weaponSelectDD.SelectedIndex].Values.ElementAt(0);
+                //Load Weapon image.
+                var imgUrl = baseImgUrl + weaponsImgUrl[weaponSelectDD.SelectedIndex];
+                var request = WebRequest.Create(imgUrl);
+
+                using (var response = request.GetResponse())
+                using (var stream = response.GetResponseStream())
+                {
+                    weaponImgBox.Image = Bitmap.FromStream(stream);
+                }
+
+                if (weaponModel.Contains("binoculars") || weaponModel.Contains("knife")) 
+                    weaponAmmoTxt.Enabled = false;
+                else weaponAmmoTxt.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                weaponImgBox.Image = null;
+            }
+        }
+
+        private void removeWeaponBtn_Click(object sender, EventArgs e)
+        {
+            var weaponModel = QUtils.weaponList[weaponSelectDD.SelectedIndex].Values.ElementAt(0);
+            var weaponName = QUtils.weaponList[weaponSelectDD.SelectedIndex].Keys.ElementAt(0);
+            string qscData = null;
+
+            qscData = QHuman.RemoveWeapon(weaponModel, true);
+            if (!String.IsNullOrEmpty(qscData))
+                compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, false, true, true);
+
+            if (compileStatus)
+                SetStatusText("Weapon " + weaponName + " removed successfully");
+        }
+
+        private void objectSelectDD_Click(object sender, EventArgs e)
+        {
+            isObjectDD = true;
+        }
+
+        private void buildingSelectDD_Click(object sender, EventArgs e)
+        {
+            isBuildingDD = true;
         }
 
         private void removeModelBtn_Click(object sender, EventArgs e)
@@ -532,11 +858,12 @@ namespace IGIEditor
 
         private void AddBuildingRigidObj(string model, bool rigidObj = false)
         {
-            var objectPos = QMemory.GetRealPositions();
+            var objectPos = QHuman.GetPositionInMeter();
             string qscData;
             float alpha, beta, gamma;
+            bool isInputEmpty = String.IsNullOrEmpty(alphaTxt.Text) && String.IsNullOrEmpty(betaTxt.Text) && String.IsNullOrEmpty(gammaTxt.Text);
 
-            if (customSettingsCb.Checked)
+            if (!isInputEmpty)
             {
                 alpha = float.Parse(alphaTxt.Text);
                 beta = float.Parse(betaTxt.Text);

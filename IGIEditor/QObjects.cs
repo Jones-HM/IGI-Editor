@@ -48,7 +48,7 @@ namespace IGIEditor
             return qtaskBuilding;
         }
 
-        internal static string UpdatePositionNoOffset(int id, ref Real64 position, bool checkModel = false)
+        internal static string UpdatePositionInMeter(int id, ref Real64 position, bool checkModel = false)
         {
             QUtils.QTask qtask = null;
             qtask = QUtils.GetQTask(id);
@@ -65,8 +65,8 @@ namespace IGIEditor
             int yLen = yVal ? yPos.ToString().Length : 0;
             int zLen = zVal ? zPos.ToString().Length : 0;
 
-            QUtils.AddLog("UpdatePositionNoOffset()  length : X:" + xLen + " Y: " + yLen + " Z: " + zLen);
-            QUtils.AddLog("UpdatePositionNoOffset() called with offset : X:" + position.x + " Y: " + position.y + " Z: " + position.z);
+            QUtils.AddLog("UpdatePositionInMeter()  length : X:" + xLen + " Y: " + yLen + " Z: " + zLen);
+            QUtils.AddLog("UpdatePositionInMeter() called with offset : X:" + position.x + " Y: " + position.y + " Z: " + position.z);
 
 
             //Check for length error.
@@ -83,7 +83,7 @@ namespace IGIEditor
             return UpdatePosition(id, ref position, checkModel);
         }
 
-        internal static string UpdatePositionNoOffset(string model, ref Real64 offsets, bool checkModel = false)
+        internal static string UpdatePositionOffset(string model, ref Real64 offsets, bool checkModel = false)
         {
             QUtils.QTask qtask = null;
             qtask = QUtils.GetQTask(model);
@@ -100,8 +100,8 @@ namespace IGIEditor
             int yLen = yVal ? yPos.ToString().Length : 0;
             int zLen = zVal ? zPos.ToString().Length : 0;
 
-            QUtils.AddLog("UpdatePositionNoOffset()  length : X:" + xLen + " Y: " + yLen + " Z: " + zLen);
-            QUtils.AddLog("UpdatePositionNoOffset() called with offset : X:" + offsets.x + " Y: " + offsets.y + " Z: " + offsets.z);
+            QUtils.AddLog("UpdatePositionInMeter()  length : X:" + xLen + " Y: " + yLen + " Z: " + zLen);
+            QUtils.AddLog("UpdatePositionInMeter() called with offset : X:" + offsets.x + " Y: " + offsets.y + " Z: " + offsets.z);
 
 
             //Check for length error.
@@ -116,7 +116,7 @@ namespace IGIEditor
             if (zVal) zPos = qtask.position.z + meterOffsets[zLen - 1];
 
             Real64 position = new Real64(xPos, yPos, zPos);
-            return UpdatePosition(model, ref position, checkModel);
+            return UpdatePositionMeter(model, ref position, checkModel);
         }
 
         internal static string UpdatePosition(int taskId, ref Real64 position, bool checkModel)
@@ -125,7 +125,7 @@ namespace IGIEditor
             return Update(taskId, null, ref position, ref r32, (int)QTASKINFO.QTASK_ID, checkModel);
         }
 
-        internal static string UpdatePosition(string model, ref Real64 position, bool checkModel = false)
+        internal static string UpdatePositionMeter(string model, ref Real64 position, bool checkModel = false)
         {
             var r32 = new Real32();
             return Update(-999, model, ref position, ref r32, (int)QTASKINFO.QTASK_MODEL, checkModel);

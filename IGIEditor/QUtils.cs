@@ -90,11 +90,20 @@ namespace IGIEditor
 
         internal static string baseImgUrl = "https://static.wikia.nocookie.net/igi/images";
         internal static string[] levelImgUrl =
-            {"/5/58/Mission_1.png","/5/5d/Mission_2.png","/5/5b/IGI_Mission_3.png","/3/35/IGI_Mission_4.png",
+        {"/5/58/Mission_1.png","/5/5d/Mission_2.png","/5/5b/IGI_Mission_3.png","/3/35/IGI_Mission_4.png",
               "/8/89/IGI_Mission_05.png","/9/91/IGI_Mission_06.png","/0/0f/IGI_Mission_07.png",
               "/1/12/IGI_Mission_08.png","/6/6d/IGI_Mission_09.png","/2/2b/Mission_10.png","/e/e6/Mission_11.png",
               "/a/af/Mission_12.png","/5/5a/Mission_13.png","/4/4a/Mission_14.png"
         };
+
+        internal static string[] weaponsImgUrl = {"/4/4a/31_IGI2_Weapons_ak-47.jpg","/3/3a/62_IGI2_Weapons_rpg7.jpg","/8/80/IGI2_Weapons_binoculars.jpg",
+"/a/aa/3-IGI2_Weapons_Magnum.jpg","/4/4c/4-IGI2_Weapons_D-Eagle.jpg","/d/dc/41_IGI2_Weapons_Dragunov.jpg",
+"/6/67/IGI2_Weapons_Flashbang.jpg","/c/c8/2a-IGI2_Weapons_Glock.jpg","/5/5a/L2a2_greande.jpg",
+"/9/93/53_IGI2_Weapons_Jackhammer.jpg","/6/6b/0-IGI2_Weapons_Knife.jpg","/c/ce/33_IGI2_Weapons_m16_m203.jpg",
+"/6/6b/IGI2_Weapons_M2HB.jpg","/e/e6/Igi2_w_medisyringe.jpg","/8/2/_IGI2_Weapons_mil.jpg","/8/86/63_IGI2_Weapons_minimi.jpg",
+"/d/db/Ig2mp5sd3.jpg","/d/d4/IGI2_Weapons_proximity_mine.jpg","/5/59/61_IGI2_Weapons_Law80.jpg",
+"/5/22/61_IGI2_Weapons_sentry.jpg","/3/38/51_IGI2_Weapons_spas.jpg","/1/19/61_IGI2_Weapons_t80.jpg",
+"/9/94/22_IGI2_Weapons_Uzi.jpg","/2/27/UZI.jpg"};
 
         internal static List<string> aiTypes = new List<string>() { "AITYPE_RPG", "AITYPE_GUNNER", "AITYPE_SNIPER", "AITYPE_ANYA", "AITYPE_EKK", "AITYPE_PRIBOI", "AITYPE_CIVILIAN", "AITYPE_PATROL_UZI", "AITYPE_PATROL_AK", "AITYPE_PATROL_SPAS", "AITYPE_PATROL_PISTOL", "AITYPE_GUARD_UZI", "AITYPE_GUARD_AK", "AITYPE_GUARD_SPAS", "AITYPE_GUARD_PISTOL", "AITYPE_SECURITY_PATROL_UZI", "AITYPE_SECURITY_PATROL_SPAS", "AITYPE_MAFIA_PATROL_UZI", "AITYPE_MAFIA_PATROL_AK", "AITYPE_MAFIA_PATROL_SPAS", "AITYPE_MAFIA_GUARD_UZI", "AITYPE_MAFIA_GUARD_AK", "AITYPE_MAFIA_GUARD_SPAS", "AITYPE_SPETNAZ_PATROL_UZI", "AITYPE_SPETNAZ_PATROL_AK", "AITYPE_SPETNAZ_PATROL_SPAS", "AITYPE_SPETNAZ_GUARD_UZI", "AITYPE_SPETNAZ_GUARD_AK", "AITYPE_SPETNAZ_GUARD_SPAS" };
 
@@ -315,7 +324,7 @@ namespace IGIEditor
             igieditorTmpPath = appdataPath + Path.DirectorySeparatorChar + igiEditor;
 
             //Set new Input QSC & QVM path releative to appdata.
-            objectsMasterList = igieditorTmpPath + Path.DirectorySeparatorChar + "igiMasterList.txt";
+            objectsMasterList = igieditorTmpPath + Path.DirectorySeparatorChar + "IGIMasterList.txt";
             qMissionsPath = igieditorTmpPath + @"\QMissions";
             aiIdlePath = igieditorTmpPath + Path.DirectorySeparatorChar + "aiIdle.qvm";
             cfgInputQvmPath = igieditorTmpPath + qfilesPath + inputQvmPath + inputMissionPath;
