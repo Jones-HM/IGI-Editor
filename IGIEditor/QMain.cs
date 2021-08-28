@@ -33,14 +33,19 @@ namespace IGIEditor
             }
             catch (Exception ex)
             {
-                QUtils.ShowError(ex.Message, "Application Error");
+                QUtils.ShowError(ex.Message ?? ex.StackTrace, "Application Error");
             }
 
         }
 
         private static void OnAppExit(object sender, EventArgs e)
         {
-            //CleanUpFiles();
+            CleanUpFiles();
+            if (File.Exists(QUtils.logFile))
+            {
+                QUtils.ShellExec("move /Y " + QUtils.logFile + " " + QUtils.cachePathAppLogs);
+                QUtils.ShellExec("move /Y " + QUtils.qLibLogsFile + " " + QUtils.cachePathAppLogs);
+            }
         }
 
         private static void CleanUpFiles()

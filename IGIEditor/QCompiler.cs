@@ -133,7 +133,7 @@ namespace IGIEditor
 
                 if (status)
                 {
-                    IGIEditorUI.editorRef.SetStatusText("QCompile success");
+                    IGIEditorUI.editorRef.SetStatusText("Compile success");
                     if (restartLevel)
                         QMemory.RestartLevel(savePos);
                 }

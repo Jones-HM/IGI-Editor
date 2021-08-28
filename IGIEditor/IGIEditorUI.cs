@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Threading;
 using System.Windows.Forms;
 using UXLib.UX;
@@ -29,7 +30,7 @@ namespace IGIEditor
         string inputQvmPath, inputQscPath;
 
         static internal IGIEditorUI editorRef;
-       
+
         public IGIEditorUI()
         {
             var posTimer = new System.Windows.Forms.Timer();
@@ -358,18 +359,23 @@ namespace IGIEditor
 
         public void LoadLevelDetails(int level)
         {
-
             //load level Description.
             levelNameLbl.Text = QMission.GetMissionInfo(level);
+            var imgPath = "mission_" + level + QUtils.jpgExt;
+            var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
 
-            //Load level image.
-            var imgUrl = baseImgUrl + levelImgUrl[level - 1];
-            var request = WebRequest.Create(imgUrl);
-
-            using (var response = request.GetResponse())
-            using (var stream = response.GetResponseStream())
+            //Load level image from Cache.
+            if (File.Exists(imgTmpPath))
             {
-                levelImgBox.Image = Bitmap.FromStream(stream);
+                levelImgBox.Image = Bitmap.FromFile(imgTmpPath);
+            }
+
+            //Load level image from Web.
+            else
+            {
+                var imgUrl = baseImgUrl + levelImgUrl[level - 1];
+                QUtils.WebDownload(imgUrl, imgPath);
+                LoadImgBoxWeb(imgUrl, levelImgBox);
             }
         }
 
@@ -389,8 +395,9 @@ namespace IGIEditor
             var weaponName = QUtils.weaponList[weaponSelectDD.SelectedIndex].Keys.ElementAt(0);
             string qscData = null;
 
-            int weaponAmmo = 0;
-            weaponAmmo = Convert.ToInt32(weaponAmmoTxt.Text);
+            int weaponAmmo = 999;
+            if (!String.IsNullOrEmpty(weaponAmmoTxt.Text))
+                weaponAmmo = Convert.ToInt32(weaponAmmoTxt.Text);
 
             qscData = QHuman.AddWeapon(weaponModel, weaponAmmo, true);
             if (!String.IsNullOrEmpty(qscData))
@@ -528,6 +535,7 @@ namespace IGIEditor
                 inputQvmPath = QUtils.cfgQvmPath + level + "\\" + QUtils.objectsQvm;
                 QUtils.RestoreLevel(level);
             }
+            QMemory.RestartLevel(true);
         }
 
         private void xPosLbl_Click(object sender, EventArgs e)
@@ -746,19 +754,27 @@ namespace IGIEditor
             try
             {
                 var weaponModel = QUtils.weaponList[weaponSelectDD.SelectedIndex].Values.ElementAt(0);
-                //Load Weapon image.
-                var imgUrl = baseImgUrl + weaponsImgUrl[weaponSelectDD.SelectedIndex];
-                var request = WebRequest.Create(imgUrl);
+                var weaponName = QUtils.weaponList[weaponSelectDD.SelectedIndex].Keys.ElementAt(0);
 
-                using (var response = request.GetResponse())
-                using (var stream = response.GetResponseStream())
+                //Weapon image paths.
+                var imgUrl = baseImgUrl + weaponsImgUrl[weaponSelectDD.SelectedIndex];
+                var imgPath = weaponName + QUtils.jpgExt;
+                var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
+
+                //weaponAmmoTxt.Enabled = !weaponModel.Contains("binoculars") || !weaponModel.Contains("knife");
+
+                //Load image from Cache.
+                if (File.Exists(imgTmpPath))
                 {
-                    weaponImgBox.Image = Bitmap.FromStream(stream);
+                    weaponImgBox.Image = Bitmap.FromFile(imgTmpPath);
                 }
 
-                if (weaponModel.Contains("binoculars") || weaponModel.Contains("knife")) 
-                    weaponAmmoTxt.Enabled = false;
-                else weaponAmmoTxt.Enabled = true;
+                //Load image from Web.
+                else
+                {
+                    LoadImgBoxWeb(imgUrl, weaponImgBox);
+                    QUtils.WebDownload(imgUrl, imgPath);
+                }
             }
             catch (Exception ex)
             {
@@ -778,6 +794,36 @@ namespace IGIEditor
 
             if (compileStatus)
                 SetStatusText("Weapon " + weaponName + " removed successfully");
+        }
+
+        private void exportObjectsBtn_Click(object sender, EventArgs e)
+        {
+            var qtaskList = QUtils.GetQTaskList(false, true);
+            if (csvCb.Checked)
+                QUtils.ExportCSV(QUtils.objects + QUtils.csvExt, qtaskList);
+            else if (xmlCb.Checked)
+                QUtils.ExportXML(QUtils.objects + QUtils.xmlExt);
+            else if (jsonCb.Checked)
+                QUtils.ExportJson(QUtils.objects + QUtils.jsonExt);
+            if (!csvCb.Checked && !xmlCb.Checked && !jsonCb.Checked)
+                QUtils.ShowError("Atleast one option should be selected for exporting data");
+            else
+                SetStatusText("Data exported success");
+        }
+
+        private void csvCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (csvCb.Checked) xmlCb.Checked = jsonCb.Checked = false;
+        }
+
+        private void jsonCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (jsonCb.Checked) xmlCb.Checked = csvCb.Checked = false;
+        }
+
+        private void xmlCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (xmlCb.Checked) jsonCb.Checked = csvCb.Checked = false;
         }
 
         private void objectSelectDD_Click(object sender, EventArgs e)
@@ -838,6 +884,27 @@ namespace IGIEditor
             itemDD.Items.Clear();
             itemDD.DataSource = itemObj ? QUtils.objectRigidListStr : QUtils.buildingListStr;
             itemDD.Refresh();
+        }
+
+        private static void LoadImgBoxWeb(string url, PictureBox imgBox)
+        {
+            try
+            {
+                var request = WebRequest.Create(url);
+
+                using (var response = request.GetResponse())
+                using (var stream = response.GetResponseStream())
+                {
+                    imgBox.Image = Bitmap.FromStream(stream);
+                }
+            }catch(Exception ex)
+            {
+                if(ex.Message.Contains("The remote name could not be resolved")){
+                    QUtils.ShowError("Resource error Please check your internet connection and try Again");
+                }
+                else 
+                    QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
         }
 
         private static void GenerateRandScriptId(int level)

@@ -41,15 +41,15 @@ namespace IGIEditor
         internal static string taskNew = "Task_New", taskDecl = "Task_DeclareParameters";
         internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc";
         internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, randGenScriptId = 0, gGameLevel = 1;
-        internal static string logFile = "app.log", aiIdleFile = "aiIdle.qvm", objectsMasterList, aiIdlePath;
+        internal static string logFile = "app.log", qLibLogsFile = "GTLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsMasterList, aiIdlePath;
         internal static bool logEnabled = false, keyExist = false, keyFileExist = false, mapViewerMode = false;
 
-        internal static string gamePath, appdataPath, igiEditorTmpPath, currPath, gameAbsPath, cfgGamePath, cfgHumanplayerPath, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", cfgFile, projAppName,
+        internal static string gamePath, appdataPath, igiEditorTmpPath, currPath, gameAbsPath, cfgGamePath, cfgHumanplayerPath, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", cfgFile, projAppName, cachePath, cachePathAppLogs, cachePathAppImages,
          igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayer = "humanplayer.qvm", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalDllPath = @"bin\igi1ed.dat", tmpDllPath, internalDllInjectorPath = @"bin\igi1edInj.exe";
         internal static string inputQscPath = @"\IGI_QSC", inputQvmPath = @"\IGI_QVM", inputAiPath = @"\AIFiles", inputVoidPath = @"\Void", inputMissionPath = @"\missions\location0\level", inputHumanplayerPath = @"\humanplayer";
         internal static List<string> objTypeList = new List<string>() { "Building", "EditRigidObj", "Terminal", "Elevator", "ExplodeObject", "AlarmControl", "Generator", "Radio" };
         internal static string objects = "objects", objectsAll = "objectsAll", weapons = "weapons";
-        internal static string qvmExt = ".qvm", qscExt = ".qsc", csvExt = ".csv", jsonExt = ".json", txtExt = ".txt", xmlExt = ".xml", dllExt = ".dll", missionExt = ".mission";
+        internal static string qvmExt = ".qvm", qscExt = ".qsc", csvExt = ".csv", jsonExt = ".json", txtExt = ".txt", xmlExt = ".xml", dllExt = ".dll", missionExt = ".mission", jpgExt = ".jpg", pngExt = ".png";
         internal static float fltInvalidAngle = -9.9999f;
         internal const string CAPTION_CONFIG_ERR = "Config - Error", CAPTION_FATAL_SYS_ERR = "Fatal sytem - Error", CAPTION_APP_ERR = "Application - Error", CAPTION_COMPILER_ERR = "Compiler - Error", alarmControl = "AlarmControl", stationaryGun = "StationaryGun";
         internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths";
@@ -334,14 +334,17 @@ namespace IGIEditor
             cfgVoidPath = igiEditorTmpPath + inputVoidPath;
             cfgQFilesPath = igiEditorTmpPath + qfilesPath;
             menuSystemPath = gameAbsPath + menuSystemDir;
+            cachePath = Path.GetTempPath() + "IGIEditorCache";
+            cachePathAppLogs = cachePath + @"\AppLogs";
+            cachePathAppImages = cachePath + @"\AppImages";
 
+            //if (Directory.Exists(menuSystemDir))
+            //{
+            //    DeleteWholeDir(menuSystemPath);
+            //    MoveDir(menuSystemDir, menuSystemPath);
+            //}
 
-            if (Directory.Exists(menuSystemDir))
-            {
-                DeleteWholeDir(menuSystemPath);
-                MoveDir(menuSystemDir, menuSystemPath);
-            }
-
+            //Init QEditor - QFiles.
             if (Directory.Exists(qEditor) && !Directory.Exists(igiEditorTmpPath))
             {
                 MoveDir(qEditor, appdataPath);
@@ -349,10 +352,17 @@ namespace IGIEditor
                 if (Directory.Exists(qEditor) && Directory.Exists(igiEditorTmpPath))
                 {
                     DeleteWholeDir(qEditor);
-                    ShowSystemFatalError("Application couldn't be initialized properly! Please try again later");
+                    ShowSystemFatalError("Application couldn't be initialized properly! Please try again later (Error: 0xCD00005F");
                 }
             }
 
+            //Init Temp path for Cache.
+            if (!Directory.Exists(cachePath))
+            {
+                Directory.CreateDirectory(cachePath);
+                Directory.CreateDirectory(cachePathAppLogs);
+                Directory.CreateDirectory(cachePathAppImages);
+            }
         }
 
         internal static void DeleteWholeDir(string dirPath)
@@ -421,6 +431,25 @@ namespace IGIEditor
                     ShowError(ex.Message, "Application Error");
             }
             return strContent;
+        }
+
+        internal static void WebDownload(string url, string fileName)
+        {
+            try
+            {
+                WebClient webClient = new WebClient();
+                webClient.DownloadFile(url, fileName);
+                ShellExec("move /Y " + fileName + " " + QUtils.cachePathAppImages);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("The remote name could not be resolved"))
+                {
+                    ShowError("Resource error Please check your internet connection and try Again");
+                }
+                else
+                    ShowError(ex.Message ?? ex.StackTrace);
+            }
         }
 
         internal static void EnableMapView(bool enableMap)
@@ -747,7 +776,6 @@ namespace IGIEditor
             else
                 IGIEditorUI.editorRef.SetStatusText("Error in restroing level : " + gameLevel);
         }
-
 
         internal static int FindIndex(string temp, string sourceData, int sourceIndex, int qtaskIndex)
         {

@@ -99,6 +99,8 @@
             this.aiEditor = new System.Windows.Forms.TabPage();
             this.addAIBtn = new System.Windows.Forms.Button();
             this.weaponEditorTab = new System.Windows.Forms.TabPage();
+            this.weaponAmmoTxt = new System.Windows.Forms.TextBox();
+            this.weaponAmmolbl = new System.Windows.Forms.Label();
             this.weaponSelectDD = new System.Windows.Forms.ComboBox();
             this.weaponImgBox = new System.Windows.Forms.PictureBox();
             this.removeWeaponBtn = new System.Windows.Forms.Button();
@@ -140,8 +142,9 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.weaponAmmolbl = new System.Windows.Forms.Label();
-            this.weaponAmmoTxt = new System.Windows.Forms.TextBox();
+            this.csvCb = new System.Windows.Forms.CheckBox();
+            this.jsonCb = new System.Windows.Forms.CheckBox();
+            this.xmlCb = new System.Windows.Forms.CheckBox();
             this.backPnl.SuspendLayout();
             this.tabContainer.SuspendLayout();
             this.levelEditorTab.SuspendLayout();
@@ -1105,6 +1108,30 @@
             this.weaponEditorTab.TabIndex = 7;
             this.weaponEditorTab.Text = "Weapon Editor";
             // 
+            // weaponAmmoTxt
+            // 
+            this.weaponAmmoTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.weaponAmmoTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.weaponAmmoTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.weaponAmmoTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.weaponAmmoTxt.Location = new System.Drawing.Point(262, 115);
+            this.weaponAmmoTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.weaponAmmoTxt.Name = "weaponAmmoTxt";
+            this.weaponAmmoTxt.Size = new System.Drawing.Size(152, 30);
+            this.weaponAmmoTxt.TabIndex = 32;
+            // 
+            // weaponAmmolbl
+            // 
+            this.weaponAmmolbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.weaponAmmolbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.weaponAmmolbl.Location = new System.Drawing.Point(73, 111);
+            this.weaponAmmolbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.weaponAmmolbl.Name = "weaponAmmolbl";
+            this.weaponAmmolbl.Size = new System.Drawing.Size(173, 33);
+            this.weaponAmmolbl.TabIndex = 31;
+            this.weaponAmmolbl.Text = "Weapon Ammo :";
+            this.weaponAmmolbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // weaponSelectDD
             // 
             this.weaponSelectDD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
@@ -1442,6 +1469,9 @@
             // miscTab
             // 
             this.miscTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.miscTab.Controls.Add(this.xmlCb);
+            this.miscTab.Controls.Add(this.jsonCb);
+            this.miscTab.Controls.Add(this.csvCb);
             this.miscTab.Controls.Add(this.appLogsCb);
             this.miscTab.Controls.Add(this.autoResetCb);
             this.miscTab.Controls.Add(this.resetCurrentLevelBtn);
@@ -1483,7 +1513,7 @@
             this.resetCurrentLevelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.resetCurrentLevelBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.resetCurrentLevelBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.resetCurrentLevelBtn.Location = new System.Drawing.Point(171, 192);
+            this.resetCurrentLevelBtn.Location = new System.Drawing.Point(171, 235);
             this.resetCurrentLevelBtn.Margin = new System.Windows.Forms.Padding(4);
             this.resetCurrentLevelBtn.Name = "resetCurrentLevelBtn";
             this.resetCurrentLevelBtn.Size = new System.Drawing.Size(289, 38);
@@ -1497,7 +1527,7 @@
             this.resetAllLevelsBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.resetAllLevelsBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.resetAllLevelsBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.resetAllLevelsBtn.Location = new System.Drawing.Point(171, 127);
+            this.resetAllLevelsBtn.Location = new System.Drawing.Point(171, 170);
             this.resetAllLevelsBtn.Margin = new System.Windows.Forms.Padding(4);
             this.resetAllLevelsBtn.Name = "resetAllLevelsBtn";
             this.resetAllLevelsBtn.Size = new System.Drawing.Size(289, 38);
@@ -1518,6 +1548,7 @@
             this.exportObjectsBtn.TabIndex = 16;
             this.exportObjectsBtn.Text = "Export objects";
             this.exportObjectsBtn.UseVisualStyleBackColor = true;
+            this.exportObjectsBtn.Click += new System.EventHandler(this.exportObjectsBtn_Click);
             // 
             // minimizeBtn
             // 
@@ -1615,29 +1646,44 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "IGI 1";
             // 
-            // weaponAmmolbl
+            // csvCb
             // 
-            this.weaponAmmolbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.weaponAmmolbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.weaponAmmolbl.Location = new System.Drawing.Point(73, 111);
-            this.weaponAmmolbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.weaponAmmolbl.Name = "weaponAmmolbl";
-            this.weaponAmmolbl.Size = new System.Drawing.Size(173, 33);
-            this.weaponAmmolbl.TabIndex = 31;
-            this.weaponAmmolbl.Text = "Weapon Ammo :";
-            this.weaponAmmolbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.csvCb.AutoSize = true;
+            this.csvCb.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.csvCb.Location = new System.Drawing.Point(171, 112);
+            this.csvCb.Margin = new System.Windows.Forms.Padding(4);
+            this.csvCb.Name = "csvCb";
+            this.csvCb.Size = new System.Drawing.Size(71, 26);
+            this.csvCb.TabIndex = 20;
+            this.csvCb.Text = "CSV";
+            this.csvCb.UseVisualStyleBackColor = true;
+            this.csvCb.CheckedChanged += new System.EventHandler(this.csvCb_CheckedChanged);
             // 
-            // weaponAmmoTxt
+            // jsonCb
             // 
-            this.weaponAmmoTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.weaponAmmoTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.weaponAmmoTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.weaponAmmoTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.weaponAmmoTxt.Location = new System.Drawing.Point(262, 115);
-            this.weaponAmmoTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.weaponAmmoTxt.Name = "weaponAmmoTxt";
-            this.weaponAmmoTxt.Size = new System.Drawing.Size(152, 30);
-            this.weaponAmmoTxt.TabIndex = 32;
+            this.jsonCb.AutoSize = true;
+            this.jsonCb.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.jsonCb.Location = new System.Drawing.Point(275, 112);
+            this.jsonCb.Margin = new System.Windows.Forms.Padding(4);
+            this.jsonCb.Name = "jsonCb";
+            this.jsonCb.Size = new System.Drawing.Size(81, 26);
+            this.jsonCb.TabIndex = 20;
+            this.jsonCb.Text = "JSON";
+            this.jsonCb.UseVisualStyleBackColor = true;
+            this.jsonCb.CheckedChanged += new System.EventHandler(this.jsonCb_CheckedChanged);
+            // 
+            // xmlCb
+            // 
+            this.xmlCb.AutoSize = true;
+            this.xmlCb.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.xmlCb.Location = new System.Drawing.Point(389, 112);
+            this.xmlCb.Margin = new System.Windows.Forms.Padding(4);
+            this.xmlCb.Name = "xmlCb";
+            this.xmlCb.Size = new System.Drawing.Size(70, 26);
+            this.xmlCb.TabIndex = 20;
+            this.xmlCb.Text = "XML";
+            this.xmlCb.UseVisualStyleBackColor = true;
+            this.xmlCb.CheckedChanged += new System.EventHandler(this.xmlCb_CheckedChanged);
             // 
             // IGIEditorUI
             // 
@@ -1792,6 +1838,9 @@
         private System.Windows.Forms.Button updateHumaPosition;
         private System.Windows.Forms.TextBox weaponAmmoTxt;
         private System.Windows.Forms.Label weaponAmmolbl;
+        private System.Windows.Forms.CheckBox xmlCb;
+        private System.Windows.Forms.CheckBox jsonCb;
+        private System.Windows.Forms.CheckBox csvCb;
     }
 }
 
