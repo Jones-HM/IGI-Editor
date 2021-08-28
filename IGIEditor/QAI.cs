@@ -131,7 +131,7 @@ namespace IGIEditor
 
         internal static string AddAIScript(string aiType, string graphId, string aiId, string patrolId, int level, bool invulnerability = false, bool advanceView = false)
         {
-            var inputAiPath = QUtils.cfgInputAiPath;
+            var inputAiPath = QUtils.cfgAiPath;
             string result = null;
             string patrolAlarmId = null;
 
@@ -429,7 +429,7 @@ namespace IGIEditor
 
         internal static List<string> GetAiModels(int level)
         {
-            string inputQscPath = QUtils.cfgInputQscPath + level + "\\" + QUtils.objectsQsc;
+            string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog("GetAiModels() level : called with level : " + level);
             string qscData = QCryptor.Decrypt(inputQscPath);
             List<string> aiModelsList = new List<string>();
@@ -459,7 +459,7 @@ namespace IGIEditor
             string qscData = null;
             if (fromBackup)
             {
-                string qscBackupPath = QUtils.cfgInputQscPath + QUtils.gGameLevel + "\\" + QUtils.objectsQsc;
+                string qscBackupPath = QUtils.cfgQscPath + QUtils.gGameLevel + "\\" + QUtils.objectsQsc;
                 qscData = QCryptor.Decrypt(qscBackupPath);
             }
 
@@ -542,7 +542,7 @@ namespace IGIEditor
         {
             int boneHeirarchy = 1;
             int level = QUtils.gGameLevel;
-            string inputQscPath = QUtils.cfgInputQscPath + level + "\\" + QUtils.objectsQsc;
+            string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog("GetBoneHeirarchy() level : called with level : " + level + " model : " + model);
             string qscData = QCryptor.Decrypt(inputQscPath);
             List<string> aiModelsList = new List<string>();

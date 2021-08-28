@@ -34,7 +34,12 @@ namespace IGIEditor
             catch (Exception ex)
             {
                 if (!supress_err)
+                {
+                    if(ex.Message.Contains("Bad Data"))
+                        throw new BadImageFormatException("Exception occured : Input file '" + fileName + "' is not serialized (Error:0x4DCCCCCC");
+                    else
                     throw new Exception("Exception occured : " + ex.Message);
+                }
                 else
                     encryptCount--;
             }
@@ -61,7 +66,12 @@ namespace IGIEditor
             catch (Exception ex)
             {
                 if (!suppressErr)
-                    throw new Exception("Exception occured : " + ex.Message);
+                {
+                    if (ex.Message.Contains("Bad Data"))
+                        throw new BadImageFormatException("Exception occured : Input file '" + fileName + "' is not serialized (Error:0x4DCCCCCC");
+                    else
+                        throw new Exception("Exception occured : " + ex.Message);
+                }
                 else
                     decryptCount--;
             }

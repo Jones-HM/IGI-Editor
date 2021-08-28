@@ -119,7 +119,7 @@ namespace IGIEditor
 
             QUtils.AddLog("GetGraphNodeIds() called with level " + level + "idType : " + idType);
 
-            string inputQscPath = QUtils.cfgInputQscPath + level + "\\" + QUtils.objectsQsc;
+            string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             string qscData = QCryptor.Decrypt(inputQscPath);
 
             QUtils.AddLog("GetGraphNodeIds() inputQscPath : " + inputQscPath);
@@ -147,7 +147,7 @@ namespace IGIEditor
             string graphNodesDetails = "GraphNodesDetails_Level_" + level + ".txt";
             string graphNodesData = "GraphNodesData_Level_" + level + ".txt";
 
-            string inputQscPath = QUtils.cfgInputQscPath + level + "\\" + QUtils.objectsQsc;
+            string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog("GetNodes4Graph() : called with level : " + level);
             string data = QCryptor.Decrypt(inputQscPath);
 
@@ -170,7 +170,7 @@ namespace IGIEditor
 
 
                     string aiFileName = aiId + ".qsc";
-                    var inputAiPath = QUtils.cfgInputQscPath + level + "\\ai\\" + aiFileName;
+                    var inputAiPath = QUtils.cfgQscPath + level + "\\ai\\" + aiFileName;
 
                     var aiFileData = QCryptor.Decrypt(inputAiPath);
                     var aiFileLines = aiFileData.Split('\n');
@@ -216,7 +216,7 @@ namespace IGIEditor
         internal static List<int> GetNodes4mPatrolId(string patrolId, int level)
         {
             List<int> nodesId = new List<int>();
-            string inputQscPath = QUtils.cfgInputQscPath + level + "\\" + QUtils.objectsQsc;
+            string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog("GetNodes4mPatrolId() : called with level : " + level);
             string data = QCryptor.Decrypt(inputQscPath);
 
@@ -291,7 +291,7 @@ namespace IGIEditor
             //For current level.
             if (level == -1) level = QMemory.GetCurrentLevel();
 
-            string inputQscPath = QUtils.cfgInputQscPath + level + "\\" + QUtils.objectsQsc;
+            string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog("GetQTaskGraphList() : called with level : " + level + " backup : " + fromBackup);
             string qscData = fromBackup ? QCryptor.Decrypt(inputQscPath) : QUtils.LoadFile();
 

@@ -17,10 +17,10 @@ namespace IGIEditor
 
         private string compileStart = "compile.bat";
         private string decompileStart = "decompile.bat";
-        internal static string compilePath = QUtils.appdataPath + @"\" + QUtils.igiEditor + @"\" + QUtils.qconv + @"\Compile";
-        private string compileInputPath = QUtils.appdataPath + @"\" + QUtils.igiEditor + @"\" + QUtils.qconv + @"\Compile\input";
-        internal static string decompilePath = QUtils.appdataPath + @"\" + QUtils.igiEditor + @"\" + QUtils.qconv + @"\Decompile";
-        private string decompileInputPath = QUtils.appdataPath + @"\" + QUtils.igiEditor + @"\" + QUtils.qconv + @"\Decompile\input";
+        internal static string compilePath = QUtils.appdataPath + @"\" + QUtils.qEditor + @"\" + QUtils.qconv + @"\Compile";
+        private string compileInputPath = QUtils.appdataPath + @"\" + QUtils.qEditor + @"\" + QUtils.qconv + @"\Compile\input";
+        internal static string decompilePath = QUtils.appdataPath + @"\" + QUtils.qEditor + @"\" + QUtils.qconv + @"\Decompile";
+        private string decompileInputPath = QUtils.appdataPath + @"\" + QUtils.qEditor + @"\" + QUtils.qconv + @"\Decompile\input";
         private string copyNoneErr = "0 File(s) copied";
         private string moveNoneErr = "0 File(s) moved";
         private string qappPath;
@@ -33,7 +33,7 @@ namespace IGIEditor
 
         internal static void CheckQConvExist()
         {
-            var qconvPath = QUtils.appdataPath + Path.DirectorySeparatorChar + QUtils.igiEditor + Path.DirectorySeparatorChar + QUtils.qconv;
+            var qconvPath = QUtils.appdataPath + Path.DirectorySeparatorChar + QUtils.qEditor + Path.DirectorySeparatorChar + QUtils.qconv;
             bool exist = Directory.Exists(qconvPath);
             if (!exist)
             {

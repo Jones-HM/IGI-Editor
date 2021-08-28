@@ -44,7 +44,7 @@ namespace IGIEditor
         internal static string logFile = "app.log", aiIdleFile = "aiIdle.qvm", objectsMasterList, aiIdlePath;
         internal static bool logEnabled = false, keyExist = false, keyFileExist = false, mapViewerMode = false;
 
-        internal static string gamePath, appdataPath, igieditorTmpPath, currPath, gameAbsPath, cfgGamePath, cfgInputHumanplayerPath, cfgInputQscPath, cfgInputAiPath, cfgInputQvmPath, cfgVoidPath, qMissionsPath, qfilesPath = @"\QFiles", igiEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", cfgFile, projAppName,
+        internal static string gamePath, appdataPath, igiEditorTmpPath, currPath, gameAbsPath, cfgGamePath, cfgHumanplayerPath, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", cfgFile, projAppName,
          igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayer = "humanplayer.qvm", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalDllPath = @"bin\igi1ed.dat", tmpDllPath, internalDllInjectorPath = @"bin\igi1edInj.exe";
         internal static string inputQscPath = @"\IGI_QSC", inputQvmPath = @"\IGI_QVM", inputAiPath = @"\AIFiles", inputVoidPath = @"\Void", inputMissionPath = @"\missions\location0\level", inputHumanplayerPath = @"\humanplayer";
         internal static List<string> objTypeList = new List<string>() { "Building", "EditRigidObj", "Terminal", "Elevator", "ExplodeObject", "AlarmControl", "Generator", "Radio" };
@@ -321,17 +321,18 @@ namespace IGIEditor
         internal static void InitAppData()
         {
             appdataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            igieditorTmpPath = appdataPath + Path.DirectorySeparatorChar + igiEditor;
+            igiEditorTmpPath = appdataPath + Path.DirectorySeparatorChar + qEditor;
 
             //Set new Input QSC & QVM path releative to appdata.
-            objectsMasterList = igieditorTmpPath + Path.DirectorySeparatorChar + "IGIMasterList.txt";
-            qMissionsPath = igieditorTmpPath + @"\QMissions";
-            aiIdlePath = igieditorTmpPath + Path.DirectorySeparatorChar + "aiIdle.qvm";
-            cfgInputQvmPath = igieditorTmpPath + qfilesPath + inputQvmPath + inputMissionPath;
-            cfgInputQscPath = igieditorTmpPath + qfilesPath + inputQscPath + inputMissionPath;
-            cfgInputHumanplayerPath = igieditorTmpPath + qfilesPath + inputQscPath + inputHumanplayerPath;
-            cfgInputAiPath = igieditorTmpPath + inputAiPath;
-            cfgVoidPath = igieditorTmpPath + inputVoidPath;
+            objectsMasterList = igiEditorTmpPath + Path.DirectorySeparatorChar + "IGIMasterList.txt";
+            qMissionsPath = igiEditorTmpPath + @"\QMissions";
+            aiIdlePath = igiEditorTmpPath + Path.DirectorySeparatorChar + "aiIdle.qvm";
+            cfgQvmPath = igiEditorTmpPath + qfilesPath + inputQvmPath + inputMissionPath;
+            cfgQscPath = igiEditorTmpPath + qfilesPath + inputQscPath + inputMissionPath;
+            cfgHumanplayerPath = igiEditorTmpPath + qfilesPath + inputQscPath + inputHumanplayerPath;
+            cfgAiPath = igiEditorTmpPath + inputAiPath;
+            cfgVoidPath = igiEditorTmpPath + inputVoidPath;
+            cfgQFilesPath = igiEditorTmpPath + qfilesPath;
             menuSystemPath = gameAbsPath + menuSystemDir;
 
 
@@ -341,13 +342,13 @@ namespace IGIEditor
                 MoveDir(menuSystemDir, menuSystemPath);
             }
 
-            if (Directory.Exists(igiEditor) && !Directory.Exists(igieditorTmpPath))
+            if (Directory.Exists(qEditor) && !Directory.Exists(igiEditorTmpPath))
             {
-                MoveDir(igiEditor, appdataPath);
+                MoveDir(qEditor, appdataPath);
 
-                if (Directory.Exists(igiEditor) && Directory.Exists(igieditorTmpPath))
+                if (Directory.Exists(qEditor) && Directory.Exists(igiEditorTmpPath))
                 {
-                    DeleteWholeDir(igiEditor);
+                    DeleteWholeDir(qEditor);
                     ShowSystemFatalError("Application couldn't be initialized properly! Please try again later");
                 }
             }
@@ -372,7 +373,7 @@ namespace IGIEditor
             try
             {
                 //#1 solution to move with same root directory.
-                Directory.Move(srcPath, destPath + Path.DirectorySeparatorChar + igiEditor);
+                Directory.Move(srcPath, destPath + Path.DirectorySeparatorChar + qEditor);
             }
             catch (IOException ex)
             {
@@ -596,7 +597,7 @@ namespace IGIEditor
             //userDataContent = userDataContent.Remove(infoStrIndex, infoStr.Length);
 
             //Check if user exist.
-            string keyFileAbsPath = igieditorTmpPath + Path.DirectorySeparatorChar + projAppName + "Key.txt";
+            string keyFileAbsPath = igiEditorTmpPath + Path.DirectorySeparatorChar + projAppName + "Key.txt";
             keyFileExist = File.Exists(keyFileAbsPath);
             keyExist = true;
             return true;//Change
@@ -715,7 +716,7 @@ namespace IGIEditor
 
         internal static void ResetFile(int gameLevel)
         {
-            var inputQscPath = cfgInputQscPath + gameLevel + "\\" + objectsQsc;
+            var inputQscPath = cfgQscPath + gameLevel + "\\" + objectsQsc;
 
             if (File.Exists(objectsQsc))
                 File.Delete(objectsQsc);
@@ -731,7 +732,7 @@ namespace IGIEditor
         {
             gamePath = cfgGamePath + gameLevel;
             string outputQvmPath = gamePath + "\\" + objectsQvm;
-            string inputQvmPath = cfgInputQvmPath + gameLevel + "\\" + objectsQvm;
+            string inputQvmPath = cfgQvmPath + gameLevel + "\\" + objectsQvm;
 
             File.Delete(outputQvmPath);
             File.Copy(inputQvmPath, outputQvmPath);
@@ -770,7 +771,7 @@ namespace IGIEditor
         {
             int gameLevel = QMemory.GetCurrentLevel();
             AddLog("CheckModelExist() called with model : " + model + " for level : " + gameLevel);
-            var inputQscPath = cfgInputQscPath + gameLevel + "\\" + objectsQsc;
+            var inputQscPath = cfgQscPath + gameLevel + "\\" + objectsQsc;
             string qscData = QCryptor.Decrypt(inputQscPath);
             bool modelExist = false;
 
@@ -978,7 +979,7 @@ namespace IGIEditor
         internal static List<QTask> GetQTaskList(bool fullQtaskList = false, bool distinct = false, bool fromBackup = false)
         {
             int level = QMemory.GetCurrentLevel();
-            string inputQscPath = cfgInputQscPath + level + "\\" + objectsQsc;
+            string inputQscPath = cfgQscPath + level + "\\" + objectsQsc;
             AddLog("GetQTaskList() : called with level : " + level + " fullList : " + fullQtaskList.ToString() + " distinct : " + distinct.ToString() + " backup : " + fromBackup);
             string qscData = fromBackup ? QCryptor.Decrypt(inputQscPath) : LoadFile();
 
@@ -990,7 +991,7 @@ namespace IGIEditor
 
         internal static List<QTask> GetQTaskList(int level, bool fullQtaskList = false, bool distinct = false, bool fromBackup = false)
         {
-            string inputQscPath = cfgInputQscPath + level + "\\" + objectsQsc;
+            string inputQscPath = cfgQscPath + level + "\\" + objectsQsc;
             AddLog("GetQTaskList() level : called with level : " + level + " fullList : " + fullQtaskList.ToString() + " distinct : " + distinct.ToString() + " backup : " + fromBackup);
             string qscData = fromBackup ? QCryptor.Decrypt(inputQscPath) : LoadFile();
 

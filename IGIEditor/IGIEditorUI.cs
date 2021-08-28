@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Reflection.Emit;
 using System.Threading;
 using System.Windows.Forms;
 using UXLib.UX;
@@ -30,18 +29,26 @@ namespace IGIEditor
         string inputQvmPath, inputQscPath;
 
         static internal IGIEditorUI editorRef;
-        System.Windows.Forms.Timer posTimer = new System.Windows.Forms.Timer();
-
+       
         public IGIEditorUI()
         {
+            var posTimer = new System.Windows.Forms.Timer();
+            var integrityTimer = new System.Windows.Forms.Timer();
+
             InitializeComponent();
             UXWorker formMover = new UXWorker();
             formMover.CustomFormMover(formMoverPnl, this);
             editorRef = this;
 
+            //Start Position timer.
             posTimer.Tick += new EventHandler(UpdatePositionTimer);
             posTimer.Interval = 500;
             posTimer.Start();
+
+            //Start File Integrity timer.
+            integrityTimer.Tick += new EventHandler(FileIntegrityCheckerTimer);
+            integrityTimer.Interval = 300000;
+            integrityTimer.Start();
 
             //Disabling Errors and Warnings.
             GT.GT_SuppressErrors(true);
@@ -52,6 +59,9 @@ namespace IGIEditor
             InitializePaths(level);
 
             int gameLevel = 1;
+
+            //FileInegrity.GenerateDirHashes(new List<string> { QUtils.cfgAiPath, QUtils.cfgQFilesPath, QUtils.cfgVoidPath });
+            //QUtils.ShowInfo("Hashes generated");
 
             if (QMemory.FindGame())
             {
@@ -70,13 +80,13 @@ namespace IGIEditor
                 GenerateRandScriptId(gameLevel);
                 QUtils.aiScriptFiles.Clear();
                 Thread.Sleep(5000);
-                var qscData = QMisc.RemoveCutscene(QUtils.cfgInputQscPath + gameLevel + "\\" + QUtils.objectsQsc, gameLevel);
+                var qscData = QMisc.RemoveCutscene(QUtils.cfgQscPath + gameLevel + "\\" + QUtils.objectsQsc, gameLevel);
                 if (!String.IsNullOrEmpty(qscData))
                     QCompiler.CompileEx(qscData);
                 QUtils.InjectDllOnStart();
             }
 
-            var inputQscPath = QUtils.cfgInputQscPath + gameLevel + "\\" + QUtils.objectsQsc;
+            var inputQscPath = QUtils.cfgQscPath + gameLevel + "\\" + QUtils.objectsQsc;
 
             if (!File.Exists(QUtils.objectsQsc))
             {
@@ -110,6 +120,12 @@ namespace IGIEditor
             Thread.Sleep(3000);
             InitUIComponents(level);
         }
+
+        private void FileIntegrityCheckerTimer(object sender, EventArgs e)
+        {
+            FileInegrity.RunFileInegrityCheck(null, new List<string> { QUtils.cfgAiPath, QUtils.cfgQFilesPath, QUtils.cfgVoidPath });
+        }
+
 
         private void UpdatePositionTimer(object sender, EventArgs e)
         {
@@ -174,7 +190,7 @@ namespace IGIEditor
             QUtils.InitQCompiler();
 
             string userName = QUtils.GetCurrentUserName();
-            string keyFileAbsPath = QUtils.igieditorTmpPath + Path.DirectorySeparatorChar + QUtils.projAppName + "Key.txt";
+            string keyFileAbsPath = QUtils.igiEditorTmpPath + Path.DirectorySeparatorChar + QUtils.projAppName + "Key.txt";
             string deviceKey = QUtils.GetMachineDeviceId();
             string inputKey = null, welcomeMsg = "Welcome " + userName + " to IGI 1 Editor";
 
@@ -335,8 +351,8 @@ namespace IGIEditor
         private void InitializePaths(int gameLevel)
         {
             QUtils.gamePath = QUtils.cfgGamePath + gameLevel;
-            inputQvmPath = QUtils.cfgInputQvmPath + gameLevel + "\\" + QUtils.objectsQvm;
-            inputQscPath = QUtils.cfgInputQscPath + gameLevel + "\\" + QUtils.objectsQsc;
+            inputQvmPath = QUtils.cfgQvmPath + gameLevel + "\\" + QUtils.objectsQvm;
+            inputQscPath = QUtils.cfgQscPath + gameLevel + "\\" + QUtils.objectsQsc;
             QUtils.gGameLevel = gameLevel;
         }
 
@@ -509,7 +525,7 @@ namespace IGIEditor
         {
             for (int level = 1; level <= 14; ++level)
             {
-                inputQvmPath = QUtils.cfgInputQvmPath + level + "\\" + QUtils.objectsQvm;
+                inputQvmPath = QUtils.cfgQvmPath + level + "\\" + QUtils.objectsQvm;
                 QUtils.RestoreLevel(level);
             }
         }

@@ -354,7 +354,7 @@ namespace IGIEditor
 
         internal static void UpdateHumanPlayerParams(double speedX = 1.75f, double speedY = 17.5f, double speedZ = 27, double inAirVel1 = 0.5f, double inAirVel2 = 0.8500000238418579f, double healthScale1 = 3.0f, double healthScale2 = 0.5f, double healthScale3 = 0.5f)
         {
-            var humanPlayerFile = QUtils.cfgInputHumanplayerPath + @"\humanplayer" + QUtils.qscExt;
+            var humanPlayerFile = QUtils.cfgHumanplayerPath + @"\humanplayer" + QUtils.qscExt;
             string humanPlayerData = QCryptor.Decrypt(humanPlayerFile);
             QUtils.AddLog("UpdateHumanPlayerParams() : speedX: " + speedX + " speedY: " + speedY + " speedZ: " + speedZ + " inAirVel1: " + inAirVel1 + " inAirVel2: " + inAirVel2 + " healthScale1: " + healthScale1 + " healthScale2: " + healthScale2 + " healthScale3: " + healthScale3);
 
