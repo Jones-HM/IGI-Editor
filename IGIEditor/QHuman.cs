@@ -213,7 +213,7 @@ namespace IGIEditor
             return htask;
         }
 
-        static internal Real32 GetPositionAuto(bool addLog = true)
+        static internal Real32 GetPositionCoord(bool addLog = true)
         {
             uint posBaseAddr = (uint)QMemory.GetHumanBaseAddress(false) + (uint)0x24;
 
@@ -229,11 +229,11 @@ namespace IGIEditor
 
             if (addLog)
             {
-                QUtils.AddLog("GetPositionAuto() : posBaseAddr : " + posBaseAddr);
-                QUtils.AddLog("GetPositionAuto() xpos : " + xpos);
-                QUtils.AddLog("GetPositionAuto() ypos : " + ypos);
-                QUtils.AddLog("GetPositionAuto() zpos : " + zpos);
-                QUtils.AddLog("GetPositionAuto() : position: " + position);
+                QUtils.AddLog("GetPositionCoord() : posBaseAddr : " + posBaseAddr);
+                QUtils.AddLog("GetPositionCoord() xpos : " + xpos);
+                QUtils.AddLog("GetPositionCoord() ypos : " + ypos);
+                QUtils.AddLog("GetPositionCoord() zpos : " + zpos);
+                QUtils.AddLog("GetPositionCoord() : position: " + position);
             }
             return position;
         }

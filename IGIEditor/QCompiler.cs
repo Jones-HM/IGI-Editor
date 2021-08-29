@@ -194,6 +194,7 @@ namespace IGIEditor
                 if (shellOut.Contains("Error") || shellOut.Contains("importModule") || shellOut.Contains("ModuleNotFoundError") || shellOut.Contains("Converted: 0"))
                 {
                     QUtils.ShowError("Error in compiling input files");
+                    QSetPath(QUtils.appCurrPath);
                     return false;
                 }
 

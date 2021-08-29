@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Reflection.Emit;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using UXLib.UX;
@@ -23,11 +23,10 @@ namespace IGIEditor
         int buildingsCount = 0, rigidObjCount = 0;
         //Variables section.
         static bool gameReset = false, gameLogs = false, gameFound = false, isBuildingDD = false, isObjectDD = true;
-        static int width = Console.LargestWindowWidth - 150;
-        static int height = Console.LargestWindowHeight - 5;
         static string model3d, blenderModel;
-        public static int randPosOffset = 0, posOffset = 3000;
+        private static int randPosOffset = 0, posOffset = 3000;
         string inputQvmPath, inputQscPath;
+        private static int gameLevel = 1;
 
         static internal IGIEditorUI editorRef;
 
@@ -55,11 +54,9 @@ namespace IGIEditor
             GT.GT_SuppressErrors(true);
             GT.GT_SuppressWarnings(true);
 
-            int level = Convert.ToInt32(levelStartTxt.Text.ToString());
+            gameLevel = Convert.ToInt32(levelStartTxt.Text.ToString());
             InitApp();
-            InitializePaths(level);
-
-            int gameLevel = 1;
+            InitializePaths(gameLevel);
 
             //FileInegrity.GenerateDirHashes(new List<string> { QUtils.cfgAiPath, QUtils.cfgQFilesPath, QUtils.cfgVoidPath });
             //QUtils.ShowInfo("Hashes generated");
@@ -78,7 +75,7 @@ namespace IGIEditor
                 Thread.Sleep(3000);
                 QUtils.RestoreLevel(gameLevel);
                 QUtils.ResetFile(gameLevel);
-                GenerateRandScriptId(gameLevel);
+                GenerateScriptId(gameLevel);
                 QUtils.aiScriptFiles.Clear();
                 Thread.Sleep(5000);
                 var qscData = QMisc.RemoveCutscene(QUtils.cfgQscPath + gameLevel + "\\" + QUtils.objectsQsc, gameLevel);
@@ -119,7 +116,7 @@ namespace IGIEditor
 
             //Init Dropdown,List UI components.
             Thread.Sleep(3000);
-            InitUIComponents(level);
+            InitUIComponents(gameLevel);
         }
 
         private void FileIntegrityCheckerTimer(object sender, EventArgs e)
@@ -127,21 +124,20 @@ namespace IGIEditor
             FileInegrity.RunFileInegrityCheck(null, new List<string> { QUtils.cfgAiPath, QUtils.cfgQFilesPath, QUtils.cfgVoidPath });
         }
 
-
         private void UpdatePositionTimer(object sender, EventArgs e)
         {
             if (gameFound)
             {
-                if (posMetreCb.Checked)
+                if (posMetersCb.Checked)
                 {
-                    var metrePos = QHuman.GetPositionInMeter(false);
-                    xPosLbl.Text = metrePos.x.ToString();
-                    yPosLbl.Text = metrePos.y.ToString();
-                    zPosLbl.Text = metrePos.z.ToString();
+                    var meterPos = QHuman.GetPositionInMeter(false);
+                    xPosLbl.Text = meterPos.x.ToString();
+                    yPosLbl.Text = meterPos.y.ToString();
+                    zPosLbl.Text = meterPos.z.ToString();
                 }
                 else if (posCoordCb.Checked)
                 {
-                    var realPos = QHuman.GetPositionAuto(false);
+                    var realPos = QHuman.GetPositionCoord(false);
                     xPosLbl.Text = realPos.alpha.ToString("0.0000");
                     yPosLbl.Text = realPos.beta.ToString("0.0000");
                     zPosLbl.Text = realPos.gamma.ToString("0.0000");
@@ -152,6 +148,7 @@ namespace IGIEditor
         private void InitUIComponents(int level, bool initialInit = true)
         {
             //Init Weapons list.
+            weaponSelectDD.Items.Clear();
             QUtils.weaponList = QHuman.GetWeaponsList();
             foreach (var weapon in QUtils.weaponList)
                 weaponSelectDD.Items.Add(weapon.Keys.ElementAt(0));
@@ -201,6 +198,7 @@ namespace IGIEditor
 
             headerLbl.Text += " " + userName;
             SetStatusText(welcomeMsg);
+            AddLog(welcomeMsg);
 
             //Initialize user info.
             var initUser = QUtils.InitUserInfo();
@@ -239,7 +237,7 @@ namespace IGIEditor
             }
 
             //Genrate random scriptId according to Level A.I.
-            GenerateRandScriptId(QUtils.gGameLevel);
+            GenerateScriptId(QUtils.gGameLevel);
 
             string game_path_tmp = QUtils.cfgGamePath;
             var game_abs_path = game_path_tmp.Slice(0, game_path_tmp.IndexOf("\\", game_path_tmp.IndexOf("\\") + 1));
@@ -289,7 +287,7 @@ namespace IGIEditor
             QUtils.projAppName = Assembly.GetEntryAssembly().GetName().Name;
             QUtils.cfgFile = QUtils.projAppName + ".ini";
             QUtils.logFile = QUtils.projAppName + ".log";
-            QUtils.currPath = Directory.GetCurrentDirectory();
+            QUtils.appCurrPath = Directory.GetCurrentDirectory();
 
             var keywords = new List<string>() { "game_path", "game_logs", "game_reset", };
             if (File.Exists(QUtils.cfgFile))
@@ -367,7 +365,10 @@ namespace IGIEditor
             //Load level image from Cache.
             if (File.Exists(imgTmpPath))
             {
-                levelImgBox.Image = Bitmap.FromFile(imgTmpPath);
+                using (var bmpTemp = new Bitmap(imgTmpPath))
+                {
+                    levelImgBox.Image = new Bitmap(bmpTemp);
+                }
             }
 
             //Load level image from Web.
@@ -382,11 +383,6 @@ namespace IGIEditor
         private void closeBtn_Click(object sender, EventArgs e)
         {
             Environment.Exit(0);
-        }
-
-        private void refreshLevel_Click(object sender, EventArgs e)
-        {
-            GT.GT_SendKeys2Process(QMemory.gameName, "^r", false);
         }
 
         private void addWeaponBtn_Click(object sender, EventArgs e)
@@ -413,7 +409,9 @@ namespace IGIEditor
             {
                 var buildingName = QUtils.buildingList[buildingSelectDD.SelectedIndex].Keys.ElementAt(0);
                 var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
-                AddBuildingRigidObj(buildingModel);
+                var buildingPos = QHuman.GetPositionInMeter();
+                bool hasOrientation = String.IsNullOrEmpty(alphaTxt.Text) && String.IsNullOrEmpty(betaTxt.Text) && String.IsNullOrEmpty(gammaTxt.Text);
+                AddObject(buildingModel, false, buildingPos, !hasOrientation);
 
                 if (compileStatus)
                     SetStatusText("Buildiing " + buildingName + " added successfully");
@@ -461,7 +459,9 @@ namespace IGIEditor
             {
                 var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
                 var objectRigidName = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Keys.ElementAt(0);
-                AddBuildingRigidObj(objectRigidModel, true);
+                var objectPos = QHuman.GetPositionInMeter();
+                bool hasOrientation = String.IsNullOrEmpty(alphaTxt.Text) && String.IsNullOrEmpty(betaTxt.Text) && String.IsNullOrEmpty(gammaTxt.Text);
+                AddObject(objectRigidModel, true, objectPos, !hasOrientation);
 
                 if (compileStatus)
                     SetStatusText("Object " + objectRigidName + " added successfully");
@@ -525,7 +525,7 @@ namespace IGIEditor
             QUtils.RestoreLevel(level);
             QUtils.ResetFile(level);
             QMemory.RestartLevel(true);
-            GenerateRandScriptId(level);
+            GenerateScriptId(level);
         }
 
         private void resetAllLevelsBtn_Click(object sender, EventArgs e)
@@ -556,14 +556,14 @@ namespace IGIEditor
             SetStatusText("Z-Position Copied successfully");
         }
 
-        private void posMetreCb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (posMetreCb.Checked) posCoordCb.Checked = false;
-        }
-
         private void posCoordCb_CheckedChanged(object sender, EventArgs e)
         {
-            if (posCoordCb.Checked) posMetreCb.Checked = false;
+            if (posCoordCb.Checked) posMetersCb.Checked = false;
+        }
+
+        private void posMetersCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (posMetersCb.Checked) posCoordCb.Checked = false;
         }
 
         private void posOffCb_CheckedChanged(object sender, EventArgs e)
@@ -590,8 +590,8 @@ namespace IGIEditor
                 SetStatusText("Game not found! starting new game");
                 Thread.Sleep(10000);
 
-                QUtils.gGameLevel = QMemory.GetCurrentLevel();
-                levelStartTxt.Text = QUtils.gGameLevel.ToString();
+                QUtils.gGameLevel = gameLevel = QMemory.GetCurrentLevel();
+                levelStartTxt.Text = gameLevel.ToString();
                 gameFound = true;
             }
             else
@@ -599,9 +599,9 @@ namespace IGIEditor
             if (gameFound)
             {
                 Thread.Sleep(1000);
-                QUtils.gGameLevel = QMemory.GetCurrentLevel();
-                LoadLevelDetails(QUtils.gGameLevel);
-                RefreshUIComponents(QUtils.gGameLevel);
+                QUtils.gGameLevel = gameLevel = QMemory.GetCurrentLevel();
+                LoadLevelDetails(gameLevel);
+                RefreshUIComponents(gameLevel);
                 QUtils.InjectDllOnStart();
             }
         }
@@ -610,11 +610,11 @@ namespace IGIEditor
         {
             try
             {
-                var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
-                var buildingName = QUtils.buildingList[buildingSelectDD.SelectedIndex].Keys.ElementAt(0);
+                var buildingModel = QUtils.buildingList[buildingPosDD.SelectedIndex].Values.ElementAt(0);
+                var buildingName = QUtils.buildingList[buildingPosDD.SelectedIndex].Keys.ElementAt(0);
 
-                var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
-                var objectRigidName = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Keys.ElementAt(0);
+                var objectRigidModel = QUtils.objectRigidList[objectPosDD.SelectedIndex].Values.ElementAt(0);
+                var objectRigidName = QUtils.objectRigidList[objectPosDD.SelectedIndex].Keys.ElementAt(0);
 
                 string model = isBuildingDD ? buildingModel : objectRigidModel;
 
@@ -625,14 +625,14 @@ namespace IGIEditor
                 {
                     var meterPos = QHuman.GetPositionInMeter();
 
-                    xPosTxt.Text = meterPos.x.ToString();
-                    yPosTxt.Text = meterPos.y.ToString();
-                    zPosTxt.Text = meterPos.z.ToString();
+                    xPosTxt_O.Text = meterPos.x.ToString();
+                    yPosTxt_O.Text = meterPos.y.ToString();
+                    zPosTxt_O.Text = meterPos.z.ToString();
                 }
 
-                xpos = Convert.ToDouble(xPosTxt.Text);
-                ypos = Convert.ToDouble(yPosTxt.Text);
-                zpos = Convert.ToDouble(zPosTxt.Text);
+                xpos = Convert.ToDouble(xPosTxt_O.Text);
+                ypos = Convert.ToDouble(yPosTxt_O.Text);
+                zpos = Convert.ToDouble(zPosTxt_O.Text);
 
                 var objectPos = new Real64(xpos, ypos, zpos);
                 if (posOffCb.Checked)
@@ -666,11 +666,11 @@ namespace IGIEditor
         {
             try
             {
-                var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
-                var buildingName = QUtils.buildingList[buildingSelectDD.SelectedIndex].Keys.ElementAt(0);
+                var buildingModel = QUtils.buildingList[buildingPosDD.SelectedIndex].Values.ElementAt(0);
+                var buildingName = QUtils.buildingList[buildingPosDD.SelectedIndex].Keys.ElementAt(0);
 
-                var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
-                var objectRigidName = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Keys.ElementAt(0);
+                var objectRigidModel = QUtils.objectRigidList[objectPosDD.SelectedIndex].Values.ElementAt(0);
+                var objectRigidName = QUtils.objectRigidList[objectPosDD.SelectedIndex].Keys.ElementAt(0);
 
                 string model = isBuildingDD ? buildingModel : objectRigidModel;
 
@@ -728,15 +728,14 @@ namespace IGIEditor
                 if (humanPosOffCb.Checked)
                     qscData = QHuman.UpdatePositionOffset(humanPos);
 
-                if (humanPosMeterCb.Checked)
+                else if (humanPosMeterCb.Checked)
                 {
-                    humanPos = new Real64(xpos, ypos, zpos);
                     qscData = QHuman.UpdatePositionInMeter(humanPos);
                 }
 
                 if (!string.IsNullOrEmpty(qscData))
-                    compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, false, true, true);
-
+                    compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, false, true, false);
+                    
                 if (compileStatus)
                     SetStatusText("Human position updated successfully");
             }
@@ -751,14 +750,15 @@ namespace IGIEditor
 
         private void weaponSelectDD_SelectedValueChanged(object sender, EventArgs e)
         {
+            string weaponModel = null, weaponName = null, imgUrl = null, imgPath = null;
             try
             {
-                var weaponModel = QUtils.weaponList[weaponSelectDD.SelectedIndex].Values.ElementAt(0);
-                var weaponName = QUtils.weaponList[weaponSelectDD.SelectedIndex].Keys.ElementAt(0);
+                weaponModel = QUtils.weaponList[weaponSelectDD.SelectedIndex].Values.ElementAt(0);
+                weaponName = QUtils.weaponList[weaponSelectDD.SelectedIndex].Keys.ElementAt(0);
 
                 //Weapon image paths.
-                var imgUrl = baseImgUrl + weaponsImgUrl[weaponSelectDD.SelectedIndex];
-                var imgPath = weaponName + QUtils.jpgExt;
+                imgUrl = baseImgUrl + weaponsImgUrl[weaponSelectDD.SelectedIndex];
+                imgPath = weaponName + QUtils.jpgExt;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
 
                 //weaponAmmoTxt.Enabled = !weaponModel.Contains("binoculars") || !weaponModel.Contains("knife");
@@ -766,7 +766,10 @@ namespace IGIEditor
                 //Load image from Cache.
                 if (File.Exists(imgTmpPath))
                 {
-                    weaponImgBox.Image = Bitmap.FromFile(imgTmpPath);
+                    using (var bmpTemp = new Bitmap(imgTmpPath))
+                    {
+                        weaponImgBox.Image = new Bitmap(bmpTemp);
+                    }
                 }
 
                 //Load image from Web.
@@ -778,7 +781,23 @@ namespace IGIEditor
             }
             catch (Exception ex)
             {
-                weaponImgBox.Image = null;
+                if (weaponName == "MIL" || weaponName == "SENTRY" ||
+                    weaponName == "T80" || weaponName == "APC")
+                {
+                    if (weaponName == "MIL")
+                        imgUrl = baseImgBBUrl + "LQFRL8Q/MIL.jpg";
+                    else if (weaponName == "APC")
+                        imgUrl = baseImgBBUrl + "gyvkYTg/APC.png";
+                    else if (weaponName == "T80")
+                        imgUrl = baseImgBBUrl + "WxGx9Dn/T80.png";
+                    else if (weaponName == "SENTRY")
+                        imgUrl = baseImgBBUrl + "Bz81WvR/SENTRY.jpg";
+
+                    LoadImgBoxWeb(imgUrl, weaponImgBox);
+                    QUtils.WebDownload(imgUrl, imgPath);
+                }
+                else
+                    weaponImgBox.Image = null;
             }
         }
 
@@ -829,16 +848,260 @@ namespace IGIEditor
         private void objectSelectDD_Click(object sender, EventArgs e)
         {
             isObjectDD = true;
+            isBuildingDD = false;
+        }
+
+        private void clearCacheBtn_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(QUtils.cachePath))
+            {
+                QUtils.DeleteWholeDir(QUtils.cachePath);
+                SetStatusText("Application cache cleared");
+            }
+        }
+
+        private void appLogsCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (appLogsCb.Checked)
+            {
+                QUtils.EnableLogs();
+                SetStatusText("Application Logs enabled");
+            }
+            else
+            {
+                QUtils.DisableLogs();
+                SetStatusText("Application Logs disabled");
+            }
+        }
+
+        private void autoResetCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (autoResetCb.Checked)
+                QUtils.ResetFile(gameLevel);
+        }
+
+        private void helpBtn_Click(object sender, EventArgs e)
+        {
+            QUtils.ShowInfo(QUtils.helpStr);
+        }
+
+
+        private void objectIDTxt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                var modelId = objectIDTxt.Text;
+                var modelName = QObjects.FindModelName(modelId);
+                if (!String.IsNullOrEmpty(modelName)) objectIDLbl.Text = modelName;
+            }
+        }
+
+        private void tabContainer_Selected(object sender, TabControlEventArgs e)
+        {
+            //Object Editor
+            if (e.TabPageIndex == 1)
+            {
+                qtaskList = QUtils.GetQTaskList(false, false, true);
+
+                buildingsCount = qtaskList.Count(o => o.name.Contains("Building"));
+                rigidObjCount = qtaskList.Count(o => o.name.Contains("EditRigidObj"));
+
+                maxItemsLbl1.Text = maxItemsLbl2.Text = maxItemsLbl3.Text = maxItemsLbl4.Text = null;
+                maxItemsLbl1.Text = maxItemsLbl3.Text = "Max Items :" + Convert.ToString(rigidObjCount);
+                maxItemsLbl2.Text = maxItemsLbl4.Text = "Max Items :" + Convert.ToString(buildingsCount);
+            }
+
+            //Position Editor
+            if (e.TabPageIndex == 7)
+            {
+                UpdateUIComponent(buildingPosDD, false);
+                UpdateUIComponent(objectPosDD,true);
+            }
+        }
+
+        private void removeObjsBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var qscData = QUtils.LoadFile();
+                var itemsCount = Convert.ToInt32(ObjsRemTxt.Text);
+                qscData = QObjects.RemoveAllObjects(qscData, false, true, itemsCount, true);
+                compileStatus = QCompiler.CompileEx(qscData);
+                if (compileStatus)
+                    SetStatusText(itemsCount + " Objects removed successfully");
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
+        }
+
+        private void removeBuildingsBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var qscData = QUtils.LoadFile();
+                var itemsCount = Convert.ToInt32(buildingsRemTxt.Text);
+                qscData = QObjects.RemoveAllObjects(qscData, true, false, itemsCount, true);
+                compileStatus = QCompiler.CompileEx(qscData);
+                if (compileStatus)
+                    SetStatusText(itemsCount + " Buildings removed successfully");
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
         }
 
         private void buildingSelectDD_Click(object sender, EventArgs e)
         {
             isBuildingDD = true;
+            isObjectDD = false;
+        }
+
+        private void restartLevel_Click(object sender, EventArgs e)
+        {
+            GT.GT_SendKeys2Process(QMemory.gameName, "^r", false);
+        }
+
+        private void clearAllLvlBtn_Click(object sender, EventArgs e)
+        {
+            var voidLevelPath = QUtils.cfgVoidPath + "\\objects_void_" + QUtils.gGameLevel + QUtils.qscExt;
+
+            if (File.Exists(QUtils.objectsQsc))
+                File.Delete(QUtils.objectsQsc);
+            File.Copy(voidLevelPath, QUtils.objectsQsc);
+
+            var qscData = QCryptor.Decrypt(QUtils.objectsQsc);
+            File.WriteAllText(QUtils.objectsQsc, qscData);
+            QUtils.levelFlowData = File.ReadLines(QUtils.objectsQsc).Last();
+            compileStatus = QCompiler.CompileEx(qscData);
+
+            if (compileStatus)
+                SetStatusText("Level cleared out success");
+        }
+
+
+        //Testing phase - remove in final build
+        private void compileBtn_Click(object sender, EventArgs e)
+        {
+
+            string qscData = QUtils.LoadFile();
+            if (!String.IsNullOrEmpty(qscData))
+                compileStatus = QCompiler.Compile(qscData, QUtils.objectsQsc, false, true, true);
+            if (compileStatus)
+                SetStatusText("Compile success");
+        }
+
+        private void resetBuildingsBtn_Click(object sender, EventArgs e)
+        {
+            SetStatusText("Resetting please wait...");
+            qtaskList = QUtils.GetQTaskList(false, false, true);
+            var qTaskListCount = qtaskList.Count();
+            var itemsCount = String.IsNullOrEmpty(buildingsResTxt.Text) ? 0 : Convert.ToInt32(buildingsResTxt.Text);
+            int qTaskCount = 0;
+
+            if (itemsCount > qTaskListCount)
+            {
+                QUtils.ShowError("Items count must be less than max items.");
+                return;
+            }
+
+            for (int i = 0; i < qTaskListCount; i++)
+            {
+                var qtask = qtaskList[i];
+                if (qtask.name == "\"Building\"")
+                {
+                    if (qTaskCount == itemsCount)
+                        break;
+
+                    var buildingModel = qtask.model;
+                    AddObject(buildingModel, false, qtask.position, true, qtask.orientation.alpha, qtask.orientation.beta, qtask.orientation.gamma);
+                    qTaskCount++;
+                }
+            }
+
+            if (compileStatus)
+                SetStatusText(itemsCount + " Buildings reset success");
+        }
+
+        private void cutsceneRemoveBtn_Click(object sender, EventArgs e)
+        {
+            var qscData = QMisc.RemoveCutscene(inputQscPath, gameLevel);
+            if (!String.IsNullOrEmpty(qscData))
+                compileStatus = QCompiler.CompileEx(qscData);
+
+            if (compileStatus)
+                SetStatusText("Cutscene removed success.");
+        }
+
+        private void objectPosDD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            isObjectDD = true;
+            isBuildingDD = false;
+        }
+
+        private void buildingPosDD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            isBuildingDD = true;
+            isObjectDD = false;
+        }
+
+        private void resetObjectsBtn_Click(object sender, EventArgs e)
+        {
+            SetStatusText("Resetting please wait...");
+            qtaskList = QUtils.GetQTaskList(false, false, true);
+            var qTaskListCount = qtaskList.Count();
+            var itemsCount = String.IsNullOrEmpty(ObjsResTxt.Text) ? 0 : Convert.ToInt32(ObjsResTxt.Text);
+            int qTaskCount = 0;
+
+            if (itemsCount > qTaskListCount)
+            {
+                QUtils.ShowError("Items count must be less than max items.");
+                return;
+            }
+
+            for (int i = 0; i < qTaskListCount; i++)
+            {
+                var qtask = qtaskList[i];
+                if (qtask.name == "\"EditRigidObj\"")
+                {
+                    if (qTaskCount == itemsCount)
+                        break;
+
+                    var rigidModel = qtask.model;
+                    AddObject(rigidModel, true, qtask.position, true, qtask.orientation.alpha, qtask.orientation.beta, qtask.orientation.gamma);
+                    qTaskCount++;
+                }
+            }
+
+            if (compileStatus)
+                SetStatusText(itemsCount + " Objects reset success");
         }
 
         private void removeModelBtn_Click(object sender, EventArgs e)
         {
+            var modelRegex = @"\d{3}_\d{2}_\d{1}";
+            var valueRegex = Regex.Match(objectIDTxt.Text, modelRegex).Value;
+            if (String.IsNullOrEmpty(valueRegex))
+                QUtils.ShowError("Input Object Id is in wrong format. Check Help for proper format");
+            else
+            {
+                var modelId = objectIDTxt.Text;
+                var qscData = QUtils.LoadFile();
+                qscData = QObjects.RemoveObject(qscData, modelId, true, true);
 
+                if (!String.IsNullOrEmpty(qscData))
+                {
+                    compileStatus = QCompiler.CompileEx(qscData);
+
+                    var modelName = QObjects.FindModelName(modelId);
+                    if (!String.IsNullOrEmpty(modelName)) objectIDLbl.Text = modelName;
+
+                    if (compileStatus)
+                        SetStatusText("Object " + modelName + " removed successfully");
+                }
+            }
         }
 
         private void startGameBtn_Click(object sender, EventArgs e)
@@ -846,8 +1109,6 @@ namespace IGIEditor
             try
             {
                 int level = Convert.ToInt32(levelStartTxt.Text.ToString());
-                if (level <= 0 || level > 14)
-                    throw new ArgumentOutOfRangeException("Level should be between [1 - 14]");
                 LoadLevelDetails(level);
 
                 QMemory.StartLevel(level, true);
@@ -855,7 +1116,7 @@ namespace IGIEditor
                 Thread.Sleep(3000);
                 QUtils.RestoreLevel(level);
                 QUtils.ResetFile(level);
-                GenerateRandScriptId(level);
+                GenerateScriptId(level);
                 QUtils.aiScriptFiles.Clear();
 
                 Thread.Sleep(5000);
@@ -897,83 +1158,91 @@ namespace IGIEditor
                 {
                     imgBox.Image = Bitmap.FromStream(stream);
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                if(ex.Message.Contains("The remote name could not be resolved")){
+                if (ex.Message.Contains("The remote name could not be resolved"))
+                {
                     QUtils.ShowError("Resource error Please check your internet connection and try Again");
                 }
-                else 
-                    QUtils.ShowError(ex.Message ?? ex.StackTrace);
+                else throw new Exception(ex.Message);
             }
         }
 
-        private static void GenerateRandScriptId(int level)
+        private static void GenerateScriptId(int level)
         {
             switch (level)
             {
                 case 1:
-                    QUtils.randGenScriptId = 510;
+                    QUtils.randScriptId = 510;
                     break;
                 case 2:
-                    QUtils.randGenScriptId = 450;
+                    QUtils.randScriptId = 450;
                     break;
                 case 3:
-                    QUtils.randGenScriptId = 563;
+                    QUtils.randScriptId = 563;
                     break;
                 case 4:
-                    QUtils.randGenScriptId = 630;
+                    QUtils.randScriptId = 630;
                     break;
                 case 5:
-                    QUtils.randGenScriptId = 500;
+                    QUtils.randScriptId = 500;
                     break;
                 case 6:
-                    QUtils.randGenScriptId = 1000;
+                    QUtils.randScriptId = 1000;
                     break;
                 case 7:
-                    QUtils.randGenScriptId = 581;
+                    QUtils.randScriptId = 581;
                     break;
                 case 8:
-                    QUtils.randGenScriptId = 667;
+                    QUtils.randScriptId = 667;
                     break;
-
             }
         }
 
-        private void AddBuildingRigidObj(string model, bool rigidObj = false)
+        private void AddObject(string model, bool rigidObj = false, Real64 objectPos = null, bool hasOrientation = false, float alpha = -9.9f, float beta = -9.9f, float gamma = -9.9f)
         {
-            var objectPos = QHuman.GetPositionInMeter();
-            string qscData;
-            float alpha, beta, gamma;
-            bool isInputEmpty = String.IsNullOrEmpty(alphaTxt.Text) && String.IsNullOrEmpty(betaTxt.Text) && String.IsNullOrEmpty(gammaTxt.Text);
-
-            if (!isInputEmpty)
+            try
             {
-                alpha = float.Parse(alphaTxt.Text);
-                beta = float.Parse(betaTxt.Text);
-                gamma = float.Parse(gammaTxt.Text);
+                string qscData = null;
 
-                if (rigidObj)
+                if (hasOrientation)
                 {
-                    var orientation = new Real32(alpha, beta, gamma);
-                    qscData = QObjects.AddRigidObj(model, objectPos, orientation, false);
+                    alpha = alpha == fltInvalidVal ? float.Parse(alphaTxt.Text) : alpha;
+                    beta = beta == fltInvalidVal ? float.Parse(betaTxt.Text) : beta;
+                    gamma = gamma == fltInvalidVal ? float.Parse(gammaTxt.Text) : gamma;
+
+                    if (rigidObj)
+                    {
+                        var orientation = new Real32(alpha, beta, gamma);
+                        qscData = QObjects.AddRigidObj(model, objectPos, orientation, false);
+                    }
+                    else
+                    {
+                        var orientation = new Real32(alpha, beta, gamma);
+                        qscData = QBuildings.AddBuilding(model, objectPos, orientation, false);
+                    }
                 }
                 else
                 {
-                    var orientation = new Real32(alpha, beta, gamma);
-                    qscData = QBuildings.AddBuilding(model, objectPos, orientation, false);
+                    if (rigidObj)
+                        qscData = QObjects.AddRigidObj(model, objectPos);
+                    else
+                        qscData = QBuildings.AddBuilding(model, objectPos);
                 }
-            }
-            else
-            {
-                if (rigidObj)
-                    qscData = QObjects.AddRigidObj(model, objectPos);
-                else
-                    qscData = QBuildings.AddBuilding(model, objectPos);
-            }
 
-            //Compile the data with QCompiler.
-            if (!String.IsNullOrEmpty(qscData))
-                compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, true);
+                //Compile the data with QCompiler.
+                if (!String.IsNullOrEmpty(qscData))
+                    compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, true);
+            }
+            catch (NullReferenceException ex)
+            {
+                QUtils.ShowError("Values are null while adding object " + ex.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowError(ex.Message);
+            }
         }
     }
 }

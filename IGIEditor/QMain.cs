@@ -35,17 +35,17 @@ namespace IGIEditor
             {
                 QUtils.ShowError(ex.Message ?? ex.StackTrace, "Application Error");
             }
-
         }
 
         private static void OnAppExit(object sender, EventArgs e)
         {
-            CleanUpFiles();
             if (File.Exists(QUtils.logFile))
             {
                 QUtils.ShellExec("move /Y " + QUtils.logFile + " " + QUtils.cachePathAppLogs);
                 QUtils.ShellExec("move /Y " + QUtils.qLibLogsFile + " " + QUtils.cachePathAppLogs);
+                Thread.Sleep(2000);
             }
+            CleanUpFiles();
         }
 
         private static void CleanUpFiles()
@@ -54,10 +54,6 @@ namespace IGIEditor
 
             //Eject Dll on Exit.
             GT.GT_SendKeys2Process(QMemory.gameName, GT.VK.END);
-            Thread.Sleep(3000);
-
-            if (File.Exists(QUtils.tmpDllPath))
-                File.Delete(QUtils.tmpDllPath);
 
             if (QUtils.aiScriptFiles.Count > 1)
             {
@@ -65,8 +61,7 @@ namespace IGIEditor
                     File.Delete(outputAiPath + scriptFile);
                 File.Delete(QUtils.objectsQsc);
             }
-            else
-                QUtils.ShowError("Ai scripts hasn't been added yet");
+            //QUtils.ShowError("Ai scripts hasn't been added yet");
         }
     }
 

@@ -8,7 +8,7 @@ namespace IGIEditor
 
         internal static string AddBuilding(string model, Real64 position, bool checkModel = false)
         {
-            string modelName = QObjects.GetModelName(model);
+            string modelName = QObjects.FindModelName(model);
             QUtils.AddLog("AddBuilding() called checkModel : " + checkModel.ToString() + "  Building : " + modelName + "\"\tX : " + position.x + " Y : " + position.y + " Z : " + position.z + " Model : " + model + "\n");
 
             if (checkModel)
@@ -27,30 +27,33 @@ namespace IGIEditor
             return Building(-1, modelName, position.x, position.y, position.z, 0, 0, 0, model);
         }
 
-        internal static string AddBuilding(string model, Real64 position, Real32 orientation, bool checkModel = false)
+        internal static string AddBuilding(string modelId, Real64 position, Real32 orientation, bool checkModel = false)
         {
-            string modelName = QObjects.GetModelName(model);
-            QUtils.AddLog("AddBuilding() called checkModel : " + checkModel.ToString() + "  Building : " + QObjects.GetModelName(model) + "\"\tX : " + position.x + " Y : " + position.y + " Z : " + position.z + "\tBeta : " + orientation.beta + " Gamma : " + orientation.gamma + ",Alpha : " + orientation.alpha + " Model : " + model + "\n");
+            string modelName = QObjects.FindModelName(modelId);
+            QUtils.AddLog("AddBuilding() called checkModel : " + checkModel.ToString() + "  Building : " + modelName + "\"\tX : " + position.x + " Y : " + position.y + " Z : " + position.z + "\tBeta : " + orientation.beta + " Gamma : " + orientation.gamma + ",Alpha : " + orientation.alpha + " Model : " + modelId + "\n");
 
             if (checkModel)
             {
-                bool modelExist = QUtils.CheckModelExist(model);
+                bool modelExist = QUtils.CheckModelExist(modelId);
 
                 if (!modelExist)
                 {
-                    QUtils.ShowError("Model " + model + " does not exist in current level");
-                    QUtils.AddLog("Model " + model + " does not exist in current level");
+                    QUtils.ShowError("Model " + modelId + " does not exist in current level");
+                    QUtils.AddLog("Model " + modelId + " does not exist in current level");
                     return null;
                 }
             }
             //int taskId = QUtils.GenerateTaskID(true);
-            return Building(-1, modelName, position.x, position.y, position.z, orientation.alpha, orientation.beta, orientation.gamma, model);
+            return Building(-1, modelName, position.x, position.y, position.z, orientation.alpha, orientation.beta, orientation.gamma, modelId);
         }
 
-        internal static string Building(int taskId = -1, string taskNote = "", double x = 0.0f, double y = 0.0f, double z = 0.0f, float alpha = 0.0f, float beta = 0.0f, float gamma = 0.0f, string model = "")
+        internal static string Building(int taskId = -1, string taskNote = "", double x = 0.0f, double y = 0.0f, double z = 0.0f, float alpha = 0.0f, float beta = 0.0f, float gamma = 0.0f, string modelId = "")
         {
-            string qtaskBuilding = "Task_New(" + taskId + ",\"Building\",\"" + taskNote + "\"," + x + "," + y + "," + z + "," + alpha + "," + beta + "," + gamma + ",\"" + model + "\");" + "\n";
-            QUtils.AddLog("Building() called with ID : " + QUtils.qtaskObjId + "  Building : " + QObjects.GetModelName(model) + "\"\tX : " + x + " Y : " + y + " Z : " + z + "\t Alpha : " + alpha + " Beta : " + beta + ",Gamma : " + gamma + " Model : " + model + "\n");
+            if (modelId.Contains("\""))
+                modelId = modelId.Replace("\"", String.Empty);
+
+            string qtaskBuilding = "Task_New(" + taskId + ",\"Building\",\"" + taskNote + "\"," + x + "," + y + "," + z + "," + alpha + "," + beta + "," + gamma + ",\"" + modelId + "\");" + "\n";
+            QUtils.AddLog("Building() called with ID : " + QUtils.qtaskObjId + "  Building : " + QObjects.GetModelName(modelId) + "\"\tX : " + x + " Y : " + y + " Z : " + z + "\t Alpha : " + alpha + " Beta : " + beta + ",Gamma : " + gamma + " Model : " + modelId + "\n");
             return qtaskBuilding;
         }
 

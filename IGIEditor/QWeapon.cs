@@ -104,7 +104,7 @@ namespace IGIEditor
 
     class QWeapon
     {
-        private static string weaponsConfigIn = QUtils.currPath + QUtils.inputQscPath + QUtils.weaponsDirPath + "\\" + QUtils.weaponConfigQSC;
+        private static string weaponsConfigIn = QUtils.appCurrPath + QUtils.inputQscPath + QUtils.weaponsDirPath + "\\" + QUtils.weaponConfigQSC;
         private static string weaponsConfigOut = QUtils.gameAbsPath + QUtils.weaponsDirPath;
         private static string weaponCfgTask = "Task_New(-1, \"WeaponConfig\",";
 

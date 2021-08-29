@@ -78,10 +78,10 @@ namespace IGIEditor
                     graphId = humanAi.graphId.ToString();
                 }
 
-                aiId = QUtils.randGenScriptId.ToString();
+                aiId = QUtils.randScriptId.ToString();
                 bool aiIdExist = QGraphs.CheckIdExist(aiId, "AI", QUtils.gGameLevel, "AI Id " + aiId + " already exist for current level");
 
-                patrolId = (QUtils.randGenScriptId + 1).ToString();
+                patrolId = (QUtils.randScriptId + 1).ToString();
                 bool patrolIdExist = QGraphs.CheckIdExist(patrolId, "Patrol", QUtils.gGameLevel, "PatrolId " + patrolId + " already exist for current level");
                 bool graphIdExist = true;//QGraphs.CheckIdExist(graphId, "Graph", QUtils.gGameLevel, "GraphId " + graphId + " doesn't exist for current level");
 
@@ -123,7 +123,7 @@ namespace IGIEditor
                     if (!String.IsNullOrEmpty(aiScriptData))
                         qscData += aiScriptData;
                 }
-                QUtils.randGenScriptId += 2;
+                QUtils.randScriptId += 2;
             }
 
             return qscData;
@@ -253,8 +253,8 @@ namespace IGIEditor
                             //Add Alarm path to selected A.I.
                             if (file.Contains("idle"))
                             {
-                                QUtils.randGenScriptId++;
-                                patrolAlarmId = (QUtils.randGenScriptId + 1).ToString();
+                                QUtils.randScriptId++;
+                                patrolAlarmId = (QUtils.randScriptId + 1).ToString();
                                 string alarmPathFile = file.Replace("idle", "alarm");
 
                                 string aiAlarmPathData = QUtils.LoadFile(alarmPathFile);

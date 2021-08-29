@@ -40,12 +40,15 @@ namespace IGIEditor
             return RigidObj(-1, "", position.x, position.y, position.z, orientation.alpha, orientation.beta, orientation.gamma, model);
         }
 
-        internal static string RigidObj(int taskId = -1, string taskNote = "", double x = 0.0f, double y = 0.0f, double z = 0.0f, float alpha = 0.0f, float beta = 0.0f, float gamma = 0.0f, string model = "")
+        internal static string RigidObj(int taskId = -1, string taskNote = "", double x = 0.0f, double y = 0.0f, double z = 0.0f, float alpha = 0.0f, float beta = 0.0f, float gamma = 0.0f, string modelId = "")
         {
             QUtils.qtaskObjId = -1;
-            string qtaskBuilding = "Task_New(" + QUtils.qtaskObjId + ",\"EditRigidObj\",\"" + taskNote + "\"," + x + "," + y + "," + z + "," + alpha + "," + beta + "," + gamma + ",\"" + model + "\"" + ",1" + ",1" + ",1" + ",0" + ",0" + ",0" + ");" + "\n";
-            QUtils.AddLog("RigidObj called with ID : " + QUtils.qtaskObjId + "  RigidObj : " + GetModelName(model) + "\"\tX : " + x + " Y : " + y + " Z : " + z + "\tAlpha : " + alpha + " Beta : " + beta + ",Gamma : " + gamma + " Model : " + model + "\n");
-            return qtaskBuilding;
+            if (modelId.Contains("\""))
+                modelId = modelId.Replace("\"", String.Empty);
+
+            string qtaskRigidObj = "Task_New(" + QUtils.qtaskObjId + ",\"EditRigidObj\",\"" + taskNote + "\"," + x + "," + y + "," + z + "," + alpha + "," + beta + "," + gamma + ",\"" + modelId + "\"" + ",1" + ",1" + ",1" + ",0" + ",0" + ",0" + ");" + "\n";
+            QUtils.AddLog("RigidObj called with ID : " + QUtils.qtaskObjId + "  RigidObj : " + FindModelName(modelId) + "\"\tX : " + x + " Y : " + y + " Z : " + z + "\tAlpha : " + alpha + " Beta : " + beta + ",Gamma : " + gamma + " Model : " + modelId + "\n");
+            return qtaskRigidObj;
         }
 
         internal static string UpdatePositionInMeter(int id, ref Real64 position, bool checkModel = false)
@@ -347,7 +350,7 @@ namespace IGIEditor
             return hasMultiObjs;
         }
 
-        private static string FindModelName(string modelId)
+        internal static string FindModelName(string modelId)
         {
             string modelName = "UNKNOWN_OBJECT";
 
@@ -367,7 +370,7 @@ namespace IGIEditor
                         modelName = obj.Split('=')[0];
                         if (modelName.Length < 3 || String.IsNullOrEmpty(modelName))
                         {
-                            QUtils.AddLog("FindModelName() couldn't find model name for id : " + modelId);
+                            QUtils.AddLog("FindModelName() couldn't find model name for Model id : " + modelId);
                             return modelName;
                         }
                     }
@@ -379,18 +382,18 @@ namespace IGIEditor
             return modelName;
         }
 
-        internal static string GetModelName(string model, bool fullQtaskList = false, bool masterModel = false)
+        internal static string GetModelName(string modelId, bool fullQtaskList = false, bool masterModel = false)
         {
             string modelName = String.Empty;
             var qtaskList = QUtils.GetQTaskList(fullQtaskList, false, true);
 
             foreach (var qtask in qtaskList)
             {
-                if (qtask.model.Contains(model))
+                if (qtask.model.Contains(modelId))
                 {
-                    if (masterModel) modelName = FindModelName(model);
-                    else modelName = (qtask.note.Length < 3) ? FindModelName(model) : qtask.note;
-                    QUtils.AddLog("GetModelName() found model name : " + modelName + " for model : " + model);
+                    if (masterModel) modelName = FindModelName(modelId);
+                    else modelName = (qtask.note.Length < 3) ? FindModelName(modelId) : qtask.note;
+                    QUtils.AddLog("GetModelName() found model name : " + modelName + " for model : " + modelId);
                     break;
                 }
             }
@@ -543,6 +546,7 @@ namespace IGIEditor
                 {
                     QUtils.ShowError("Model " + model + " does not exist in current level");
                     QUtils.AddLog("Model " + model + " does not exist in current level");
+                    return null;
                 }
             }
 
@@ -758,7 +762,7 @@ namespace IGIEditor
 
                         if (startTokenCount == endTokenCount)
                         {
-                            QUtils.AddLog("RemoveMultiObjects : Model " + GetModelName(model) + " with id : '" + model + "'Removed with Objects : " + startTokenCount);
+                            QUtils.AddLog("RemoveMultiObjects : Model " + FindModelName(model) + " with id : '" + model + "'Removed with Objects : " + startTokenCount);
                             break;
                         }
                     }
@@ -767,7 +771,7 @@ namespace IGIEditor
 
             if (startTokenCount != endTokenCount)
             {
-                QUtils.AddLog("RemoveMultiObjects : Couldn't remove " + GetModelName(model) + " with id : '" + model + "' for multiple object");
+                QUtils.AddLog("RemoveMultiObjects : Couldn't remove " + FindModelName(model) + " with id : '" + model + "' for multiple object");
             }
 
             if (fixErrors)
@@ -989,7 +993,7 @@ namespace IGIEditor
                         var obj = new Dictionary<string, string>();
 
                         //Find model name if not found.
-                        modelName = GetModelName(qtask.model, false, true);
+                        modelName = FindModelName(qtask.model);
 
                         if (modelName.Length > 3)
                         {
@@ -1005,7 +1009,7 @@ namespace IGIEditor
                     {
                         var obj = new Dictionary<string, string>();
                         //Find model name if not found.
-                        modelName = GetModelName(qtask.model);
+                        modelName = FindModelName(qtask.model);
 
                         if (modelName.Length > 3)
                         {

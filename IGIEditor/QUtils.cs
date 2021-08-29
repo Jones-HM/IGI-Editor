@@ -40,19 +40,19 @@ namespace IGIEditor
 
         internal static string taskNew = "Task_New", taskDecl = "Task_DeclareParameters";
         internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc";
-        internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, randGenScriptId = 0, gGameLevel = 1;
+        internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, randScriptId = 0, gGameLevel = 1;
         internal static string logFile = "app.log", qLibLogsFile = "GTLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsMasterList, aiIdlePath;
         internal static bool logEnabled = false, keyExist = false, keyFileExist = false, mapViewerMode = false;
 
-        internal static string gamePath, appdataPath, igiEditorTmpPath, currPath, gameAbsPath, cfgGamePath, cfgHumanplayerPath, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", cfgFile, projAppName, cachePath, cachePathAppLogs, cachePathAppImages,
+        internal static string gamePath,appdataPath, igiEditorTmpPath, appCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPath, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", cfgFile, projAppName, cachePath, cachePathAppLogs, cachePathAppImages,
          igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayer = "humanplayer.qvm", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalDllPath = @"bin\igi1ed.dat", tmpDllPath, internalDllInjectorPath = @"bin\igi1edInj.exe";
         internal static string inputQscPath = @"\IGI_QSC", inputQvmPath = @"\IGI_QVM", inputAiPath = @"\AIFiles", inputVoidPath = @"\Void", inputMissionPath = @"\missions\location0\level", inputHumanplayerPath = @"\humanplayer";
         internal static List<string> objTypeList = new List<string>() { "Building", "EditRigidObj", "Terminal", "Elevator", "ExplodeObject", "AlarmControl", "Generator", "Radio" };
         internal static string objects = "objects", objectsAll = "objectsAll", weapons = "weapons";
         internal static string qvmExt = ".qvm", qscExt = ".qsc", csvExt = ".csv", jsonExt = ".json", txtExt = ".txt", xmlExt = ".xml", dllExt = ".dll", missionExt = ".mission", jpgExt = ".jpg", pngExt = ".png";
-        internal static float fltInvalidAngle = -9.9999f;
+        internal static float fltInvalidAngle = -9.9999f,fltInvalidVal = -9.9f;
         internal const string CAPTION_CONFIG_ERR = "Config - Error", CAPTION_FATAL_SYS_ERR = "Fatal sytem - Error", CAPTION_APP_ERR = "Application - Error", CAPTION_COMPILER_ERR = "Compiler - Error", alarmControl = "AlarmControl", stationaryGun = "StationaryGun";
-        internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths";
+        internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths",helpStr = "IGI 1 Editor - HELP\nObject ID format: xxx_xx_x like 435_01_1";
         internal static string patroIdleMask = "xxxx", patroAlarmMask = "yyyy", alarmControlMask = "zzzz", gunnerIdMask = "aaaa", viewGammaMask = "bbbb";
         internal static string speedXMask = "xx", speedYMask = "yy", speedZMask = "zz", inAir1Mask = "iair1", inAir2Mask = "iair2", health1Mask = "hh1", health2Mask = "hh2", health3Mask = "hh3";
         internal static List<string> aiScriptFiles = new List<string>();
@@ -67,7 +67,6 @@ namespace IGIEditor
         internal static List<Dictionary<string, string>> objectRigidList = new List<Dictionary<string, string>>();
         internal static List<string> buildingListStr = new List<string>();
         internal static List<string> objectRigidListStr = new List<string>();
-
 
         //Weapons variables.
         internal static string weaponId = "WEAPON_ID_";
@@ -89,6 +88,8 @@ namespace IGIEditor
         {"PROXIMITYMINE","AMMO_ID_PROXIMITYMINE"}};
 
         internal static string baseImgUrl = "https://static.wikia.nocookie.net/igi/images";
+        internal static string baseImgBBUrl = "https://i.ibb.co/";
+
         internal static string[] levelImgUrl =
         {"/5/58/Mission_1.png","/5/5d/Mission_2.png","/5/5b/IGI_Mission_3.png","/3/35/IGI_Mission_4.png",
               "/8/89/IGI_Mission_05.png","/9/91/IGI_Mission_06.png","/0/0f/IGI_Mission_07.png",
@@ -96,7 +97,7 @@ namespace IGIEditor
               "/a/af/Mission_12.png","/5/5a/Mission_13.png","/4/4a/Mission_14.png"
         };
 
-        internal static string[] weaponsImgUrl = {"/4/4a/31_IGI2_Weapons_ak-47.jpg","/3/3a/62_IGI2_Weapons_rpg7.jpg","/8/80/IGI2_Weapons_binoculars.jpg",
+        internal static string[] weaponsImgUrl = {"/4/4a/31_IGI2_Weapons_ak-47.jpg","/7/3x/62_IGI2_Weapons_apc.jpg","/8/80/IGI2_Weapons_binoculars.jpg",
 "/a/aa/3-IGI2_Weapons_Magnum.jpg","/4/4c/4-IGI2_Weapons_D-Eagle.jpg","/d/dc/41_IGI2_Weapons_Dragunov.jpg",
 "/6/67/IGI2_Weapons_Flashbang.jpg","/c/c8/2a-IGI2_Weapons_Glock.jpg","/5/5a/L2a2_greande.jpg",
 "/9/93/53_IGI2_Weapons_Jackhammer.jpg","/6/6b/0-IGI2_Weapons_Knife.jpg","/c/ce/33_IGI2_Weapons_m16_m203.jpg",
@@ -359,20 +360,32 @@ namespace IGIEditor
             //Init Temp path for Cache.
             if (!Directory.Exists(cachePath))
             {
-                Directory.CreateDirectory(cachePath);
-                Directory.CreateDirectory(cachePathAppLogs);
-                Directory.CreateDirectory(cachePathAppImages);
+                CreateCacheDir();
             }
+        }
+
+        internal static void CreateCacheDir()
+        {
+            Directory.CreateDirectory(cachePath);
+            Directory.CreateDirectory(cachePathAppLogs);
+            Directory.CreateDirectory(cachePathAppImages);
         }
 
         internal static void DeleteWholeDir(string dirPath)
         {
-            DirectoryInfo di = new DirectoryInfo(dirPath);
-            foreach (FileInfo file in di.GetFiles())
-                file.Delete();
-            foreach (DirectoryInfo dir in di.GetDirectories())
-                dir.Delete(true);
-            Directory.Delete(dirPath);
+            try
+            {
+                DirectoryInfo di = new DirectoryInfo(dirPath);
+                foreach (FileInfo file in di.GetFiles())
+                    file.Delete();
+                foreach (DirectoryInfo dir in di.GetDirectories())
+                    dir.Delete(true);
+                Directory.Delete(dirPath);
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex.Message ?? ex.StackTrace);
+            }
         }
 
         internal static void MoveDir(string srcPath, string destPath)
@@ -439,6 +452,8 @@ namespace IGIEditor
             {
                 WebClient webClient = new WebClient();
                 webClient.DownloadFile(url, fileName);
+                if (!Directory.Exists(QUtils.cachePathAppImages))
+                    CreateCacheDir();
                 ShellExec("move /Y " + fileName + " " + QUtils.cachePathAppImages);
             }
             catch (Exception ex)
@@ -850,7 +865,7 @@ namespace IGIEditor
         }
 
 
-        //Parse the Objects.
+        //Parse all the Objects.
         private static List<QTask> ParseAllOjects(string qscData)
         {
             //Remove all whitespaces.
@@ -893,7 +908,7 @@ namespace IGIEditor
         }
 
 
-        //Parse the Objects.
+        //Parse only Objects.
         private static List<QTask> ParseObjects(string qscData)
         {
             //Remove all whitespaces.
@@ -1239,8 +1254,7 @@ namespace IGIEditor
 
         internal static void InjectDllOnStart()
         {
-            //return;
-            tmpDllPath = @"bin\" + GenerateRandStr(QUtils.internalDllPath.Length) + dllExt;
+            tmpDllPath = Path.GetTempFileName() + dllExt;
             AddLog("InjectDllOnStart() tmpDllPath : " + tmpDllPath);
             QCryptor.Decrypt(QUtils.internalDllPath, tmpDllPath);
 
