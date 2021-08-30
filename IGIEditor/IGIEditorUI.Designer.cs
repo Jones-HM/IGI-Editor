@@ -34,6 +34,7 @@
             this.levelStartTxt = new System.Windows.Forms.NumericUpDown();
             this.posCoordCb = new System.Windows.Forms.CheckBox();
             this.posMetersCb = new System.Windows.Forms.CheckBox();
+            this.igiSmallIconBtn = new System.Windows.Forms.Button();
             this.restartLevel = new System.Windows.Forms.Button();
             this.refreshGame = new System.Windows.Forms.Button();
             this.headerLbl = new System.Windows.Forms.Label();
@@ -81,6 +82,29 @@
             this.removeBuildingsBtn = new System.Windows.Forms.Button();
             this.removeObjsBtn = new System.Windows.Forms.Button();
             this.humanEditorTab = new System.Windows.Forms.TabPage();
+            this.readHumanBtn = new System.Windows.Forms.Button();
+            this.resetHumanBtn = new System.Windows.Forms.Button();
+            this.inAirSpeedTxt = new System.Windows.Forms.TextBox();
+            this.inAirSpeedLbl = new System.Windows.Forms.Label();
+            this.updatePeekBtn = new System.Windows.Forms.Button();
+            this.updateHumanHealthBtn = new System.Windows.Forms.Button();
+            this.damageScaleFenceTxt = new System.Windows.Forms.TextBox();
+            this.fenceDamageScaleLbl = new System.Windows.Forms.Label();
+            this.damageScaleTxt = new System.Windows.Forms.TextBox();
+            this.damageScaleLbl = new System.Windows.Forms.Label();
+            this.updateHumanSpeedBtn = new System.Windows.Forms.Button();
+            this.peekTimeTxt = new System.Windows.Forms.TextBox();
+            this.upwardJumpTxt = new System.Windows.Forms.TextBox();
+            this.peekTimeLbl = new System.Windows.Forms.Label();
+            this.upwardJumpLbl = new System.Windows.Forms.Label();
+            this.peekCrouchTxt = new System.Windows.Forms.TextBox();
+            this.forwardJumpTxt = new System.Windows.Forms.TextBox();
+            this.peekCrouchLbl = new System.Windows.Forms.Label();
+            this.forwardJumpLbl = new System.Windows.Forms.Label();
+            this.peekLRTxt = new System.Windows.Forms.TextBox();
+            this.peekLRLbl = new System.Windows.Forms.Label();
+            this.movementSpeedTxt = new System.Windows.Forms.TextBox();
+            this.movementSpeedLbl = new System.Windows.Forms.Label();
             this.aiEditor = new System.Windows.Forms.TabPage();
             this.addAIBtn = new System.Windows.Forms.Button();
             this.weaponEditorTab = new System.Windows.Forms.TabPage();
@@ -104,6 +128,13 @@
             this.loadMissionBtn = new System.Windows.Forms.Button();
             this.saveMissionBtn = new System.Windows.Forms.Button();
             this.positionEditorTab = new System.Windows.Forms.TabPage();
+            this.gammaTxt = new System.Windows.Forms.NumericUpDown();
+            this.betaTxt = new System.Windows.Forms.NumericUpDown();
+            this.alphaTxt = new System.Windows.Forms.NumericUpDown();
+            this.gammaLbl = new System.Windows.Forms.Label();
+            this.betaLbl = new System.Windows.Forms.Label();
+            this.alphaLbl = new System.Windows.Forms.Label();
+            this.updateObjOrientation = new System.Windows.Forms.Button();
             this.humanPosMeterCb = new System.Windows.Forms.CheckBox();
             this.humanPosOffCb = new System.Windows.Forms.CheckBox();
             this.zPosTxt_H = new System.Windows.Forms.TextBox();
@@ -149,30 +180,24 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.gammaTxt = new System.Windows.Forms.NumericUpDown();
-            this.betaTxt = new System.Windows.Forms.NumericUpDown();
-            this.alphaTxt = new System.Windows.Forms.NumericUpDown();
-            this.gammaLbl = new System.Windows.Forms.Label();
-            this.betaLbl = new System.Windows.Forms.Label();
-            this.alphaLbl = new System.Windows.Forms.Label();
-            this.updateObjOrientation = new System.Windows.Forms.Button();
             this.backPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.tabContainer.SuspendLayout();
             this.levelEditorTab.SuspendLayout();
             this.objectEditorTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).BeginInit();
+            this.humanEditorTab.SuspendLayout();
             this.aiEditor.SuspendLayout();
             this.weaponEditorTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weaponImgBox)).BeginInit();
             this.threeDEditorTab.SuspendLayout();
             this.missionEditorTab.SuspendLayout();
             this.positionEditorTab.SuspendLayout();
-            this.miscTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gammaTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.betaTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).BeginInit();
+            this.miscTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).BeginInit();
             this.SuspendLayout();
             // 
             // backPnl
@@ -182,6 +207,7 @@
             this.backPnl.Controls.Add(this.levelStartTxt);
             this.backPnl.Controls.Add(this.posCoordCb);
             this.backPnl.Controls.Add(this.posMetersCb);
+            this.backPnl.Controls.Add(this.igiSmallIconBtn);
             this.backPnl.Controls.Add(this.restartLevel);
             this.backPnl.Controls.Add(this.refreshGame);
             this.backPnl.Controls.Add(this.headerLbl);
@@ -266,6 +292,21 @@
             this.posMetersCb.Text = "Meter";
             this.posMetersCb.UseVisualStyleBackColor = true;
             this.posMetersCb.CheckedChanged += new System.EventHandler(this.posMetersCb_CheckedChanged);
+            // 
+            // igiSmallIconBtn
+            // 
+            this.igiSmallIconBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("igiSmallIconBtn.BackgroundImage")));
+            this.igiSmallIconBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.igiSmallIconBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.igiSmallIconBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.igiSmallIconBtn.ForeColor = System.Drawing.Color.Transparent;
+            this.igiSmallIconBtn.Location = new System.Drawing.Point(905, 28);
+            this.igiSmallIconBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.igiSmallIconBtn.Name = "igiSmallIconBtn";
+            this.igiSmallIconBtn.Size = new System.Drawing.Size(52, 46);
+            this.igiSmallIconBtn.TabIndex = 26;
+            this.igiSmallIconBtn.UseVisualStyleBackColor = true;
+            this.igiSmallIconBtn.Click += new System.EventHandler(this.igiSmallIconBtn_Click);
             // 
             // restartLevel
             // 
@@ -882,6 +923,29 @@
             // humanEditorTab
             // 
             this.humanEditorTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.humanEditorTab.Controls.Add(this.readHumanBtn);
+            this.humanEditorTab.Controls.Add(this.resetHumanBtn);
+            this.humanEditorTab.Controls.Add(this.inAirSpeedTxt);
+            this.humanEditorTab.Controls.Add(this.inAirSpeedLbl);
+            this.humanEditorTab.Controls.Add(this.updatePeekBtn);
+            this.humanEditorTab.Controls.Add(this.updateHumanHealthBtn);
+            this.humanEditorTab.Controls.Add(this.damageScaleFenceTxt);
+            this.humanEditorTab.Controls.Add(this.fenceDamageScaleLbl);
+            this.humanEditorTab.Controls.Add(this.damageScaleTxt);
+            this.humanEditorTab.Controls.Add(this.damageScaleLbl);
+            this.humanEditorTab.Controls.Add(this.updateHumanSpeedBtn);
+            this.humanEditorTab.Controls.Add(this.peekTimeTxt);
+            this.humanEditorTab.Controls.Add(this.upwardJumpTxt);
+            this.humanEditorTab.Controls.Add(this.peekTimeLbl);
+            this.humanEditorTab.Controls.Add(this.upwardJumpLbl);
+            this.humanEditorTab.Controls.Add(this.peekCrouchTxt);
+            this.humanEditorTab.Controls.Add(this.forwardJumpTxt);
+            this.humanEditorTab.Controls.Add(this.peekCrouchLbl);
+            this.humanEditorTab.Controls.Add(this.forwardJumpLbl);
+            this.humanEditorTab.Controls.Add(this.peekLRTxt);
+            this.humanEditorTab.Controls.Add(this.peekLRLbl);
+            this.humanEditorTab.Controls.Add(this.movementSpeedTxt);
+            this.humanEditorTab.Controls.Add(this.movementSpeedLbl);
             this.humanEditorTab.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.humanEditorTab.Location = new System.Drawing.Point(4, 30);
             this.humanEditorTab.Margin = new System.Windows.Forms.Padding(4);
@@ -889,6 +953,287 @@
             this.humanEditorTab.Size = new System.Drawing.Size(1137, 387);
             this.humanEditorTab.TabIndex = 2;
             this.humanEditorTab.Text = "Human Editor";
+            // 
+            // readHumanBtn
+            // 
+            this.readHumanBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.readHumanBtn.ForeColor = System.Drawing.Color.Tomato;
+            this.readHumanBtn.Location = new System.Drawing.Point(964, 323);
+            this.readHumanBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.readHumanBtn.Name = "readHumanBtn";
+            this.readHumanBtn.Size = new System.Drawing.Size(148, 31);
+            this.readHumanBtn.TabIndex = 59;
+            this.readHumanBtn.Text = "Read Human";
+            this.readHumanBtn.UseVisualStyleBackColor = true;
+            this.readHumanBtn.Click += new System.EventHandler(this.readHumanBtn_Click);
+            // 
+            // resetHumanBtn
+            // 
+            this.resetHumanBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.resetHumanBtn.ForeColor = System.Drawing.Color.Tomato;
+            this.resetHumanBtn.Location = new System.Drawing.Point(788, 323);
+            this.resetHumanBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.resetHumanBtn.Name = "resetHumanBtn";
+            this.resetHumanBtn.Size = new System.Drawing.Size(148, 31);
+            this.resetHumanBtn.TabIndex = 59;
+            this.resetHumanBtn.Text = "Reset Human";
+            this.resetHumanBtn.UseVisualStyleBackColor = true;
+            this.resetHumanBtn.Click += new System.EventHandler(this.resetHumanBtn_Click);
+            // 
+            // inAirSpeedTxt
+            // 
+            this.inAirSpeedTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.inAirSpeedTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.inAirSpeedTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.inAirSpeedTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.inAirSpeedTxt.Location = new System.Drawing.Point(823, 47);
+            this.inAirSpeedTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.inAirSpeedTxt.Name = "inAirSpeedTxt";
+            this.inAirSpeedTxt.Size = new System.Drawing.Size(100, 30);
+            this.inAirSpeedTxt.TabIndex = 53;
+            // 
+            // inAirSpeedLbl
+            // 
+            this.inAirSpeedLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.inAirSpeedLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.inAirSpeedLbl.Location = new System.Drawing.Point(713, 46);
+            this.inAirSpeedLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.inAirSpeedLbl.Name = "inAirSpeedLbl";
+            this.inAirSpeedLbl.Size = new System.Drawing.Size(107, 33);
+            this.inAirSpeedLbl.TabIndex = 52;
+            this.inAirSpeedLbl.Text = "In Air:";
+            this.inAirSpeedLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // updatePeekBtn
+            // 
+            this.updatePeekBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.updatePeekBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.updatePeekBtn.Location = new System.Drawing.Point(931, 124);
+            this.updatePeekBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.updatePeekBtn.Name = "updatePeekBtn";
+            this.updatePeekBtn.Size = new System.Drawing.Size(181, 31);
+            this.updatePeekBtn.TabIndex = 51;
+            this.updatePeekBtn.Text = "Update Peek";
+            this.updatePeekBtn.UseVisualStyleBackColor = true;
+            this.updatePeekBtn.Click += new System.EventHandler(this.updateHumanPeekBtn_Click);
+            // 
+            // updateHumanHealthBtn
+            // 
+            this.updateHumanHealthBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.updateHumanHealthBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.updateHumanHealthBtn.Location = new System.Drawing.Point(931, 215);
+            this.updateHumanHealthBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.updateHumanHealthBtn.Name = "updateHumanHealthBtn";
+            this.updateHumanHealthBtn.Size = new System.Drawing.Size(181, 31);
+            this.updateHumanHealthBtn.TabIndex = 51;
+            this.updateHumanHealthBtn.Text = "Update Health";
+            this.updateHumanHealthBtn.UseVisualStyleBackColor = true;
+            this.updateHumanHealthBtn.Click += new System.EventHandler(this.updateHumanHealthBtn_Click);
+            // 
+            // damageScaleFenceTxt
+            // 
+            this.damageScaleFenceTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.damageScaleFenceTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.damageScaleFenceTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.damageScaleFenceTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.damageScaleFenceTxt.Location = new System.Drawing.Point(362, 211);
+            this.damageScaleFenceTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.damageScaleFenceTxt.Name = "damageScaleFenceTxt";
+            this.damageScaleFenceTxt.Size = new System.Drawing.Size(100, 30);
+            this.damageScaleFenceTxt.TabIndex = 48;
+            // 
+            // fenceDamageScaleLbl
+            // 
+            this.fenceDamageScaleLbl.Font = new System.Drawing.Font("Century Gothic", 10F);
+            this.fenceDamageScaleLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.fenceDamageScaleLbl.Location = new System.Drawing.Point(250, 211);
+            this.fenceDamageScaleLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.fenceDamageScaleLbl.Name = "fenceDamageScaleLbl";
+            this.fenceDamageScaleLbl.Size = new System.Drawing.Size(104, 65);
+            this.fenceDamageScaleLbl.TabIndex = 47;
+            this.fenceDamageScaleLbl.Text = "Fence Damage Scale:";
+            this.fenceDamageScaleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // damageScaleTxt
+            // 
+            this.damageScaleTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.damageScaleTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.damageScaleTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.damageScaleTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.damageScaleTxt.Location = new System.Drawing.Point(133, 208);
+            this.damageScaleTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.damageScaleTxt.Name = "damageScaleTxt";
+            this.damageScaleTxt.Size = new System.Drawing.Size(100, 30);
+            this.damageScaleTxt.TabIndex = 46;
+            // 
+            // damageScaleLbl
+            // 
+            this.damageScaleLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.damageScaleLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.damageScaleLbl.Location = new System.Drawing.Point(7, 204);
+            this.damageScaleLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.damageScaleLbl.Name = "damageScaleLbl";
+            this.damageScaleLbl.Size = new System.Drawing.Size(126, 52);
+            this.damageScaleLbl.TabIndex = 45;
+            this.damageScaleLbl.Text = "Damage \r\nscale:";
+            this.damageScaleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // updateHumanSpeedBtn
+            // 
+            this.updateHumanSpeedBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.updateHumanSpeedBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.updateHumanSpeedBtn.Location = new System.Drawing.Point(931, 48);
+            this.updateHumanSpeedBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.updateHumanSpeedBtn.Name = "updateHumanSpeedBtn";
+            this.updateHumanSpeedBtn.Size = new System.Drawing.Size(181, 31);
+            this.updateHumanSpeedBtn.TabIndex = 44;
+            this.updateHumanSpeedBtn.Text = "Update Speed";
+            this.updateHumanSpeedBtn.UseVisualStyleBackColor = true;
+            this.updateHumanSpeedBtn.Click += new System.EventHandler(this.updateHumanSpeedBtn_Click);
+            // 
+            // peekTimeTxt
+            // 
+            this.peekTimeTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.peekTimeTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.peekTimeTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.peekTimeTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.peekTimeTxt.Location = new System.Drawing.Point(604, 124);
+            this.peekTimeTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.peekTimeTxt.Name = "peekTimeTxt";
+            this.peekTimeTxt.Size = new System.Drawing.Size(100, 30);
+            this.peekTimeTxt.TabIndex = 13;
+            // 
+            // upwardJumpTxt
+            // 
+            this.upwardJumpTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.upwardJumpTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.upwardJumpTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.upwardJumpTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.upwardJumpTxt.Location = new System.Drawing.Point(604, 46);
+            this.upwardJumpTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.upwardJumpTxt.Name = "upwardJumpTxt";
+            this.upwardJumpTxt.Size = new System.Drawing.Size(100, 30);
+            this.upwardJumpTxt.TabIndex = 13;
+            // 
+            // peekTimeLbl
+            // 
+            this.peekTimeLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.peekTimeLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.peekTimeLbl.Location = new System.Drawing.Point(479, 122);
+            this.peekTimeLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.peekTimeLbl.Name = "peekTimeLbl";
+            this.peekTimeLbl.Size = new System.Drawing.Size(129, 33);
+            this.peekTimeLbl.TabIndex = 12;
+            this.peekTimeLbl.Text = "Time:";
+            this.peekTimeLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // upwardJumpLbl
+            // 
+            this.upwardJumpLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.upwardJumpLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.upwardJumpLbl.Location = new System.Drawing.Point(479, 45);
+            this.upwardJumpLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.upwardJumpLbl.Name = "upwardJumpLbl";
+            this.upwardJumpLbl.Size = new System.Drawing.Size(129, 33);
+            this.upwardJumpLbl.TabIndex = 12;
+            this.upwardJumpLbl.Text = "Upward:";
+            this.upwardJumpLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // peekCrouchTxt
+            // 
+            this.peekCrouchTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.peekCrouchTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.peekCrouchTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.peekCrouchTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.peekCrouchTxt.Location = new System.Drawing.Point(360, 123);
+            this.peekCrouchTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.peekCrouchTxt.Name = "peekCrouchTxt";
+            this.peekCrouchTxt.Size = new System.Drawing.Size(100, 30);
+            this.peekCrouchTxt.TabIndex = 11;
+            // 
+            // forwardJumpTxt
+            // 
+            this.forwardJumpTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.forwardJumpTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.forwardJumpTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.forwardJumpTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.forwardJumpTxt.Location = new System.Drawing.Point(362, 45);
+            this.forwardJumpTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.forwardJumpTxt.Name = "forwardJumpTxt";
+            this.forwardJumpTxt.Size = new System.Drawing.Size(100, 30);
+            this.forwardJumpTxt.TabIndex = 11;
+            // 
+            // peekCrouchLbl
+            // 
+            this.peekCrouchLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.peekCrouchLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.peekCrouchLbl.Location = new System.Drawing.Point(250, 122);
+            this.peekCrouchLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.peekCrouchLbl.Name = "peekCrouchLbl";
+            this.peekCrouchLbl.Size = new System.Drawing.Size(117, 33);
+            this.peekCrouchLbl.TabIndex = 10;
+            this.peekCrouchLbl.Text = "Crouch:";
+            this.peekCrouchLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // forwardJumpLbl
+            // 
+            this.forwardJumpLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.forwardJumpLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.forwardJumpLbl.Location = new System.Drawing.Point(237, 44);
+            this.forwardJumpLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.forwardJumpLbl.Name = "forwardJumpLbl";
+            this.forwardJumpLbl.Size = new System.Drawing.Size(117, 33);
+            this.forwardJumpLbl.TabIndex = 10;
+            this.forwardJumpLbl.Text = "Forward:";
+            this.forwardJumpLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // peekLRTxt
+            // 
+            this.peekLRTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.peekLRTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.peekLRTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.peekLRTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.peekLRTxt.Location = new System.Drawing.Point(134, 121);
+            this.peekLRTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.peekLRTxt.Name = "peekLRTxt";
+            this.peekLRTxt.Size = new System.Drawing.Size(100, 30);
+            this.peekLRTxt.TabIndex = 9;
+            // 
+            // peekLRLbl
+            // 
+            this.peekLRLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.peekLRLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.peekLRLbl.Location = new System.Drawing.Point(8, 121);
+            this.peekLRLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.peekLRLbl.Name = "peekLRLbl";
+            this.peekLRLbl.Size = new System.Drawing.Size(125, 33);
+            this.peekLRLbl.TabIndex = 8;
+            this.peekLRLbl.Text = "Left Right";
+            this.peekLRLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // movementSpeedTxt
+            // 
+            this.movementSpeedTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.movementSpeedTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.movementSpeedTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.movementSpeedTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.movementSpeedTxt.Location = new System.Drawing.Point(133, 45);
+            this.movementSpeedTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.movementSpeedTxt.Name = "movementSpeedTxt";
+            this.movementSpeedTxt.Size = new System.Drawing.Size(100, 30);
+            this.movementSpeedTxt.TabIndex = 9;
+            // 
+            // movementSpeedLbl
+            // 
+            this.movementSpeedLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.movementSpeedLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.movementSpeedLbl.Location = new System.Drawing.Point(8, 44);
+            this.movementSpeedLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.movementSpeedLbl.Name = "movementSpeedLbl";
+            this.movementSpeedLbl.Size = new System.Drawing.Size(125, 33);
+            this.movementSpeedLbl.TabIndex = 8;
+            this.movementSpeedLbl.Text = "Movement:";
+            this.movementSpeedLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // aiEditor
             // 
@@ -1210,6 +1555,118 @@
             this.positionEditorTab.Size = new System.Drawing.Size(1137, 387);
             this.positionEditorTab.TabIndex = 5;
             this.positionEditorTab.Text = "Position Editor";
+            // 
+            // gammaTxt
+            // 
+            this.gammaTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.gammaTxt.DecimalPlaces = 4;
+            this.gammaTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.gammaTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.gammaTxt.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            262144});
+            this.gammaTxt.Location = new System.Drawing.Point(692, 229);
+            this.gammaTxt.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.gammaTxt.Name = "gammaTxt";
+            this.gammaTxt.Size = new System.Drawing.Size(120, 30);
+            this.gammaTxt.TabIndex = 70;
+            // 
+            // betaTxt
+            // 
+            this.betaTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.betaTxt.DecimalPlaces = 4;
+            this.betaTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.betaTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.betaTxt.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            262144});
+            this.betaTxt.Location = new System.Drawing.Point(427, 229);
+            this.betaTxt.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.betaTxt.Name = "betaTxt";
+            this.betaTxt.Size = new System.Drawing.Size(120, 30);
+            this.betaTxt.TabIndex = 71;
+            // 
+            // alphaTxt
+            // 
+            this.alphaTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.alphaTxt.DecimalPlaces = 4;
+            this.alphaTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.alphaTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.alphaTxt.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            262144});
+            this.alphaTxt.Location = new System.Drawing.Point(175, 229);
+            this.alphaTxt.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.alphaTxt.Name = "alphaTxt";
+            this.alphaTxt.Size = new System.Drawing.Size(120, 30);
+            this.alphaTxt.TabIndex = 72;
+            // 
+            // gammaLbl
+            // 
+            this.gammaLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.gammaLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.gammaLbl.Location = new System.Drawing.Point(570, 227);
+            this.gammaLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.gammaLbl.Name = "gammaLbl";
+            this.gammaLbl.Size = new System.Drawing.Size(104, 33);
+            this.gammaLbl.TabIndex = 69;
+            this.gammaLbl.Text = "Gamma :";
+            this.gammaLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // betaLbl
+            // 
+            this.betaLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.betaLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.betaLbl.Location = new System.Drawing.Point(326, 225);
+            this.betaLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.betaLbl.Name = "betaLbl";
+            this.betaLbl.Size = new System.Drawing.Size(93, 33);
+            this.betaLbl.TabIndex = 68;
+            this.betaLbl.Text = "Beta :";
+            this.betaLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // alphaLbl
+            // 
+            this.alphaLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.alphaLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.alphaLbl.Location = new System.Drawing.Point(75, 223);
+            this.alphaLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.alphaLbl.Name = "alphaLbl";
+            this.alphaLbl.Size = new System.Drawing.Size(93, 33);
+            this.alphaLbl.TabIndex = 67;
+            this.alphaLbl.Text = "Alpha :";
+            this.alphaLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // updateObjOrientation
+            // 
+            this.updateObjOrientation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.updateObjOrientation.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.updateObjOrientation.Location = new System.Drawing.Point(852, 228);
+            this.updateObjOrientation.Margin = new System.Windows.Forms.Padding(4);
+            this.updateObjOrientation.Name = "updateObjOrientation";
+            this.updateObjOrientation.Size = new System.Drawing.Size(277, 31);
+            this.updateObjOrientation.TabIndex = 66;
+            this.updateObjOrientation.Text = "Update Object Orientation";
+            this.updateObjOrientation.UseVisualStyleBackColor = true;
+            this.updateObjOrientation.Click += new System.EventHandler(this.updateObjOrientation_Click);
             // 
             // humanPosMeterCb
             // 
@@ -1788,118 +2245,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "IGI 1";
             // 
-            // gammaTxt
-            // 
-            this.gammaTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.gammaTxt.DecimalPlaces = 4;
-            this.gammaTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.gammaTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.gammaTxt.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            262144});
-            this.gammaTxt.Location = new System.Drawing.Point(692, 217);
-            this.gammaTxt.Maximum = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
-            this.gammaTxt.Name = "gammaTxt";
-            this.gammaTxt.Size = new System.Drawing.Size(120, 30);
-            this.gammaTxt.TabIndex = 70;
-            // 
-            // betaTxt
-            // 
-            this.betaTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.betaTxt.DecimalPlaces = 4;
-            this.betaTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.betaTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.betaTxt.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            262144});
-            this.betaTxt.Location = new System.Drawing.Point(427, 217);
-            this.betaTxt.Maximum = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
-            this.betaTxt.Name = "betaTxt";
-            this.betaTxt.Size = new System.Drawing.Size(120, 30);
-            this.betaTxt.TabIndex = 71;
-            // 
-            // alphaTxt
-            // 
-            this.alphaTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.alphaTxt.DecimalPlaces = 4;
-            this.alphaTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.alphaTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.alphaTxt.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            262144});
-            this.alphaTxt.Location = new System.Drawing.Point(175, 217);
-            this.alphaTxt.Maximum = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
-            this.alphaTxt.Name = "alphaTxt";
-            this.alphaTxt.Size = new System.Drawing.Size(120, 30);
-            this.alphaTxt.TabIndex = 72;
-            // 
-            // gammaLbl
-            // 
-            this.gammaLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.gammaLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.gammaLbl.Location = new System.Drawing.Point(570, 215);
-            this.gammaLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.gammaLbl.Name = "gammaLbl";
-            this.gammaLbl.Size = new System.Drawing.Size(104, 33);
-            this.gammaLbl.TabIndex = 69;
-            this.gammaLbl.Text = "Gamma :";
-            this.gammaLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // betaLbl
-            // 
-            this.betaLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.betaLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.betaLbl.Location = new System.Drawing.Point(326, 213);
-            this.betaLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.betaLbl.Name = "betaLbl";
-            this.betaLbl.Size = new System.Drawing.Size(93, 33);
-            this.betaLbl.TabIndex = 68;
-            this.betaLbl.Text = "Beta :";
-            this.betaLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // alphaLbl
-            // 
-            this.alphaLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.alphaLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.alphaLbl.Location = new System.Drawing.Point(75, 211);
-            this.alphaLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.alphaLbl.Name = "alphaLbl";
-            this.alphaLbl.Size = new System.Drawing.Size(93, 33);
-            this.alphaLbl.TabIndex = 67;
-            this.alphaLbl.Text = "Alpha :";
-            this.alphaLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // updateObjOrientation
-            // 
-            this.updateObjOrientation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.updateObjOrientation.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.updateObjOrientation.Location = new System.Drawing.Point(852, 216);
-            this.updateObjOrientation.Margin = new System.Windows.Forms.Padding(4);
-            this.updateObjOrientation.Name = "updateObjOrientation";
-            this.updateObjOrientation.Size = new System.Drawing.Size(277, 31);
-            this.updateObjOrientation.TabIndex = 66;
-            this.updateObjOrientation.Text = "Update Object Orientation";
-            this.updateObjOrientation.UseVisualStyleBackColor = true;
-            this.updateObjOrientation.Click += new System.EventHandler(this.updateObjOrientation_Click);
-            // 
             // IGIEditorUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1921,6 +2266,8 @@
             this.objectEditorTab.ResumeLayout(false);
             this.objectEditorTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).EndInit();
+            this.humanEditorTab.ResumeLayout(false);
+            this.humanEditorTab.PerformLayout();
             this.aiEditor.ResumeLayout(false);
             this.weaponEditorTab.ResumeLayout(false);
             this.weaponEditorTab.PerformLayout();
@@ -1930,12 +2277,12 @@
             this.missionEditorTab.PerformLayout();
             this.positionEditorTab.ResumeLayout(false);
             this.positionEditorTab.PerformLayout();
-            this.miscTab.ResumeLayout(false);
-            this.miscTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gammaTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.betaTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).EndInit();
+            this.miscTab.ResumeLayout(false);
+            this.miscTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2068,6 +2415,30 @@
         private System.Windows.Forms.Label betaLbl;
         private System.Windows.Forms.Label alphaLbl;
         private System.Windows.Forms.Button updateObjOrientation;
+        private System.Windows.Forms.Button updateHumanHealthBtn;
+        private System.Windows.Forms.TextBox damageScaleFenceTxt;
+        private System.Windows.Forms.Label fenceDamageScaleLbl;
+        private System.Windows.Forms.TextBox damageScaleTxt;
+        private System.Windows.Forms.Label damageScaleLbl;
+        private System.Windows.Forms.Button updateHumanSpeedBtn;
+        private System.Windows.Forms.TextBox upwardJumpTxt;
+        private System.Windows.Forms.Label upwardJumpLbl;
+        private System.Windows.Forms.TextBox forwardJumpTxt;
+        private System.Windows.Forms.Label forwardJumpLbl;
+        private System.Windows.Forms.TextBox movementSpeedTxt;
+        private System.Windows.Forms.Label movementSpeedLbl;
+        private System.Windows.Forms.TextBox inAirSpeedTxt;
+        private System.Windows.Forms.Label inAirSpeedLbl;
+        private System.Windows.Forms.Button resetHumanBtn;
+        private System.Windows.Forms.Button readHumanBtn;
+        private System.Windows.Forms.Button igiSmallIconBtn;
+        private System.Windows.Forms.Button updatePeekBtn;
+        private System.Windows.Forms.TextBox peekTimeTxt;
+        private System.Windows.Forms.Label peekTimeLbl;
+        private System.Windows.Forms.TextBox peekCrouchTxt;
+        private System.Windows.Forms.Label peekCrouchLbl;
+        private System.Windows.Forms.TextBox peekLRTxt;
+        private System.Windows.Forms.Label peekLRLbl;
     }
 }
 

@@ -56,6 +56,12 @@ namespace IGIEditor
             return GT.GT_GetGameBaseAddress(pid);
         }
 
+        internal static IntPtr GetHumanHealthAddr()
+        {
+            var humanAddr = GetHumanBaseAddress() + (int)0x254;
+            return humanAddr;
+        }
+
         internal static IntPtr GetHumanBaseAddress(bool addLog = true)
         {
             uint humanStaticPtr = (uint)0x0016E210;
@@ -109,6 +115,25 @@ namespace IGIEditor
             QUtils.AddLog("GetRealAngle() Value : " + angle);
 
             return angle;
+        }
+
+        internal static void UpdateHumanHealth(bool permanent = true)
+        {
+            if (permanent)
+            {
+                //Enable Fall damage scale.
+                IntPtr jumpHealthAddr = (IntPtr)0x0040864E;
+                GT.GT_WriteNOP(jumpHealthAddr, 6);
+
+                //Enable normal and fence damage scale. 
+                QHuman.UpdateHumanPlayerHealth(float.MaxValue, 0.0f);
+            }
+            unsafe
+            {
+                var healthAddr = GetHumanHealthAddr();
+                float healthValue = float.NaN;
+                GT.GT_WriteAddress(healthAddr, (void*)&healthValue);
+            }
         }
 
         internal static void StartLevel(int level, bool windowed = false)

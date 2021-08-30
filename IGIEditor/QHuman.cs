@@ -334,67 +334,71 @@ namespace IGIEditor
             return UpdatePositionInMeter(humanData.qtask.position, alpha);
         }
 
-        internal static void UpdateHumanPlayerSpeed(double speedX = 1.75f, double speedY = 17.5f, double speedZ = 27)
+        internal static void UpdateHumanPlayerSpeed(double movSpeed = 1.75f, double forwardSpeed = 17.5f, double upwardSpeed = 27.0f, double inAirSpeed = 0.5f)
         {
-            QUtils.AddLog("UpdateHumanPlayerSpeed() : speedX: " + speedX + " speedY: " + speedY + " speedZ: " + speedZ);
-            UpdateHumanPlayerParams(speedX, speedY, speedZ, QUtils.inAirVel1, QUtils.inAirVel2, QUtils.healthScale1, QUtils.healthScale2, QUtils.healthScale3);
+            QUtils.AddLog("UpdateHumanPlayerSpeed() : movSpeed: " + movSpeed + " forwardSpeed: " + forwardSpeed + " upwardSpeed: " + upwardSpeed + " inAirSpeed: " + inAirSpeed);
+            UpdateHumanPlayerParams(movSpeed, forwardSpeed, upwardSpeed, inAirSpeed, QUtils.peekLRLen, QUtils.peekCrouchLen, QUtils.peekTime, QUtils.healthScale, QUtils.healthScaleFence);
         }
 
-        internal static void UpdateHumanPlayerAirVel(double inAirVel1 = 0.5f, double inAirVel2 = 0.8500000238418579f)
+        internal static void UpdateHumanPlayerHealth(double healthScale = 3.0f, double healthScaleFence = 0.5f)
         {
-            QUtils.AddLog("UpdateHumanPlayerAirVel() inAirVel1: " + inAirVel1 + " inAirVel2: " + inAirVel2);
-            UpdateHumanPlayerParams(QUtils.speedX, QUtils.speedY, QUtils.speedZ, inAirVel1, inAirVel2);
+            QUtils.AddLog("UpdateHumanPlayerHealth() : healthScale: " + healthScale + " healthScaleFence: " + healthScaleFence);
+            UpdateHumanPlayerParams(QUtils.movSpeed, QUtils.forwardSpeed, QUtils.upwardSpeed, QUtils.inAirSpeed, QUtils.peekLRLen, QUtils.peekCrouchLen, QUtils.peekTime, healthScale, healthScaleFence);
         }
 
-        internal static void UpdateHumanPlayerHealth(double healthScale1 = 3.0f, double healthScale2 = 0.5f, double healthScale3 = 0.5f)
+        internal static void UpdateHumanPlayerPeek(double peekLRLen = 0.8500000238418579f, double peekCrouchLen = 0.8500000238418579f, double peekTime = 0.25f)
         {
-            QUtils.AddLog("UpdateHumanPlayerHealth() : healthScale1: " + healthScale1 + " healthScale2: " + healthScale2 + " healthScale3: " + healthScale3);
-            UpdateHumanPlayerParams(QUtils.speedX, QUtils.speedY, QUtils.speedZ, QUtils.inAirVel1, QUtils.inAirVel2, healthScale1, healthScale2, healthScale3);
+            QUtils.AddLog("UpdateHumanPlayerPeek() : peekLRLen: " + peekLRLen + " peekCrouchLen: " + peekCrouchLen + " peekTime: " + peekTime);
+            UpdateHumanPlayerParams(QUtils.movSpeed, QUtils.forwardSpeed, QUtils.upwardSpeed, QUtils.inAirSpeed, peekLRLen, peekCrouchLen, peekTime, QUtils.healthScale, QUtils.healthScaleFence);
         }
 
-        internal static void UpdateHumanPlayerParams(double speedX = 1.75f, double speedY = 17.5f, double speedZ = 27, double inAirVel1 = 0.5f, double inAirVel2 = 0.8500000238418579f, double healthScale1 = 3.0f, double healthScale2 = 0.5f, double healthScale3 = 0.5f)
+        internal static void UpdateHumanPlayerParams(double movementSpeed = 1.75f, double forwardJumpSpeed = 17.5f, double upwardJumpSpeed = 27, double inAirSpeed = 0.5f, double peekLeftRightLen = 0.8500000238418579f, double peekCrouchLen = 0.8500000238418579f, double peekTimeLen = 0.25f, double healthDamageScale = 3.0f, double healthFenceDamageScale = 0.5f)
         {
-            var humanPlayerFile = QUtils.cfgHumanplayerPath + @"\humanplayer" + QUtils.qscExt;
+            var humanPlayerFile = QUtils.cfgHumanplayerPathQsc + @"\humanplayer" + QUtils.qscExt;
             string humanPlayerData = QCryptor.Decrypt(humanPlayerFile);
-            QUtils.AddLog("UpdateHumanPlayerParams() : speedX: " + speedX + " speedY: " + speedY + " speedZ: " + speedZ + " inAirVel1: " + inAirVel1 + " inAirVel2: " + inAirVel2 + " healthScale1: " + healthScale1 + " healthScale2: " + healthScale2 + " healthScale3: " + healthScale3);
+            QUtils.AddLog("UpdateHumanPlayerParams() : movementSpeed: " + movementSpeed + " forwardSpeed: " + forwardJumpSpeed + " upwardJumpSpeed: " + upwardJumpSpeed + " inAirSpeed: " + inAirSpeed + " peekLeftRightLen: " + peekLeftRightLen + " peekCrouchLen: " + peekCrouchLen + " peekLen: " + peekTimeLen + " healthDamageScale: " + healthDamageScale + " healthFenceDamageScale: " + healthFenceDamageScale);
 
-            //Add speedX param.
-            if (humanPlayerData.Contains(QUtils.speedXMask))
-                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.speedXMask, speedX.ToString());
+            //Add movement speed param.
+            if (humanPlayerData.Contains(QUtils.movementSpeedMask))
+                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.movementSpeedMask, movementSpeed.ToString());
 
-            //Add speedY param.
-            if (humanPlayerData.Contains(QUtils.speedYMask))
-                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.speedYMask, speedY.ToString());
+            //Add forward speed param.
+            if (humanPlayerData.Contains(QUtils.forwardSpeedMask))
+                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.forwardSpeedMask, forwardJumpSpeed.ToString());
 
-            //Add speedZ param.
-            if (humanPlayerData.Contains(QUtils.speedZMask))
-                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.speedZMask, speedZ.ToString());
+            //Add upward speed param.
+            if (humanPlayerData.Contains(QUtils.upwardSpeedMask))
+                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.upwardSpeedMask, upwardJumpSpeed.ToString());
 
-            //Add inAirVel1 param.
-            if (humanPlayerData.Contains(QUtils.inAir1Mask))
-                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.inAir1Mask, inAirVel1.ToString());
+            //Add in air speed param.
+            if (humanPlayerData.Contains(QUtils.inAirSpeedMask))
+                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.inAirSpeedMask, inAirSpeed.ToString());
 
-            //Add inAirVel2 param.
-            if (humanPlayerData.Contains(QUtils.inAir2Mask))
-                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.inAir2Mask, inAirVel2.ToString());
+            //Add peek Left Right Length param.
+            if (humanPlayerData.Contains(QUtils.peekLeftRightLenMask))
+                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.peekLeftRightLenMask, peekLeftRightLen.ToString());
 
-            //Add healthScale1 param.
-            if (humanPlayerData.Contains(QUtils.health1Mask))
-                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.health1Mask, healthScale1.ToString());
+            //Add peek crouch length param.
+            if (humanPlayerData.Contains(QUtils.peekCrouchLenMask))
+                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.peekCrouchLenMask, peekCrouchLen.ToString());
 
-            //Add healthScale2 param.
-            if (humanPlayerData.Contains(QUtils.health2Mask))
-                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.health2Mask, healthScale2.ToString());
+            //Add peek time param.
+            if (humanPlayerData.Contains(QUtils.peekTimeMask))
+                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.peekTimeMask, peekTimeLen.ToString());
 
-            //Add healthScale3 param.
-            if (humanPlayerData.Contains(QUtils.health3Mask))
-                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.health3Mask, healthScale3.ToString());
+            //Add health damage scale param.
+            if (humanPlayerData.Contains(QUtils.healthScaleMask))
+                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.healthScaleMask, healthDamageScale.ToString());
+
+            //Add health fence damage scale param.
+            if (humanPlayerData.Contains(QUtils.healthFenceMask))
+                humanPlayerData = humanPlayerData.ReplaceFirst(QUtils.healthFenceMask, healthFenceDamageScale.ToString());
 
             string humanFileName = "humanplayer.qsc";
-            var outputHumanplayerPath = QUtils.gameAbsPath + "\\humanplayer\\";
+            var outputHumanPlayerPath = QUtils.gameAbsPath + "\\humanplayer\\";
 
             QUtils.SaveFile(humanFileName, humanPlayerData);
-            bool status = QCompiler.Compile(humanFileName, outputHumanplayerPath, 0x0);
+            bool status = QCompiler.Compile(humanFileName, outputHumanPlayerPath, 0x0);
             System.IO.File.Delete(humanFileName);
 
             if (status)

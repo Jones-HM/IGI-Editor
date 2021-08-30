@@ -30,6 +30,7 @@ namespace IGIEditor
 
         static internal IGIEditorUI editorRef;
 
+        //Main-Start - Conx.
         public IGIEditorUI()
         {
             var posTimer = new System.Windows.Forms.Timer();
@@ -100,7 +101,7 @@ namespace IGIEditor
             if (gameLogs)
             {
                 QUtils.EnableLogs();
-                QLibc.GT.GT_EnableLogs();
+                GT.GT_EnableLogs();
             }
 
             //Get current level selected.
@@ -110,6 +111,7 @@ namespace IGIEditor
                 levelStartTxt.Text = gameLevel.ToString();
                 SetStatusText("Game running...");
                 LoadLevelDetails(gameLevel);
+                QMemory.UpdateHumanHealth(true);
             }
             else
                 SetStatusText("Game not running...");
@@ -604,6 +606,10 @@ namespace IGIEditor
                 RefreshUIComponents(gameLevel);
                 QUtils.InjectDllOnStart();
             }
+
+            //Enable Jump Health.
+            IntPtr jumpHealthAddr = (IntPtr)0x0040864E;
+            //GT.GT_WriteNOP(jumpHealthAddr, 6);
         }
 
         private void updateObjPosition_Click(object sender, EventArgs e)
@@ -735,7 +741,7 @@ namespace IGIEditor
 
                 if (!string.IsNullOrEmpty(qscData))
                     compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, false, true, false);
-                    
+
                 if (compileStatus)
                     SetStatusText("Human position updated successfully");
             }
@@ -915,7 +921,7 @@ namespace IGIEditor
             if (e.TabPageIndex == 7)
             {
                 UpdateUIComponent(buildingPosDD, false);
-                UpdateUIComponent(objectPosDD,true);
+                UpdateUIComponent(objectPosDD, true);
             }
         }
 
@@ -962,6 +968,7 @@ namespace IGIEditor
         private void restartLevel_Click(object sender, EventArgs e)
         {
             GT.GT_SendKeys2Process(QMemory.gameName, "^r", false);
+            //QMemory.UpdateHumanHealth(true);
         }
 
         private void clearAllLvlBtn_Click(object sender, EventArgs e)
@@ -1047,6 +1054,93 @@ namespace IGIEditor
             isObjectDD = false;
         }
 
+        private void updateHumanSpeedBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                QUtils.movSpeed = Convert.ToDouble(movementSpeedTxt.Text);
+                QUtils.forwardSpeed = Convert.ToDouble(forwardJumpTxt.Text);
+                QUtils.upwardSpeed = Convert.ToDouble(upwardJumpTxt.Text);
+                QUtils.inAirSpeed = Convert.ToDouble(inAirSpeedTxt.Text);
+                QHuman.UpdateHumanPlayerSpeed(QUtils.movSpeed, QUtils.forwardSpeed, QUtils.upwardSpeed, QUtils.inAirSpeed);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("not in a correct format"))
+                    QUtils.ShowError("Human speed parameters are empty or invalid");
+                else
+                    QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
+        }
+
+        private void updateHumanHealthBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                QUtils.healthScale = Convert.ToDouble(damageScaleTxt.Text);
+                QUtils.healthScaleFence = Convert.ToDouble(damageScaleFenceTxt.Text);
+                QHuman.UpdateHumanPlayerHealth(QUtils.healthScale, QUtils.healthScaleFence);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("not in a correct format"))
+                    QUtils.ShowError("Human health parameters are empty or invalid");
+                else
+                    QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
+
+        }
+
+        private void updateHumanPeekBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                QUtils.peekLRLen = Convert.ToDouble(peekLRTxt.Text);
+                QUtils.peekCrouchLen = Convert.ToDouble(peekCrouchTxt.Text);
+                QUtils.peekTime = Convert.ToDouble(peekTimeTxt.Text);
+                QHuman.UpdateHumanPlayerPeek(QUtils.peekLRLen, QUtils.peekCrouchLen, QUtils.peekTime);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("not in a correct format"))
+                    QUtils.ShowError("Human Peek parameters are empty or invalid");
+                else
+                    QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
+        }
+
+        private void resetHumanBtn_Click(object sender, EventArgs e)
+        {
+            string humanFileName = QUtils.cfgHumanplayerPathQvm + @"\humanplayer.qvm";
+            var outputHumanPlayerPath = QUtils.gameAbsPath + "\\humanplayer\\";
+            var moveCmd = "copy " + humanFileName + " " + outputHumanPlayerPath + " /y";
+            QUtils.ShellExec(moveCmd);
+
+            Thread.Sleep(1000);
+            GT.GT_SendKeys2Process(QMemory.gameName, "^h", true);
+            QMemory.SetStatusMsgText("Human parameters set success");
+        }
+
+        private void readHumanBtn_Click(object sender, EventArgs e)
+        {
+            var humanPlayerFile = QUtils.cfgHumanplayerPathQsc + @"\humanplayer" + QUtils.qscExt;
+            string humanFileName = "humanplayer.qsc";
+            string humanPlayerData = QUtils.LoadFile(humanFileName); //QCryptor.Decrypt(humanPlayerFile);
+
+            var outputHumanPlayerPath = QUtils.gameAbsPath + "\\humanplayer\\";
+
+            QUtils.SaveFile(humanFileName, humanPlayerData);
+            bool status = QCompiler.Compile(humanFileName, outputHumanPlayerPath, 0x0);
+            //System.IO.File.Delete(humanFileName);
+
+            if (status)
+            {
+                Thread.Sleep(1000);
+                GT.GT_SendKeys2Process(QMemory.gameName, "^h", true);
+                QMemory.SetStatusMsgText("Human parameters set success");
+            }
+        }
+
         private void resetObjectsBtn_Click(object sender, EventArgs e)
         {
             SetStatusText("Resetting please wait...");
@@ -1079,6 +1173,13 @@ namespace IGIEditor
                 SetStatusText(itemsCount + " Objects reset success");
         }
 
+        private void igiSmallIconBtn_Click(object sender, EventArgs e)
+        {
+            int level = Convert.ToInt32(levelStartTxt.Text);
+            StartGameLevel(level, false);
+        }
+
+
         private void removeModelBtn_Click(object sender, EventArgs e)
         {
             var modelRegex = @"\d{3}_\d{2}_\d{1}";
@@ -1109,27 +1210,33 @@ namespace IGIEditor
             try
             {
                 int level = Convert.ToInt32(levelStartTxt.Text.ToString());
-                LoadLevelDetails(level);
-
-                QMemory.StartLevel(level, true);
-                gameFound = true;
-                Thread.Sleep(3000);
-                QUtils.RestoreLevel(level);
-                QUtils.ResetFile(level);
-                GenerateScriptId(level);
-                QUtils.aiScriptFiles.Clear();
-
-                Thread.Sleep(5000);
-                var qscData = QMisc.RemoveCutscene(inputQscPath, level);
-                if (!String.IsNullOrEmpty(qscData))
-                    compileStatus = QCompiler.CompileEx(qscData);
-                QUtils.InjectDllOnStart();
-                RefreshUIComponents(level);
+                StartGameLevel(level, true);
             }
             catch (Exception ex)
             {
                 QUtils.ShowError(ex.Message ?? ex.StackTrace);
             }
+        }
+
+        private void StartGameLevel(int level, bool windowed = true)
+        {
+            LoadLevelDetails(level);
+            QMemory.StartLevel(level, windowed);
+            gameFound = true;
+            Thread.Sleep(3000);
+            QUtils.RestoreLevel(level);
+            QUtils.ResetFile(level);
+            GenerateScriptId(level);
+            QUtils.aiScriptFiles.Clear();
+
+            Thread.Sleep(5000);
+            var qscData = QMisc.RemoveCutscene(inputQscPath, level);
+            if (!String.IsNullOrEmpty(qscData))
+                compileStatus = QCompiler.CompileEx(qscData);
+            QUtils.InjectDllOnStart();
+            RefreshUIComponents(level);
+
+            QMemory.UpdateHumanHealth(true);
         }
 
         private void RefreshUIComponents(int level)

@@ -44,7 +44,7 @@ namespace IGIEditor
         internal static string logFile = "app.log", qLibLogsFile = "GTLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsMasterList, aiIdlePath;
         internal static bool logEnabled = false, keyExist = false, keyFileExist = false, mapViewerMode = false;
 
-        internal static string gamePath,appdataPath, igiEditorTmpPath, appCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPath, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", cfgFile, projAppName, cachePath, cachePathAppLogs, cachePathAppImages,
+        internal static string gamePath,appdataPath, igiEditorTmpPath, appCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", cfgFile, projAppName, cachePath, cachePathAppLogs, cachePathAppImages,
          igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayer = "humanplayer.qvm", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalDllPath = @"bin\igi1ed.dat", tmpDllPath, internalDllInjectorPath = @"bin\igi1edInj.exe";
         internal static string inputQscPath = @"\IGI_QSC", inputQvmPath = @"\IGI_QVM", inputAiPath = @"\AIFiles", inputVoidPath = @"\Void", inputMissionPath = @"\missions\location0\level", inputHumanplayerPath = @"\humanplayer";
         internal static List<string> objTypeList = new List<string>() { "Building", "EditRigidObj", "Terminal", "Elevator", "ExplodeObject", "AlarmControl", "Generator", "Radio" };
@@ -54,10 +54,10 @@ namespace IGIEditor
         internal const string CAPTION_CONFIG_ERR = "Config - Error", CAPTION_FATAL_SYS_ERR = "Fatal sytem - Error", CAPTION_APP_ERR = "Application - Error", CAPTION_COMPILER_ERR = "Compiler - Error", alarmControl = "AlarmControl", stationaryGun = "StationaryGun";
         internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths",helpStr = "IGI 1 Editor - HELP\nObject ID format: xxx_xx_x like 435_01_1";
         internal static string patroIdleMask = "xxxx", patroAlarmMask = "yyyy", alarmControlMask = "zzzz", gunnerIdMask = "aaaa", viewGammaMask = "bbbb";
-        internal static string speedXMask = "xx", speedYMask = "yy", speedZMask = "zz", inAir1Mask = "iair1", inAir2Mask = "iair2", health1Mask = "hh1", health2Mask = "hh2", health3Mask = "hh3";
+        internal static string movementSpeedMask = "movSpeed", forwardSpeedMask = "forwardSpeed", upwardSpeedMask = "upSpeed", inAirSpeedMask = "iAirSpeed", throwBaseVelMask = "throwBaseVel", healthScaleMask = "healthScale", healthFenceMask = "healthFence", peekLeftRightLenMask = "peekLRLen", peekCrouchLenMask = "peekCrouchLen", peekTimeMask = "peekTime";
         internal static List<string> aiScriptFiles = new List<string>();
         internal static string aiEnenmyTask = null, aiFriendTask = null, levelFlowData, missionsListFile = "MissionsList.txt", missionLevelFile = "missionLevel.txt", missionDescFile = "missionDesc.txt", missionListFile = "MissionsList.txt";
-        internal static double speedX = 1.75f, speedY = 17.5f, speedZ = 27, inAirVel1 = 0.5f, inAirVel2 = 0.8500000238418579f, healthScale1 = 3.0f, healthScale2 = 0.5f, healthScale3 = 0.5f;
+        internal static double movSpeed = 1.75f, forwardSpeed = 17.5f, upwardSpeed = 27, inAirSpeed = 0.5f, peekCrouchLen = 0.8500000238418579f, peekLRLen = 0.8500000238418579f, peekTime = 0.25, healthScale = 3.0f, healthScaleFence = 0.5f;
         private static Random rand = new Random();
         internal enum QTYPES { BUILDING = 1, RIGID_OBJ = 2 };
 
@@ -330,7 +330,8 @@ namespace IGIEditor
             aiIdlePath = igiEditorTmpPath + Path.DirectorySeparatorChar + "aiIdle.qvm";
             cfgQvmPath = igiEditorTmpPath + qfilesPath + inputQvmPath + inputMissionPath;
             cfgQscPath = igiEditorTmpPath + qfilesPath + inputQscPath + inputMissionPath;
-            cfgHumanplayerPath = igiEditorTmpPath + qfilesPath + inputQscPath + inputHumanplayerPath;
+            cfgHumanplayerPathQsc = igiEditorTmpPath + qfilesPath + inputQscPath + inputHumanplayerPath;
+            cfgHumanplayerPathQvm = igiEditorTmpPath + qfilesPath + inputQvmPath + inputHumanplayerPath;
             cfgAiPath = igiEditorTmpPath + inputAiPath;
             cfgVoidPath = igiEditorTmpPath + inputVoidPath;
             cfgQFilesPath = igiEditorTmpPath + qfilesPath;
