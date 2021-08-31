@@ -106,7 +106,6 @@
             this.movementSpeedTxt = new System.Windows.Forms.TextBox();
             this.movementSpeedLbl = new System.Windows.Forms.Label();
             this.aiEditor = new System.Windows.Forms.TabPage();
-            this.addAIBtn = new System.Windows.Forms.Button();
             this.weaponEditorTab = new System.Windows.Forms.TabPage();
             this.weaponAmmoTxt = new System.Windows.Forms.TextBox();
             this.weaponAmmolbl = new System.Windows.Forms.Label();
@@ -180,6 +179,10 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
+            this.aiModelSelectDD = new System.Windows.Forms.ComboBox();
+            this.aiImgBox = new System.Windows.Forms.PictureBox();
+            this.aiModelLbl = new System.Windows.Forms.Label();
+            this.addAiBtn = new System.Windows.Forms.Button();
             this.backPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.tabContainer.SuspendLayout();
@@ -198,6 +201,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).BeginInit();
             this.miscTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aiImgBox)).BeginInit();
             this.SuspendLayout();
             // 
             // backPnl
@@ -1238,7 +1242,10 @@
             // aiEditor
             // 
             this.aiEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.aiEditor.Controls.Add(this.addAIBtn);
+            this.aiEditor.Controls.Add(this.aiModelSelectDD);
+            this.aiEditor.Controls.Add(this.aiImgBox);
+            this.aiEditor.Controls.Add(this.aiModelLbl);
+            this.aiEditor.Controls.Add(this.addAiBtn);
             this.aiEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.aiEditor.Location = new System.Drawing.Point(4, 30);
             this.aiEditor.Margin = new System.Windows.Forms.Padding(4);
@@ -1246,18 +1253,6 @@
             this.aiEditor.Size = new System.Drawing.Size(1137, 387);
             this.aiEditor.TabIndex = 8;
             this.aiEditor.Text = "A.I Editor";
-            // 
-            // addAIBtn
-            // 
-            this.addAIBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.addAIBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.addAIBtn.Location = new System.Drawing.Point(478, 98);
-            this.addAIBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.addAIBtn.Name = "addAIBtn";
-            this.addAIBtn.Size = new System.Drawing.Size(140, 36);
-            this.addAIBtn.TabIndex = 28;
-            this.addAIBtn.Text = "Add A.I";
-            this.addAIBtn.UseVisualStyleBackColor = true;
             // 
             // weaponEditorTab
             // 
@@ -2245,6 +2240,55 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "IGI 1";
             // 
+            // aiModelSelectDD
+            // 
+            this.aiModelSelectDD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiModelSelectDD.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.aiModelSelectDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.aiModelSelectDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.aiModelSelectDD.FormattingEnabled = true;
+            this.aiModelSelectDD.Location = new System.Drawing.Point(272, 48);
+            this.aiModelSelectDD.Name = "aiModelSelectDD";
+            this.aiModelSelectDD.Size = new System.Drawing.Size(419, 29);
+            this.aiModelSelectDD.TabIndex = 37;
+            this.aiModelSelectDD.SelectedIndexChanged += new System.EventHandler(this.aiModelSelectDD_SelectedIndexChanged);
+            this.aiModelSelectDD.SelectedValueChanged += new System.EventHandler(this.aiModelSelectDD_SelectedValueChanged);
+            // 
+            // aiImgBox
+            // 
+            this.aiImgBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.aiImgBox.Location = new System.Drawing.Point(58, 81);
+            this.aiImgBox.Margin = new System.Windows.Forms.Padding(4);
+            this.aiImgBox.Name = "aiImgBox";
+            this.aiImgBox.Size = new System.Drawing.Size(199, 262);
+            this.aiImgBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.aiImgBox.TabIndex = 36;
+            this.aiImgBox.TabStop = false;
+            // 
+            // aiModelLbl
+            // 
+            this.aiModelLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.aiModelLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.aiModelLbl.Location = new System.Drawing.Point(81, 44);
+            this.aiModelLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.aiModelLbl.Name = "aiModelLbl";
+            this.aiModelLbl.Size = new System.Drawing.Size(173, 33);
+            this.aiModelLbl.TabIndex = 34;
+            this.aiModelLbl.Text = "A.I Model";
+            this.aiModelLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // addAiBtn
+            // 
+            this.addAiBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addAiBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.addAiBtn.Location = new System.Drawing.Point(716, 45);
+            this.addAiBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.addAiBtn.Name = "addAiBtn";
+            this.addAiBtn.Size = new System.Drawing.Size(143, 31);
+            this.addAiBtn.TabIndex = 33;
+            this.addAiBtn.Text = "Add A.I";
+            this.addAiBtn.UseVisualStyleBackColor = true;
+            // 
             // IGIEditorUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -2283,6 +2327,7 @@
             this.miscTab.ResumeLayout(false);
             this.miscTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aiImgBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2357,7 +2402,6 @@
         private System.Windows.Forms.ComboBox objectSelectDD;
         private System.Windows.Forms.ComboBox buildingSelectDD;
         private System.Windows.Forms.TabPage aiEditor;
-        private System.Windows.Forms.Button addAIBtn;
         private System.Windows.Forms.CheckBox posMetersCb;
         private System.Windows.Forms.CheckBox posCoordCb;
         private System.Windows.Forms.Label posTypeLbl;
@@ -2439,6 +2483,10 @@
         private System.Windows.Forms.Label peekCrouchLbl;
         private System.Windows.Forms.TextBox peekLRTxt;
         private System.Windows.Forms.Label peekLRLbl;
+        private System.Windows.Forms.ComboBox aiModelSelectDD;
+        private System.Windows.Forms.PictureBox aiImgBox;
+        private System.Windows.Forms.Label aiModelLbl;
+        private System.Windows.Forms.Button addAiBtn;
     }
 }
 

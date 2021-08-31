@@ -917,6 +917,16 @@ namespace IGIEditor
                 maxItemsLbl2.Text = maxItemsLbl4.Text = "Max Items :" + Convert.ToString(buildingsCount);
             }
 
+            //A.I Editor.
+            if (e.TabPageIndex == 3)
+            {
+                //Init AI model list.
+                aiModelSelectDD.Items.Clear();
+                var aiModelNamesList = QAI.GetAiModelNamesList();
+                foreach (var aiModelName in aiModelNamesList)
+                    aiModelSelectDD.Items.Add(aiModelName);
+            }
+
             //Position Editor
             if (e.TabPageIndex == 7)
             {
@@ -1179,6 +1189,45 @@ namespace IGIEditor
             StartGameLevel(level, false);
         }
 
+        private void aiModelSelectDD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void aiModelSelectDD_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var aiModelName = QAI.GetAiModelNamesList()[aiModelSelectDD.SelectedIndex];
+                var aiModelId = QAI.GetAiModelIdForName(aiModelName);
+
+                //Weapon image paths.
+                var imgUrl = baseImgBBUrl + aiImgUrl[aiModelSelectDD.SelectedIndex] + aiModelName.Replace("_", "-") + QUtils.pngExt;
+                //QUtils.ShowInfo(imgUrl);
+                var imgPath = aiModelName + QUtils.pngExt;
+                var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
+                
+                //Load image from Cache.
+                if (File.Exists(imgTmpPath))
+                {
+                    using (var bmpTemp = new Bitmap(imgTmpPath))
+                    {
+                        aiImgBox.Image = new Bitmap(bmpTemp);
+                    }
+                }
+
+                //Load image from Web.
+                else
+                {
+                    LoadImgBoxWeb(imgUrl, aiImgBox);
+                    QUtils.WebDownload(imgUrl, imgPath);
+                }
+                //QUtils.ShowInfo(aiModelId);
+            }catch(Exception ex)
+            {
+                aiImgBox.Image = null;
+            }
+        }
 
         private void removeModelBtn_Click(object sender, EventArgs e)
         {

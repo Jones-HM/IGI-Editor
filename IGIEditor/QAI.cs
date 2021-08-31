@@ -5,8 +5,33 @@ using System.Text.RegularExpressions;
 
 namespace IGIEditor
 {
+
+    class AIModel
+    {
+        string modelName;
+        string modelId;
+        char option;
+        List<int> levels;
+
+        public string ModelName { get => modelName; set => modelName = value; }
+        public string ModelId { get => modelId; set => modelId = value; }
+        public char Option { get => option; set => option = value; }
+        public List<int> Levels { get => levels; set => levels = value; }
+
+        public AIModel Add(string modelName, string modelId, char option, List<int> levels)
+        {
+            this.ModelName = modelName;
+            this.ModelId = modelId;
+            this.Option = option;
+            this.Levels = levels;
+            return this;
+        }
+    }
+
     class QAI
     {
+
+        private static List<AIModel> aiModelList = new List<AIModel>();
 
         internal static string AddHumanSoldier(string aiType, int aiScriptId, int graphId, Real64 position, float angle, string model, int team, bool addWeapon, string weapon, int ammo, bool guardGenerator)
         {
@@ -427,12 +452,12 @@ namespace IGIEditor
             return qscData;
         }
 
-        internal static List<string> GetAiModels(int level)
+        internal static List<string> GetAiModelIds(int level)
         {
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog("GetAiModels() level : called with level : " + level);
             string qscData = QCryptor.Decrypt(inputQscPath);
-            List<string> aiModelsList = new List<string>();
+            List<string> aiModelIdsList = new List<string>();
             var modelRegex = @"\d{3}_\d{2}_\d{1}";
             var dataLines = qscData.Split('\n');
 
@@ -446,12 +471,12 @@ namespace IGIEditor
                         || model == "022_01_1" || model == "009_01_1" || model == "000_01_1")
                         continue;
                     else
-                        aiModelsList.Add(model);
+                        aiModelIdsList.Add(model);
                 }
             }
 
-            aiModelsList = aiModelsList.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
-            return aiModelsList;
+            aiModelIdsList = aiModelIdsList.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
+            return aiModelIdsList;
         }
 
         internal static List<KeyValuePair<int, Real64>> GetDynamicIds4AI(string dynamicType, bool fromBackup = true)
@@ -567,5 +592,60 @@ namespace IGIEditor
             return boneHeirarchy;
         }
 
+        private static void InitAiModelList()
+        {
+            var allLevelsList = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
+            var frieldyForcesList = new List<int>() { 4, 6, 12, 13, 14 };
+            aiModelList.Add(new AIModel().Add("ANYA", "015_01_1", 'e', new List<int>() { 7, 8 }));
+            aiModelList.Add(new AIModel().Add("EKK", "012_01_1", 'i', new List<int>() { 12, 14 }));
+            aiModelList.Add(new AIModel().Add("JONES", "000_01_1", 'i', allLevelsList));
+            aiModelList.Add(new AIModel().Add("SNIPER_01", "001_01_1", 'i', new List<int>() { 1, 3, 9, 13 }));
+            aiModelList.Add(new AIModel().Add("SNIPER_02", "001_02_1", 'i', new List<int>() { 7, 8 }));
+            aiModelList.Add(new AIModel().Add("GUNNER_406", "011_01_1", 'i', new List<int>() { 6 }));
+            aiModelList.Add(new AIModel().Add("GUNNER_407", "011_03_1", 'i', new List<int>() { 6 }));
+            aiModelList.Add(new AIModel().Add("SCIENTIST", "011_02_1", 'i', new List<int>() { 6, 9 }));
+            aiModelList.Add(new AIModel().Add("PATROL_AK_01", "003_01_1", 'e', new List<int>() { 6, 11, 12, 13, 14 }));
+            aiModelList.Add(new AIModel().Add("PATROL_AK_02", "003_02_1", 'i', new List<int>() { 7, 8, 11 }));
+            aiModelList.Add(new AIModel().Add("PATROL_AK_03", "006_01_1", 'i', new List<int>() { 7, 11 }));
+            aiModelList.Add(new AIModel().Add("SECURITY_PATROL_SPAS", "019_01_1", 'i', new List<int>() { 1, 3, 5, 7, 8, 9, 11, 14 }));
+            aiModelList.Add(new AIModel().Add("GUNNER", "013_01_1", 'i', new List<int>() { 2, 4, 7, 8, 9, 10, 12, 13 }));
+            aiModelList.Add(new AIModel().Add("SOLDIER", "008_01_1", 'i', new List<int>() { 3, 5, 9, 11, 12 }));
+            aiModelList.Add(new AIModel().Add("HARRISON", "022_01_1", 'i', new List<int>() { 4, 6, 13 }));
+            aiModelList.Add(new AIModel().Add("FRIENDLY_SOLDIER_1", "021_01_1", 'i', frieldyForcesList));
+            aiModelList.Add(new AIModel().Add("FRIENDLY_SOLDIER_2", "020_01_1", 'i', frieldyForcesList));
+            aiModelList.Add(new AIModel().Add("JOSEP_PRIBOI", "009_02_1", 'i', new List<int>() { 4 }));
+            aiModelList.Add(new AIModel().Add("MAFIA_GUARD", "014_01_1", 'i', new List<int>() { 6 }));
+            aiModelList.Add(new AIModel().Add("MAFIA_PATROL", "014_02_1", 'i', new List<int>() { 6 }));
+            aiModelList.Add(new AIModel().Add("PRIBOI", "009_01_1", 'i', new List<int>() { 6, 7, 9, 10 }));
+            aiModelList.Add(new AIModel().Add("GUARD_AK", "004_02_1", 'i', new List<int>() { 9, 10 }));
+            aiModelList.Add(new AIModel().Add("SPETNAZ_GUARD_AK", "018_01_1", 'i', new List<int>() { 9, 10, 12, 13, 14 }));
+        }
+
+        internal static List<string> GetAiModelNamesList()
+        {
+            if (aiModelList.Count == 0)
+                InitAiModelList();
+
+            var aiModelNamesList = new List<string>();
+            foreach (var aiModel in aiModelList)
+            {
+                aiModelNamesList.Add(aiModel.ModelName);
+            }
+            return aiModelNamesList;
+        }
+
+
+        internal static string GetAiModelIdForName(string modelName)
+        {
+            if (aiModelList.Count == 0)
+                InitAiModelList();
+            foreach (var aiModel in aiModelList)
+            {
+                if (modelName == aiModel.ModelName)
+                    return aiModel.ModelId;
+            }
+            return null;
+        }
     }
+
 }
