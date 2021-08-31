@@ -604,7 +604,7 @@ namespace IGIEditor
             aiModelList.Add(new AIModel().Add("GUNNER_406", "011_01_1", 'i', new List<int>() { 6 }));
             aiModelList.Add(new AIModel().Add("GUNNER_407", "011_03_1", 'i', new List<int>() { 6 }));
             aiModelList.Add(new AIModel().Add("SCIENTIST", "011_02_1", 'i', new List<int>() { 6, 9 }));
-            aiModelList.Add(new AIModel().Add("PATROL_AK_01", "003_01_1", 'e', new List<int>() { 6, 11, 12, 13, 14 }));
+            aiModelList.Add(new AIModel().Add("PATROL_AK_01", "003_01_1", 'e', new List<int>() { 6, 8, 11, 12, 13, 14 }));
             aiModelList.Add(new AIModel().Add("PATROL_AK_02", "003_02_1", 'i', new List<int>() { 7, 8, 11 }));
             aiModelList.Add(new AIModel().Add("PATROL_AK_03", "006_01_1", 'i', new List<int>() { 7, 11 }));
             aiModelList.Add(new AIModel().Add("SECURITY_PATROL_SPAS", "019_01_1", 'i', new List<int>() { 1, 3, 5, 7, 8, 9, 11, 14 }));
@@ -621,7 +621,7 @@ namespace IGIEditor
             aiModelList.Add(new AIModel().Add("SPETNAZ_GUARD_AK", "018_01_1", 'i', new List<int>() { 9, 10, 12, 13, 14 }));
         }
 
-        internal static List<string> GetAiModelNamesList()
+        internal static List<string> GetAiModelNamesList(int level)
         {
             if (aiModelList.Count == 0)
                 InitAiModelList();
@@ -629,22 +629,51 @@ namespace IGIEditor
             var aiModelNamesList = new List<string>();
             foreach (var aiModel in aiModelList)
             {
-                aiModelNamesList.Add(aiModel.ModelName);
+                if (aiModel.Option == 'i')
+                {
+                    if (aiModel.Levels.Contains(level))
+                        aiModelNamesList.Add(aiModel.ModelName);
+                }
+                else if (aiModel.Option == 'e')
+                {
+                    if (!aiModel.Levels.Contains(level))
+                        aiModelNamesList.Add(aiModel.ModelName);
+                }
             }
             return aiModelNamesList;
         }
 
 
-        internal static string GetAiModelIdForName(string modelName)
+        internal static string GetAiModelIdForName(string aiModelName)
         {
             if (aiModelList.Count == 0)
                 InitAiModelList();
             foreach (var aiModel in aiModelList)
             {
-                if (modelName == aiModel.ModelName)
+                if (aiModelName == aiModel.ModelName)
+                {
+                    QUtils.AddLog("GetAiModelIdForName(): aiModelName" + aiModelName + " Returned ModelId : " + aiModel.ModelId);
                     return aiModel.ModelId;
+                }
             }
             return null;
+        }
+
+        internal static string GetAiImageId(string aiModelName)
+        {
+            string imageId = null;
+            aiModelName = aiModelName.Replace("_", "-");
+
+            foreach (var aiModel in QUtils.aiModelDict)
+            {
+                if (aiModel.Value == aiModelName)
+                {
+                    imageId = aiModel.Key;
+                    break;
+                }
+            }
+            QUtils.AddLog("GetAiImageId(): aiModelName" + aiModelName + " Returned imageId : " + imageId);
+            return imageId;
         }
     }
 

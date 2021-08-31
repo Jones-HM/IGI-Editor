@@ -44,7 +44,7 @@ namespace IGIEditor
             //Start Position timer.
             posTimer.Tick += new EventHandler(UpdatePositionTimer);
             posTimer.Interval = 500;
-            posTimer.Start();
+            //posTimer.Start();
 
             //Start File Integrity timer.
             integrityTimer.Tick += new EventHandler(FileIntegrityCheckerTimer);
@@ -154,6 +154,16 @@ namespace IGIEditor
             QUtils.weaponList = QHuman.GetWeaponsList();
             foreach (var weapon in QUtils.weaponList)
                 weaponSelectDD.Items.Add(weapon.Keys.ElementAt(0));
+
+            //Init AI model list.
+            QUtils.aiModelsListStr.Clear();
+            var aiModelNamesList = QAI.GetAiModelNamesList(level);
+            foreach (var aiModelName in aiModelNamesList)
+            {
+                aiModelsListStr.Add(aiModelName);
+                if (initialInit)
+                    aiModelSelectDD.Items.Add(aiModelName);
+            }
 
             //Init Buildings list.
             QUtils.buildingListStr.Clear();
@@ -286,7 +296,7 @@ namespace IGIEditor
 
         static void ParseConfig()
         {
-            QUtils.projAppName = Assembly.GetEntryAssembly().GetName().Name;
+            QUtils.projAppName = AppDomain.CurrentDomain.FriendlyName.Replace(".exe",String.Empty);
             QUtils.cfgFile = QUtils.projAppName + ".ini";
             QUtils.logFile = QUtils.projAppName + ".log";
             QUtils.appCurrPath = Directory.GetCurrentDirectory();
@@ -920,18 +930,14 @@ namespace IGIEditor
             //A.I Editor.
             if (e.TabPageIndex == 3)
             {
-                //Init AI model list.
-                aiModelSelectDD.Items.Clear();
-                var aiModelNamesList = QAI.GetAiModelNamesList();
-                foreach (var aiModelName in aiModelNamesList)
-                    aiModelSelectDD.Items.Add(aiModelName);
+
             }
 
             //Position Editor
             if (e.TabPageIndex == 7)
             {
-                UpdateUIComponent(buildingPosDD, false);
-                UpdateUIComponent(objectPosDD, true);
+                UpdateUIComponent(buildingPosDD, QUtils.buildingListStr);
+                UpdateUIComponent(objectPosDD, QUtils.objectRigidListStr);
             }
         }
 
@@ -1198,12 +1204,9 @@ namespace IGIEditor
         {
             try
             {
-                var aiModelName = QAI.GetAiModelNamesList()[aiModelSelectDD.SelectedIndex];
+                var aiModelName = QAI.GetAiModelNamesList(gameLevel)[aiModelSelectDD.SelectedIndex];
                 var aiModelId = QAI.GetAiModelIdForName(aiModelName);
 
-                //Weapon image paths.
-                var imgUrl = baseImgBBUrl + aiImgUrl[aiModelSelectDD.SelectedIndex] + aiModelName.Replace("_", "-") + QUtils.pngExt;
-                //QUtils.ShowInfo(imgUrl);
                 var imgPath = aiModelName + QUtils.pngExt;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
                 
@@ -1214,11 +1217,18 @@ namespace IGIEditor
                     {
                         aiImgBox.Image = new Bitmap(bmpTemp);
                     }
+                    SetStatusText("Setting resource image success");
                 }
 
                 //Load image from Web.
                 else
                 {
+                    //A.I image paths.
+                    var imageId = QAI.GetAiImageId(aiModelName);
+                    var imgUrl = baseImgBBUrl + imageId + aiModelName.Replace("_", "-") + QUtils.pngExt;
+
+                    SetStatusText("Downloading resource please wait...");
+                    QUtils.ShowInfo(imgUrl);
                     LoadImgBoxWeb(imgUrl, aiImgBox);
                     QUtils.WebDownload(imgUrl, imgPath);
                 }
@@ -1258,8 +1268,8 @@ namespace IGIEditor
         {
             try
             {
-                int level = Convert.ToInt32(levelStartTxt.Text.ToString());
-                StartGameLevel(level, true);
+                gameLevel = Convert.ToInt32(levelStartTxt.Text.ToString());
+                StartGameLevel(gameLevel, true);
             }
             catch (Exception ex)
             {
@@ -1291,15 +1301,16 @@ namespace IGIEditor
         private void RefreshUIComponents(int level)
         {
             InitUIComponents(level, false);
-            UpdateUIComponent(buildingSelectDD, false);
-            UpdateUIComponent(objectSelectDD, true);
+            UpdateUIComponent(buildingSelectDD, QUtils.buildingListStr);
+            UpdateUIComponent(objectSelectDD, QUtils.objectRigidListStr);
+            UpdateUIComponent(aiModelSelectDD, QUtils.aiModelsListStr);
         }
 
-        private void UpdateUIComponent(ComboBox itemDD, bool itemObj)
+        private void UpdateUIComponent(ComboBox itemDD,List<string> dataSrcList)
         {
             itemDD.DataSource = null;
             itemDD.Items.Clear();
-            itemDD.DataSource = itemObj ? QUtils.objectRigidListStr : QUtils.buildingListStr;
+            itemDD.DataSource = dataSrcList;
             itemDD.Refresh();
         }
 

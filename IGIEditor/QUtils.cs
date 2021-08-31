@@ -67,6 +67,7 @@ namespace IGIEditor
         internal static List<Dictionary<string, string>> objectRigidList = new List<Dictionary<string, string>>();
         internal static List<string> buildingListStr = new List<string>();
         internal static List<string> objectRigidListStr = new List<string>();
+        internal static List<string> aiModelsListStr = new List<string>();
 
         //Weapons variables.
         internal static string weaponId = "WEAPON_ID_";
@@ -86,6 +87,31 @@ namespace IGIEditor
         {"M203","AMMO_ID_M203"},
         {"MEDIPACK","AMMO_ID_MEDIPACK"},
         {"PROXIMITYMINE","AMMO_ID_PROXIMITYMINE"}};
+
+        internal static Dictionary<string, string> aiModelDict = new Dictionary<string, string>(){
+    {"/NW00rTT/","ANYA"},
+    {"/54FR0JK/","EKK"},
+    {"/VV8rygL/","JONES"},
+    {"/MnSF0Xq/","SNIPER-01"},
+    {"/wJVs4hd/","SNIPER-02"},
+    {"/tc5F91g/","GUNNER-406"},
+    {"/0VbGM59/","GUNNER-407"},
+    {"/LdfBgsp/","SCIENTIST"},
+    {"/tsjkC09/","PATROL-AK-01"},
+    {"/2j4n2vn/","PATROL-AK-02"},
+    {"/BsV8rTW/","PATROL-AK-03"},
+    {"/KFtDJvZ/","SECURITY-PATROL-SPAS"},
+    {"/5kZNXRm/","GUNNER"},
+    {"/x5wTLPQ/","SOLDIER"},
+    {"/vLYkjCY/","HARRISON"},
+    {"/n7jPGJD/","FRIENDLY-SOLDIER-1"},
+    {"/qYBkfvL/","FRIENDLY-SOLDIER-2"},
+    {"/vBqC7Vv/","JOSEP-PRIBOI"},
+    {"/7bkLQh5/","MAFIA-GUARD"},
+    {"/n8yFFKF/","MAFIA-PATROL"},
+    {"/Df72t29/","PRIBOI"},
+    {"/Ky39s89/","GUARD-AK"},
+    {"/yXnLrj9/","SPETNAZ-GUARD-AK"}};
 
         internal static string baseImgUrl = "https://static.wikia.nocookie.net/igi/images";
         internal static string baseImgBBUrl = "https://i.ibb.co/";

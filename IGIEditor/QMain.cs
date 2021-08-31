@@ -11,14 +11,14 @@ namespace IGIEditor
         [STAThread]
         static void Main()
         {
-            bool instanceCount = false;
-            Mutex mutex = null;
-            const string PROJECT_NAME = "$(ProjectName)";
-            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnAppExit);
-
             try
             {
-                mutex = new Mutex(true, PROJECT_NAME, out instanceCount);
+                bool instanceCount = false;
+                Mutex mutex = null;
+                var projAppName = AppDomain.CurrentDomain.FriendlyName;
+                AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnAppExit);
+
+                mutex = new Mutex(true,projAppName, out instanceCount);
                 if (instanceCount)
                 {
                     Application.EnableVisualStyles();
@@ -33,7 +33,7 @@ namespace IGIEditor
             }
             catch (Exception ex)
             {
-                QUtils.ShowError(ex.Message ?? ex.StackTrace, "Application Error");
+                MessageBox.Show("Exception:" + ex.Message + "\nStack: " + ex.StackTrace, "Application Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
