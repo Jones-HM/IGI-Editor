@@ -106,6 +106,25 @@
             this.movementSpeedTxt = new System.Windows.Forms.TextBox();
             this.movementSpeedLbl = new System.Windows.Forms.Label();
             this.aiEditor = new System.Windows.Forms.TabPage();
+            this.maxSpawnsTxt = new System.Windows.Forms.TextBox();
+            this.maxSpawnsLbl = new System.Windows.Forms.Label();
+            this.aiFriendlyCb = new System.Windows.Forms.CheckBox();
+            this.aiAdvanceViewCb = new System.Windows.Forms.CheckBox();
+            this.guardGeneratorCb = new System.Windows.Forms.CheckBox();
+            this.aiinvulnerabilityCb = new System.Windows.Forms.CheckBox();
+            this.aiCountTxt = new System.Windows.Forms.TextBox();
+            this.aiGraphIdDD = new System.Windows.Forms.ComboBox();
+            this.aiTypeDD = new System.Windows.Forms.ComboBox();
+            this.weaponAiDD = new System.Windows.Forms.ComboBox();
+            this.graphIdLbl = new System.Windows.Forms.Label();
+            this.aiTypeLbl = new System.Windows.Forms.Label();
+            this.weaponAiLbl = new System.Windows.Forms.Label();
+            this.weaponAIImgBox = new System.Windows.Forms.PictureBox();
+            this.aiModelSelectDD = new System.Windows.Forms.ComboBox();
+            this.aiImgBox = new System.Windows.Forms.PictureBox();
+            this.aiCountLbl = new System.Windows.Forms.Label();
+            this.aiModelLbl = new System.Windows.Forms.Label();
+            this.addAiBtn = new System.Windows.Forms.Button();
             this.weaponEditorTab = new System.Windows.Forms.TabPage();
             this.weaponAmmoTxt = new System.Windows.Forms.TextBox();
             this.weaponAmmolbl = new System.Windows.Forms.Label();
@@ -179,10 +198,7 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.aiModelSelectDD = new System.Windows.Forms.ComboBox();
-            this.aiImgBox = new System.Windows.Forms.PictureBox();
-            this.aiModelLbl = new System.Windows.Forms.Label();
-            this.addAiBtn = new System.Windows.Forms.Button();
+            this.aiPropertiesLbl = new System.Windows.Forms.Label();
             this.backPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.tabContainer.SuspendLayout();
@@ -191,6 +207,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).BeginInit();
             this.humanEditorTab.SuspendLayout();
             this.aiEditor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.weaponAIImgBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aiImgBox)).BeginInit();
             this.weaponEditorTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weaponImgBox)).BeginInit();
             this.threeDEditorTab.SuspendLayout();
@@ -201,7 +219,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).BeginInit();
             this.miscTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.aiImgBox)).BeginInit();
             this.SuspendLayout();
             // 
             // backPnl
@@ -1242,8 +1259,24 @@
             // aiEditor
             // 
             this.aiEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiEditor.Controls.Add(this.maxSpawnsTxt);
+            this.aiEditor.Controls.Add(this.maxSpawnsLbl);
+            this.aiEditor.Controls.Add(this.aiFriendlyCb);
+            this.aiEditor.Controls.Add(this.aiAdvanceViewCb);
+            this.aiEditor.Controls.Add(this.guardGeneratorCb);
+            this.aiEditor.Controls.Add(this.aiinvulnerabilityCb);
+            this.aiEditor.Controls.Add(this.aiCountTxt);
+            this.aiEditor.Controls.Add(this.aiGraphIdDD);
+            this.aiEditor.Controls.Add(this.aiTypeDD);
+            this.aiEditor.Controls.Add(this.weaponAiDD);
+            this.aiEditor.Controls.Add(this.graphIdLbl);
+            this.aiEditor.Controls.Add(this.aiTypeLbl);
+            this.aiEditor.Controls.Add(this.weaponAiLbl);
+            this.aiEditor.Controls.Add(this.weaponAIImgBox);
             this.aiEditor.Controls.Add(this.aiModelSelectDD);
             this.aiEditor.Controls.Add(this.aiImgBox);
+            this.aiEditor.Controls.Add(this.aiCountLbl);
+            this.aiEditor.Controls.Add(this.aiPropertiesLbl);
             this.aiEditor.Controls.Add(this.aiModelLbl);
             this.aiEditor.Controls.Add(this.addAiBtn);
             this.aiEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
@@ -1253,6 +1286,242 @@
             this.aiEditor.Size = new System.Drawing.Size(1137, 387);
             this.aiEditor.TabIndex = 8;
             this.aiEditor.Text = "A.I Editor";
+            // 
+            // maxSpawnsTxt
+            // 
+            this.maxSpawnsTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.maxSpawnsTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.maxSpawnsTxt.Enabled = false;
+            this.maxSpawnsTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.maxSpawnsTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.maxSpawnsTxt.Location = new System.Drawing.Point(914, 263);
+            this.maxSpawnsTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.maxSpawnsTxt.Name = "maxSpawnsTxt";
+            this.maxSpawnsTxt.Size = new System.Drawing.Size(195, 30);
+            this.maxSpawnsTxt.TabIndex = 44;
+            this.maxSpawnsTxt.Text = "1";
+            // 
+            // maxSpawnsLbl
+            // 
+            this.maxSpawnsLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.maxSpawnsLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.maxSpawnsLbl.Location = new System.Drawing.Point(728, 263);
+            this.maxSpawnsLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.maxSpawnsLbl.Name = "maxSpawnsLbl";
+            this.maxSpawnsLbl.Size = new System.Drawing.Size(173, 33);
+            this.maxSpawnsLbl.TabIndex = 43;
+            this.maxSpawnsLbl.Text = "Max Spawns :";
+            this.maxSpawnsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // aiFriendlyCb
+            // 
+            this.aiFriendlyCb.AutoSize = true;
+            this.aiFriendlyCb.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.aiFriendlyCb.Location = new System.Drawing.Point(262, 137);
+            this.aiFriendlyCb.Margin = new System.Windows.Forms.Padding(4);
+            this.aiFriendlyCb.Name = "aiFriendlyCb";
+            this.aiFriendlyCb.Size = new System.Drawing.Size(157, 26);
+            this.aiFriendlyCb.TabIndex = 42;
+            this.aiFriendlyCb.Text = "Friendly Troop";
+            this.aiFriendlyCb.UseVisualStyleBackColor = true;
+            // 
+            // aiAdvanceViewCb
+            // 
+            this.aiAdvanceViewCb.AutoSize = true;
+            this.aiAdvanceViewCb.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.aiAdvanceViewCb.Location = new System.Drawing.Point(262, 102);
+            this.aiAdvanceViewCb.Margin = new System.Windows.Forms.Padding(4);
+            this.aiAdvanceViewCb.Name = "aiAdvanceViewCb";
+            this.aiAdvanceViewCb.Size = new System.Drawing.Size(173, 26);
+            this.aiAdvanceViewCb.TabIndex = 42;
+            this.aiAdvanceViewCb.Text = "Advance View";
+            this.aiAdvanceViewCb.UseVisualStyleBackColor = true;
+            // 
+            // guardGeneratorCb
+            // 
+            this.guardGeneratorCb.AutoSize = true;
+            this.guardGeneratorCb.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.guardGeneratorCb.Location = new System.Drawing.Point(525, 270);
+            this.guardGeneratorCb.Margin = new System.Windows.Forms.Padding(4);
+            this.guardGeneratorCb.Name = "guardGeneratorCb";
+            this.guardGeneratorCb.Size = new System.Drawing.Size(195, 26);
+            this.guardGeneratorCb.TabIndex = 42;
+            this.guardGeneratorCb.Text = "Guard Generator";
+            this.guardGeneratorCb.UseVisualStyleBackColor = true;
+            this.guardGeneratorCb.CheckedChanged += new System.EventHandler(this.guardGeneratorCb_CheckedChanged);
+            // 
+            // aiinvulnerabilityCb
+            // 
+            this.aiinvulnerabilityCb.AutoSize = true;
+            this.aiinvulnerabilityCb.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.aiinvulnerabilityCb.Location = new System.Drawing.Point(262, 68);
+            this.aiinvulnerabilityCb.Margin = new System.Windows.Forms.Padding(4);
+            this.aiinvulnerabilityCb.Name = "aiinvulnerabilityCb";
+            this.aiinvulnerabilityCb.Size = new System.Drawing.Size(160, 26);
+            this.aiinvulnerabilityCb.TabIndex = 42;
+            this.aiinvulnerabilityCb.Text = "Invulnerability";
+            this.aiinvulnerabilityCb.UseVisualStyleBackColor = true;
+            // 
+            // aiCountTxt
+            // 
+            this.aiCountTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiCountTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.aiCountTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.aiCountTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.aiCountTxt.Location = new System.Drawing.Point(1003, 199);
+            this.aiCountTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.aiCountTxt.Name = "aiCountTxt";
+            this.aiCountTxt.Size = new System.Drawing.Size(100, 30);
+            this.aiCountTxt.TabIndex = 41;
+            this.aiCountTxt.Text = "1";
+            // 
+            // aiGraphIdDD
+            // 
+            this.aiGraphIdDD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiGraphIdDD.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.aiGraphIdDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.aiGraphIdDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.aiGraphIdDD.FormattingEnabled = true;
+            this.aiGraphIdDD.Location = new System.Drawing.Point(685, 195);
+            this.aiGraphIdDD.Name = "aiGraphIdDD";
+            this.aiGraphIdDD.Size = new System.Drawing.Size(190, 29);
+            this.aiGraphIdDD.TabIndex = 40;
+            this.aiGraphIdDD.SelectedValueChanged += new System.EventHandler(this.aiGraphIdDD_SelectedValueChanged);
+            // 
+            // aiTypeDD
+            // 
+            this.aiTypeDD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiTypeDD.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.aiTypeDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.aiTypeDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.aiTypeDD.FormattingEnabled = true;
+            this.aiTypeDD.Location = new System.Drawing.Point(685, 132);
+            this.aiTypeDD.Name = "aiTypeDD";
+            this.aiTypeDD.Size = new System.Drawing.Size(424, 29);
+            this.aiTypeDD.TabIndex = 40;
+            this.aiTypeDD.SelectedValueChanged += new System.EventHandler(this.aiTypeDD_SelectedValueChanged);
+            // 
+            // weaponAiDD
+            // 
+            this.weaponAiDD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.weaponAiDD.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.weaponAiDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.weaponAiDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.weaponAiDD.FormattingEnabled = true;
+            this.weaponAiDD.Location = new System.Drawing.Point(685, 74);
+            this.weaponAiDD.Name = "weaponAiDD";
+            this.weaponAiDD.Size = new System.Drawing.Size(424, 29);
+            this.weaponAiDD.TabIndex = 40;
+            this.weaponAiDD.SelectedValueChanged += new System.EventHandler(this.weaponAiDD_SelectedValueChanged);
+            // 
+            // graphIdLbl
+            // 
+            this.graphIdLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.graphIdLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.graphIdLbl.Location = new System.Drawing.Point(499, 192);
+            this.graphIdLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.graphIdLbl.Name = "graphIdLbl";
+            this.graphIdLbl.Size = new System.Drawing.Size(173, 33);
+            this.graphIdLbl.TabIndex = 39;
+            this.graphIdLbl.Text = "Graph Id :";
+            this.graphIdLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // aiTypeLbl
+            // 
+            this.aiTypeLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.aiTypeLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.aiTypeLbl.Location = new System.Drawing.Point(499, 132);
+            this.aiTypeLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.aiTypeLbl.Name = "aiTypeLbl";
+            this.aiTypeLbl.Size = new System.Drawing.Size(173, 33);
+            this.aiTypeLbl.TabIndex = 39;
+            this.aiTypeLbl.Text = "AI Type :";
+            this.aiTypeLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // weaponAiLbl
+            // 
+            this.weaponAiLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.weaponAiLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.weaponAiLbl.Location = new System.Drawing.Point(499, 70);
+            this.weaponAiLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.weaponAiLbl.Name = "weaponAiLbl";
+            this.weaponAiLbl.Size = new System.Drawing.Size(173, 33);
+            this.weaponAiLbl.TabIndex = 39;
+            this.weaponAiLbl.Text = "Weapon :";
+            this.weaponAiLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // weaponAIImgBox
+            // 
+            this.weaponAIImgBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.weaponAIImgBox.Location = new System.Drawing.Point(244, 182);
+            this.weaponAIImgBox.Margin = new System.Windows.Forms.Padding(4);
+            this.weaponAIImgBox.Name = "weaponAIImgBox";
+            this.weaponAIImgBox.Size = new System.Drawing.Size(199, 184);
+            this.weaponAIImgBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.weaponAIImgBox.TabIndex = 38;
+            this.weaponAIImgBox.TabStop = false;
+            // 
+            // aiModelSelectDD
+            // 
+            this.aiModelSelectDD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiModelSelectDD.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.aiModelSelectDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.aiModelSelectDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.aiModelSelectDD.FormattingEnabled = true;
+            this.aiModelSelectDD.Location = new System.Drawing.Point(685, 13);
+            this.aiModelSelectDD.Name = "aiModelSelectDD";
+            this.aiModelSelectDD.Size = new System.Drawing.Size(419, 29);
+            this.aiModelSelectDD.TabIndex = 37;
+            this.aiModelSelectDD.SelectedIndexChanged += new System.EventHandler(this.aiModelSelectDD_SelectedIndexChanged);
+            this.aiModelSelectDD.SelectedValueChanged += new System.EventHandler(this.aiModelSelectDD_SelectedValueChanged);
+            // 
+            // aiImgBox
+            // 
+            this.aiImgBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.aiImgBox.Location = new System.Drawing.Point(27, 44);
+            this.aiImgBox.Margin = new System.Windows.Forms.Padding(4);
+            this.aiImgBox.Name = "aiImgBox";
+            this.aiImgBox.Size = new System.Drawing.Size(199, 322);
+            this.aiImgBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.aiImgBox.TabIndex = 36;
+            this.aiImgBox.TabStop = false;
+            // 
+            // aiCountLbl
+            // 
+            this.aiCountLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.aiCountLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.aiCountLbl.Location = new System.Drawing.Point(883, 195);
+            this.aiCountLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.aiCountLbl.Name = "aiCountLbl";
+            this.aiCountLbl.Size = new System.Drawing.Size(119, 33);
+            this.aiCountLbl.TabIndex = 34;
+            this.aiCountLbl.Text = "AI Count:";
+            this.aiCountLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // aiModelLbl
+            // 
+            this.aiModelLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.aiModelLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.aiModelLbl.Location = new System.Drawing.Point(494, 9);
+            this.aiModelLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.aiModelLbl.Name = "aiModelLbl";
+            this.aiModelLbl.Size = new System.Drawing.Size(173, 33);
+            this.aiModelLbl.TabIndex = 34;
+            this.aiModelLbl.Text = "AI Model";
+            this.aiModelLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // addAiBtn
+            // 
+            this.addAiBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addAiBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.addAiBtn.Location = new System.Drawing.Point(685, 335);
+            this.addAiBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.addAiBtn.Name = "addAiBtn";
+            this.addAiBtn.Size = new System.Drawing.Size(190, 31);
+            this.addAiBtn.TabIndex = 33;
+            this.addAiBtn.Text = "Add A.I";
+            this.addAiBtn.UseVisualStyleBackColor = true;
+            this.addAiBtn.Click += new System.EventHandler(this.addAiBtn_Click);
             // 
             // weaponEditorTab
             // 
@@ -2240,54 +2509,17 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "IGI 1";
             // 
-            // aiModelSelectDD
+            // aiPropertiesLbl
             // 
-            this.aiModelSelectDD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.aiModelSelectDD.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.aiModelSelectDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.aiModelSelectDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.aiModelSelectDD.FormattingEnabled = true;
-            this.aiModelSelectDD.Location = new System.Drawing.Point(272, 48);
-            this.aiModelSelectDD.Name = "aiModelSelectDD";
-            this.aiModelSelectDD.Size = new System.Drawing.Size(419, 29);
-            this.aiModelSelectDD.TabIndex = 37;
-            this.aiModelSelectDD.SelectedIndexChanged += new System.EventHandler(this.aiModelSelectDD_SelectedIndexChanged);
-            this.aiModelSelectDD.SelectedValueChanged += new System.EventHandler(this.aiModelSelectDD_SelectedValueChanged);
-            // 
-            // aiImgBox
-            // 
-            this.aiImgBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.aiImgBox.Location = new System.Drawing.Point(58, 81);
-            this.aiImgBox.Margin = new System.Windows.Forms.Padding(4);
-            this.aiImgBox.Name = "aiImgBox";
-            this.aiImgBox.Size = new System.Drawing.Size(199, 262);
-            this.aiImgBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.aiImgBox.TabIndex = 36;
-            this.aiImgBox.TabStop = false;
-            // 
-            // aiModelLbl
-            // 
-            this.aiModelLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.aiModelLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.aiModelLbl.Location = new System.Drawing.Point(81, 44);
-            this.aiModelLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.aiModelLbl.Name = "aiModelLbl";
-            this.aiModelLbl.Size = new System.Drawing.Size(173, 33);
-            this.aiModelLbl.TabIndex = 34;
-            this.aiModelLbl.Text = "A.I Model";
-            this.aiModelLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // addAiBtn
-            // 
-            this.addAiBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.addAiBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.addAiBtn.Location = new System.Drawing.Point(716, 45);
-            this.addAiBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.addAiBtn.Name = "addAiBtn";
-            this.addAiBtn.Size = new System.Drawing.Size(143, 31);
-            this.addAiBtn.TabIndex = 33;
-            this.addAiBtn.Text = "Add A.I";
-            this.addAiBtn.UseVisualStyleBackColor = true;
+            this.aiPropertiesLbl.Font = new System.Drawing.Font("Century Gothic", 13F);
+            this.aiPropertiesLbl.ForeColor = System.Drawing.Color.LightSalmon;
+            this.aiPropertiesLbl.Location = new System.Drawing.Point(257, 13);
+            this.aiPropertiesLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.aiPropertiesLbl.Name = "aiPropertiesLbl";
+            this.aiPropertiesLbl.Size = new System.Drawing.Size(173, 33);
+            this.aiPropertiesLbl.TabIndex = 34;
+            this.aiPropertiesLbl.Text = "A.I Properties";
+            this.aiPropertiesLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // IGIEditorUI
             // 
@@ -2313,6 +2545,9 @@
             this.humanEditorTab.ResumeLayout(false);
             this.humanEditorTab.PerformLayout();
             this.aiEditor.ResumeLayout(false);
+            this.aiEditor.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.weaponAIImgBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aiImgBox)).EndInit();
             this.weaponEditorTab.ResumeLayout(false);
             this.weaponEditorTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weaponImgBox)).EndInit();
@@ -2327,7 +2562,6 @@
             this.miscTab.ResumeLayout(false);
             this.miscTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.aiImgBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2487,6 +2721,22 @@
         private System.Windows.Forms.PictureBox aiImgBox;
         private System.Windows.Forms.Label aiModelLbl;
         private System.Windows.Forms.Button addAiBtn;
+        private System.Windows.Forms.PictureBox weaponAIImgBox;
+        private System.Windows.Forms.ComboBox weaponAiDD;
+        private System.Windows.Forms.Label weaponAiLbl;
+        private System.Windows.Forms.TextBox aiCountTxt;
+        private System.Windows.Forms.ComboBox aiTypeDD;
+        private System.Windows.Forms.Label aiTypeLbl;
+        private System.Windows.Forms.Label aiCountLbl;
+        private System.Windows.Forms.CheckBox aiAdvanceViewCb;
+        private System.Windows.Forms.CheckBox aiinvulnerabilityCb;
+        private System.Windows.Forms.CheckBox aiFriendlyCb;
+        private System.Windows.Forms.TextBox maxSpawnsTxt;
+        private System.Windows.Forms.Label maxSpawnsLbl;
+        private System.Windows.Forms.ComboBox aiGraphIdDD;
+        private System.Windows.Forms.Label graphIdLbl;
+        private System.Windows.Forms.CheckBox guardGeneratorCb;
+        private System.Windows.Forms.Label aiPropertiesLbl;
     }
 }
 

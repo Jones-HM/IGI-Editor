@@ -40,7 +40,7 @@ namespace IGIEditor
 
         internal static string taskNew = "Task_New", taskDecl = "Task_DeclareParameters";
         internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc";
-        internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, randScriptId = 0, gGameLevel = 1;
+        internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1;
         internal static string logFile = "app.log", qLibLogsFile = "GTLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsMasterList, aiIdlePath;
         internal static bool logEnabled = false, keyExist = false, keyFileExist = false, mapViewerMode = false;
 
@@ -68,6 +68,7 @@ namespace IGIEditor
         internal static List<string> buildingListStr = new List<string>();
         internal static List<string> objectRigidListStr = new List<string>();
         internal static List<string> aiModelsListStr = new List<string>();
+        internal static List<int> aiGraphIdStr = new List<int>();
 
         //Weapons variables.
         internal static string weaponId = "WEAPON_ID_";

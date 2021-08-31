@@ -64,18 +64,4 @@ namespace IGIEditor
             //QUtils.ShowError("Ai scripts hasn't been added yet");
         }
     }
-
-    public class HumanAi
-    {
-        public int aiCount { get; set; }
-        public string aiType { get; set; }
-        public int graphId { get; set; }
-        public string weapon { get; set; }
-        public string model { get; set; }
-        public bool guardGenerator { get; set; }
-        public int maxSpawns { get; set; }
-        public bool friendly { get; set; }
-        public bool invulnerability { get; set; }
-        public bool advanceView { get; set; }
-    }
 }

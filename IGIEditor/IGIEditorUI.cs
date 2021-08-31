@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using UXLib.UX;
 using static IGIEditor.QUtils;
 
@@ -76,7 +77,7 @@ namespace IGIEditor
                 Thread.Sleep(3000);
                 QUtils.RestoreLevel(gameLevel);
                 QUtils.ResetFile(gameLevel);
-                GenerateScriptId(gameLevel);
+                GenerateAIScriptId(gameLevel);
                 QUtils.aiScriptFiles.Clear();
                 Thread.Sleep(5000);
                 var qscData = QMisc.RemoveCutscene(QUtils.cfgQscPath + gameLevel + "\\" + QUtils.objectsQsc, gameLevel);
@@ -151,9 +152,14 @@ namespace IGIEditor
         {
             //Init Weapons list.
             weaponSelectDD.Items.Clear();
+            weaponAiDD.Items.Clear();
             QUtils.weaponList = QHuman.GetWeaponsList();
             foreach (var weapon in QUtils.weaponList)
-                weaponSelectDD.Items.Add(weapon.Keys.ElementAt(0));
+            {
+                var weaponName = weapon.Keys.ElementAt(0);
+                weaponSelectDD.Items.Add(weaponName);
+                weaponAiDD.Items.Add(weaponName);
+            }
 
             //Init AI model list.
             QUtils.aiModelsListStr.Clear();
@@ -164,6 +170,25 @@ namespace IGIEditor
                 if (initialInit)
                     aiModelSelectDD.Items.Add(aiModelName);
             }
+
+            //Init AI types list.
+            aiTypeDD.Items.Clear();
+            var aiTypesList = QAI.GetAiTypes();
+            foreach (var aiType in aiTypesList)
+            {
+                aiTypeDD.Items.Add(aiType);
+            }
+
+            //Init AI Graph list.
+            QUtils.aiGraphIdStr.Clear();
+            var graphIdList = QGraphs.GetGraphIds(level);
+            foreach (var graphId in graphIdList)
+            {
+                aiGraphIdStr.Add(graphId);
+                if (initialInit)
+                    aiGraphIdDD.Items.Add(graphId);
+            }
+
 
             //Init Buildings list.
             QUtils.buildingListStr.Clear();
@@ -249,7 +274,7 @@ namespace IGIEditor
             }
 
             //Genrate random scriptId according to Level A.I.
-            GenerateScriptId(QUtils.gGameLevel);
+            GenerateAIScriptId(QUtils.gGameLevel);
 
             string game_path_tmp = QUtils.cfgGamePath;
             var game_abs_path = game_path_tmp.Slice(0, game_path_tmp.IndexOf("\\", game_path_tmp.IndexOf("\\") + 1));
@@ -296,7 +321,7 @@ namespace IGIEditor
 
         static void ParseConfig()
         {
-            QUtils.projAppName = AppDomain.CurrentDomain.FriendlyName.Replace(".exe",String.Empty);
+            QUtils.projAppName = AppDomain.CurrentDomain.FriendlyName.Replace(".exe", String.Empty);
             QUtils.cfgFile = QUtils.projAppName + ".ini";
             QUtils.logFile = QUtils.projAppName + ".log";
             QUtils.appCurrPath = Directory.GetCurrentDirectory();
@@ -537,7 +562,7 @@ namespace IGIEditor
             QUtils.RestoreLevel(level);
             QUtils.ResetFile(level);
             QMemory.RestartLevel(true);
-            GenerateScriptId(level);
+            GenerateAIScriptId(level);
         }
 
         private void resetAllLevelsBtn_Click(object sender, EventArgs e)
@@ -766,32 +791,35 @@ namespace IGIEditor
 
         private void weaponSelectDD_SelectedValueChanged(object sender, EventArgs e)
         {
+            PopulateWeaponDD(weaponSelectDD.SelectedIndex, weaponImgBox);
+        }
+
+        private void PopulateWeaponDD(int index, PictureBox imgBox)
+        {
             string weaponModel = null, weaponName = null, imgUrl = null, imgPath = null;
             try
             {
-                weaponModel = QUtils.weaponList[weaponSelectDD.SelectedIndex].Values.ElementAt(0);
-                weaponName = QUtils.weaponList[weaponSelectDD.SelectedIndex].Keys.ElementAt(0);
+                weaponModel = QUtils.weaponList[index].Values.ElementAt(0);
+                weaponName = QUtils.weaponList[index].Keys.ElementAt(0);
 
                 //Weapon image paths.
-                imgUrl = baseImgUrl + weaponsImgUrl[weaponSelectDD.SelectedIndex];
+                imgUrl = baseImgUrl + weaponsImgUrl[index];
                 imgPath = weaponName + QUtils.jpgExt;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
-
-                //weaponAmmoTxt.Enabled = !weaponModel.Contains("binoculars") || !weaponModel.Contains("knife");
 
                 //Load image from Cache.
                 if (File.Exists(imgTmpPath))
                 {
                     using (var bmpTemp = new Bitmap(imgTmpPath))
                     {
-                        weaponImgBox.Image = new Bitmap(bmpTemp);
+                        imgBox.Image = new Bitmap(bmpTemp);
                     }
                 }
 
                 //Load image from Web.
                 else
                 {
-                    LoadImgBoxWeb(imgUrl, weaponImgBox);
+                    LoadImgBoxWeb(imgUrl, imgBox);
                     QUtils.WebDownload(imgUrl, imgPath);
                 }
             }
@@ -809,11 +837,11 @@ namespace IGIEditor
                     else if (weaponName == "SENTRY")
                         imgUrl = baseImgBBUrl + "Bz81WvR/SENTRY.jpg";
 
-                    LoadImgBoxWeb(imgUrl, weaponImgBox);
+                    LoadImgBoxWeb(imgUrl, imgBox);
                     QUtils.WebDownload(imgUrl, imgPath);
                 }
                 else
-                    weaponImgBox.Image = null;
+                    imgBox.Image = null;
             }
         }
 
@@ -1209,7 +1237,7 @@ namespace IGIEditor
 
                 var imgPath = aiModelName + QUtils.pngExt;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
-                
+
                 //Load image from Cache.
                 if (File.Exists(imgTmpPath))
                 {
@@ -1228,14 +1256,82 @@ namespace IGIEditor
                     var imgUrl = baseImgBBUrl + imageId + aiModelName.Replace("_", "-") + QUtils.pngExt;
 
                     SetStatusText("Downloading resource please wait...");
-                    QUtils.ShowInfo(imgUrl);
+                    //QUtils.ShowInfo(imgUrl);
                     LoadImgBoxWeb(imgUrl, aiImgBox);
                     QUtils.WebDownload(imgUrl, imgPath);
                 }
                 //QUtils.ShowInfo(aiModelId);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 aiImgBox.Image = null;
+            }
+        }
+
+        private void weaponAiDD_SelectedValueChanged(object sender, EventArgs e)
+        {
+            PopulateWeaponDD(weaponAiDD.SelectedIndex, weaponAIImgBox);
+        }
+
+        private void aiTypeDD_SelectedValueChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void guardGeneratorCb_CheckedChanged(object sender, EventArgs e)
+        {
+            maxSpawnsTxt.Enabled = guardGeneratorCb.Checked;
+        }
+
+        private void aiGraphIdDD_SelectedValueChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void addAiBtn_Click(object sender, EventArgs e)
+        {
+            var aiModelName = QAI.GetAiModelNamesList(gameLevel)[aiModelSelectDD.SelectedIndex];
+            var aiModelId = QAI.GetAiModelIdForName(aiModelName);
+            var aiWeaponModel = QUtils.weaponList[weaponAiDD.SelectedIndex].Values.ElementAt(0);
+            int graphId = QUtils.aiGraphIdStr[aiGraphIdDD.SelectedIndex];
+            string aiType = QUtils.aiTypes[aiTypeDD.SelectedIndex];
+            int aiCount = Convert.ToInt32(aiCountTxt.Text);
+            int maxSpawns = Convert.ToInt32(maxSpawnsTxt.Text);
+
+            //Set human A.I properties.
+            var humanAi = new HumanAi();
+            humanAi.model = aiModelId;
+            humanAi.weapon = aiWeaponModel;
+            humanAi.graphId = graphId;
+            humanAi.aiType = aiType;
+            humanAi.aiCount = aiCount;
+            humanAi.guardGenerator = guardGeneratorCb.Checked;
+            humanAi.maxSpawns = maxSpawns;
+            humanAi.invulnerability = aiinvulnerabilityCb.Checked;
+            humanAi.advanceView = aiAdvanceViewCb.Checked;
+            humanAi.friendly = aiFriendlyCb.Checked;
+
+            string configOut = "You are about to Add A.I confirm ?\n";
+            configOut += "aiCount : " + humanAi.aiCount + "\n";
+            configOut += "aiType : " + humanAi.aiType + "\n";
+            configOut += "graphId : " + humanAi.graphId + "\n";
+            configOut += "weapon : " + humanAi.weapon + "\n";
+            configOut += "model : " + humanAi.model + "\n";
+            configOut += "friendly : " + humanAi.friendly + "\n";
+            configOut += "guardGenerator : " + humanAi.guardGenerator + "\n";
+            configOut += "maxSpawns : " + humanAi.maxSpawns + "\n";
+            configOut += "invulnerability : " + humanAi.invulnerability + "\n";
+            configOut += "advanceView : " + humanAi.advanceView + "\n";
+
+            var dlgResult = QUtils.ShowDialog(configOut);
+
+            if (dlgResult == DialogResult.Yes)
+            {
+                var qscData = QAI.AddHumanSoldier(humanAi, humanAi.guardGenerator, humanAi.maxSpawns, humanAi.invulnerability, humanAi.advanceView);
+                qscData = QAI.AddAiTaskDetection(qscData);
+                if (!String.IsNullOrEmpty(qscData))
+                    compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, true, true);
+
+                if (compileStatus)
+                    SetStatusText("AI" + aiModelName + "Added successfully");
             }
         }
 
@@ -1285,7 +1381,7 @@ namespace IGIEditor
             Thread.Sleep(3000);
             QUtils.RestoreLevel(level);
             QUtils.ResetFile(level);
-            GenerateScriptId(level);
+            GenerateAIScriptId(level);
             QUtils.aiScriptFiles.Clear();
 
             Thread.Sleep(5000);
@@ -1304,9 +1400,11 @@ namespace IGIEditor
             UpdateUIComponent(buildingSelectDD, QUtils.buildingListStr);
             UpdateUIComponent(objectSelectDD, QUtils.objectRigidListStr);
             UpdateUIComponent(aiModelSelectDD, QUtils.aiModelsListStr);
+            UpdateUIComponent(aiGraphIdDD, QUtils.aiGraphIdStr);
         }
 
-        private void UpdateUIComponent(ComboBox itemDD,List<string> dataSrcList)
+        //Generic Update UI method for DropDowns,TextBox etc.
+        private void UpdateUIComponent<T>(ComboBox itemDD, List<T> dataSrcList)
         {
             itemDD.DataSource = null;
             itemDD.Items.Clear();
@@ -1336,33 +1434,33 @@ namespace IGIEditor
             }
         }
 
-        private static void GenerateScriptId(int level)
+        private static void GenerateAIScriptId(int level)
         {
             switch (level)
             {
                 case 1:
-                    QUtils.randScriptId = 510;
+                    QUtils.aiScriptId = 510;
                     break;
                 case 2:
-                    QUtils.randScriptId = 450;
+                    QUtils.aiScriptId = 450;
                     break;
                 case 3:
-                    QUtils.randScriptId = 563;
+                    QUtils.aiScriptId = 563;
                     break;
                 case 4:
-                    QUtils.randScriptId = 630;
+                    QUtils.aiScriptId = 630;
                     break;
                 case 5:
-                    QUtils.randScriptId = 500;
+                    QUtils.aiScriptId = 500;
                     break;
                 case 6:
-                    QUtils.randScriptId = 1000;
+                    QUtils.aiScriptId = 1000;
                     break;
                 case 7:
-                    QUtils.randScriptId = 581;
+                    QUtils.aiScriptId = 581;
                     break;
                 case 8:
-                    QUtils.randScriptId = 667;
+                    QUtils.aiScriptId = 667;
                     break;
             }
         }

@@ -6,6 +6,20 @@ using System.Text.RegularExpressions;
 namespace IGIEditor
 {
 
+    public class HumanAi
+    {
+        public int aiCount { get; set; }
+        public string aiType { get; set; }
+        public int graphId { get; set; }
+        public string weapon { get; set; }
+        public string model { get; set; }
+        public bool guardGenerator { get; set; }
+        public int maxSpawns { get; set; }
+        public bool friendly { get; set; }
+        public bool invulnerability { get; set; }
+        public bool advanceView { get; set; }
+    }
+
     class AIModel
     {
         string modelName;
@@ -87,7 +101,7 @@ namespace IGIEditor
             return qTaskGuardGen;
         }
 
-        internal static string AddHumanSoldierCfg(IGIEditor.HumanAi humanAi, bool guardGenerator = false, int maxSpawns = 10, bool invulnerability = false, bool advanceView = false)
+        internal static string AddHumanSoldier(HumanAi humanAi, bool guardGenerator = false, int maxSpawns = 10, bool invulnerability = false, bool advanceView = false)
         {
             string aiType = null, aiWeapon = null, graphId = null, aiId = null, patrolId = null, modelId = null;
             int aiCount = 1, teamId = 0, aiAmmo = 999;
@@ -103,10 +117,10 @@ namespace IGIEditor
                     graphId = humanAi.graphId.ToString();
                 }
 
-                aiId = QUtils.randScriptId.ToString();
+                aiId = QUtils.aiScriptId.ToString();
                 bool aiIdExist = QGraphs.CheckIdExist(aiId, "AI", QUtils.gGameLevel, "AI Id " + aiId + " already exist for current level");
 
-                patrolId = (QUtils.randScriptId + 1).ToString();
+                patrolId = (QUtils.aiScriptId + 1).ToString();
                 bool patrolIdExist = QGraphs.CheckIdExist(patrolId, "Patrol", QUtils.gGameLevel, "PatrolId " + patrolId + " already exist for current level");
                 bool graphIdExist = true;//QGraphs.CheckIdExist(graphId, "Graph", QUtils.gGameLevel, "GraphId " + graphId + " doesn't exist for current level");
 
@@ -127,6 +141,8 @@ namespace IGIEditor
                         aiWeapon = humanAi.weapon;
                         teamId = humanAi.friendly == true ? 0 : 1;
                         aiAmmo = 999;
+
+                        //Remove after - TEST.
                         bool modelExist = QUtils.CheckModelExist(modelId);
 
                         if (!modelExist)
@@ -144,17 +160,17 @@ namespace IGIEditor
                     qscData += AddHumanSoldier(aiType, aiIdI, graphIdI, aiPos, aiAngle, modelId, teamId, true, aiWeapon, aiAmmo, guardGenerator);
 
                     //Add A.I Script to HumanSoldier.
-                    var aiScriptData = AddAIScript(aiType, graphId, aiId, patrolId, QUtils.gGameLevel, invulnerability, advanceView);
+                    var aiScriptData = AddAIScriptAndPath(aiType, graphId, aiId, patrolId, QUtils.gGameLevel, invulnerability, advanceView);
                     if (!String.IsNullOrEmpty(aiScriptData))
                         qscData += aiScriptData;
                 }
-                QUtils.randScriptId += 2;
+                QUtils.aiScriptId += 2;
             }
 
             return qscData;
         }
 
-        internal static string AddAIScript(string aiType, string graphId, string aiId, string patrolId, int level, bool invulnerability = false, bool advanceView = false)
+        internal static string AddAIScriptAndPath(string aiType, string graphId, string aiId, string patrolId, int level, bool invulnerability = false, bool advanceView = false)
         {
             var inputAiPath = QUtils.cfgAiPath;
             string result = null;
@@ -260,7 +276,7 @@ namespace IGIEditor
                             if (graphExist)
                             {
                                 QUtils.AddLog("AddAIScript() AI Patrol Updated to static for aiId : " + aiId + "\tgraphId : " + graphId);
-                                return AddAIScript("AITYPE_STATIC", graphId, aiId, patrolId, level);
+                                return AddAIScriptAndPath("AITYPE_STATIC", graphId, aiId, patrolId, level);
                             }
                             else
                             {
@@ -278,8 +294,8 @@ namespace IGIEditor
                             //Add Alarm path to selected A.I.
                             if (file.Contains("idle"))
                             {
-                                QUtils.randScriptId++;
-                                patrolAlarmId = (QUtils.randScriptId + 1).ToString();
+                                QUtils.aiScriptId++;
+                                patrolAlarmId = (QUtils.aiScriptId + 1).ToString();
                                 string alarmPathFile = file.Replace("idle", "alarm");
 
                                 string aiAlarmPathData = QUtils.LoadFile(alarmPathFile);
@@ -294,7 +310,7 @@ namespace IGIEditor
                         if (nodesList.Count <= 2 && !aiType.Contains("AITYPE_SECURITY_PATROL_SPAS"))
                         {
                             QUtils.AddLog("AddAIScript() AI Patrol Updated to security for aiId : " + aiId + "\tgraphId : " + graphId);
-                            result = AddAIScript("AITYPE_SECURITY_PATROL_SPAS", graphId, aiId, patrolId, level);
+                            result = AddAIScriptAndPath("AITYPE_SECURITY_PATROL_SPAS", graphId, aiId, patrolId, level);
                         }
                         else if (aiType == "AITYPE_SECURITY_PATROL_SPAS")
                         {
@@ -674,6 +690,11 @@ namespace IGIEditor
             }
             QUtils.AddLog("GetAiImageId(): aiModelName" + aiModelName + " Returned imageId : " + imageId);
             return imageId;
+        }
+
+        internal static List<string> GetAiTypes()
+        {
+            return QUtils.aiTypes;
         }
     }
 
