@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IGIEditorUI));
             this.backPnl = new System.Windows.Forms.Panel();
+            this.registeredLbl = new System.Windows.Forms.Label();
             this.levelStartTxt = new System.Windows.Forms.NumericUpDown();
             this.posCoordCb = new System.Windows.Forms.CheckBox();
             this.posMetersCb = new System.Windows.Forms.CheckBox();
@@ -123,6 +124,7 @@
             this.aiModelSelectDD = new System.Windows.Forms.ComboBox();
             this.aiImgBox = new System.Windows.Forms.PictureBox();
             this.aiCountLbl = new System.Windows.Forms.Label();
+            this.aiPropertiesLbl = new System.Windows.Forms.Label();
             this.aiModelLbl = new System.Windows.Forms.Label();
             this.addAiBtn = new System.Windows.Forms.Button();
             this.weaponEditorTab = new System.Windows.Forms.TabPage();
@@ -198,7 +200,6 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.aiPropertiesLbl = new System.Windows.Forms.Label();
             this.backPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.tabContainer.SuspendLayout();
@@ -225,6 +226,7 @@
             // 
             this.backPnl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.backPnl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.backPnl.Controls.Add(this.registeredLbl);
             this.backPnl.Controls.Add(this.levelStartTxt);
             this.backPnl.Controls.Add(this.posCoordCb);
             this.backPnl.Controls.Add(this.posMetersCb);
@@ -258,6 +260,18 @@
             this.backPnl.Name = "backPnl";
             this.backPnl.Size = new System.Drawing.Size(1147, 741);
             this.backPnl.TabIndex = 0;
+            // 
+            // registeredLbl
+            // 
+            this.registeredLbl.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.registeredLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.registeredLbl.Location = new System.Drawing.Point(230, 12);
+            this.registeredLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.registeredLbl.Name = "registeredLbl";
+            this.registeredLbl.Size = new System.Drawing.Size(70, 33);
+            this.registeredLbl.TabIndex = 43;
+            this.registeredLbl.Text = "Users :";
+            this.registeredLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // levelStartTxt
             // 
@@ -641,6 +655,7 @@
             this.buildingNameLbl.TabIndex = 9;
             this.buildingNameLbl.Text = "Building :";
             this.buildingNameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.buildingNameLbl.Click += new System.EventHandler(this.buildingNameLbl_Click);
             // 
             // addBuildingBtn
             // 
@@ -710,6 +725,7 @@
             this.buildingsResTxt.Name = "buildingsResTxt";
             this.buildingsResTxt.Size = new System.Drawing.Size(208, 30);
             this.buildingsResTxt.TabIndex = 30;
+            this.buildingsResTxt.Text = "0";
             // 
             // ObjsResTxt
             // 
@@ -722,6 +738,7 @@
             this.ObjsResTxt.Name = "ObjsResTxt";
             this.ObjsResTxt.Size = new System.Drawing.Size(208, 30);
             this.ObjsResTxt.TabIndex = 31;
+            this.ObjsResTxt.Text = "0";
             // 
             // itemsLbl4
             // 
@@ -780,6 +797,7 @@
             this.buildingsRemTxt.Name = "buildingsRemTxt";
             this.buildingsRemTxt.Size = new System.Drawing.Size(208, 30);
             this.buildingsRemTxt.TabIndex = 25;
+            this.buildingsRemTxt.Text = "0";
             // 
             // ObjsRemTxt
             // 
@@ -792,6 +810,7 @@
             this.ObjsRemTxt.Name = "ObjsRemTxt";
             this.ObjsRemTxt.Size = new System.Drawing.Size(208, 30);
             this.ObjsRemTxt.TabIndex = 25;
+            this.ObjsRemTxt.Text = "0";
             // 
             // itemsLbl2
             // 
@@ -877,6 +896,8 @@
             this.objectIDTxt.Name = "objectIDTxt";
             this.objectIDTxt.Size = new System.Drawing.Size(208, 30);
             this.objectIDTxt.TabIndex = 7;
+            this.objectIDTxt.Text = "435_01_1";
+            this.infoViewer.SetToolTip(this.objectIDTxt, "Model id of object like 435_01_1 for WaterTower");
             this.objectIDTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.objectIDTxt_KeyDown);
             // 
             // maxItemsLbl1
@@ -1012,6 +1033,8 @@
             this.inAirSpeedTxt.Name = "inAirSpeedTxt";
             this.inAirSpeedTxt.Size = new System.Drawing.Size(100, 30);
             this.inAirSpeedTxt.TabIndex = 53;
+            this.inAirSpeedTxt.Text = "5";
+            this.infoViewer.SetToolTip(this.inAirSpeedTxt, "In Air Control");
             // 
             // inAirSpeedLbl
             // 
@@ -1062,6 +1085,8 @@
             this.damageScaleFenceTxt.Name = "damageScaleFenceTxt";
             this.damageScaleFenceTxt.Size = new System.Drawing.Size(100, 30);
             this.damageScaleFenceTxt.TabIndex = 48;
+            this.damageScaleFenceTxt.Text = "0";
+            this.infoViewer.SetToolTip(this.damageScaleFenceTxt, "Fence damage scale - Lower is better");
             // 
             // fenceDamageScaleLbl
             // 
@@ -1086,6 +1111,8 @@
             this.damageScaleTxt.Name = "damageScaleTxt";
             this.damageScaleTxt.Size = new System.Drawing.Size(100, 30);
             this.damageScaleTxt.TabIndex = 46;
+            this.damageScaleTxt.Text = "100";
+            this.infoViewer.SetToolTip(this.damageScaleTxt, "Human damage scale - Higher is better");
             // 
             // damageScaleLbl
             // 
@@ -1123,6 +1150,8 @@
             this.peekTimeTxt.Name = "peekTimeTxt";
             this.peekTimeTxt.Size = new System.Drawing.Size(100, 30);
             this.peekTimeTxt.TabIndex = 13;
+            this.peekTimeTxt.Text = "5";
+            this.infoViewer.SetToolTip(this.peekTimeTxt, "Time to get back to original position");
             // 
             // upwardJumpTxt
             // 
@@ -1135,6 +1164,8 @@
             this.upwardJumpTxt.Name = "upwardJumpTxt";
             this.upwardJumpTxt.Size = new System.Drawing.Size(100, 30);
             this.upwardJumpTxt.TabIndex = 13;
+            this.upwardJumpTxt.Text = "70";
+            this.infoViewer.SetToolTip(this.upwardJumpTxt, "Upward Speed Height (M/S)");
             // 
             // peekTimeLbl
             // 
@@ -1171,6 +1202,8 @@
             this.peekCrouchTxt.Name = "peekCrouchTxt";
             this.peekCrouchTxt.Size = new System.Drawing.Size(100, 30);
             this.peekCrouchTxt.TabIndex = 11;
+            this.peekCrouchTxt.Text = "50";
+            this.infoViewer.SetToolTip(this.peekCrouchTxt, "Crouch Peek length");
             // 
             // forwardJumpTxt
             // 
@@ -1183,6 +1216,8 @@
             this.forwardJumpTxt.Name = "forwardJumpTxt";
             this.forwardJumpTxt.Size = new System.Drawing.Size(100, 30);
             this.forwardJumpTxt.TabIndex = 11;
+            this.forwardJumpTxt.Text = "20";
+            this.infoViewer.SetToolTip(this.forwardJumpTxt, "Forward Jump Speed (M/S)");
             // 
             // peekCrouchLbl
             // 
@@ -1219,6 +1254,8 @@
             this.peekLRTxt.Name = "peekLRTxt";
             this.peekLRTxt.Size = new System.Drawing.Size(100, 30);
             this.peekLRTxt.TabIndex = 9;
+            this.peekLRTxt.Text = "50";
+            this.infoViewer.SetToolTip(this.peekLRTxt, "Left/Right Peek length");
             // 
             // peekLRLbl
             // 
@@ -1243,6 +1280,8 @@
             this.movementSpeedTxt.Name = "movementSpeedTxt";
             this.movementSpeedTxt.Size = new System.Drawing.Size(100, 30);
             this.movementSpeedTxt.TabIndex = 9;
+            this.movementSpeedTxt.Text = "10";
+            this.infoViewer.SetToolTip(this.movementSpeedTxt, "Movement Speed (M/S)");
             // 
             // movementSpeedLbl
             // 
@@ -1498,6 +1537,18 @@
             this.aiCountLbl.Text = "AI Count:";
             this.aiCountLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // aiPropertiesLbl
+            // 
+            this.aiPropertiesLbl.Font = new System.Drawing.Font("Century Gothic", 13F);
+            this.aiPropertiesLbl.ForeColor = System.Drawing.Color.LightSalmon;
+            this.aiPropertiesLbl.Location = new System.Drawing.Point(257, 13);
+            this.aiPropertiesLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.aiPropertiesLbl.Name = "aiPropertiesLbl";
+            this.aiPropertiesLbl.Size = new System.Drawing.Size(173, 33);
+            this.aiPropertiesLbl.TabIndex = 34;
+            this.aiPropertiesLbl.Text = "A.I Properties";
+            this.aiPropertiesLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // aiModelLbl
             // 
             this.aiModelLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
@@ -1517,7 +1568,7 @@
             this.addAiBtn.Location = new System.Drawing.Point(685, 335);
             this.addAiBtn.Margin = new System.Windows.Forms.Padding(4);
             this.addAiBtn.Name = "addAiBtn";
-            this.addAiBtn.Size = new System.Drawing.Size(190, 31);
+            this.addAiBtn.Size = new System.Drawing.Size(424, 31);
             this.addAiBtn.TabIndex = 33;
             this.addAiBtn.Text = "Add A.I";
             this.addAiBtn.UseVisualStyleBackColor = true;
@@ -1552,6 +1603,7 @@
             this.weaponAmmoTxt.Name = "weaponAmmoTxt";
             this.weaponAmmoTxt.Size = new System.Drawing.Size(152, 30);
             this.weaponAmmoTxt.TabIndex = 32;
+            this.weaponAmmoTxt.Text = "100";
             // 
             // weaponAmmolbl
             // 
@@ -2461,7 +2513,7 @@
             this.label2.Location = new System.Drawing.Point(120, 27);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(118, 44);
+            this.label2.Size = new System.Drawing.Size(119, 44);
             this.label2.TabIndex = 2;
             this.label2.Text = "Editor";
             // 
@@ -2505,21 +2557,9 @@
             this.label1.Location = new System.Drawing.Point(23, 27);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(102, 44);
+            this.label1.Size = new System.Drawing.Size(103, 44);
             this.label1.TabIndex = 0;
             this.label1.Text = "IGI 1";
-            // 
-            // aiPropertiesLbl
-            // 
-            this.aiPropertiesLbl.Font = new System.Drawing.Font("Century Gothic", 13F);
-            this.aiPropertiesLbl.ForeColor = System.Drawing.Color.LightSalmon;
-            this.aiPropertiesLbl.Location = new System.Drawing.Point(257, 13);
-            this.aiPropertiesLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.aiPropertiesLbl.Name = "aiPropertiesLbl";
-            this.aiPropertiesLbl.Size = new System.Drawing.Size(173, 33);
-            this.aiPropertiesLbl.TabIndex = 34;
-            this.aiPropertiesLbl.Text = "A.I Properties";
-            this.aiPropertiesLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // IGIEditorUI
             // 
@@ -2737,6 +2777,7 @@
         private System.Windows.Forms.Label graphIdLbl;
         private System.Windows.Forms.CheckBox guardGeneratorCb;
         private System.Windows.Forms.Label aiPropertiesLbl;
+        private System.Windows.Forms.Label registeredLbl;
     }
 }
 

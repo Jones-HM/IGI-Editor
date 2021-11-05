@@ -21,8 +21,7 @@ namespace IGIEditor
             var parentDir = Directory.GetParent(qfilePath).ToString();
             var filePath = parentDir.Substring(parentDir.LastIndexOf(@"\") + 1) + @"\" + Path.GetFileName(qfilePath);
 
-            if (!File.Exists(qChecksFile))
-                GenerateFileHash(qfilePath);
+            if (!File.Exists(qChecksFile)) GenerateFileHash(qfilePath);
 
             if (String.IsNullOrEmpty(qChecksFileData))
                 qChecksFileData = QCryptor.Decrypt(qChecksFile);
@@ -47,8 +46,8 @@ namespace IGIEditor
                 if (hashDataLine.Length < 1) continue;
                 var hashData = hashDataLine.Split('=');
 
-                 fileName = hashData[0].Trim();
-                 fileHash = hashData[1].Trim();
+                fileName = hashData[0].Trim();
+                fileHash = hashData[1].Trim();
 
                 if (qfilePath == fileName)
                 {

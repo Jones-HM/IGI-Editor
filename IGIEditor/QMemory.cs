@@ -121,8 +121,8 @@ namespace IGIEditor
         {
             if (permanent)
             {
-                //Enable Fall damage scale.
-                IntPtr jumpHealthAddr = (IntPtr)0x0040864E;
+                //Enable PlayerXP Hit damage.
+                IntPtr jumpHealthAddr = (IntPtr)0x00416D85;
                 GT.GT_WriteNOP(jumpHealthAddr, 6);
 
                 //Enable normal and fence damage scale. 
@@ -130,9 +130,9 @@ namespace IGIEditor
             }
             unsafe
             {
-                var healthAddr = GetHumanHealthAddr();
-                float healthValue = float.NaN;
-                GT.GT_WriteAddress(healthAddr, (void*)&healthValue);
+                //Enable PlayerXP Hit damage.
+                IntPtr jumpHealthAddr = (IntPtr)0x00416D85;
+                GT.GT_WriteNOP(jumpHealthAddr, 6);
             }
         }
 

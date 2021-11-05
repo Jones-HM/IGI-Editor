@@ -1,4 +1,5 @@
-﻿using DeviceId;
+﻿using Codeplex.Data;
+using DeviceId;
 using IWshRuntimeLibrary;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -41,7 +42,7 @@ namespace IGIEditor
         internal static string taskNew = "Task_New", taskDecl = "Task_DeclareParameters";
         internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc";
         internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1;
-        internal static string logFile = "app.log", qLibLogsFile = "GTLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsMasterList, aiIdlePath;
+        internal static string logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsMasterList, aiIdlePath;
         internal static bool logEnabled = false, keyExist = false, keyFileExist = false, mapViewerMode = false;
 
         internal static string gamePath, appdataPath, igiEditorTmpPath, appCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", cfgFile, projAppName, cachePath, cachePathAppLogs, cachePathAppImages,
@@ -53,7 +54,7 @@ namespace IGIEditor
         internal static float fltInvalidAngle = -9.9999f, fltInvalidVal = -9.9f;
         internal const string CAPTION_CONFIG_ERR = "Config - Error", CAPTION_FATAL_SYS_ERR = "Fatal sytem - Error", CAPTION_APP_ERR = "Application - Error", CAPTION_COMPILER_ERR = "Compiler - Error", alarmControl = "AlarmControl", stationaryGun = "StationaryGun";
         internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", helpStr = "IGI 1 Editor - HELP\nObject ID format: xxx_xx_x like 435_01_1";
-        internal static string patroIdleMask = "xxxx", patroAlarmMask = "yyyy", alarmControlMask = "zzzz", gunnerIdMask = "aaaa", viewGammaMask = "bbbb";
+        internal static string patroIdleMask = "xxxx", patroAlarmMask = "yyyy", alarmControlMask = "xx", gunnerIdMask = "xxx", viewGammaMask = "yyy";
         internal static string movementSpeedMask = "movSpeed", forwardSpeedMask = "forwardSpeed", upwardSpeedMask = "upSpeed", inAirSpeedMask = "iAirSpeed", throwBaseVelMask = "throwBaseVel", healthScaleMask = "healthScale", healthFenceMask = "healthFence", peekLeftRightLenMask = "peekLRLen", peekCrouchLenMask = "peekCrouchLen", peekTimeMask = "peekTime";
         internal static List<string> aiScriptFiles = new List<string>();
         internal static string aiEnenmyTask = null, aiFriendTask = null, levelFlowData, missionsListFile = "MissionsList.txt", missionLevelFile = "missionLevel.txt", missionDescFile = "missionDesc.txt", missionListFile = "MissionsList.txt";
@@ -143,7 +144,7 @@ namespace IGIEditor
         "/Df72t29/","/Ky39s89/","/yXnLrj9/",
         };
 
-        internal static List<string> aiTypes = new List<string>() { "AITYPE_RPG", "AITYPE_GUNNER", "AITYPE_SNIPER", "AITYPE_ANYA", "AITYPE_EKK", "AITYPE_PRIBOI", "AITYPE_CIVILIAN", "AITYPE_PATROL_UZI", "AITYPE_PATROL_AK", "AITYPE_PATROL_SPAS", "AITYPE_PATROL_PISTOL", "AITYPE_GUARD_UZI", "AITYPE_GUARD_AK", "AITYPE_GUARD_SPAS", "AITYPE_GUARD_PISTOL", "AITYPE_SECURITY_PATROL_UZI", "AITYPE_SECURITY_PATROL_SPAS", "AITYPE_MAFIA_PATROL_UZI", "AITYPE_MAFIA_PATROL_AK", "AITYPE_MAFIA_PATROL_SPAS", "AITYPE_MAFIA_GUARD_UZI", "AITYPE_MAFIA_GUARD_AK", "AITYPE_MAFIA_GUARD_SPAS", "AITYPE_SPETNAZ_PATROL_UZI", "AITYPE_SPETNAZ_PATROL_AK", "AITYPE_SPETNAZ_PATROL_SPAS", "AITYPE_SPETNAZ_GUARD_UZI", "AITYPE_SPETNAZ_GUARD_AK", "AITYPE_SPETNAZ_GUARD_SPAS" };
+        internal static List<string> aiTypes = new List<string>() { "AITYPE_RPG", "AITYPE_GUNNER", "AITYPE_SNIPER", "AITYPE_ANYA", "AITYPE_EKK", "AITYPE_PRIBOI", "AITYPE_CIVILIAN", "AITYPE_PATROL_AK", "AITYPE_GUARD_AK", "AITYPE_SECURITY_PATROL_UZI", "AITYPE_MAFIA_PATROL_UZI", "AITYPE_MAFIA_GUARD_AK", "AITYPE_SPETNAZ_PATROL_AK", "AITYPE_SPETNAZ_GUARD_AK" };
 
         public static void ShowWarning(string warnMsg, string caption = "WARNING")
         {
@@ -317,10 +318,15 @@ namespace IGIEditor
             shortcut.Save();
         }
 
-        internal static void CreateShortcut()
+        internal static void CreateGameShortcut()
         {
-            CreateGameShortcut(QMemory.gameName + "_full", gameAbsPath);
-            CreateGameShortcut(QMemory.gameName + "_window", gameAbsPath, "window");
+            if (!File.Exists(QMemory.gameName + "_full.lnk") || !File.Exists(QMemory.gameName + "_full.lnk"))
+            {
+                if (gameAbsPath.Contains("\""))
+                    gameAbsPath = gameAbsPath.Replace("\"", String.Empty);
+                CreateGameShortcut(QMemory.gameName + "_full", gameAbsPath);
+                CreateGameShortcut(QMemory.gameName + "_window", gameAbsPath, "window");
+            }
         }
 
         internal static bool IsDirectoryEmpty(string path)
@@ -445,15 +451,15 @@ namespace IGIEditor
                 else
                 {
                     //#2 solution to move with POSIX 'mv' command.
-                    ShellExec(mvCmd, "powershell.exe");
+                    ShellExec(mvCmd, true, "powershell.exe");
                     if (Directory.Exists(srcPath))
                         //#3 solution to move with 'move' command.
-                        ShellExec(moveCmd);
+                        ShellExec(moveCmd, true);
                 }
             }
         }
 
-        private static string Reverse(string str)
+        internal static string Reverse(string str)
         {
             char[] charArray = str.ToCharArray();
             Array.Reverse(charArray);
@@ -582,7 +588,7 @@ namespace IGIEditor
                 if (!File.Exists(commonPath + @"\ai_copy"))
                 {
                     string copyDirCmd = "xcopy " + commonPath + @"\ai " + commonPath + @"\ai_copy" + " /e /i /h ";
-                    ShellExec(copyDirCmd);
+                    ShellExec(copyDirCmd, true);
                 }
 
                 string tmpFile = "tmp_copy.qvm";
@@ -605,16 +611,15 @@ namespace IGIEditor
 
         protected static string InitAuthBearer()
         {
-            string tok1 = "bea" + (2 + 1).ToString() + (5 + 1).ToString() + "bceb";
-            string tok2 = Reverse("bb" + (30 + 1).ToString() + "f5f98");
-            string tok3 = "";
+            string tok1 = "3n5pfkJinhrZj";
+            string tok2 = Reverse("7F268pIpW2jvS");
+            string tok3 = "vsXD0dXzHi";
             return tok1 + tok2 + tok3;
         }
 
         protected static HttpClient CreateHttpClient()
         {
-            string authBearer = Reverse("48" + (30 + 1).ToString() + "d81550") + InitAuthBearer();
-            authBearer += "7121a" + (5 + 1).ToString() + "e575" + 'f' + (10 - 9).ToString();
+            string authBearer = "ghp_" + InitAuthBearer();
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
@@ -622,20 +627,20 @@ namespace IGIEditor
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + authBearer);
             return client;
         }
+
         protected static string EditContent(string Description, string TargetFileName, string Content)
         {
-            //dynamic Result = new DynamicJson();
-            //dynamic file = new DynamicJson();
-            //Result.description = Description;
-            //Result.files = new { };
-            //Result.files[TargetFileName] = new { content = Content };
-            //return Result.ToString();
-            return null;
+            dynamic Result = new DynamicJson();
+            dynamic file = new DynamicJson();
+            Result.description = Description;
+            Result.files = new { };
+            Result.files[TargetFileName] = new { content = Content };
+            return Result.ToString();
         }
 
         public static bool RegisterUser(string content)
         {
-            string id = "b2b8" + (70 + 4).ToString() + "09f578a0" + (1000 + 70).ToString() + "a46e65b" + (5 + 4).ToString() + "b1f01e";
+            string id = 67141.ToString() + Reverse("be14c82cfbe782a") + "94a965e45a3c";
 
             string description = "IGI 1 Editor Users information", targetFilename = "IGI1Editor_Users.xml";
             bool status = true;
@@ -655,11 +660,9 @@ namespace IGIEditor
             return status;
         }
 
-
-
         internal static string InitSrcUrl()
         {
-            string bitLyUrl = "$K" + "u@" + "Fa#Si" + (2 + 1).ToString();
+            string bitLyUrl = "p#y" + "W@8" + "$NB" + (2 + 1).ToString();
             bitLyUrl = bitLyUrl.Replace("$", String.Empty).Replace("@", String.Empty).Replace("#", String.Empty);
             string srcUrl = "http://" + Reverse("tib") + ".ly/" + Reverse(bitLyUrl);
             return srcUrl;
@@ -671,26 +674,25 @@ namespace IGIEditor
             string srcUrl = InitSrcUrl();
             bool status = true;
             string infoStr = "</users-info>";
-            string srcData = null;//Changed WebReader(srcUrl);
+            string srcData = WebReader(srcUrl);
             //changed
             var userDataContent = new StringBuilder(srcData);
-            //int infoStrIndex = srcData.IndexOf(infoStr);
-            //if (infoStrIndex == -1) ShowSystemFatalError("Invalid data encountered from backend. (ERROR : 0x7FFFFFFF)"); ;
-            //userDataContent = userDataContent.Remove(infoStrIndex, infoStr.Length);
+            int infoStrIndex = srcData.IndexOf(infoStr);
+            if (infoStrIndex == -1) ShowSystemFatalError("Invalid data encountered from backend. (ERROR : 0x7FFFFFFF)"); ;
+            userDataContent = userDataContent.Remove(infoStrIndex, infoStr.Length);
 
             //Check if user exist.
             string keyFileAbsPath = igiEditorTmpPath + Path.DirectorySeparatorChar + projAppName + "Key.txt";
             keyFileExist = File.Exists(keyFileAbsPath);
-            keyExist = true;
-            return true;//Change
-
+            
             //Get machine properties.
             string userName = GetCurrentUserName();
             string machineId = GetUUID();
             string macAddress = GetMACAddress();
             string ipAddress = GetPrivateIP();
-            string city = null;// EpicInfo.GetUserCity();
-            string country = null;//EpicInfo.GetUserCountry();
+
+            string city = QUserInfo.GetUserCity();
+            string country = QUserInfo.GetUserCountry();
 
             string deviceId = GetMachineDeviceId();
             var userDataLines = srcData.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
@@ -731,8 +733,9 @@ namespace IGIEditor
             return status;
         }
 
-        internal static int GetRegisteredUsers(string srcUrl)
+        internal static int GetRegisteredUsers()
         {
+            var srcUrl = InitSrcUrl();
             int totalRegisteredUsers = 0;
             string srcData = WebReader(srcUrl);
             return totalRegisteredUsers = new Regex(Regex.Escape("<user>")).Matches(srcData).Count;
@@ -752,7 +755,7 @@ namespace IGIEditor
         }
 
         //Execute shell command and get std-output.
-        internal static string ShellExec(string cmdArgs, string shell = "cmd.exe")
+        internal static string ShellExec(string cmdArgs, bool runAsAdmin = false, string shell = "cmd.exe")
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
@@ -760,12 +763,13 @@ namespace IGIEditor
             startInfo.CreateNoWindow = true;
             startInfo.FileName = shell;
             startInfo.Arguments = "/c " + cmdArgs;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.RedirectStandardError = true;
-            startInfo.UseShellExecute = false;
+            startInfo.RedirectStandardOutput = !runAsAdmin;
+            startInfo.RedirectStandardError = !runAsAdmin;
+            startInfo.UseShellExecute = runAsAdmin;
             process.StartInfo = startInfo;
+            if (runAsAdmin) process.StartInfo.Verb = "runas";
             process.Start();
-            string output = process.StandardOutput.ReadToEnd();
+            string output = (runAsAdmin) ? String.Empty : process.StandardOutput.ReadToEnd();
             process.WaitForExit();
             return output;
         }
@@ -812,8 +816,13 @@ namespace IGIEditor
 
         internal static void RestoreLevel(int gameLevel)
         {
-            gamePath = cfgGamePath + gameLevel;
-            string outputQvmPath = gamePath + "\\" + objectsQvm;
+            if (gameLevel < 0 || gameLevel > 0xE) gameLevel = 1;
+            var gPath = gamePath;
+
+            if (gamePath.Contains(" ")) gPath = gamePath.Replace("\"", String.Empty);
+
+            gPath = cfgGamePath + gameLevel;
+            string outputQvmPath = gPath + "\\" + objectsQvm;
             string inputQvmPath = cfgQvmPath + gameLevel + "\\" + objectsQvm;
 
             File.Delete(outputQvmPath);
@@ -1292,6 +1301,7 @@ namespace IGIEditor
 
         internal static void InjectDllOnStart()
         {
+            //return;
             tmpDllPath = Path.GetTempFileName() + dllExt;
             AddLog("InjectDllOnStart() tmpDllPath : " + tmpDllPath);
             QCryptor.Decrypt(QUtils.internalDllPath, tmpDllPath);

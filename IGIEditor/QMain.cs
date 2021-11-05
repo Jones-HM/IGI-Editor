@@ -41,8 +41,8 @@ namespace IGIEditor
         {
             if (File.Exists(QUtils.logFile))
             {
-                QUtils.ShellExec("move /Y " + QUtils.logFile + " " + QUtils.cachePathAppLogs);
-                QUtils.ShellExec("move /Y " + QUtils.qLibLogsFile + " " + QUtils.cachePathAppLogs);
+                QUtils.ShellExec("move /Y " + QUtils.logFile + " " + QUtils.cachePathAppLogs,true);
+                QUtils.ShellExec("move /Y " + QUtils.qLibLogsFile + " " + QUtils.cachePathAppLogs,true);
                 Thread.Sleep(2000);
             }
             CleanUpFiles();
@@ -55,7 +55,7 @@ namespace IGIEditor
             //Eject Dll on Exit.
             GT.GT_SendKeys2Process(QMemory.gameName, GT.VK.END);
 
-            if (QUtils.aiScriptFiles.Count > 1)
+            if (QUtils.aiScriptFiles.Count >= 1)
             {
                 foreach (var scriptFile in QUtils.aiScriptFiles)
                     File.Delete(outputAiPath + scriptFile);

@@ -139,7 +139,7 @@ namespace IGIEditor
                     {
                         modelId = humanAi.model;
                         aiWeapon = humanAi.weapon;
-                        teamId = humanAi.friendly == true ? 0 : 1;
+                        teamId = humanAi.friendly ? 0 : 1;
                         aiAmmo = 999;
 
                         //Remove after - TEST.
@@ -164,7 +164,7 @@ namespace IGIEditor
                     if (!String.IsNullOrEmpty(aiScriptData))
                         qscData += aiScriptData;
                 }
-                QUtils.aiScriptId += 2;
+                QUtils.aiScriptId += 3;
             }
 
             return qscData;
@@ -185,7 +185,7 @@ namespace IGIEditor
                 {
                     if (file.Contains("script"))
                     {
-                        string aiScriptData = QUtils.LoadFile(file);
+                        string aiScriptData = QCryptor.Decrypt(file);
 
                         //Add Idle patrol.
                         if (aiScriptData.Contains(QUtils.patroIdleMask))
@@ -200,7 +200,7 @@ namespace IGIEditor
                         }
 
                         //Add Alarm control Id.
-                        if (aiScriptData.Contains(QUtils.alarmControlMask))
+                        if (aiScriptData.Contains("(" + QUtils.alarmControlMask + ")"))
                         {
                             var aiPos = QGraphs.GetGraphPosition(graphId);
                             int alarmControlId = 0;
@@ -212,7 +212,7 @@ namespace IGIEditor
 
 
                         //Add Gunner Id.
-                        if (aiScriptData.Contains(QUtils.gunnerIdMask))
+                        if (aiScriptData.Contains("(" + QUtils.gunnerIdMask + ")"))
                         {
                             var aiPos = QGraphs.GetGraphPosition(graphId);
                             int gunnerId = 0;
@@ -247,7 +247,7 @@ namespace IGIEditor
 
                         string aiFileName = aiId + ".qsc";
                         QUtils.aiScriptFiles.Add(aiId + ".qvm");
-                        var outputAiPath = QUtils.cfgGamePath + level + "\\ai\\";
+                        var outputAiPath = QUtils.cfgGamePath + level + @"\ai\";
 
                         QUtils.SaveFile(aiFileName, aiScriptData);
                         QCompiler.Compile(aiFileName, outputAiPath, 0x0);
@@ -256,7 +256,7 @@ namespace IGIEditor
 
                     else if (file.Contains("path"))
                     {
-                        string aiPathData = QUtils.LoadFile(file);
+                        string aiPathData = QCryptor.Decrypt(file);
                         bool graphExist = false;
                         var nodesList = QGraphs.GetAllNodes4mGraph(Convert.ToInt32(graphId));
 
@@ -298,7 +298,7 @@ namespace IGIEditor
                                 patrolAlarmId = (QUtils.aiScriptId + 1).ToString();
                                 string alarmPathFile = file.Replace("idle", "alarm");
 
-                                string aiAlarmPathData = QUtils.LoadFile(alarmPathFile);
+                                string aiAlarmPathData = QCryptor.Decrypt(alarmPathFile);
 
                                 aiAlarmPathData = aiAlarmPathData.Replace("xxxx", patrolAlarmId);
                                 aiAlarmPathData = aiAlarmPathData.Replace(")),", "));");
@@ -307,14 +307,14 @@ namespace IGIEditor
                         }
 
                         int index = 0;
-                        if (nodesList.Count <= 2 && !aiType.Contains("AITYPE_SECURITY_PATROL_SPAS"))
+                        if (nodesList.Count <= 2 && !aiType.Contains("AITYPE_SECURITY_PATROL"))
                         {
                             QUtils.AddLog("AddAIScript() AI Patrol Updated to security for aiId : " + aiId + "\tgraphId : " + graphId);
-                            result = AddAIScriptAndPath("AITYPE_SECURITY_PATROL_SPAS", graphId, aiId, patrolId, level);
+                            result = AddAIScriptAndPath("AITYPE_SECURITY_PATROL", graphId, aiId, patrolId, level);
                         }
-                        else if (aiType == "AITYPE_SECURITY_PATROL_SPAS")
+                        else if (aiType.Contains("AITYPE_SECURITY_PATROL"))
                         {
-                            for (char c = 'a'; c <= 'b'; c++)
+                            for (char c = 'x'; c <= 'y'; c++)
                             {
                                 int randIndex = new Random().Next(0, nodesList.Count - 1);
                                 string pattern = @"\b" + c + @"\b";
@@ -325,7 +325,7 @@ namespace IGIEditor
 
                         else
                         {
-                            var nIdsList = new List<char>() { 'a', 'c', 'b', 'd' };
+                            var nIdsList = new List<char>() { 'a', 'c', 'b', 'd','x','y','z'};
                             foreach (var nId in nIdsList)
                             {
                                 int randIndex = new Random().Next(0, nodesList.Count - 1);

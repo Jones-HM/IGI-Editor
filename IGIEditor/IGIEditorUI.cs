@@ -31,7 +31,7 @@ namespace IGIEditor
 
         static internal IGIEditorUI editorRef;
 
-        //Main-Start - Conx.
+        //Main-Start - Ctr.
         public IGIEditorUI()
         {
             var posTimer = new System.Windows.Forms.Timer();
@@ -45,11 +45,11 @@ namespace IGIEditor
             //Start Position timer.
             posTimer.Tick += new EventHandler(UpdatePositionTimer);
             posTimer.Interval = 500;
-            //posTimer.Start();
+            posTimer.Start();
 
             //Start File Integrity timer.
             integrityTimer.Tick += new EventHandler(FileIntegrityCheckerTimer);
-            integrityTimer.Interval = 300000;
+            integrityTimer.Interval = 120000;
             integrityTimer.Start();
 
             //Disabling Errors and Warnings.
@@ -67,7 +67,7 @@ namespace IGIEditor
             {
                 gameFound = true;
                 gameLevel = QMemory.GetCurrentLevel();
-                if (gameLevel == 0) gameLevel = 1;
+                if (gameLevel < 0 || gameLevel > 0xE) gameLevel = 1;
                 QUtils.InjectDllOnStart();
             }
             else
@@ -109,10 +109,11 @@ namespace IGIEditor
             if (gameFound)
             {
                 gameLevel = QMemory.GetCurrentLevel();
+                if (gameLevel < 0 || gameLevel > 0xE) gameLevel = 1;
                 levelStartTxt.Text = gameLevel.ToString();
                 SetStatusText("Game running...");
                 LoadLevelDetails(gameLevel);
-                QMemory.UpdateHumanHealth(true);
+                QMemory.UpdateHumanHealth(false);
             }
             else
                 SetStatusText("Game not running...");
@@ -176,7 +177,7 @@ namespace IGIEditor
             var aiTypesList = QAI.GetAiTypes();
             foreach (var aiType in aiTypesList)
             {
-                aiTypeDD.Items.Add(aiType);
+                aiTypeDD.Items.Add(aiType.Replace("AITYPE_",String.Empty).Replace("_AK",String.Empty).Replace("_UZI",String.Empty));
             }
 
             //Init AI Graph list.
@@ -233,12 +234,21 @@ namespace IGIEditor
             appLogsCb.Checked = gameLogs;
             autoResetCb.Checked = gameReset;
 
-            headerLbl.Text += " " + userName;
-            SetStatusText(welcomeMsg);
-            AddLog(welcomeMsg);
-
             //Initialize user info.
             var initUser = QUtils.InitUserInfo();
+
+            if (initUser)
+            {
+                headerLbl.Text += " " + userName;
+                SetStatusText(welcomeMsg);
+                AddLog(welcomeMsg);
+            }
+
+            else
+            {
+                QUtils.ShowSystemFatalError("Error occurred while initializing user data. (Error: SERVER_ERR)");
+            }
+
             QUtils.AddLog("Device Id Exist : " + QUtils.keyExist);
 
             //Check if Machine key is already saved.
@@ -273,6 +283,8 @@ namespace IGIEditor
                 }
             }
 
+            registeredLbl.Text += QUtils.GetRegisteredUsers();
+
             //Genrate random scriptId according to Level A.I.
             GenerateAIScriptId(QUtils.gGameLevel);
 
@@ -285,7 +297,7 @@ namespace IGIEditor
                 File.Move(Path.GetFullPath(QUtils.humanplayer), humanplayer_abs_path);
 
             //Creates shortcut of game in current directory.
-            QUtils.CreateShortcut();
+            QUtils.CreateGameShortcut();
 
         }
 
@@ -295,10 +307,10 @@ namespace IGIEditor
             statusLbl.Text = text;
         }
 
-        private static void ParseConfigProperty(string config_path, ref bool property_name, string keyword)
+        private static void ParseConfigProperty(string configPath, ref bool propertyName, string keyword)
         {
-            if (config_path.Trim().Contains("true")) property_name = true;
-            else if (config_path.Trim().Contains("false")) property_name = false;
+            if (configPath.Trim().Contains("true")) propertyName = true;
+            else if (configPath.Trim().Contains("false")) propertyName = false;
             else QUtils.ShowConfigError(keyword);
         }
 
@@ -346,39 +358,39 @@ namespace IGIEditor
                         {
                             if (data.Contains(keywords[i]))
                             {
-                                var config_path = data.Substring(keywords[i].Length + 0x3);
+                                var configPath = data.Substring(keywords[i].Length + 0x3);
 
                                 if (i == 0)
                                 {
-                                    if (String.IsNullOrEmpty(config_path) || String.IsNullOrWhiteSpace(config_path))
+                                    if (String.IsNullOrEmpty(configPath) || String.IsNullOrWhiteSpace(configPath))
                                         QUtils.ShowConfigError(keywords[i]);
                                     else
                                     {
-                                        var g_path = config_path.Trim();
-                                        if (!File.Exists(g_path + Path.DirectorySeparatorChar + QMemory.gameName + ".exe"))
+                                        string gPath = configPath.Trim();
+                                        if (gPath.Contains("\""))
+                                            gPath = configPath = gPath.Replace("\"", String.Empty);
+                                        if (!File.Exists(gPath + Path.DirectorySeparatorChar + QMemory.gameName + ".exe"))
                                         {
-                                            QUtils.ShowError("Invalid path selected! Game 'IGI' not found at path '" + g_path + "'", QUtils.CAPTION_FATAL_SYS_ERR);
+                                            QUtils.ShowError("Invalid path selected! Game 'IGI' not found at path '" + gPath + "'", QUtils.CAPTION_FATAL_SYS_ERR);
                                             Environment.Exit(1);
                                         }
-                                        QUtils.gameAbsPath = config_path.Trim();
-                                        QUtils.cfgGamePath = config_path.Trim() + QUtils.cfgGamePathEx;
+                                        QUtils.gameAbsPath = configPath.Trim();
+                                        QUtils.cfgGamePath = configPath.Trim() + QUtils.cfgGamePathEx;
                                     }
                                 }
                                 else if (i == 1)
-                                    ParseConfigProperty(config_path, ref gameLogs, keywords[i]);
+                                    ParseConfigProperty(configPath, ref gameLogs, keywords[i]);
 
                                 else if (i == 2)
-                                    ParseConfigProperty(config_path, ref gameReset, keywords[i]);
-
+                                    ParseConfigProperty(configPath, ref gameReset, keywords[i]);
                             }
-
                         }
                     }
                 }
             }
             else
             {
-                QUtils.ShowWarning("Config file not found in current directory", QUtils.CAPTION_CONFIG_ERR);
+                ShowWarning("Config file not found in current directory", QUtils.CAPTION_CONFIG_ERR);
                 QUtils.CreateConfig(QUtils.cfgFile);
             }
         }
@@ -434,7 +446,7 @@ namespace IGIEditor
 
             qscData = QHuman.AddWeapon(weaponModel, weaponAmmo, true);
             if (!String.IsNullOrEmpty(qscData))
-                compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, false, true);
+                compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, false, false);
 
             if (compileStatus)
                 SetStatusText("Weapon " + weaponName + " added successfully");
@@ -559,6 +571,7 @@ namespace IGIEditor
         private void resetCurrentLevelBtn_Click(object sender, EventArgs e)
         {
             int level = QMemory.GetCurrentLevel();
+            if (level < 0 || level > 0xE) level = 1;
             QUtils.RestoreLevel(level);
             QUtils.ResetFile(level);
             QMemory.RestartLevel(true);
@@ -629,6 +642,7 @@ namespace IGIEditor
 
                 QUtils.gGameLevel = gameLevel = QMemory.GetCurrentLevel();
                 levelStartTxt.Text = gameLevel.ToString();
+                InitializePaths(QUtils.gGameLevel);
                 gameFound = true;
             }
             else
@@ -639,12 +653,9 @@ namespace IGIEditor
                 QUtils.gGameLevel = gameLevel = QMemory.GetCurrentLevel();
                 LoadLevelDetails(gameLevel);
                 RefreshUIComponents(gameLevel);
+                InitializePaths(gameLevel);
                 QUtils.InjectDllOnStart();
             }
-
-            //Enable Jump Health.
-            IntPtr jumpHealthAddr = (IntPtr)0x0040864E;
-            //GT.GT_WriteNOP(jumpHealthAddr, 6);
         }
 
         private void updateObjPosition_Click(object sender, EventArgs e)
@@ -1036,10 +1047,9 @@ namespace IGIEditor
         //Testing phase - remove in final build
         private void compileBtn_Click(object sender, EventArgs e)
         {
-
             string qscData = QUtils.LoadFile();
             if (!String.IsNullOrEmpty(qscData))
-                compileStatus = QCompiler.Compile(qscData, QUtils.objectsQsc, false, true, true);
+                compileStatus = QCompiler.Compile(qscData, QUtils.objectsQsc, false, false, false);
             if (compileStatus)
                 SetStatusText("Compile success");
         }
@@ -1158,24 +1168,34 @@ namespace IGIEditor
             string humanFileName = QUtils.cfgHumanplayerPathQvm + @"\humanplayer.qvm";
             var outputHumanPlayerPath = QUtils.gameAbsPath + "\\humanplayer\\";
             var moveCmd = "copy " + humanFileName + " " + outputHumanPlayerPath + " /y";
-            QUtils.ShellExec(moveCmd);
+            QUtils.ShellExec(moveCmd, true);
+
+            //Reset params in UI.
+            movementSpeedTxt.Text = "1.75";
+            forwardJumpTxt.Text = "17.5";
+            upwardJumpTxt.Text = "27";
+            inAirSpeedTxt.Text = "0.5";
+            peekLRTxt.Text = peekCrouchTxt.Text = "0.8500000238418579";
+            peekTimeTxt.Text = " 0.25";
+            damageScaleTxt.Text = "3.0";
+            damageScaleFenceTxt.Text = "0.5";
 
             Thread.Sleep(1000);
             GT.GT_SendKeys2Process(QMemory.gameName, "^h", true);
-            QMemory.SetStatusMsgText("Human parameters set success");
+            QMemory.SetStatusMsgText("Human parameters reset success");
         }
 
         private void readHumanBtn_Click(object sender, EventArgs e)
         {
             var humanPlayerFile = QUtils.cfgHumanplayerPathQsc + @"\humanplayer" + QUtils.qscExt;
             string humanFileName = "humanplayer.qsc";
-            string humanPlayerData = QUtils.LoadFile(humanFileName); //QCryptor.Decrypt(humanPlayerFile);
+            string humanPlayerData = QCryptor.Decrypt(humanPlayerFile);
 
             var outputHumanPlayerPath = QUtils.gameAbsPath + "\\humanplayer\\";
 
             QUtils.SaveFile(humanFileName, humanPlayerData);
             bool status = QCompiler.Compile(humanFileName, outputHumanPlayerPath, 0x0);
-            //System.IO.File.Delete(humanFileName);
+            File.Delete(humanFileName);
 
             if (status)
             {
@@ -1328,11 +1348,16 @@ namespace IGIEditor
                 var qscData = QAI.AddHumanSoldier(humanAi, humanAi.guardGenerator, humanAi.maxSpawns, humanAi.invulnerability, humanAi.advanceView);
                 qscData = QAI.AddAiTaskDetection(qscData);
                 if (!String.IsNullOrEmpty(qscData))
-                    compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, true, true);
+                    compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, true, true); ;
 
                 if (compileStatus)
-                    SetStatusText("AI" + aiModelName + "Added successfully");
+                    SetStatusText("AI " + aiModelName + " Added successfully");
             }
+        }
+
+        private void buildingNameLbl_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void removeModelBtn_Click(object sender, EventArgs e)
@@ -1365,6 +1390,7 @@ namespace IGIEditor
             try
             {
                 gameLevel = Convert.ToInt32(levelStartTxt.Text.ToString());
+                InitializePaths(gameLevel);
                 StartGameLevel(gameLevel, true);
             }
             catch (Exception ex)

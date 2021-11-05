@@ -94,9 +94,8 @@ namespace IGIEditor
             if (qtype == QTYPE.COMPILE) filter = "*qvm";
             else if (qtype == QTYPE.DECOMPILE) filter = "*qsc";
 
-            string xmoveCmd = "for /r \"" + src + "\" %x in (" + filter + ") do move \"%x\" \"" + dest + "\"";
-
-            var shellOut = QUtils.ShellExec(xmoveCmd);
+            string xmoveCmd = "for /r \"" + src + "\" %x in (" + filter + ") do move /y \"%x\" \"" + dest + "\"";
+            var shellOut = QUtils.ShellExec(xmoveCmd,true);
 
             //Check for error in move.
             if (shellOut.Contains(moveNoneErr))
@@ -171,7 +170,7 @@ namespace IGIEditor
 
                 else
                 {
-                    QUtils.ShellExec("QSuccess : Compiling finished");
+                    QUtils.ShowInfo("QSuccess : Compiling finished");
                 }
             }
         }

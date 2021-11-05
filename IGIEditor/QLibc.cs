@@ -223,7 +223,8 @@ namespace QLibc
                 IntPtr handle = process.MainWindowHandle;
                 SetForegroundWindow(handle);
                 Thread.Sleep(500);
-                GT.GT_DoKeyPress(key);
+                
+                GT_DoKeyPress(key);
             }
         }
 
