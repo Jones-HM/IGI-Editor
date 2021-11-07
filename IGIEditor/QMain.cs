@@ -39,6 +39,9 @@ namespace IGIEditor
 
         private static void OnAppExit(object sender, EventArgs e)
         {
+            //Update config on exit.
+            QUtils.CreateConfig();
+
             if (File.Exists(QUtils.logFile))
             {
                 QUtils.ShellExec("move /Y " + QUtils.logFile + " " + QUtils.cachePathAppLogs,true);

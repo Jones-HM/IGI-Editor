@@ -485,5 +485,83 @@ namespace IGIEditor
             return graphName;
         }
 
+        internal static string GetGraphArea(int graphId)
+        {
+            string graphFile = QUtils.qGraphsPath + "\\" +  "graph_area_level" + QUtils.gGameLevel + ".txt";
+            QUtils.AddLog("GetGraphArea(): Level: " + QUtils.gGameLevel + " graphId: " + graphId + " graphFile: " + graphFile);
+            if (!System.IO.File.Exists(graphFile)) {return "Area Not Available."; }
+
+            if (QUtils.graphAreas.Count == 0) QUtils.graphAreas = GetGraphAreasList(graphFile);
+
+            foreach (var graph in QUtils.graphAreas)
+            {
+                if (graph.Key == graphId) return graph.Value;
+            }
+            return null;
+        }
+
+        internal static Dictionary<int, string> GetGraphAreasList(string graphFile)
+        {
+            var fileData = System.IO.File.ReadAllLines(graphFile);
+            var graphAreas = new Dictionary<int, string>();
+            string areaSub = "Area : ";
+
+            foreach (var data in fileData)
+            {
+                var graphIdStr = data.Slice(0, data.IndexOf(areaSub)).Trim();
+                var graphArea = data.Substring(data.IndexOf(areaSub) + areaSub.Length + 1).Replace("\"", String.Empty).Trim();
+                int graphId = Int32.Parse(Regex.Match(graphIdStr, @"\d+").Value);
+                graphAreas.Add(graphId, graphArea);
+            }
+            QUtils.AddLog("GetGraphArea(): Level: " + QUtils.gGameLevel + " graphFile: " + graphFile + " retured Area count: " + graphAreas.Count);
+            return graphAreas;
+        }
+
+        internal static List<GraphNode> ReadGraphNodeData(string graphFile)
+        {
+            var graphFileData = System.IO.File.ReadAllBytes(graphFile);
+            List<GraphNode> graphNodeData = new List<GraphNode>();
+
+            for (int index = 0; index < graphFileData.Length; index++)
+            {
+                //Find Node signature - 04CE
+                if (graphFileData[index] == 0x04 && graphFileData[index + 1] == 0xCE)
+                {
+                    var graphData = new GraphNode();
+                    double x, y, z;
+                    var nodeIdData = graphFileData.Skip(index + 8).Take(4).ToArray();
+                    int nodeId = BitConverter.ToInt32(nodeIdData,0);
+
+                    //Read Node X,Y,Z Position offset.
+
+                    int nodePosXIndex = index + 20;
+                    int nodePosYIndex = nodePosXIndex + 8;
+                    int nodePosZIndex = nodePosYIndex + 8;
+
+                    var nodePosXData = graphFileData.Skip(nodePosXIndex).Take(8).ToArray();
+                    x = BitConverter.ToDouble(nodePosXData,0);
+
+                    var nodePosYData = graphFileData.Skip(nodePosYIndex).Take(8).ToArray();
+                    y = BitConverter.ToDouble(nodePosYData,0);
+
+                    var nodePosZData = graphFileData.Skip(nodePosZIndex).Take(8).ToArray();
+                    z = BitConverter.ToDouble(nodePosZData,0);
+
+                    //Read node criteria.
+                    int nodeCriteriaIndex = index + 88 + 1;
+                    var nodeCriteriaData = graphFileData.Skip(nodeCriteriaIndex).Take(18).ToArray();
+                    string nodeCriteria = System.Text.Encoding.UTF8.GetString(nodeCriteriaData);
+                    nodeCriteria = nodeCriteria.IsNonASCII() ? String.Empty : nodeCriteria;
+
+                    //Adding Graph Node data.
+                    graphData.NodeId = nodeId;
+                    graphData.NodePos = new Real64(x, y, z);
+                    graphData.NodeCriteria = nodeCriteria;
+                    graphNodeData.Add(graphData);
+                }
+            }
+            return graphNodeData;
+        }
+
     }
 }

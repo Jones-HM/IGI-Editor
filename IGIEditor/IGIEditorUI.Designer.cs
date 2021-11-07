@@ -31,7 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IGIEditorUI));
             this.backPnl = new System.Windows.Forms.Panel();
-            this.registeredLbl = new System.Windows.Forms.Label();
+            this.connectionCb = new System.Windows.Forms.CheckBox();
+            this.registeredUsersLbl = new System.Windows.Forms.Label();
             this.levelStartTxt = new System.Windows.Forms.NumericUpDown();
             this.posCoordCb = new System.Windows.Forms.CheckBox();
             this.posMetersCb = new System.Windows.Forms.CheckBox();
@@ -107,6 +108,7 @@
             this.movementSpeedTxt = new System.Windows.Forms.TextBox();
             this.movementSpeedLbl = new System.Windows.Forms.Label();
             this.aiEditor = new System.Windows.Forms.TabPage();
+            this.customAiCb = new System.Windows.Forms.CheckBox();
             this.maxSpawnsTxt = new System.Windows.Forms.TextBox();
             this.maxSpawnsLbl = new System.Windows.Forms.Label();
             this.aiFriendlyCb = new System.Windows.Forms.CheckBox();
@@ -179,6 +181,7 @@
             this.xPosLbl_O = new System.Windows.Forms.Label();
             this.updateObjPosition = new System.Windows.Forms.Button();
             this.miscTab = new System.Windows.Forms.TabPage();
+            this.showAppLogBtn = new System.Windows.Forms.Button();
             this.xmlCb = new System.Windows.Forms.CheckBox();
             this.jsonCb = new System.Windows.Forms.CheckBox();
             this.csvCb = new System.Windows.Forms.CheckBox();
@@ -193,13 +196,16 @@
             this.helpBtn = new System.Windows.Forms.Label();
             this.minimizeBtn = new System.Windows.Forms.Label();
             this.closeBtn = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.versionLbl = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.levelNameLbl = new System.Windows.Forms.Label();
             this.formMoverPnl = new System.Windows.Forms.Panel();
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
+            this.graphAreaLbl = new System.Windows.Forms.TextBox();
+            this.disableWarningsCb = new System.Windows.Forms.CheckBox();
+            this.visualiseNodesCb = new System.Windows.Forms.CheckBox();
             this.backPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.tabContainer.SuspendLayout();
@@ -226,7 +232,8 @@
             // 
             this.backPnl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.backPnl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.backPnl.Controls.Add(this.registeredLbl);
+            this.backPnl.Controls.Add(this.connectionCb);
+            this.backPnl.Controls.Add(this.registeredUsersLbl);
             this.backPnl.Controls.Add(this.levelStartTxt);
             this.backPnl.Controls.Add(this.posCoordCb);
             this.backPnl.Controls.Add(this.posMetersCb);
@@ -248,7 +255,7 @@
             this.backPnl.Controls.Add(this.helpBtn);
             this.backPnl.Controls.Add(this.minimizeBtn);
             this.backPnl.Controls.Add(this.closeBtn);
-            this.backPnl.Controls.Add(this.label3);
+            this.backPnl.Controls.Add(this.versionLbl);
             this.backPnl.Controls.Add(this.label2);
             this.backPnl.Controls.Add(this.levelNameLbl);
             this.backPnl.Controls.Add(this.formMoverPnl);
@@ -261,17 +268,32 @@
             this.backPnl.Size = new System.Drawing.Size(1147, 741);
             this.backPnl.TabIndex = 0;
             // 
-            // registeredLbl
+            // connectionCb
             // 
-            this.registeredLbl.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.registeredLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.registeredLbl.Location = new System.Drawing.Point(230, 12);
-            this.registeredLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.registeredLbl.Name = "registeredLbl";
-            this.registeredLbl.Size = new System.Drawing.Size(70, 33);
-            this.registeredLbl.TabIndex = 43;
-            this.registeredLbl.Text = "Users :";
-            this.registeredLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.connectionCb.AutoSize = true;
+            this.connectionCb.Font = new System.Drawing.Font("Century Gothic", 10F);
+            this.connectionCb.ForeColor = System.Drawing.Color.Tomato;
+            this.connectionCb.Location = new System.Drawing.Point(251, 40);
+            this.connectionCb.Margin = new System.Windows.Forms.Padding(4);
+            this.connectionCb.Name = "connectionCb";
+            this.connectionCb.Size = new System.Drawing.Size(84, 25);
+            this.connectionCb.TabIndex = 44;
+            this.connectionCb.Text = "Offline";
+            this.connectionCb.UseVisualStyleBackColor = true;
+            this.connectionCb.CheckedChanged += new System.EventHandler(this.connectionCb_CheckedChanged);
+            // 
+            // registeredUsersLbl
+            // 
+            this.registeredUsersLbl.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.registeredUsersLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.registeredUsersLbl.Location = new System.Drawing.Point(247, 66);
+            this.registeredUsersLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.registeredUsersLbl.Name = "registeredUsersLbl";
+            this.registeredUsersLbl.Size = new System.Drawing.Size(79, 27);
+            this.registeredUsersLbl.TabIndex = 43;
+            this.registeredUsersLbl.Text = "Users :";
+            this.registeredUsersLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.registeredUsersLbl.Visible = false;
             // 
             // levelStartTxt
             // 
@@ -375,10 +397,10 @@
             // 
             this.headerLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.headerLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.headerLbl.Location = new System.Drawing.Point(360, 40);
+            this.headerLbl.Location = new System.Drawing.Point(434, 40);
             this.headerLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.headerLbl.Name = "headerLbl";
-            this.headerLbl.Size = new System.Drawing.Size(464, 33);
+            this.headerLbl.Size = new System.Drawing.Size(399, 33);
             this.headerLbl.TabIndex = 25;
             this.headerLbl.Text = "Licenced to :";
             this.headerLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -531,6 +553,7 @@
             this.tabContainer.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabContainer.TabIndex = 6;
             this.infoViewer.SetToolTip(this.tabContainer, "\r\n");
+            this.tabContainer.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabContainer_Selecting);
             this.tabContainer.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabContainer_Selected);
             // 
             // levelEditorTab
@@ -655,7 +678,6 @@
             this.buildingNameLbl.TabIndex = 9;
             this.buildingNameLbl.Text = "Building :";
             this.buildingNameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.buildingNameLbl.Click += new System.EventHandler(this.buildingNameLbl_Click);
             // 
             // addBuildingBtn
             // 
@@ -1298,6 +1320,9 @@
             // aiEditor
             // 
             this.aiEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiEditor.Controls.Add(this.visualiseNodesCb);
+            this.aiEditor.Controls.Add(this.graphAreaLbl);
+            this.aiEditor.Controls.Add(this.customAiCb);
             this.aiEditor.Controls.Add(this.maxSpawnsTxt);
             this.aiEditor.Controls.Add(this.maxSpawnsLbl);
             this.aiEditor.Controls.Add(this.aiFriendlyCb);
@@ -1325,6 +1350,19 @@
             this.aiEditor.Size = new System.Drawing.Size(1137, 387);
             this.aiEditor.TabIndex = 8;
             this.aiEditor.Text = "A.I Editor";
+            // 
+            // customAiCb
+            // 
+            this.customAiCb.AutoSize = true;
+            this.customAiCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customAiCb.Location = new System.Drawing.Point(275, 149);
+            this.customAiCb.Margin = new System.Windows.Forms.Padding(4);
+            this.customAiCb.Name = "customAiCb";
+            this.customAiCb.Size = new System.Drawing.Size(124, 25);
+            this.customAiCb.TabIndex = 45;
+            this.customAiCb.Text = "Custom A.I";
+            this.customAiCb.UseVisualStyleBackColor = true;
+            this.customAiCb.CheckedChanged += new System.EventHandler(this.customAiCb_CheckedChanged);
             // 
             // maxSpawnsTxt
             // 
@@ -1355,23 +1393,23 @@
             // aiFriendlyCb
             // 
             this.aiFriendlyCb.AutoSize = true;
-            this.aiFriendlyCb.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.aiFriendlyCb.Location = new System.Drawing.Point(262, 137);
+            this.aiFriendlyCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aiFriendlyCb.Location = new System.Drawing.Point(275, 86);
             this.aiFriendlyCb.Margin = new System.Windows.Forms.Padding(4);
             this.aiFriendlyCb.Name = "aiFriendlyCb";
-            this.aiFriendlyCb.Size = new System.Drawing.Size(157, 26);
+            this.aiFriendlyCb.Size = new System.Drawing.Size(92, 25);
             this.aiFriendlyCb.TabIndex = 42;
-            this.aiFriendlyCb.Text = "Friendly Troop";
+            this.aiFriendlyCb.Text = "Friendly";
             this.aiFriendlyCb.UseVisualStyleBackColor = true;
             // 
             // aiAdvanceViewCb
             // 
             this.aiAdvanceViewCb.AutoSize = true;
-            this.aiAdvanceViewCb.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.aiAdvanceViewCb.Location = new System.Drawing.Point(262, 102);
+            this.aiAdvanceViewCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aiAdvanceViewCb.Location = new System.Drawing.Point(275, 51);
             this.aiAdvanceViewCb.Margin = new System.Windows.Forms.Padding(4);
             this.aiAdvanceViewCb.Name = "aiAdvanceViewCb";
-            this.aiAdvanceViewCb.Size = new System.Drawing.Size(173, 26);
+            this.aiAdvanceViewCb.Size = new System.Drawing.Size(158, 25);
             this.aiAdvanceViewCb.TabIndex = 42;
             this.aiAdvanceViewCb.Text = "Advance View";
             this.aiAdvanceViewCb.UseVisualStyleBackColor = true;
@@ -1379,11 +1417,11 @@
             // guardGeneratorCb
             // 
             this.guardGeneratorCb.AutoSize = true;
-            this.guardGeneratorCb.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.guardGeneratorCb.Location = new System.Drawing.Point(525, 270);
+            this.guardGeneratorCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guardGeneratorCb.Location = new System.Drawing.Point(275, 116);
             this.guardGeneratorCb.Margin = new System.Windows.Forms.Padding(4);
             this.guardGeneratorCb.Name = "guardGeneratorCb";
-            this.guardGeneratorCb.Size = new System.Drawing.Size(195, 26);
+            this.guardGeneratorCb.Size = new System.Drawing.Size(178, 25);
             this.guardGeneratorCb.TabIndex = 42;
             this.guardGeneratorCb.Text = "Guard Generator";
             this.guardGeneratorCb.UseVisualStyleBackColor = true;
@@ -1392,13 +1430,13 @@
             // aiinvulnerabilityCb
             // 
             this.aiinvulnerabilityCb.AutoSize = true;
-            this.aiinvulnerabilityCb.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.aiinvulnerabilityCb.Location = new System.Drawing.Point(262, 68);
+            this.aiinvulnerabilityCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aiinvulnerabilityCb.Location = new System.Drawing.Point(275, 17);
             this.aiinvulnerabilityCb.Margin = new System.Windows.Forms.Padding(4);
             this.aiinvulnerabilityCb.Name = "aiinvulnerabilityCb";
-            this.aiinvulnerabilityCb.Size = new System.Drawing.Size(160, 26);
+            this.aiinvulnerabilityCb.Size = new System.Drawing.Size(111, 25);
             this.aiinvulnerabilityCb.TabIndex = 42;
-            this.aiinvulnerabilityCb.Text = "Invulnerability";
+            this.aiinvulnerabilityCb.Text = "Invincible";
             this.aiinvulnerabilityCb.UseVisualStyleBackColor = true;
             // 
             // aiCountTxt
@@ -1407,10 +1445,10 @@
             this.aiCountTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.aiCountTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.aiCountTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.aiCountTxt.Location = new System.Drawing.Point(1003, 199);
+            this.aiCountTxt.Location = new System.Drawing.Point(644, 267);
             this.aiCountTxt.Margin = new System.Windows.Forms.Padding(4);
             this.aiCountTxt.Name = "aiCountTxt";
-            this.aiCountTxt.Size = new System.Drawing.Size(100, 30);
+            this.aiCountTxt.Size = new System.Drawing.Size(76, 30);
             this.aiCountTxt.TabIndex = 41;
             this.aiCountTxt.Text = "1";
             // 
@@ -1423,7 +1461,7 @@
             this.aiGraphIdDD.FormattingEnabled = true;
             this.aiGraphIdDD.Location = new System.Drawing.Point(685, 195);
             this.aiGraphIdDD.Name = "aiGraphIdDD";
-            this.aiGraphIdDD.Size = new System.Drawing.Size(190, 29);
+            this.aiGraphIdDD.Size = new System.Drawing.Size(73, 29);
             this.aiGraphIdDD.TabIndex = 40;
             this.aiGraphIdDD.SelectedValueChanged += new System.EventHandler(this.aiGraphIdDD_SelectedValueChanged);
             // 
@@ -1474,7 +1512,7 @@
             this.aiTypeLbl.Name = "aiTypeLbl";
             this.aiTypeLbl.Size = new System.Drawing.Size(173, 33);
             this.aiTypeLbl.TabIndex = 39;
-            this.aiTypeLbl.Text = "AI Type :";
+            this.aiTypeLbl.Text = "Type :";
             this.aiTypeLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // weaponAiLbl
@@ -1511,7 +1549,6 @@
             this.aiModelSelectDD.Name = "aiModelSelectDD";
             this.aiModelSelectDD.Size = new System.Drawing.Size(419, 29);
             this.aiModelSelectDD.TabIndex = 37;
-            this.aiModelSelectDD.SelectedIndexChanged += new System.EventHandler(this.aiModelSelectDD_SelectedIndexChanged);
             this.aiModelSelectDD.SelectedValueChanged += new System.EventHandler(this.aiModelSelectDD_SelectedValueChanged);
             // 
             // aiImgBox
@@ -1529,7 +1566,7 @@
             // 
             this.aiCountLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.aiCountLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.aiCountLbl.Location = new System.Drawing.Point(883, 195);
+            this.aiCountLbl.Location = new System.Drawing.Point(524, 263);
             this.aiCountLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.aiCountLbl.Name = "aiCountLbl";
             this.aiCountLbl.Size = new System.Drawing.Size(119, 33);
@@ -1541,7 +1578,7 @@
             // 
             this.aiPropertiesLbl.Font = new System.Drawing.Font("Century Gothic", 13F);
             this.aiPropertiesLbl.ForeColor = System.Drawing.Color.LightSalmon;
-            this.aiPropertiesLbl.Location = new System.Drawing.Point(257, 13);
+            this.aiPropertiesLbl.Location = new System.Drawing.Point(45, 7);
             this.aiPropertiesLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.aiPropertiesLbl.Name = "aiPropertiesLbl";
             this.aiPropertiesLbl.Size = new System.Drawing.Size(173, 33);
@@ -1558,7 +1595,7 @@
             this.aiModelLbl.Name = "aiModelLbl";
             this.aiModelLbl.Size = new System.Drawing.Size(173, 33);
             this.aiModelLbl.TabIndex = 34;
-            this.aiModelLbl.Text = "AI Model";
+            this.aiModelLbl.Text = "Model";
             this.aiModelLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // addAiBtn
@@ -2285,6 +2322,8 @@
             // miscTab
             // 
             this.miscTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.miscTab.Controls.Add(this.disableWarningsCb);
+            this.miscTab.Controls.Add(this.showAppLogBtn);
             this.miscTab.Controls.Add(this.xmlCb);
             this.miscTab.Controls.Add(this.jsonCb);
             this.miscTab.Controls.Add(this.csvCb);
@@ -2302,6 +2341,20 @@
             this.miscTab.Size = new System.Drawing.Size(1137, 387);
             this.miscTab.TabIndex = 6;
             this.miscTab.Text = "Misc";
+            // 
+            // showAppLogBtn
+            // 
+            this.showAppLogBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.showAppLogBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.showAppLogBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.showAppLogBtn.Location = new System.Drawing.Point(676, 298);
+            this.showAppLogBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.showAppLogBtn.Name = "showAppLogBtn";
+            this.showAppLogBtn.Size = new System.Drawing.Size(190, 38);
+            this.showAppLogBtn.TabIndex = 21;
+            this.showAppLogBtn.Text = "Show App Logs";
+            this.showAppLogBtn.UseVisualStyleBackColor = true;
+            this.showAppLogBtn.Click += new System.EventHandler(this.showAppLogBtn_Click);
             // 
             // xmlCb
             // 
@@ -2346,7 +2399,7 @@
             // 
             this.appLogsCb.AutoSize = true;
             this.appLogsCb.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.appLogsCb.Location = new System.Drawing.Point(676, 130);
+            this.appLogsCb.Location = new System.Drawing.Point(672, 100);
             this.appLogsCb.Margin = new System.Windows.Forms.Padding(4);
             this.appLogsCb.Name = "appLogsCb";
             this.appLogsCb.Size = new System.Drawing.Size(178, 26);
@@ -2359,7 +2412,7 @@
             // 
             this.autoResetCb.AutoSize = true;
             this.autoResetCb.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.autoResetCb.Location = new System.Drawing.Point(675, 66);
+            this.autoResetCb.Location = new System.Drawing.Point(672, 66);
             this.autoResetCb.Margin = new System.Windows.Forms.Padding(4);
             this.autoResetCb.Name = "autoResetCb";
             this.autoResetCb.Size = new System.Drawing.Size(175, 26);
@@ -2493,17 +2546,17 @@
             this.closeBtn.MouseLeave += new System.EventHandler(this.closeBtn_MouseLeave);
             this.closeBtn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.closeBtn_MouseMove);
             // 
-            // label3
+            // versionLbl
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.label3.ForeColor = System.Drawing.Color.Gray;
-            this.label3.Location = new System.Drawing.Point(244, 48);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(39, 20);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "v1.0";
+            this.versionLbl.AutoSize = true;
+            this.versionLbl.Font = new System.Drawing.Font("Century Gothic", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.versionLbl.ForeColor = System.Drawing.Color.Gray;
+            this.versionLbl.Location = new System.Drawing.Point(159, 71);
+            this.versionLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.versionLbl.Name = "versionLbl";
+            this.versionLbl.Size = new System.Drawing.Size(64, 17);
+            this.versionLbl.TabIndex = 3;
+            this.versionLbl.Text = "v0.2-BETA";
             // 
             // label2
             // 
@@ -2519,7 +2572,7 @@
             // 
             // levelNameLbl
             // 
-            this.levelNameLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.levelNameLbl.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.levelNameLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.levelNameLbl.Location = new System.Drawing.Point(50, 90);
             this.levelNameLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -2560,6 +2613,45 @@
             this.label1.Size = new System.Drawing.Size(103, 44);
             this.label1.TabIndex = 0;
             this.label1.Text = "IGI 1";
+            // 
+            // graphAreaLbl
+            // 
+            this.graphAreaLbl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.graphAreaLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.graphAreaLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.graphAreaLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.graphAreaLbl.Location = new System.Drawing.Point(776, 196);
+            this.graphAreaLbl.Margin = new System.Windows.Forms.Padding(4);
+            this.graphAreaLbl.Name = "graphAreaLbl";
+            this.graphAreaLbl.ReadOnly = true;
+            this.graphAreaLbl.Size = new System.Drawing.Size(328, 30);
+            this.graphAreaLbl.TabIndex = 47;
+            this.graphAreaLbl.Text = "Graph Area";
+            // 
+            // disableWarningsCb
+            // 
+            this.disableWarningsCb.AutoSize = true;
+            this.disableWarningsCb.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.disableWarningsCb.Location = new System.Drawing.Point(672, 136);
+            this.disableWarningsCb.Margin = new System.Windows.Forms.Padding(4);
+            this.disableWarningsCb.Name = "disableWarningsCb";
+            this.disableWarningsCb.Size = new System.Drawing.Size(178, 26);
+            this.disableWarningsCb.TabIndex = 22;
+            this.disableWarningsCb.Text = "Disable Warning";
+            this.disableWarningsCb.UseVisualStyleBackColor = true;
+            this.disableWarningsCb.CheckedChanged += new System.EventHandler(this.disableWarningsCb_CheckedChanged);
+            // 
+            // visualiseNodesCb
+            // 
+            this.visualiseNodesCb.AutoSize = true;
+            this.visualiseNodesCb.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.visualiseNodesCb.Location = new System.Drawing.Point(776, 234);
+            this.visualiseNodesCb.Margin = new System.Windows.Forms.Padding(4);
+            this.visualiseNodesCb.Name = "visualiseNodesCb";
+            this.visualiseNodesCb.Size = new System.Drawing.Size(143, 24);
+            this.visualiseNodesCb.TabIndex = 48;
+            this.visualiseNodesCb.Text = "Visualise Nodes";
+            this.visualiseNodesCb.UseVisualStyleBackColor = true;
             // 
             // IGIEditorUI
             // 
@@ -2611,7 +2703,7 @@
         private System.Windows.Forms.Panel backPnl;
         private System.Windows.Forms.Label minimizeBtn;
         private System.Windows.Forms.Label closeBtn;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label versionLbl;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel formMoverPnl;
         private System.Windows.Forms.Label label1;
@@ -2777,7 +2869,13 @@
         private System.Windows.Forms.Label graphIdLbl;
         private System.Windows.Forms.CheckBox guardGeneratorCb;
         private System.Windows.Forms.Label aiPropertiesLbl;
-        private System.Windows.Forms.Label registeredLbl;
+        private System.Windows.Forms.Label registeredUsersLbl;
+        private System.Windows.Forms.CheckBox customAiCb;
+        private System.Windows.Forms.Button showAppLogBtn;
+        private System.Windows.Forms.CheckBox connectionCb;
+        private System.Windows.Forms.TextBox graphAreaLbl;
+        private System.Windows.Forms.CheckBox disableWarningsCb;
+        private System.Windows.Forms.CheckBox visualiseNodesCb;
     }
 }
 

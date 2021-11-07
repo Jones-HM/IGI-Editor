@@ -9,7 +9,7 @@ namespace IGIEditor
 {
     class QObjects
     {
-        internal static string AddRigidObj(string model, Real64 position, bool checkModel = false)
+        internal static string AddRigidObj(string model, Real64 position, bool checkModel = false, string taskNote = "")
         {
             if (checkModel)
             {
@@ -22,10 +22,10 @@ namespace IGIEditor
                     return null;
                 }
             }
-            return RigidObj(-1, "", position.x, position.y, position.z, 0, 0, 0, model);
+            return RigidObj(-1, taskNote, position.x, position.y, position.z, 0, 0, 0, model);
         }
 
-        internal static string AddRigidObj(string model, Real64 position, Real32 orientation, bool checkModel)
+        internal static string AddRigidObj(string model, Real64 position, Real32 orientation, bool checkModel,string taskNote="")
         {
             if (checkModel)
             {
@@ -37,7 +37,7 @@ namespace IGIEditor
                     QUtils.ShowError("Model " + model + " does not exist in current level");
                 }
             }
-            return RigidObj(-1, "", position.x, position.y, position.z, orientation.alpha, orientation.beta, orientation.gamma, model);
+            return RigidObj(-1, taskNote, position.x, position.y, position.z, orientation.alpha, orientation.beta, orientation.gamma, model);
         }
 
         internal static string RigidObj(int taskId = -1, string taskNote = "", double x = 0.0f, double y = 0.0f, double z = 0.0f, float alpha = 0.0f, float beta = 0.0f, float gamma = 0.0f, string modelId = "")
@@ -926,7 +926,8 @@ namespace IGIEditor
             string taskComment = "\n//" + taskNoteStr + " Area" + "\n";
             string areaTask = "Task_New(" + QUtils.qtaskId++ + ",\"AreaActivate\"," + taskNote + "," + position.x + "," + position.y + "," + position.z + ",0,0,0," + areaDim.x + "," + areaDim.y + "," + areaDim.z + ",\"CRITERIA_HUMAN0\");" + "\n";
 
-            string statusMsgTask = "Task_New(" + -1 + ",\"StatusMessage\"," + taskNote + ",0,0,0,0,0,0,\"AreaActivate_" + areaId + ".nActive\",\"" + taskNoteStr + " " + modelName + " ID : " + taskId + " Pos : X : " + position.x + " Y: " + position.y + " Z: " + position.z + "\"," + "\"\", \"message\",FALSE," + isCutscene.ToString().ToUpperInvariant() + "," + statusDuration + ");" + "\n";
+            //string statusMsgTask = "Task_New(" + -1 + ",\"StatusMessage\"," + taskNote + ",0,0,0,0,0,0,\"AreaActivate_" + areaId + ".nActive\",\"" + taskNoteStr + " " + modelName + " ID : " + taskId + " Pos : X : " + position.x + " Y: " + position.y + " Z: " + position.z + "\"," + "\"\", \"message\",FALSE," + isCutscene.ToString().ToUpperInvariant() + "," + statusDuration + ");" + "\n";
+            string statusMsgTask = "Task_New(" + -1 + ",\"StatusMessage\"," + taskNote + ",0,0,0,0,0,0,\"AreaActivate_" + areaId + ".nActive\",\"" + taskNoteStr + "\"," + "\"\", \"message\",FALSE," + isCutscene.ToString().ToUpperInvariant() + "," + statusDuration + ");" + "\n";
 
             var qscData = taskComment + areaTask + statusMsgTask;
             return qscData;

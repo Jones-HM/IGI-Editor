@@ -126,7 +126,8 @@
     <Compile Include="IGIEditor\QMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IGIEditor\QFileInegrity.cs" />
-    <Compile Include="QUserInfo.cs" />
+    <Compile Include="IGIEditor\QIniParser.cs" />
+    <Compile Include="IGIEditor\QUserInfo.cs" />
     <EmbeddedResource Include="IGIEditor\IGIEditorUI.resx">
       <DependentUpon>IGIEditorUI.cs</DependentUpon>
     </EmbeddedResource>

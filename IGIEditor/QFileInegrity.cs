@@ -8,11 +8,12 @@ namespace IGIEditor
 {
     class FileInegrity
     {
-        static string qChecksFile = QUtils.igiEditorTmpPath + @"\QChecks.dat", qChecksFileData = null;
+        static string qChecksFile = QUtils.igiEditorQEdPath + @"\QChecks.dat", qChecksFileData = null;
 
         public static void RunFileInegrityCheck(string processName = null, List<string> gameDirs = null)
         {
-            bool isQFilesValid = CheckDirInegrity(gameDirs, true, processName);
+            var exclude_list = new List<string>() { QUtils.customAiPathFileQEd, QUtils.customScriptFileQEd };
+            bool isQFilesValid = CheckDirInegrity(gameDirs, exclude_list, true);
             IGIEditorUI.editorRef.Enabled = isQFilesValid;
         }
 
@@ -65,10 +66,9 @@ namespace IGIEditor
             return fileMatch;
         }
 
-        public static bool CheckDirInegrity(List<string> dirNames, bool showError = true, string exclude = "")
+        public static bool CheckDirInegrity(List<string> dirNames, List<string> exclude_list, bool showError = true)
         {
-            if (!File.Exists(qChecksFile))
-                GenerateDirHashes(dirNames);
+            if (!File.Exists(qChecksFile)) GenerateDirHashes(dirNames);
 
             bool checkInegrity = true;
             foreach (string dirName in dirNames)
@@ -77,8 +77,17 @@ namespace IGIEditor
 
                 foreach (var files in allFiles)
                 {
-                    if (!String.IsNullOrEmpty(exclude))
-                        if (Path.GetFileName(files) == exclude) continue;
+                    if (exclude_list.Count > 0)
+                    {
+                        foreach (var exclude in exclude_list)
+                        {
+                            if (Path.GetFileName(files) == Path.GetFileName(exclude))
+                            {
+                                QUtils.AddLog("Exclude file '" + Path.GetFileName(exclude) + "', pathFile '" + Path.GetFileName(files) + "'");
+                                return checkInegrity;
+                            }
+                        }
+                    }
 
                     checkInegrity = CheckFileInegrity(files, showError);
                     if (!checkInegrity) return false;

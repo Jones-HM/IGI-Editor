@@ -75,7 +75,7 @@ namespace IGIEditor
             //Add the A.I (Human soldier)
             string humanSoldierType = (aiType == "AITYPE_ANYA" || aiType == "AITYPE_EKK") ? "HumanSoldierFemale" : "HumanSoldier";
             string qtaskSoldier = "\nTask_New(" + taskId + ",\"" + humanSoldierType + "\",\"" + taskNote + "\"," + position.x + "," + position.y + "," + position.z + "," + angle + ",\"" + model + "\"," + team + "," + boneHeirachy + "," + standAnimation + ",\n";
-            QUtils.AddLog("AddHumanSoldier() called with ID : " + taskId + "  HumanSoldier : " + taskNote + "\"," + position.x + "," + position.y + "," + position.z + "," + angle + ",\"" + model + "\"," + team + "," + boneHeirachy + "," + standAnimation + ",\n");
+            QUtils.AddLog("AddHumanSoldier() called with Ai Type: '" + aiType + "' ID : " + taskId + "  HumanSoldier : " + taskNote + "\"," + position.x + "," + position.y + "," + position.z + "," + angle + ",\"" + model + "\"," + team + "," + boneHeirachy + "," + standAnimation + ",\n");
 
             //Add A.I type to status message.
             if (team == 0)
@@ -143,13 +143,13 @@ namespace IGIEditor
                         aiAmmo = 999;
 
                         //Remove after - TEST.
-                        bool modelExist = QUtils.CheckModelExist(modelId);
+                        //bool modelExist = QUtils.CheckModelExist(modelId);
 
-                        if (!modelExist)
-                        {
-                            QUtils.ShowError("Model '" + modelId + "' doesnt exist for current level");
-                            return qscData;
-                        }
+                        //if (!modelExist)
+                        //{
+                        //    QUtils.ShowError("Model '" + modelId + "' doesnt exist for current level");
+                        //    return qscData;
+                        //}
                     }
 
                     //Add GuardGenerator .
@@ -185,7 +185,12 @@ namespace IGIEditor
                 {
                     if (file.Contains("script"))
                     {
-                        string aiScriptData = QCryptor.Decrypt(file);
+                        string aiScriptData;
+                        //If Custom A.I selected.
+                        if (QUtils.customAiSelected)
+                            aiScriptData = QUtils.LoadFile(QUtils.appdataPath + "\\" + QUtils.customScriptFileQEd);
+                        else
+                            aiScriptData = QCryptor.Decrypt(file);
 
                         //Add Idle patrol.
                         if (aiScriptData.Contains(QUtils.patroIdleMask))
@@ -256,7 +261,13 @@ namespace IGIEditor
 
                     else if (file.Contains("path"))
                     {
-                        string aiPathData = QCryptor.Decrypt(file);
+                        string aiPathData;
+                        //If Custom A.I selected.
+                        if (QUtils.customAiSelected)
+                            aiPathData = QUtils.LoadFile(QUtils.appdataPath + "\\" + QUtils.customAiPathFileQEd);
+                        else
+                            aiPathData = QCryptor.Decrypt(file);
+
                         bool graphExist = false;
                         var nodesList = QGraphs.GetAllNodes4mGraph(Convert.ToInt32(graphId));
 
@@ -330,6 +341,7 @@ namespace IGIEditor
                             {
                                 int randIndex = new Random().Next(0, nodesList.Count - 1);
                                 if (nodesList.Count >= 10) index = randIndex;
+                                if (index >= nodesList.Count) break;
                                 string pattern = @"\b" + nId + @"\b";
                                 string replace = nodesList[index].ToString();
                                 result = Regex.Replace(result, pattern, replace);
@@ -668,7 +680,7 @@ namespace IGIEditor
             {
                 if (aiModelName == aiModel.ModelName)
                 {
-                    QUtils.AddLog("GetAiModelIdForName(): aiModelName" + aiModelName + " Returned ModelId : " + aiModel.ModelId);
+                    QUtils.AddLog("GetAiModelIdForName(): model name '" + aiModelName + "' Returned model id : " + aiModel.ModelId);
                     return aiModel.ModelId;
                 }
             }
@@ -688,7 +700,7 @@ namespace IGIEditor
                     break;
                 }
             }
-            QUtils.AddLog("GetAiImageId(): aiModelName" + aiModelName + " Returned imageId : " + imageId);
+            QUtils.AddLog("GetAiImageId(): aiModelName " + aiModelName + " Returned imageId : " + imageId);
             return imageId;
         }
 

@@ -46,8 +46,18 @@ namespace IGIEditor
         {
             IntPtr levelAddr = (IntPtr)0x00539560;
             long level = GT.GT_ReadInt(levelAddr);
-            //if (level > 3) QUtils.ShowSystemFatalError("IGI Editor demo limited to only 3 levels");
+            if (level > QUtils.GAME_MAX_LEVEL) QUtils.ShowSystemFatalError("IGI Editor demo limited to only" + QUtils.GAME_MAX_LEVEL + "levels");
             return (int)level;
+        }
+
+        internal static void DisableGameWarnings()
+        {
+            unsafe
+            {
+                IntPtr disableWarnAddr = (IntPtr)0x00936274;
+                int disableWarn = 0;
+                GT.GT_WriteAddress(disableWarnAddr, &disableWarn);
+            }
         }
 
         static IntPtr GetGameBaseAddr()
@@ -138,7 +148,7 @@ namespace IGIEditor
 
         internal static void StartLevel(int level, bool windowed = false)
         {
-            //if (level <= 0 || level > 3) throw new ArgumentNullException("Level must be between 1-3");
+            if (level <= 0 || level > QUtils.GAME_MAX_LEVEL) throw new ArgumentNullException("Level must be between 1-3");
 
             var igiProc = Process.GetProcessesByName(gameName);
             if (igiProc.Length > 0)
