@@ -264,6 +264,21 @@ namespace IGIEditor
             return nodesId;
         }
 
+        internal static List<int> GetNodesForGraph(int graphId)
+        {
+            List<int> graphNodeIds = new List<int>();
+            string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
+           
+            QUtils.graphNodesList = QGraphs.ReadGraphNodeData(graphFile);
+            int totalNodes = QUtils.graphNodesList.Count;
+
+            foreach (var node in QUtils.graphNodesList)
+                graphNodeIds.Add(node.NodeId);
+
+            QUtils.AddLog("GetNodesForGraph() GraphFile: '" + graphFile + "'" + " NodeId Count: " + graphNodeIds.Count);
+            return graphNodeIds;
+        }
+
         internal static List<int> GetAllNodes4mGraph(int graphId)
         {
             var graphNodesList = GetNodes4Graph();
@@ -614,8 +629,8 @@ namespace IGIEditor
         {
             string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
             QUtils.AddLog("graphIdDD() GraphFile: '" + graphFile + "'");
-            
-            if(QUtils.graphNodesList.Count == 0) QUtils.graphNodesList = QGraphs.ReadGraphNodeData(graphFile);
+
+            if (QUtils.graphNodesList.Count == 0) QUtils.graphNodesList = QGraphs.ReadGraphNodeData(graphFile);
 
             foreach (var node in QUtils.graphNodesList)
             {

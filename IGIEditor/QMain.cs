@@ -48,23 +48,10 @@ namespace IGIEditor
                 QUtils.ShellExec("move /Y " + QUtils.qLibLogsFile + " " + QUtils.cachePathAppLogs,true);
                 Thread.Sleep(2000);
             }
-            CleanUpFiles();
-        }
-
-        private static void CleanUpFiles()
-        {
-            var outputAiPath = QUtils.cfgGamePath + QUtils.gGameLevel + "\\ai\\";
+            QUtils.CleanUpAiFiles();
 
             //Eject Dll on Exit.
-            GT.GT_SendKeys2Process(QMemory.gameName, GT.VK.END);
-
-            if (QUtils.aiScriptFiles.Count >= 1)
-            {
-                foreach (var scriptFile in QUtils.aiScriptFiles)
-                    File.Delete(outputAiPath + scriptFile);
-                File.Delete(QUtils.objectsQsc);
-            }
-            //QUtils.ShowError("Ai scripts hasn't been added yet");
+            QLibc.GT.GT_SendKeys2Process(QMemory.gameName, QLibc.GT.VK.END);
         }
     }
 }

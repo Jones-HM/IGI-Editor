@@ -269,7 +269,8 @@ namespace IGIEditor
                             aiPathData = QCryptor.Decrypt(file);
 
                         bool graphExist = false;
-                        var nodesList = QGraphs.GetAllNodes4mGraph(Convert.ToInt32(graphId));
+                        //var nodesList = QGraphs.GetAllNodes4mGraph(Convert.ToInt32(graphId));
+                        var nodesList = QGraphs.GetNodesForGraph(Convert.ToInt32(graphId));
 
                         if (nodesList == null)
                         {
@@ -340,12 +341,11 @@ namespace IGIEditor
                             foreach (var nId in nIdsList)
                             {
                                 int randIndex = new Random().Next(0, nodesList.Count - 1);
-                                if (nodesList.Count >= 10) index = randIndex;
+                                if (nodesList.Count >= 20) index = randIndex;
                                 if (index >= nodesList.Count) break;
                                 string pattern = @"\b" + nId + @"\b";
-                                string replace = nodesList[index].ToString();
+                                string replace = nodesList[index++].ToString();
                                 result = Regex.Replace(result, pattern, replace);
-                                index++;
                             }
                         }
                     }

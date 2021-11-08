@@ -50,8 +50,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.tabContainer = new System.Windows.Forms.TabControl();
-            this.levelEditorTab = new System.Windows.Forms.TabPage();
+            this.editorTabs = new System.Windows.Forms.TabControl();
+            this.levelEditor = new System.Windows.Forms.TabPage();
             this.clearAllLvlBtn = new System.Windows.Forms.Button();
             this.objectSelectDD = new System.Windows.Forms.ComboBox();
             this.buildingSelectDD = new System.Windows.Forms.ComboBox();
@@ -61,7 +61,7 @@
             this.addObjectBtn = new System.Windows.Forms.Button();
             this.buildingNameLbl = new System.Windows.Forms.Label();
             this.addBuildingBtn = new System.Windows.Forms.Button();
-            this.objectEditorTab = new System.Windows.Forms.TabPage();
+            this.objectEditor = new System.Windows.Forms.TabPage();
             this.maxItemsLbl4 = new System.Windows.Forms.Label();
             this.buildingsResTxt = new System.Windows.Forms.TextBox();
             this.ObjsResTxt = new System.Windows.Forms.TextBox();
@@ -83,7 +83,7 @@
             this.removeModelBtn = new System.Windows.Forms.Button();
             this.removeBuildingsBtn = new System.Windows.Forms.Button();
             this.removeObjsBtn = new System.Windows.Forms.Button();
-            this.humanEditorTab = new System.Windows.Forms.TabPage();
+            this.humanEditor = new System.Windows.Forms.TabPage();
             this.readHumanBtn = new System.Windows.Forms.Button();
             this.resetHumanBtn = new System.Windows.Forms.Button();
             this.inAirSpeedTxt = new System.Windows.Forms.TextBox();
@@ -130,7 +130,7 @@
             this.aiModelNameLbl = new System.Windows.Forms.Label();
             this.aiModelLbl = new System.Windows.Forms.Label();
             this.addAiBtn = new System.Windows.Forms.Button();
-            this.weaponEditorTab = new System.Windows.Forms.TabPage();
+            this.weaponEditor = new System.Windows.Forms.TabPage();
             this.weaponAmmoTxt = new System.Windows.Forms.TextBox();
             this.weaponAmmolbl = new System.Windows.Forms.Label();
             this.weaponSelectDD = new System.Windows.Forms.ComboBox();
@@ -138,19 +138,28 @@
             this.removeWeaponBtn = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.addWeaponBtn = new System.Windows.Forms.Button();
-            this.threeDEditorTab = new System.Windows.Forms.TabPage();
+            this.threeDEditor = new System.Windows.Forms.TabPage();
             this.resume3DEditorBtn = new System.Windows.Forms.Button();
             this.start3DEditorBtn = new System.Windows.Forms.Button();
-            this.missionEditorTab = new System.Windows.Forms.TabPage();
+            this.missionEditor = new System.Windows.Forms.TabPage();
+            this.missionLevelFlowTimerCb = new System.Windows.Forms.CheckBox();
+            this.missionPlayTimeLbl = new System.Windows.Forms.Label();
+            this.addLevelFlowBtn = new System.Windows.Forms.Button();
             this.installMissionBtn = new System.Windows.Forms.Button();
             this.missionDescTxt = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.missionDescLbl = new System.Windows.Forms.Label();
+            this.removeMissionBtn = new System.Windows.Forms.Button();
+            this.missionPlayTimeTxt = new System.Windows.Forms.TextBox();
+            this.missionNameTxt = new System.Windows.Forms.TextBox();
             this.missionNameLbl = new System.Windows.Forms.Label();
             this.loadMissionBtn = new System.Windows.Forms.Button();
             this.saveMissionBtn = new System.Windows.Forms.Button();
             this.graphEditor = new System.Windows.Forms.TabPage();
+            this.autoModeTeleportCb = new System.Windows.Forms.CheckBox();
+            this.viewPortEnableCb = new System.Windows.Forms.CheckBox();
+            this.teleportToNodeBtn = new System.Windows.Forms.Button();
+            this.nodeIdMetreCb = new System.Windows.Forms.CheckBox();
+            this.nodeIdOffsetCb = new System.Windows.Forms.CheckBox();
             this.graphTotalNodesTxt = new System.Windows.Forms.TextBox();
             this.graphTotalNodesLbl = new System.Windows.Forms.Label();
             this.nodeCriteriaTxt = new System.Windows.Forms.TextBox();
@@ -168,7 +177,7 @@
             this.graphAreaLbl = new System.Windows.Forms.TextBox();
             this.graphIdDD = new System.Windows.Forms.ComboBox();
             this.graphIdLbl = new System.Windows.Forms.Label();
-            this.positionEditorTab = new System.Windows.Forms.TabPage();
+            this.positionEditor = new System.Windows.Forms.TabPage();
             this.gammaTxt = new System.Windows.Forms.NumericUpDown();
             this.betaTxt = new System.Windows.Forms.NumericUpDown();
             this.alphaTxt = new System.Windows.Forms.NumericUpDown();
@@ -224,27 +233,23 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.nodeIdMetreCb = new System.Windows.Forms.CheckBox();
-            this.nodeIdOffsetCb = new System.Windows.Forms.CheckBox();
-            this.teleportToNodeBtn = new System.Windows.Forms.Button();
-            this.viewPortEnableCb = new System.Windows.Forms.CheckBox();
-            this.autoModeTeleportCb = new System.Windows.Forms.CheckBox();
+            this.removeAllAi = new System.Windows.Forms.Button();
             this.backPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
-            this.tabContainer.SuspendLayout();
-            this.levelEditorTab.SuspendLayout();
-            this.objectEditorTab.SuspendLayout();
+            this.editorTabs.SuspendLayout();
+            this.levelEditor.SuspendLayout();
+            this.objectEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).BeginInit();
-            this.humanEditorTab.SuspendLayout();
+            this.humanEditor.SuspendLayout();
             this.aiEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weaponAIImgBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.aiImgBox)).BeginInit();
-            this.weaponEditorTab.SuspendLayout();
+            this.weaponEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weaponImgBox)).BeginInit();
-            this.threeDEditorTab.SuspendLayout();
-            this.missionEditorTab.SuspendLayout();
+            this.threeDEditor.SuspendLayout();
+            this.missionEditor.SuspendLayout();
             this.graphEditor.SuspendLayout();
-            this.positionEditorTab.SuspendLayout();
+            this.positionEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gammaTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.betaTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).BeginInit();
@@ -275,7 +280,7 @@
             this.backPnl.Controls.Add(this.label7);
             this.backPnl.Controls.Add(this.label6);
             this.backPnl.Controls.Add(this.label5);
-            this.backPnl.Controls.Add(this.tabContainer);
+            this.backPnl.Controls.Add(this.editorTabs);
             this.backPnl.Controls.Add(this.helpBtn);
             this.backPnl.Controls.Add(this.minimizeBtn);
             this.backPnl.Controls.Add(this.closeBtn);
@@ -555,53 +560,54 @@
             this.label5.Text = "X :";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // tabContainer
+            // editorTabs
             // 
-            this.tabContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabContainer.Controls.Add(this.levelEditorTab);
-            this.tabContainer.Controls.Add(this.objectEditorTab);
-            this.tabContainer.Controls.Add(this.humanEditorTab);
-            this.tabContainer.Controls.Add(this.aiEditor);
-            this.tabContainer.Controls.Add(this.weaponEditorTab);
-            this.tabContainer.Controls.Add(this.threeDEditorTab);
-            this.tabContainer.Controls.Add(this.missionEditorTab);
-            this.tabContainer.Controls.Add(this.graphEditor);
-            this.tabContainer.Controls.Add(this.positionEditorTab);
-            this.tabContainer.Controls.Add(this.miscTab);
-            this.tabContainer.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabContainer.HotTrack = true;
-            this.tabContainer.Location = new System.Drawing.Point(0, 319);
-            this.tabContainer.Margin = new System.Windows.Forms.Padding(4);
-            this.tabContainer.Name = "tabContainer";
-            this.tabContainer.SelectedIndex = 0;
-            this.tabContainer.Size = new System.Drawing.Size(1145, 421);
-            this.tabContainer.TabIndex = 6;
-            this.infoViewer.SetToolTip(this.tabContainer, "\r\n");
-            this.tabContainer.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabContainer_Selecting);
-            this.tabContainer.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabContainer_Selected);
+            this.editorTabs.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.editorTabs.Controls.Add(this.levelEditor);
+            this.editorTabs.Controls.Add(this.objectEditor);
+            this.editorTabs.Controls.Add(this.humanEditor);
+            this.editorTabs.Controls.Add(this.aiEditor);
+            this.editorTabs.Controls.Add(this.weaponEditor);
+            this.editorTabs.Controls.Add(this.threeDEditor);
+            this.editorTabs.Controls.Add(this.missionEditor);
+            this.editorTabs.Controls.Add(this.graphEditor);
+            this.editorTabs.Controls.Add(this.positionEditor);
+            this.editorTabs.Controls.Add(this.miscTab);
+            this.editorTabs.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editorTabs.HotTrack = true;
+            this.editorTabs.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.editorTabs.Location = new System.Drawing.Point(0, 319);
+            this.editorTabs.Margin = new System.Windows.Forms.Padding(4);
+            this.editorTabs.Multiline = true;
+            this.editorTabs.Name = "editorTabs";
+            this.editorTabs.SelectedIndex = 0;
+            this.editorTabs.ShowToolTips = true;
+            this.editorTabs.Size = new System.Drawing.Size(1145, 421);
+            this.editorTabs.TabIndex = 6;
+            this.infoViewer.SetToolTip(this.editorTabs, "\r\n");
+            this.editorTabs.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabContainer_Selecting);
+            this.editorTabs.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabContainer_Selected);
             // 
-            // levelEditorTab
+            // levelEditor
             // 
-            this.levelEditorTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.levelEditorTab.Controls.Add(this.clearAllLvlBtn);
-            this.levelEditorTab.Controls.Add(this.objectSelectDD);
-            this.levelEditorTab.Controls.Add(this.buildingSelectDD);
-            this.levelEditorTab.Controls.Add(this.removeObjectBtn);
-            this.levelEditorTab.Controls.Add(this.removeBuildingBtn);
-            this.levelEditorTab.Controls.Add(this.objectNameLbl);
-            this.levelEditorTab.Controls.Add(this.addObjectBtn);
-            this.levelEditorTab.Controls.Add(this.buildingNameLbl);
-            this.levelEditorTab.Controls.Add(this.addBuildingBtn);
-            this.levelEditorTab.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.levelEditorTab.Location = new System.Drawing.Point(4, 30);
-            this.levelEditorTab.Margin = new System.Windows.Forms.Padding(4);
-            this.levelEditorTab.Name = "levelEditorTab";
-            this.levelEditorTab.Padding = new System.Windows.Forms.Padding(4);
-            this.levelEditorTab.Size = new System.Drawing.Size(1137, 387);
-            this.levelEditorTab.TabIndex = 1;
-            this.levelEditorTab.Text = "Level Editor";
+            this.levelEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.levelEditor.Controls.Add(this.clearAllLvlBtn);
+            this.levelEditor.Controls.Add(this.objectSelectDD);
+            this.levelEditor.Controls.Add(this.buildingSelectDD);
+            this.levelEditor.Controls.Add(this.removeObjectBtn);
+            this.levelEditor.Controls.Add(this.removeBuildingBtn);
+            this.levelEditor.Controls.Add(this.objectNameLbl);
+            this.levelEditor.Controls.Add(this.addObjectBtn);
+            this.levelEditor.Controls.Add(this.buildingNameLbl);
+            this.levelEditor.Controls.Add(this.addBuildingBtn);
+            this.levelEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.levelEditor.Location = new System.Drawing.Point(4, 30);
+            this.levelEditor.Margin = new System.Windows.Forms.Padding(4);
+            this.levelEditor.Name = "levelEditor";
+            this.levelEditor.Padding = new System.Windows.Forms.Padding(4);
+            this.levelEditor.Size = new System.Drawing.Size(1137, 387);
+            this.levelEditor.TabIndex = 1;
+            this.levelEditor.Text = "Level Editor";
             // 
             // clearAllLvlBtn
             // 
@@ -718,38 +724,38 @@
             this.addBuildingBtn.UseVisualStyleBackColor = true;
             this.addBuildingBtn.Click += new System.EventHandler(this.addBuildingBtn_Click);
             // 
-            // objectEditorTab
+            // objectEditor
             // 
-            this.objectEditorTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.objectEditorTab.Controls.Add(this.maxItemsLbl4);
-            this.objectEditorTab.Controls.Add(this.buildingsResTxt);
-            this.objectEditorTab.Controls.Add(this.ObjsResTxt);
-            this.objectEditorTab.Controls.Add(this.itemsLbl4);
-            this.objectEditorTab.Controls.Add(this.itemsLbl3);
-            this.objectEditorTab.Controls.Add(this.maxItemsLbl3);
-            this.objectEditorTab.Controls.Add(this.maxItemsLbl2);
-            this.objectEditorTab.Controls.Add(this.buildingsRemTxt);
-            this.objectEditorTab.Controls.Add(this.ObjsRemTxt);
-            this.objectEditorTab.Controls.Add(this.itemsLbl2);
-            this.objectEditorTab.Controls.Add(this.itemsLbl1);
-            this.objectEditorTab.Controls.Add(this.resetBuildingsBtn);
-            this.objectEditorTab.Controls.Add(this.resetObjectsBtn);
-            this.objectEditorTab.Controls.Add(this.objectIDLbl);
-            this.objectEditorTab.Controls.Add(this.objectImgBox);
-            this.objectEditorTab.Controls.Add(this.objectIDTxt);
-            this.objectEditorTab.Controls.Add(this.maxItemsLbl1);
-            this.objectEditorTab.Controls.Add(this.modelIdLbl);
-            this.objectEditorTab.Controls.Add(this.removeModelBtn);
-            this.objectEditorTab.Controls.Add(this.removeBuildingsBtn);
-            this.objectEditorTab.Controls.Add(this.removeObjsBtn);
-            this.objectEditorTab.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.objectEditorTab.Location = new System.Drawing.Point(4, 30);
-            this.objectEditorTab.Margin = new System.Windows.Forms.Padding(4);
-            this.objectEditorTab.Name = "objectEditorTab";
-            this.objectEditorTab.Padding = new System.Windows.Forms.Padding(4);
-            this.objectEditorTab.Size = new System.Drawing.Size(1137, 387);
-            this.objectEditorTab.TabIndex = 0;
-            this.objectEditorTab.Text = "Object Editor";
+            this.objectEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.objectEditor.Controls.Add(this.maxItemsLbl4);
+            this.objectEditor.Controls.Add(this.buildingsResTxt);
+            this.objectEditor.Controls.Add(this.ObjsResTxt);
+            this.objectEditor.Controls.Add(this.itemsLbl4);
+            this.objectEditor.Controls.Add(this.itemsLbl3);
+            this.objectEditor.Controls.Add(this.maxItemsLbl3);
+            this.objectEditor.Controls.Add(this.maxItemsLbl2);
+            this.objectEditor.Controls.Add(this.buildingsRemTxt);
+            this.objectEditor.Controls.Add(this.ObjsRemTxt);
+            this.objectEditor.Controls.Add(this.itemsLbl2);
+            this.objectEditor.Controls.Add(this.itemsLbl1);
+            this.objectEditor.Controls.Add(this.resetBuildingsBtn);
+            this.objectEditor.Controls.Add(this.resetObjectsBtn);
+            this.objectEditor.Controls.Add(this.objectIDLbl);
+            this.objectEditor.Controls.Add(this.objectImgBox);
+            this.objectEditor.Controls.Add(this.objectIDTxt);
+            this.objectEditor.Controls.Add(this.maxItemsLbl1);
+            this.objectEditor.Controls.Add(this.modelIdLbl);
+            this.objectEditor.Controls.Add(this.removeModelBtn);
+            this.objectEditor.Controls.Add(this.removeBuildingsBtn);
+            this.objectEditor.Controls.Add(this.removeObjsBtn);
+            this.objectEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.objectEditor.Location = new System.Drawing.Point(4, 30);
+            this.objectEditor.Margin = new System.Windows.Forms.Padding(4);
+            this.objectEditor.Name = "objectEditor";
+            this.objectEditor.Padding = new System.Windows.Forms.Padding(4);
+            this.objectEditor.Size = new System.Drawing.Size(1137, 387);
+            this.objectEditor.TabIndex = 0;
+            this.objectEditor.Text = "Object Editor";
             // 
             // maxItemsLbl4
             // 
@@ -1010,39 +1016,39 @@
             this.removeObjsBtn.UseVisualStyleBackColor = true;
             this.removeObjsBtn.Click += new System.EventHandler(this.removeObjsBtn_Click);
             // 
-            // humanEditorTab
+            // humanEditor
             // 
-            this.humanEditorTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.humanEditorTab.Controls.Add(this.readHumanBtn);
-            this.humanEditorTab.Controls.Add(this.resetHumanBtn);
-            this.humanEditorTab.Controls.Add(this.inAirSpeedTxt);
-            this.humanEditorTab.Controls.Add(this.inAirSpeedLbl);
-            this.humanEditorTab.Controls.Add(this.updatePeekBtn);
-            this.humanEditorTab.Controls.Add(this.updateHumanHealthBtn);
-            this.humanEditorTab.Controls.Add(this.damageScaleFenceTxt);
-            this.humanEditorTab.Controls.Add(this.fenceDamageScaleLbl);
-            this.humanEditorTab.Controls.Add(this.damageScaleTxt);
-            this.humanEditorTab.Controls.Add(this.damageScaleLbl);
-            this.humanEditorTab.Controls.Add(this.updateHumanSpeedBtn);
-            this.humanEditorTab.Controls.Add(this.peekTimeTxt);
-            this.humanEditorTab.Controls.Add(this.upwardJumpTxt);
-            this.humanEditorTab.Controls.Add(this.peekTimeLbl);
-            this.humanEditorTab.Controls.Add(this.upwardJumpLbl);
-            this.humanEditorTab.Controls.Add(this.peekCrouchTxt);
-            this.humanEditorTab.Controls.Add(this.forwardJumpTxt);
-            this.humanEditorTab.Controls.Add(this.peekCrouchLbl);
-            this.humanEditorTab.Controls.Add(this.forwardJumpLbl);
-            this.humanEditorTab.Controls.Add(this.peekLRTxt);
-            this.humanEditorTab.Controls.Add(this.peekLRLbl);
-            this.humanEditorTab.Controls.Add(this.movementSpeedTxt);
-            this.humanEditorTab.Controls.Add(this.movementSpeedLbl);
-            this.humanEditorTab.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.humanEditorTab.Location = new System.Drawing.Point(4, 30);
-            this.humanEditorTab.Margin = new System.Windows.Forms.Padding(4);
-            this.humanEditorTab.Name = "humanEditorTab";
-            this.humanEditorTab.Size = new System.Drawing.Size(1137, 387);
-            this.humanEditorTab.TabIndex = 2;
-            this.humanEditorTab.Text = "Human Editor";
+            this.humanEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.humanEditor.Controls.Add(this.readHumanBtn);
+            this.humanEditor.Controls.Add(this.resetHumanBtn);
+            this.humanEditor.Controls.Add(this.inAirSpeedTxt);
+            this.humanEditor.Controls.Add(this.inAirSpeedLbl);
+            this.humanEditor.Controls.Add(this.updatePeekBtn);
+            this.humanEditor.Controls.Add(this.updateHumanHealthBtn);
+            this.humanEditor.Controls.Add(this.damageScaleFenceTxt);
+            this.humanEditor.Controls.Add(this.fenceDamageScaleLbl);
+            this.humanEditor.Controls.Add(this.damageScaleTxt);
+            this.humanEditor.Controls.Add(this.damageScaleLbl);
+            this.humanEditor.Controls.Add(this.updateHumanSpeedBtn);
+            this.humanEditor.Controls.Add(this.peekTimeTxt);
+            this.humanEditor.Controls.Add(this.upwardJumpTxt);
+            this.humanEditor.Controls.Add(this.peekTimeLbl);
+            this.humanEditor.Controls.Add(this.upwardJumpLbl);
+            this.humanEditor.Controls.Add(this.peekCrouchTxt);
+            this.humanEditor.Controls.Add(this.forwardJumpTxt);
+            this.humanEditor.Controls.Add(this.peekCrouchLbl);
+            this.humanEditor.Controls.Add(this.forwardJumpLbl);
+            this.humanEditor.Controls.Add(this.peekLRTxt);
+            this.humanEditor.Controls.Add(this.peekLRLbl);
+            this.humanEditor.Controls.Add(this.movementSpeedTxt);
+            this.humanEditor.Controls.Add(this.movementSpeedLbl);
+            this.humanEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.humanEditor.Location = new System.Drawing.Point(4, 30);
+            this.humanEditor.Margin = new System.Windows.Forms.Padding(4);
+            this.humanEditor.Name = "humanEditor";
+            this.humanEditor.Size = new System.Drawing.Size(1137, 387);
+            this.humanEditor.TabIndex = 2;
+            this.humanEditor.Text = "Human Editor";
             // 
             // readHumanBtn
             // 
@@ -1346,6 +1352,7 @@
             // aiEditor
             // 
             this.aiEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiEditor.Controls.Add(this.removeAllAi);
             this.aiEditor.Controls.Add(this.graphAreaAiLbl);
             this.aiEditor.Controls.Add(this.customAiCb);
             this.aiEditor.Controls.Add(this.maxSpawnsTxt);
@@ -1645,27 +1652,27 @@
             this.addAiBtn.Name = "addAiBtn";
             this.addAiBtn.Size = new System.Drawing.Size(424, 31);
             this.addAiBtn.TabIndex = 33;
-            this.addAiBtn.Text = "Add A.I";
+            this.addAiBtn.Text = "Add A.I Soldier";
             this.addAiBtn.UseVisualStyleBackColor = true;
             this.addAiBtn.Click += new System.EventHandler(this.addAiBtn_Click);
             // 
-            // weaponEditorTab
+            // weaponEditor
             // 
-            this.weaponEditorTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.weaponEditorTab.Controls.Add(this.weaponAmmoTxt);
-            this.weaponEditorTab.Controls.Add(this.weaponAmmolbl);
-            this.weaponEditorTab.Controls.Add(this.weaponSelectDD);
-            this.weaponEditorTab.Controls.Add(this.weaponImgBox);
-            this.weaponEditorTab.Controls.Add(this.removeWeaponBtn);
-            this.weaponEditorTab.Controls.Add(this.label14);
-            this.weaponEditorTab.Controls.Add(this.addWeaponBtn);
-            this.weaponEditorTab.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.weaponEditorTab.Location = new System.Drawing.Point(4, 30);
-            this.weaponEditorTab.Margin = new System.Windows.Forms.Padding(4);
-            this.weaponEditorTab.Name = "weaponEditorTab";
-            this.weaponEditorTab.Size = new System.Drawing.Size(1137, 387);
-            this.weaponEditorTab.TabIndex = 7;
-            this.weaponEditorTab.Text = "Weapon Editor";
+            this.weaponEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.weaponEditor.Controls.Add(this.weaponAmmoTxt);
+            this.weaponEditor.Controls.Add(this.weaponAmmolbl);
+            this.weaponEditor.Controls.Add(this.weaponSelectDD);
+            this.weaponEditor.Controls.Add(this.weaponImgBox);
+            this.weaponEditor.Controls.Add(this.removeWeaponBtn);
+            this.weaponEditor.Controls.Add(this.label14);
+            this.weaponEditor.Controls.Add(this.addWeaponBtn);
+            this.weaponEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.weaponEditor.Location = new System.Drawing.Point(4, 30);
+            this.weaponEditor.Margin = new System.Windows.Forms.Padding(4);
+            this.weaponEditor.Name = "weaponEditor";
+            this.weaponEditor.Size = new System.Drawing.Size(1137, 387);
+            this.weaponEditor.TabIndex = 7;
+            this.weaponEditor.Text = "Weapon Editor";
             // 
             // weaponAmmoTxt
             // 
@@ -1754,18 +1761,18 @@
             this.addWeaponBtn.UseVisualStyleBackColor = true;
             this.addWeaponBtn.Click += new System.EventHandler(this.addWeaponBtn_Click);
             // 
-            // threeDEditorTab
+            // threeDEditor
             // 
-            this.threeDEditorTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.threeDEditorTab.Controls.Add(this.resume3DEditorBtn);
-            this.threeDEditorTab.Controls.Add(this.start3DEditorBtn);
-            this.threeDEditorTab.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.threeDEditorTab.Location = new System.Drawing.Point(4, 30);
-            this.threeDEditorTab.Margin = new System.Windows.Forms.Padding(4);
-            this.threeDEditorTab.Name = "threeDEditorTab";
-            this.threeDEditorTab.Size = new System.Drawing.Size(1137, 387);
-            this.threeDEditorTab.TabIndex = 3;
-            this.threeDEditorTab.Text = "3D Editor";
+            this.threeDEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.threeDEditor.Controls.Add(this.resume3DEditorBtn);
+            this.threeDEditor.Controls.Add(this.start3DEditorBtn);
+            this.threeDEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.threeDEditor.Location = new System.Drawing.Point(4, 30);
+            this.threeDEditor.Margin = new System.Windows.Forms.Padding(4);
+            this.threeDEditor.Name = "threeDEditor";
+            this.threeDEditor.Size = new System.Drawing.Size(1137, 387);
+            this.threeDEditor.TabIndex = 3;
+            this.threeDEditor.Text = "3D Editor";
             // 
             // resume3DEditorBtn
             // 
@@ -1791,36 +1798,80 @@
             this.start3DEditorBtn.Text = "Start 3D Editor";
             this.start3DEditorBtn.UseVisualStyleBackColor = true;
             // 
-            // missionEditorTab
+            // missionEditor
             // 
-            this.missionEditorTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.missionEditorTab.Controls.Add(this.installMissionBtn);
-            this.missionEditorTab.Controls.Add(this.missionDescTxt);
-            this.missionEditorTab.Controls.Add(this.label13);
-            this.missionEditorTab.Controls.Add(this.button1);
-            this.missionEditorTab.Controls.Add(this.textBox1);
-            this.missionEditorTab.Controls.Add(this.missionNameLbl);
-            this.missionEditorTab.Controls.Add(this.loadMissionBtn);
-            this.missionEditorTab.Controls.Add(this.saveMissionBtn);
-            this.missionEditorTab.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.missionEditorTab.Location = new System.Drawing.Point(4, 30);
-            this.missionEditorTab.Margin = new System.Windows.Forms.Padding(4);
-            this.missionEditorTab.Name = "missionEditorTab";
-            this.missionEditorTab.Size = new System.Drawing.Size(1137, 387);
-            this.missionEditorTab.TabIndex = 4;
-            this.missionEditorTab.Text = "Mission Editor";
+            this.missionEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.missionEditor.Controls.Add(this.missionLevelFlowTimerCb);
+            this.missionEditor.Controls.Add(this.missionPlayTimeLbl);
+            this.missionEditor.Controls.Add(this.addLevelFlowBtn);
+            this.missionEditor.Controls.Add(this.installMissionBtn);
+            this.missionEditor.Controls.Add(this.missionDescTxt);
+            this.missionEditor.Controls.Add(this.missionDescLbl);
+            this.missionEditor.Controls.Add(this.removeMissionBtn);
+            this.missionEditor.Controls.Add(this.missionPlayTimeTxt);
+            this.missionEditor.Controls.Add(this.missionNameTxt);
+            this.missionEditor.Controls.Add(this.missionNameLbl);
+            this.missionEditor.Controls.Add(this.loadMissionBtn);
+            this.missionEditor.Controls.Add(this.saveMissionBtn);
+            this.missionEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.missionEditor.Location = new System.Drawing.Point(4, 30);
+            this.missionEditor.Margin = new System.Windows.Forms.Padding(4);
+            this.missionEditor.Name = "missionEditor";
+            this.missionEditor.Size = new System.Drawing.Size(1137, 387);
+            this.missionEditor.TabIndex = 4;
+            this.missionEditor.Text = "Mission Editor";
+            // 
+            // missionLevelFlowTimerCb
+            // 
+            this.missionLevelFlowTimerCb.AutoSize = true;
+            this.missionLevelFlowTimerCb.Checked = true;
+            this.missionLevelFlowTimerCb.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.missionLevelFlowTimerCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.missionLevelFlowTimerCb.Location = new System.Drawing.Point(576, 315);
+            this.missionLevelFlowTimerCb.Margin = new System.Windows.Forms.Padding(4);
+            this.missionLevelFlowTimerCb.Name = "missionLevelFlowTimerCb";
+            this.missionLevelFlowTimerCb.Size = new System.Drawing.Size(118, 23);
+            this.missionLevelFlowTimerCb.TabIndex = 74;
+            this.missionLevelFlowTimerCb.Text = "Enable Timer";
+            this.missionLevelFlowTimerCb.UseVisualStyleBackColor = true;
+            // 
+            // missionPlayTimeLbl
+            // 
+            this.missionPlayTimeLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.missionPlayTimeLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.missionPlayTimeLbl.Location = new System.Drawing.Point(23, 304);
+            this.missionPlayTimeLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.missionPlayTimeLbl.Name = "missionPlayTimeLbl";
+            this.missionPlayTimeLbl.Size = new System.Drawing.Size(244, 33);
+            this.missionPlayTimeLbl.TabIndex = 36;
+            this.missionPlayTimeLbl.Text = "Max Play Time(Seconds)";
+            this.missionPlayTimeLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // addLevelFlowBtn
+            // 
+            this.addLevelFlowBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addLevelFlowBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.addLevelFlowBtn.Location = new System.Drawing.Point(730, 310);
+            this.addLevelFlowBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.addLevelFlowBtn.Name = "addLevelFlowBtn";
+            this.addLevelFlowBtn.Size = new System.Drawing.Size(210, 31);
+            this.addLevelFlowBtn.TabIndex = 35;
+            this.addLevelFlowBtn.Text = "Add Level Timer";
+            this.addLevelFlowBtn.UseVisualStyleBackColor = true;
+            this.addLevelFlowBtn.Click += new System.EventHandler(this.addLevelFlowBtn_Click);
             // 
             // installMissionBtn
             // 
             this.installMissionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.installMissionBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.installMissionBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.installMissionBtn.Location = new System.Drawing.Point(730, 40);
             this.installMissionBtn.Margin = new System.Windows.Forms.Padding(4);
             this.installMissionBtn.Name = "installMissionBtn";
-            this.installMissionBtn.Size = new System.Drawing.Size(143, 31);
+            this.installMissionBtn.Size = new System.Drawing.Size(210, 31);
             this.installMissionBtn.TabIndex = 34;
             this.installMissionBtn.Text = "Install Mission";
             this.installMissionBtn.UseVisualStyleBackColor = true;
+            this.installMissionBtn.Click += new System.EventHandler(this.installMissionBtn_Click);
             // 
             // missionDescTxt
             // 
@@ -1834,41 +1885,54 @@
             this.missionDescTxt.Size = new System.Drawing.Size(450, 30);
             this.missionDescTxt.TabIndex = 33;
             // 
-            // label13
+            // missionDescLbl
             // 
-            this.label13.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.label13.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.label13.Location = new System.Drawing.Point(70, 101);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(173, 33);
-            this.label13.TabIndex = 32;
-            this.label13.Text = "Description :";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.missionDescLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.missionDescLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.missionDescLbl.Location = new System.Drawing.Point(70, 101);
+            this.missionDescLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.missionDescLbl.Name = "missionDescLbl";
+            this.missionDescLbl.Size = new System.Drawing.Size(173, 33);
+            this.missionDescLbl.TabIndex = 32;
+            this.missionDescLbl.Text = "Description :";
+            this.missionDescLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button1
+            // removeMissionBtn
             // 
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.Color.Tomato;
-            this.button1.Location = new System.Drawing.Point(620, 181);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(160, 31);
-            this.button1.TabIndex = 28;
-            this.button1.Text = "Remove Mission";
-            this.button1.UseVisualStyleBackColor = true;
+            this.removeMissionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.removeMissionBtn.ForeColor = System.Drawing.Color.Tomato;
+            this.removeMissionBtn.Location = new System.Drawing.Point(730, 103);
+            this.removeMissionBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.removeMissionBtn.Name = "removeMissionBtn";
+            this.removeMissionBtn.Size = new System.Drawing.Size(210, 31);
+            this.removeMissionBtn.TabIndex = 28;
+            this.removeMissionBtn.Text = "Remove Mission";
+            this.removeMissionBtn.UseVisualStyleBackColor = true;
+            this.removeMissionBtn.Click += new System.EventHandler(this.removeMissionBtn_Click);
             // 
-            // textBox1
+            // missionPlayTimeTxt
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.textBox1.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.textBox1.Location = new System.Drawing.Point(244, 43);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(450, 30);
-            this.textBox1.TabIndex = 30;
+            this.missionPlayTimeTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.missionPlayTimeTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.missionPlayTimeTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.missionPlayTimeTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.missionPlayTimeTxt.Location = new System.Drawing.Point(310, 308);
+            this.missionPlayTimeTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.missionPlayTimeTxt.Name = "missionPlayTimeTxt";
+            this.missionPlayTimeTxt.Size = new System.Drawing.Size(196, 30);
+            this.missionPlayTimeTxt.TabIndex = 30;
+            // 
+            // missionNameTxt
+            // 
+            this.missionNameTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.missionNameTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.missionNameTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.missionNameTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.missionNameTxt.Location = new System.Drawing.Point(244, 43);
+            this.missionNameTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.missionNameTxt.Name = "missionNameTxt";
+            this.missionNameTxt.Size = new System.Drawing.Size(450, 30);
+            this.missionNameTxt.TabIndex = 30;
             // 
             // missionNameLbl
             // 
@@ -1886,25 +1950,27 @@
             // 
             this.loadMissionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.loadMissionBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.loadMissionBtn.Location = new System.Drawing.Point(429, 181);
+            this.loadMissionBtn.Location = new System.Drawing.Point(247, 204);
             this.loadMissionBtn.Margin = new System.Windows.Forms.Padding(4);
             this.loadMissionBtn.Name = "loadMissionBtn";
-            this.loadMissionBtn.Size = new System.Drawing.Size(143, 31);
+            this.loadMissionBtn.Size = new System.Drawing.Size(447, 31);
             this.loadMissionBtn.TabIndex = 28;
             this.loadMissionBtn.Text = "Load Mission";
             this.loadMissionBtn.UseVisualStyleBackColor = true;
+            this.loadMissionBtn.Click += new System.EventHandler(this.loadMissionBtn_Click);
             // 
             // saveMissionBtn
             // 
             this.saveMissionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveMissionBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.saveMissionBtn.Location = new System.Drawing.Point(244, 181);
+            this.saveMissionBtn.Location = new System.Drawing.Point(247, 152);
             this.saveMissionBtn.Margin = new System.Windows.Forms.Padding(4);
             this.saveMissionBtn.Name = "saveMissionBtn";
-            this.saveMissionBtn.Size = new System.Drawing.Size(143, 31);
+            this.saveMissionBtn.Size = new System.Drawing.Size(447, 31);
             this.saveMissionBtn.TabIndex = 28;
             this.saveMissionBtn.Text = "Save Mission";
             this.saveMissionBtn.UseVisualStyleBackColor = true;
+            this.saveMissionBtn.Click += new System.EventHandler(this.saveMissionBtn_Click);
             // 
             // graphEditor
             // 
@@ -1937,6 +2003,70 @@
             this.graphEditor.Size = new System.Drawing.Size(1137, 387);
             this.graphEditor.TabIndex = 9;
             this.graphEditor.Text = "Graph Editor";
+            // 
+            // autoModeTeleportCb
+            // 
+            this.autoModeTeleportCb.AutoSize = true;
+            this.autoModeTeleportCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoModeTeleportCb.Location = new System.Drawing.Point(703, 280);
+            this.autoModeTeleportCb.Margin = new System.Windows.Forms.Padding(4);
+            this.autoModeTeleportCb.Name = "autoModeTeleportCb";
+            this.autoModeTeleportCb.Size = new System.Drawing.Size(117, 23);
+            this.autoModeTeleportCb.TabIndex = 74;
+            this.autoModeTeleportCb.Text = "Auto - Mode";
+            this.autoModeTeleportCb.UseVisualStyleBackColor = true;
+            // 
+            // viewPortEnableCb
+            // 
+            this.viewPortEnableCb.AutoSize = true;
+            this.viewPortEnableCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewPortEnableCb.Location = new System.Drawing.Point(549, 280);
+            this.viewPortEnableCb.Margin = new System.Windows.Forms.Padding(4);
+            this.viewPortEnableCb.Name = "viewPortEnableCb";
+            this.viewPortEnableCb.Size = new System.Drawing.Size(152, 23);
+            this.viewPortEnableCb.TabIndex = 73;
+            this.viewPortEnableCb.Text = "ViewPort - Enable";
+            this.viewPortEnableCb.UseVisualStyleBackColor = true;
+            this.viewPortEnableCb.CheckedChanged += new System.EventHandler(this.viewPortEnableCb_CheckedChanged);
+            // 
+            // teleportToNodeBtn
+            // 
+            this.teleportToNodeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.teleportToNodeBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.teleportToNodeBtn.Location = new System.Drawing.Point(549, 231);
+            this.teleportToNodeBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.teleportToNodeBtn.Name = "teleportToNodeBtn";
+            this.teleportToNodeBtn.Size = new System.Drawing.Size(267, 41);
+            this.teleportToNodeBtn.TabIndex = 72;
+            this.teleportToNodeBtn.Text = "Teleport To Node";
+            this.teleportToNodeBtn.UseVisualStyleBackColor = true;
+            this.teleportToNodeBtn.Click += new System.EventHandler(this.teleportToNodeBtn_Click);
+            // 
+            // nodeIdMetreCb
+            // 
+            this.nodeIdMetreCb.AutoSize = true;
+            this.nodeIdMetreCb.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.nodeIdMetreCb.Location = new System.Drawing.Point(627, 183);
+            this.nodeIdMetreCb.Margin = new System.Windows.Forms.Padding(4);
+            this.nodeIdMetreCb.Name = "nodeIdMetreCb";
+            this.nodeIdMetreCb.Size = new System.Drawing.Size(76, 24);
+            this.nodeIdMetreCb.TabIndex = 70;
+            this.nodeIdMetreCb.Text = "Meter";
+            this.nodeIdMetreCb.UseVisualStyleBackColor = true;
+            // 
+            // nodeIdOffsetCb
+            // 
+            this.nodeIdOffsetCb.AutoSize = true;
+            this.nodeIdOffsetCb.Checked = true;
+            this.nodeIdOffsetCb.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.nodeIdOffsetCb.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.nodeIdOffsetCb.Location = new System.Drawing.Point(549, 183);
+            this.nodeIdOffsetCb.Margin = new System.Windows.Forms.Padding(4);
+            this.nodeIdOffsetCb.Name = "nodeIdOffsetCb";
+            this.nodeIdOffsetCb.Size = new System.Drawing.Size(75, 24);
+            this.nodeIdOffsetCb.TabIndex = 71;
+            this.nodeIdOffsetCb.Text = "Offset";
+            this.nodeIdOffsetCb.UseVisualStyleBackColor = true;
             // 
             // graphTotalNodesTxt
             // 
@@ -2156,46 +2286,46 @@
             this.graphIdLbl.Text = "Graph Id :";
             this.graphIdLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // positionEditorTab
+            // positionEditor
             // 
-            this.positionEditorTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.positionEditorTab.Controls.Add(this.gammaTxt);
-            this.positionEditorTab.Controls.Add(this.betaTxt);
-            this.positionEditorTab.Controls.Add(this.alphaTxt);
-            this.positionEditorTab.Controls.Add(this.gammaLbl);
-            this.positionEditorTab.Controls.Add(this.betaLbl);
-            this.positionEditorTab.Controls.Add(this.alphaLbl);
-            this.positionEditorTab.Controls.Add(this.updateObjOrientation);
-            this.positionEditorTab.Controls.Add(this.humanPosMeterCb);
-            this.positionEditorTab.Controls.Add(this.humanPosOffCb);
-            this.positionEditorTab.Controls.Add(this.zPosTxt_H);
-            this.positionEditorTab.Controls.Add(this.zPosLbl_H);
-            this.positionEditorTab.Controls.Add(this.yPosTxt_H);
-            this.positionEditorTab.Controls.Add(this.yPosLbl_H);
-            this.positionEditorTab.Controls.Add(this.xPosTxt_H);
-            this.positionEditorTab.Controls.Add(this.xPosLbl_H);
-            this.positionEditorTab.Controls.Add(this.updateHumaPosition);
-            this.positionEditorTab.Controls.Add(this.objectPosDD);
-            this.positionEditorTab.Controls.Add(this.objPosLbl);
-            this.positionEditorTab.Controls.Add(this.buildingPosDD);
-            this.positionEditorTab.Controls.Add(this.buildingPosLbl);
-            this.positionEditorTab.Controls.Add(this.posCurrentCb);
-            this.positionEditorTab.Controls.Add(this.posMeterCb);
-            this.positionEditorTab.Controls.Add(this.posOffCb);
-            this.positionEditorTab.Controls.Add(this.zPosTxt_O);
-            this.positionEditorTab.Controls.Add(this.zPosLbl_O);
-            this.positionEditorTab.Controls.Add(this.yPosTxt_O);
-            this.positionEditorTab.Controls.Add(this.yPosLbl_O);
-            this.positionEditorTab.Controls.Add(this.xPosTxt_O);
-            this.positionEditorTab.Controls.Add(this.xPosLbl_O);
-            this.positionEditorTab.Controls.Add(this.updateObjPosition);
-            this.positionEditorTab.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.positionEditorTab.Location = new System.Drawing.Point(4, 30);
-            this.positionEditorTab.Margin = new System.Windows.Forms.Padding(4);
-            this.positionEditorTab.Name = "positionEditorTab";
-            this.positionEditorTab.Size = new System.Drawing.Size(1137, 387);
-            this.positionEditorTab.TabIndex = 5;
-            this.positionEditorTab.Text = "Position Editor";
+            this.positionEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.positionEditor.Controls.Add(this.gammaTxt);
+            this.positionEditor.Controls.Add(this.betaTxt);
+            this.positionEditor.Controls.Add(this.alphaTxt);
+            this.positionEditor.Controls.Add(this.gammaLbl);
+            this.positionEditor.Controls.Add(this.betaLbl);
+            this.positionEditor.Controls.Add(this.alphaLbl);
+            this.positionEditor.Controls.Add(this.updateObjOrientation);
+            this.positionEditor.Controls.Add(this.humanPosMeterCb);
+            this.positionEditor.Controls.Add(this.humanPosOffCb);
+            this.positionEditor.Controls.Add(this.zPosTxt_H);
+            this.positionEditor.Controls.Add(this.zPosLbl_H);
+            this.positionEditor.Controls.Add(this.yPosTxt_H);
+            this.positionEditor.Controls.Add(this.yPosLbl_H);
+            this.positionEditor.Controls.Add(this.xPosTxt_H);
+            this.positionEditor.Controls.Add(this.xPosLbl_H);
+            this.positionEditor.Controls.Add(this.updateHumaPosition);
+            this.positionEditor.Controls.Add(this.objectPosDD);
+            this.positionEditor.Controls.Add(this.objPosLbl);
+            this.positionEditor.Controls.Add(this.buildingPosDD);
+            this.positionEditor.Controls.Add(this.buildingPosLbl);
+            this.positionEditor.Controls.Add(this.posCurrentCb);
+            this.positionEditor.Controls.Add(this.posMeterCb);
+            this.positionEditor.Controls.Add(this.posOffCb);
+            this.positionEditor.Controls.Add(this.zPosTxt_O);
+            this.positionEditor.Controls.Add(this.zPosLbl_O);
+            this.positionEditor.Controls.Add(this.yPosTxt_O);
+            this.positionEditor.Controls.Add(this.yPosLbl_O);
+            this.positionEditor.Controls.Add(this.xPosTxt_O);
+            this.positionEditor.Controls.Add(this.xPosLbl_O);
+            this.positionEditor.Controls.Add(this.updateObjPosition);
+            this.positionEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.positionEditor.Location = new System.Drawing.Point(4, 30);
+            this.positionEditor.Margin = new System.Windows.Forms.Padding(4);
+            this.positionEditor.Name = "positionEditor";
+            this.positionEditor.Size = new System.Drawing.Size(1137, 387);
+            this.positionEditor.TabIndex = 5;
+            this.positionEditor.Text = "Position Editor";
             // 
             // gammaTxt
             // 
@@ -2208,7 +2338,7 @@
             0,
             0,
             262144});
-            this.gammaTxt.Location = new System.Drawing.Point(692, 229);
+            this.gammaTxt.Location = new System.Drawing.Point(691, 208);
             this.gammaTxt.Maximum = new decimal(new int[] {
             9,
             0,
@@ -2229,7 +2359,7 @@
             0,
             0,
             262144});
-            this.betaTxt.Location = new System.Drawing.Point(427, 229);
+            this.betaTxt.Location = new System.Drawing.Point(426, 208);
             this.betaTxt.Maximum = new decimal(new int[] {
             9,
             0,
@@ -2250,7 +2380,7 @@
             0,
             0,
             262144});
-            this.alphaTxt.Location = new System.Drawing.Point(175, 229);
+            this.alphaTxt.Location = new System.Drawing.Point(174, 208);
             this.alphaTxt.Maximum = new decimal(new int[] {
             9,
             0,
@@ -2264,7 +2394,7 @@
             // 
             this.gammaLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.gammaLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.gammaLbl.Location = new System.Drawing.Point(570, 227);
+            this.gammaLbl.Location = new System.Drawing.Point(569, 206);
             this.gammaLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.gammaLbl.Name = "gammaLbl";
             this.gammaLbl.Size = new System.Drawing.Size(104, 33);
@@ -2276,7 +2406,7 @@
             // 
             this.betaLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.betaLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.betaLbl.Location = new System.Drawing.Point(326, 225);
+            this.betaLbl.Location = new System.Drawing.Point(325, 204);
             this.betaLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.betaLbl.Name = "betaLbl";
             this.betaLbl.Size = new System.Drawing.Size(93, 33);
@@ -2288,7 +2418,7 @@
             // 
             this.alphaLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.alphaLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.alphaLbl.Location = new System.Drawing.Point(75, 223);
+            this.alphaLbl.Location = new System.Drawing.Point(74, 202);
             this.alphaLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.alphaLbl.Name = "alphaLbl";
             this.alphaLbl.Size = new System.Drawing.Size(93, 33);
@@ -2300,7 +2430,7 @@
             // 
             this.updateObjOrientation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updateObjOrientation.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.updateObjOrientation.Location = new System.Drawing.Point(852, 228);
+            this.updateObjOrientation.Location = new System.Drawing.Point(851, 207);
             this.updateObjOrientation.Margin = new System.Windows.Forms.Padding(4);
             this.updateObjOrientation.Name = "updateObjOrientation";
             this.updateObjOrientation.Size = new System.Drawing.Size(277, 31);
@@ -2313,7 +2443,7 @@
             // 
             this.humanPosMeterCb.AutoSize = true;
             this.humanPosMeterCb.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.humanPosMeterCb.Location = new System.Drawing.Point(1014, 353);
+            this.humanPosMeterCb.Location = new System.Drawing.Point(1013, 332);
             this.humanPosMeterCb.Margin = new System.Windows.Forms.Padding(4);
             this.humanPosMeterCb.Name = "humanPosMeterCb";
             this.humanPosMeterCb.Size = new System.Drawing.Size(76, 24);
@@ -2328,7 +2458,7 @@
             this.humanPosOffCb.Checked = true;
             this.humanPosOffCb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.humanPosOffCb.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.humanPosOffCb.Location = new System.Drawing.Point(852, 353);
+            this.humanPosOffCb.Location = new System.Drawing.Point(851, 332);
             this.humanPosOffCb.Margin = new System.Windows.Forms.Padding(4);
             this.humanPosOffCb.Name = "humanPosOffCb";
             this.humanPosOffCb.Size = new System.Drawing.Size(75, 24);
@@ -2343,7 +2473,7 @@
             this.zPosTxt_H.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.zPosTxt_H.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.zPosTxt_H.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.zPosTxt_H.Location = new System.Drawing.Point(692, 316);
+            this.zPosTxt_H.Location = new System.Drawing.Point(691, 295);
             this.zPosTxt_H.Margin = new System.Windows.Forms.Padding(4);
             this.zPosTxt_H.Name = "zPosTxt_H";
             this.zPosTxt_H.Size = new System.Drawing.Size(120, 30);
@@ -2354,7 +2484,7 @@
             // 
             this.zPosLbl_H.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.zPosLbl_H.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.zPosLbl_H.Location = new System.Drawing.Point(580, 314);
+            this.zPosLbl_H.Location = new System.Drawing.Point(579, 293);
             this.zPosLbl_H.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.zPosLbl_H.Name = "zPosLbl_H";
             this.zPosLbl_H.Size = new System.Drawing.Size(104, 33);
@@ -2368,7 +2498,7 @@
             this.yPosTxt_H.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.yPosTxt_H.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.yPosTxt_H.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.yPosTxt_H.Location = new System.Drawing.Point(427, 313);
+            this.yPosTxt_H.Location = new System.Drawing.Point(426, 292);
             this.yPosTxt_H.Margin = new System.Windows.Forms.Padding(4);
             this.yPosTxt_H.Name = "yPosTxt_H";
             this.yPosTxt_H.Size = new System.Drawing.Size(120, 30);
@@ -2379,7 +2509,7 @@
             // 
             this.yPosLbl_H.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.yPosLbl_H.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.yPosLbl_H.Location = new System.Drawing.Point(336, 312);
+            this.yPosLbl_H.Location = new System.Drawing.Point(335, 291);
             this.yPosLbl_H.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.yPosLbl_H.Name = "yPosLbl_H";
             this.yPosLbl_H.Size = new System.Drawing.Size(93, 33);
@@ -2393,7 +2523,7 @@
             this.xPosTxt_H.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.xPosTxt_H.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.xPosTxt_H.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.xPosTxt_H.Location = new System.Drawing.Point(175, 311);
+            this.xPosTxt_H.Location = new System.Drawing.Point(174, 290);
             this.xPosTxt_H.Margin = new System.Windows.Forms.Padding(4);
             this.xPosTxt_H.Name = "xPosTxt_H";
             this.xPosTxt_H.Size = new System.Drawing.Size(120, 30);
@@ -2404,7 +2534,7 @@
             // 
             this.xPosLbl_H.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.xPosLbl_H.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.xPosLbl_H.Location = new System.Drawing.Point(85, 310);
+            this.xPosLbl_H.Location = new System.Drawing.Point(84, 289);
             this.xPosLbl_H.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.xPosLbl_H.Name = "xPosLbl_H";
             this.xPosLbl_H.Size = new System.Drawing.Size(93, 33);
@@ -2416,7 +2546,7 @@
             // 
             this.updateHumaPosition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updateHumaPosition.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.updateHumaPosition.Location = new System.Drawing.Point(852, 314);
+            this.updateHumaPosition.Location = new System.Drawing.Point(851, 293);
             this.updateHumaPosition.Margin = new System.Windows.Forms.Padding(4);
             this.updateHumaPosition.Name = "updateHumaPosition";
             this.updateHumaPosition.Size = new System.Drawing.Size(277, 31);
@@ -2482,7 +2612,7 @@
             this.posCurrentCb.AutoSize = true;
             this.posCurrentCb.Font = new System.Drawing.Font("Century Gothic", 9F);
             this.posCurrentCb.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.posCurrentCb.Location = new System.Drawing.Point(1014, 173);
+            this.posCurrentCb.Location = new System.Drawing.Point(1013, 152);
             this.posCurrentCb.Margin = new System.Windows.Forms.Padding(4);
             this.posCurrentCb.Name = "posCurrentCb";
             this.posCurrentCb.Size = new System.Drawing.Size(115, 24);
@@ -2495,7 +2625,7 @@
             // 
             this.posMeterCb.AutoSize = true;
             this.posMeterCb.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.posMeterCb.Location = new System.Drawing.Point(930, 173);
+            this.posMeterCb.Location = new System.Drawing.Point(929, 152);
             this.posMeterCb.Margin = new System.Windows.Forms.Padding(4);
             this.posMeterCb.Name = "posMeterCb";
             this.posMeterCb.Size = new System.Drawing.Size(76, 24);
@@ -2510,7 +2640,7 @@
             this.posOffCb.Checked = true;
             this.posOffCb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.posOffCb.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.posOffCb.Location = new System.Drawing.Point(852, 173);
+            this.posOffCb.Location = new System.Drawing.Point(851, 152);
             this.posOffCb.Margin = new System.Windows.Forms.Padding(4);
             this.posOffCb.Name = "posOffCb";
             this.posOffCb.Size = new System.Drawing.Size(75, 24);
@@ -2525,7 +2655,7 @@
             this.zPosTxt_O.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.zPosTxt_O.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.zPosTxt_O.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.zPosTxt_O.Location = new System.Drawing.Point(692, 134);
+            this.zPosTxt_O.Location = new System.Drawing.Point(691, 113);
             this.zPosTxt_O.Margin = new System.Windows.Forms.Padding(4);
             this.zPosTxt_O.Name = "zPosTxt_O";
             this.zPosTxt_O.Size = new System.Drawing.Size(120, 30);
@@ -2536,7 +2666,7 @@
             // 
             this.zPosLbl_O.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.zPosLbl_O.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.zPosLbl_O.Location = new System.Drawing.Point(580, 132);
+            this.zPosLbl_O.Location = new System.Drawing.Point(579, 111);
             this.zPosLbl_O.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.zPosLbl_O.Name = "zPosLbl_O";
             this.zPosLbl_O.Size = new System.Drawing.Size(104, 33);
@@ -2550,7 +2680,7 @@
             this.yPosTxt_O.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.yPosTxt_O.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.yPosTxt_O.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.yPosTxt_O.Location = new System.Drawing.Point(427, 131);
+            this.yPosTxt_O.Location = new System.Drawing.Point(426, 110);
             this.yPosTxt_O.Margin = new System.Windows.Forms.Padding(4);
             this.yPosTxt_O.Name = "yPosTxt_O";
             this.yPosTxt_O.Size = new System.Drawing.Size(120, 30);
@@ -2561,7 +2691,7 @@
             // 
             this.yPosLbl_O.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.yPosLbl_O.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.yPosLbl_O.Location = new System.Drawing.Point(336, 130);
+            this.yPosLbl_O.Location = new System.Drawing.Point(335, 109);
             this.yPosLbl_O.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.yPosLbl_O.Name = "yPosLbl_O";
             this.yPosLbl_O.Size = new System.Drawing.Size(93, 33);
@@ -2575,7 +2705,7 @@
             this.xPosTxt_O.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.xPosTxt_O.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.xPosTxt_O.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.xPosTxt_O.Location = new System.Drawing.Point(175, 129);
+            this.xPosTxt_O.Location = new System.Drawing.Point(174, 108);
             this.xPosTxt_O.Margin = new System.Windows.Forms.Padding(4);
             this.xPosTxt_O.Name = "xPosTxt_O";
             this.xPosTxt_O.Size = new System.Drawing.Size(120, 30);
@@ -2586,7 +2716,7 @@
             // 
             this.xPosLbl_O.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.xPosLbl_O.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.xPosLbl_O.Location = new System.Drawing.Point(85, 128);
+            this.xPosLbl_O.Location = new System.Drawing.Point(84, 107);
             this.xPosLbl_O.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.xPosLbl_O.Name = "xPosLbl_O";
             this.xPosLbl_O.Size = new System.Drawing.Size(93, 33);
@@ -2598,7 +2728,7 @@
             // 
             this.updateObjPosition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updateObjPosition.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.updateObjPosition.Location = new System.Drawing.Point(852, 134);
+            this.updateObjPosition.Location = new System.Drawing.Point(851, 113);
             this.updateObjPosition.Margin = new System.Windows.Forms.Padding(4);
             this.updateObjPosition.Name = "updateObjPosition";
             this.updateObjPosition.Size = new System.Drawing.Size(277, 31);
@@ -2648,6 +2778,8 @@
             // disableWarningsCb
             // 
             this.disableWarningsCb.AutoSize = true;
+            this.disableWarningsCb.Checked = true;
+            this.disableWarningsCb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.disableWarningsCb.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.disableWarningsCb.Location = new System.Drawing.Point(672, 136);
             this.disableWarningsCb.Margin = new System.Windows.Forms.Padding(4);
@@ -2931,69 +3063,18 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "IGI 1";
             // 
-            // nodeIdMetreCb
+            // removeAllAi
             // 
-            this.nodeIdMetreCb.AutoSize = true;
-            this.nodeIdMetreCb.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.nodeIdMetreCb.Location = new System.Drawing.Point(627, 183);
-            this.nodeIdMetreCb.Margin = new System.Windows.Forms.Padding(4);
-            this.nodeIdMetreCb.Name = "nodeIdMetreCb";
-            this.nodeIdMetreCb.Size = new System.Drawing.Size(76, 24);
-            this.nodeIdMetreCb.TabIndex = 70;
-            this.nodeIdMetreCb.Text = "Meter";
-            this.nodeIdMetreCb.UseVisualStyleBackColor = true;
-            // 
-            // nodeIdOffsetCb
-            // 
-            this.nodeIdOffsetCb.AutoSize = true;
-            this.nodeIdOffsetCb.Checked = true;
-            this.nodeIdOffsetCb.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.nodeIdOffsetCb.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.nodeIdOffsetCb.Location = new System.Drawing.Point(549, 183);
-            this.nodeIdOffsetCb.Margin = new System.Windows.Forms.Padding(4);
-            this.nodeIdOffsetCb.Name = "nodeIdOffsetCb";
-            this.nodeIdOffsetCb.Size = new System.Drawing.Size(75, 24);
-            this.nodeIdOffsetCb.TabIndex = 71;
-            this.nodeIdOffsetCb.Text = "Offset";
-            this.nodeIdOffsetCb.UseVisualStyleBackColor = true;
-            // 
-            // teleportToNodeBtn
-            // 
-            this.teleportToNodeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.teleportToNodeBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.teleportToNodeBtn.Location = new System.Drawing.Point(549, 231);
-            this.teleportToNodeBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.teleportToNodeBtn.Name = "teleportToNodeBtn";
-            this.teleportToNodeBtn.Size = new System.Drawing.Size(267, 41);
-            this.teleportToNodeBtn.TabIndex = 72;
-            this.teleportToNodeBtn.Text = "Teleport To Node";
-            this.teleportToNodeBtn.UseVisualStyleBackColor = true;
-            this.teleportToNodeBtn.Click += new System.EventHandler(this.teleportToNodeBtn_Click);
-            // 
-            // viewPortEnableCb
-            // 
-            this.viewPortEnableCb.AutoSize = true;
-            this.viewPortEnableCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewPortEnableCb.Location = new System.Drawing.Point(549, 280);
-            this.viewPortEnableCb.Margin = new System.Windows.Forms.Padding(4);
-            this.viewPortEnableCb.Name = "viewPortEnableCb";
-            this.viewPortEnableCb.Size = new System.Drawing.Size(152, 23);
-            this.viewPortEnableCb.TabIndex = 73;
-            this.viewPortEnableCb.Text = "ViewPort - Enable";
-            this.viewPortEnableCb.UseVisualStyleBackColor = true;
-            this.viewPortEnableCb.CheckedChanged += new System.EventHandler(this.viewPortEnableCb_CheckedChanged);
-            // 
-            // autoModeTeleportCb
-            // 
-            this.autoModeTeleportCb.AutoSize = true;
-            this.autoModeTeleportCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoModeTeleportCb.Location = new System.Drawing.Point(703, 280);
-            this.autoModeTeleportCb.Margin = new System.Windows.Forms.Padding(4);
-            this.autoModeTeleportCb.Name = "autoModeTeleportCb";
-            this.autoModeTeleportCb.Size = new System.Drawing.Size(117, 23);
-            this.autoModeTeleportCb.TabIndex = 74;
-            this.autoModeTeleportCb.Text = "Auto - Mode";
-            this.autoModeTeleportCb.UseVisualStyleBackColor = true;
+            this.removeAllAi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.removeAllAi.ForeColor = System.Drawing.Color.Tomato;
+            this.removeAllAi.Location = new System.Drawing.Point(455, 335);
+            this.removeAllAi.Margin = new System.Windows.Forms.Padding(4);
+            this.removeAllAi.Name = "removeAllAi";
+            this.removeAllAi.Size = new System.Drawing.Size(217, 31);
+            this.removeAllAi.TabIndex = 48;
+            this.removeAllAi.Text = "Remove all A.I";
+            this.removeAllAi.UseVisualStyleBackColor = true;
+            this.removeAllAi.Click += new System.EventHandler(this.removeAllAi_Click);
             // 
             // IGIEditorUI
             // 
@@ -3011,27 +3092,27 @@
             this.backPnl.ResumeLayout(false);
             this.backPnl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).EndInit();
-            this.tabContainer.ResumeLayout(false);
-            this.levelEditorTab.ResumeLayout(false);
-            this.objectEditorTab.ResumeLayout(false);
-            this.objectEditorTab.PerformLayout();
+            this.editorTabs.ResumeLayout(false);
+            this.levelEditor.ResumeLayout(false);
+            this.objectEditor.ResumeLayout(false);
+            this.objectEditor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).EndInit();
-            this.humanEditorTab.ResumeLayout(false);
-            this.humanEditorTab.PerformLayout();
+            this.humanEditor.ResumeLayout(false);
+            this.humanEditor.PerformLayout();
             this.aiEditor.ResumeLayout(false);
             this.aiEditor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weaponAIImgBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.aiImgBox)).EndInit();
-            this.weaponEditorTab.ResumeLayout(false);
-            this.weaponEditorTab.PerformLayout();
+            this.weaponEditor.ResumeLayout(false);
+            this.weaponEditor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weaponImgBox)).EndInit();
-            this.threeDEditorTab.ResumeLayout(false);
-            this.missionEditorTab.ResumeLayout(false);
-            this.missionEditorTab.PerformLayout();
+            this.threeDEditor.ResumeLayout(false);
+            this.missionEditor.ResumeLayout(false);
+            this.missionEditor.PerformLayout();
             this.graphEditor.ResumeLayout(false);
             this.graphEditor.PerformLayout();
-            this.positionEditorTab.ResumeLayout(false);
-            this.positionEditorTab.PerformLayout();
+            this.positionEditor.ResumeLayout(false);
+            this.positionEditor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gammaTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.betaTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).EndInit();
@@ -3051,13 +3132,13 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel formMoverPnl;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TabControl tabContainer;
-        private System.Windows.Forms.TabPage objectEditorTab;
-        private System.Windows.Forms.TabPage levelEditorTab;
-        private System.Windows.Forms.TabPage humanEditorTab;
-        private System.Windows.Forms.TabPage threeDEditorTab;
-        private System.Windows.Forms.TabPage missionEditorTab;
-        private System.Windows.Forms.TabPage positionEditorTab;
+        private System.Windows.Forms.TabControl editorTabs;
+        private System.Windows.Forms.TabPage objectEditor;
+        private System.Windows.Forms.TabPage levelEditor;
+        private System.Windows.Forms.TabPage humanEditor;
+        private System.Windows.Forms.TabPage threeDEditor;
+        private System.Windows.Forms.TabPage missionEditor;
+        private System.Windows.Forms.TabPage positionEditor;
         private System.Windows.Forms.TabPage miscTab;
         private System.Windows.Forms.TextBox objectIDTxt;
         private System.Windows.Forms.Label modelIdLbl;
@@ -3092,16 +3173,16 @@
         private System.Windows.Forms.CheckBox autoResetCb;
         private System.Windows.Forms.Button resetCurrentLevelBtn;
         private System.Windows.Forms.Button resetAllLevelsBtn;
-        private System.Windows.Forms.TabPage weaponEditorTab;
+        private System.Windows.Forms.TabPage weaponEditor;
         private System.Windows.Forms.Button removeWeaponBtn;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button addWeaponBtn;
         private System.Windows.Forms.Label headerLbl;
         private System.Windows.Forms.Button installMissionBtn;
         private System.Windows.Forms.TextBox missionDescTxt;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label missionDescLbl;
+        private System.Windows.Forms.Button removeMissionBtn;
+        private System.Windows.Forms.TextBox missionNameTxt;
         private System.Windows.Forms.Label missionNameLbl;
         private System.Windows.Forms.Button loadMissionBtn;
         private System.Windows.Forms.Button saveMissionBtn;
@@ -3243,6 +3324,11 @@
         private System.Windows.Forms.Button teleportToNodeBtn;
         private System.Windows.Forms.CheckBox viewPortEnableCb;
         private System.Windows.Forms.CheckBox autoModeTeleportCb;
+        private System.Windows.Forms.Button addLevelFlowBtn;
+        private System.Windows.Forms.TextBox missionPlayTimeTxt;
+        private System.Windows.Forms.Label missionPlayTimeLbl;
+        private System.Windows.Forms.CheckBox missionLevelFlowTimerCb;
+        private System.Windows.Forms.Button removeAllAi;
     }
 }
 
