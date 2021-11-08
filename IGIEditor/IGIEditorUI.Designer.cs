@@ -108,6 +108,7 @@
             this.movementSpeedTxt = new System.Windows.Forms.TextBox();
             this.movementSpeedLbl = new System.Windows.Forms.Label();
             this.aiEditor = new System.Windows.Forms.TabPage();
+            this.graphAreaAiLbl = new System.Windows.Forms.TextBox();
             this.customAiCb = new System.Windows.Forms.CheckBox();
             this.maxSpawnsTxt = new System.Windows.Forms.TextBox();
             this.maxSpawnsLbl = new System.Windows.Forms.Label();
@@ -118,15 +119,15 @@
             this.aiCountTxt = new System.Windows.Forms.TextBox();
             this.aiGraphIdDD = new System.Windows.Forms.ComboBox();
             this.aiTypeDD = new System.Windows.Forms.ComboBox();
-            this.weaponAiDD = new System.Windows.Forms.ComboBox();
-            this.graphIdLbl = new System.Windows.Forms.Label();
+            this.aiWeaponDD = new System.Windows.Forms.ComboBox();
+            this.graphIdAiLbl = new System.Windows.Forms.Label();
             this.aiTypeLbl = new System.Windows.Forms.Label();
             this.weaponAiLbl = new System.Windows.Forms.Label();
             this.weaponAIImgBox = new System.Windows.Forms.PictureBox();
             this.aiModelSelectDD = new System.Windows.Forms.ComboBox();
             this.aiImgBox = new System.Windows.Forms.PictureBox();
             this.aiCountLbl = new System.Windows.Forms.Label();
-            this.aiPropertiesLbl = new System.Windows.Forms.Label();
+            this.aiModelNameLbl = new System.Windows.Forms.Label();
             this.aiModelLbl = new System.Windows.Forms.Label();
             this.addAiBtn = new System.Windows.Forms.Button();
             this.weaponEditorTab = new System.Windows.Forms.TabPage();
@@ -149,6 +150,24 @@
             this.missionNameLbl = new System.Windows.Forms.Label();
             this.loadMissionBtn = new System.Windows.Forms.Button();
             this.saveMissionBtn = new System.Windows.Forms.Button();
+            this.graphEditor = new System.Windows.Forms.TabPage();
+            this.graphTotalNodesTxt = new System.Windows.Forms.TextBox();
+            this.graphTotalNodesLbl = new System.Windows.Forms.Label();
+            this.nodeCriteriaTxt = new System.Windows.Forms.TextBox();
+            this.nodeZTxt = new System.Windows.Forms.TextBox();
+            this.nodeZLbl = new System.Windows.Forms.Label();
+            this.nodeYTxt = new System.Windows.Forms.TextBox();
+            this.nodeYLbl = new System.Windows.Forms.Label();
+            this.nodeXTxt = new System.Windows.Forms.TextBox();
+            this.nodeXLbl = new System.Windows.Forms.Label();
+            this.showNodesBtn = new System.Windows.Forms.Button();
+            this.nodesHilight = new System.Windows.Forms.CheckBox();
+            this.nodesObjectsCb = new System.Windows.Forms.CheckBox();
+            this.nodeIdDD = new System.Windows.Forms.ComboBox();
+            this.nodeIdLbl = new System.Windows.Forms.Label();
+            this.graphAreaLbl = new System.Windows.Forms.TextBox();
+            this.graphIdDD = new System.Windows.Forms.ComboBox();
+            this.graphIdLbl = new System.Windows.Forms.Label();
             this.positionEditorTab = new System.Windows.Forms.TabPage();
             this.gammaTxt = new System.Windows.Forms.NumericUpDown();
             this.betaTxt = new System.Windows.Forms.NumericUpDown();
@@ -181,6 +200,8 @@
             this.xPosLbl_O = new System.Windows.Forms.Label();
             this.updateObjPosition = new System.Windows.Forms.Button();
             this.miscTab = new System.Windows.Forms.TabPage();
+            this.appSupportBtn = new System.Windows.Forms.Button();
+            this.disableWarningsCb = new System.Windows.Forms.CheckBox();
             this.showAppLogBtn = new System.Windows.Forms.Button();
             this.xmlCb = new System.Windows.Forms.CheckBox();
             this.jsonCb = new System.Windows.Forms.CheckBox();
@@ -203,9 +224,11 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.graphAreaLbl = new System.Windows.Forms.TextBox();
-            this.disableWarningsCb = new System.Windows.Forms.CheckBox();
-            this.visualiseNodesCb = new System.Windows.Forms.CheckBox();
+            this.nodeIdMetreCb = new System.Windows.Forms.CheckBox();
+            this.nodeIdOffsetCb = new System.Windows.Forms.CheckBox();
+            this.teleportToNodeBtn = new System.Windows.Forms.Button();
+            this.viewPortEnableCb = new System.Windows.Forms.CheckBox();
+            this.autoModeTeleportCb = new System.Windows.Forms.CheckBox();
             this.backPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.tabContainer.SuspendLayout();
@@ -220,6 +243,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.weaponImgBox)).BeginInit();
             this.threeDEditorTab.SuspendLayout();
             this.missionEditorTab.SuspendLayout();
+            this.graphEditor.SuspendLayout();
             this.positionEditorTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gammaTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.betaTxt)).BeginInit();
@@ -271,14 +295,16 @@
             // connectionCb
             // 
             this.connectionCb.AutoSize = true;
+            this.connectionCb.Checked = true;
+            this.connectionCb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.connectionCb.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.connectionCb.ForeColor = System.Drawing.Color.Tomato;
+            this.connectionCb.ForeColor = System.Drawing.Color.SpringGreen;
             this.connectionCb.Location = new System.Drawing.Point(251, 40);
             this.connectionCb.Margin = new System.Windows.Forms.Padding(4);
             this.connectionCb.Name = "connectionCb";
             this.connectionCb.Size = new System.Drawing.Size(84, 25);
             this.connectionCb.TabIndex = 44;
-            this.connectionCb.Text = "Offline";
+            this.connectionCb.Text = "Online";
             this.connectionCb.UseVisualStyleBackColor = true;
             this.connectionCb.CheckedChanged += new System.EventHandler(this.connectionCb_CheckedChanged);
             // 
@@ -541,6 +567,7 @@
             this.tabContainer.Controls.Add(this.weaponEditorTab);
             this.tabContainer.Controls.Add(this.threeDEditorTab);
             this.tabContainer.Controls.Add(this.missionEditorTab);
+            this.tabContainer.Controls.Add(this.graphEditor);
             this.tabContainer.Controls.Add(this.positionEditorTab);
             this.tabContainer.Controls.Add(this.miscTab);
             this.tabContainer.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -550,7 +577,6 @@
             this.tabContainer.Name = "tabContainer";
             this.tabContainer.SelectedIndex = 0;
             this.tabContainer.Size = new System.Drawing.Size(1145, 421);
-            this.tabContainer.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabContainer.TabIndex = 6;
             this.infoViewer.SetToolTip(this.tabContainer, "\r\n");
             this.tabContainer.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabContainer_Selecting);
@@ -1320,8 +1346,7 @@
             // aiEditor
             // 
             this.aiEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.aiEditor.Controls.Add(this.visualiseNodesCb);
-            this.aiEditor.Controls.Add(this.graphAreaLbl);
+            this.aiEditor.Controls.Add(this.graphAreaAiLbl);
             this.aiEditor.Controls.Add(this.customAiCb);
             this.aiEditor.Controls.Add(this.maxSpawnsTxt);
             this.aiEditor.Controls.Add(this.maxSpawnsLbl);
@@ -1332,15 +1357,15 @@
             this.aiEditor.Controls.Add(this.aiCountTxt);
             this.aiEditor.Controls.Add(this.aiGraphIdDD);
             this.aiEditor.Controls.Add(this.aiTypeDD);
-            this.aiEditor.Controls.Add(this.weaponAiDD);
-            this.aiEditor.Controls.Add(this.graphIdLbl);
+            this.aiEditor.Controls.Add(this.aiWeaponDD);
+            this.aiEditor.Controls.Add(this.graphIdAiLbl);
             this.aiEditor.Controls.Add(this.aiTypeLbl);
             this.aiEditor.Controls.Add(this.weaponAiLbl);
             this.aiEditor.Controls.Add(this.weaponAIImgBox);
             this.aiEditor.Controls.Add(this.aiModelSelectDD);
             this.aiEditor.Controls.Add(this.aiImgBox);
             this.aiEditor.Controls.Add(this.aiCountLbl);
-            this.aiEditor.Controls.Add(this.aiPropertiesLbl);
+            this.aiEditor.Controls.Add(this.aiModelNameLbl);
             this.aiEditor.Controls.Add(this.aiModelLbl);
             this.aiEditor.Controls.Add(this.addAiBtn);
             this.aiEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
@@ -1350,6 +1375,20 @@
             this.aiEditor.Size = new System.Drawing.Size(1137, 387);
             this.aiEditor.TabIndex = 8;
             this.aiEditor.Text = "A.I Editor";
+            // 
+            // graphAreaAiLbl
+            // 
+            this.graphAreaAiLbl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.graphAreaAiLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.graphAreaAiLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.graphAreaAiLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.graphAreaAiLbl.Location = new System.Drawing.Point(776, 196);
+            this.graphAreaAiLbl.Margin = new System.Windows.Forms.Padding(4);
+            this.graphAreaAiLbl.Name = "graphAreaAiLbl";
+            this.graphAreaAiLbl.ReadOnly = true;
+            this.graphAreaAiLbl.Size = new System.Drawing.Size(328, 30);
+            this.graphAreaAiLbl.TabIndex = 47;
+            this.graphAreaAiLbl.Text = "Graph Area";
             // 
             // customAiCb
             // 
@@ -1478,30 +1517,30 @@
             this.aiTypeDD.TabIndex = 40;
             this.aiTypeDD.SelectedValueChanged += new System.EventHandler(this.aiTypeDD_SelectedValueChanged);
             // 
-            // weaponAiDD
+            // aiWeaponDD
             // 
-            this.weaponAiDD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.weaponAiDD.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.weaponAiDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.weaponAiDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.weaponAiDD.FormattingEnabled = true;
-            this.weaponAiDD.Location = new System.Drawing.Point(685, 74);
-            this.weaponAiDD.Name = "weaponAiDD";
-            this.weaponAiDD.Size = new System.Drawing.Size(424, 29);
-            this.weaponAiDD.TabIndex = 40;
-            this.weaponAiDD.SelectedValueChanged += new System.EventHandler(this.weaponAiDD_SelectedValueChanged);
+            this.aiWeaponDD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiWeaponDD.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.aiWeaponDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.aiWeaponDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.aiWeaponDD.FormattingEnabled = true;
+            this.aiWeaponDD.Location = new System.Drawing.Point(685, 74);
+            this.aiWeaponDD.Name = "aiWeaponDD";
+            this.aiWeaponDD.Size = new System.Drawing.Size(424, 29);
+            this.aiWeaponDD.TabIndex = 40;
+            this.aiWeaponDD.SelectedValueChanged += new System.EventHandler(this.weaponAiDD_SelectedValueChanged);
             // 
-            // graphIdLbl
+            // graphIdAiLbl
             // 
-            this.graphIdLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.graphIdLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.graphIdLbl.Location = new System.Drawing.Point(499, 192);
-            this.graphIdLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.graphIdLbl.Name = "graphIdLbl";
-            this.graphIdLbl.Size = new System.Drawing.Size(173, 33);
-            this.graphIdLbl.TabIndex = 39;
-            this.graphIdLbl.Text = "Graph Id :";
-            this.graphIdLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.graphIdAiLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.graphIdAiLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.graphIdAiLbl.Location = new System.Drawing.Point(499, 192);
+            this.graphIdAiLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.graphIdAiLbl.Name = "graphIdAiLbl";
+            this.graphIdAiLbl.Size = new System.Drawing.Size(173, 33);
+            this.graphIdAiLbl.TabIndex = 39;
+            this.graphIdAiLbl.Text = "Graph Id :";
+            this.graphIdAiLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // aiTypeLbl
             // 
@@ -1574,17 +1613,16 @@
             this.aiCountLbl.Text = "AI Count:";
             this.aiCountLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // aiPropertiesLbl
+            // aiModelNameLbl
             // 
-            this.aiPropertiesLbl.Font = new System.Drawing.Font("Century Gothic", 13F);
-            this.aiPropertiesLbl.ForeColor = System.Drawing.Color.LightSalmon;
-            this.aiPropertiesLbl.Location = new System.Drawing.Point(45, 7);
-            this.aiPropertiesLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.aiPropertiesLbl.Name = "aiPropertiesLbl";
-            this.aiPropertiesLbl.Size = new System.Drawing.Size(173, 33);
-            this.aiPropertiesLbl.TabIndex = 34;
-            this.aiPropertiesLbl.Text = "A.I Properties";
-            this.aiPropertiesLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.aiModelNameLbl.Font = new System.Drawing.Font("Century Gothic", 13F);
+            this.aiModelNameLbl.ForeColor = System.Drawing.Color.LightSalmon;
+            this.aiModelNameLbl.Location = new System.Drawing.Point(8, 7);
+            this.aiModelNameLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.aiModelNameLbl.Name = "aiModelNameLbl";
+            this.aiModelNameLbl.Size = new System.Drawing.Size(259, 33);
+            this.aiModelNameLbl.TabIndex = 34;
+            this.aiModelNameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // aiModelLbl
             // 
@@ -1867,6 +1905,256 @@
             this.saveMissionBtn.TabIndex = 28;
             this.saveMissionBtn.Text = "Save Mission";
             this.saveMissionBtn.UseVisualStyleBackColor = true;
+            // 
+            // graphEditor
+            // 
+            this.graphEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.graphEditor.Controls.Add(this.autoModeTeleportCb);
+            this.graphEditor.Controls.Add(this.viewPortEnableCb);
+            this.graphEditor.Controls.Add(this.teleportToNodeBtn);
+            this.graphEditor.Controls.Add(this.nodeIdMetreCb);
+            this.graphEditor.Controls.Add(this.nodeIdOffsetCb);
+            this.graphEditor.Controls.Add(this.graphTotalNodesTxt);
+            this.graphEditor.Controls.Add(this.graphTotalNodesLbl);
+            this.graphEditor.Controls.Add(this.nodeCriteriaTxt);
+            this.graphEditor.Controls.Add(this.nodeZTxt);
+            this.graphEditor.Controls.Add(this.nodeZLbl);
+            this.graphEditor.Controls.Add(this.nodeYTxt);
+            this.graphEditor.Controls.Add(this.nodeYLbl);
+            this.graphEditor.Controls.Add(this.nodeXTxt);
+            this.graphEditor.Controls.Add(this.nodeXLbl);
+            this.graphEditor.Controls.Add(this.showNodesBtn);
+            this.graphEditor.Controls.Add(this.nodesHilight);
+            this.graphEditor.Controls.Add(this.nodesObjectsCb);
+            this.graphEditor.Controls.Add(this.nodeIdDD);
+            this.graphEditor.Controls.Add(this.nodeIdLbl);
+            this.graphEditor.Controls.Add(this.graphAreaLbl);
+            this.graphEditor.Controls.Add(this.graphIdDD);
+            this.graphEditor.Controls.Add(this.graphIdLbl);
+            this.graphEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.graphEditor.Location = new System.Drawing.Point(4, 30);
+            this.graphEditor.Name = "graphEditor";
+            this.graphEditor.Size = new System.Drawing.Size(1137, 387);
+            this.graphEditor.TabIndex = 9;
+            this.graphEditor.Text = "Graph Editor";
+            // 
+            // graphTotalNodesTxt
+            // 
+            this.graphTotalNodesTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.graphTotalNodesTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.graphTotalNodesTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.graphTotalNodesTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.graphTotalNodesTxt.Location = new System.Drawing.Point(901, 40);
+            this.graphTotalNodesTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.graphTotalNodesTxt.Name = "graphTotalNodesTxt";
+            this.graphTotalNodesTxt.ReadOnly = true;
+            this.graphTotalNodesTxt.Size = new System.Drawing.Size(142, 30);
+            this.graphTotalNodesTxt.TabIndex = 69;
+            // 
+            // graphTotalNodesLbl
+            // 
+            this.graphTotalNodesLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.graphTotalNodesLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.graphTotalNodesLbl.Location = new System.Drawing.Point(699, 36);
+            this.graphTotalNodesLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.graphTotalNodesLbl.Name = "graphTotalNodesLbl";
+            this.graphTotalNodesLbl.Size = new System.Drawing.Size(165, 33);
+            this.graphTotalNodesLbl.TabIndex = 68;
+            this.graphTotalNodesLbl.Text = "Total Nodes:";
+            this.graphTotalNodesLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nodeCriteriaTxt
+            // 
+            this.nodeCriteriaTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.nodeCriteriaTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.nodeCriteriaTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.nodeCriteriaTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.nodeCriteriaTxt.Location = new System.Drawing.Point(275, 144);
+            this.nodeCriteriaTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.nodeCriteriaTxt.Name = "nodeCriteriaTxt";
+            this.nodeCriteriaTxt.ReadOnly = true;
+            this.nodeCriteriaTxt.Size = new System.Drawing.Size(234, 30);
+            this.nodeCriteriaTxt.TabIndex = 67;
+            // 
+            // nodeZTxt
+            // 
+            this.nodeZTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.nodeZTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.nodeZTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.nodeZTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.nodeZTxt.Location = new System.Drawing.Point(989, 145);
+            this.nodeZTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.nodeZTxt.Name = "nodeZTxt";
+            this.nodeZTxt.Size = new System.Drawing.Size(120, 30);
+            this.nodeZTxt.TabIndex = 66;
+            this.nodeZTxt.Text = "0";
+            // 
+            // nodeZLbl
+            // 
+            this.nodeZLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.nodeZLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.nodeZLbl.Location = new System.Drawing.Point(937, 142);
+            this.nodeZLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.nodeZLbl.Name = "nodeZLbl";
+            this.nodeZLbl.Size = new System.Drawing.Size(44, 33);
+            this.nodeZLbl.TabIndex = 65;
+            this.nodeZLbl.Text = "Z :";
+            this.nodeZLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nodeYTxt
+            // 
+            this.nodeYTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.nodeYTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.nodeYTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.nodeYTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.nodeYTxt.Location = new System.Drawing.Point(788, 145);
+            this.nodeYTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.nodeYTxt.Name = "nodeYTxt";
+            this.nodeYTxt.Size = new System.Drawing.Size(120, 30);
+            this.nodeYTxt.TabIndex = 64;
+            this.nodeYTxt.Text = "0";
+            // 
+            // nodeYLbl
+            // 
+            this.nodeYLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.nodeYLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.nodeYLbl.Location = new System.Drawing.Point(736, 142);
+            this.nodeYLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.nodeYLbl.Name = "nodeYLbl";
+            this.nodeYLbl.Size = new System.Drawing.Size(44, 33);
+            this.nodeYLbl.TabIndex = 63;
+            this.nodeYLbl.Text = "Y :";
+            this.nodeYLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nodeXTxt
+            // 
+            this.nodeXTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.nodeXTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.nodeXTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.nodeXTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.nodeXTxt.Location = new System.Drawing.Point(597, 145);
+            this.nodeXTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.nodeXTxt.Name = "nodeXTxt";
+            this.nodeXTxt.Size = new System.Drawing.Size(120, 30);
+            this.nodeXTxt.TabIndex = 62;
+            this.nodeXTxt.Text = "0";
+            // 
+            // nodeXLbl
+            // 
+            this.nodeXLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.nodeXLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.nodeXLbl.Location = new System.Drawing.Point(545, 142);
+            this.nodeXLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.nodeXLbl.Name = "nodeXLbl";
+            this.nodeXLbl.Size = new System.Drawing.Size(44, 33);
+            this.nodeXLbl.TabIndex = 61;
+            this.nodeXLbl.Text = "X :";
+            this.nodeXLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // showNodesBtn
+            // 
+            this.showNodesBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.showNodesBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.showNodesBtn.Location = new System.Drawing.Point(842, 231);
+            this.showNodesBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.showNodesBtn.Name = "showNodesBtn";
+            this.showNodesBtn.Size = new System.Drawing.Size(267, 41);
+            this.showNodesBtn.TabIndex = 60;
+            this.showNodesBtn.Text = "Show Nodes";
+            this.showNodesBtn.UseVisualStyleBackColor = true;
+            this.showNodesBtn.Click += new System.EventHandler(this.showNodesBtn_Click);
+            // 
+            // nodesHilight
+            // 
+            this.nodesHilight.AutoSize = true;
+            this.nodesHilight.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nodesHilight.Location = new System.Drawing.Point(990, 280);
+            this.nodesHilight.Margin = new System.Windows.Forms.Padding(4);
+            this.nodesHilight.Name = "nodesHilight";
+            this.nodesHilight.Size = new System.Drawing.Size(129, 23);
+            this.nodesHilight.TabIndex = 58;
+            this.nodesHilight.Text = "Nodes - Hilight";
+            this.nodesHilight.UseVisualStyleBackColor = true;
+            this.nodesHilight.Visible = false;
+            // 
+            // nodesObjectsCb
+            // 
+            this.nodesObjectsCb.AutoSize = true;
+            this.nodesObjectsCb.Checked = true;
+            this.nodesObjectsCb.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.nodesObjectsCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nodesObjectsCb.Location = new System.Drawing.Point(842, 280);
+            this.nodesObjectsCb.Margin = new System.Windows.Forms.Padding(4);
+            this.nodesObjectsCb.Name = "nodesObjectsCb";
+            this.nodesObjectsCb.Size = new System.Drawing.Size(140, 23);
+            this.nodesObjectsCb.TabIndex = 57;
+            this.nodesObjectsCb.Text = "Nodes - Objects";
+            this.nodesObjectsCb.UseVisualStyleBackColor = true;
+            this.nodesObjectsCb.Visible = false;
+            // 
+            // nodeIdDD
+            // 
+            this.nodeIdDD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.nodeIdDD.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.nodeIdDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.nodeIdDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.nodeIdDD.FormattingEnabled = true;
+            this.nodeIdDD.Location = new System.Drawing.Point(181, 141);
+            this.nodeIdDD.Name = "nodeIdDD";
+            this.nodeIdDD.Size = new System.Drawing.Size(73, 29);
+            this.nodeIdDD.TabIndex = 56;
+            this.nodeIdDD.SelectedIndexChanged += new System.EventHandler(this.nodeIdDD_SelectedIndexChanged);
+            // 
+            // nodeIdLbl
+            // 
+            this.nodeIdLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.nodeIdLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.nodeIdLbl.Location = new System.Drawing.Point(8, 137);
+            this.nodeIdLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.nodeIdLbl.Name = "nodeIdLbl";
+            this.nodeIdLbl.Size = new System.Drawing.Size(173, 33);
+            this.nodeIdLbl.TabIndex = 55;
+            this.nodeIdLbl.Text = "Node Id :";
+            this.nodeIdLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // graphAreaLbl
+            // 
+            this.graphAreaLbl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.graphAreaLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.graphAreaLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.graphAreaLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.graphAreaLbl.Location = new System.Drawing.Point(342, 36);
+            this.graphAreaLbl.Margin = new System.Windows.Forms.Padding(4);
+            this.graphAreaLbl.Name = "graphAreaLbl";
+            this.graphAreaLbl.ReadOnly = true;
+            this.graphAreaLbl.Size = new System.Drawing.Size(328, 30);
+            this.graphAreaLbl.TabIndex = 52;
+            this.graphAreaLbl.Text = "Graph Area";
+            // 
+            // graphIdDD
+            // 
+            this.graphIdDD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.graphIdDD.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.graphIdDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.graphIdDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.graphIdDD.FormattingEnabled = true;
+            this.graphIdDD.Location = new System.Drawing.Point(177, 36);
+            this.graphIdDD.Name = "graphIdDD";
+            this.graphIdDD.Size = new System.Drawing.Size(73, 29);
+            this.graphIdDD.TabIndex = 51;
+            this.graphIdDD.SelectedIndexChanged += new System.EventHandler(this.graphIdDD_SelectedIndexChanged);
+            // 
+            // graphIdLbl
+            // 
+            this.graphIdLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.graphIdLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.graphIdLbl.Location = new System.Drawing.Point(4, 32);
+            this.graphIdLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.graphIdLbl.Name = "graphIdLbl";
+            this.graphIdLbl.Size = new System.Drawing.Size(173, 33);
+            this.graphIdLbl.TabIndex = 50;
+            this.graphIdLbl.Text = "Graph Id :";
+            this.graphIdLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // positionEditorTab
             // 
@@ -2322,6 +2610,7 @@
             // miscTab
             // 
             this.miscTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.miscTab.Controls.Add(this.appSupportBtn);
             this.miscTab.Controls.Add(this.disableWarningsCb);
             this.miscTab.Controls.Add(this.showAppLogBtn);
             this.miscTab.Controls.Add(this.xmlCb);
@@ -2342,12 +2631,39 @@
             this.miscTab.TabIndex = 6;
             this.miscTab.Text = "Misc";
             // 
+            // appSupportBtn
+            // 
+            this.appSupportBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.appSupportBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.appSupportBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.appSupportBtn.Location = new System.Drawing.Point(672, 298);
+            this.appSupportBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.appSupportBtn.Name = "appSupportBtn";
+            this.appSupportBtn.Size = new System.Drawing.Size(190, 38);
+            this.appSupportBtn.TabIndex = 23;
+            this.appSupportBtn.Text = "App Support";
+            this.appSupportBtn.UseVisualStyleBackColor = true;
+            this.appSupportBtn.Click += new System.EventHandler(this.appSupportBtn_Click);
+            // 
+            // disableWarningsCb
+            // 
+            this.disableWarningsCb.AutoSize = true;
+            this.disableWarningsCb.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.disableWarningsCb.Location = new System.Drawing.Point(672, 136);
+            this.disableWarningsCb.Margin = new System.Windows.Forms.Padding(4);
+            this.disableWarningsCb.Name = "disableWarningsCb";
+            this.disableWarningsCb.Size = new System.Drawing.Size(178, 26);
+            this.disableWarningsCb.TabIndex = 22;
+            this.disableWarningsCb.Text = "Disable Warning";
+            this.disableWarningsCb.UseVisualStyleBackColor = true;
+            this.disableWarningsCb.CheckedChanged += new System.EventHandler(this.disableWarningsCb_CheckedChanged);
+            // 
             // showAppLogBtn
             // 
             this.showAppLogBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.showAppLogBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.showAppLogBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.showAppLogBtn.Location = new System.Drawing.Point(676, 298);
+            this.showAppLogBtn.Location = new System.Drawing.Point(672, 235);
             this.showAppLogBtn.Margin = new System.Windows.Forms.Padding(4);
             this.showAppLogBtn.Name = "showAppLogBtn";
             this.showAppLogBtn.Size = new System.Drawing.Size(190, 38);
@@ -2465,10 +2781,11 @@
             // 
             // compileBtn
             // 
+            this.compileBtn.Enabled = false;
             this.compileBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.compileBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.compileBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.compileBtn.Location = new System.Drawing.Point(676, 235);
+            this.compileBtn.Location = new System.Drawing.Point(672, 298);
             this.compileBtn.Margin = new System.Windows.Forms.Padding(4);
             this.compileBtn.Name = "compileBtn";
             this.compileBtn.Size = new System.Drawing.Size(190, 38);
@@ -2614,44 +2931,69 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "IGI 1";
             // 
-            // graphAreaLbl
+            // nodeIdMetreCb
             // 
-            this.graphAreaLbl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.graphAreaLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.graphAreaLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.graphAreaLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.graphAreaLbl.Location = new System.Drawing.Point(776, 196);
-            this.graphAreaLbl.Margin = new System.Windows.Forms.Padding(4);
-            this.graphAreaLbl.Name = "graphAreaLbl";
-            this.graphAreaLbl.ReadOnly = true;
-            this.graphAreaLbl.Size = new System.Drawing.Size(328, 30);
-            this.graphAreaLbl.TabIndex = 47;
-            this.graphAreaLbl.Text = "Graph Area";
+            this.nodeIdMetreCb.AutoSize = true;
+            this.nodeIdMetreCb.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.nodeIdMetreCb.Location = new System.Drawing.Point(627, 183);
+            this.nodeIdMetreCb.Margin = new System.Windows.Forms.Padding(4);
+            this.nodeIdMetreCb.Name = "nodeIdMetreCb";
+            this.nodeIdMetreCb.Size = new System.Drawing.Size(76, 24);
+            this.nodeIdMetreCb.TabIndex = 70;
+            this.nodeIdMetreCb.Text = "Meter";
+            this.nodeIdMetreCb.UseVisualStyleBackColor = true;
             // 
-            // disableWarningsCb
+            // nodeIdOffsetCb
             // 
-            this.disableWarningsCb.AutoSize = true;
-            this.disableWarningsCb.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.disableWarningsCb.Location = new System.Drawing.Point(672, 136);
-            this.disableWarningsCb.Margin = new System.Windows.Forms.Padding(4);
-            this.disableWarningsCb.Name = "disableWarningsCb";
-            this.disableWarningsCb.Size = new System.Drawing.Size(178, 26);
-            this.disableWarningsCb.TabIndex = 22;
-            this.disableWarningsCb.Text = "Disable Warning";
-            this.disableWarningsCb.UseVisualStyleBackColor = true;
-            this.disableWarningsCb.CheckedChanged += new System.EventHandler(this.disableWarningsCb_CheckedChanged);
+            this.nodeIdOffsetCb.AutoSize = true;
+            this.nodeIdOffsetCb.Checked = true;
+            this.nodeIdOffsetCb.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.nodeIdOffsetCb.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.nodeIdOffsetCb.Location = new System.Drawing.Point(549, 183);
+            this.nodeIdOffsetCb.Margin = new System.Windows.Forms.Padding(4);
+            this.nodeIdOffsetCb.Name = "nodeIdOffsetCb";
+            this.nodeIdOffsetCb.Size = new System.Drawing.Size(75, 24);
+            this.nodeIdOffsetCb.TabIndex = 71;
+            this.nodeIdOffsetCb.Text = "Offset";
+            this.nodeIdOffsetCb.UseVisualStyleBackColor = true;
             // 
-            // visualiseNodesCb
+            // teleportToNodeBtn
             // 
-            this.visualiseNodesCb.AutoSize = true;
-            this.visualiseNodesCb.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.visualiseNodesCb.Location = new System.Drawing.Point(776, 234);
-            this.visualiseNodesCb.Margin = new System.Windows.Forms.Padding(4);
-            this.visualiseNodesCb.Name = "visualiseNodesCb";
-            this.visualiseNodesCb.Size = new System.Drawing.Size(143, 24);
-            this.visualiseNodesCb.TabIndex = 48;
-            this.visualiseNodesCb.Text = "Visualise Nodes";
-            this.visualiseNodesCb.UseVisualStyleBackColor = true;
+            this.teleportToNodeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.teleportToNodeBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.teleportToNodeBtn.Location = new System.Drawing.Point(549, 231);
+            this.teleportToNodeBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.teleportToNodeBtn.Name = "teleportToNodeBtn";
+            this.teleportToNodeBtn.Size = new System.Drawing.Size(267, 41);
+            this.teleportToNodeBtn.TabIndex = 72;
+            this.teleportToNodeBtn.Text = "Teleport To Node";
+            this.teleportToNodeBtn.UseVisualStyleBackColor = true;
+            this.teleportToNodeBtn.Click += new System.EventHandler(this.teleportToNodeBtn_Click);
+            // 
+            // viewPortEnableCb
+            // 
+            this.viewPortEnableCb.AutoSize = true;
+            this.viewPortEnableCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewPortEnableCb.Location = new System.Drawing.Point(549, 280);
+            this.viewPortEnableCb.Margin = new System.Windows.Forms.Padding(4);
+            this.viewPortEnableCb.Name = "viewPortEnableCb";
+            this.viewPortEnableCb.Size = new System.Drawing.Size(152, 23);
+            this.viewPortEnableCb.TabIndex = 73;
+            this.viewPortEnableCb.Text = "ViewPort - Enable";
+            this.viewPortEnableCb.UseVisualStyleBackColor = true;
+            this.viewPortEnableCb.CheckedChanged += new System.EventHandler(this.viewPortEnableCb_CheckedChanged);
+            // 
+            // autoModeTeleportCb
+            // 
+            this.autoModeTeleportCb.AutoSize = true;
+            this.autoModeTeleportCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoModeTeleportCb.Location = new System.Drawing.Point(703, 280);
+            this.autoModeTeleportCb.Margin = new System.Windows.Forms.Padding(4);
+            this.autoModeTeleportCb.Name = "autoModeTeleportCb";
+            this.autoModeTeleportCb.Size = new System.Drawing.Size(117, 23);
+            this.autoModeTeleportCb.TabIndex = 74;
+            this.autoModeTeleportCb.Text = "Auto - Mode";
+            this.autoModeTeleportCb.UseVisualStyleBackColor = true;
             // 
             // IGIEditorUI
             // 
@@ -2686,6 +3028,8 @@
             this.threeDEditorTab.ResumeLayout(false);
             this.missionEditorTab.ResumeLayout(false);
             this.missionEditorTab.PerformLayout();
+            this.graphEditor.ResumeLayout(false);
+            this.graphEditor.PerformLayout();
             this.positionEditorTab.ResumeLayout(false);
             this.positionEditorTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gammaTxt)).EndInit();
@@ -2854,7 +3198,7 @@
         private System.Windows.Forms.Label aiModelLbl;
         private System.Windows.Forms.Button addAiBtn;
         private System.Windows.Forms.PictureBox weaponAIImgBox;
-        private System.Windows.Forms.ComboBox weaponAiDD;
+        private System.Windows.Forms.ComboBox aiWeaponDD;
         private System.Windows.Forms.Label weaponAiLbl;
         private System.Windows.Forms.TextBox aiCountTxt;
         private System.Windows.Forms.ComboBox aiTypeDD;
@@ -2866,16 +3210,39 @@
         private System.Windows.Forms.TextBox maxSpawnsTxt;
         private System.Windows.Forms.Label maxSpawnsLbl;
         private System.Windows.Forms.ComboBox aiGraphIdDD;
-        private System.Windows.Forms.Label graphIdLbl;
+        private System.Windows.Forms.Label graphIdAiLbl;
         private System.Windows.Forms.CheckBox guardGeneratorCb;
-        private System.Windows.Forms.Label aiPropertiesLbl;
+        private System.Windows.Forms.Label aiModelNameLbl;
         private System.Windows.Forms.Label registeredUsersLbl;
         private System.Windows.Forms.CheckBox customAiCb;
         private System.Windows.Forms.Button showAppLogBtn;
         private System.Windows.Forms.CheckBox connectionCb;
-        private System.Windows.Forms.TextBox graphAreaLbl;
+        private System.Windows.Forms.TextBox graphAreaAiLbl;
         private System.Windows.Forms.CheckBox disableWarningsCb;
-        private System.Windows.Forms.CheckBox visualiseNodesCb;
+        private System.Windows.Forms.Button appSupportBtn;
+        private System.Windows.Forms.TabPage graphEditor;
+        private System.Windows.Forms.TextBox graphAreaLbl;
+        private System.Windows.Forms.ComboBox graphIdDD;
+        private System.Windows.Forms.Label graphIdLbl;
+        private System.Windows.Forms.ComboBox nodeIdDD;
+        private System.Windows.Forms.Label nodeIdLbl;
+        private System.Windows.Forms.CheckBox nodesHilight;
+        private System.Windows.Forms.CheckBox nodesObjectsCb;
+        private System.Windows.Forms.Button showNodesBtn;
+        private System.Windows.Forms.TextBox nodeCriteriaTxt;
+        private System.Windows.Forms.TextBox nodeZTxt;
+        private System.Windows.Forms.Label nodeZLbl;
+        private System.Windows.Forms.TextBox nodeYTxt;
+        private System.Windows.Forms.Label nodeYLbl;
+        private System.Windows.Forms.TextBox nodeXTxt;
+        private System.Windows.Forms.Label nodeXLbl;
+        private System.Windows.Forms.TextBox graphTotalNodesTxt;
+        private System.Windows.Forms.Label graphTotalNodesLbl;
+        private System.Windows.Forms.CheckBox nodeIdMetreCb;
+        private System.Windows.Forms.CheckBox nodeIdOffsetCb;
+        private System.Windows.Forms.Button teleportToNodeBtn;
+        private System.Windows.Forms.CheckBox viewPortEnableCb;
+        private System.Windows.Forms.CheckBox autoModeTeleportCb;
     }
 }
 

@@ -42,19 +42,21 @@ namespace IGIEditor
 
         internal static string taskNew = "Task_New", taskDecl = "Task_DeclareParameters";
         internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc";
-        internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 14;
+        internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 3;
         internal static string logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsMasterList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customAiPathFile = "ai_custom_path.qsc", customScriptFileQEd = @"\QEditor\AIFiles\ai_custom_script.qsc", customAiPathFileQEd = @"\QEditor\AIFiles\ai_custom_path.qsc", appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\";
-        internal static bool logEnabled = false, keyExist = false, keyFileExist = false, mapViewerMode = false, customAiSelected = false,isEditorOnline = false, gameReset = false, appLogs = false;
-
-        internal static string gamePath, appdataPath, igiEditorQEdPath, appCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles",qGraphs = "QGraphs", cfgFile, projAppName, cachePath, cachePathAppLogs, cachePathAppImages, currPathAppImages,
-         igiQsc = "IGI_QSC", igiQvm = "IGI_QVM",graphsPath, cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayer = "humanplayer.qvm", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalDllPath = @"bin\igi1ed.dat", tmpDllPath, internalDllInjectorPath = @"bin\igi1edInj.exe", PATH_SEC = "PATH", EDITOR_SEC = "EDITOR";
+        internal static bool logEnabled = false, keyExist = false, keyFileExist = false, mapViewerMode = false, customAiSelected = false, isEditorOnline = true, gameReset = false, appLogs = false;
+        internal static float appEditorVersion = 0.2f;
+        internal static string supportDiscordLink = @"https://discord.gg/9T8tzyhvp6", supportYoutubeLink = @"https://www.youtube.com/channel/UChGryl0a0dii81NfDZ12LwA",supportVKLink = @"https://vk.com/id679925339";
+        
+        internal static string gamePath, appdataPath, igiEditorQEdPath, appCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", qGraphs = "QGraphs", cfgFile, projAppName, cachePath, cachePathAppLogs, cachePathAppImages, currPathAppImages,
+         igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", graphsPath, cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayer = "humanplayer.qvm", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalDllPath = @"bin\igi1ed.dat", tmpDllPath, internalDllInjectorPath = @"bin\igi1edInj.exe", PATH_SEC = "PATH", EDITOR_SEC = "EDITOR";
         internal static string inputQscPath = @"\IGI_QSC", inputQvmPath = @"\IGI_QVM", inputAiPath = @"\AIFiles", inputVoidPath = @"\Void", inputMissionPath = @"\missions\location0\level", inputHumanplayerPath = @"\humanplayer";
         internal static List<string> objTypeList = new List<string>() { "Building", "EditRigidObj", "Terminal", "Elevator", "ExplodeObject", "AlarmControl", "Generator", "Radio" };
         internal static string objects = "objects", objectsAll = "objectsAll", weapons = "weapons";
         internal static string qvmExt = ".qvm", qscExt = ".qsc", datExt = ".dat", csvExt = ".csv", jsonExt = ".json", txtExt = ".txt", xmlExt = ".xml", dllExt = ".dll", missionExt = ".mission", jpgExt = ".jpg", pngExt = ".png";
         internal static float fltInvalidAngle = -9.9999f, fltInvalidVal = -9.9f;
         internal const string CAPTION_CONFIG_ERR = "Config - Error", CAPTION_FATAL_SYS_ERR = "Fatal sytem - Error", CAPTION_APP_ERR = "Application - Error", CAPTION_COMPILER_ERR = "Compiler - Error", alarmControl = "AlarmControl", stationaryGun = "StationaryGun";
-        internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", helpStr = "IGI 1 Editor-Demo. Levels 1-3\nVersion: v 0.2 BETA.\n\nTools/Language: C#(5.0) VS-Studio/Code\nCreated by Haseeb Mir.";
+        internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", helpStr = "IGI 1 Editor-Demo. Offers upto " + GAME_MAX_LEVEL + " level\nVersion: v" + appEditorVersion + " BETA.\n\nTools/Language: C#(5.0) VS-Studio/Code\nCreated by Haseeb Mir.\nCredits & People\nUI Designing - Dark\nDimon & Yoejin for their Research.\nIGI-VK Community.";
         internal static string patroIdleMask = "xxxx", patroAlarmMask = "yyyy", alarmControlMask = "xx", gunnerIdMask = "xxx", viewGammaMask = "yyy";
         internal static string movementSpeedMask = "movSpeed", forwardSpeedMask = "forwardSpeed", upwardSpeedMask = "upSpeed", inAirSpeedMask = "iAirSpeed", throwBaseVelMask = "throwBaseVel", healthScaleMask = "healthScale", healthFenceMask = "healthFence", peekLeftRightLenMask = "peekLRLen", peekCrouchLenMask = "peekCrouchLen", peekTimeMask = "peekTime";
         internal static List<string> aiScriptFiles = new List<string>();
@@ -73,6 +75,8 @@ namespace IGIEditor
         internal static List<string> objectRigidListStr = new List<string>();
         internal static List<string> aiModelsListStr = new List<string>();
         internal static List<int> aiGraphIdStr = new List<int>();
+        internal static List<int> aiGraphNodeIdStr = new List<int>();
+        internal static List<GraphNode> graphNodesList = new List<GraphNode>();
 
         //Weapons variables.
         internal static string weaponId = "WEAPON_ID_";
@@ -265,7 +269,7 @@ namespace IGIEditor
             qIniParser.Write("app_logs", appLogs.ToString(), EDITOR_SEC);
             qIniParser.Write("app_online", isEditorOnline.ToString(), EDITOR_SEC);
 
-            if (!gameFound)Environment.Exit(1);
+            if (!gameFound) Environment.Exit(1);
         }
 
         internal static void ParseConfig()
@@ -446,10 +450,13 @@ namespace IGIEditor
             //Move AppImages - Resources offline.
             if (Directory.Exists(cachePath) && Directory.Exists(currPathAppImages))
             {
-               string qChecksFile = QUtils.igiEditorQEdPath + @"\QChecks.dat";
+                string qChecksFile = QUtils.igiEditorQEdPath + @"\QChecks.dat";
                 MoveDir(currPathAppImages, cachePath);
-                File.Move(customAiPathFile, QUtils.appdataPath + "\\" + customAiPathFileQEd);
-                File.Move(customScriptFile, QUtils.appdataPath + "\\" + customScriptFileQEd);
+
+                if (File.Exists(customAiPathFile))
+                    File.Move(customAiPathFile, QUtils.appdataPath + "\\" + customAiPathFileQEd);
+                if (File.Exists(customScriptFile))
+                    File.Move(customScriptFile, QUtils.appdataPath + "\\" + customScriptFileQEd);
                 if (File.Exists(qChecksFile)) File.Delete(qChecksFile);
             }
         }
@@ -722,12 +729,11 @@ namespace IGIEditor
             bool status = true;
             string infoStr = "</users-info>";
             string srcData = WebReader(srcUrl);
- 
+
             var userDataContent = new StringBuilder(srcData);
             int infoStrIndex = srcData.IndexOf(infoStr);
             if (infoStrIndex == -1) ShowSystemFatalError("Invalid data encountered from backend. (ERROR : 0x7FFFFFFF)");
             userDataContent = userDataContent.Remove(infoStrIndex, infoStr.Length);
-
 
             string deviceId = GetMachineDeviceId();
             var userDataLines = srcData.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
@@ -1385,7 +1391,7 @@ namespace IGIEditor
 
         internal static void InjectDllOnStart()
         {
-            //return;
+            return;
             tmpDllPath = Path.GetTempFileName() + dllExt;
             AddLog("InjectDllOnStart() tmpDllPath : " + tmpDllPath);
             QCryptor.Decrypt(QUtils.internalDllPath, tmpDllPath);

@@ -1,17 +1,17 @@
-﻿using Microsoft.VisualBasic;
+﻿#define TESTING
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using QLibc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using UXLib.UX;
 using static IGIEditor.QUtils;
 
@@ -27,9 +27,12 @@ namespace IGIEditor
         static string model3d, blenderModel;
         private static int randPosOffset = 0, posOffset = 3000;
         string inputQvmPath, inputQscPath;
-        private static int gameLevel = 1;
+        private static int gameLevel = 1, graphId = 1, nodeId = 1;
+        private Real64 graphPos,nodeRealPos;
 
         static internal IGIEditorUI editorRef;
+        BackgroundWorker graphNodeWorker;
+        BackgroundWorker uiRefreshWorker;
 
         //Main-Start - Ctr.
         public IGIEditorUI()
@@ -42,20 +45,33 @@ namespace IGIEditor
             formMover.CustomFormMover(formMoverPnl, this);
             editorRef = this;
 
+#if TESTING
+            nodesObjectsCb.Visible = nodesHilight.Visible = true;
+            compileBtn.Enabled = true;
+            appSupportBtn.Visible = false;
+            GAME_MAX_LEVEL = 14;
+            versionLbl.Text = appEditorVersion + " TEST";
+#endif
+
             //Start Position timer.
             editorPosTimer.Tick += new EventHandler(UpdatePositionTimer);
             editorPosTimer.Interval = 500;
-            editorPosTimer.Start();
+            //editorPosTimer.Start();
 
             //Start File Integrity timer.
             fileCheckerTimer.Tick += new EventHandler(FileIntegrityCheckerTimer);
             fileCheckerTimer.Interval = 120000;
             fileCheckerTimer.Start();
 
+            //Adding Background Worker thread.s
+            graphNodeWorker = uiRefreshWorker = new BackgroundWorker();
+            graphNodeWorker.DoWork += AddGraphNodes;
+            uiRefreshWorker.DoWork += UpdateUIBackground;
             //Disabling Errors and Warnings.
             GT.GT_SuppressErrors(true);
             GT.GT_SuppressWarnings(true);
 
+            //Get Game level from start.
             gameLevel = Convert.ToInt32(levelStartTxt.Text.ToString());
 
             InitApp();
@@ -114,7 +130,9 @@ namespace IGIEditor
                 levelStartTxt.Text = gameLevel.ToString();
                 SetStatusText("Game running...");
                 LoadLevelDetails(gameLevel);
-                //QMemory.UpdateHumanHealth(false);
+#if TESTING
+                QMemory.UpdateHumanHealth(false);
+#endif
             }
             else
                 SetStatusText("Game not running...");
@@ -124,6 +142,31 @@ namespace IGIEditor
             InitUIComponents(gameLevel);
         }
 
+        private void UpdateUIBackground(object sender, DoWorkEventArgs e)
+        {
+            RefreshUIComponents(gameLevel);
+        }
+
+        private void AddGraphNodes(object sender, DoWorkEventArgs e)
+        {
+            string qscData = null;
+            if (nodesObjectsCb.Checked)
+            {
+                var objModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
+                qscData = QGraphs.ShowGraphNodesVisual(graphId, 1, objModel);
+                nodesObjectsCb.Checked = false;
+            }
+            else if (nodesHilight.Checked)
+            {
+                qscData = QGraphs.ShowGraphNodesVisual(graphId, 2);
+                nodesHilight.Checked = false;
+            }
+
+            qscData = QUtils.LoadFile() + "\n" + qscData;
+            compileStatus = QCompiler.CompileEx(qscData);
+
+            if (compileStatus) SetStatusText("Graph Nodes Visualisation added successfully");
+        }
 
         private void FileIntegrityCheckerTimer(object sender, EventArgs e)
         {
@@ -155,13 +198,13 @@ namespace IGIEditor
         {
             //Init Weapons list.
             weaponSelectDD.Items.Clear();
-            weaponAiDD.Items.Clear();
+            aiWeaponDD.Items.Clear();
             QUtils.weaponList = QHuman.GetWeaponsList();
             foreach (var weapon in QUtils.weaponList)
             {
                 var weaponName = weapon.Keys.ElementAt(0);
                 weaponSelectDD.Items.Add(weaponName);
-                weaponAiDD.Items.Add(weaponName);
+                aiWeaponDD.Items.Add(weaponName);
             }
 
             //Init AI model list.
@@ -184,7 +227,10 @@ namespace IGIEditor
 
             //Init AI Graph list.
             QUtils.aiGraphIdStr.Clear();
+            QUtils.aiGraphNodeIdStr.Clear();
+
             var graphIdList = QGraphs.GetGraphIds(level);
+
             foreach (var graphId in graphIdList)
             {
                 var nodesList = QGraphs.GetAllNodes4mGraph(graphId);
@@ -604,13 +650,14 @@ namespace IGIEditor
                 SetStatusText("Game found success");
             if (gameFound)
             {
-                Thread.Sleep(1000);
                 QUtils.gGameLevel = gameLevel = QMemory.GetCurrentLevel();
                 LoadLevelDetails(gameLevel);
                 RefreshUIComponents(gameLevel);
+                // uiRefreshWorker.RunWorkerAsync();
                 InitPaths(gameLevel);
                 QUtils.ResetFile(gameLevel);
                 QUtils.InjectDllOnStart();
+                QUtils.graphAreas.Clear();
             }
         }
 
@@ -941,7 +988,8 @@ namespace IGIEditor
             //A.I Editor.
             if (e.TabPageIndex == 3)
             {
-                aiGraphIdDD.SelectedIndex = aiTypeDD.SelectedIndex = aiModelSelectDD.SelectedIndex = weaponAiDD.SelectedIndex = 0;
+                UpdateUIComponent(aiGraphIdDD, QUtils.aiGraphIdStr);
+                aiTypeDD.SelectedIndex = aiModelSelectDD.SelectedIndex = aiWeaponDD.SelectedIndex = 0;
             }
 
             //Weapon Editor.
@@ -951,8 +999,16 @@ namespace IGIEditor
             }
 
 
-            //Position Editor
+            //Graph Editor.
             if (e.TabPageIndex == 7)
+            {
+                UpdateUIComponent(graphIdDD, QUtils.aiGraphIdStr);
+                UpdateUIComponent(nodeIdDD, QUtils.aiGraphNodeIdStr);
+                graphIdDD.SelectedIndex = nodeIdDD.SelectedIndex = 0;
+            }
+
+            //Position Editor
+            if (e.TabPageIndex == 8)
             {
                 UpdateUIComponent(buildingPosDD, QUtils.buildingListStr);
                 UpdateUIComponent(objectPosDD, QUtils.objectRigidListStr);
@@ -1029,11 +1085,13 @@ namespace IGIEditor
         //Testing phase - remove in final build
         private void compileBtn_Click(object sender, EventArgs e)
         {
+
             string qscData = QUtils.LoadFile();
             if (!String.IsNullOrEmpty(qscData))
                 compileStatus = QCompiler.CompileEx(qscData);
             if (compileStatus) SetStatusText("Compile success");
         }
+
 
         private void resetBuildingsBtn_Click(object sender, EventArgs e)
         {
@@ -1058,7 +1116,7 @@ namespace IGIEditor
                         break;
 
                     var buildingModel = qtask.model;
-                    AddObject(buildingModel, false, qtask.position, true, qtask.note, qtask.orientation.alpha, qtask.orientation.beta, qtask.orientation.gamma);
+                    AddObject(buildingModel, false, qtask.position, true, -1, qtask.note, qtask.orientation.alpha, qtask.orientation.beta, qtask.orientation.gamma);
                     qTaskCount++;
                 }
             }
@@ -1209,7 +1267,7 @@ namespace IGIEditor
                         break;
 
                     var rigidModel = qtask.model;
-                    AddObject(rigidModel, true, qtask.position, true, qtask.note, qtask.orientation.alpha, qtask.orientation.beta, qtask.orientation.gamma);
+                    AddObject(rigidModel, true, qtask.position, true, -1, qtask.note, qtask.orientation.alpha, qtask.orientation.beta, qtask.orientation.gamma);
                     qTaskCount++;
                 }
             }
@@ -1233,6 +1291,8 @@ namespace IGIEditor
 
                 var imgPath = aiModelName + QUtils.pngExt;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
+                var aiModelQualifyName = aiModelName.Contains("_") ? aiModelName.Substring(0, aiModelName.IndexOf("_")) : aiModelName;
+                aiModelNameLbl.Text = aiModelQualifyName;
 
                 //Load image from Cache.
                 if (File.Exists(imgTmpPath))
@@ -1265,7 +1325,7 @@ namespace IGIEditor
 
         private void weaponAiDD_SelectedValueChanged(object sender, EventArgs e)
         {
-            PopulateWeaponDD(weaponAiDD.SelectedIndex, weaponAIImgBox);
+            PopulateWeaponDD(aiWeaponDD.SelectedIndex, weaponAIImgBox);
         }
 
         private void aiTypeDD_SelectedValueChanged(object sender, EventArgs e)
@@ -1279,42 +1339,12 @@ namespace IGIEditor
 
         private void aiGraphIdDD_SelectedValueChanged(object sender, EventArgs e)
         {
-            int graphId = QUtils.aiGraphIdStr[aiGraphIdDD.SelectedIndex];
-            string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + datExt;
-            QUtils.AddLog("graphFile: '" + graphFile + "'");
-            var nodeData = QGraphs.ReadGraphNodeData(graphFile);
-            var graphPos = QGraphs.GetGraphPosition(graphId.ToString());
+            if (aiGraphIdDD.SelectedIndex == -1) aiGraphIdDD.SelectedIndex = 0;
+            int graphAiId = QUtils.aiGraphIdStr[aiGraphIdDD.SelectedIndex];
 
-            if (visualiseNodesCb.Checked)
-            {
-                string qscData = null;
-                QUtils.qtaskId = QUtils.GenerateTaskID(true);
-                foreach (var node in nodeData)
-                {
-                    QUtils.AddLog("Node_" + node.NodeId + " X: " + node.NodePos.x + " Y: " + node.NodePos.y + " Z: " + node.NodePos.z + " Criteria: " + node.NodeCriteria);
-
-                    var nodeRealPos = new Real64();
-                    nodeRealPos.x = graphPos.x + node.NodePos.x;
-                    nodeRealPos.y = graphPos.y + node.NodePos.y;
-                    nodeRealPos.z = graphPos.z + node.NodePos.z;
-                    string taskNote = "Graph #" + graphId + " Node #" + node.NodeId;
-
-                    //Add Visualisation for Nodes.
-                    var objModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
-                    AddObject(objModel, true, nodeRealPos, false, taskNote);
-                    var areaDim = new AreaDim(8000);
-                    
-                     qscData += QObjects.AddAreaActivate(QUtils.qtaskId++, objModel, null,"\"" + taskNote + "\"",ref nodeRealPos, ref areaDim);
-                }
-                qscData = QUtils.LoadFile() + "\n" + qscData;
-                compileStatus = QCompiler.CompileEx(qscData);
-
-                if (compileStatus) SetStatusText("Graph Visualisation added successfully");
-            }
-
-            string graphArea = QGraphs.GetGraphArea(graphId);
-            graphAreaLbl.Text = graphArea;
-            QUtils.AddLog("GraphId : " + graphId + " GraphArea: " + graphArea);
+            string graphArea = QGraphs.GetGraphArea(graphAiId);
+            graphAreaAiLbl.Text = graphArea;
+            QUtils.AddLog("aiGraphIdDD() GraphId : " + graphId + " GraphArea: " + graphArea);
         }
 
         private void addAiBtn_Click(object sender, EventArgs e)
@@ -1323,11 +1353,12 @@ namespace IGIEditor
             {
                 var aiModelName = QAI.GetAiModelNamesList(gameLevel)[aiModelSelectDD.SelectedIndex];
                 var aiModelId = QAI.GetAiModelIdForName(aiModelName);
-                var aiWeaponModel = QUtils.weaponList[weaponAiDD.SelectedIndex].Values.ElementAt(0);
+                var aiWeaponModel = QUtils.weaponList[aiWeaponDD.SelectedIndex].Values.ElementAt(0);
                 int graphId = QUtils.aiGraphIdStr[aiGraphIdDD.SelectedIndex];
                 string aiType = QUtils.aiTypes[aiTypeDD.SelectedIndex];
                 int aiCount = Convert.ToInt32(aiCountTxt.Text);
                 int maxSpawns = Convert.ToInt32(maxSpawnsTxt.Text);
+
 
                 //Set human A.I properties.
                 var humanAi = new HumanAi();
@@ -1378,7 +1409,11 @@ namespace IGIEditor
             //Disable Editor Tabs.
             if (e.TabPageIndex == 1 || e.TabPageIndex == 5 || e.TabPageIndex == 6)
             {
+#if TESTING
+                e.Cancel = false;
+#elif _RLS
                 e.Cancel = true;
+#endif
             }
 
         }
@@ -1463,6 +1498,7 @@ namespace IGIEditor
             {
                 gameLevel = Convert.ToInt32(levelStartTxt.Text.ToString());
                 InitPaths(gameLevel);
+                QUtils.graphAreas.Clear();
                 StartGameLevel(gameLevel, true);
             }
             catch (Exception ex)
@@ -1477,6 +1513,112 @@ namespace IGIEditor
             {
                 QMemory.DisableGameWarnings();
             }
+        }
+
+        private void showNodesBtn_Click(object sender, EventArgs e)
+        {
+#if TESTING
+            if (nodesObjectsCb.Checked || nodesHilight.Checked)
+            {
+                SetStatusText("Adding Nodes Visualisation....Please Wait");
+                graphNodeWorker.RunWorkerAsync();
+            }
+            else if (!nodesObjectsCb.Checked || !nodesHilight.Checked)
+            {
+                ShowError("Showing Nodes visual needs type to be selected first.");
+            }
+#endif
+        }
+
+        private void graphIdDD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            graphId = QUtils.aiGraphIdStr[graphIdDD.SelectedIndex];
+            string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
+            QUtils.AddLog("graphIdDD() GraphFile: '" + graphFile + "'");
+            QUtils.graphNodesList = QGraphs.ReadGraphNodeData(graphFile);
+            int totalNodes = QUtils.graphNodesList.Count;
+            graphPos = QGraphs.GetGraphPosition(graphId);
+
+            aiGraphNodeIdStr.Clear();
+            foreach (var node in QUtils.graphNodesList)
+                aiGraphNodeIdStr.Add(node.NodeId);
+
+            //Update Graph Nodes.
+            UpdateUIComponent(nodeIdDD, QUtils.aiGraphNodeIdStr);
+
+            string graphArea = QGraphs.GetGraphArea(graphId);
+            graphAreaLbl.Text = graphArea;
+            graphTotalNodesTxt.Text = totalNodes.ToString();
+            QUtils.AddLog("graphIdDD() GraphId : " + graphId + " GraphArea: " + graphArea + " TotalNodes: " + totalNodes);
+        }
+
+        private void viewPortEnableCb_CheckedChanged(object sender, EventArgs e)
+        {
+            unsafe
+            {
+                IntPtr viewPortAddr = (IntPtr)0x00497E94;
+
+                if (viewPortEnableCb.Checked)
+                {
+                    GT.GT_WriteNOP(viewPortAddr, 2);
+                }
+                else
+                {
+                    int val = 0xF3A5;
+                    GT.GT_WriteMemory(viewPortAddr, "2bytes", "42483");
+                }
+            }
+        }
+
+        private void teleportToNodeBtn_Click(object sender, EventArgs e)
+        {
+            unsafe
+            {
+                IntPtr viewPortAddrX = (IntPtr)0x00BCAB08;
+                IntPtr viewPortAddrY = (IntPtr)viewPortAddrX.ToInt32()+8;
+                IntPtr viewPortAddrZ = (IntPtr)viewPortAddrY.ToInt32()+8;
+
+                GT.GT_WriteMemory(viewPortAddrX, "double", nodeRealPos.x.ToString());
+                GT.GT_WriteMemory(viewPortAddrY, "double", nodeRealPos.y.ToString());
+                GT.GT_WriteMemory(viewPortAddrZ, "double", nodeRealPos.z.ToString());
+            }
+        }
+
+        private void nodeIdDD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (nodeIdDD.SelectedIndex == -1) nodeIdDD.SelectedIndex = 0;
+            nodeId = QUtils.aiGraphNodeIdStr[nodeIdDD.SelectedIndex];
+            var node = QGraphs.GetGraphNodeData(graphId, nodeId);
+
+            //Setting Node properties.
+            nodeCriteriaTxt.Text = node.NodeCriteria;
+
+            if (nodeIdOffsetCb.Checked)
+            {
+                nodeXTxt.Text = node.NodePos.x.ToString("0.0000");
+                nodeYTxt.Text = node.NodePos.y.ToString("0.0000");
+                nodeZTxt.Text = node.NodePos.z.ToString("0.0000");
+            }
+            else
+            {
+                nodeXTxt.Text = graphPos.x + node.NodePos.x.ToString("R");
+                nodeYTxt.Text = graphPos.y + node.NodePos.y.ToString("R");
+                nodeZTxt.Text = graphPos.z + node.NodePos.z.ToString("R");
+            }
+
+            //Get Node Real Position.
+            nodeRealPos = new Real64();
+            nodeRealPos.x = graphPos.x + node.NodePos.x;
+            nodeRealPos.y = graphPos.y + node.NodePos.y;
+            nodeRealPos.z = graphPos.z + node.NodePos.z;
+            if (autoModeTeleportCb.Checked) teleportToNodeBtn_Click(sender, e);
+        }
+
+        private void appSupportBtn_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(QUtils.supportDiscordLink);
+            System.Diagnostics.Process.Start(QUtils.supportYoutubeLink);
+            System.Diagnostics.Process.Start(QUtils.supportVKLink);
         }
 
         private void StartGameLevel(int level, bool windowed = true)
@@ -1495,9 +1637,12 @@ namespace IGIEditor
             if (!String.IsNullOrEmpty(qscData))
                 compileStatus = QCompiler.CompileEx(qscData);
             QUtils.InjectDllOnStart();
+            //uiRefreshWorker.RunWorkerAsync();
             RefreshUIComponents(level);
 
-            //QMemory.UpdateHumanHealth(true);
+#if TESTING
+            QMemory.UpdateHumanHealth(false);
+#endif
         }
 
         private void RefreshUIComponents(int level)
@@ -1507,6 +1652,8 @@ namespace IGIEditor
             UpdateUIComponent(objectSelectDD, QUtils.objectRigidListStr);
             UpdateUIComponent(aiModelSelectDD, QUtils.aiModelsListStr);
             UpdateUIComponent(aiGraphIdDD, QUtils.aiGraphIdStr);
+            UpdateUIComponent(graphIdDD, QUtils.aiGraphIdStr);
+            UpdateUIComponent(nodeIdDD, QUtils.aiGraphNodeIdStr);
         }
 
         //Generic Update UI method for DropDowns,TextBox etc.
@@ -1589,7 +1736,7 @@ namespace IGIEditor
             }
         }
 
-        private void AddObject(string model, bool rigidObj = false, Real64 objectPos = null, bool hasOrientation = false, string taskNote = "", float alpha = -9.9f, float beta = -9.9f, float gamma = -9.9f)
+        internal void AddObject(string model, bool rigidObj = false, Real64 objectPos = null, bool hasOrientation = false, int taskId = -1, string taskNote = "", float alpha = -9.9f, float beta = -9.9f, float gamma = -9.9f)
         {
             try
             {
@@ -1609,7 +1756,7 @@ namespace IGIEditor
                     else
                     {
                         var orientation = new Real32(alpha, beta, gamma);
-                        qscData = QBuildings.AddBuilding(model, objectPos, orientation, false);
+                        qscData = QBuildings.AddBuilding(model, objectPos, orientation, false, taskId);
                     }
                 }
                 else
@@ -1617,7 +1764,7 @@ namespace IGIEditor
                     if (rigidObj)
                         qscData = QObjects.AddRigidObj(model, objectPos, false, taskNote);
                     else
-                        qscData = QBuildings.AddBuilding(model, objectPos);
+                        qscData = QBuildings.AddBuilding(model, objectPos, false, taskId, taskNote);
                 }
 
                 //Compile the data with QCompiler.

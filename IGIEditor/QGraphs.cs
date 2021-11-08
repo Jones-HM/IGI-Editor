@@ -88,6 +88,11 @@ namespace IGIEditor
             return GetGraphNodeIds(gameLevel, 2);
         }
 
+        internal static Real64 GetGraphPosition(int graphId)
+        {
+            return GetGraphPosition(graphId.ToString());
+        }
+
         internal static Real64 GetGraphPosition(string graphId)
         {
             var qGraphList = GetQTaskGraphList(true, true);
@@ -416,6 +421,48 @@ namespace IGIEditor
             return qscData;
         }
 
+        internal static string ShowGraphNodesVisual(int graphId, int visualType = 1, string nodeObject = "000_00_0")
+        {
+            string qscData = null;
+            string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
+            QUtils.AddLog("ShowGraphNodesVisual() GraphFile: '" + graphFile + "'");
+            var nodeData = ReadGraphNodeData(graphFile);
+            var graphPos = GetGraphPosition(graphId.ToString());
+            QUtils.qtaskId = QUtils.GenerateTaskID(true);
+
+            foreach (var node in nodeData)
+            {
+                QUtils.AddLog("Node_" + node.NodeId + " X: " + node.NodePos.x + " Y: " + node.NodePos.y + " Z: " + node.NodePos.z + " Criteria: " + node.NodeCriteria);
+
+                var nodeRealPos = new Real64();
+                nodeRealPos.x = graphPos.x + node.NodePos.x;
+                nodeRealPos.y = graphPos.y + node.NodePos.y;
+                nodeRealPos.z = graphPos.z + node.NodePos.z;
+                string taskNote = "Graph #" + graphId + " Node #" + node.NodeId;
+
+
+                //Visualisation Object - StatusMsg.
+                if (visualType == 1)
+                {
+                    IGIEditorUI.editorRef.AddObject(nodeObject, true, nodeRealPos, false, -1, taskNote);
+
+                    var areaDim = new AreaDim(8000);
+                    qscData += QObjects.AddAreaActivate(QUtils.qtaskId, nodeObject, null, "\"" + taskNote + "\"", ref nodeRealPos, ref areaDim);
+                }
+
+                //Visualisation Hilight - ComputerMap Hilight.
+                else if (visualType == 2)
+                {
+                    IGIEditorUI.editorRef.AddObject(nodeObject, false, nodeRealPos, false, QUtils.qtaskId, taskNote);
+                    qscData += QObjects.ComputerMapHilight(QUtils.qtaskId, taskNote, "Graph #" + graphId, taskNote, "MARKER_BOX", "MARKER_COLOR_YELLOW");
+                }
+                QUtils.qtaskId++;
+
+            }
+            return qscData;
+        }
+
+
         internal static bool CheckIdExist(string id, string idType, int gameLevel, string errMsg = "")
         {
             bool status = false;
@@ -487,9 +534,9 @@ namespace IGIEditor
 
         internal static string GetGraphArea(int graphId)
         {
-            string graphFile = QUtils.qGraphsPath + "\\" +  "graph_area_level" + QUtils.gGameLevel + ".txt";
+            string graphFile = QUtils.qGraphsPath + "\\" + "graph_area_level" + QUtils.gGameLevel + ".txt";
             QUtils.AddLog("GetGraphArea(): Level: " + QUtils.gGameLevel + " graphId: " + graphId + " graphFile: " + graphFile);
-            if (!System.IO.File.Exists(graphFile)) {return "Area Not Available."; }
+            if (!System.IO.File.Exists(graphFile)) { return "Area Not Available."; }
 
             if (QUtils.graphAreas.Count == 0) QUtils.graphAreas = GetGraphAreasList(graphFile);
 
@@ -530,7 +577,7 @@ namespace IGIEditor
                     var graphData = new GraphNode();
                     double x, y, z;
                     var nodeIdData = graphFileData.Skip(index + 8).Take(4).ToArray();
-                    int nodeId = BitConverter.ToInt32(nodeIdData,0);
+                    int nodeId = BitConverter.ToInt32(nodeIdData, 0);
 
                     //Read Node X,Y,Z Position offset.
 
@@ -539,13 +586,13 @@ namespace IGIEditor
                     int nodePosZIndex = nodePosYIndex + 8;
 
                     var nodePosXData = graphFileData.Skip(nodePosXIndex).Take(8).ToArray();
-                    x = BitConverter.ToDouble(nodePosXData,0);
+                    x = BitConverter.ToDouble(nodePosXData, 0);
 
                     var nodePosYData = graphFileData.Skip(nodePosYIndex).Take(8).ToArray();
-                    y = BitConverter.ToDouble(nodePosYData,0);
+                    y = BitConverter.ToDouble(nodePosYData, 0);
 
                     var nodePosZData = graphFileData.Skip(nodePosZIndex).Take(8).ToArray();
-                    z = BitConverter.ToDouble(nodePosZData,0);
+                    z = BitConverter.ToDouble(nodePosZData, 0);
 
                     //Read node criteria.
                     int nodeCriteriaIndex = index + 88 + 1;
@@ -561,6 +608,21 @@ namespace IGIEditor
                 }
             }
             return graphNodeData;
+        }
+
+        internal static GraphNode GetGraphNodeData(int graphId, int nodeId)
+        {
+            string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
+            QUtils.AddLog("graphIdDD() GraphFile: '" + graphFile + "'");
+            
+            if(QUtils.graphNodesList.Count == 0) QUtils.graphNodesList = QGraphs.ReadGraphNodeData(graphFile);
+
+            foreach (var node in QUtils.graphNodesList)
+            {
+                if (node.NodeId == nodeId)
+                    return node;
+            }
+            return null;
         }
 
     }

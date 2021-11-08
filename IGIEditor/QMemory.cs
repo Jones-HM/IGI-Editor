@@ -129,20 +129,16 @@ namespace IGIEditor
 
         internal static void UpdateHumanHealth(bool permanent = true)
         {
+            IntPtr humanXPL_DamageAddr = (IntPtr)0x00416D85;
             if (permanent)
             {
-                //Enable PlayerXP Hit damage.
-                IntPtr jumpHealthAddr = (IntPtr)0x00416D85;
-                GT.GT_WriteNOP(jumpHealthAddr, 6);
-
                 //Enable normal and fence damage scale. 
                 QHuman.UpdateHumanPlayerHealth(float.MaxValue, 0.0f);
             }
             unsafe
             {
                 //Enable PlayerXP Hit damage.
-                IntPtr jumpHealthAddr = (IntPtr)0x00416D85;
-                GT.GT_WriteNOP(jumpHealthAddr, 6);
+                GT.GT_WriteNOP(humanXPL_DamageAddr, 6);
             }
         }
 

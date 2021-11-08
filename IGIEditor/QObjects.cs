@@ -25,7 +25,7 @@ namespace IGIEditor
             return RigidObj(-1, taskNote, position.x, position.y, position.z, 0, 0, 0, model);
         }
 
-        internal static string AddRigidObj(string model, Real64 position, Real32 orientation, bool checkModel,string taskNote="")
+        internal static string AddRigidObj(string model, Real64 position, Real32 orientation, bool checkModel, string taskNote = "")
         {
             if (checkModel)
             {
@@ -50,6 +50,14 @@ namespace IGIEditor
             QUtils.AddLog("RigidObj called with ID : " + QUtils.qtaskObjId + "  RigidObj : " + FindModelName(modelId) + "\"\tX : " + x + " Y : " + y + " Z : " + z + "\tAlpha : " + alpha + " Beta : " + beta + ",Gamma : " + gamma + " Model : " + modelId + "\n");
             return qtaskRigidObj;
         }
+
+        internal static string ComputerMapHilight(int targetTaskId = -1, string taskNote = "", string taskTitle = "", string taskInfo = "", string markerType = "MARKER_NONE", string markerColor = "MARKER_COLOR_NONE", int taskId = -1)
+        {
+            string qtaskHilight = "Task_New(" + taskId + ",\"ComputerHilight\",\"" + taskNote + "\",24958512.0, -56097400.0, 174370800.0, \"1\"," + "\"" + targetTaskId + "\",\"\",\"" + markerType + "\"," + "\"" + markerColor + "\",\"" + taskTitle + "\"" + ",\"" + taskInfo + "\");" + "\n";
+            QUtils.AddLog("ComputerHilight called with ID : " + taskId + "  ComputerHilight : ");
+            return qtaskHilight;
+        }
+
 
         internal static string UpdatePositionInMeter(int id, ref Real64 position, bool checkModel = false)
         {

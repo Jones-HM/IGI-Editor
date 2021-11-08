@@ -6,9 +6,9 @@ namespace IGIEditor
     class QBuildings
     {
 
-        internal static string AddBuilding(string model, Real64 position, bool checkModel = false)
+        internal static string AddBuilding(string model, Real64 position, bool checkModel = false, int taskId = -1, string taskNote = "")
         {
-            string modelName = QObjects.FindModelName(model);
+            string modelName = String.IsNullOrEmpty(taskNote) ? QObjects.FindModelName(model) : taskNote;
             QUtils.AddLog("AddBuilding() called checkModel : " + checkModel.ToString() + "  Building : " + modelName + "\"\tX : " + position.x + " Y : " + position.y + " Z : " + position.z + " Model : " + model + "\n");
 
             if (checkModel)
@@ -24,10 +24,10 @@ namespace IGIEditor
             }
 
             //int taskId = QUtils.GenerateTaskID(true);
-            return Building(-1, modelName, position.x, position.y, position.z, 0, 0, 0, model);
+            return Building(taskId, modelName, position.x, position.y, position.z, 0, 0, 0, model);
         }
 
-        internal static string AddBuilding(string modelId, Real64 position, Real32 orientation, bool checkModel = false)
+        internal static string AddBuilding(string modelId, Real64 position, Real32 orientation, bool checkModel = false, int taskId = -1,string taskNote = "")
         {
             string modelName = QObjects.FindModelName(modelId);
             QUtils.AddLog("AddBuilding() called checkModel : " + checkModel.ToString() + "  Building : " + modelName + "\"\tX : " + position.x + " Y : " + position.y + " Z : " + position.z + "\tBeta : " + orientation.beta + " Gamma : " + orientation.gamma + ",Alpha : " + orientation.alpha + " Model : " + modelId + "\n");
@@ -44,7 +44,7 @@ namespace IGIEditor
                 }
             }
             //int taskId = QUtils.GenerateTaskID(true);
-            return Building(-1, modelName, position.x, position.y, position.z, orientation.alpha, orientation.beta, orientation.gamma, modelId);
+            return Building(taskId, modelName, position.x, position.y, position.z, orientation.alpha, orientation.beta, orientation.gamma, modelId);
         }
 
         internal static string Building(int taskId = -1, string taskNote = "", double x = 0.0f, double y = 0.0f, double z = 0.0f, float alpha = 0.0f, float beta = 0.0f, float gamma = 0.0f, string modelId = "")
