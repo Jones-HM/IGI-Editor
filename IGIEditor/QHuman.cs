@@ -179,6 +179,8 @@ namespace IGIEditor
 
             string qscData = QUtils.LoadFile();
 
+            if (qscData.IsNonASCII()) qscData = QCryptor.Decrypt(QUtils.objectsQsc);
+
             string idIndexStr = "Task_New(0";
             int idIndex = qscData.IndexOf(idIndexStr);
             string qscTemp = qscData.Substring(idIndex);

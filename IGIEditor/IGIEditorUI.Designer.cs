@@ -52,14 +52,13 @@
             this.label5 = new System.Windows.Forms.Label();
             this.editorTabs = new System.Windows.Forms.TabControl();
             this.levelEditor = new System.Windows.Forms.TabPage();
+            this.objectImgBox = new System.Windows.Forms.PictureBox();
             this.clearAllLvlBtn = new System.Windows.Forms.Button();
             this.objectSelectDD = new System.Windows.Forms.ComboBox();
             this.buildingSelectDD = new System.Windows.Forms.ComboBox();
             this.removeObjectBtn = new System.Windows.Forms.Button();
             this.removeBuildingBtn = new System.Windows.Forms.Button();
-            this.objectNameLbl = new System.Windows.Forms.Label();
             this.addObjectBtn = new System.Windows.Forms.Button();
-            this.buildingNameLbl = new System.Windows.Forms.Label();
             this.addBuildingBtn = new System.Windows.Forms.Button();
             this.objectEditor = new System.Windows.Forms.TabPage();
             this.maxItemsLbl4 = new System.Windows.Forms.Label();
@@ -76,7 +75,6 @@
             this.resetBuildingsBtn = new System.Windows.Forms.Button();
             this.resetObjectsBtn = new System.Windows.Forms.Button();
             this.objectIDLbl = new System.Windows.Forms.Label();
-            this.objectImgBox = new System.Windows.Forms.PictureBox();
             this.objectIDTxt = new System.Windows.Forms.TextBox();
             this.maxItemsLbl1 = new System.Windows.Forms.Label();
             this.modelIdLbl = new System.Windows.Forms.Label();
@@ -108,6 +106,7 @@
             this.movementSpeedTxt = new System.Windows.Forms.TextBox();
             this.movementSpeedLbl = new System.Windows.Forms.Label();
             this.aiEditor = new System.Windows.Forms.TabPage();
+            this.removeAllAi = new System.Windows.Forms.Button();
             this.graphAreaAiLbl = new System.Windows.Forms.TextBox();
             this.customAiCb = new System.Windows.Forms.CheckBox();
             this.maxSpawnsTxt = new System.Windows.Forms.TextBox();
@@ -142,9 +141,13 @@
             this.resume3DEditorBtn = new System.Windows.Forms.Button();
             this.start3DEditorBtn = new System.Windows.Forms.Button();
             this.missionEditor = new System.Windows.Forms.TabPage();
+            this.uploadMissionBtn = new System.Windows.Forms.Button();
+            this.missionURLLbl = new System.Windows.Forms.Label();
+            this.missionURLTxt = new System.Windows.Forms.TextBox();
             this.missionLevelFlowTimerCb = new System.Windows.Forms.CheckBox();
             this.missionPlayTimeLbl = new System.Windows.Forms.Label();
             this.addLevelFlowBtn = new System.Windows.Forms.Button();
+            this.downloadMissionBtn = new System.Windows.Forms.Button();
             this.installMissionBtn = new System.Windows.Forms.Button();
             this.missionDescTxt = new System.Windows.Forms.TextBox();
             this.missionDescLbl = new System.Windows.Forms.Label();
@@ -155,7 +158,12 @@
             this.loadMissionBtn = new System.Windows.Forms.Button();
             this.saveMissionBtn = new System.Windows.Forms.Button();
             this.graphEditor = new System.Windows.Forms.TabPage();
-            this.autoModeTeleportCb = new System.Windows.Forms.CheckBox();
+            this.stopTraversingNodesBtn = new System.Windows.Forms.Button();
+            this.manualTeleportGraphCb = new System.Windows.Forms.CheckBox();
+            this.manualTeleportNodeCb = new System.Windows.Forms.CheckBox();
+            this.autoTeleportGraphCb = new System.Windows.Forms.CheckBox();
+            this.teleportToGraphBtn = new System.Windows.Forms.Button();
+            this.autoTeleportNodeCb = new System.Windows.Forms.CheckBox();
             this.viewPortEnableCb = new System.Windows.Forms.CheckBox();
             this.teleportToNodeBtn = new System.Windows.Forms.Button();
             this.nodeIdMetreCb = new System.Windows.Forms.CheckBox();
@@ -233,13 +241,12 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.removeAllAi = new System.Windows.Forms.Button();
             this.backPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
             this.levelEditor.SuspendLayout();
-            this.objectEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).BeginInit();
+            this.objectEditor.SuspendLayout();
             this.humanEditor.SuspendLayout();
             this.aiEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weaponAIImgBox)).BeginInit();
@@ -591,14 +598,13 @@
             // levelEditor
             // 
             this.levelEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.levelEditor.Controls.Add(this.objectImgBox);
             this.levelEditor.Controls.Add(this.clearAllLvlBtn);
             this.levelEditor.Controls.Add(this.objectSelectDD);
             this.levelEditor.Controls.Add(this.buildingSelectDD);
             this.levelEditor.Controls.Add(this.removeObjectBtn);
             this.levelEditor.Controls.Add(this.removeBuildingBtn);
-            this.levelEditor.Controls.Add(this.objectNameLbl);
             this.levelEditor.Controls.Add(this.addObjectBtn);
-            this.levelEditor.Controls.Add(this.buildingNameLbl);
             this.levelEditor.Controls.Add(this.addBuildingBtn);
             this.levelEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.levelEditor.Location = new System.Drawing.Point(4, 30);
@@ -609,11 +615,22 @@
             this.levelEditor.TabIndex = 1;
             this.levelEditor.Text = "Level Editor";
             // 
+            // objectImgBox
+            // 
+            this.objectImgBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.objectImgBox.Location = new System.Drawing.Point(36, 46);
+            this.objectImgBox.Margin = new System.Windows.Forms.Padding(4);
+            this.objectImgBox.Name = "objectImgBox";
+            this.objectImgBox.Size = new System.Drawing.Size(199, 311);
+            this.objectImgBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.objectImgBox.TabIndex = 44;
+            this.objectImgBox.TabStop = false;
+            // 
             // clearAllLvlBtn
             // 
             this.clearAllLvlBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.clearAllLvlBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.clearAllLvlBtn.Location = new System.Drawing.Point(868, 231);
+            this.clearAllLvlBtn.Location = new System.Drawing.Point(869, 173);
             this.clearAllLvlBtn.Margin = new System.Windows.Forms.Padding(4);
             this.clearAllLvlBtn.Name = "clearAllLvlBtn";
             this.clearAllLvlBtn.Size = new System.Drawing.Size(212, 34);
@@ -633,6 +650,7 @@
             this.objectSelectDD.Name = "objectSelectDD";
             this.objectSelectDD.Size = new System.Drawing.Size(419, 29);
             this.objectSelectDD.TabIndex = 32;
+            this.objectSelectDD.SelectedIndexChanged += new System.EventHandler(this.objectSelectDD_SelectedIndexChanged);
             this.objectSelectDD.Click += new System.EventHandler(this.objectSelectDD_Click);
             // 
             // buildingSelectDD
@@ -646,6 +664,7 @@
             this.buildingSelectDD.Name = "buildingSelectDD";
             this.buildingSelectDD.Size = new System.Drawing.Size(419, 29);
             this.buildingSelectDD.TabIndex = 31;
+            this.buildingSelectDD.SelectedIndexChanged += new System.EventHandler(this.buildingSelectDD_SelectedIndexChanged);
             this.buildingSelectDD.Click += new System.EventHandler(this.buildingSelectDD_Click);
             // 
             // removeObjectBtn
@@ -674,18 +693,6 @@
             this.removeBuildingBtn.UseVisualStyleBackColor = true;
             this.removeBuildingBtn.Click += new System.EventHandler(this.removeBuildingBtn_Click);
             // 
-            // objectNameLbl
-            // 
-            this.objectNameLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.objectNameLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.objectNameLbl.Location = new System.Drawing.Point(92, 107);
-            this.objectNameLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.objectNameLbl.Name = "objectNameLbl";
-            this.objectNameLbl.Size = new System.Drawing.Size(173, 33);
-            this.objectNameLbl.TabIndex = 12;
-            this.objectNameLbl.Text = "Object :";
-            this.objectNameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // addObjectBtn
             // 
             this.addObjectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -698,18 +705,6 @@
             this.addObjectBtn.Text = "Add object";
             this.addObjectBtn.UseVisualStyleBackColor = true;
             this.addObjectBtn.Click += new System.EventHandler(this.addObjectBtn_Click);
-            // 
-            // buildingNameLbl
-            // 
-            this.buildingNameLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.buildingNameLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.buildingNameLbl.Location = new System.Drawing.Point(92, 42);
-            this.buildingNameLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.buildingNameLbl.Name = "buildingNameLbl";
-            this.buildingNameLbl.Size = new System.Drawing.Size(173, 33);
-            this.buildingNameLbl.TabIndex = 9;
-            this.buildingNameLbl.Text = "Building :";
-            this.buildingNameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // addBuildingBtn
             // 
@@ -741,7 +736,6 @@
             this.objectEditor.Controls.Add(this.resetBuildingsBtn);
             this.objectEditor.Controls.Add(this.resetObjectsBtn);
             this.objectEditor.Controls.Add(this.objectIDLbl);
-            this.objectEditor.Controls.Add(this.objectImgBox);
             this.objectEditor.Controls.Add(this.objectIDTxt);
             this.objectEditor.Controls.Add(this.maxItemsLbl1);
             this.objectEditor.Controls.Add(this.modelIdLbl);
@@ -927,17 +921,6 @@
             this.objectIDLbl.TabIndex = 9;
             this.objectIDLbl.Text = "Model Name:";
             this.objectIDLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // objectImgBox
-            // 
-            this.objectImgBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.objectImgBox.Location = new System.Drawing.Point(45, 41);
-            this.objectImgBox.Margin = new System.Windows.Forms.Padding(4);
-            this.objectImgBox.Name = "objectImgBox";
-            this.objectImgBox.Size = new System.Drawing.Size(199, 184);
-            this.objectImgBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.objectImgBox.TabIndex = 8;
-            this.objectImgBox.TabStop = false;
             // 
             // objectIDTxt
             // 
@@ -1383,6 +1366,19 @@
             this.aiEditor.TabIndex = 8;
             this.aiEditor.Text = "A.I Editor";
             // 
+            // removeAllAi
+            // 
+            this.removeAllAi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.removeAllAi.ForeColor = System.Drawing.Color.Tomato;
+            this.removeAllAi.Location = new System.Drawing.Point(455, 335);
+            this.removeAllAi.Margin = new System.Windows.Forms.Padding(4);
+            this.removeAllAi.Name = "removeAllAi";
+            this.removeAllAi.Size = new System.Drawing.Size(217, 31);
+            this.removeAllAi.TabIndex = 48;
+            this.removeAllAi.Text = "Remove all A.I";
+            this.removeAllAi.UseVisualStyleBackColor = true;
+            this.removeAllAi.Click += new System.EventHandler(this.removeAllAi_Click);
+            // 
             // graphAreaAiLbl
             // 
             this.graphAreaAiLbl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
@@ -1595,6 +1591,7 @@
             this.aiModelSelectDD.Name = "aiModelSelectDD";
             this.aiModelSelectDD.Size = new System.Drawing.Size(419, 29);
             this.aiModelSelectDD.TabIndex = 37;
+            this.aiModelSelectDD.SelectedIndexChanged += new System.EventHandler(this.aiModelSelectDD_SelectedIndexChanged);
             this.aiModelSelectDD.SelectedValueChanged += new System.EventHandler(this.aiModelSelectDD_SelectedValueChanged);
             // 
             // aiImgBox
@@ -1801,9 +1798,13 @@
             // missionEditor
             // 
             this.missionEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.missionEditor.Controls.Add(this.uploadMissionBtn);
+            this.missionEditor.Controls.Add(this.missionURLLbl);
+            this.missionEditor.Controls.Add(this.missionURLTxt);
             this.missionEditor.Controls.Add(this.missionLevelFlowTimerCb);
             this.missionEditor.Controls.Add(this.missionPlayTimeLbl);
             this.missionEditor.Controls.Add(this.addLevelFlowBtn);
+            this.missionEditor.Controls.Add(this.downloadMissionBtn);
             this.missionEditor.Controls.Add(this.installMissionBtn);
             this.missionEditor.Controls.Add(this.missionDescTxt);
             this.missionEditor.Controls.Add(this.missionDescLbl);
@@ -1820,6 +1821,43 @@
             this.missionEditor.Size = new System.Drawing.Size(1137, 387);
             this.missionEditor.TabIndex = 4;
             this.missionEditor.Text = "Mission Editor";
+            // 
+            // uploadMissionBtn
+            // 
+            this.uploadMissionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.uploadMissionBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.uploadMissionBtn.Location = new System.Drawing.Point(887, 215);
+            this.uploadMissionBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.uploadMissionBtn.Name = "uploadMissionBtn";
+            this.uploadMissionBtn.Size = new System.Drawing.Size(145, 31);
+            this.uploadMissionBtn.TabIndex = 77;
+            this.uploadMissionBtn.Text = "Upload";
+            this.uploadMissionBtn.UseVisualStyleBackColor = true;
+            this.uploadMissionBtn.Click += new System.EventHandler(this.uploadMissionBtn_Click);
+            // 
+            // missionURLLbl
+            // 
+            this.missionURLLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.missionURLLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.missionURLLbl.Location = new System.Drawing.Point(62, 213);
+            this.missionURLLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.missionURLLbl.Name = "missionURLLbl";
+            this.missionURLLbl.Size = new System.Drawing.Size(173, 33);
+            this.missionURLLbl.TabIndex = 76;
+            this.missionURLLbl.Text = "Mission URL:";
+            this.missionURLLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // missionURLTxt
+            // 
+            this.missionURLTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.missionURLTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.missionURLTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.missionURLTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.missionURLTxt.Location = new System.Drawing.Point(244, 216);
+            this.missionURLTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.missionURLTxt.Name = "missionURLTxt";
+            this.missionURLTxt.Size = new System.Drawing.Size(450, 30);
+            this.missionURLTxt.TabIndex = 75;
             // 
             // missionLevelFlowTimerCb
             // 
@@ -1859,6 +1897,19 @@
             this.addLevelFlowBtn.Text = "Add Level Timer";
             this.addLevelFlowBtn.UseVisualStyleBackColor = true;
             this.addLevelFlowBtn.Click += new System.EventHandler(this.addLevelFlowBtn_Click);
+            // 
+            // downloadMissionBtn
+            // 
+            this.downloadMissionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.downloadMissionBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.downloadMissionBtn.Location = new System.Drawing.Point(730, 215);
+            this.downloadMissionBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.downloadMissionBtn.Name = "downloadMissionBtn";
+            this.downloadMissionBtn.Size = new System.Drawing.Size(145, 31);
+            this.downloadMissionBtn.TabIndex = 34;
+            this.downloadMissionBtn.Text = "Download";
+            this.downloadMissionBtn.UseVisualStyleBackColor = true;
+            this.downloadMissionBtn.Click += new System.EventHandler(this.downloadMissionBtn_Click);
             // 
             // installMissionBtn
             // 
@@ -1949,11 +2000,11 @@
             // loadMissionBtn
             // 
             this.loadMissionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.loadMissionBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.loadMissionBtn.Location = new System.Drawing.Point(247, 204);
+            this.loadMissionBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.loadMissionBtn.Location = new System.Drawing.Point(469, 152);
             this.loadMissionBtn.Margin = new System.Windows.Forms.Padding(4);
             this.loadMissionBtn.Name = "loadMissionBtn";
-            this.loadMissionBtn.Size = new System.Drawing.Size(447, 31);
+            this.loadMissionBtn.Size = new System.Drawing.Size(225, 31);
             this.loadMissionBtn.TabIndex = 28;
             this.loadMissionBtn.Text = "Load Mission";
             this.loadMissionBtn.UseVisualStyleBackColor = true;
@@ -1962,11 +2013,11 @@
             // saveMissionBtn
             // 
             this.saveMissionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.saveMissionBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.saveMissionBtn.Location = new System.Drawing.Point(247, 152);
+            this.saveMissionBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.saveMissionBtn.Location = new System.Drawing.Point(244, 152);
             this.saveMissionBtn.Margin = new System.Windows.Forms.Padding(4);
             this.saveMissionBtn.Name = "saveMissionBtn";
-            this.saveMissionBtn.Size = new System.Drawing.Size(447, 31);
+            this.saveMissionBtn.Size = new System.Drawing.Size(225, 31);
             this.saveMissionBtn.TabIndex = 28;
             this.saveMissionBtn.Text = "Save Mission";
             this.saveMissionBtn.UseVisualStyleBackColor = true;
@@ -1975,7 +2026,12 @@
             // graphEditor
             // 
             this.graphEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.graphEditor.Controls.Add(this.autoModeTeleportCb);
+            this.graphEditor.Controls.Add(this.stopTraversingNodesBtn);
+            this.graphEditor.Controls.Add(this.manualTeleportGraphCb);
+            this.graphEditor.Controls.Add(this.manualTeleportNodeCb);
+            this.graphEditor.Controls.Add(this.autoTeleportGraphCb);
+            this.graphEditor.Controls.Add(this.teleportToGraphBtn);
+            this.graphEditor.Controls.Add(this.autoTeleportNodeCb);
             this.graphEditor.Controls.Add(this.viewPortEnableCb);
             this.graphEditor.Controls.Add(this.teleportToNodeBtn);
             this.graphEditor.Controls.Add(this.nodeIdMetreCb);
@@ -2004,23 +2060,95 @@
             this.graphEditor.TabIndex = 9;
             this.graphEditor.Text = "Graph Editor";
             // 
-            // autoModeTeleportCb
+            // stopTraversingNodesBtn
             // 
-            this.autoModeTeleportCb.AutoSize = true;
-            this.autoModeTeleportCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoModeTeleportCb.Location = new System.Drawing.Point(703, 280);
-            this.autoModeTeleportCb.Margin = new System.Windows.Forms.Padding(4);
-            this.autoModeTeleportCb.Name = "autoModeTeleportCb";
-            this.autoModeTeleportCb.Size = new System.Drawing.Size(117, 23);
-            this.autoModeTeleportCb.TabIndex = 74;
-            this.autoModeTeleportCb.Text = "Auto - Mode";
-            this.autoModeTeleportCb.UseVisualStyleBackColor = true;
+            this.stopTraversingNodesBtn.Enabled = false;
+            this.stopTraversingNodesBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.stopTraversingNodesBtn.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stopTraversingNodesBtn.ForeColor = System.Drawing.Color.Tomato;
+            this.stopTraversingNodesBtn.Location = new System.Drawing.Point(636, 256);
+            this.stopTraversingNodesBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.stopTraversingNodesBtn.Name = "stopTraversingNodesBtn";
+            this.stopTraversingNodesBtn.Size = new System.Drawing.Size(147, 41);
+            this.stopTraversingNodesBtn.TabIndex = 79;
+            this.stopTraversingNodesBtn.Text = "Stop Traversing";
+            this.stopTraversingNodesBtn.UseVisualStyleBackColor = true;
+            this.stopTraversingNodesBtn.Click += new System.EventHandler(this.stopTraversingNodesBtn_Click);
+            // 
+            // manualTeleportGraphCb
+            // 
+            this.manualTeleportGraphCb.AutoSize = true;
+            this.manualTeleportGraphCb.Checked = true;
+            this.manualTeleportGraphCb.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.manualTeleportGraphCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.manualTeleportGraphCb.Location = new System.Drawing.Point(51, 305);
+            this.manualTeleportGraphCb.Margin = new System.Windows.Forms.Padding(4);
+            this.manualTeleportGraphCb.Name = "manualTeleportGraphCb";
+            this.manualTeleportGraphCb.Size = new System.Drawing.Size(139, 23);
+            this.manualTeleportGraphCb.TabIndex = 78;
+            this.manualTeleportGraphCb.Text = "Manual - Mode";
+            this.manualTeleportGraphCb.UseVisualStyleBackColor = true;
+            this.manualTeleportGraphCb.CheckedChanged += new System.EventHandler(this.manualTeleportGraphCb_CheckedChanged);
+            // 
+            // manualTeleportNodeCb
+            // 
+            this.manualTeleportNodeCb.AutoSize = true;
+            this.manualTeleportNodeCb.Checked = true;
+            this.manualTeleportNodeCb.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.manualTeleportNodeCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.manualTeleportNodeCb.Location = new System.Drawing.Point(337, 305);
+            this.manualTeleportNodeCb.Margin = new System.Windows.Forms.Padding(4);
+            this.manualTeleportNodeCb.Name = "manualTeleportNodeCb";
+            this.manualTeleportNodeCb.Size = new System.Drawing.Size(139, 23);
+            this.manualTeleportNodeCb.TabIndex = 77;
+            this.manualTeleportNodeCb.Text = "Manual - Mode";
+            this.manualTeleportNodeCb.UseVisualStyleBackColor = true;
+            this.manualTeleportNodeCb.CheckedChanged += new System.EventHandler(this.manualTeleportNodeCb_CheckedChanged);
+            // 
+            // autoTeleportGraphCb
+            // 
+            this.autoTeleportGraphCb.AutoSize = true;
+            this.autoTeleportGraphCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoTeleportGraphCb.Location = new System.Drawing.Point(201, 305);
+            this.autoTeleportGraphCb.Margin = new System.Windows.Forms.Padding(4);
+            this.autoTeleportGraphCb.Name = "autoTeleportGraphCb";
+            this.autoTeleportGraphCb.Size = new System.Drawing.Size(117, 23);
+            this.autoTeleportGraphCb.TabIndex = 76;
+            this.autoTeleportGraphCb.Text = "Auto - Mode";
+            this.autoTeleportGraphCb.UseVisualStyleBackColor = true;
+            this.autoTeleportGraphCb.CheckedChanged += new System.EventHandler(this.autoTeleportGraphCb_CheckedChanged);
+            // 
+            // teleportToGraphBtn
+            // 
+            this.teleportToGraphBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.teleportToGraphBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.teleportToGraphBtn.Location = new System.Drawing.Point(51, 256);
+            this.teleportToGraphBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.teleportToGraphBtn.Name = "teleportToGraphBtn";
+            this.teleportToGraphBtn.Size = new System.Drawing.Size(267, 41);
+            this.teleportToGraphBtn.TabIndex = 75;
+            this.teleportToGraphBtn.Text = "Teleport To Graph";
+            this.teleportToGraphBtn.UseVisualStyleBackColor = true;
+            this.teleportToGraphBtn.Click += new System.EventHandler(this.teleportToGraphBtn_Click);
+            // 
+            // autoTeleportNodeCb
+            // 
+            this.autoTeleportNodeCb.AutoSize = true;
+            this.autoTeleportNodeCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoTeleportNodeCb.Location = new System.Drawing.Point(487, 305);
+            this.autoTeleportNodeCb.Margin = new System.Windows.Forms.Padding(4);
+            this.autoTeleportNodeCb.Name = "autoTeleportNodeCb";
+            this.autoTeleportNodeCb.Size = new System.Drawing.Size(117, 23);
+            this.autoTeleportNodeCb.TabIndex = 74;
+            this.autoTeleportNodeCb.Text = "Auto - Mode";
+            this.autoTeleportNodeCb.UseVisualStyleBackColor = true;
+            this.autoTeleportNodeCb.CheckedChanged += new System.EventHandler(this.autoTeleportNodeCb_CheckedChanged);
             // 
             // viewPortEnableCb
             // 
             this.viewPortEnableCb.AutoSize = true;
             this.viewPortEnableCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewPortEnableCb.Location = new System.Drawing.Point(549, 280);
+            this.viewPortEnableCb.Location = new System.Drawing.Point(636, 305);
             this.viewPortEnableCb.Margin = new System.Windows.Forms.Padding(4);
             this.viewPortEnableCb.Name = "viewPortEnableCb";
             this.viewPortEnableCb.Size = new System.Drawing.Size(152, 23);
@@ -2033,7 +2161,7 @@
             // 
             this.teleportToNodeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.teleportToNodeBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.teleportToNodeBtn.Location = new System.Drawing.Point(549, 231);
+            this.teleportToNodeBtn.Location = new System.Drawing.Point(342, 256);
             this.teleportToNodeBtn.Margin = new System.Windows.Forms.Padding(4);
             this.teleportToNodeBtn.Name = "teleportToNodeBtn";
             this.teleportToNodeBtn.Size = new System.Drawing.Size(267, 41);
@@ -2046,7 +2174,7 @@
             // 
             this.nodeIdMetreCb.AutoSize = true;
             this.nodeIdMetreCb.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.nodeIdMetreCb.Location = new System.Drawing.Point(627, 183);
+            this.nodeIdMetreCb.Location = new System.Drawing.Point(678, 154);
             this.nodeIdMetreCb.Margin = new System.Windows.Forms.Padding(4);
             this.nodeIdMetreCb.Name = "nodeIdMetreCb";
             this.nodeIdMetreCb.Size = new System.Drawing.Size(76, 24);
@@ -2060,7 +2188,7 @@
             this.nodeIdOffsetCb.Checked = true;
             this.nodeIdOffsetCb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.nodeIdOffsetCb.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.nodeIdOffsetCb.Location = new System.Drawing.Point(549, 183);
+            this.nodeIdOffsetCb.Location = new System.Drawing.Point(595, 154);
             this.nodeIdOffsetCb.Margin = new System.Windows.Forms.Padding(4);
             this.nodeIdOffsetCb.Name = "nodeIdOffsetCb";
             this.nodeIdOffsetCb.Size = new System.Drawing.Size(75, 24);
@@ -2099,7 +2227,7 @@
             this.nodeCriteriaTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.nodeCriteriaTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.nodeCriteriaTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.nodeCriteriaTxt.Location = new System.Drawing.Point(275, 144);
+            this.nodeCriteriaTxt.Location = new System.Drawing.Point(275, 115);
             this.nodeCriteriaTxt.Margin = new System.Windows.Forms.Padding(4);
             this.nodeCriteriaTxt.Name = "nodeCriteriaTxt";
             this.nodeCriteriaTxt.ReadOnly = true;
@@ -2112,7 +2240,7 @@
             this.nodeZTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.nodeZTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.nodeZTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.nodeZTxt.Location = new System.Drawing.Point(989, 145);
+            this.nodeZTxt.Location = new System.Drawing.Point(989, 116);
             this.nodeZTxt.Margin = new System.Windows.Forms.Padding(4);
             this.nodeZTxt.Name = "nodeZTxt";
             this.nodeZTxt.Size = new System.Drawing.Size(120, 30);
@@ -2123,7 +2251,7 @@
             // 
             this.nodeZLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.nodeZLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.nodeZLbl.Location = new System.Drawing.Point(937, 142);
+            this.nodeZLbl.Location = new System.Drawing.Point(937, 113);
             this.nodeZLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.nodeZLbl.Name = "nodeZLbl";
             this.nodeZLbl.Size = new System.Drawing.Size(44, 33);
@@ -2137,7 +2265,7 @@
             this.nodeYTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.nodeYTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.nodeYTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.nodeYTxt.Location = new System.Drawing.Point(788, 145);
+            this.nodeYTxt.Location = new System.Drawing.Point(788, 116);
             this.nodeYTxt.Margin = new System.Windows.Forms.Padding(4);
             this.nodeYTxt.Name = "nodeYTxt";
             this.nodeYTxt.Size = new System.Drawing.Size(120, 30);
@@ -2148,7 +2276,7 @@
             // 
             this.nodeYLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.nodeYLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.nodeYLbl.Location = new System.Drawing.Point(736, 142);
+            this.nodeYLbl.Location = new System.Drawing.Point(736, 113);
             this.nodeYLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.nodeYLbl.Name = "nodeYLbl";
             this.nodeYLbl.Size = new System.Drawing.Size(44, 33);
@@ -2162,7 +2290,7 @@
             this.nodeXTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.nodeXTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.nodeXTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.nodeXTxt.Location = new System.Drawing.Point(597, 145);
+            this.nodeXTxt.Location = new System.Drawing.Point(597, 116);
             this.nodeXTxt.Margin = new System.Windows.Forms.Padding(4);
             this.nodeXTxt.Name = "nodeXTxt";
             this.nodeXTxt.Size = new System.Drawing.Size(120, 30);
@@ -2173,7 +2301,7 @@
             // 
             this.nodeXLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.nodeXLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.nodeXLbl.Location = new System.Drawing.Point(545, 142);
+            this.nodeXLbl.Location = new System.Drawing.Point(545, 113);
             this.nodeXLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.nodeXLbl.Name = "nodeXLbl";
             this.nodeXLbl.Size = new System.Drawing.Size(44, 33);
@@ -2185,7 +2313,7 @@
             // 
             this.showNodesBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.showNodesBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.showNodesBtn.Location = new System.Drawing.Point(842, 231);
+            this.showNodesBtn.Location = new System.Drawing.Point(842, 256);
             this.showNodesBtn.Margin = new System.Windows.Forms.Padding(4);
             this.showNodesBtn.Name = "showNodesBtn";
             this.showNodesBtn.Size = new System.Drawing.Size(267, 41);
@@ -2198,7 +2326,7 @@
             // 
             this.nodesHilight.AutoSize = true;
             this.nodesHilight.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nodesHilight.Location = new System.Drawing.Point(990, 280);
+            this.nodesHilight.Location = new System.Drawing.Point(990, 305);
             this.nodesHilight.Margin = new System.Windows.Forms.Padding(4);
             this.nodesHilight.Name = "nodesHilight";
             this.nodesHilight.Size = new System.Drawing.Size(129, 23);
@@ -2213,7 +2341,7 @@
             this.nodesObjectsCb.Checked = true;
             this.nodesObjectsCb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.nodesObjectsCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nodesObjectsCb.Location = new System.Drawing.Point(842, 280);
+            this.nodesObjectsCb.Location = new System.Drawing.Point(842, 305);
             this.nodesObjectsCb.Margin = new System.Windows.Forms.Padding(4);
             this.nodesObjectsCb.Name = "nodesObjectsCb";
             this.nodesObjectsCb.Size = new System.Drawing.Size(140, 23);
@@ -2229,7 +2357,7 @@
             this.nodeIdDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.nodeIdDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.nodeIdDD.FormattingEnabled = true;
-            this.nodeIdDD.Location = new System.Drawing.Point(181, 141);
+            this.nodeIdDD.Location = new System.Drawing.Point(177, 112);
             this.nodeIdDD.Name = "nodeIdDD";
             this.nodeIdDD.Size = new System.Drawing.Size(73, 29);
             this.nodeIdDD.TabIndex = 56;
@@ -2239,7 +2367,7 @@
             // 
             this.nodeIdLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.nodeIdLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.nodeIdLbl.Location = new System.Drawing.Point(8, 137);
+            this.nodeIdLbl.Location = new System.Drawing.Point(8, 108);
             this.nodeIdLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.nodeIdLbl.Name = "nodeIdLbl";
             this.nodeIdLbl.Size = new System.Drawing.Size(173, 33);
@@ -3063,19 +3191,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "IGI 1";
             // 
-            // removeAllAi
-            // 
-            this.removeAllAi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.removeAllAi.ForeColor = System.Drawing.Color.Tomato;
-            this.removeAllAi.Location = new System.Drawing.Point(455, 335);
-            this.removeAllAi.Margin = new System.Windows.Forms.Padding(4);
-            this.removeAllAi.Name = "removeAllAi";
-            this.removeAllAi.Size = new System.Drawing.Size(217, 31);
-            this.removeAllAi.TabIndex = 48;
-            this.removeAllAi.Text = "Remove all A.I";
-            this.removeAllAi.UseVisualStyleBackColor = true;
-            this.removeAllAi.Click += new System.EventHandler(this.removeAllAi_Click);
-            // 
             // IGIEditorUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -3094,9 +3209,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).EndInit();
             this.editorTabs.ResumeLayout(false);
             this.levelEditor.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).EndInit();
             this.objectEditor.ResumeLayout(false);
             this.objectEditor.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).EndInit();
             this.humanEditor.ResumeLayout(false);
             this.humanEditor.PerformLayout();
             this.aiEditor.ResumeLayout(false);
@@ -3158,13 +3273,10 @@
         private System.Windows.Forms.Button resetBuildingsBtn;
         private System.Windows.Forms.Button resetObjectsBtn;
         private System.Windows.Forms.Label objectIDLbl;
-        private System.Windows.Forms.PictureBox objectImgBox;
         private System.Windows.Forms.Button startGameBtn;
         private System.Windows.Forms.Button removeObjectBtn;
         private System.Windows.Forms.Button removeBuildingBtn;
-        private System.Windows.Forms.Label objectNameLbl;
         private System.Windows.Forms.Button addObjectBtn;
-        private System.Windows.Forms.Label buildingNameLbl;
         private System.Windows.Forms.Button addBuildingBtn;
         private System.Windows.Forms.Button resume3DEditorBtn;
         private System.Windows.Forms.Button start3DEditorBtn;
@@ -3323,12 +3435,22 @@
         private System.Windows.Forms.CheckBox nodeIdOffsetCb;
         private System.Windows.Forms.Button teleportToNodeBtn;
         private System.Windows.Forms.CheckBox viewPortEnableCb;
-        private System.Windows.Forms.CheckBox autoModeTeleportCb;
+        private System.Windows.Forms.CheckBox autoTeleportNodeCb;
         private System.Windows.Forms.Button addLevelFlowBtn;
         private System.Windows.Forms.TextBox missionPlayTimeTxt;
         private System.Windows.Forms.Label missionPlayTimeLbl;
         private System.Windows.Forms.CheckBox missionLevelFlowTimerCb;
         private System.Windows.Forms.Button removeAllAi;
+        private System.Windows.Forms.Button teleportToGraphBtn;
+        private System.Windows.Forms.CheckBox autoTeleportGraphCb;
+        private System.Windows.Forms.PictureBox objectImgBox;
+        private System.Windows.Forms.CheckBox manualTeleportGraphCb;
+        private System.Windows.Forms.CheckBox manualTeleportNodeCb;
+        private System.Windows.Forms.TextBox missionURLTxt;
+        private System.Windows.Forms.Button downloadMissionBtn;
+        private System.Windows.Forms.Label missionURLLbl;
+        private System.Windows.Forms.Button uploadMissionBtn;
+        private System.Windows.Forms.Button stopTraversingNodesBtn;
     }
 }
 

@@ -3,6 +3,7 @@ using DeviceId;
 using IWshRuntimeLibrary;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using QLibc;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,8 +46,9 @@ namespace IGIEditor
         internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 3;
         internal static string logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsMasterList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customAiPathFile = "ai_custom_path.qsc", customScriptFileQEd = @"\QEditor\AIFiles\ai_custom_script.qsc", customAiPathFileQEd = @"\QEditor\AIFiles\ai_custom_path.qsc", appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\";
         internal static bool logEnabled = false, keyExist = false, keyFileExist = false, mapViewerMode = false, customAiSelected = false, isEditorOnline = true, gameReset = false, appLogs = false;
-        internal static float appEditorVersion = 0.2f;
+        internal static float appEditorVersion = 0.2f,viewPortDelta = 10000.0f;
         internal static string supportDiscordLink = @"https://discord.gg/9T8tzyhvp6", supportYoutubeLink = @"https://www.youtube.com/channel/UChGryl0a0dii81NfDZ12LwA", supportVKLink = @"https://vk.com/id679925339";
+        internal static IntPtr viewPortAddrX = (IntPtr)0x00BCAB08, viewPortAddrY = (IntPtr)0x00BCAB10, viewPortAddrZ = (IntPtr)0x00BCAB18;
 
         internal static string gamePath, appdataPath, igiEditorQEdPath, appCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", qGraphs = "QGraphs", cfgFile, projAppName, cachePath, cachePathAppLogs, cachePathAppImages, currPathAppImages,
          igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", graphsPath, cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayer = "humanplayer.qvm", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalDllPath = @"bin\igi1ed.dat", tmpDllPath, internalDllInjectorPath = @"bin\igi1edInj.exe", PATH_SEC = "PATH", EDITOR_SEC = "EDITOR";
@@ -63,7 +65,7 @@ namespace IGIEditor
         internal static string aiEnenmyTask = null, aiFriendTask = null, levelFlowData, missionsListFile = "IGIMissionsList.txt", missionLevelFile = "mission_level.txt", missionDescFile = "mission_desc.txt", missionListFile = "MissionsList.txt";
         internal static double movSpeed = 1.75f, forwardSpeed = 17.5f, upwardSpeed = 27, inAirSpeed = 0.5f, peekCrouchLen = 0.8500000238418579f, peekLRLen = 0.8500000238418579f, peekTime = 0.25, healthScale = 3.0f, healthScaleFence = 0.5f;
         private static Random rand = new Random();
-        internal static IGIEditor.QIniParser qIniParser;
+        internal static QIniParser qIniParser;
         internal enum QTYPES { BUILDING = 1, RIGID_OBJ = 2 };
         internal static Dictionary<int, string> graphAreas = new Dictionary<int, string>();
 
@@ -543,16 +545,15 @@ namespace IGIEditor
             return strContent;
         }
 
-        internal static void WebDownload(string url, string fileName)
+        internal static void WebDownload(string url, string fileName,string destPath)
         {
             if (!isEditorOnline) return;
             try
             {
                 WebClient webClient = new WebClient();
                 webClient.DownloadFile(url, fileName);
-                if (!Directory.Exists(QUtils.cachePathAppImages))
-                    CreateCacheDir();
-                ShellExec("move /Y " + fileName + " " + QUtils.cachePathAppImages);
+                if (!Directory.Exists(destPath)) CreateCacheDir();
+                ShellExec("move /Y " + fileName + " " + destPath);
             }
             catch (Exception ex)
             {
@@ -1409,6 +1410,16 @@ namespace IGIEditor
             var isSendt = sendOnce.ToString().ToUpperInvariant();
             string statusMsgTask = "Task_New(" + taskId + ",\"StatusMessage\",\"StatusMsg\",0,0,0,0,0,0,\"" + varString + "\",\"" + statusMsg + "\",\"\"," + "\"message\"," + isSendt + "," + isCutscene + "," + statusDuration + ")" + terminator + "\n";
             return statusMsgTask;
+        }
+
+        internal static void UpdateViewPort(Real64 pos)
+        {
+            unsafe
+            {
+                GT.GT_WriteMemory(QUtils.viewPortAddrX, "double", pos.x.ToString());
+                GT.GT_WriteMemory(QUtils.viewPortAddrY, "double", pos.y.ToString());
+                GT.GT_WriteMemory(QUtils.viewPortAddrZ, "double", pos.z.ToString());
+            }
         }
 
         internal static void CleanUpAiFiles()

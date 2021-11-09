@@ -63,7 +63,7 @@ namespace IGIEditor
                 position = QHuman.GetHumanTaskList().qtask.position;
             }
             int boneHeirarchy = 1;
-            if (model == "015_01_1" || model == "012_01_1")
+            if (model == "015_01_1" || model == "012_01_1")//HumanSoldierFemale.
                 boneHeirarchy = GetBoneHeirarchy(model);
 
             return AddHumanSoldier(QUtils.qtaskId, "A.I", aiType, aiScriptId, graphId, position, angle, model, team, boneHeirarchy, -1, addWeapon, weapon, ammo, guardGenerator);

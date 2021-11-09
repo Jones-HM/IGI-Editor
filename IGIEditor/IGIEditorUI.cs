@@ -28,10 +28,11 @@ namespace IGIEditor
         string inputQvmPath, inputQscPath;
         private static int gameLevel = 1, graphId = 1, nodeId = 1;
         private Real64 graphPos, nodeRealPos;
+        private GraphNode graphNode;
+        int graphTotalNodes;
 
         static internal IGIEditorUI editorRef;
-        BackgroundWorker graphNodeWorker;
-        BackgroundWorker uiRefreshWorker;
+        BackgroundWorker addGraphNodeWorker, uiRefreshWorker, graphTraverseWorker, nodesTraverseWorker;
 
         //Main-Start - Ctr.
         public IGIEditorUI()
@@ -68,9 +69,16 @@ namespace IGIEditor
             fileCheckerTimer.Start();
 
             //Adding Background Worker threads
-            graphNodeWorker = uiRefreshWorker = new BackgroundWorker();
-            graphNodeWorker.DoWork += AddGraphNodes;
+            addGraphNodeWorker = new BackgroundWorker();
+            uiRefreshWorker = new BackgroundWorker();
+            graphTraverseWorker = new BackgroundWorker();
+            nodesTraverseWorker = new BackgroundWorker();
+
+            addGraphNodeWorker.DoWork += AddGraphNodes;
             uiRefreshWorker.DoWork += UpdateUIBackground;
+            graphTraverseWorker.DoWork += GraphTraverseBackground;
+            nodesTraverseWorker.DoWork += NodeTraverseBackground;
+            graphTraverseWorker.WorkerSupportsCancellation = nodesTraverseWorker.WorkerSupportsCancellation = true;
             //Disabling Errors and Warnings.
             GT.GT_SuppressErrors(true);
             GT.GT_SuppressWarnings(true);
@@ -146,6 +154,53 @@ namespace IGIEditor
             InitUIComponents(gameLevel);
         }
 
+        private void GraphTraverseBackground(object sender, DoWorkEventArgs e)
+        {
+            if (((BackgroundWorker)sender).CancellationPending && ((BackgroundWorker)sender).IsBusy)
+            {
+                e.Cancel = true;
+                return;
+            }
+            SetStatusText("Traversing Graphs now...");
+            foreach (var graph in aiGraphIdStr)
+            {
+                if (autoTeleportGraphCb.Checked)
+                {
+                    var graphPos = QGraphs.GetGraphPosition(graph);
+                    QUtils.UpdateViewPort(graphPos);
+                    Thread.Sleep(5000);
+                }
+                else break;
+            }
+        }
+
+        private void NodeTraverseBackground(object sender, DoWorkEventArgs e)
+        {
+            if (((BackgroundWorker)sender).CancellationPending && ((BackgroundWorker)sender).IsBusy)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            SetStatusText("Traversing Nodes now...");
+            foreach (var nodeId in QUtils.aiGraphNodeIdStr)
+            {
+                if (autoTeleportNodeCb.Checked)
+                {
+                    var graphNodeData = QGraphs.GetGraphNodeData(graphId, nodeId);
+                    //Get Node Real Position.
+                    var nodePos = new Real64();
+                    nodePos.x = graphPos.x + graphNodeData.NodePos.x;
+                    nodePos.y = graphPos.y + graphNodeData.NodePos.y;
+                    nodePos.z = graphPos.z + graphNodeData.NodePos.z + QUtils.viewPortDelta;
+
+                    QUtils.UpdateViewPort(nodePos);
+                    Thread.Sleep(5000);
+                }
+                else break;
+            }
+        }
+
         private void UpdateUIBackground(object sender, DoWorkEventArgs e)
         {
             RefreshUIComponents(gameLevel);
@@ -153,6 +208,12 @@ namespace IGIEditor
 
         private void AddGraphNodes(object sender, DoWorkEventArgs e)
         {
+            if (((BackgroundWorker)sender).CancellationPending && ((BackgroundWorker)sender).IsBusy)
+            {
+                e.Cancel = true;
+                return;
+            }
+
             string qscData = null;
             if (nodesObjectsCb.Checked)
             {
@@ -237,16 +298,19 @@ namespace IGIEditor
 
             foreach (var graphId in graphIdList)
             {
-                var nodesList = QGraphs.GetAllNodes4mGraph(graphId);
-                //Remove Cutscenes Graph.
-                if (nodesList != null)
-                {
-                    if (nodesList.Count > 1)
-                    {
-                        aiGraphIdStr.Add(graphId);
-                        if (initialInit) aiGraphIdDD.Items.Add(graphId);
-                    }
-                }
+                //var nodesList = QGraphs.GetAllNodes4mGraph(graphId);
+                aiGraphIdStr.Add(graphId);
+                if (initialInit) aiGraphIdDD.Items.Add(graphId);
+
+                ////Remove Cutscenes Graph.
+                //if (nodesList != null)
+                //{
+                //    if (nodesList.Count > 1)
+                //    {
+                //        aiGraphIdStr.Add(graphId);
+                //        if (initialInit) aiGraphIdDD.Items.Add(graphId);
+                //    }
+                //}
             }
 
             //Init Buildings list.
@@ -368,11 +432,20 @@ namespace IGIEditor
             QUtils.CreateGameShortcut();
 
         }
+        delegate void SetTextCallback(string text);
 
         internal void SetStatusText(string text)
         {
-            statusLbl.Text = null;
-            statusLbl.Text = text;
+            if (this.statusLbl.InvokeRequired)
+            {
+                var d = new SetTextCallback(SetStatusText);
+                this.Invoke(d, new object[] { text });
+            }
+            else
+            {
+                statusLbl.Text = null;
+                statusLbl.Text = text;
+            }
         }
 
         private static void ParseConfigProperty(string configPath, ref bool propertyName, string keyword)
@@ -429,7 +502,7 @@ namespace IGIEditor
             else
             {
                 var imgUrl = baseImgUrl + levelImgUrl[level - 1];
-                QUtils.WebDownload(imgUrl, imgPath);
+                QUtils.WebDownload(imgUrl, imgPath, QUtils.cachePathAppImages);
                 LoadImgBoxWeb(imgUrl, levelImgBox);
             }
         }
@@ -838,7 +911,7 @@ namespace IGIEditor
                 else
                 {
                     LoadImgBoxWeb(imgUrl, imgBox);
-                    QUtils.WebDownload(imgUrl, imgPath);
+                    QUtils.WebDownload(imgUrl, imgPath, QUtils.cachePathAppImages);
                 }
             }
             catch (Exception ex)
@@ -856,7 +929,7 @@ namespace IGIEditor
                         imgUrl = baseImgBBUrl + "Bz81WvR/SENTRY.jpg";
 
                     LoadImgBoxWeb(imgUrl, imgBox);
-                    QUtils.WebDownload(imgUrl, imgPath);
+                    QUtils.WebDownload(imgUrl, imgPath, QUtils.cachePathAppImages);
                 }
                 else
                     imgBox.Image = null;
@@ -1318,7 +1391,7 @@ namespace IGIEditor
                     SetStatusText("Downloading resource please wait...");
                     QUtils.AddLog("Downloading image resource: URL : " + imgUrl);
                     LoadImgBoxWeb(imgUrl, aiImgBox);
-                    QUtils.WebDownload(imgUrl, imgPath);
+                    QUtils.WebDownload(imgUrl, imgPath, QUtils.cachePathAppImages);
                 }
             }
             catch (Exception ex)
@@ -1411,13 +1484,13 @@ namespace IGIEditor
         private void tabContainer_Selecting(object sender, TabControlCancelEventArgs e)
         {
             //Disable Editor Tabs.
-//            if (e.TabPageIndex == 1 || e.TabPageIndex == 5 || e.TabPageIndex == 7)
-//            {
-//#if TESTING
-//                e.Cancel = false;
-//#else
-//                e.Cancel = true;
-//#endif
+            //            if (e.TabPageIndex == 1 || e.TabPageIndex == 5 || e.TabPageIndex == 7)
+            //            {
+            //#if TESTING
+            //                e.Cancel = false;
+            //#else
+            //                e.Cancel = true;
+            //#endif
             //}
 
         }
@@ -1525,7 +1598,7 @@ namespace IGIEditor
             if (nodesObjectsCb.Checked || nodesHilight.Checked)
             {
                 SetStatusText("Adding Nodes Visualisation....Please Wait");
-                graphNodeWorker.RunWorkerAsync();
+                addGraphNodeWorker.RunWorkerAsync();
             }
             else if (!nodesObjectsCb.Checked || !nodesHilight.Checked)
             {
@@ -1540,15 +1613,15 @@ namespace IGIEditor
             graphPos = QGraphs.GetGraphPosition(graphId);
 
             aiGraphNodeIdStr = QGraphs.GetNodesForGraph(graphId);
-            int totalNodes = aiGraphNodeIdStr.Count;
+            graphTotalNodes = aiGraphNodeIdStr.Count;
 
             //Update Graph Nodes.
             UpdateUIComponent(nodeIdDD, QUtils.aiGraphNodeIdStr);
 
             string graphArea = QGraphs.GetGraphArea(graphId);
             graphAreaLbl.Text = graphArea;
-            graphTotalNodesTxt.Text = totalNodes.ToString();
-            QUtils.AddLog("graphIdDD() GraphId : " + graphId + " GraphArea: " + graphArea + " TotalNodes: " + totalNodes);
+            graphTotalNodesTxt.Text = graphTotalNodes.ToString();
+            QUtils.AddLog("graphIdDD() GraphId : " + graphId + " GraphArea: " + graphArea + " TotalNodes: " + graphTotalNodes);
         }
 
         private void viewPortEnableCb_CheckedChanged(object sender, EventArgs e)
@@ -1571,30 +1644,35 @@ namespace IGIEditor
 
         private void addLevelFlowBtn_Click(object sender, EventArgs e)
         {
-            if (QUtils.anyaTeamTaskId == -1)
+            try
             {
-                QUtils.ShowError("You need to add objects (A.I/Buildings) to your custom level first");
-            }
-            else
-            {
-                if (String.IsNullOrEmpty(QUtils.levelFlowData))
+                if (QUtils.anyaTeamTaskId == -1)
                 {
-                    QUtils.ShowError("Mission levelflow data is empty. Couldn't add custom level");
-                    return;
+                    QUtils.ShowError("You need to add objects (A.I/Buildings) to your custom level first");
                 }
+                else
+                {
+                    if (String.IsNullOrEmpty(QUtils.levelFlowData)) throw new Exception("Mission levelflow data is empty. Couldn't add custom level");
 
-                float maxPlayTime = float.Parse(missionPlayTimeTxt.Text);
-                bool enableTimer = missionLevelFlowTimerCb.Checked;
+                    if (String.IsNullOrEmpty(missionPlayTimeTxt.Text)) throw new ArgumentNullException("Play time must be entered in correct format(Seconds).");
 
-                //Add Complete and Failed mission tasks.
-                string completeMissionTask = "StatusMessage_" + QUtils.ekkTeamTaskId + ".isSendt";
-                string failedMissionTask = "StatusMessage_" + QUtils.anyaTeamTaskId + ".isSendt";
+                    float maxPlayTime = float.Parse(missionPlayTimeTxt.Text);
+                    bool enableTimer = missionLevelFlowTimerCb.Checked;
 
-                var qscData = QUtils.LoadFile();
-                var levelFlowTask = QMission.AddLevelFlow(completeMissionTask, failedMissionTask, maxPlayTime, enableTimer);
-                qscData = qscData.Replace(QUtils.levelFlowData, levelFlowTask);
-                if (!String.IsNullOrEmpty(qscData))
-                    compileStatus = QCompiler.CompileEx(qscData);
+                    //Add Complete and Failed mission tasks.
+                    string completeMissionTask = "StatusMessage_" + QUtils.ekkTeamTaskId + ".isSendt";
+                    string failedMissionTask = "StatusMessage_" + QUtils.anyaTeamTaskId + ".isSendt";
+
+                    var qscData = QUtils.LoadFile();
+                    var levelFlowTask = QMission.AddLevelFlow(completeMissionTask, failedMissionTask, maxPlayTime, enableTimer);
+                    qscData = qscData.Replace(QUtils.levelFlowData, levelFlowTask);
+                    if (!String.IsNullOrEmpty(qscData))
+                        compileStatus = QCompiler.CompileEx(qscData);
+                }
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowError(ex.Message ?? ex.StackTrace);
             }
         }
 
@@ -1610,12 +1688,13 @@ namespace IGIEditor
                 fileDlg.DefaultExt = ".igimsf";
                 fileDlg.Multiselect = false;
                 fileDlg.CheckFileExists = fileDlg.RestoreDirectory = fileDlg.AddExtension = true;
+                string missionNamePath = null;
 
                 DialogResult resultDlg = fileDlg.ShowDialog();
                 if (resultDlg == DialogResult.OK)
                 {
-                    var fileName = fileDlg.FileName;
-                    missionName = Path.GetFileName(fileName);
+                    missionNamePath = fileDlg.FileName;
+                    missionName = Path.GetFileName(missionNamePath);
                 }
 
                 if (String.IsNullOrEmpty(missionName)) throw new ArgumentNullException("Mission name cannot be empty");
@@ -1628,12 +1707,12 @@ namespace IGIEditor
                     QUtils.ShowError("Mission '" + missionName + "' already exist in your missions directory");
                     return;
                 }
-                bool isValidMission = QZip.FilesExist(missionName, mFilesList);
-                isValidMission = QZip.FileExist(missionName, null, QUtils.qvmExt);
+                bool isValidMission = QZip.FilesExist(missionNamePath, mFilesList);
+                isValidMission = QZip.FileExist(missionNamePath, null, QUtils.qscExt);
 
                 if (!isValidMission) throw new Exception("Mission '" + missionName + "' is invalid mission file and cannot be installed");
 
-                File.Move(missionName, QUtils.qMissionsPath + @"\" + missionName);
+                File.Move(missionNamePath, QUtils.qMissionsPath + @"\" + missionName);
                 QUtils.ShowInfo("Mission '" + missionName + "' was installed successfully");
             }
             catch (Exception ex)
@@ -1766,7 +1845,7 @@ namespace IGIEditor
                     {
                         QUtils.ResetFile(missionLvl);
                         QUtils.RestoreLevel(missionLvl);
-                        QMemory.StartLevel(missionLvl,true);
+                        QMemory.StartLevel(missionLvl, true);
                         Thread.Sleep(10000);
                         levelSwitched = true;
                     }
@@ -1803,7 +1882,7 @@ namespace IGIEditor
 
                     if (!String.IsNullOrEmpty(qData)) compileStatus = QCompiler.CompileEx(qData);
 
-                    var aiFiles = Directory.GetFiles(missionPath, "*.qvm",SearchOption.AllDirectories);
+                    var aiFiles = Directory.GetFiles(missionPath, "*.qvm", SearchOption.AllDirectories);
                     var aiFilesCount = aiFiles.Length;
                     var missionsAiList = aiFiles.ToList();
 
@@ -1844,17 +1923,151 @@ namespace IGIEditor
             SetStatusText("All A.I soldiers were removed successfully.");
         }
 
+        private void teleportToGraphBtn_Click(object sender, EventArgs e)
+        {
+            if (!viewPortEnableCb.Checked) { QUtils.ShowWarning("ViewPort was not enabled yet."); viewPortEnableCb.Checked = true; }
+            //Graph Teleport section - MANUAL.
+            if (manualTeleportGraphCb.Checked) QUtils.UpdateViewPort(graphPos);
+
+            //Graph Teleport section - AUTO.
+            else if (autoTeleportGraphCb.Checked)
+            {
+                if (!graphTraverseWorker.IsBusy)
+                {
+                    SetStatusText("Graph traversing started...");
+                    graphTraverseWorker.RunWorkerAsync();
+                }
+            }
+        }
+
         private void teleportToNodeBtn_Click(object sender, EventArgs e)
         {
-            unsafe
-            {
-                IntPtr viewPortAddrX = (IntPtr)0x00BCAB08;
-                IntPtr viewPortAddrY = (IntPtr)viewPortAddrX.ToInt32() + 8;
-                IntPtr viewPortAddrZ = (IntPtr)viewPortAddrY.ToInt32() + 8;
+            if (!viewPortEnableCb.Checked) { QUtils.ShowWarning("ViewPort was not enabled yet."); viewPortEnableCb.Checked = true; }
 
-                GT.GT_WriteMemory(viewPortAddrX, "double", nodeRealPos.x.ToString());
-                GT.GT_WriteMemory(viewPortAddrY, "double", nodeRealPos.y.ToString());
-                GT.GT_WriteMemory(viewPortAddrZ, "double", nodeRealPos.z.ToString());
+            //Graph Teleport section - MANUAL.
+            if (manualTeleportNodeCb.Checked) QUtils.UpdateViewPort(nodeRealPos);
+
+            //Graph Teleport section - AUTO.
+            else if (autoTeleportNodeCb.Checked)
+            {
+                if (!nodesTraverseWorker.IsBusy)
+                {
+                    SetStatusText("Node traversing started...");
+                    nodesTraverseWorker.RunWorkerAsync();
+                }
+            }
+        }
+
+        private void objectSelectDD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
+            PopulateImageBox(objectRigidModel, objectImgBox);
+        }
+
+        private void buildingSelectDD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
+            PopulateImageBox(buildingModel, objectImgBox);
+        }
+
+        private void aiModelSelectDD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var aiModelName = QAI.GetAiModelNamesList(gameLevel)[aiModelSelectDD.SelectedIndex];
+            var aiModelId = QAI.GetAiModelIdForName(aiModelName);
+            PopulateImageBox(aiModelId, aiImgBox);
+        }
+
+        private void manualTeleportGraphCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                teleportToGraphBtn.Text = "Teleport To Graph";
+                stopTraversingNodesBtn.Enabled = false;
+                autoTeleportGraphCb.Checked = false;
+            }
+        }
+
+        private void autoTeleportGraphCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked) { 
+                stopTraversingNodesBtn.Enabled = true;
+                teleportToGraphBtn.Text = "Traverse Graphs";
+                manualTeleportGraphCb.Checked = false; }
+        }
+
+        private void manualTeleportNodeCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                teleportToNodeBtn.Text = "Teleport To Node";
+                stopTraversingNodesBtn.Enabled = false;
+                autoTeleportNodeCb.Checked = false;
+            }
+        }
+
+        private void stopTraversingNodesBtn_Click(object sender, EventArgs e)
+        {
+            if (graphTraverseWorker.IsBusy)
+            {
+                autoTeleportGraphCb.Checked = false;
+                graphTraverseWorker.CancelAsync();
+                SetStatusText("Graphs traversing canceled.");
+            }
+
+            if (nodesTraverseWorker.IsBusy)
+            {
+                autoTeleportNodeCb.Checked = false;
+                nodesTraverseWorker.CancelAsync();
+                SetStatusText("Nodes traversing canceled.");
+            }
+        }
+
+        private void autoTeleportNodeCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                stopTraversingNodesBtn.Enabled = true;
+                teleportToNodeBtn.Text = "Traverse Nodes";
+                manualTeleportNodeCb.Checked = false;
+            }
+        }
+
+        private void downloadMissionBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string missionUrl = missionURLTxt.Text;
+                if (String.IsNullOrEmpty(missionUrl)) throw new ArgumentNullException("Mission URL is invalid.");
+                string missionName = missionUrl.Substring(missionUrl.LastIndexOf("/") + 1);
+
+                if (!missionName.Contains(QUtils.missionExt)) throw new InvalidDataException("Mission file is invalid.");
+                QUtils.WebDownload(missionUrl, missionName, QUtils.qMissionsPath);
+                QUtils.ShowInfo("Mision '" + missionName + "' was download successfully.");
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
+        }
+
+        private void uploadMissionBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string missionName = missionNameTxt.Text;
+                if (String.IsNullOrEmpty(missionName)) throw new ArgumentNullException("Mission Name is invalid.");
+                string missionNamePath = QUtils.qMissionsPath + "\\" + missionName;
+
+                if (!File.Exists(missionNamePath)) throw new Exception("Mission '" + missionName + "' doesnt exist in your missions directory.");
+                using (var client = new WebClient())
+                {
+                    client.Credentials = new NetworkCredential("igiresearchdevs.eu5.org", "igi_research_dev");
+                    client.UploadFile("ftp://igiresearchdevs.eu5.org@igiresearchdevs.eu5.org/QMissions/", WebRequestMethods.Ftp.UploadFile, missionNamePath);
+                }
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowError(ex.Message ?? ex.StackTrace);
             }
         }
 
@@ -1862,30 +2075,29 @@ namespace IGIEditor
         {
             if (nodeIdDD.SelectedIndex == -1) nodeIdDD.SelectedIndex = 0;
             nodeId = QUtils.aiGraphNodeIdStr[nodeIdDD.SelectedIndex];
-            var node = QGraphs.GetGraphNodeData(graphId, nodeId);
+            graphNode = QGraphs.GetGraphNodeData(graphId, nodeId);
 
             //Setting Node properties.
-            nodeCriteriaTxt.Text = node.NodeCriteria;
+            nodeCriteriaTxt.Text = graphNode.NodeCriteria;
 
             if (nodeIdOffsetCb.Checked)
             {
-                nodeXTxt.Text = node.NodePos.x.ToString("0.0000");
-                nodeYTxt.Text = node.NodePos.y.ToString("0.0000");
-                nodeZTxt.Text = node.NodePos.z.ToString("0.0000");
+                nodeXTxt.Text = graphNode.NodePos.x.ToString("0.0000");
+                nodeYTxt.Text = graphNode.NodePos.y.ToString("0.0000");
+                nodeZTxt.Text = graphNode.NodePos.z.ToString("0.0000");
             }
             else
             {
-                nodeXTxt.Text = graphPos.x + node.NodePos.x.ToString("R");
-                nodeYTxt.Text = graphPos.y + node.NodePos.y.ToString("R");
-                nodeZTxt.Text = graphPos.z + node.NodePos.z.ToString("R");
+                nodeXTxt.Text = graphPos.x + graphNode.NodePos.x.ToString("R");
+                nodeYTxt.Text = graphPos.y + graphNode.NodePos.y.ToString("R");
+                nodeZTxt.Text = graphPos.z + graphNode.NodePos.z.ToString("R");
             }
 
             //Get Node Real Position.
             nodeRealPos = new Real64();
-            nodeRealPos.x = graphPos.x + node.NodePos.x;
-            nodeRealPos.y = graphPos.y + node.NodePos.y;
-            nodeRealPos.z = graphPos.z + node.NodePos.z;
-            if (autoModeTeleportCb.Checked) teleportToNodeBtn_Click(sender, e);
+            nodeRealPos.x = graphPos.x + graphNode.NodePos.x;
+            nodeRealPos.y = graphPos.y + graphNode.NodePos.y;
+            nodeRealPos.z = graphPos.z + graphNode.NodePos.z + QUtils.viewPortDelta;
         }
 
         private void appSupportBtn_Click(object sender, EventArgs e)
@@ -1931,7 +2143,7 @@ namespace IGIEditor
                 UpdateUIComponent(graphIdDD, QUtils.aiGraphIdStr);
                 UpdateUIComponent(nodeIdDD, QUtils.aiGraphNodeIdStr);
             }
-            catch (Exception ex){ }
+            catch (Exception ex) { }
         }
 
         //Generic Update UI method for DropDowns,TextBox etc.
@@ -2011,6 +2223,20 @@ namespace IGIEditor
                 case 14:
                     QUtils.aiScriptId = 754;
                     break;
+            }
+        }
+
+        internal void PopulateImageBox(string modelId, PictureBox imgBox)
+        {
+            var imgTmpPath = QUtils.cachePathAppImages + "\\" + modelId + QUtils.pngExt;
+
+            //Load image from Cache.
+            if (File.Exists(imgTmpPath))
+            {
+                using (var bmpTemp = new Bitmap(imgTmpPath))
+                {
+                    imgBox.Image = new Bitmap(bmpTemp);
+                }
             }
         }
 
