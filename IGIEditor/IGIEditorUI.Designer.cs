@@ -135,15 +135,18 @@
             this.weaponSelectDD = new System.Windows.Forms.ComboBox();
             this.weaponImgBox = new System.Windows.Forms.PictureBox();
             this.removeWeaponBtn = new System.Windows.Forms.Button();
-            this.label14 = new System.Windows.Forms.Label();
+            this.weaponNameLbl = new System.Windows.Forms.Label();
             this.addWeaponBtn = new System.Windows.Forms.Button();
             this.threeDEditor = new System.Windows.Forms.TabPage();
             this.resume3DEditorBtn = new System.Windows.Forms.Button();
             this.start3DEditorBtn = new System.Windows.Forms.Button();
             this.missionEditor = new System.Windows.Forms.TabPage();
+            this.missionLevelLbl = new System.Windows.Forms.Label();
+            this.missionAuthorLbl = new System.Windows.Forms.Label();
+            this.missionSizeLbl = new System.Windows.Forms.Label();
+            this.missionsOnlineDD = new System.Windows.Forms.ComboBox();
             this.uploadMissionBtn = new System.Windows.Forms.Button();
-            this.missionURLLbl = new System.Windows.Forms.Label();
-            this.missionURLTxt = new System.Windows.Forms.TextBox();
+            this.missionServerList = new System.Windows.Forms.Label();
             this.missionLevelFlowTimerCb = new System.Windows.Forms.CheckBox();
             this.missionPlayTimeLbl = new System.Windows.Forms.Label();
             this.addLevelFlowBtn = new System.Windows.Forms.Button();
@@ -209,11 +212,11 @@
             this.posCurrentCb = new System.Windows.Forms.CheckBox();
             this.posMeterCb = new System.Windows.Forms.CheckBox();
             this.posOffCb = new System.Windows.Forms.CheckBox();
-            this.zPosTxt_O = new System.Windows.Forms.TextBox();
+            this.zPosObjTxt = new System.Windows.Forms.TextBox();
             this.zPosLbl_O = new System.Windows.Forms.Label();
-            this.yPosTxt_O = new System.Windows.Forms.TextBox();
+            this.yPosObjTxt = new System.Windows.Forms.TextBox();
             this.yPosLbl_O = new System.Windows.Forms.Label();
-            this.xPosTxt_O = new System.Windows.Forms.TextBox();
+            this.xPosObjTxt = new System.Windows.Forms.TextBox();
             this.xPosLbl_O = new System.Windows.Forms.Label();
             this.updateObjPosition = new System.Windows.Forms.Button();
             this.miscTab = new System.Windows.Forms.TabPage();
@@ -241,6 +244,7 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
+            this.missionRefreshBtn = new System.Windows.Forms.Button();
             this.backPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -592,7 +596,6 @@
             this.editorTabs.Size = new System.Drawing.Size(1145, 421);
             this.editorTabs.TabIndex = 6;
             this.infoViewer.SetToolTip(this.editorTabs, "\r\n");
-            this.editorTabs.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabContainer_Selecting);
             this.editorTabs.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabContainer_Selected);
             // 
             // levelEditor
@@ -1661,7 +1664,7 @@
             this.weaponEditor.Controls.Add(this.weaponSelectDD);
             this.weaponEditor.Controls.Add(this.weaponImgBox);
             this.weaponEditor.Controls.Add(this.removeWeaponBtn);
-            this.weaponEditor.Controls.Add(this.label14);
+            this.weaponEditor.Controls.Add(this.weaponNameLbl);
             this.weaponEditor.Controls.Add(this.addWeaponBtn);
             this.weaponEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.weaponEditor.Location = new System.Drawing.Point(4, 30);
@@ -1693,7 +1696,7 @@
             this.weaponAmmolbl.Name = "weaponAmmolbl";
             this.weaponAmmolbl.Size = new System.Drawing.Size(173, 33);
             this.weaponAmmolbl.TabIndex = 31;
-            this.weaponAmmolbl.Text = "Weapon Ammo :";
+            this.weaponAmmolbl.Text = "Ammo :";
             this.weaponAmmolbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // weaponSelectDD
@@ -1724,7 +1727,7 @@
             // 
             this.removeWeaponBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeWeaponBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.removeWeaponBtn.Location = new System.Drawing.Point(856, 56);
+            this.removeWeaponBtn.Location = new System.Drawing.Point(918, 57);
             this.removeWeaponBtn.Margin = new System.Windows.Forms.Padding(4);
             this.removeWeaponBtn.Name = "removeWeaponBtn";
             this.removeWeaponBtn.Size = new System.Drawing.Size(211, 31);
@@ -1733,26 +1736,26 @@
             this.removeWeaponBtn.UseVisualStyleBackColor = true;
             this.removeWeaponBtn.Click += new System.EventHandler(this.removeWeaponBtn_Click);
             // 
-            // label14
+            // weaponNameLbl
             // 
-            this.label14.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.label14.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.label14.Location = new System.Drawing.Point(70, 55);
-            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(173, 33);
-            this.label14.TabIndex = 25;
-            this.label14.Text = "Weapon name :";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.weaponNameLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.weaponNameLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.weaponNameLbl.Location = new System.Drawing.Point(70, 55);
+            this.weaponNameLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.weaponNameLbl.Name = "weaponNameLbl";
+            this.weaponNameLbl.Size = new System.Drawing.Size(173, 33);
+            this.weaponNameLbl.TabIndex = 25;
+            this.weaponNameLbl.Text = "Weapon:";
+            this.weaponNameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // addWeaponBtn
             // 
             this.addWeaponBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addWeaponBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.addWeaponBtn.Location = new System.Drawing.Point(705, 56);
+            this.addWeaponBtn.Location = new System.Drawing.Point(699, 57);
             this.addWeaponBtn.Margin = new System.Windows.Forms.Padding(4);
             this.addWeaponBtn.Name = "addWeaponBtn";
-            this.addWeaponBtn.Size = new System.Drawing.Size(143, 31);
+            this.addWeaponBtn.Size = new System.Drawing.Size(211, 31);
             this.addWeaponBtn.TabIndex = 24;
             this.addWeaponBtn.Text = "Add Weapon";
             this.addWeaponBtn.UseVisualStyleBackColor = true;
@@ -1798,9 +1801,12 @@
             // missionEditor
             // 
             this.missionEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.missionEditor.Controls.Add(this.missionLevelLbl);
+            this.missionEditor.Controls.Add(this.missionAuthorLbl);
+            this.missionEditor.Controls.Add(this.missionSizeLbl);
+            this.missionEditor.Controls.Add(this.missionsOnlineDD);
             this.missionEditor.Controls.Add(this.uploadMissionBtn);
-            this.missionEditor.Controls.Add(this.missionURLLbl);
-            this.missionEditor.Controls.Add(this.missionURLTxt);
+            this.missionEditor.Controls.Add(this.missionServerList);
             this.missionEditor.Controls.Add(this.missionLevelFlowTimerCb);
             this.missionEditor.Controls.Add(this.missionPlayTimeLbl);
             this.missionEditor.Controls.Add(this.addLevelFlowBtn);
@@ -1808,6 +1814,7 @@
             this.missionEditor.Controls.Add(this.installMissionBtn);
             this.missionEditor.Controls.Add(this.missionDescTxt);
             this.missionEditor.Controls.Add(this.missionDescLbl);
+            this.missionEditor.Controls.Add(this.missionRefreshBtn);
             this.missionEditor.Controls.Add(this.removeMissionBtn);
             this.missionEditor.Controls.Add(this.missionPlayTimeTxt);
             this.missionEditor.Controls.Add(this.missionNameTxt);
@@ -1822,42 +1829,79 @@
             this.missionEditor.TabIndex = 4;
             this.missionEditor.Text = "Mission Editor";
             // 
+            // missionLevelLbl
+            // 
+            this.missionLevelLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.missionLevelLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.missionLevelLbl.Location = new System.Drawing.Point(397, 257);
+            this.missionLevelLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.missionLevelLbl.Name = "missionLevelLbl";
+            this.missionLevelLbl.Size = new System.Drawing.Size(104, 33);
+            this.missionLevelLbl.TabIndex = 81;
+            this.missionLevelLbl.Text = "Level:";
+            this.missionLevelLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // missionAuthorLbl
+            // 
+            this.missionAuthorLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.missionAuthorLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.missionAuthorLbl.Location = new System.Drawing.Point(522, 257);
+            this.missionAuthorLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.missionAuthorLbl.Name = "missionAuthorLbl";
+            this.missionAuthorLbl.Size = new System.Drawing.Size(258, 33);
+            this.missionAuthorLbl.TabIndex = 80;
+            this.missionAuthorLbl.Text = "Author: ";
+            this.missionAuthorLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // missionSizeLbl
+            // 
+            this.missionSizeLbl.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.missionSizeLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.missionSizeLbl.Location = new System.Drawing.Point(222, 257);
+            this.missionSizeLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.missionSizeLbl.Name = "missionSizeLbl";
+            this.missionSizeLbl.Size = new System.Drawing.Size(191, 33);
+            this.missionSizeLbl.TabIndex = 79;
+            this.missionSizeLbl.Text = "Size: ";
+            this.missionSizeLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // missionsOnlineDD
+            // 
+            this.missionsOnlineDD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.missionsOnlineDD.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.missionsOnlineDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.missionsOnlineDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.missionsOnlineDD.FormattingEnabled = true;
+            this.missionsOnlineDD.Location = new System.Drawing.Point(229, 215);
+            this.missionsOnlineDD.Name = "missionsOnlineDD";
+            this.missionsOnlineDD.Size = new System.Drawing.Size(447, 29);
+            this.missionsOnlineDD.TabIndex = 78;
+            this.missionsOnlineDD.SelectedIndexChanged += new System.EventHandler(this.missionsOnlineDD_SelectedIndexChanged);
+            // 
             // uploadMissionBtn
             // 
             this.uploadMissionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.uploadMissionBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.uploadMissionBtn.Location = new System.Drawing.Point(887, 215);
+            this.uploadMissionBtn.Location = new System.Drawing.Point(451, 329);
             this.uploadMissionBtn.Margin = new System.Windows.Forms.Padding(4);
             this.uploadMissionBtn.Name = "uploadMissionBtn";
-            this.uploadMissionBtn.Size = new System.Drawing.Size(145, 31);
+            this.uploadMissionBtn.Size = new System.Drawing.Size(225, 31);
             this.uploadMissionBtn.TabIndex = 77;
             this.uploadMissionBtn.Text = "Upload";
             this.uploadMissionBtn.UseVisualStyleBackColor = true;
             this.uploadMissionBtn.Click += new System.EventHandler(this.uploadMissionBtn_Click);
             // 
-            // missionURLLbl
+            // missionServerList
             // 
-            this.missionURLLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.missionURLLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.missionURLLbl.Location = new System.Drawing.Point(62, 213);
-            this.missionURLLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.missionURLLbl.Name = "missionURLLbl";
-            this.missionURLLbl.Size = new System.Drawing.Size(173, 33);
-            this.missionURLLbl.TabIndex = 76;
-            this.missionURLLbl.Text = "Mission URL:";
-            this.missionURLLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // missionURLTxt
-            // 
-            this.missionURLTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.missionURLTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.missionURLTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.missionURLTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.missionURLTxt.Location = new System.Drawing.Point(244, 216);
-            this.missionURLTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.missionURLTxt.Name = "missionURLTxt";
-            this.missionURLTxt.Size = new System.Drawing.Size(450, 30);
-            this.missionURLTxt.TabIndex = 75;
+            this.missionServerList.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.missionServerList.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.missionServerList.Location = new System.Drawing.Point(44, 211);
+            this.missionServerList.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.missionServerList.Name = "missionServerList";
+            this.missionServerList.Size = new System.Drawing.Size(173, 33);
+            this.missionServerList.TabIndex = 76;
+            this.missionServerList.Text = "Missions Online:";
+            this.missionServerList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // missionLevelFlowTimerCb
             // 
@@ -1865,7 +1909,7 @@
             this.missionLevelFlowTimerCb.Checked = true;
             this.missionLevelFlowTimerCb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.missionLevelFlowTimerCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.missionLevelFlowTimerCb.Location = new System.Drawing.Point(576, 315);
+            this.missionLevelFlowTimerCb.Location = new System.Drawing.Point(809, 357);
             this.missionLevelFlowTimerCb.Margin = new System.Windows.Forms.Padding(4);
             this.missionLevelFlowTimerCb.Name = "missionLevelFlowTimerCb";
             this.missionLevelFlowTimerCb.Size = new System.Drawing.Size(118, 23);
@@ -1877,24 +1921,24 @@
             // 
             this.missionPlayTimeLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.missionPlayTimeLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.missionPlayTimeLbl.Location = new System.Drawing.Point(23, 304);
+            this.missionPlayTimeLbl.Location = new System.Drawing.Point(805, 309);
             this.missionPlayTimeLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.missionPlayTimeLbl.Name = "missionPlayTimeLbl";
-            this.missionPlayTimeLbl.Size = new System.Drawing.Size(244, 33);
+            this.missionPlayTimeLbl.Size = new System.Drawing.Size(122, 33);
             this.missionPlayTimeLbl.TabIndex = 36;
-            this.missionPlayTimeLbl.Text = "Max Play Time(Seconds)";
+            this.missionPlayTimeLbl.Text = "Play Time";
             this.missionPlayTimeLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // addLevelFlowBtn
             // 
             this.addLevelFlowBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addLevelFlowBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.addLevelFlowBtn.Location = new System.Drawing.Point(730, 310);
+            this.addLevelFlowBtn.Location = new System.Drawing.Point(946, 347);
             this.addLevelFlowBtn.Margin = new System.Windows.Forms.Padding(4);
             this.addLevelFlowBtn.Name = "addLevelFlowBtn";
-            this.addLevelFlowBtn.Size = new System.Drawing.Size(210, 31);
+            this.addLevelFlowBtn.Size = new System.Drawing.Size(183, 31);
             this.addLevelFlowBtn.TabIndex = 35;
-            this.addLevelFlowBtn.Text = "Add Level Timer";
+            this.addLevelFlowBtn.Text = "Add Timer";
             this.addLevelFlowBtn.UseVisualStyleBackColor = true;
             this.addLevelFlowBtn.Click += new System.EventHandler(this.addLevelFlowBtn_Click);
             // 
@@ -1902,10 +1946,10 @@
             // 
             this.downloadMissionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.downloadMissionBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.downloadMissionBtn.Location = new System.Drawing.Point(730, 215);
+            this.downloadMissionBtn.Location = new System.Drawing.Point(229, 329);
             this.downloadMissionBtn.Margin = new System.Windows.Forms.Padding(4);
             this.downloadMissionBtn.Name = "downloadMissionBtn";
-            this.downloadMissionBtn.Size = new System.Drawing.Size(145, 31);
+            this.downloadMissionBtn.Size = new System.Drawing.Size(222, 31);
             this.downloadMissionBtn.TabIndex = 34;
             this.downloadMissionBtn.Text = "Download";
             this.downloadMissionBtn.UseVisualStyleBackColor = true;
@@ -1915,7 +1959,7 @@
             // 
             this.installMissionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.installMissionBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.installMissionBtn.Location = new System.Drawing.Point(730, 40);
+            this.installMissionBtn.Location = new System.Drawing.Point(712, 38);
             this.installMissionBtn.Margin = new System.Windows.Forms.Padding(4);
             this.installMissionBtn.Name = "installMissionBtn";
             this.installMissionBtn.Size = new System.Drawing.Size(210, 31);
@@ -1930,7 +1974,7 @@
             this.missionDescTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.missionDescTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.missionDescTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.missionDescTxt.Location = new System.Drawing.Point(244, 102);
+            this.missionDescTxt.Location = new System.Drawing.Point(226, 100);
             this.missionDescTxt.Margin = new System.Windows.Forms.Padding(4);
             this.missionDescTxt.Name = "missionDescTxt";
             this.missionDescTxt.Size = new System.Drawing.Size(450, 30);
@@ -1940,7 +1984,7 @@
             // 
             this.missionDescLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.missionDescLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.missionDescLbl.Location = new System.Drawing.Point(70, 101);
+            this.missionDescLbl.Location = new System.Drawing.Point(52, 99);
             this.missionDescLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.missionDescLbl.Name = "missionDescLbl";
             this.missionDescLbl.Size = new System.Drawing.Size(173, 33);
@@ -1952,7 +1996,7 @@
             // 
             this.removeMissionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeMissionBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.removeMissionBtn.Location = new System.Drawing.Point(730, 103);
+            this.removeMissionBtn.Location = new System.Drawing.Point(712, 101);
             this.removeMissionBtn.Margin = new System.Windows.Forms.Padding(4);
             this.removeMissionBtn.Name = "removeMissionBtn";
             this.removeMissionBtn.Size = new System.Drawing.Size(210, 31);
@@ -1967,11 +2011,12 @@
             this.missionPlayTimeTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.missionPlayTimeTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.missionPlayTimeTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.missionPlayTimeTxt.Location = new System.Drawing.Point(310, 308);
+            this.missionPlayTimeTxt.Location = new System.Drawing.Point(946, 309);
             this.missionPlayTimeTxt.Margin = new System.Windows.Forms.Padding(4);
             this.missionPlayTimeTxt.Name = "missionPlayTimeTxt";
-            this.missionPlayTimeTxt.Size = new System.Drawing.Size(196, 30);
+            this.missionPlayTimeTxt.Size = new System.Drawing.Size(183, 30);
             this.missionPlayTimeTxt.TabIndex = 30;
+            this.missionPlayTimeTxt.Text = "120";
             // 
             // missionNameTxt
             // 
@@ -1979,7 +2024,7 @@
             this.missionNameTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.missionNameTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.missionNameTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.missionNameTxt.Location = new System.Drawing.Point(244, 43);
+            this.missionNameTxt.Location = new System.Drawing.Point(226, 41);
             this.missionNameTxt.Margin = new System.Windows.Forms.Padding(4);
             this.missionNameTxt.Name = "missionNameTxt";
             this.missionNameTxt.Size = new System.Drawing.Size(450, 30);
@@ -1989,7 +2034,7 @@
             // 
             this.missionNameLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.missionNameLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.missionNameLbl.Location = new System.Drawing.Point(70, 42);
+            this.missionNameLbl.Location = new System.Drawing.Point(52, 40);
             this.missionNameLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.missionNameLbl.Name = "missionNameLbl";
             this.missionNameLbl.Size = new System.Drawing.Size(173, 33);
@@ -2000,8 +2045,8 @@
             // loadMissionBtn
             // 
             this.loadMissionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.loadMissionBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.loadMissionBtn.Location = new System.Drawing.Point(469, 152);
+            this.loadMissionBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.loadMissionBtn.Location = new System.Drawing.Point(451, 150);
             this.loadMissionBtn.Margin = new System.Windows.Forms.Padding(4);
             this.loadMissionBtn.Name = "loadMissionBtn";
             this.loadMissionBtn.Size = new System.Drawing.Size(225, 31);
@@ -2014,7 +2059,7 @@
             // 
             this.saveMissionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveMissionBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.saveMissionBtn.Location = new System.Drawing.Point(244, 152);
+            this.saveMissionBtn.Location = new System.Drawing.Point(226, 150);
             this.saveMissionBtn.Margin = new System.Windows.Forms.Padding(4);
             this.saveMissionBtn.Name = "saveMissionBtn";
             this.saveMissionBtn.Size = new System.Drawing.Size(225, 31);
@@ -2440,11 +2485,11 @@
             this.positionEditor.Controls.Add(this.posCurrentCb);
             this.positionEditor.Controls.Add(this.posMeterCb);
             this.positionEditor.Controls.Add(this.posOffCb);
-            this.positionEditor.Controls.Add(this.zPosTxt_O);
+            this.positionEditor.Controls.Add(this.zPosObjTxt);
             this.positionEditor.Controls.Add(this.zPosLbl_O);
-            this.positionEditor.Controls.Add(this.yPosTxt_O);
+            this.positionEditor.Controls.Add(this.yPosObjTxt);
             this.positionEditor.Controls.Add(this.yPosLbl_O);
-            this.positionEditor.Controls.Add(this.xPosTxt_O);
+            this.positionEditor.Controls.Add(this.xPosObjTxt);
             this.positionEditor.Controls.Add(this.xPosLbl_O);
             this.positionEditor.Controls.Add(this.updateObjPosition);
             this.positionEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
@@ -2777,18 +2822,18 @@
             this.posOffCb.UseVisualStyleBackColor = true;
             this.posOffCb.CheckedChanged += new System.EventHandler(this.posOffCb_CheckedChanged);
             // 
-            // zPosTxt_O
+            // zPosObjTxt
             // 
-            this.zPosTxt_O.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.zPosTxt_O.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.zPosTxt_O.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.zPosTxt_O.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.zPosTxt_O.Location = new System.Drawing.Point(691, 113);
-            this.zPosTxt_O.Margin = new System.Windows.Forms.Padding(4);
-            this.zPosTxt_O.Name = "zPosTxt_O";
-            this.zPosTxt_O.Size = new System.Drawing.Size(120, 30);
-            this.zPosTxt_O.TabIndex = 49;
-            this.zPosTxt_O.Text = "0";
+            this.zPosObjTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.zPosObjTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.zPosObjTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.zPosObjTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.zPosObjTxt.Location = new System.Drawing.Point(691, 113);
+            this.zPosObjTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.zPosObjTxt.Name = "zPosObjTxt";
+            this.zPosObjTxt.Size = new System.Drawing.Size(120, 30);
+            this.zPosObjTxt.TabIndex = 49;
+            this.zPosObjTxt.Text = "0";
             // 
             // zPosLbl_O
             // 
@@ -2802,18 +2847,18 @@
             this.zPosLbl_O.Text = "Z :";
             this.zPosLbl_O.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // yPosTxt_O
+            // yPosObjTxt
             // 
-            this.yPosTxt_O.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.yPosTxt_O.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.yPosTxt_O.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.yPosTxt_O.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.yPosTxt_O.Location = new System.Drawing.Point(426, 110);
-            this.yPosTxt_O.Margin = new System.Windows.Forms.Padding(4);
-            this.yPosTxt_O.Name = "yPosTxt_O";
-            this.yPosTxt_O.Size = new System.Drawing.Size(120, 30);
-            this.yPosTxt_O.TabIndex = 47;
-            this.yPosTxt_O.Text = "0";
+            this.yPosObjTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.yPosObjTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.yPosObjTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.yPosObjTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.yPosObjTxt.Location = new System.Drawing.Point(426, 110);
+            this.yPosObjTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.yPosObjTxt.Name = "yPosObjTxt";
+            this.yPosObjTxt.Size = new System.Drawing.Size(120, 30);
+            this.yPosObjTxt.TabIndex = 47;
+            this.yPosObjTxt.Text = "0";
             // 
             // yPosLbl_O
             // 
@@ -2827,18 +2872,18 @@
             this.yPosLbl_O.Text = "Y :";
             this.yPosLbl_O.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // xPosTxt_O
+            // xPosObjTxt
             // 
-            this.xPosTxt_O.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.xPosTxt_O.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.xPosTxt_O.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.xPosTxt_O.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.xPosTxt_O.Location = new System.Drawing.Point(174, 108);
-            this.xPosTxt_O.Margin = new System.Windows.Forms.Padding(4);
-            this.xPosTxt_O.Name = "xPosTxt_O";
-            this.xPosTxt_O.Size = new System.Drawing.Size(120, 30);
-            this.xPosTxt_O.TabIndex = 45;
-            this.xPosTxt_O.Text = "0";
+            this.xPosObjTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.xPosObjTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.xPosObjTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.xPosObjTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.xPosObjTxt.Location = new System.Drawing.Point(174, 108);
+            this.xPosObjTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.xPosObjTxt.Name = "xPosObjTxt";
+            this.xPosObjTxt.Size = new System.Drawing.Size(120, 30);
+            this.xPosObjTxt.TabIndex = 45;
+            this.xPosObjTxt.Text = "0";
             // 
             // xPosLbl_O
             // 
@@ -3191,6 +3236,19 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "IGI 1";
             // 
+            // missionRefreshBtn
+            // 
+            this.missionRefreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.missionRefreshBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.missionRefreshBtn.Location = new System.Drawing.Point(712, 211);
+            this.missionRefreshBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.missionRefreshBtn.Name = "missionRefreshBtn";
+            this.missionRefreshBtn.Size = new System.Drawing.Size(210, 31);
+            this.missionRefreshBtn.TabIndex = 28;
+            this.missionRefreshBtn.Text = "Refresh Missions";
+            this.missionRefreshBtn.UseVisualStyleBackColor = true;
+            this.missionRefreshBtn.Click += new System.EventHandler(this.missionRefreshBtn_Click);
+            // 
             // IGIEditorUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -3287,7 +3345,7 @@
         private System.Windows.Forms.Button resetAllLevelsBtn;
         private System.Windows.Forms.TabPage weaponEditor;
         private System.Windows.Forms.Button removeWeaponBtn;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label weaponNameLbl;
         private System.Windows.Forms.Button addWeaponBtn;
         private System.Windows.Forms.Label headerLbl;
         private System.Windows.Forms.Button installMissionBtn;
@@ -3335,11 +3393,11 @@
         private System.Windows.Forms.CheckBox posCurrentCb;
         private System.Windows.Forms.CheckBox posMeterCb;
         private System.Windows.Forms.CheckBox posOffCb;
-        private System.Windows.Forms.TextBox zPosTxt_O;
+        private System.Windows.Forms.TextBox zPosObjTxt;
         private System.Windows.Forms.Label zPosLbl_O;
-        private System.Windows.Forms.TextBox yPosTxt_O;
+        private System.Windows.Forms.TextBox yPosObjTxt;
         private System.Windows.Forms.Label yPosLbl_O;
-        private System.Windows.Forms.TextBox xPosTxt_O;
+        private System.Windows.Forms.TextBox xPosObjTxt;
         private System.Windows.Forms.Label xPosLbl_O;
         private System.Windows.Forms.Button updateObjPosition;
         private System.Windows.Forms.CheckBox humanPosMeterCb;
@@ -3446,11 +3504,15 @@
         private System.Windows.Forms.PictureBox objectImgBox;
         private System.Windows.Forms.CheckBox manualTeleportGraphCb;
         private System.Windows.Forms.CheckBox manualTeleportNodeCb;
-        private System.Windows.Forms.TextBox missionURLTxt;
         private System.Windows.Forms.Button downloadMissionBtn;
-        private System.Windows.Forms.Label missionURLLbl;
+        private System.Windows.Forms.Label missionServerList;
         private System.Windows.Forms.Button uploadMissionBtn;
         private System.Windows.Forms.Button stopTraversingNodesBtn;
+        private System.Windows.Forms.ComboBox missionsOnlineDD;
+        private System.Windows.Forms.Label missionAuthorLbl;
+        private System.Windows.Forms.Label missionSizeLbl;
+        private System.Windows.Forms.Label missionLevelLbl;
+        private System.Windows.Forms.Button missionRefreshBtn;
     }
 }
 

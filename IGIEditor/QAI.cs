@@ -71,19 +71,15 @@ namespace IGIEditor
 
         internal static string AddHumanSoldier(int taskId, string taskNote, string aiType, int aiScriptId, int graphId, Real64 position, float angle, string model, int team, int boneHeirachy, int standAnimation, bool addWeapon, string weapon, int ammo, bool guardGenerator)
         {
-
             //Add the A.I (Human soldier)
-            string humanSoldierType = (aiType == "AITYPE_ANYA" || aiType == "AITYPE_EKK") ? "HumanSoldierFemale" : "HumanSoldier";
+            string humanSoldierType = (model == "015_01_1" || model == "012_01_1") ? "HumanSoldierFemale" : "HumanSoldier";
             string qtaskSoldier = "\nTask_New(" + taskId + ",\"" + humanSoldierType + "\",\"" + taskNote + "\"," + position.x + "," + position.y + "," + position.z + "," + angle + ",\"" + model + "\"," + team + "," + boneHeirachy + "," + standAnimation + ",\n";
             QUtils.AddLog("AddHumanSoldier() called with Ai Type: '" + aiType + "' ID : " + taskId + "  HumanSoldier : " + taskNote + "\"," + position.x + "," + position.y + "," + position.z + "," + angle + ",\"" + model + "\"," + team + "," + boneHeirachy + "," + standAnimation + ",\n");
 
             //Add A.I type to status message.
-            if (team == 0)
-                QUtils.aiFriendTask += humanSoldierType + "_" + taskId + ".isDead && ";
+            if (team == 0) QUtils.aiFriendTask += humanSoldierType + "_" + taskId + ".isDead && ";
 
-            else
-                QUtils.aiEnenmyTask += humanSoldierType + "_" + taskId + ".isDead && ";
-
+            else QUtils.aiEnenmyTask += humanSoldierType + "_" + taskId + ".isDead && ";
 
             //Add the weapon.
             if (addWeapon)
@@ -95,7 +91,7 @@ namespace IGIEditor
             return qtaskSoldier;
         }
 
-        internal static string GuardGenerator(string taskNote = "AI Troops", int maxSpawn = 10)
+        internal static string GuardGenerator(string taskNote = "AI Army", int maxSpawn = 10)
         {
             string qTaskGuardGen = "Task_New(-1, \"GuardGenerator\",\"" + taskNote + "\"," + "\"!HumanPlayer_0.isDead\"," + maxSpawn + ",";
             return qTaskGuardGen;
@@ -364,7 +360,7 @@ namespace IGIEditor
 
             if (!String.IsNullOrEmpty(QUtils.aiFriendTask))
             {
-                var varStringFriendly = QUtils.aiFriendTask.ReplaceLast("&&", string.Empty);
+                var varStringFriendly = QUtils.aiFriendTask.ReplaceLast("&&", string.Empty).Trim();
 
                 var varStringSplit = QUtils.aiFriendTask.Replace("&&", "#").Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var varString in varStringSplit)
@@ -379,7 +375,7 @@ namespace IGIEditor
 
             if (!String.IsNullOrEmpty(QUtils.aiEnenmyTask))
             {
-                var varStringEnemy = QUtils.aiEnenmyTask.ReplaceLast("&&", string.Empty);
+                var varStringEnemy = QUtils.aiEnenmyTask.ReplaceLast("&&", string.Empty).Trim();
 
                 var varStringSplit = QUtils.aiEnenmyTask.Replace("&&", "#").Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var varString in varStringSplit)

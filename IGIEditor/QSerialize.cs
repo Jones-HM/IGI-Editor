@@ -83,6 +83,24 @@ namespace IGIEditor
             return deserializedByte;
         }
 
+        public static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
+        {
+            using (Stream stream = File.Open(filePath, append ? FileMode.Append : FileMode.Create))
+            {
+                var binaryFormatter = new BinaryFormatter();
+                binaryFormatter.Serialize(stream, objectToWrite);
+            }
+        }
+
+        public static T ReadFromBinaryFile<T>(string filePath)
+        {
+            using (Stream stream = File.Open(filePath, FileMode.Open))
+            {
+                var binaryFormatter = new BinaryFormatter();
+                return (T)binaryFormatter.Deserialize(stream);
+            }
+        }
+
         private static byte[] GetRgbKey(string fileName)
         {
             int fileLen = File.ReadAllBytes(fileName).Length;
@@ -105,7 +123,6 @@ namespace IGIEditor
             byte[] newData = File.ReadAllBytes(fileName).Skip(0).Take(fileLen - 16).ToArray();
             File.WriteAllBytes(fileName, newData);
         }
-
 
         private static void AppendAllBytes(string path, byte[] bytes)
         {

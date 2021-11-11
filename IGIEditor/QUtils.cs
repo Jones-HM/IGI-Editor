@@ -17,6 +17,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using static IGIEditor.QServer;
 using File = System.IO.File;
 
 namespace IGIEditor
@@ -45,8 +46,8 @@ namespace IGIEditor
         internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc";
         internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 3;
         internal static string logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsMasterList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customAiPathFile = "ai_custom_path.qsc", customScriptFileQEd = @"\QEditor\AIFiles\ai_custom_script.qsc", customAiPathFileQEd = @"\QEditor\AIFiles\ai_custom_path.qsc", appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\";
-        internal static bool logEnabled = false, keyExist = false, keyFileExist = false, mapViewerMode = false, customAiSelected = false, isEditorOnline = true, gameReset = false, appLogs = false;
-        internal static float appEditorVersion = 0.2f,viewPortDelta = 10000.0f;
+        internal static bool logEnabled = false, keyExist = false, keyFileExist = false, mapViewerMode = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false;
+        internal static float appEditorVersion = 0.3f, viewPortDelta = 10000.0f;
         internal static string supportDiscordLink = @"https://discord.gg/9T8tzyhvp6", supportYoutubeLink = @"https://www.youtube.com/channel/UChGryl0a0dii81NfDZ12LwA", supportVKLink = @"https://vk.com/id679925339";
         internal static IntPtr viewPortAddrX = (IntPtr)0x00BCAB08, viewPortAddrY = (IntPtr)0x00BCAB10, viewPortAddrZ = (IntPtr)0x00BCAB18;
 
@@ -62,7 +63,7 @@ namespace IGIEditor
         internal static string patroIdleMask = "xxxx", patroAlarmMask = "yyyy", alarmControlMask = "xx", gunnerIdMask = "xxx", viewGammaMask = "yyy";
         internal static string movementSpeedMask = "movSpeed", forwardSpeedMask = "forwardSpeed", upwardSpeedMask = "upSpeed", inAirSpeedMask = "iAirSpeed", throwBaseVelMask = "throwBaseVel", healthScaleMask = "healthScale", healthFenceMask = "healthFence", peekLeftRightLenMask = "peekLRLen", peekCrouchLenMask = "peekCrouchLen", peekTimeMask = "peekTime";
         internal static List<string> aiScriptFiles = new List<string>();
-        internal static string aiEnenmyTask = null, aiFriendTask = null, levelFlowData, missionsListFile = "IGIMissionsList.txt", missionLevelFile = "mission_level.txt", missionDescFile = "mission_desc.txt", missionListFile = "MissionsList.txt";
+        internal static string aiEnenmyTask = null, aiFriendTask = null, levelFlowData, missionsListFile = "IGIMissionsList.txt", missionLevelFile = "mission_level.txt", missionDescFile = "mission_desc.txt", missionListFile = @"\MissionsList.dat";
         internal static double movSpeed = 1.75f, forwardSpeed = 17.5f, upwardSpeed = 27, inAirSpeed = 0.5f, peekCrouchLen = 0.8500000238418579f, peekLRLen = 0.8500000238418579f, peekTime = 0.25, healthScale = 3.0f, healthScaleFence = 0.5f;
         private static Random rand = new Random();
         internal static QIniParser qIniParser;
@@ -76,9 +77,14 @@ namespace IGIEditor
         internal static List<string> buildingListStr = new List<string>();
         internal static List<string> objectRigidListStr = new List<string>();
         internal static List<string> aiModelsListStr = new List<string>();
+        internal static List<string> missionNameListStr = new List<string>();
         internal static List<int> aiGraphIdStr = new List<int>();
         internal static List<int> aiGraphNodeIdStr = new List<int>();
         internal static List<GraphNode> graphNodesList = new List<GraphNode>();
+
+        //Server data list.
+        internal static List<QServerData> qServerDataList = new List<QServerData>();
+        internal static List<QMissionsData> qServerMissionDataList = new List<QMissionsData>();
 
         //Weapons variables.
         internal static string weaponId = "WEAPON_ID_";
@@ -269,7 +275,7 @@ namespace IGIEditor
             //Write App properties to config.
             qIniParser.Write("game_reset", gameReset.ToString(), EDITOR_SEC);
             qIniParser.Write("app_logs", appLogs.ToString(), EDITOR_SEC);
-            qIniParser.Write("app_online", isEditorOnline.ToString(), EDITOR_SEC);
+            qIniParser.Write("app_online", editorOnline.ToString(), EDITOR_SEC);
 
             if (!gameFound) Environment.Exit(1);
         }
@@ -303,7 +309,7 @@ namespace IGIEditor
 
                     QUtils.appLogs = bool.Parse(qIniParser.Read("app_logs", EDITOR_SEC));
                     QUtils.gameReset = bool.Parse(qIniParser.Read("game_reset", EDITOR_SEC));
-                    QUtils.isEditorOnline = bool.Parse(qIniParser.Read("app_online", EDITOR_SEC));
+                    QUtils.editorOnline = bool.Parse(qIniParser.Read("app_online", EDITOR_SEC));
                 }
                 else
                 {
@@ -400,7 +406,7 @@ namespace IGIEditor
             if (!Directory.Exists(QCompiler.compilePath + @"\input") || !Directory.Exists(QCompiler.compilePath + @"\output") &&
             !Directory.Exists(QCompiler.decompilePath + @"\input") || !Directory.Exists(QCompiler.decompilePath + @"\output"))
             {
-                ShowSystemFatalError("IGI QEditor directory has illegal structure");
+                ShowSystemFatalError("IGI QEditor directory has illegal structure.\nInstall new copy of editor again and try again.");
             }
         }
 
@@ -426,6 +432,7 @@ namespace IGIEditor
             cachePathAppLogs = cachePath + @"\AppLogs";
             cachePathAppImages = cachePath + @"\AppImages";
             currPathAppImages = appCurrPath + @"\AppImages";
+            missionListFile = cachePath + missionListFile;
 
             //Init QEditor - QFiles.
             if (Directory.Exists(qEditor) && !Directory.Exists(igiEditorQEdPath))
@@ -545,9 +552,9 @@ namespace IGIEditor
             return strContent;
         }
 
-        internal static void WebDownload(string url, string fileName,string destPath)
+        internal static void WebDownload(string url, string fileName, string destPath)
         {
-            if (!isEditorOnline) return;
+            if (!editorOnline) return;
             try
             {
                 WebClient webClient = new WebClient();
@@ -581,8 +588,8 @@ namespace IGIEditor
                 }
 
                 //Enable NoClip and remove Bino.
-                QLibc.GT.GT_WriteNOP(noClipAddr, 3);
-                QLibc.GT.GT_WriteNOP(binoAddr, 10);
+                GT.GT_WriteNOP(noClipAddr, 3);
+                GT.GT_WriteNOP(binoAddr, 10);
 
                 //Add Map objects info.
                 float areaVal = 50000.0f;
@@ -592,7 +599,7 @@ namespace IGIEditor
                     QCompiler.CompileEx(qscData);
 
                 ShowInfo("MapViewer mode enabled - Use Binoculars to use MapView");
-                QLibc.GT.GT_SendKeys2Process(QMemory.gameName, QLibc.GT.VK.TAB);
+                GT.GT_SendKeys2Process(QMemory.gameName, GT.VK.TAB);
             }
 
             else
@@ -604,8 +611,8 @@ namespace IGIEditor
                 uint noClipOpsLen = (uint)noClipOps.Length;
 
                 //Inject Shell for Editor mode.
-                QLibc.GT.GT_InjectShell(binoAddr, binoOps, binoOpsLen, 0, QLibc.GT.GT_SHELL.GT_ORIGINAL_SHELL, QLibc.GT.GT_OPCODE.GT_OP_SHORT_JUMP);
-                QLibc.GT.GT_InjectShell(noClipAddr, noClipOps, noClipOpsLen, 0, QLibc.GT.GT_SHELL.GT_ORIGINAL_SHELL, QLibc.GT.GT_OPCODE.GT_OP_SHORT_JUMP);
+                GT.GT_InjectShell(binoAddr, binoOps, binoOpsLen, 0, GT.GT_SHELL.GT_ORIGINAL_SHELL, GT.GT_OPCODE.GT_OP_SHORT_JUMP);
+                GT.GT_InjectShell(noClipAddr, noClipOps, noClipOpsLen, 0, GT.GT_SHELL.GT_ORIGINAL_SHELL, GT.GT_OPCODE.GT_OP_SHORT_JUMP);
 
                 bool idleStatus = SetAIEventIdle(false);
                 if (idleStatus)
@@ -695,7 +702,7 @@ namespace IGIEditor
 
         public static bool RegisterUser(string content)
         {
-            if (!isEditorOnline) { ShowSystemFatalError("Cannot register new user,Check your internet connection."); return false; }
+            if (!editorOnline) { ShowSystemFatalError("Cannot register new user,Check your internet connection."); return false; }
             string id = 67141.ToString() + Reverse("be14c82cfbe782a") + "94a965e45a3c";
 
             string description = "IGI 1 Editor Users information", targetFilename = "IGI1Editor_Users.xml";

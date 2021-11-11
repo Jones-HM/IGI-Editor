@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Web;
 using System.Windows.Forms;
 using UXLib.UX;
 using static IGIEditor.QUtils;
@@ -18,21 +19,22 @@ namespace IGIEditor
 {
     public partial class IGIEditorUI : Form
     {
-        bool compileStatus = true;
-        List<QUtils.QTask> qtaskList = new List<QUtils.QTask>();
-        int buildingsCount = 0, rigidObjCount = 0;
         //Variables section.
-        static bool gameFound = false, isBuildingDD = false, isObjectDD = true;
-        static string model3d, blenderModel;
+        private bool compileStatus = true;
+        private List<QUtils.QTask> qtaskList = new List<QUtils.QTask>();
+        private int buildingsCount = 0, rigidObjCount = 0;
+        private static bool gameFound = false, isBuildingDD = false, isObjectDD = true;
+        private static string model3d, blenderModel;
         private static int randPosOffset = 0, posOffset = 3000;
         string inputQvmPath, inputQscPath;
         private static int gameLevel = 1, graphId = 1, nodeId = 1;
         private Real64 graphPos, nodeRealPos;
         private GraphNode graphNode;
-        int graphTotalNodes;
+        private int graphTotalNodes;
+        private QServer.QMissionsData missionData;
 
         static internal IGIEditorUI editorRef;
-        BackgroundWorker addGraphNodeWorker, uiRefreshWorker, graphTraverseWorker, nodesTraverseWorker;
+        BackgroundWorker addGraphNodeWorker, uiRefreshWorker, graphTraverseWorker, nodesTraverseWorker, downloadWorker, uploadWorker;
 
         //Main-Start - Ctr.
         public IGIEditorUI()
@@ -61,7 +63,7 @@ namespace IGIEditor
             //Start Position timer.
             editorPosTimer.Tick += new EventHandler(UpdatePositionTimer);
             editorPosTimer.Interval = 500;
-            editorPosTimer.Start();
+            // editorPosTimer.Start();
 
             //Start File Integrity timer.
             fileCheckerTimer.Tick += new EventHandler(FileIntegrityCheckerTimer);
@@ -73,12 +75,18 @@ namespace IGIEditor
             uiRefreshWorker = new BackgroundWorker();
             graphTraverseWorker = new BackgroundWorker();
             nodesTraverseWorker = new BackgroundWorker();
+            downloadWorker = new BackgroundWorker();
+            uploadWorker = new BackgroundWorker();
 
-            addGraphNodeWorker.DoWork += AddGraphNodes;
+            addGraphNodeWorker.DoWork += AddGraphNodesBackground;
             uiRefreshWorker.DoWork += UpdateUIBackground;
             graphTraverseWorker.DoWork += GraphTraverseBackground;
             nodesTraverseWorker.DoWork += NodeTraverseBackground;
+            downloadWorker.DoWork += DownloadBackground;
+            uploadWorker.DoWork += UploadBackground;
+
             graphTraverseWorker.WorkerSupportsCancellation = nodesTraverseWorker.WorkerSupportsCancellation = true;
+
             //Disabling Errors and Warnings.
             GT.GT_SuppressErrors(true);
             GT.GT_SuppressWarnings(true);
@@ -154,6 +162,70 @@ namespace IGIEditor
             InitUIComponents(gameLevel);
         }
 
+        private void UploadBackground(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                OpenFileDialog fileDlg = new OpenFileDialog();
+                fileDlg.Filter = "IGI 1 Mission files (*.igimsf)|*.igimsf|All files (*.*)|*.*";
+                fileDlg.RestoreDirectory = true;
+                fileDlg.Title = "Select IGI Mission file";
+                fileDlg.DefaultExt = ".igimsf";
+                fileDlg.Multiselect = false;
+                fileDlg.CheckFileExists = fileDlg.RestoreDirectory = fileDlg.AddExtension = true;
+                string missionNamePath = null, missionName = null;
+
+                DialogResult resultDlg = DialogResult.OK;
+                Invoke((Action)(() => { resultDlg = fileDlg.ShowDialog(); }));
+
+                if (resultDlg == DialogResult.OK)
+                {
+                    SetStatusText("Mission Uploading...");
+                    missionNamePath = fileDlg.FileName;
+                    missionName = Path.GetFileName(missionNamePath);
+
+                    string missionUrl = "/" + QServer.serverBaseURL + QServer.missionDir + "/" + missionName;
+                    //ShowInfo("Mission Path: " + missionUrl + "\nmissionNamePath: " + missionNamePath);
+
+                    var missionAuthor = QUtils.GetCurrentUserName().Replace(" ", "-");
+                    var missionFullName = Path.GetFileNameWithoutExtension(missionName) + "@" + missionAuthor + "#" + gameLevel + missionExt;
+                    missionFullName = HttpUtility.UrlEncode(missionFullName);
+                    string missionUrlPath = "/" + QServer.missionDir + "/" + missionFullName;
+
+                    QUtils.AddLog("UploadMission(): Url: '" + missionUrl + "' file '" + missionNamePath + "'");
+                    var status = QServer.Upload(missionUrlPath, missionNamePath);
+                    if (status) SetStatusText("Mission was uploaded successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
+        }
+
+        private void DownloadBackground(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                SetStatusText("Mission Downloading...");
+                string missionUrl = QServer.serverBaseURL + QServer.missionDir;
+                string missionName = missionData.MissionName + "@" + missionData.MissionAuthor + "#" + missionData.MissionLevel;
+
+                string missionEscapeUri = HttpUtility.UrlEncode(missionName) + missionExt;
+                missionUrl = missionUrl + "/" + missionEscapeUri;
+                string missionNamePath = missionsOnlineDD.Text + missionExt;
+                string missionUrlPath = "/" + QServer.missionDir + "/" + missionEscapeUri;
+
+                QUtils.AddLog("DownloadMission(): Url: '" + missionUrl + "' file '" + missionNamePath + "'");
+                var status = QServer.Download(missionUrlPath, missionNamePath, QUtils.qMissionsPath);
+                if (status) SetStatusText("Mission was downloaded successfully.");
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowError(ex.Message ?? ex.StackTrace);
+            }
+        }
+
         private void GraphTraverseBackground(object sender, DoWorkEventArgs e)
         {
             if (((BackgroundWorker)sender).CancellationPending && ((BackgroundWorker)sender).IsBusy)
@@ -206,7 +278,7 @@ namespace IGIEditor
             RefreshUIComponents(gameLevel);
         }
 
-        private void AddGraphNodes(object sender, DoWorkEventArgs e)
+        private void AddGraphNodesBackground(object sender, DoWorkEventArgs e)
         {
             if (((BackgroundWorker)sender).CancellationPending && ((BackgroundWorker)sender).IsBusy)
             {
@@ -334,8 +406,39 @@ namespace IGIEditor
                     objectSelectDD.Items.Add(rigidObj.Keys.ElementAt(0));
                 }
             }
+            buildingSelectDD.SelectedIndex = objectSelectDD.SelectedIndex = aiGraphIdDD.SelectedIndex = 0;
 
-            buildingSelectDD.SelectedIndex = objectSelectDD.SelectedIndex = 0;
+            // Init Online Missions list.
+            InitMissionsOnline(initialInit,true,false);
+        }
+
+        internal void InitMissionsOnline(bool initialInit,bool useCache = true, bool showWarning = true)
+        {
+            //Init Online Missions list.
+            if (!QUtils.editorOnline)
+            {
+                if (showWarning) QUtils.ShowWarning("Editor is not in online mode to get missions list from server.");
+                downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = false;
+                return;
+            }
+
+            //if (missionNameListStr.Count == 0) return;
+
+            missionNameListStr.Clear();
+            List<QServer.QMissionsData> missionsData;
+            if (File.Exists(QUtils.missionListFile) && useCache)
+                missionsData = QSerialize.ReadFromBinaryFile<List<QServer.QMissionsData>>(QUtils.missionListFile);
+            else
+                missionsData = QServer.GetMissionsData(useCache);
+
+            foreach (var mission in missionsData)
+            {
+                missionNameListStr.Add(mission.MissionName);
+                if (initialInit) missionsOnlineDD.Items.Add(mission.MissionName);
+            }
+            if (!File.Exists(QUtils.missionListFile) || useCache) QSerialize.WriteToBinaryFile(QUtils.missionListFile, missionsData);
+            QUtils.qServerMissionDataList = missionsData;
+            missionsOnlineDD.SelectedIndex = 0;
         }
 
         private void InitApp()
@@ -357,14 +460,14 @@ namespace IGIEditor
             //Setting Options.
             appLogsCb.Checked = appLogs;
             autoResetCb.Checked = gameReset;
-            connectionCb.Checked = isEditorOnline;
+            connectionCb.Checked = editorOnline;
 
             bool initUser;
             //Check if user key exist.
             keyFileExist = File.Exists(keyFileAbsPath);
 
             //Initialize user info - Offline.
-            if (!isEditorOnline) initUser = true;
+            if (!editorOnline) initUser = true;
 
             //Initialize user info - Online.
             else initUser = QUtils.InitUserInfo();
@@ -389,7 +492,7 @@ namespace IGIEditor
                 inputKey = File.ReadAllText(keyFileAbsPath);
             }
 
-            if (!isEditorOnline) QUtils.keyExist = (inputKey == deviceKey);
+            if (!editorOnline) QUtils.keyExist = (inputKey == deviceKey);
 
             if (QUtils.keyFileExist && !QUtils.keyExist)
             {
@@ -538,10 +641,12 @@ namespace IGIEditor
                 var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
                 var buildingPos = QHuman.GetPositionInMeter();
                 bool hasOrientation = String.IsNullOrEmpty(alphaTxt.Text) && String.IsNullOrEmpty(betaTxt.Text) && String.IsNullOrEmpty(gammaTxt.Text);
-                AddObject(buildingModel, false, buildingPos, !hasOrientation);
-
-                if (compileStatus)
-                    SetStatusText("Buildiing " + buildingName + " added successfully");
+                if (buildingPos.x != 0.0f || buildingPos.y != 0.0f)
+                {
+                    AddObject(buildingModel, false, buildingPos, !hasOrientation);
+                    if (compileStatus) SetStatusText("Buildiing " + buildingName + " added successfully");
+                }
+                else SetStatusText("Error: Buildiing position is invalid.");
             }
             catch (Exception ex)
             {
@@ -588,17 +693,19 @@ namespace IGIEditor
                 var objectRigidName = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Keys.ElementAt(0);
                 var objectPos = QHuman.GetPositionInMeter();
                 bool hasOrientation = String.IsNullOrEmpty(alphaTxt.Text) && String.IsNullOrEmpty(betaTxt.Text) && String.IsNullOrEmpty(gammaTxt.Text);
-                AddObject(objectRigidModel, true, objectPos, !hasOrientation);
 
-                if (compileStatus)
-                    SetStatusText("Object " + objectRigidName + " added successfully");
+                if (objectPos.x != 0.0f || objectPos.y != 0.0f)
+                {
+                    AddObject(objectRigidModel, true, objectPos, !hasOrientation);
+                    if (compileStatus) SetStatusText("Object " + objectRigidName + " added successfully");
+                }
+                else SetStatusText("Error: Object position is invalid.");
+
             }
             catch (Exception ex)
             {
                 if (ex.Message.Contains("Index was out of range"))
-                {
-                    QUtils.ShowError("No Building or Object have been selected to perfom this operation");
-                }
+                    QUtils.ShowError("No Building or Object have been selected to perfom this operation.");
                 else
                     QUtils.ShowError(ex.Message ?? ex.StackTrace);
             }
@@ -649,7 +756,7 @@ namespace IGIEditor
         private void resetCurrentLevelBtn_Click(object sender, EventArgs e)
         {
             int level = QMemory.GetCurrentLevel();
-            if (level < 0 || level > 0xE) level = 1;
+            if (level < 0 || level > GAME_MAX_LEVEL) level = 1;
             QUtils.RestoreLevel(level);
             QUtils.ResetFile(level);
             QMemory.RestartLevel(true);
@@ -750,21 +857,21 @@ namespace IGIEditor
 
                 string model = isBuildingDD ? buildingModel : objectRigidModel;
 
-                Double xpos, ypos, zpos;
+                double xpos, ypos, zpos;
                 string qscData = null;
 
                 if (posCurrentCb.Checked)
                 {
                     var meterPos = QHuman.GetPositionInMeter();
 
-                    xPosTxt_O.Text = meterPos.x.ToString();
-                    yPosTxt_O.Text = meterPos.y.ToString();
-                    zPosTxt_O.Text = meterPos.z.ToString();
+                    xPosObjTxt.Text = meterPos.x.ToString();
+                    yPosObjTxt.Text = meterPos.y.ToString();
+                    zPosObjTxt.Text = meterPos.z.ToString();
                 }
 
-                xpos = Convert.ToDouble(xPosTxt_O.Text);
-                ypos = Convert.ToDouble(yPosTxt_O.Text);
-                zpos = Convert.ToDouble(zPosTxt_O.Text);
+                xpos = Convert.ToDouble(xPosObjTxt.Text);
+                ypos = Convert.ToDouble(yPosObjTxt.Text);
+                zpos = Convert.ToDouble(zPosObjTxt.Text);
 
                 var objectPos = new Real64(xpos, ypos, zpos);
                 if (posOffCb.Checked)
@@ -988,10 +1095,16 @@ namespace IGIEditor
 
         private void clearCacheBtn_Click(object sender, EventArgs e)
         {
-            if (Directory.Exists(QUtils.cachePath))
+            string cacheDlg = "Clearing cache will delete all resources/data application uses.\nDo you want to continue?";
+            var dlgResult = QUtils.ShowDialog(cacheDlg);
+
+            if (dlgResult == DialogResult.Yes)
             {
-                QUtils.DeleteWholeDir(QUtils.cachePath);
-                SetStatusText("Application cache cleared");
+                if (Directory.Exists(QUtils.cachePath))
+                {
+                    QUtils.DeleteWholeDir(QUtils.cachePath);
+                    SetStatusText("Application cache cleared.");
+                }
             }
         }
 
@@ -1090,6 +1203,13 @@ namespace IGIEditor
                 UpdateUIComponent(buildingPosDD, QUtils.buildingListStr);
                 UpdateUIComponent(objectPosDD, QUtils.objectRigidListStr);
             }
+
+            //MissionEditor Editor
+            if (e.TabPage.Name == "missionEditor")
+            {
+                //if (editorOnline) UpdateUIComponent(missionsOnlineDD, QUtils.missionNameListStr);
+            }
+
         }
 
         private void removeObjsBtn_Click(object sender, EventArgs e)
@@ -1436,7 +1556,6 @@ namespace IGIEditor
                 int aiCount = Convert.ToInt32(aiCountTxt.Text);
                 int maxSpawns = Convert.ToInt32(maxSpawnsTxt.Text);
 
-
                 //Set human A.I properties.
                 var humanAi = new HumanAi();
                 humanAi.model = aiModelId;
@@ -1471,28 +1590,13 @@ namespace IGIEditor
                     if (!String.IsNullOrEmpty(qscData))
                         compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, true, true); ;
 
-                    if (compileStatus)
-                        SetStatusText("AI " + aiModelName + " Added successfully");
+                    if (compileStatus) SetStatusText("AI " + aiModelName + " Added successfully");
                 }
             }
             catch (IndexOutOfRangeException ex)
             {
                 SetStatusText("A.I data cannot be empty.");
             }
-        }
-
-        private void tabContainer_Selecting(object sender, TabControlCancelEventArgs e)
-        {
-            //Disable Editor Tabs.
-            //            if (e.TabPageIndex == 1 || e.TabPageIndex == 5 || e.TabPageIndex == 7)
-            //            {
-            //#if TESTING
-            //                e.Cancel = false;
-            //#else
-            //                e.Cancel = true;
-            //#endif
-            //}
-
         }
 
         private void customAiCb_CheckedChanged(object sender, EventArgs e)
@@ -1519,28 +1623,34 @@ namespace IGIEditor
             {
                 if (QUtils.IsNetworkAvailable())
                 {
-                    isEditorOnline = true;
+                    editorOnline = true;
                     connectionCb.Text = "Online";
                     connectionCb.ForeColor = Color.Green;
                     registeredUsersLbl.Visible = true;
+                    downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = true;
                     registeredUsersLbl.Text = "Users: " + QUtils.GetRegisteredUsers();
+                    InitMissionsOnline(true);
+                    SetStatusText("Editor online mode enabled...");
                 }
                 else
                 {
-                    isEditorOnline = false;
+                    editorOnline = false;
                     connectionCb.Text = "Offline";
                     connectionCb.ForeColor = Color.Red;
                     registeredUsersLbl.Visible = false;
                     (((CheckBox)sender).Checked) = false;
+                    downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = false;
                     SetStatusText("Please check your internet connection.");
                 }
             }
             else
             {
-                isEditorOnline = false;
+                editorOnline = false;
                 connectionCb.Text = "Offline";
                 connectionCb.ForeColor = Color.Red;
                 registeredUsersLbl.Visible = false;
+                downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = false;
+                SetStatusText("Editor offline mode enabled...");
             }
         }
 
@@ -1684,7 +1794,7 @@ namespace IGIEditor
                 OpenFileDialog fileDlg = new OpenFileDialog();
                 fileDlg.Filter = "IGI 1 Mission files (*.igimsf)|*.igimsf|All files (*.*)|*.*";
                 fileDlg.RestoreDirectory = true;
-                fileDlg.Title = "Select MSF file";
+                fileDlg.Title = "Select IGI Mission file";
                 fileDlg.DefaultExt = ".igimsf";
                 fileDlg.Multiselect = false;
                 fileDlg.CheckFileExists = fileDlg.RestoreDirectory = fileDlg.AddExtension = true;
@@ -1695,25 +1805,26 @@ namespace IGIEditor
                 {
                     missionNamePath = fileDlg.FileName;
                     missionName = Path.GetFileName(missionNamePath);
+
+                    if (String.IsNullOrEmpty(missionName)) throw new ArgumentNullException("Mission name cannot be empty");
+
+                    //string missionNameExt = missionName + QUtils.missionExt;
+                    var mFilesList = new List<string>() { QUtils.missionLevelFile, QUtils.missionDescFile, QUtils.objectsQsc };
+
+                    if (File.Exists(QUtils.qMissionsPath + @"\" + missionName))
+                    {
+                        QUtils.ShowError("Mission '" + missionName + "' already exist in your missions directory");
+                        return;
+                    }
+                    bool isValidMission = QZip.FilesExist(missionNamePath, mFilesList);
+                    isValidMission = QZip.FileExist(missionNamePath, null, QUtils.qscExt);
+
+                    if (!isValidMission) throw new Exception("Mission '" + missionName + "' is invalid mission file and cannot be installed");
+
+                    File.Move(missionNamePath, QUtils.qMissionsPath + @"\" + missionName);
+                    QUtils.AddLog("InstallMission(): Mission '" + missionName + "' was installed.");
+                    SetStatusText("Mission '" + missionName + "' was installed.");
                 }
-
-                if (String.IsNullOrEmpty(missionName)) throw new ArgumentNullException("Mission name cannot be empty");
-
-                //string missionNameExt = missionName + QUtils.missionExt;
-                var mFilesList = new List<string>() { QUtils.missionLevelFile, QUtils.missionDescFile, QUtils.objectsQsc };
-
-                if (File.Exists(QUtils.qMissionsPath + @"\" + missionName))
-                {
-                    QUtils.ShowError("Mission '" + missionName + "' already exist in your missions directory");
-                    return;
-                }
-                bool isValidMission = QZip.FilesExist(missionNamePath, mFilesList);
-                isValidMission = QZip.FileExist(missionNamePath, null, QUtils.qscExt);
-
-                if (!isValidMission) throw new Exception("Mission '" + missionName + "' is invalid mission file and cannot be installed");
-
-                File.Move(missionNamePath, QUtils.qMissionsPath + @"\" + missionName);
-                QUtils.ShowInfo("Mission '" + missionName + "' was installed successfully");
             }
             catch (Exception ex)
             {
@@ -1772,9 +1883,6 @@ namespace IGIEditor
 
                 QZip.Create(missionName, QUtils.missionExt, true);
                 File.Move(missionNameExt, QUtils.qMissionsPath + @"\" + missionNameExt);
-
-                string missionListData = "Mission : " + missionName + "\t\tLevel : " + gameLevel + "\n";
-                File.AppendAllText(QUtils.missionsListFile, missionListData);
                 QUtils.ShowInfo("Mission '" + missionName + "' was saved successfully");
             }
             catch (Exception ex)
@@ -1787,7 +1895,7 @@ namespace IGIEditor
         {
             try
             {
-                var missionName = missionNameTxt.Text;
+                string missionName = null;
 
                 OpenFileDialog fileDlg = new OpenFileDialog();
                 fileDlg.Filter = "IGI 1 Mission files (*.igimsf)|*.igimsf|All files (*.*)|*.*";
@@ -1899,7 +2007,8 @@ namespace IGIEditor
                     QUtils.AddLog("LoadMission() Ai Script Id : " + aiScriptId);
 
                     QUtils.DeleteWholeDir(missionPath);
-                    QUtils.ShowInfo("Mission '" + missionName + "' was loaded successfully");
+                    missionNameTxt.Text = missionName;
+                    SetStatusText("Mission '" + missionName + "' was loaded.");
                 }
             }
             catch (Exception ex)
@@ -1989,10 +2098,12 @@ namespace IGIEditor
 
         private void autoTeleportGraphCb_CheckedChanged(object sender, EventArgs e)
         {
-            if (((CheckBox)sender).Checked) { 
+            if (((CheckBox)sender).Checked)
+            {
                 stopTraversingNodesBtn.Enabled = true;
                 teleportToGraphBtn.Text = "Traverse Graphs";
-                manualTeleportGraphCb.Checked = false; }
+                manualTeleportGraphCb.Checked = false;
+            }
         }
 
         private void manualTeleportNodeCb_CheckedChanged(object sender, EventArgs e)
@@ -2003,6 +2114,12 @@ namespace IGIEditor
                 stopTraversingNodesBtn.Enabled = false;
                 autoTeleportNodeCb.Checked = false;
             }
+        }
+
+        private void missionRefreshBtn_Click(object sender, EventArgs e)
+        {
+            InitMissionsOnline(true, false);
+            UpdateUIComponent(missionsOnlineDD,QUtils.missionNameListStr);
         }
 
         private void stopTraversingNodesBtn_Click(object sender, EventArgs e)
@@ -2022,6 +2139,25 @@ namespace IGIEditor
             }
         }
 
+        private void missionsOnlineDD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!QUtils.editorOnline)
+            {
+                QUtils.ShowWarning("Editor is not in online mode to get missions list from server.");
+                return;
+            }
+
+            if (QUtils.qServerMissionDataList.Count > 0)
+            {
+                int index = missionsOnlineDD.SelectedIndex;
+                missionData = QUtils.qServerMissionDataList[index];
+
+                missionSizeLbl.Text = "Size: " + missionData.MissionSize.ToString() + " Kb";
+                missionLevelLbl.Text = "Level: " + missionData.MissionLevel.ToString();
+                missionAuthorLbl.Text = "Author: " + missionData.MissionAuthor.ToString();
+            }
+        }
+
         private void autoTeleportNodeCb_CheckedChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)
@@ -2034,41 +2170,12 @@ namespace IGIEditor
 
         private void downloadMissionBtn_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string missionUrl = missionURLTxt.Text;
-                if (String.IsNullOrEmpty(missionUrl)) throw new ArgumentNullException("Mission URL is invalid.");
-                string missionName = missionUrl.Substring(missionUrl.LastIndexOf("/") + 1);
-
-                if (!missionName.Contains(QUtils.missionExt)) throw new InvalidDataException("Mission file is invalid.");
-                QUtils.WebDownload(missionUrl, missionName, QUtils.qMissionsPath);
-                QUtils.ShowInfo("Mision '" + missionName + "' was download successfully.");
-            }
-            catch (Exception ex)
-            {
-                QUtils.ShowError(ex.Message ?? ex.StackTrace);
-            }
+            downloadWorker.RunWorkerAsync();
         }
 
         private void uploadMissionBtn_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string missionName = missionNameTxt.Text;
-                if (String.IsNullOrEmpty(missionName)) throw new ArgumentNullException("Mission Name is invalid.");
-                string missionNamePath = QUtils.qMissionsPath + "\\" + missionName;
-
-                if (!File.Exists(missionNamePath)) throw new Exception("Mission '" + missionName + "' doesnt exist in your missions directory.");
-                using (var client = new WebClient())
-                {
-                    client.Credentials = new NetworkCredential("igiresearchdevs.eu5.org", "igi_research_dev");
-                    client.UploadFile("ftp://igiresearchdevs.eu5.org@igiresearchdevs.eu5.org/QMissions/", WebRequestMethods.Ftp.UploadFile, missionNamePath);
-                }
-            }
-            catch (Exception ex)
-            {
-                QUtils.ShowError(ex.Message ?? ex.StackTrace);
-            }
+            uploadWorker.RunWorkerAsync();
         }
 
         private void nodeIdDD_SelectedIndexChanged(object sender, EventArgs e)
@@ -2158,7 +2265,7 @@ namespace IGIEditor
 
         private static void LoadImgBoxWeb(string url, PictureBox imgBox)
         {
-            if (!isEditorOnline) { editorRef.SetStatusText("Resource error Check your internet connection."); return; }
+            if (!editorOnline) { editorRef.SetStatusText("Resource error Check your internet connection."); return; }
             try
             {
                 var request = WebRequest.Create(url);

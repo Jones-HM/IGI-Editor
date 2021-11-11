@@ -95,6 +95,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -138,6 +139,8 @@
     <Compile Include="IGIEditor\QFileInegrity.cs" />
     <Compile Include="IGIEditor\QIniParser.cs" />
     <Compile Include="IGIEditor\QUserInfo.cs" />
+    <Compile Include="IGIEditor\QFtpClient.cs" />
+    <Compile Include="QServer.cs" />
     <EmbeddedResource Include="IGIEditor\IGIEditorUI.resx">
       <DependentUpon>IGIEditorUI.cs</DependentUpon>
     </EmbeddedResource>

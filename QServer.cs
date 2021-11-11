@@ -1,0 +1,176 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IGIEditor
+{
+    [Serializable]
+    class QServer
+    {
+        internal static string serverBaseURL = @"ftp://igiresearchdevelopers.orgfree.com/";
+        internal static string missionDir = "QMissions";
+        internal static string graphsDir = "QGraphs";
+
+        internal struct QServerData
+        {
+            string persmission;
+            string ownerGroup;
+            string fileSize;
+            string fileName;
+
+            public QServerData(string persmission, string ownerGroup, string fileSize, string fileName)
+            {
+                this.persmission = persmission;
+                this.ownerGroup = ownerGroup;
+                this.fileSize = fileSize;
+                this.fileName = fileName;
+            }
+
+            public string FileName { get => fileName; set => fileName = value; }
+            public string FileSize { get => fileSize; set => fileSize = value; }
+            public string OwnerGroup { get => ownerGroup; set => ownerGroup = value; }
+            public string Persmission { get => persmission; set => persmission = value; }
+        }
+        [Serializable]
+        internal struct QMissionsData
+        {
+            string missionName;
+            float missionSize;
+            string missionAuthor;
+            int missionLevel;
+
+            public QMissionsData(string missionName, float missionSize, string missionAuthor, int missionLevel)
+            {
+                this.missionName = missionName;
+                this.missionSize = missionSize;
+                this.missionAuthor = missionAuthor;
+                this.missionLevel = missionLevel;
+            }
+
+            public string MissionName { get => missionName; set => missionName = value; }
+            public float MissionSize { get => missionSize; set => missionSize = value; }
+            public string MissionAuthor { get => missionAuthor; set => missionAuthor = value; }
+            public int MissionLevel { get => missionLevel; set => missionLevel = value; }
+        }
+
+        private static QFtpClient GetQFtpClient()
+        {
+            string qHash1, qHash2, qHashTmp;
+            qHash1 = qHashTmp = serverBaseURL.Slice(serverBaseURL.IndexOf("://") + 3, serverBaseURL.LastIndexOf(@"/"));
+            qHash2 = qHashTmp = qHash1.Substring(0, 3) + "#p@ro@z##" + "#.@@h###m@";
+            qHash2 = qHash2.Replace("@", String.Empty).Replace("#", String.Empty);
+            var qftpClient = new QFtpClient(serverBaseURL, qHash1, qHash2);
+            return qftpClient;
+        }
+
+        internal static bool Upload(string remoteFile, string localFile)
+        {
+            bool status = false;
+            try
+            {
+                var qftpClient = GetQFtpClient();
+                qftpClient.upload(remoteFile, localFile);
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowError(ex.Message ?? ex.StackTrace);
+                status = false;
+            }
+            return status;
+        }
+
+        internal static bool Download(string remoteFile, string localFile, string destPath)
+        {
+            bool status;
+            try
+            {
+                var qftpClient = GetQFtpClient();
+                qftpClient.download(remoteFile, localFile);
+                QUtils.ShellExec("move /Y " + localFile + " " + destPath);
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("File unavailable")) QUtils.ShowError("Mission file '" + localFile + "' was not found on server.");
+                else
+                    QUtils.ShowError(ex.Message ?? ex.StackTrace);
+                status = false;
+            }
+            return status;
+        }
+
+
+        private static List<QServerData> GetDirList(string dirName, bool useCache = false)
+        {
+            if (useCache)
+            {
+                if (QUtils.qServerDataList.Count > 0)
+                    return QUtils.qServerDataList;
+            }
+
+            var qftpClient = GetQFtpClient();
+            var dirs = qftpClient.directoryListDetailed(dirName);
+            var qServerData = new List<QServerData>();
+
+            foreach (var dir in dirs)
+            {
+                var qServer = new QServerData();
+                var dirData = dir.Split(' ');
+                int dirDataSize = dirData.Length;
+                try
+                {
+                    qServer.FileName = dirData[dirDataSize - 1].Contains(".igimsf") ? dirData[dirDataSize - 1] : dirData[dirDataSize - 1] + dirData[dirDataSize];
+                    if (dirName == missionDir && !qServer.FileName.Contains(".igimsf")) continue;
+                    qServer.Persmission = dirData[0];
+                    qServer.OwnerGroup = dirData[5];
+                    qServer.FileSize = dirData[19];
+                    qServerData.Add(qServer);
+                }
+                catch (Exception) { }
+            }
+            QUtils.qServerDataList = qServerData;
+            return qServerData;
+        }
+
+        internal static List<QMissionsData> GetMissionsData(bool useCache = false)
+        {
+            if (useCache)
+            {
+                if (QUtils.qServerMissionDataList.Count > 0)
+                {
+                    QUtils.AddLog("GetMissionsData() using cache method.");
+                    return QUtils.qServerMissionDataList;
+                }
+            }
+            QUtils.AddLog("GetMissionsData() using normal method.");
+
+            var missionsDataList = new List<QMissionsData>();
+            var dirList = GetDirList(missionDir, useCache);
+
+            foreach (var dir in dirList)
+            {
+                string dirFileName = dir.FileName;
+                string missionName = dirFileName.Slice(0, dirFileName.IndexOf("@"));
+                float missionSize = 0.0f;
+
+                if (!String.IsNullOrEmpty(dir.FileSize))
+                    missionSize = (float)Convert.ToInt32(dir.FileSize) / 1000;
+
+                string missionAuthor = dirFileName.Slice(dirFileName.IndexOf("@") + 1, dirFileName.IndexOf("#"));
+
+                string missionLevelStr = dirFileName.Slice(dirFileName.IndexOf("#") + 1, dirFileName.IndexOf("."));
+                int missionLevel = Convert.ToInt32(missionLevelStr);
+
+                var missionData = new QMissionsData(missionName, missionSize, missionAuthor, missionLevel);
+                missionsDataList.Add(missionData);
+
+            }
+            QUtils.qServerMissionDataList = missionsDataList;
+            return missionsDataList;
+        }
+
+    }
+}

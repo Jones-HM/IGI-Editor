@@ -162,9 +162,11 @@ namespace IGIEditor
                 //Set the human position.
                 var humanPos = QHuman.GetPositionInMeter();
                 var humanAngle = GetRealAngle();
-                string qscData = QHuman.UpdatePositionInMeter(humanPos, humanAngle);
-                if (!String.IsNullOrEmpty(qscData))
-                    QCompiler.Compile(qscData, QUtils.gamePath);
+                if (humanPos.x != 0.0f || humanPos.y != 0.0f)
+                {
+                    string qscData = QHuman.UpdatePositionInMeter(humanPos, humanAngle);
+                    if (!String.IsNullOrEmpty(qscData)) QCompiler.Compile(qscData, QUtils.gamePath);
+                }
             }
 
             Thread.Sleep(1000);

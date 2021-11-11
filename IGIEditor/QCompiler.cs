@@ -190,7 +190,7 @@ namespace IGIEditor
 
                 //Start compile command.
                 string shellOut = QUtils.ShellExec(compileStart);
-                if (shellOut.Contains("Error") || shellOut.Contains("importModule") || shellOut.Contains("ModuleNotFoundError") || shellOut.Contains("Converted: 0"))
+                if (shellOut.Contains("Error") || shellOut.Contains("Converted: 0"))
                 {
                     QUtils.ShowError("Error in compiling input files");
                     QSetPath(QUtils.appCurrPath);
@@ -233,7 +233,7 @@ namespace IGIEditor
 
                 //Start decompile command.
                 string shellOut = QUtils.ShellExec(decompileStart);
-                if (shellOut.Contains("Error") || shellOut.Contains("ModuleNotFoundError") || shellOut.Contains("Converted: 0"))
+                if (shellOut.Contains("Error") || shellOut.Contains("Converted: 0"))
                     QUtils.ShowError("Error in decompiling input files");
 
                 var currDir = Directory.GetCurrentDirectory();
