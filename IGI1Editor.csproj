@@ -140,6 +140,7 @@
     <Compile Include="IGIEditor\QIniParser.cs" />
     <Compile Include="IGIEditor\QUserInfo.cs" />
     <Compile Include="IGIEditor\QFtpClient.cs" />
+    <Compile Include="QInternals.cs" />
     <Compile Include="QServer.cs" />
     <EmbeddedResource Include="IGIEditor\IGIEditorUI.resx">
       <DependentUpon>IGIEditorUI.cs</DependentUpon>

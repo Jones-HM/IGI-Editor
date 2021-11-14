@@ -329,6 +329,26 @@ namespace IGIEditor
             return qscData;
         }
 
+        internal static string UpdateTeamId(int teamId)
+        {
+            var humanData = GetHumanTaskList();
+            string qscData = QUtils.LoadFile();
+
+            var position = humanData.qtask.position;
+            float angle = humanData.qtask.orientation.alpha;
+            QUtils.AddLog("Human UpdateTeamId() called with position : X:" + position.x + " Y: " + position.y + " Z: " + position.z + ", Alpha : " + angle);
+            string humanAngle = angle == 0.0f ? humanData.qtask.orientation.alpha.ToString() : angle.ToString("0.0");
+
+            string humanTaskId = "Task_New(0";
+            int qtaskIndex = qscData.IndexOf(humanTaskId);
+            int newlineIndex = qscData.IndexOf("\n", qtaskIndex);
+
+            string humanTask = "Task_New(0,\"HumanPlayer\",\"Jones\"," + position.x + "," + position.y + "," + position.z + "," + humanAngle + ",\"000_01_1\"," + teamId + ",";
+            qscData = qscData.Remove(qtaskIndex, newlineIndex - qtaskIndex).Insert(qtaskIndex, humanTask);
+            return qscData;
+        }
+
+
         internal static string UpdateOrientation(float alpha)
         {
             var humanData = GetHumanTaskList();

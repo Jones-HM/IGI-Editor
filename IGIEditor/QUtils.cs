@@ -50,9 +50,10 @@ namespace IGIEditor
         internal static float appEditorVersion = 0.3f, viewPortDelta = 10000.0f;
         internal static string supportDiscordLink = @"https://discord.gg/9T8tzyhvp6", supportYoutubeLink = @"https://www.youtube.com/channel/UChGryl0a0dii81NfDZ12LwA", supportVKLink = @"https://vk.com/id679925339";
         internal static IntPtr viewPortAddrX = (IntPtr)0x00BCAB08, viewPortAddrY = (IntPtr)0x00BCAB10, viewPortAddrZ = (IntPtr)0x00BCAB18;
+        internal const int TEAM_ID_FRIENDLY = 0, TEAM_ID_ENEMY = 1;
 
         internal static string gamePath, appdataPath, igiEditorQEdPath, appCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", qGraphs = "QGraphs", cfgFile, projAppName, cachePath, cachePathAppLogs, cachePathAppImages, currPathAppImages,
-         igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", graphsPath, cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayer = "humanplayer.qvm", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalDllPath = @"bin\igi1ed.dat", tmpDllPath, internalDllInjectorPath = @"bin\igi1edInj.exe", PATH_SEC = "PATH", EDITOR_SEC = "EDITOR";
+         igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", graphsPath, cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayer = "humanplayer.qvm", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalDllPath = "IGI-Internals.dll", tmpDllPath, internalDllInjectorPath = @"bin\IGI-Injector.exe", PATH_SEC = "PATH", EDITOR_SEC = "EDITOR";
         internal static string inputQscPath = @"\IGI_QSC", inputQvmPath = @"\IGI_QVM", inputAiPath = @"\AIFiles", inputVoidPath = @"\Void", inputMissionPath = @"\missions\location0\level", inputHumanplayerPath = @"\humanplayer";
         internal static List<string> objTypeList = new List<string>() { "Building", "EditRigidObj", "Terminal", "Elevator", "ExplodeObject", "AlarmControl", "Generator", "Radio" };
         internal static string objects = "objects", objectsAll = "objectsAll", weapons = "weapons";
@@ -573,33 +574,23 @@ namespace IGIEditor
             }
         }
 
-        internal static void EnableMapView(bool enableMap)
+        internal static void EnableEditorMode(bool enable)
         {
             IntPtr binoAddr = (IntPtr)0x00470B8F;
             IntPtr noClipAddr = (IntPtr)0x004C8806;
 
-            if (enableMap)
+            if (enable)
             {
-                bool idleStatus = SetAIEventIdle(true);
+                bool idleStatus = false;
+                var qscData = QHuman.UpdateTeamId(TEAM_ID_ENEMY);
+                if (!String.IsNullOrEmpty(qscData)) idleStatus = QCompiler.Compile(qscData, QUtils.gamePath, false, true, false);
+
                 if (idleStatus)
                 {
-                    QMemory.StartLevel(gGameLevel, true);
-                    Thread.Sleep(5000);
+                    //Enable NoClip and remove Bino.
+                    GT.GT_WriteNOP(noClipAddr, 3);
+                    GT.GT_WriteNOP(binoAddr, 10);
                 }
-
-                //Enable NoClip and remove Bino.
-                GT.GT_WriteNOP(noClipAddr, 3);
-                GT.GT_WriteNOP(binoAddr, 10);
-
-                //Add Map objects info.
-                float areaVal = 50000.0f;
-                AreaDim areaDim = new AreaDim(areaVal);
-                var qscData = QObjects.SetAllAreaActivated(areaDim, "Building", -1, 5.0f, false);
-                if (!String.IsNullOrEmpty(qscData))
-                    QCompiler.CompileEx(qscData);
-
-                ShowInfo("MapViewer mode enabled - Use Binoculars to use MapView");
-                GT.GT_SendKeys2Process(QMemory.gameName, GT.VK.TAB);
             }
 
             else
@@ -614,61 +605,67 @@ namespace IGIEditor
                 GT.GT_InjectShell(binoAddr, binoOps, binoOpsLen, 0, GT.GT_SHELL.GT_ORIGINAL_SHELL, GT.GT_OPCODE.GT_OP_SHORT_JUMP);
                 GT.GT_InjectShell(noClipAddr, noClipOps, noClipOpsLen, 0, GT.GT_SHELL.GT_ORIGINAL_SHELL, GT.GT_OPCODE.GT_OP_SHORT_JUMP);
 
-                bool idleStatus = SetAIEventIdle(false);
-                if (idleStatus)
-                {
-                    QMemory.StartLevel(gGameLevel, true);
-                    Thread.Sleep(10000);
-                    RestoreLevel(gGameLevel);
-                    ResetFile(gGameLevel);
-                    QMemory.RestartLevel(true);
-                }
+                bool idleStatus = false;
+                var qData = QHuman.UpdateTeamId(TEAM_ID_FRIENDLY);
+                if (!String.IsNullOrEmpty(qData)) idleStatus = QCompiler.Compile(qData, QUtils.gamePath, false, true, false);
 
-                ShowInfo("MapViewer mode disabled");
+                //if (idleStatus)
+                //{
+                //    RestoreLevel(gGameLevel);
+                //    ResetFile(gGameLevel);
+                //    QMemory.RestartLevel(true);
+                //}
             }
         }
 
 
         internal static bool SetAIEventIdle(bool aiEvent)
         {
-            var aiFilesList = new List<string>() { "ekk.qvm", "guard.qvm", "gunner.qvm", "patrol.qvm", "radioguard.qvm", "sniper.qvm" };
+            //New Way - Fast Team version.
             bool idleStatus = true;
-            string commonPath = gameAbsPath + @"common\";
-            string aiCommonPath = gameAbsPath + @"common\ai\";
-            string aiIdleFile = aiCommonPath + QUtils.aiIdleFile;
-
-            if (aiEvent)
-            {
-                if (Directory.Exists(commonPath + @"\ai_copy"))
-                {
-                    return false;
-                }
-
-                if (!File.Exists(aiIdleFile))
-                    File.Copy(aiIdlePath, aiIdleFile);
-
-                if (!File.Exists(commonPath + @"\ai_copy"))
-                {
-                    string copyDirCmd = "xcopy " + commonPath + @"\ai " + commonPath + @"\ai_copy" + " /e /i /h ";
-                    ShellExec(copyDirCmd, true);
-                }
-
-                string tmpFile = "tmp_copy.qvm";
-
-                foreach (var aiFile in aiFilesList)
-                {
-                    File.Delete(aiCommonPath + aiFile);
-                    File.Copy(aiIdleFile, aiCommonPath + tmpFile);
-                    File.Move(aiCommonPath + tmpFile, aiCommonPath + aiFile);
-                }
-            }
-            else
-            {
-                Directory.Delete(aiCommonPath, true);
-                Thread.Sleep(2500);
-                Directory.Move(gameAbsPath + @"common\ai_copy\", aiCommonPath);
-            }
+            var qData = QHuman.UpdateTeamId(aiEvent ? TEAM_ID_FRIENDLY : TEAM_ID_ENEMY);
+            if (!String.IsNullOrEmpty(qData)) idleStatus = QCompiler.Compile(qData, QUtils.gamePath, false, true, false);
             return idleStatus;
+
+            //Old way - Slow File version.
+            //var aiFilesList = new List<string>() { "ekk.qvm", "guard.qvm", "gunner.qvm", "patrol.qvm", "radioguard.qvm", "sniper.qvm" };
+            //bool idleStatus = true;
+            //string commonPath = gameAbsPath + @"common\";
+            //string aiCommonPath = gameAbsPath + @"common\ai\";
+            //string aiIdleFile = aiCommonPath + QUtils.aiIdleFile;
+
+            //if (aiEvent)
+            //{
+            //    if (Directory.Exists(commonPath + @"\ai_copy"))
+            //    {
+            //        return false;
+            //    }
+
+            //    if (!File.Exists(aiIdleFile))
+            //        File.Copy(aiIdlePath, aiIdleFile);
+
+            //    if (!File.Exists(commonPath + @"\ai_copy"))
+            //    {
+            //        string copyDirCmd = "xcopy " + commonPath + @"\ai " + commonPath + @"\ai_copy" + " /e /i /h ";
+            //        ShellExec(copyDirCmd, true);
+            //    }
+
+            //    string tmpFile = "tmp_copy.qvm";
+
+            //    foreach (var aiFile in aiFilesList)
+            //    {
+            //        File.Delete(aiCommonPath + aiFile);
+            //        File.Copy(aiIdleFile, aiCommonPath + tmpFile);
+            //        File.Move(aiCommonPath + tmpFile, aiCommonPath + aiFile);
+            //    }
+            //}
+            //else
+            //{
+            //    Directory.Delete(aiCommonPath, true);
+            //    Thread.Sleep(2500);
+            //    Directory.Move(gameAbsPath + @"common\ai_copy\", aiCommonPath);
+            //}
+            //return idleStatus;
         }
 
         protected static string InitAuthBearer()
@@ -1400,14 +1397,14 @@ namespace IGIEditor
         internal static void InjectDllOnStart()
         {
 #if TESTING
-            return;
+            //return;
 #endif
-            tmpDllPath = Path.GetTempFileName() + dllExt;
-            AddLog("InjectDllOnStart() tmpDllPath : " + tmpDllPath);
-            QCryptor.Decrypt(QUtils.internalDllPath, tmpDllPath);
+            //tmpDllPath = Path.GetTempFileName() + dllExt;
+            //AddLog("InjectDllOnStart() tmpDllPath : " + tmpDllPath);
+            //QCryptor.Decrypt(QUtils.internalDllPath, tmpDllPath);
 
-            string dllShellCmd = internalDllInjectorPath + " " + tmpDllPath;
-            ShellExec(dllShellCmd);
+            string dllShellCmd = internalDllInjectorPath + " -i " + QUtils.internalDllPath;
+            ShellExec(dllShellCmd,true);
             AddLog("InjectDllOnStart() dllShellCmd : " + dllShellCmd);
         }
 
@@ -1426,6 +1423,18 @@ namespace IGIEditor
                 GT.GT_WriteMemory(QUtils.viewPortAddrX, "double", pos.x.ToString());
                 GT.GT_WriteMemory(QUtils.viewPortAddrY, "double", pos.y.ToString());
                 GT.GT_WriteMemory(QUtils.viewPortAddrZ, "double", pos.z.ToString());
+            }
+        }
+
+        internal static Real64 GetViewPortPos()
+        {
+            unsafe
+            {
+                var pos = new Real64();
+                pos.x = GT.GT_ReadDouble(QUtils.viewPortAddrX);
+                pos.y = GT.GT_ReadDouble(QUtils.viewPortAddrY);
+                pos.z = GT.GT_ReadDouble(QUtils.viewPortAddrZ);
+                return pos;
             }
         }
 

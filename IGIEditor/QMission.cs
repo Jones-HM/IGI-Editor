@@ -67,10 +67,10 @@ namespace IGIEditor
 
             else
             {
-                for (int index = 0; index < 14; ++index)
+                for (int index = 0; index < QUtils.GAME_MAX_LEVEL; ++index)
                 {
-                    QUtils.AddLog("Name Addr : " + missionNameAddr.ToString("X4"));
-                    QUtils.AddLog("Desc Addr : " + missionNameAddr.ToString("X4"));
+                    QUtils.AddLog("Name Address : " + missionNameAddr.ToString("X4"));
+                    QUtils.AddLog("Desc Address : " + missionNameAddr.ToString("X4"));
 
                     string mName = QLibc.GT.GT_ReadString(missionAddr1);
                     string mDesc = QLibc.GT.GT_ReadString(missionAddr2);
@@ -103,7 +103,7 @@ namespace IGIEditor
             {
                 QLibc.GT.GT_WriteMemory(missionNameAddr, "string", missionNewName);
                 QLibc.GT.GT_WriteMemory(missionDescAddr, "string", missionNewDesc);
-                QUtils.ShowInfo("Mission details updated successfully");
+                //QUtils.ShowInfo("Mission details updated successfully");
             }
         }
 

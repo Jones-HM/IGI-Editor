@@ -79,6 +79,8 @@ namespace QLibc
             F8 = 0x77,
             F9 = 0x78,
             F10 = 0x79,
+            F11 = 0x7A,
+            F12 = 0x7B,
             CTRL = 0x11,
             ALT = 0x12,
             ESC = 0x1B,
@@ -201,6 +203,17 @@ namespace QLibc
 
         [DllImport("User32.dll")]
         private static extern int SetForegroundWindow(IntPtr handle);
+
+        public static void GT_SendKeyStroke(string strKey, bool ctrl=false, bool alt=false, bool shift=false)
+        {
+            string keyString = "";
+            if (ctrl) keyString = "^" + keyString;
+            if (shift) keyString = "+" + keyString;
+            if (alt) keyString = "%" + keyString;
+            keyString += "{" + strKey + "}";
+
+            GT_SendKeys2Process(IGIEditor.QMemory.gameName, keyString, false);
+        }
 
         public static void GT_SendKeys2Process(string process_name, string keys, bool appForeground = true)
         {

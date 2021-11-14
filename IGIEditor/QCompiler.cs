@@ -23,11 +23,11 @@ namespace IGIEditor
         private string decompileInputPath = QUtils.appdataPath + @"\" + QUtils.qEditor + @"\" + QUtils.qconv + @"\Decompile\input";
         private string copyNoneErr = "0 File(s) copied";
         private string moveNoneErr = "0 File(s) moved";
-        private string qappPath;
+        private string qedCurrPath;
 
         internal QCompiler()
         {
-            qappPath = Directory.GetCurrentDirectory();
+            qedCurrPath = Directory.GetCurrentDirectory();
             qpath = QUtils.appdataPath;
         }
 
@@ -95,7 +95,7 @@ namespace IGIEditor
             else if (qtype == QTYPE.DECOMPILE) filter = "*qsc";
 
             string xmoveCmd = "for /r \"" + src + "\" %x in (" + filter + ") do move /y \"%x\" \"" + dest + "\"";
-            var shellOut = QUtils.ShellExec(xmoveCmd,true);
+            var shellOut = QUtils.ShellExec(xmoveCmd, true);
 
             //Check for error in move.
             if (shellOut.Contains(moveNoneErr))
@@ -127,14 +127,26 @@ namespace IGIEditor
             if (!String.IsNullOrEmpty(qscData))
             {
                 QUtils.SaveFile(qscData, appendData);
-                var qcompiler = new QCompiler();
-                status = qcompiler.QCompile(new List<string>() { QUtils.objectsQsc }, gamePath);
+                QUtils.gamePath = QUtils.cfgGamePath + QMemory.GetCurrentLevel();
+                string outScriptPath = QUtils.gamePath + "\\" + QUtils.objectsQsc;
+                if (File.Exists(outScriptPath))
+                {
+                    File.Delete(outScriptPath);
+                    status = true;
+                }
+                File.Copy(QUtils.objectsQsc, outScriptPath);
+
+                string scriprFile = "MISSION:objects.qsc";
+                QInternals.ScriptCompile(scriprFile);
+
+                System.Threading.Thread.Sleep(1000);
+                //Delete script file after compiling.
+                File.Delete(outScriptPath);
 
                 if (status)
                 {
                     IGIEditorUI.editorRef.SetStatusText("Compile success");
-                    if (restartLevel)
-                        QMemory.RestartLevel(savePos);
+                    if (restartLevel) QMemory.RestartLevel(savePos);
                 }
             }
             return status;
@@ -214,7 +226,7 @@ namespace IGIEditor
             {
                 QUtils.ShowError(ex.Message);
             }
-            Directory.SetCurrentDirectory(qappPath);
+            Directory.SetCurrentDirectory(qedCurrPath);
             return status;
         }
 
@@ -254,7 +266,7 @@ namespace IGIEditor
             {
                 QUtils.ShowError(ex.Message);
             }
-            Directory.SetCurrentDirectory(qappPath);
+            Directory.SetCurrentDirectory(qedCurrPath);
             return status;
         }
 

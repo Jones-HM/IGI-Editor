@@ -58,12 +58,13 @@ namespace IGIEditor
             editorTabs.TabPages.RemoveByKey("objectEditor");
             editorTabs.TabPages.RemoveByKey("threeDEditor");
             editorTabs.TabPages.RemoveByKey("graphEditor");
+            versionLbl.Text = appEditorVersion + " BETA";
 #endif
 
             //Start Position timer.
             editorPosTimer.Tick += new EventHandler(UpdatePositionTimer);
             editorPosTimer.Interval = 500;
-            // editorPosTimer.Start();
+            //editorPosTimer.Start();
 
             //Start File Integrity timer.
             fileCheckerTimer.Tick += new EventHandler(FileIntegrityCheckerTimer);
@@ -99,6 +100,8 @@ namespace IGIEditor
 
             //FileInegrity.GenerateDirHashes(new List<string> { QUtils.cfgAiPath, QUtils.cfgQFilesPath, QUtils.cfgVoidPath });
             //QUtils.ShowInfo("Hashes generated");
+
+            //QCryptor.Encrypt(QUtils.objectsMasterList);
 
             if (QMemory.FindGame())
             {
@@ -316,7 +319,7 @@ namespace IGIEditor
             {
                 if (posMetersCb.Checked)
                 {
-                    var meterPos = QHuman.GetPositionInMeter(false);
+                    var meterPos = (editorModeCb.Checked) ? QUtils.GetViewPortPos() : QHuman.GetPositionInMeter(false);
                     xPosLbl.Text = meterPos.x.ToString();
                     yPosLbl.Text = meterPos.y.ToString();
                     zPosLbl.Text = meterPos.z.ToString();
@@ -409,10 +412,10 @@ namespace IGIEditor
             buildingSelectDD.SelectedIndex = objectSelectDD.SelectedIndex = aiGraphIdDD.SelectedIndex = 0;
 
             // Init Online Missions list.
-            InitMissionsOnline(initialInit,true,false);
+            InitMissionsOnline(initialInit, true, false);
         }
 
-        internal void InitMissionsOnline(bool initialInit,bool useCache = true, bool showWarning = true)
+        internal void InitMissionsOnline(bool initialInit, bool useCache = true, bool showWarning = true)
         {
             //Init Online Missions list.
             if (!QUtils.editorOnline)
@@ -450,7 +453,7 @@ namespace IGIEditor
             QUtils.InitAppData();
 
             //Initialize QCompiler setting and modules.
-            QUtils.InitQCompiler();
+            //QUtils.InitQCompiler();
 
             string userName = QUtils.GetCurrentUserName();
             string keyFileAbsPath = QUtils.igiEditorQEdPath + Path.DirectorySeparatorChar + QUtils.projAppName + "Key.txt";
@@ -639,7 +642,7 @@ namespace IGIEditor
             {
                 var buildingName = QUtils.buildingList[buildingSelectDD.SelectedIndex].Keys.ElementAt(0);
                 var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
-                var buildingPos = QHuman.GetPositionInMeter();
+                var buildingPos = QUtils.GetViewPortPos(); //QHuman.GetPositionInMeter();
                 bool hasOrientation = String.IsNullOrEmpty(alphaTxt.Text) && String.IsNullOrEmpty(betaTxt.Text) && String.IsNullOrEmpty(gammaTxt.Text);
                 if (buildingPos.x != 0.0f || buildingPos.y != 0.0f)
                 {
@@ -665,6 +668,12 @@ namespace IGIEditor
             {
                 var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
                 var buildingName = QUtils.buildingList[buildingSelectDD.SelectedIndex].Keys.ElementAt(0);
+                //QUtils.ShowInfo(buildingModel);
+                //GT.GT_WriteMemory((IntPtr)0x00401043, "string", buildingModel+'\0');
+                //Thread.Sleep(1000);
+                //GT.GT_SendKeyStroke("r", true, true, false);
+
+                //return;
 
                 if (String.IsNullOrEmpty(buildingModel)) return;
                 var qscData = QUtils.LoadFile();
@@ -691,7 +700,7 @@ namespace IGIEditor
             {
                 var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
                 var objectRigidName = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Keys.ElementAt(0);
-                var objectPos = QHuman.GetPositionInMeter();
+                var objectPos = QUtils.GetViewPortPos();//QHuman.GetPositionInMeter();
                 bool hasOrientation = String.IsNullOrEmpty(alphaTxt.Text) && String.IsNullOrEmpty(betaTxt.Text) && String.IsNullOrEmpty(gammaTxt.Text);
 
                 if (objectPos.x != 0.0f || objectPos.y != 0.0f)
@@ -760,12 +769,13 @@ namespace IGIEditor
             QUtils.RestoreLevel(level);
             QUtils.ResetFile(level);
             QMemory.RestartLevel(true);
+            CleanUpAiFiles();
             GenerateAIScriptId(level);
         }
 
         private void resetAllLevelsBtn_Click(object sender, EventArgs e)
         {
-            for (int level = 1; level <= 14; ++level)
+            for (int level = 1; level <= GAME_MAX_LEVEL; ++level)
             {
                 inputQvmPath = QUtils.cfgQvmPath + level + "\\" + QUtils.objectsQvm;
                 QUtils.RestoreLevel(level);
@@ -837,11 +847,13 @@ namespace IGIEditor
                 QUtils.gGameLevel = gameLevel = QMemory.GetCurrentLevel();
                 LoadLevelDetails(gameLevel);
                 RefreshUIComponents(gameLevel);
-                // uiRefreshWorker.RunWorkerAsync();
+                CleanUpAiFiles();
                 InitPaths(gameLevel);
                 QUtils.ResetFile(gameLevel);
                 QUtils.InjectDllOnStart();
                 QUtils.graphAreas.Clear();
+                Thread.Sleep(2000);
+                //QInternals.StartLevel(levelStartTxt.Text);
             }
         }
 
@@ -862,7 +874,7 @@ namespace IGIEditor
 
                 if (posCurrentCb.Checked)
                 {
-                    var meterPos = QHuman.GetPositionInMeter();
+                    var meterPos = QUtils.GetViewPortPos(); //QHuman.GetPositionInMeter();
 
                     xPosObjTxt.Text = meterPos.x.ToString();
                     yPosObjTxt.Text = meterPos.y.ToString();
@@ -1254,7 +1266,8 @@ namespace IGIEditor
 
         private void restartLevel_Click(object sender, EventArgs e)
         {
-            GT.GT_SendKeys2Process(QMemory.gameName, "^r", false);
+            //GT.GT_SendKeys2Process(QMemory.gameName, "^r", false);
+            QInternals.RestartLevel();
             //QMemory.UpdateHumanHealth(true);
 
             //Genrate random scriptId according to Level A.I.
@@ -1282,10 +1295,12 @@ namespace IGIEditor
         //Testing phase - remove in final build
         private void compileBtn_Click(object sender, EventArgs e)
         {
+            //string qscData = QUtils.LoadFile();
+            //if (!String.IsNullOrEmpty(qscData)) compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, false, false, false);
 
-            string qscData = QUtils.LoadFile();
-            if (!String.IsNullOrEmpty(qscData))
-                compileStatus = QCompiler.CompileEx(qscData);
+            //string file = "LOCAL:missions/location0/level" + gameLevel + "//objects.qsc";
+            string scriprFile = "MISSION:objects.qsc";
+            QInternals.ScriptCompile(scriprFile);
             if (compileStatus) SetStatusText("Compile success");
         }
 
@@ -1353,6 +1368,7 @@ namespace IGIEditor
                 QUtils.upwardSpeed = Convert.ToDouble(upwardJumpTxt.Text);
                 QUtils.inAirSpeed = Convert.ToDouble(inAirSpeedTxt.Text);
                 QHuman.UpdateHumanPlayerSpeed(QUtils.movSpeed, QUtils.forwardSpeed, QUtils.upwardSpeed, QUtils.inAirSpeed);
+                QInternals.HumanplayerLoad();
             }
             catch (Exception ex)
             {
@@ -1370,6 +1386,7 @@ namespace IGIEditor
                 QUtils.healthScale = Convert.ToDouble(damageScaleTxt.Text);
                 QUtils.healthScaleFence = Convert.ToDouble(damageScaleFenceTxt.Text);
                 QHuman.UpdateHumanPlayerHealth(QUtils.healthScale, QUtils.healthScaleFence);
+                QInternals.HumanplayerLoad();
             }
             catch (Exception ex)
             {
@@ -1389,6 +1406,7 @@ namespace IGIEditor
                 QUtils.peekCrouchLen = Convert.ToDouble(peekCrouchTxt.Text);
                 QUtils.peekTime = Convert.ToDouble(peekTimeTxt.Text);
                 QHuman.UpdateHumanPlayerPeek(QUtils.peekLRLen, QUtils.peekCrouchLen, QUtils.peekTime);
+                QInternals.HumanplayerLoad();
             }
             catch (Exception ex)
             {
@@ -1615,6 +1633,7 @@ namespace IGIEditor
         private void showAppLogBtn_Click(object sender, EventArgs e)
         {
             QUtils.ShellExec("notepad " + QUtils.appLogFileTmp + projAppName + ".log");
+            QInternals.ResourceSaveInfo();
         }
 
         private void connectionCb_CheckedChanged(object sender, EventArgs e)
@@ -1686,6 +1705,7 @@ namespace IGIEditor
                 gameLevel = Convert.ToInt32(levelStartTxt.Text.ToString());
                 InitPaths(gameLevel);
                 QUtils.graphAreas.Clear();
+                CleanUpAiFiles();
                 StartGameLevel(gameLevel, true);
             }
             catch (Exception ex)
@@ -1743,12 +1763,14 @@ namespace IGIEditor
                 if (viewPortEnableCb.Checked)
                 {
                     GT.GT_WriteNOP(viewPortAddr, 2);
+                    viewPortEnableCb.Text = "ViewPort - Enabled";
                 }
                 else
                 {
-                    int val = 0xF3A5;
                     GT.GT_WriteMemory(viewPortAddr, "2bytes", "42483");
+                    viewPortEnableCb.Text = "ViewPort - Disabled";
                 }
+
             }
         }
 
@@ -1844,6 +1866,7 @@ namespace IGIEditor
             QUtils.RestoreLevel(gameLevel);
             QUtils.ResetFile(gameLevel);
             QMemory.RestartLevel();
+            missionNameTxt.Text = missionDescTxt.Text = String.Empty;
             SetStatusText("Mission removed successfully.");
         }
 
@@ -1895,6 +1918,7 @@ namespace IGIEditor
         {
             try
             {
+                missionNameTxt.Text = missionDescTxt.Text = String.Empty;
                 string missionName = null;
 
                 OpenFileDialog fileDlg = new OpenFileDialog();
@@ -1916,7 +1940,6 @@ namespace IGIEditor
                 if (String.IsNullOrEmpty(missionName)) throw new ArgumentNullException("Mission name cannot be empty");
 
                 QUtils.CleanUpAiFiles();//Cleanup previous mission files.
-                var outputAiPath = QUtils.cfgGamePath + QUtils.gGameLevel + "\\ai\\";
                 if (missionName is null) throw new ArgumentNullException("Mission name cannot be empty");
 
                 //Append level to mission name.
@@ -1935,81 +1958,89 @@ namespace IGIEditor
                 {
                     if (QUtils.IsDirectoryEmpty(missionPath + @"\ai"))
                     {
-                        QUtils.ShowWarning("Mission directory doesn't include A.I Files");
+                        QUtils.ShowWarning("Mission directory doesn't include A.I Files.");
                         missionAiExist = false;
                     }
                     else missionAiExist = true;
                 }
 
-                var missionLvlFile = missionPath + @"\" + QUtils.missionLevelFile;
-                int missionLvl = Convert.ToInt32(QUtils.LoadFile(missionLvlFile));
-                bool levelSwitched = true;
+                var missionLevelFile = missionPath + @"\" + QUtils.missionLevelFile;
+                int missionLevel = Convert.ToInt32(QUtils.LoadFile(missionLevelFile));
+                bool levelSwitched = false;
+                gameLevel = QUtils.gGameLevel = QMemory.GetCurrentLevel();
+                levelStartTxt.Text = gameLevel.ToString();
 
                 QMemory.DisableGameWarnings();
-                if (missionLvl != gameLevel)
+                if (missionLevel != gameLevel)
                 {
-                    var dlgResult = QUtils.ShowDialog("Mission level error do you want to switch level to '" + missionLvl + "' to continue ?", "Error");
+                    var dlgResult = QUtils.ShowDialog("Mission level error do you want to switch level to '" + missionLevel + "' to continue ?", "Error");
                     if (dlgResult == DialogResult.Yes)
                     {
-                        QUtils.ResetFile(missionLvl);
-                        QUtils.RestoreLevel(missionLvl);
-                        QMemory.StartLevel(missionLvl, true);
-                        Thread.Sleep(10000);
+                        QUtils.ResetFile(missionLevel);
+                        QUtils.RestoreLevel(missionLevel);
+                        levelStartTxt.Text = missionLevel.ToString();
+                        gameLevel = QUtils.gGameLevel = missionLevel;
                         levelSwitched = true;
                     }
                     else
                         levelSwitched = false;
                 }
 
+                var missionOutAiPath = QUtils.cfgGamePath + QUtils.gGameLevel + "\\ai\\";
+
+                var missionDesc = QUtils.LoadFile(missionDescFile);
+                QMission.ChangeMissionDetails(missionLevel, missionName, missionDesc);
+
+                if (File.Exists(QUtils.objectsQsc)) File.Delete(QUtils.objectsQsc);
+
+                File.Copy(missionPath + @"\" + QUtils.objectsQsc, QUtils.objectsQsc);
+                var qData = QCryptor.Decrypt(QUtils.objectsQsc);
+                QUtils.SaveFile(QUtils.objectsQsc, qData);
+
+                //Copy all A.I Files.
+                var missionAiPath = missionPath + @"\ai";
+                if (missionAiExist)
+                {
+                    foreach (var outputPath in Directory.GetFiles(missionAiPath, "*.qvm*", SearchOption.AllDirectories))
+                    {
+                        string outputAiPath = outputPath.Replace(missionAiPath, missionOutAiPath);
+                        File.Copy(outputPath, outputAiPath, true);
+                        string aiFileName = outputPath.Substring(outputPath.LastIndexOf("\\") + 1);
+                    }
+                }
+
+                var qscData = QUtils.LoadFile();
+                qscData += QUtils.AddStatusMsg(-1, "Mission : " + missionName, "!HumanPlayer_0.isDead", ';');
+                qscData += QUtils.AddStatusMsg(-1, "Description : " + missionDesc, "!HumanPlayer_0.isDead", ';');
+
                 if (levelSwitched)
                 {
-                    var missionDesc = QUtils.LoadFile(missionDescFile);
-                    //QMission.ChangeMissionDetails(QUtils.gGameLevel, missionName, missionDesc);
-
-                    if (File.Exists(QUtils.objectsQsc))
-                        File.Delete(QUtils.objectsQsc);
-
-                    File.Copy(missionPath + @"\" + QUtils.objectsQsc, QUtils.objectsQsc);
-                    var qscData = QCryptor.Decrypt(QUtils.objectsQsc);
-                    QUtils.SaveFile(QUtils.objectsQsc, qscData);
-
-                    //Copy all A.I Files.
-                    var missionAiPath = missionPath + @"\ai";
-                    if (missionAiExist)
-                    {
-                        foreach (string outputPath in Directory.GetFiles(missionAiPath, "*.qvm*", SearchOption.AllDirectories))
-                        {
-                            File.Copy(outputPath, outputPath.Replace(missionAiPath, outputAiPath), true);
-                            string aiFileName = outputPath.Substring(outputPath.LastIndexOf("\\") + 1);
-                        }
-                    }
-
-                    var qData = QUtils.LoadFile();
-                    qData += QUtils.AddStatusMsg(-1, "Mission : " + missionName, "!HumanPlayer_0.isDead", ';');
-                    qData += QUtils.AddStatusMsg(-1, "Description : " + missionDesc, "!HumanPlayer_0.isDead", ';');
-
-                    if (!String.IsNullOrEmpty(qData)) compileStatus = QCompiler.CompileEx(qData);
-
-                    var aiFiles = Directory.GetFiles(missionPath, "*.qvm", SearchOption.AllDirectories);
-                    var aiFilesCount = aiFiles.Length;
-                    var missionsAiList = aiFiles.ToList();
-
-                    //Update AI Scirpts and Index.
-                    QUtils.aiScriptFiles.Clear();
-                    string aiScriptStr = null;
-                    foreach (var aiScript in missionsAiList)
-                    {
-                        aiScriptStr = aiScript.Substring(aiScript.LastIndexOf(@"\") + 1);
-                        QUtils.aiScriptFiles.Add(aiScriptStr);//Update script file from Mission A.I.
-                    }
-
-                    QUtils.aiScriptId += aiFilesCount * 2;//Update A.I Script Index.
-                    QUtils.AddLog("LoadMission() Ai Script Id : " + aiScriptId);
-
-                    QUtils.DeleteWholeDir(missionPath);
-                    missionNameTxt.Text = missionName;
-                    SetStatusText("Mission '" + missionName + "' was loaded.");
+                    startGameBtn_Click(sender, e);
                 }
+
+                if (!String.IsNullOrEmpty(qscData)) compileStatus = QCompiler.CompileEx(qscData);
+
+                var aiFiles = Directory.GetFiles(missionPath, "*.qvm", SearchOption.AllDirectories);
+                var aiFilesCount = aiFiles.Length;
+                var missionsAiList = aiFiles.ToList();
+
+                //Update AI Scirpts and Index.
+                QUtils.aiScriptFiles.Clear();
+                string aiScriptStr = null;
+                foreach (var aiScript in missionsAiList)
+                {
+                    aiScriptStr = aiScript.Substring(aiScript.LastIndexOf(@"\") + 1);
+                    QUtils.aiScriptFiles.Add(aiScriptStr);//Update script file from Mission A.I.
+                }
+
+                QUtils.aiScriptId += aiFilesCount * 2;//Update A.I Script Index.
+                QUtils.AddLog("LoadMission() Ai Script Id : " + aiScriptId);
+
+                QUtils.DeleteWholeDir(missionPath);
+                missionNameTxt.Text = missionName;
+                missionDescTxt.Text = missionDesc;
+                SetStatusText("Mission '" + missionName + "' was loaded.");
+
             }
             catch (Exception ex)
             {
@@ -2119,21 +2150,76 @@ namespace IGIEditor
         private void missionRefreshBtn_Click(object sender, EventArgs e)
         {
             InitMissionsOnline(true, false);
-            UpdateUIComponent(missionsOnlineDD,QUtils.missionNameListStr);
+            UpdateUIComponent(missionsOnlineDD, QUtils.missionNameListStr);
+        }
+
+        private void gunPickupBtn_Click(object sender, EventArgs e)
+        {
+            int weaponIndex = weaponSelectDD.SelectedIndex;
+            QInternals.WeaponPickup(weaponIndex.ToString());
+
+            //unsafe
+            //{
+            //    IntPtr weaponIdAddr = (IntPtr)0x08B90FBE;
+            //    GT.GT_WriteMemory(weaponIdAddr, "4bytes", weaponIndex.ToString());
+            //}
+
+        }
+
+        private void mapViewCb_CheckedChanged(object sender, EventArgs e)
+        {
+            //QUtils.EnableEditorMode(((CheckBox)sender).Checked);
+            if (((CheckBox)sender).Checked) {QInternals.HumanFreeCam();
+                ((CheckBox)sender).Text = "Editor Mode";
+            }
+            else { GT.GT_SendKeyStroke("HOME"); QInternals.RestartLevel();
+                ((CheckBox)sender).Text = "Play Mode";
+            }
+            QInternals.DebugMode();
+        }
+
+        private void aiIdleCb_CheckedChanged(object sender, EventArgs e)
+        {
+            QUtils.SetAIEventIdle(((CheckBox)sender).Checked);
+        }
+
+        private void updateTeamIdBtn_Click(object sender, EventArgs e)
+        {
+            int teamId = 0;
+            if (!String.IsNullOrEmpty(teamIdTxt.Text))
+            {
+                teamId = Convert.ToInt32(teamIdTxt.Text);
+                var qscData = QHuman.UpdateTeamId(teamId);
+
+                if (!String.IsNullOrEmpty(qscData)) compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, false, true, false);
+                if (compileStatus) SetStatusText("Human Params updated successfully");
+            }
+            if (!String.IsNullOrEmpty(humanViewCamTxt.Text)) QInternals.HumanCameraView(humanViewCamTxt.Text);
+        }
+
+        private void setFramesBtn_Click(object sender, EventArgs e)
+        {
+            string frames = framesTxt.Text;
+            QInternals.FramesSet(frames);
+        }
+
+        private void quitLevelBtn_Click(object sender, EventArgs e)
+        {
+            QInternals.QuitLevel();
         }
 
         private void stopTraversingNodesBtn_Click(object sender, EventArgs e)
         {
             if (graphTraverseWorker.IsBusy)
             {
-                autoTeleportGraphCb.Checked = false;
+                autoTeleportGraphCb.Checked = viewPortEnableCb.Checked = false;
                 graphTraverseWorker.CancelAsync();
                 SetStatusText("Graphs traversing canceled.");
             }
 
             if (nodesTraverseWorker.IsBusy)
             {
-                autoTeleportNodeCb.Checked = false;
+                autoTeleportNodeCb.Checked = viewPortEnableCb.Checked = false; ;
                 nodesTraverseWorker.CancelAsync();
                 SetStatusText("Nodes traversing canceled.");
             }
@@ -2225,12 +2311,11 @@ namespace IGIEditor
             GenerateAIScriptId(level);
             QUtils.aiScriptFiles.Clear();
 
-            Thread.Sleep(5000);
-            var qscData = QMisc.RemoveCutscene(inputQscPath, level);
-            if (!String.IsNullOrEmpty(qscData))
-                compileStatus = QCompiler.CompileEx(qscData);
+            //Thread.Sleep(5000);
+            //var qscData = QMisc.RemoveCutscene(inputQscPath, level);
+            //if (!String.IsNullOrEmpty(qscData))
+            //    compileStatus = QCompiler.CompileEx(qscData);
             QUtils.InjectDllOnStart();
-            //uiRefreshWorker.RunWorkerAsync();
             RefreshUIComponents(level);
 
 #if TESTING
@@ -2379,8 +2464,7 @@ namespace IGIEditor
                 }
 
                 //Compile the data with QCompiler.
-                if (!String.IsNullOrEmpty(qscData))
-                    compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, true);
+                if (!String.IsNullOrEmpty(qscData)) compileStatus = QCompiler.Compile(qscData, QUtils.gamePath, true);
             }
             catch (NullReferenceException ex)
             {

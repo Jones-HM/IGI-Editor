@@ -268,12 +268,15 @@ namespace IGIEditor
         {
             List<int> graphNodeIds = new List<int>();
             string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
-           
+
             QUtils.graphNodesList = QGraphs.ReadGraphNodeData(graphFile);
             int totalNodes = QUtils.graphNodesList.Count;
 
             foreach (var node in QUtils.graphNodesList)
-                graphNodeIds.Add(node.NodeId);
+            {
+                if (node.NodeId > 0 && node.NodeId < 5000)
+                    graphNodeIds.Add(node.NodeId);
+            }
 
             QUtils.AddLog("GetNodesForGraph() GraphFile: '" + graphFile + "'" + " NodeId Count: " + graphNodeIds.Count);
             return graphNodeIds;
@@ -447,6 +450,8 @@ namespace IGIEditor
 
             foreach (var node in nodeData)
             {
+                if (node.NodeId < 0 || node.NodeId > 5000) continue;
+
                 QUtils.AddLog("Node_" + node.NodeId + " X: " + node.NodePos.x + " Y: " + node.NodePos.y + " Z: " + node.NodePos.z + " Criteria: " + node.NodeCriteria);
 
                 var nodeRealPos = new Real64();
@@ -454,7 +459,6 @@ namespace IGIEditor
                 nodeRealPos.y = graphPos.y + node.NodePos.y;
                 nodeRealPos.z = graphPos.z + node.NodePos.z;
                 string taskNote = "Graph #" + graphId + " Node #" + node.NodeId;
-
 
                 //Visualisation Object - StatusMsg.
                 if (visualType == 1)

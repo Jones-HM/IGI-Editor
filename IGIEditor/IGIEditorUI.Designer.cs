@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IGIEditorUI));
             this.backPnl = new System.Windows.Forms.Panel();
             this.connectionCb = new System.Windows.Forms.CheckBox();
+            this.editorModeCb = new System.Windows.Forms.CheckBox();
             this.registeredUsersLbl = new System.Windows.Forms.Label();
             this.levelStartTxt = new System.Windows.Forms.NumericUpDown();
             this.posCoordCb = new System.Windows.Forms.CheckBox();
@@ -82,6 +83,7 @@
             this.removeBuildingsBtn = new System.Windows.Forms.Button();
             this.removeObjsBtn = new System.Windows.Forms.Button();
             this.humanEditor = new System.Windows.Forms.TabPage();
+            this.updateHumanBtn = new System.Windows.Forms.Button();
             this.readHumanBtn = new System.Windows.Forms.Button();
             this.resetHumanBtn = new System.Windows.Forms.Button();
             this.inAirSpeedTxt = new System.Windows.Forms.TextBox();
@@ -89,9 +91,9 @@
             this.updatePeekBtn = new System.Windows.Forms.Button();
             this.updateHumanHealthBtn = new System.Windows.Forms.Button();
             this.damageScaleFenceTxt = new System.Windows.Forms.TextBox();
+            this.damageScaleLbl = new System.Windows.Forms.Label();
             this.fenceDamageScaleLbl = new System.Windows.Forms.Label();
             this.damageScaleTxt = new System.Windows.Forms.TextBox();
-            this.damageScaleLbl = new System.Windows.Forms.Label();
             this.updateHumanSpeedBtn = new System.Windows.Forms.Button();
             this.peekTimeTxt = new System.Windows.Forms.TextBox();
             this.upwardJumpTxt = new System.Windows.Forms.TextBox();
@@ -101,7 +103,11 @@
             this.forwardJumpTxt = new System.Windows.Forms.TextBox();
             this.peekCrouchLbl = new System.Windows.Forms.Label();
             this.forwardJumpLbl = new System.Windows.Forms.Label();
+            this.humanViewCamTxt = new System.Windows.Forms.TextBox();
+            this.teamIdTxt = new System.Windows.Forms.TextBox();
             this.peekLRTxt = new System.Windows.Forms.TextBox();
+            this.humanViewCamLbl = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.peekLRLbl = new System.Windows.Forms.Label();
             this.movementSpeedTxt = new System.Windows.Forms.TextBox();
             this.movementSpeedLbl = new System.Windows.Forms.Label();
@@ -136,6 +142,7 @@
             this.weaponImgBox = new System.Windows.Forms.PictureBox();
             this.removeWeaponBtn = new System.Windows.Forms.Button();
             this.weaponNameLbl = new System.Windows.Forms.Label();
+            this.gunPickupBtn = new System.Windows.Forms.Button();
             this.addWeaponBtn = new System.Windows.Forms.Button();
             this.threeDEditor = new System.Windows.Forms.TabPage();
             this.resume3DEditorBtn = new System.Windows.Forms.Button();
@@ -154,6 +161,7 @@
             this.installMissionBtn = new System.Windows.Forms.Button();
             this.missionDescTxt = new System.Windows.Forms.TextBox();
             this.missionDescLbl = new System.Windows.Forms.Label();
+            this.missionRefreshBtn = new System.Windows.Forms.Button();
             this.removeMissionBtn = new System.Windows.Forms.Button();
             this.missionPlayTimeTxt = new System.Windows.Forms.TextBox();
             this.missionNameTxt = new System.Windows.Forms.TextBox();
@@ -220,6 +228,9 @@
             this.xPosLbl_O = new System.Windows.Forms.Label();
             this.updateObjPosition = new System.Windows.Forms.Button();
             this.miscTab = new System.Windows.Forms.TabPage();
+            this.framesTxt = new System.Windows.Forms.TextBox();
+            this.setFramesBtn = new System.Windows.Forms.Button();
+            this.aiIdleCb = new System.Windows.Forms.CheckBox();
             this.appSupportBtn = new System.Windows.Forms.Button();
             this.disableWarningsCb = new System.Windows.Forms.CheckBox();
             this.showAppLogBtn = new System.Windows.Forms.Button();
@@ -244,7 +255,7 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.missionRefreshBtn = new System.Windows.Forms.Button();
+            this.quitLevelBtn = new System.Windows.Forms.Button();
             this.backPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -272,7 +283,9 @@
             // 
             this.backPnl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.backPnl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.backPnl.Controls.Add(this.quitLevelBtn);
             this.backPnl.Controls.Add(this.connectionCb);
+            this.backPnl.Controls.Add(this.editorModeCb);
             this.backPnl.Controls.Add(this.registeredUsersLbl);
             this.backPnl.Controls.Add(this.levelStartTxt);
             this.backPnl.Controls.Add(this.posCoordCb);
@@ -324,11 +337,25 @@
             this.connectionCb.UseVisualStyleBackColor = true;
             this.connectionCb.CheckedChanged += new System.EventHandler(this.connectionCb_CheckedChanged);
             // 
+            // editorModeCb
+            // 
+            this.editorModeCb.AutoSize = true;
+            this.editorModeCb.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.editorModeCb.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.editorModeCb.Location = new System.Drawing.Point(251, 71);
+            this.editorModeCb.Margin = new System.Windows.Forms.Padding(4);
+            this.editorModeCb.Name = "editorModeCb";
+            this.editorModeCb.Size = new System.Drawing.Size(129, 26);
+            this.editorModeCb.TabIndex = 24;
+            this.editorModeCb.Text = "Play Mode";
+            this.editorModeCb.UseVisualStyleBackColor = true;
+            this.editorModeCb.CheckedChanged += new System.EventHandler(this.mapViewCb_CheckedChanged);
+            // 
             // registeredUsersLbl
             // 
             this.registeredUsersLbl.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.registeredUsersLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.registeredUsersLbl.Location = new System.Drawing.Point(247, 66);
+            this.registeredUsersLbl.Location = new System.Drawing.Point(343, 40);
             this.registeredUsersLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.registeredUsersLbl.Name = "registeredUsersLbl";
             this.registeredUsersLbl.Size = new System.Drawing.Size(79, 27);
@@ -342,7 +369,7 @@
             this.levelStartTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.levelStartTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.levelStartTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.levelStartTxt.Location = new System.Drawing.Point(979, 127);
+            this.levelStartTxt.Location = new System.Drawing.Point(1086, 127);
             this.levelStartTxt.Maximum = new decimal(new int[] {
             14,
             0,
@@ -354,7 +381,7 @@
             0,
             0});
             this.levelStartTxt.Name = "levelStartTxt";
-            this.levelStartTxt.Size = new System.Drawing.Size(154, 30);
+            this.levelStartTxt.Size = new System.Drawing.Size(55, 30);
             this.levelStartTxt.TabIndex = 42;
             this.levelStartTxt.Value = new decimal(new int[] {
             1,
@@ -417,7 +444,7 @@
             this.restartLevel.Name = "restartLevel";
             this.restartLevel.Size = new System.Drawing.Size(165, 33);
             this.restartLevel.TabIndex = 26;
-            this.restartLevel.Text = "Restart Level";
+            this.restartLevel.Text = "Restart";
             this.restartLevel.UseVisualStyleBackColor = true;
             this.restartLevel.Click += new System.EventHandler(this.restartLevel_Click);
             // 
@@ -431,7 +458,7 @@
             this.refreshGame.Name = "refreshGame";
             this.refreshGame.Size = new System.Drawing.Size(165, 33);
             this.refreshGame.TabIndex = 26;
-            this.refreshGame.Text = "Refresh Game";
+            this.refreshGame.Text = "Refresh";
             this.refreshGame.UseVisualStyleBackColor = true;
             this.refreshGame.Click += new System.EventHandler(this.refreshGame_Click);
             // 
@@ -464,12 +491,12 @@
             this.startGameBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.startGameBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.startGameBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.startGameBtn.Location = new System.Drawing.Point(792, 127);
+            this.startGameBtn.Location = new System.Drawing.Point(964, 127);
             this.startGameBtn.Margin = new System.Windows.Forms.Padding(4);
             this.startGameBtn.Name = "startGameBtn";
-            this.startGameBtn.Size = new System.Drawing.Size(165, 33);
+            this.startGameBtn.Size = new System.Drawing.Size(121, 33);
             this.startGameBtn.TabIndex = 15;
-            this.startGameBtn.Text = "Start Game";
+            this.startGameBtn.Text = "Start";
             this.startGameBtn.UseVisualStyleBackColor = true;
             this.startGameBtn.Click += new System.EventHandler(this.startGameBtn_Click);
             // 
@@ -1005,6 +1032,7 @@
             // humanEditor
             // 
             this.humanEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.humanEditor.Controls.Add(this.updateHumanBtn);
             this.humanEditor.Controls.Add(this.readHumanBtn);
             this.humanEditor.Controls.Add(this.resetHumanBtn);
             this.humanEditor.Controls.Add(this.inAirSpeedTxt);
@@ -1012,9 +1040,9 @@
             this.humanEditor.Controls.Add(this.updatePeekBtn);
             this.humanEditor.Controls.Add(this.updateHumanHealthBtn);
             this.humanEditor.Controls.Add(this.damageScaleFenceTxt);
+            this.humanEditor.Controls.Add(this.damageScaleLbl);
             this.humanEditor.Controls.Add(this.fenceDamageScaleLbl);
             this.humanEditor.Controls.Add(this.damageScaleTxt);
-            this.humanEditor.Controls.Add(this.damageScaleLbl);
             this.humanEditor.Controls.Add(this.updateHumanSpeedBtn);
             this.humanEditor.Controls.Add(this.peekTimeTxt);
             this.humanEditor.Controls.Add(this.upwardJumpTxt);
@@ -1024,7 +1052,11 @@
             this.humanEditor.Controls.Add(this.forwardJumpTxt);
             this.humanEditor.Controls.Add(this.peekCrouchLbl);
             this.humanEditor.Controls.Add(this.forwardJumpLbl);
+            this.humanEditor.Controls.Add(this.humanViewCamTxt);
+            this.humanEditor.Controls.Add(this.teamIdTxt);
             this.humanEditor.Controls.Add(this.peekLRTxt);
+            this.humanEditor.Controls.Add(this.humanViewCamLbl);
+            this.humanEditor.Controls.Add(this.label3);
             this.humanEditor.Controls.Add(this.peekLRLbl);
             this.humanEditor.Controls.Add(this.movementSpeedTxt);
             this.humanEditor.Controls.Add(this.movementSpeedLbl);
@@ -1036,24 +1068,38 @@
             this.humanEditor.TabIndex = 2;
             this.humanEditor.Text = "Human Editor";
             // 
+            // updateHumanBtn
+            // 
+            this.updateHumanBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.updateHumanBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.updateHumanBtn.Location = new System.Drawing.Point(931, 302);
+            this.updateHumanBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.updateHumanBtn.Name = "updateHumanBtn";
+            this.updateHumanBtn.Size = new System.Drawing.Size(181, 31);
+            this.updateHumanBtn.TabIndex = 60;
+            this.updateHumanBtn.Text = "Update Human";
+            this.updateHumanBtn.UseVisualStyleBackColor = true;
+            this.updateHumanBtn.Click += new System.EventHandler(this.updateTeamIdBtn_Click);
+            // 
             // readHumanBtn
             // 
             this.readHumanBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.readHumanBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.readHumanBtn.Location = new System.Drawing.Point(964, 323);
+            this.readHumanBtn.Location = new System.Drawing.Point(805, 347);
             this.readHumanBtn.Margin = new System.Windows.Forms.Padding(4);
             this.readHumanBtn.Name = "readHumanBtn";
             this.readHumanBtn.Size = new System.Drawing.Size(148, 31);
             this.readHumanBtn.TabIndex = 59;
             this.readHumanBtn.Text = "Read Human";
             this.readHumanBtn.UseVisualStyleBackColor = true;
+            this.readHumanBtn.Visible = false;
             this.readHumanBtn.Click += new System.EventHandler(this.readHumanBtn_Click);
             // 
             // resetHumanBtn
             // 
             this.resetHumanBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.resetHumanBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.resetHumanBtn.Location = new System.Drawing.Point(788, 323);
+            this.resetHumanBtn.Location = new System.Drawing.Point(964, 347);
             this.resetHumanBtn.Margin = new System.Windows.Forms.Padding(4);
             this.resetHumanBtn.Name = "resetHumanBtn";
             this.resetHumanBtn.Size = new System.Drawing.Size(148, 31);
@@ -1120,7 +1166,7 @@
             this.damageScaleFenceTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.damageScaleFenceTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.damageScaleFenceTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.damageScaleFenceTxt.Location = new System.Drawing.Point(362, 211);
+            this.damageScaleFenceTxt.Location = new System.Drawing.Point(823, 215);
             this.damageScaleFenceTxt.Margin = new System.Windows.Forms.Padding(4);
             this.damageScaleFenceTxt.Name = "damageScaleFenceTxt";
             this.damageScaleFenceTxt.Size = new System.Drawing.Size(100, 30);
@@ -1128,14 +1174,26 @@
             this.damageScaleFenceTxt.Text = "0";
             this.infoViewer.SetToolTip(this.damageScaleFenceTxt, "Fence damage scale - Lower is better");
             // 
+            // damageScaleLbl
+            // 
+            this.damageScaleLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.damageScaleLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.damageScaleLbl.Location = new System.Drawing.Point(22, 219);
+            this.damageScaleLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.damageScaleLbl.Name = "damageScaleLbl";
+            this.damageScaleLbl.Size = new System.Drawing.Size(224, 33);
+            this.damageScaleLbl.TabIndex = 47;
+            this.damageScaleLbl.Text = "Human Damage Scale:";
+            this.damageScaleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // fenceDamageScaleLbl
             // 
-            this.fenceDamageScaleLbl.Font = new System.Drawing.Font("Century Gothic", 10F);
+            this.fenceDamageScaleLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.fenceDamageScaleLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.fenceDamageScaleLbl.Location = new System.Drawing.Point(250, 211);
+            this.fenceDamageScaleLbl.Location = new System.Drawing.Point(565, 215);
             this.fenceDamageScaleLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.fenceDamageScaleLbl.Name = "fenceDamageScaleLbl";
-            this.fenceDamageScaleLbl.Size = new System.Drawing.Size(104, 65);
+            this.fenceDamageScaleLbl.Size = new System.Drawing.Size(224, 33);
             this.fenceDamageScaleLbl.TabIndex = 47;
             this.fenceDamageScaleLbl.Text = "Fence Damage Scale:";
             this.fenceDamageScaleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1146,25 +1204,13 @@
             this.damageScaleTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.damageScaleTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.damageScaleTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.damageScaleTxt.Location = new System.Drawing.Point(133, 208);
+            this.damageScaleTxt.Location = new System.Drawing.Point(360, 219);
             this.damageScaleTxt.Margin = new System.Windows.Forms.Padding(4);
             this.damageScaleTxt.Name = "damageScaleTxt";
             this.damageScaleTxt.Size = new System.Drawing.Size(100, 30);
             this.damageScaleTxt.TabIndex = 46;
             this.damageScaleTxt.Text = "100";
             this.infoViewer.SetToolTip(this.damageScaleTxt, "Human damage scale - Higher is better");
-            // 
-            // damageScaleLbl
-            // 
-            this.damageScaleLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.damageScaleLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.damageScaleLbl.Location = new System.Drawing.Point(7, 204);
-            this.damageScaleLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.damageScaleLbl.Name = "damageScaleLbl";
-            this.damageScaleLbl.Size = new System.Drawing.Size(126, 52);
-            this.damageScaleLbl.TabIndex = 45;
-            this.damageScaleLbl.Text = "Damage \r\nscale:";
-            this.damageScaleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // updateHumanSpeedBtn
             // 
@@ -1283,6 +1329,33 @@
             this.forwardJumpLbl.Text = "Forward:";
             this.forwardJumpLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // humanViewCamTxt
+            // 
+            this.humanViewCamTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.humanViewCamTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.humanViewCamTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.humanViewCamTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.humanViewCamTxt.Location = new System.Drawing.Point(360, 305);
+            this.humanViewCamTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.humanViewCamTxt.Name = "humanViewCamTxt";
+            this.humanViewCamTxt.Size = new System.Drawing.Size(100, 30);
+            this.humanViewCamTxt.TabIndex = 9;
+            this.humanViewCamTxt.Text = "0";
+            // 
+            // teamIdTxt
+            // 
+            this.teamIdTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.teamIdTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.teamIdTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.teamIdTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.teamIdTxt.Location = new System.Drawing.Point(124, 305);
+            this.teamIdTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.teamIdTxt.Name = "teamIdTxt";
+            this.teamIdTxt.Size = new System.Drawing.Size(100, 30);
+            this.teamIdTxt.TabIndex = 9;
+            this.teamIdTxt.Text = "0";
+            this.infoViewer.SetToolTip(this.teamIdTxt, "Team Id of Human , 0 - Friendly, 1 - Enemy");
+            // 
             // peekLRTxt
             // 
             this.peekLRTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
@@ -1296,6 +1369,30 @@
             this.peekLRTxt.TabIndex = 9;
             this.peekLRTxt.Text = "50";
             this.infoViewer.SetToolTip(this.peekLRTxt, "Left/Right Peek length");
+            // 
+            // humanViewCamLbl
+            // 
+            this.humanViewCamLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.humanViewCamLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.humanViewCamLbl.Location = new System.Drawing.Point(237, 305);
+            this.humanViewCamLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.humanViewCamLbl.Name = "humanViewCamLbl";
+            this.humanViewCamLbl.Size = new System.Drawing.Size(117, 33);
+            this.humanViewCamLbl.TabIndex = 8;
+            this.humanViewCamLbl.Text = "View Cam";
+            this.humanViewCamLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.label3.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.label3.Location = new System.Drawing.Point(8, 305);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(114, 33);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Team Id";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // peekLRLbl
             // 
@@ -1665,6 +1762,7 @@
             this.weaponEditor.Controls.Add(this.weaponImgBox);
             this.weaponEditor.Controls.Add(this.removeWeaponBtn);
             this.weaponEditor.Controls.Add(this.weaponNameLbl);
+            this.weaponEditor.Controls.Add(this.gunPickupBtn);
             this.weaponEditor.Controls.Add(this.addWeaponBtn);
             this.weaponEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.weaponEditor.Location = new System.Drawing.Point(4, 30);
@@ -1747,6 +1845,19 @@
             this.weaponNameLbl.TabIndex = 25;
             this.weaponNameLbl.Text = "Weapon:";
             this.weaponNameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // gunPickupBtn
+            // 
+            this.gunPickupBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.gunPickupBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.gunPickupBtn.Location = new System.Drawing.Point(699, 111);
+            this.gunPickupBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.gunPickupBtn.Name = "gunPickupBtn";
+            this.gunPickupBtn.Size = new System.Drawing.Size(211, 31);
+            this.gunPickupBtn.TabIndex = 24;
+            this.gunPickupBtn.Text = "Add Gun";
+            this.gunPickupBtn.UseVisualStyleBackColor = true;
+            this.gunPickupBtn.Click += new System.EventHandler(this.gunPickupBtn_Click);
             // 
             // addWeaponBtn
             // 
@@ -1991,6 +2102,19 @@
             this.missionDescLbl.TabIndex = 32;
             this.missionDescLbl.Text = "Description :";
             this.missionDescLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // missionRefreshBtn
+            // 
+            this.missionRefreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.missionRefreshBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.missionRefreshBtn.Location = new System.Drawing.Point(712, 211);
+            this.missionRefreshBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.missionRefreshBtn.Name = "missionRefreshBtn";
+            this.missionRefreshBtn.Size = new System.Drawing.Size(210, 31);
+            this.missionRefreshBtn.TabIndex = 28;
+            this.missionRefreshBtn.Text = "Refresh Missions";
+            this.missionRefreshBtn.UseVisualStyleBackColor = true;
+            this.missionRefreshBtn.Click += new System.EventHandler(this.missionRefreshBtn_Click);
             // 
             // removeMissionBtn
             // 
@@ -2913,6 +3037,9 @@
             // miscTab
             // 
             this.miscTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.miscTab.Controls.Add(this.framesTxt);
+            this.miscTab.Controls.Add(this.setFramesBtn);
+            this.miscTab.Controls.Add(this.aiIdleCb);
             this.miscTab.Controls.Add(this.appSupportBtn);
             this.miscTab.Controls.Add(this.disableWarningsCb);
             this.miscTab.Controls.Add(this.showAppLogBtn);
@@ -2934,12 +3061,52 @@
             this.miscTab.TabIndex = 6;
             this.miscTab.Text = "Misc";
             // 
+            // framesTxt
+            // 
+            this.framesTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.framesTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.framesTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.framesTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.framesTxt.Location = new System.Drawing.Point(425, 74);
+            this.framesTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.framesTxt.Name = "framesTxt";
+            this.framesTxt.Size = new System.Drawing.Size(89, 30);
+            this.framesTxt.TabIndex = 31;
+            this.framesTxt.Text = "30";
+            // 
+            // setFramesBtn
+            // 
+            this.setFramesBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.setFramesBtn.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.setFramesBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.setFramesBtn.Location = new System.Drawing.Point(275, 66);
+            this.setFramesBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.setFramesBtn.Name = "setFramesBtn";
+            this.setFramesBtn.Size = new System.Drawing.Size(124, 38);
+            this.setFramesBtn.TabIndex = 25;
+            this.setFramesBtn.Text = "Set Frames";
+            this.setFramesBtn.UseVisualStyleBackColor = true;
+            this.setFramesBtn.Click += new System.EventHandler(this.setFramesBtn_Click);
+            // 
+            // aiIdleCb
+            // 
+            this.aiIdleCb.AutoSize = true;
+            this.aiIdleCb.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.aiIdleCb.Location = new System.Drawing.Point(603, 134);
+            this.aiIdleCb.Margin = new System.Windows.Forms.Padding(4);
+            this.aiIdleCb.Name = "aiIdleCb";
+            this.aiIdleCb.Size = new System.Drawing.Size(95, 26);
+            this.aiIdleCb.TabIndex = 24;
+            this.aiIdleCb.Text = "A.I Idle";
+            this.aiIdleCb.UseVisualStyleBackColor = true;
+            this.aiIdleCb.CheckedChanged += new System.EventHandler(this.aiIdleCb_CheckedChanged);
+            // 
             // appSupportBtn
             // 
             this.appSupportBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.appSupportBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.appSupportBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.appSupportBtn.Location = new System.Drawing.Point(672, 298);
+            this.appSupportBtn.Location = new System.Drawing.Point(600, 298);
             this.appSupportBtn.Margin = new System.Windows.Forms.Padding(4);
             this.appSupportBtn.Name = "appSupportBtn";
             this.appSupportBtn.Size = new System.Drawing.Size(190, 38);
@@ -2954,7 +3121,7 @@
             this.disableWarningsCb.Checked = true;
             this.disableWarningsCb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.disableWarningsCb.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.disableWarningsCb.Location = new System.Drawing.Point(672, 136);
+            this.disableWarningsCb.Location = new System.Drawing.Point(603, 100);
             this.disableWarningsCb.Margin = new System.Windows.Forms.Padding(4);
             this.disableWarningsCb.Name = "disableWarningsCb";
             this.disableWarningsCb.Size = new System.Drawing.Size(178, 26);
@@ -2968,7 +3135,7 @@
             this.showAppLogBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.showAppLogBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.showAppLogBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.showAppLogBtn.Location = new System.Drawing.Point(672, 235);
+            this.showAppLogBtn.Location = new System.Drawing.Point(600, 235);
             this.showAppLogBtn.Margin = new System.Windows.Forms.Padding(4);
             this.showAppLogBtn.Name = "showAppLogBtn";
             this.showAppLogBtn.Size = new System.Drawing.Size(190, 38);
@@ -2980,11 +3147,11 @@
             // xmlCb
             // 
             this.xmlCb.AutoSize = true;
-            this.xmlCb.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.xmlCb.Location = new System.Drawing.Point(389, 112);
+            this.xmlCb.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xmlCb.Location = new System.Drawing.Point(190, 112);
             this.xmlCb.Margin = new System.Windows.Forms.Padding(4);
             this.xmlCb.Name = "xmlCb";
-            this.xmlCb.Size = new System.Drawing.Size(70, 26);
+            this.xmlCb.Size = new System.Drawing.Size(62, 24);
             this.xmlCb.TabIndex = 20;
             this.xmlCb.Text = "XML";
             this.xmlCb.UseVisualStyleBackColor = true;
@@ -2993,11 +3160,11 @@
             // jsonCb
             // 
             this.jsonCb.AutoSize = true;
-            this.jsonCb.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.jsonCb.Location = new System.Drawing.Point(275, 112);
+            this.jsonCb.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.jsonCb.Location = new System.Drawing.Point(113, 112);
             this.jsonCb.Margin = new System.Windows.Forms.Padding(4);
             this.jsonCb.Name = "jsonCb";
-            this.jsonCb.Size = new System.Drawing.Size(81, 26);
+            this.jsonCb.Size = new System.Drawing.Size(69, 24);
             this.jsonCb.TabIndex = 20;
             this.jsonCb.Text = "JSON";
             this.jsonCb.UseVisualStyleBackColor = true;
@@ -3006,11 +3173,11 @@
             // csvCb
             // 
             this.csvCb.AutoSize = true;
-            this.csvCb.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.csvCb.Location = new System.Drawing.Point(171, 112);
+            this.csvCb.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.csvCb.Location = new System.Drawing.Point(42, 112);
             this.csvCb.Margin = new System.Windows.Forms.Padding(4);
             this.csvCb.Name = "csvCb";
-            this.csvCb.Size = new System.Drawing.Size(71, 26);
+            this.csvCb.Size = new System.Drawing.Size(61, 24);
             this.csvCb.TabIndex = 20;
             this.csvCb.Text = "CSV";
             this.csvCb.UseVisualStyleBackColor = true;
@@ -3020,7 +3187,7 @@
             // 
             this.appLogsCb.AutoSize = true;
             this.appLogsCb.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.appLogsCb.Location = new System.Drawing.Point(672, 100);
+            this.appLogsCb.Location = new System.Drawing.Point(603, 64);
             this.appLogsCb.Margin = new System.Windows.Forms.Padding(4);
             this.appLogsCb.Name = "appLogsCb";
             this.appLogsCb.Size = new System.Drawing.Size(178, 26);
@@ -3033,7 +3200,7 @@
             // 
             this.autoResetCb.AutoSize = true;
             this.autoResetCb.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.autoResetCb.Location = new System.Drawing.Point(672, 66);
+            this.autoResetCb.Location = new System.Drawing.Point(603, 30);
             this.autoResetCb.Margin = new System.Windows.Forms.Padding(4);
             this.autoResetCb.Name = "autoResetCb";
             this.autoResetCb.Size = new System.Drawing.Size(175, 26);
@@ -3047,10 +3214,10 @@
             this.cutsceneRemoveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cutsceneRemoveBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.cutsceneRemoveBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.cutsceneRemoveBtn.Location = new System.Drawing.Point(171, 298);
+            this.cutsceneRemoveBtn.Location = new System.Drawing.Point(42, 298);
             this.cutsceneRemoveBtn.Margin = new System.Windows.Forms.Padding(4);
             this.cutsceneRemoveBtn.Name = "cutsceneRemoveBtn";
-            this.cutsceneRemoveBtn.Size = new System.Drawing.Size(289, 38);
+            this.cutsceneRemoveBtn.Size = new System.Drawing.Size(193, 38);
             this.cutsceneRemoveBtn.TabIndex = 18;
             this.cutsceneRemoveBtn.Text = "Remove Cutscenes";
             this.cutsceneRemoveBtn.UseVisualStyleBackColor = true;
@@ -3061,10 +3228,10 @@
             this.resetCurrentLevelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.resetCurrentLevelBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.resetCurrentLevelBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.resetCurrentLevelBtn.Location = new System.Drawing.Point(171, 235);
+            this.resetCurrentLevelBtn.Location = new System.Drawing.Point(42, 235);
             this.resetCurrentLevelBtn.Margin = new System.Windows.Forms.Padding(4);
             this.resetCurrentLevelBtn.Name = "resetCurrentLevelBtn";
-            this.resetCurrentLevelBtn.Size = new System.Drawing.Size(289, 38);
+            this.resetCurrentLevelBtn.Size = new System.Drawing.Size(193, 38);
             this.resetCurrentLevelBtn.TabIndex = 18;
             this.resetCurrentLevelBtn.Text = "Reset current Level";
             this.resetCurrentLevelBtn.UseVisualStyleBackColor = true;
@@ -3075,10 +3242,10 @@
             this.resetAllLevelsBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.resetAllLevelsBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.resetAllLevelsBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.resetAllLevelsBtn.Location = new System.Drawing.Point(171, 170);
+            this.resetAllLevelsBtn.Location = new System.Drawing.Point(42, 170);
             this.resetAllLevelsBtn.Margin = new System.Windows.Forms.Padding(4);
             this.resetAllLevelsBtn.Name = "resetAllLevelsBtn";
-            this.resetAllLevelsBtn.Size = new System.Drawing.Size(289, 38);
+            this.resetAllLevelsBtn.Size = new System.Drawing.Size(193, 38);
             this.resetAllLevelsBtn.TabIndex = 17;
             this.resetAllLevelsBtn.Text = "Reset all Levels";
             this.resetAllLevelsBtn.UseVisualStyleBackColor = true;
@@ -3090,7 +3257,7 @@
             this.compileBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.compileBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.compileBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.compileBtn.Location = new System.Drawing.Point(672, 298);
+            this.compileBtn.Location = new System.Drawing.Point(600, 298);
             this.compileBtn.Margin = new System.Windows.Forms.Padding(4);
             this.compileBtn.Name = "compileBtn";
             this.compileBtn.Size = new System.Drawing.Size(190, 38);
@@ -3104,7 +3271,7 @@
             this.clearCacheBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.clearCacheBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.clearCacheBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.clearCacheBtn.Location = new System.Drawing.Point(675, 170);
+            this.clearCacheBtn.Location = new System.Drawing.Point(603, 170);
             this.clearCacheBtn.Margin = new System.Windows.Forms.Padding(4);
             this.clearCacheBtn.Name = "clearCacheBtn";
             this.clearCacheBtn.Size = new System.Drawing.Size(190, 38);
@@ -3118,10 +3285,10 @@
             this.exportObjectsBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.exportObjectsBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.exportObjectsBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.exportObjectsBtn.Location = new System.Drawing.Point(171, 66);
+            this.exportObjectsBtn.Location = new System.Drawing.Point(42, 66);
             this.exportObjectsBtn.Margin = new System.Windows.Forms.Padding(4);
             this.exportObjectsBtn.Name = "exportObjectsBtn";
-            this.exportObjectsBtn.Size = new System.Drawing.Size(289, 38);
+            this.exportObjectsBtn.Size = new System.Drawing.Size(193, 38);
             this.exportObjectsBtn.TabIndex = 16;
             this.exportObjectsBtn.Text = "Export objects";
             this.exportObjectsBtn.UseVisualStyleBackColor = true;
@@ -3176,9 +3343,9 @@
             this.versionLbl.Location = new System.Drawing.Point(159, 71);
             this.versionLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.versionLbl.Name = "versionLbl";
-            this.versionLbl.Size = new System.Drawing.Size(64, 17);
+            this.versionLbl.Size = new System.Drawing.Size(47, 17);
             this.versionLbl.TabIndex = 3;
-            this.versionLbl.Text = "v0.2-BETA";
+            this.versionLbl.Text = "vesion";
             // 
             // label2
             // 
@@ -3236,18 +3403,19 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "IGI 1";
             // 
-            // missionRefreshBtn
+            // quitLevelBtn
             // 
-            this.missionRefreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.missionRefreshBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.missionRefreshBtn.Location = new System.Drawing.Point(712, 211);
-            this.missionRefreshBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.missionRefreshBtn.Name = "missionRefreshBtn";
-            this.missionRefreshBtn.Size = new System.Drawing.Size(210, 31);
-            this.missionRefreshBtn.TabIndex = 28;
-            this.missionRefreshBtn.Text = "Refresh Missions";
-            this.missionRefreshBtn.UseVisualStyleBackColor = true;
-            this.missionRefreshBtn.Click += new System.EventHandler(this.missionRefreshBtn_Click);
+            this.quitLevelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.quitLevelBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.quitLevelBtn.ForeColor = System.Drawing.Color.Tomato;
+            this.quitLevelBtn.Location = new System.Drawing.Point(792, 127);
+            this.quitLevelBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.quitLevelBtn.Name = "quitLevelBtn";
+            this.quitLevelBtn.Size = new System.Drawing.Size(164, 33);
+            this.quitLevelBtn.TabIndex = 45;
+            this.quitLevelBtn.Text = "Quit";
+            this.quitLevelBtn.UseVisualStyleBackColor = true;
+            this.quitLevelBtn.Click += new System.EventHandler(this.quitLevelBtn_Click);
             // 
             // IGIEditorUI
             // 
@@ -3424,7 +3592,6 @@
         private System.Windows.Forms.TextBox damageScaleFenceTxt;
         private System.Windows.Forms.Label fenceDamageScaleLbl;
         private System.Windows.Forms.TextBox damageScaleTxt;
-        private System.Windows.Forms.Label damageScaleLbl;
         private System.Windows.Forms.Button updateHumanSpeedBtn;
         private System.Windows.Forms.TextBox upwardJumpTxt;
         private System.Windows.Forms.Label upwardJumpLbl;
@@ -3513,6 +3680,18 @@
         private System.Windows.Forms.Label missionSizeLbl;
         private System.Windows.Forms.Label missionLevelLbl;
         private System.Windows.Forms.Button missionRefreshBtn;
+        private System.Windows.Forms.Button gunPickupBtn;
+        private System.Windows.Forms.CheckBox aiIdleCb;
+        private System.Windows.Forms.Label damageScaleLbl;
+        private System.Windows.Forms.TextBox teamIdTxt;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button updateHumanBtn;
+        private System.Windows.Forms.CheckBox editorModeCb;
+        private System.Windows.Forms.Button setFramesBtn;
+        private System.Windows.Forms.TextBox framesTxt;
+        private System.Windows.Forms.TextBox humanViewCamTxt;
+        private System.Windows.Forms.Label humanViewCamLbl;
+        private System.Windows.Forms.Button quitLevelBtn;
     }
 }
 
