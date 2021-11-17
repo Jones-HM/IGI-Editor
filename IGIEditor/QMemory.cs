@@ -26,7 +26,7 @@ namespace IGIEditor
                 if (enableLogs)
                     GT.GT_EnableLogs();
 
-                Process[] pname = Process.GetProcessesByName(gameName);
+                var pname = Process.GetProcessesByName(gameName);
                 if (pname.Length == 0)
                     gameFound = false;
                 else
@@ -167,10 +167,9 @@ namespace IGIEditor
                     string qscData = QHuman.UpdatePositionInMeter(humanPos, humanAngle);
                     if (!String.IsNullOrEmpty(qscData)) QCompiler.Compile(qscData, QUtils.gamePath);
                 }
+                QUtils.Sleep(1);
             }
-
-            Thread.Sleep(1000);
-            GT.GT_SendKeys2Process(gameName, "^r", false);
+            QInternals.RestartLevel();
         }
     }
 }

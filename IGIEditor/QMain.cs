@@ -18,7 +18,7 @@ namespace IGIEditor
                 var projAppName = AppDomain.CurrentDomain.FriendlyName;
                 AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnAppExit);
 
-                mutex = new Mutex(true,projAppName, out instanceCount);
+                mutex = new Mutex(true, projAppName, out instanceCount);
                 if (instanceCount)
                 {
                     Application.EnableVisualStyles();
@@ -42,16 +42,24 @@ namespace IGIEditor
             //Update config on exit.
             QUtils.CreateConfig();
 
+            //Move Logs and data to cache.
             if (File.Exists(QUtils.logFile))
             {
-                QUtils.ShellExec("move /Y " + QUtils.logFile + " " + QUtils.cachePathAppLogs,true);
-                QUtils.ShellExec("move /Y " + QUtils.qLibLogsFile + " " + QUtils.cachePathAppLogs,true);
-                Thread.Sleep(2000);
+                QUtils.ShellExec("move /Y " + QUtils.logFile + " " + QUtils.cachePathAppLogs, true);
+                QUtils.ShellExec("move /Y " + QUtils.qLibLogsFile + " " + QUtils.cachePathAppLogs, true);
+                QUtils.Sleep(2);
             }
+            if (File.Exists(QUtils.internalsLogPath))
+                QUtils.ShellExec("move /Y " + QUtils.internalsLogPath + " " + QUtils.cachePathAppLogs, true);
+
+            //Cleanup A.I script files.
             QUtils.CleanUpAiFiles();
 
-            //Eject Dll on Exit.
-            QLibc.GT.GT_SendKeys2Process(QMemory.gameName, QLibc.GT.VK.END);
+            //Deattach internals on Exit.
+            QUtils.DeattachInternals();
+
+            //Cleanup tmp files in Cache.
+            QUtils.CleanUpTmpFiles();
         }
     }
 }

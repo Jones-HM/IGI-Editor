@@ -5,23 +5,31 @@ namespace IGIEditor
 {
     class QMisc
     {
-        static string cutscence_regex = @"!CutScene_\d{3,}.isFinished";
+        static string cutscenceRegex = @"!CutScene_\d{3,}.isFinished";
 
-        internal static string RemoveCutscene(string input_path, int game_level)
+        internal static string RemoveCutscene()
         {
-            QUtils.ResetFile(game_level);
-            string qsc_data = QUtils.LoadFile();
+            string qscData = QUtils.LoadFile();
 
-            qsc_data = Regex.Replace(qsc_data, cutscence_regex, String.Empty, RegexOptions.Multiline);
-            return qsc_data;
+            qscData = Regex.Replace(qscData, cutscenceRegex, String.Empty, RegexOptions.Multiline);
+            return qscData;
+        }
+
+        internal static string RemoveCutscene(string inputPath)
+        {
+            string qscData = QUtils.LoadFile(inputPath);
+
+            qscData = Regex.Replace(qscData, cutscenceRegex, String.Empty, RegexOptions.Multiline);
+            return qscData;
         }
 
         internal static bool RemoveCutscenes(string input_path)
         {
             bool status = false;
-            for (int level = 1; level <= 14; ++level)
+            for (int level = 1; level <= QUtils.GAME_MAX_LEVEL; ++level)
             {
-                var qsc_data = RemoveCutscene(input_path, level);
+                input_path = input_path + level;//Not tested.
+                var qsc_data = RemoveCutscene(input_path);
                 if (!String.IsNullOrEmpty(qsc_data))
                 {
                     string game_path = QUtils.cfgGamePath + level + "\\" + QUtils.objectsQvm;

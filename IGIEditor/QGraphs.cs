@@ -122,7 +122,7 @@ namespace IGIEditor
                 level = QMemory.GetCurrentLevel();
 
 
-            QUtils.AddLog("GetGraphNodeIds() called with level " + level + "idType : " + idType);
+            QUtils.AddLog("GetGraphNodeIds() called with level " + level + " idType : " + idType);
 
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             string qscData = QCryptor.Decrypt(inputQscPath);
@@ -439,7 +439,7 @@ namespace IGIEditor
             return qscData;
         }
 
-        internal static string ShowGraphNodesVisual(int graphId, int visualType = 1, string nodeObject = "000_00_0")
+        internal static string ShowGraphNodesVisual(int graphId, int visualType = 1, string nodeObject = "000_00_0",string markerColor= "MARKER_COLOR_YELLOW")
         {
             string qscData = null;
             string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
@@ -447,6 +447,7 @@ namespace IGIEditor
             var nodeData = ReadGraphNodeData(graphFile);
             var graphPos = GetGraphPosition(graphId.ToString());
             QUtils.qtaskId = QUtils.GenerateTaskID(true);
+            var graphArea = QGraphs.GetGraphArea(graphId);
 
             foreach (var node in nodeData)
             {
@@ -458,12 +459,13 @@ namespace IGIEditor
                 nodeRealPos.x = graphPos.x + node.NodePos.x;
                 nodeRealPos.y = graphPos.y + node.NodePos.y;
                 nodeRealPos.z = graphPos.z + node.NodePos.z;
-                string taskNote = "Graph #" + graphId + " Node #" + node.NodeId;
+                
+                string taskNote = "Graph " + graphArea + " Node #" + node.NodeId;
 
                 //Visualisation Object - StatusMsg.
                 if (visualType == 1)
                 {
-                    IGIEditorUI.editorRef.AddObject(nodeObject, true, nodeRealPos, false, -1, taskNote);
+                    IGIEditorUI.editorRef.AddObject(nodeObject, true, nodeRealPos, false, -1, taskNote,false);
 
                     var areaDim = new AreaDim(8000);
                     qscData += QObjects.AddAreaActivate(QUtils.qtaskId, nodeObject, null, "\"" + taskNote + "\"", ref nodeRealPos, ref areaDim);
@@ -472,8 +474,8 @@ namespace IGIEditor
                 //Visualisation Hilight - ComputerMap Hilight.
                 else if (visualType == 2)
                 {
-                    IGIEditorUI.editorRef.AddObject(nodeObject, false, nodeRealPos, false, QUtils.qtaskId, taskNote);
-                    qscData += QObjects.ComputerMapHilight(QUtils.qtaskId, taskNote, "Graph #" + graphId, taskNote, "MARKER_BOX", "MARKER_COLOR_YELLOW");
+                    IGIEditorUI.editorRef.AddObject(nodeObject, false, nodeRealPos, false, QUtils.qtaskId, taskNote,false);
+                    qscData += QObjects.ComputerMapHilight(QUtils.qtaskId, taskNote, "Graph " + graphArea + graphId, taskNote, "MARKER_BOX", markerColor);
                 }
                 QUtils.qtaskId++;
 

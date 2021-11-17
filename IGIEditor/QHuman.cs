@@ -135,14 +135,19 @@ namespace IGIEditor
             return ammoId;
         }
 
-        internal static List<Dictionary<string, string>> GetWeaponsList()
+        internal static List<Dictionary<string, int>> GetWeaponsList()
         {
-            var weaponsList = new List<Dictionary<string, string>>();
-            foreach (var weapon in QUtils.weaponsList)
+            var weaponsList = new List<Dictionary<string, int>>();
+            for (int index = 1; index <= (int)QUtils.GAME_WEAPON.WEAPON_ID_SENTRY; index++)
             {
-                var weaponObj = new Dictionary<string, string>();
-                weaponObj.Add(weapon, QUtils.weaponId + weapon);
-                weaponsList.Add(weaponObj);
+                var weaponIndex = (QUtils.GAME_WEAPON)index;
+                string weaponStr = weaponIndex.ToString();
+                if (weaponStr.Length > 2)
+                {
+                    var weaponObj = new Dictionary<string, int>();
+                    weaponObj.Add(weaponStr.Replace("WEAPON_ID_", String.Empty), index);
+                    weaponsList.Add(weaponObj);
+                }
             }
             return weaponsList;
         }
@@ -167,7 +172,7 @@ namespace IGIEditor
             return found;
         }
 
-        internal static QUtils.HTask GetHumanTaskList()
+        internal static QUtils.HTask GetHumanTaskList(bool fromBackup = false)
         {
             //Declare types to store position to qtask.
             QUtils.HTask htask = new QUtils.HTask();
@@ -177,9 +182,11 @@ namespace IGIEditor
             Real32 orientation = new Real32();
             Real64 position = new Real64();
 
-            string qscData = QUtils.LoadFile();
+            string inputQscPath = QUtils.cfgQscPath + QUtils.gGameLevel + "\\" + QUtils.objectsQsc;
 
-            if (qscData.IsNonASCII()) qscData = QCryptor.Decrypt(QUtils.objectsQsc);
+            string qscData = (fromBackup) ? QCryptor.Decrypt(inputQscPath) : QUtils.LoadFile();
+
+            //if (qscData.IsNonASCII()) qscData = QCryptor.Decrypt(QUtils.objectsQsc);
 
             string idIndexStr = "Task_New(0";
             int idIndex = qscData.IndexOf(idIndexStr);
@@ -423,12 +430,7 @@ namespace IGIEditor
             bool status = QCompiler.Compile(humanFileName, outputHumanPlayerPath, 0x0);
             System.IO.File.Delete(humanFileName);
 
-            if (status)
-            {
-                Thread.Sleep(1000);
-                GT.GT_SendKeys2Process(QMemory.gameName, "^h", true);
-                QMemory.SetStatusMsgText("Human parameters set success");
-            }
+            if (status) QInternals.HumanplayerLoad();
         }
     }
 }

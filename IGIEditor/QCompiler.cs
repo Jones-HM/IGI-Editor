@@ -8,265 +8,97 @@ namespace IGIEditor
 {
     internal class QCompiler
     {
-        enum QTYPE
-        {
-            COMPILE,
-            DECOMPILE,
-        };
-        private static string qpath;
-
-        private string compileStart = "compile.bat";
-        private string decompileStart = "decompile.bat";
-        internal static string compilePath = QUtils.appdataPath + @"\" + QUtils.qEditor + @"\" + QUtils.qconv + @"\Compile";
-        private string compileInputPath = QUtils.appdataPath + @"\" + QUtils.qEditor + @"\" + QUtils.qconv + @"\Compile\input";
-        internal static string decompilePath = QUtils.appdataPath + @"\" + QUtils.qEditor + @"\" + QUtils.qconv + @"\Decompile";
-        private string decompileInputPath = QUtils.appdataPath + @"\" + QUtils.qEditor + @"\" + QUtils.qconv + @"\Decompile\input";
-        private string copyNoneErr = "0 File(s) copied";
-        private string moveNoneErr = "0 File(s) moved";
-        private string qedCurrPath;
-
-        internal QCompiler()
-        {
-            qedCurrPath = Directory.GetCurrentDirectory();
-            qpath = QUtils.appdataPath;
-        }
-
-        internal static void CheckQConvExist()
-        {
-            var qconvPath = QUtils.appdataPath + Path.DirectorySeparatorChar + QUtils.qEditor + Path.DirectorySeparatorChar + QUtils.qconv;
-            bool exist = Directory.Exists(qconvPath);
-            if (!exist)
-            {
-                QUtils.ShowError("QConvertor tool not found in system", QUtils.CAPTION_FATAL_SYS_ERR);
-                System.Environment.Exit(1);
-            }
-        }
-
-
-        private void QSetPath(string path)
-        {
-            //path = qpath + path;
-            Directory.SetCurrentDirectory(path);
-        }
-
-        private string QGetAbsPath(string dirName)
-        {
-            return qpath + dirName;
-        }
-
-        private bool QCopy(List<string> files, QTYPE type)
-        {
-            bool status = true;
-            string copyPath = (type == (int)QTYPE.COMPILE) ? (compileInputPath) : (decompileInputPath);
-            foreach (var file in files)
-            {
-                string copyFile = "copy \"" + file + "\" \"" + copyPath + "\"";
-                var shellOut = QUtils.ShellExec(copyFile);
-
-                //Check for error in copy.
-                if (shellOut.Contains(copyNoneErr))
-                {
-                    status = false;
-                    break;
-                }
-            }
-            return status;
-        }
-
-        private bool XCopy(string src, string dest)
-        {
-            bool status = true;
-            string xcopyCmd = "xcopy " + src + dest + " /s /e /h /D";
-
-            var shellOut = QUtils.ShellExec(xcopyCmd);
-
-            //Check for error in copy.
-            if (shellOut.Contains(copyNoneErr))
-                status = false;
-            return status;
-        }
-
-        private bool XMove(string src, string dest, QTYPE qtype)
-        {
-            bool status = true;
-            string filter = "*.";
-
-            if (qtype == QTYPE.COMPILE) filter = "*qvm";
-            else if (qtype == QTYPE.DECOMPILE) filter = "*qsc";
-
-            string xmoveCmd = "for /r \"" + src + "\" %x in (" + filter + ") do move /y \"%x\" \"" + dest + "\"";
-            var shellOut = QUtils.ShellExec(xmoveCmd, true);
-
-            //Check for error in move.
-            if (shellOut.Contains(moveNoneErr))
-                status = false;
-            return status;
-        }
-
-
-
-        internal static bool Compile(string qscFile, string qscPath, int _Ignore)
+        internal static bool Compile(string qscFile, string gamePath, int _ignore)
         {
             bool status = false;
-            if (!String.IsNullOrEmpty(qscFile))
-            {
-                var qcompiler = new QCompiler();
-                status = qcompiler.QCompile(new List<string>() { qscFile }, qscPath);
+            QUtils.AddLog("Compile() QscFile : file: '" + qscFile + "' Game Path: '" + gamePath+ "'");
 
-                if (status)
+            if (File.Exists(qscFile))
+            {
+                string scriptFile = "MISSION:objects.qsc";
+                string outScriptPath = gamePath + "\\" + qscFile;
+                QUtils.AddLog("Compile() QscFile : Output path '" + outScriptPath + "'");
+
+                var qscData = QUtils.LoadFile(qscFile);
+
+                if (!String.IsNullOrEmpty(qscData))
                 {
-                    IGIEditorUI.editorRef.SetStatusText("QCompile success");
+                    //Compile for Humanplayer.
+                    if (gamePath.Contains(QUtils.humanplayerPath))
+                    {
+                        scriptFile = "LOCAL:humanplayer/" + qscFile;
+                    }
+
+                    else if (gamePath.Contains("ai"))
+                    {
+                        scriptFile = "MISSION:AI/" + qscFile;
+                    }
+
+                    if (File.Exists(outScriptPath))
+                    {
+                        QUtils.AddLog("Compile() QscFile : File exist '" + outScriptPath + "' deleting file.");
+                        File.Delete(outScriptPath);
+                    }
+
+                    //Copy file to OutPath and Compile with Internal Compiler.
+                    File.Copy(qscFile, outScriptPath);
+
+                    QUtils.AddLog("Compile() QscFile : Starting Compiling of file '" + scriptFile + "'");
+                    QInternals.ScriptCompile(scriptFile);
+                    status = true;
+                    QUtils.AddLog("Compile() QscFile : Compiling of file '" + scriptFile + "' done\tOutput Script Path: '" + outScriptPath+ "'");
+
+
+                    if (status) IGIEditorUI.editorRef.SetStatusText("Compile success");
                 }
+                else QUtils.ShowError("Compile error data is empty.", "COMPILE ERROR");
             }
+            else QUtils.ShowError("Compile error file not found.", "COMPILE ERROR");
             return status;
         }
 
         internal static bool Compile(string qscData, string gamePath, bool appendData = false, bool restartLevel = false, bool savePos = true)
         {
             bool status = false;
-            if (!String.IsNullOrEmpty(qscData))
+            try
             {
-                QUtils.SaveFile(qscData, appendData);
-                QUtils.gamePath = QUtils.cfgGamePath + QMemory.GetCurrentLevel();
-                string outScriptPath = QUtils.gamePath + "\\" + QUtils.objectsQsc;
-                if (File.Exists(outScriptPath))
+                if (!String.IsNullOrEmpty(qscData))
                 {
+                    string scriptFile = "MISSION:objects.qsc";
+                    QUtils.AddLog("Compile() QscData : Script File :'" + scriptFile + "' Game Path: '" + gamePath + "' Append Data: " + appendData + " Restart Level: " + restartLevel + " Save Position: " + savePos);
+                    
+                    //Compile for Objets.
+                    QUtils.SaveFile(qscData, appendData);
+                    QUtils.gamePath = QUtils.cfgGamePath + QMemory.GetCurrentLevel();
+                    string outScriptPath = QUtils.gamePath + "\\" + QUtils.objectsQsc;
+                    QUtils.AddLog("Compile() QscData : Output Path: '" + outScriptPath + "'");
+
+                    if (File.Exists(outScriptPath))
+                    {
+                        QUtils.AddLog("Compile() QscData : File exist '" + outScriptPath + "' deleting file.");
+                       File.Delete(outScriptPath);
+                    }
+
+                    //Copy file to OutPath and Compile with Internal Compiler.
+                    QUtils.AddLog("Compile() QscData : Starting Compiling of file '" + QUtils.objectsQsc + "'");
+                    File.Copy(QUtils.objectsQsc, outScriptPath);
+                    QInternals.ScriptCompile(scriptFile);
+                    QUtils.AddLog("Compile() QscData : Compiling of file '" + scriptFile + "' done\tOutput Path: '" + outScriptPath + "'");
+
+                    QUtils.Sleep(1.5f);
+                    //Delete script file after compiling.
                     File.Delete(outScriptPath);
+                    QUtils.AddLog("Compile() QscData : Output Path: '" + outScriptPath + "' removed");
+
+                    if (restartLevel) QMemory.RestartLevel(savePos);
                     status = true;
                 }
-                File.Copy(QUtils.objectsQsc, outScriptPath);
-
-                string scriprFile = "MISSION:objects.qsc";
-                QInternals.ScriptCompile(scriprFile);
-
-                System.Threading.Thread.Sleep(1000);
-                //Delete script file after compiling.
-                File.Delete(outScriptPath);
-
-                if (status)
-                {
-                    IGIEditorUI.editorRef.SetStatusText("Compile success");
-                    if (restartLevel) QMemory.RestartLevel(savePos);
-                }
-            }
-            return status;
-        }
-
-
-        internal static void ShowCompileErrors()
-        {
-            {
-                string qscData = QUtils.LoadFile();
-
-                int startTokenCount = qscData.Count(o => o == '(');
-                int endTokenCount = qscData.Count(o => o == ')');
-
-                if (startTokenCount != endTokenCount)
-                {
-                    QUtils.ShowError("QError : Error while compiling Mismatch token '(' found in script");
-                }
-                else
-                {
-                    QUtils.AddLog("ShowCompileErrors() Start token : " + startTokenCount);
-                    QUtils.AddLog("ShowCompileErrors() End token : " + endTokenCount);
-                }
-
-                var match_1 = Regex.Match(qscData, @",\s*\n\),");
-                var match_2 = Regex.Match(qscData, @""",\s\){1,},");
-
-
-                if (!match_1.Success || !match_2.Success)
-                {
-                    QUtils.ShowError("QError : Expected eof after token ')'");
-                }
-
-                else
-                {
-                    QUtils.ShowInfo("QSuccess : Compiling finished");
-                }
-            }
-        }
-
-        public bool QCompile(List<string> qscFiles, string outputPath)
-        {
-            bool status = true;
-            try
-            {
-                status = QCopy(qscFiles, QTYPE.COMPILE);
-
-                if (!status)
-                    QUtils.ShowError("Error occurred while copying files");
-
-                //Change directory to compile directory.
-                QSetPath(compilePath);
-
-                //Start compile command.
-                string shellOut = QUtils.ShellExec(compileStart);
-                if (shellOut.Contains("Error") || shellOut.Contains("Converted: 0"))
-                {
-                    QUtils.ShowError("Error in compiling input files");
-                    QSetPath(QUtils.appCurrPath);
-                    return false;
-                }
-
-                var currDir = Directory.GetCurrentDirectory();
-                if (Directory.Exists(currDir))
-                {
-                    bool moveStatus = XMove("output", outputPath, QTYPE.COMPILE);
-                    if (!moveStatus)
-                        QUtils.ShowError("Error while moving data to Output path");
-                }
-                else
-                {
-                    QUtils.ShowError("Path '" + currDir + "' does not exist!");
-                }
-
             }
             catch (Exception ex)
             {
-                QUtils.ShowError(ex.Message);
+                QUtils.ShowError("Exception: " + ex.Message ?? ex.StackTrace);
+                status = false;
             }
-            Directory.SetCurrentDirectory(qedCurrPath);
-            return status;
-        }
-
-        public bool QDecompile(List<string> qvmFiles, string outputPath)
-        {
-            bool status = true;
-            try
-            {
-                status = QCopy(qvmFiles, QTYPE.DECOMPILE);
-
-                if (!status)
-                    QUtils.ShowError("Error occurred while copying files");
-
-                //Change directory to compile directory.
-                QSetPath(decompilePath);
-
-                //Start decompile command.
-                string shellOut = QUtils.ShellExec(decompileStart);
-                if (shellOut.Contains("Error") || shellOut.Contains("Converted: 0"))
-                    QUtils.ShowError("Error in decompiling input files");
-
-                var currDir = Directory.GetCurrentDirectory();
-
-                if (Directory.Exists(currDir))
-                {
-                    bool moveStatus = XMove("output", outputPath, QTYPE.DECOMPILE);
-                    if (!moveStatus)
-                        QUtils.ShowError("Error while moving data to Output path");
-                }
-                else
-                {
-                    QUtils.ShowError("Path '" + currDir + "' does not exist!");
-                }
-
-            }
-            catch (Exception ex)
-            {
-                QUtils.ShowError(ex.Message);
-            }
-            Directory.SetCurrentDirectory(qedCurrPath);
             return status;
         }
 

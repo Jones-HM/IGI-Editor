@@ -149,8 +149,7 @@ namespace IGIEditor
                     }
 
                     //Add GuardGenerator .
-                    if (guardGenerator)
-                        qscData += QAI.GuardGenerator("AI Army", maxSpawns);
+                    if (guardGenerator) qscData += QAI.GuardGenerator("AI Army", maxSpawns);
 
                     //Add A.I HumanSoldier.
                     qscData += AddHumanSoldier(aiType, aiIdI, graphIdI, aiPos, aiAngle, modelId, teamId, true, aiWeapon, aiAmmo, guardGenerator);

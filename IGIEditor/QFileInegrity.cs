@@ -37,7 +37,7 @@ namespace IGIEditor
 
             if (!qChecksFileData.Contains(qfilePath))
             {
-                QUtils.ShowError("File '" + filePath + "' doesn't exist in QChecks sum");
+                QUtils.ShowError("File '" + filePath + "' doesn't exist in check sum");
                 return fileMatch;
             }
 
@@ -116,7 +116,7 @@ namespace IGIEditor
                     GenerateFileHash(files, true);
                 }
             }
-            Thread.Sleep(1500);
+            QUtils.Sleep(1.5f);
             QCryptor.Encrypt(qChecksFile);
         }
 

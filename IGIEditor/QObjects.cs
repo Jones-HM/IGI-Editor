@@ -365,9 +365,9 @@ namespace IGIEditor
             if (modelId.Contains("\""))
                 modelId = modelId.Replace("\"", String.Empty);
 
-            if (File.Exists(QUtils.objectsMasterList))
+            if (File.Exists(QUtils.objectsModelsList))
             {
-                var masterobjList = QCryptor.Decrypt(QUtils.objectsMasterList);
+                var masterobjList = QCryptor.Decrypt(QUtils.objectsModelsList);
                 var objList = masterobjList.Split('\n');
                 QUtils.AddLog("FindModelName() called with id : \"" + modelId + "\"");
 
