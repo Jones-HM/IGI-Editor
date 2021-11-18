@@ -7,7 +7,7 @@ namespace IGIEditor
 {
     class QInternals
     {
-        private static string internalDataFile = QUtils.cachePath + @"\IGI-Internals-data.txt";
+        private static string internalDataFile =  @"bin\IGI-Internals-data.txt";
 
         public static void InternalExec(string data, GT.VK[] keys)
         {

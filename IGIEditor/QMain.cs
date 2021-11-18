@@ -57,9 +57,6 @@ namespace IGIEditor
 
             //Deattach internals on Exit.
             QUtils.DeattachInternals();
-
-            //Cleanup tmp files in Cache.
-            QUtils.CleanUpTmpFiles();
         }
     }
 }

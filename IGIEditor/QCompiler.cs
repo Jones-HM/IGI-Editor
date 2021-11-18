@@ -11,7 +11,9 @@ namespace IGIEditor
         internal static bool Compile(string qscFile, string gamePath, int _ignore)
         {
             bool status = false;
-            QUtils.AddLog("Compile() QscFile : file: '" + qscFile + "' Game Path: '" + gamePath+ "'");
+            QUtils.currGameLevel = QMemory.GetCurrentLevel();
+            string currLevelPath = "level" + QUtils.currGameLevel;
+            QUtils.AddLog("Compile() QscFile : file: '" + qscFile + "' Game Path: '" + gamePath + "'" + " CurrLevel path: " + currLevelPath);
 
             if (File.Exists(qscFile))
             {
@@ -46,7 +48,7 @@ namespace IGIEditor
                     QUtils.AddLog("Compile() QscFile : Starting Compiling of file '" + scriptFile + "'");
                     QInternals.ScriptCompile(scriptFile);
                     status = true;
-                    QUtils.AddLog("Compile() QscFile : Compiling of file '" + scriptFile + "' done\tOutput Script Path: '" + outScriptPath+ "'");
+                    QUtils.AddLog("Compile() QscFile : Compiling of file '" + scriptFile + "' done\tOutput Script Path: '" + outScriptPath + "'");
 
 
                     if (status) IGIEditorUI.editorRef.SetStatusText("Compile success");
@@ -62,11 +64,19 @@ namespace IGIEditor
             bool status = false;
             try
             {
+                QUtils.currGameLevel = QMemory.GetCurrentLevel();
+                string currLevelPath = "level" + QUtils.currGameLevel;
                 if (!String.IsNullOrEmpty(qscData))
                 {
                     string scriptFile = "MISSION:objects.qsc";
-                    QUtils.AddLog("Compile() QscData : Script File :'" + scriptFile + "' Game Path: '" + gamePath + "' Append Data: " + appendData + " Restart Level: " + restartLevel + " Save Position: " + savePos);
-                    
+                    QUtils.AddLog("Compile() QscData : Script File :'" + scriptFile + "' Game Path: '" + gamePath + " CurrLevel path: " + currLevelPath + "' Append Data: " + appendData + " Restart Level: " + restartLevel + " Save Position: " + savePos);
+
+                    if (!gamePath.Contains(currLevelPath))
+                    {
+                        QUtils.ShowError("Compile error in game path for level #" + QUtils.currGameLevel);
+                        return false;
+                    }
+
                     //Compile for Objets.
                     QUtils.SaveFile(qscData, appendData);
                     QUtils.gamePath = QUtils.cfgGamePath + QMemory.GetCurrentLevel();
@@ -76,7 +86,7 @@ namespace IGIEditor
                     if (File.Exists(outScriptPath))
                     {
                         QUtils.AddLog("Compile() QscData : File exist '" + outScriptPath + "' deleting file.");
-                       File.Delete(outScriptPath);
+                        File.Delete(outScriptPath);
                     }
 
                     //Copy file to OutPath and Compile with Internal Compiler.
@@ -87,7 +97,8 @@ namespace IGIEditor
 
                     QUtils.Sleep(1.5f);
                     //Delete script file after compiling.
-                    File.Delete(outScriptPath);
+                    //File.Delete(outScriptPath);
+
                     QUtils.AddLog("Compile() QscData : Output Path: '" + outScriptPath + "' removed");
 
                     if (restartLevel) QMemory.RestartLevel(savePos);

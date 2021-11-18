@@ -184,7 +184,7 @@ namespace IGIEditor
 
             string inputQscPath = QUtils.cfgQscPath + QUtils.gGameLevel + "\\" + QUtils.objectsQsc;
 
-            string qscData = (fromBackup) ? QCryptor.Decrypt(inputQscPath) : QUtils.LoadFile();
+            string qscData = (fromBackup) ? QUtils.LoadFile(inputQscPath) : QUtils.LoadFile();
 
             //if (qscData.IsNonASCII()) qscData = QCryptor.Decrypt(QUtils.objectsQsc);
 
@@ -384,7 +384,7 @@ namespace IGIEditor
         internal static void UpdateHumanPlayerParams(double movementSpeed = 1.75f, double forwardJumpSpeed = 17.5f, double upwardJumpSpeed = 27, double inAirSpeed = 0.5f, double peekLeftRightLen = 0.8500000238418579f, double peekCrouchLen = 0.8500000238418579f, double peekTimeLen = 0.25f, double healthDamageScale = 3.0f, double healthFenceDamageScale = 0.5f)
         {
             var humanPlayerFile = QUtils.cfgHumanplayerPathQsc + @"\humanplayer" + QUtils.qscExt;
-            string humanPlayerData = QCryptor.Decrypt(humanPlayerFile);
+            string humanPlayerData = QUtils.LoadFile(humanPlayerFile);
             QUtils.AddLog("UpdateHumanPlayerParams() : movementSpeed: " + movementSpeed + " forwardSpeed: " + forwardJumpSpeed + " upwardJumpSpeed: " + upwardJumpSpeed + " inAirSpeed: " + inAirSpeed + " peekLeftRightLen: " + peekLeftRightLen + " peekCrouchLen: " + peekCrouchLen + " peekLen: " + peekTimeLen + " healthDamageScale: " + healthDamageScale + " healthFenceDamageScale: " + healthFenceDamageScale);
 
             //Add movement speed param.

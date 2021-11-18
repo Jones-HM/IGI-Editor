@@ -367,7 +367,7 @@ namespace IGIEditor
 
             if (File.Exists(QUtils.objectsModelsList))
             {
-                var masterobjList = QCryptor.Decrypt(QUtils.objectsModelsList);
+                var masterobjList = QUtils.LoadFile(QUtils.objectsModelsList);
                 var objList = masterobjList.Split('\n');
                 QUtils.AddLog("FindModelName() called with id : \"" + modelId + "\"");
 
@@ -987,49 +987,57 @@ namespace IGIEditor
 
         internal static List<Dictionary<string, string>> GetObjectList(int level, QTYPES objType, bool distinct = false, bool fromBackup = false)
         {
-            QUtils.AddLog("GetObjectList() called with level : " + level + " With type : " + ((objType == QTYPES.BUILDING) ? "Buildings" : "3D Rigid objects" + " fromBackup : " + fromBackup));
-            var qtaskList = QUtils.GetQTaskList(level, false, distinct, fromBackup);
-            QUtils.AddLog("GetObjectList() qtaskList count : " + qtaskList.Count);
             var objList = new List<Dictionary<string, string>>();
-            string modelName = null;
-
-            foreach (var qtask in qtaskList)
+            try
             {
-                if (objType == QTYPES.BUILDING)
+                QUtils.AddLog("GetObjectList() called with level : " + level + " With type : " + ((objType == QTYPES.BUILDING) ? "Buildings" : "3D Rigid objects" + " fromBackup : " + fromBackup));
+                var qtaskList = QUtils.GetQTaskList(level, false, distinct, fromBackup);
+                QUtils.AddLog("GetObjectList() qtaskList count : " + qtaskList.Count);
+            
+                string modelName = null;
+
+                foreach (var qtask in qtaskList)
                 {
-                    if (qtask.name.Contains("Building"))
+                    if (objType == QTYPES.BUILDING)
                     {
-                        var obj = new Dictionary<string, string>();
-
-                        //Find model name if not found.
-                        modelName = FindModelName(qtask.model);
-
-                        if (modelName.Length > 3)
+                        if (qtask.name.Contains("Building"))
                         {
-                            obj.Add(modelName, qtask.model.Replace("\"", String.Empty).ToUpperInvariant());
-                            objList.Add(obj);
-                            QUtils.AddLog("Building : Model " + modelName + " ID : " + qtask.model);
+                            var obj = new Dictionary<string, string>();
+
+                            //Find model name if not found.
+                            modelName = FindModelName(qtask.model);
+
+                            if (modelName.Length > 3)
+                            {
+                                obj.Add(modelName, qtask.model.Replace("\"", String.Empty).ToUpperInvariant());
+                                objList.Add(obj);
+                                QUtils.AddLog("Building : Model " + modelName + " ID : " + qtask.model);
+                            }
+                        }
+                    }
+                    else if (objType == QTYPES.RIGID_OBJ)
+                    {
+                        if (qtask.name.Contains("EditRigidObj"))
+                        {
+                            var obj = new Dictionary<string, string>();
+                            //Find model name if not found.
+                            modelName = FindModelName(qtask.model);
+
+                            if (modelName.Length > 3)
+                            {
+                                obj.Add(modelName, qtask.model.Replace("\"", String.Empty).ToUpperInvariant());
+                                objList.Add(obj);
+                                QUtils.AddLog("EditRigidObj : Model " + modelName + " ID : " + qtask.model);
+                            }
                         }
                     }
                 }
-                else if (objType == QTYPES.RIGID_OBJ)
-                {
-                    if (qtask.name.Contains("EditRigidObj"))
-                    {
-                        var obj = new Dictionary<string, string>();
-                        //Find model name if not found.
-                        modelName = FindModelName(qtask.model);
-
-                        if (modelName.Length > 3)
-                        {
-                            obj.Add(modelName, qtask.model.Replace("\"", String.Empty).ToUpperInvariant());
-                            objList.Add(obj);
-                            QUtils.AddLog("EditRigidObj : Model " + modelName + " ID : " + qtask.model);
-                        }
-                    }
-                }
+                objList = objList.OrderBy(key => key.Keys.ElementAt(0)).ToList();
             }
-            objList = objList.OrderBy(key => key.Keys.ElementAt(0)).ToList();
+            catch(Exception ex)
+            {
+                AddLog("GetObjectList() Exception: " + ex.Message);
+            }
 
             QUtils.AddLog("GetObjectList() objList count : " + objList.Count);
             return objList;

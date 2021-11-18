@@ -45,16 +45,16 @@ namespace IGIEditor
 
         internal static string taskNew = "Task_New", taskDecl = "Task_DeclareParameters";
         internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc", weaponConfigQVM = "weaponconfig.qvm", weaponsModQvm = "weaponconfig-mod.qvm";
-        internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 3;
+        internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 3, currGameLevel = 1;
         internal static string logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsModelsList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customAiPathFile = "ai_custom_path.qsc", customScriptFileQEd = @"\QEditor\AIFiles\ai_custom_script.qsc", customAiPathFileQEd = @"\QEditor\AIFiles\ai_custom_path.qsc", appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\", nativesFile = @"\IGI-Natives.json", modelsFile = @"\IGI-Models.txt", internalsLogFile = @"\IGI-Internals.log";
-        internal static bool gameFound=false, logEnabled = false, keyExist = false, keyFileExist = false, attachStatus = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false;
+        internal static bool gameFound = false, logEnabled = false, keyExist = false, keyFileExist = false, attachStatus = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false;
         internal static float appEditorVersion = 0.3f, viewPortDelta = 10000.0f;
         internal static string supportDiscordLink = @"https://discord.gg/9T8tzyhvp6", supportYoutubeLink = @"https://www.youtube.com/channel/UChGryl0a0dii81NfDZ12LwA", supportVKLink = @"https://vk.com/id679925339";
         internal static IntPtr viewPortAddrX = (IntPtr)0x00BCAB08, viewPortAddrY = (IntPtr)0x00BCAB10, viewPortAddrZ = (IntPtr)0x00BCAB18;
-        internal const int TEAM_ID_FRIENDLY = 0, TEAM_ID_ENEMY = 1, MAX_FPS = 240;
+        internal const int TEAM_ID_FRIENDLY = 0, TEAM_ID_ENEMY = 1, MAX_FPS = 240, MAX_HUMAN_CAM = 5;
 
         internal static string gamePath, appdataPath, igiEditorQEdPath, appCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, cfgWeaponsPath, weaponsModQvmPath, weaponsOrgCfgPath, weaponsGamePath, humanplayerGamePath, menusystemGamePath, missionsGamePath, commonGamePath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", qGraphs = "QGraphs", cfgFile, projAppName, cachePath, cachePathAppLogs, nativesFilePath, modelsFilePath, internalsLogPath, cachePathAppImages, currPathAppImages,
-         igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", graphsPath, cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayerQvm = "humanplayer.qvm", humanplayerQsc = "humanplayer.qsc", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalDll = "IGI-Internals.dll", internalDllPath = @"bin\IGI-Internals.dll", qLibcPath = @"lib\GTLibc_x86.so", tmpDllPath, internalDllInjectorPath = @"bin\IGI-Injector.exe", internalDllGTInjectorPath = @"bin\IGI-Injector-GT.exe", PATH_SEC = "PATH", EDITOR_SEC = "EDITOR";
+         igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", graphsPath, cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayerQvm = "humanplayer.qvm", humanplayerQsc = "humanplayer.qsc", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalsDllFile, internalsDll = "IGI-Internals.dll", internalsDllPath = @"bin\IGI-Internals.dll", qLibcPath = @"lib\GTLibc_x86.so", tmpDllPath, internalDllInjectorPath = @"bin\IGI-Injector.exe", internalDllGTInjectorPath = @"bin\IGI-Injector-GT.exe", PATH_SEC = "PATH", EDITOR_SEC = "EDITOR";
         internal static string inputQscPath = @"\IGI_QSC", inputQvmPath = @"\IGI_QVM", inputAiPath = @"\AIFiles", inputVoidPath = @"\Void", inputMissionPath = @"\missions\location0\level", inputHumanplayerPath = @"\humanplayer", inputweaponsPath = @"\weapons";
         internal static List<string> objTypeList = new List<string>() { "Building", "EditRigidObj", "Terminal", "Elevator", "ExplodeObject", "AlarmControl", "Generator", "Radio" };
         internal static string objects = "objects", objectsAll = "objectsAll", weapons = "weapons";
@@ -373,9 +373,9 @@ namespace IGIEditor
             bool status = false;
             if (Directory.Exists("bin") && Directory.Exists("lib"))
             {
-                if (File.Exists(internalDllPath) && File.Exists(qLibcPath) && File.Exists(internalDllInjectorPath))
+                if (File.Exists(internalsDllPath) && File.Exists(qLibcPath) && File.Exists(internalDllInjectorPath))
                 {
-                    QUtils.AddLog("InitLibBin Dll and QLibc files were found on device");
+                    QUtils.AddLog("LibBin and QLibc files were found on device.");
                     status = true;
                 }
             }
@@ -490,20 +490,20 @@ namespace IGIEditor
             weaponsOrgCfgPath = cfgWeaponsPath + @"\" + weaponConfigQVM;
 
             //Init QEditor - QFiles.
-            if (Directory.Exists(qEditor) && !Directory.Exists(igiEditorQEdPath))
-            {
-                MoveDir(qEditor, appdataPath);
+            //if (Directory.Exists(qEditor) && !Directory.Exists(igiEditorQEdPath))
+            //{
+            //    MoveDir(qEditor, appdataPath);
 
-                if (Directory.Exists(qEditor) && Directory.Exists(igiEditorQEdPath))
-                {
-                    DeleteWholeDir(qEditor);
-                    ShowSystemFatalError("Application couldn't be initialized properly! Please try again later (Error: 0xCD00005F");
-                }
-            }
+            //    if (Directory.Exists(qEditor) && Directory.Exists(igiEditorQEdPath))
+            //    {
+            //        DeleteWholeDir(qEditor);
+            //        ShowSystemFatalError("Application couldn't be initialized properly! Please try again later (Error: 0xCD00005F");
+            //    }
+            //}
 
             //Init QGraphs Areas.
-            if (Directory.Exists(qGraphs) && !Directory.Exists(igiEditorQEdPath + "\\" + qGraphs))
-                MoveDir(qGraphs, igiEditorQEdPath);
+            //if (Directory.Exists(qGraphs) && !Directory.Exists(igiEditorQEdPath + "\\" + qGraphs))
+            //    MoveDir(qGraphs, igiEditorQEdPath);
 
             //Init Temp path for Cache.
             if (!Directory.Exists(cachePath))
@@ -512,26 +512,26 @@ namespace IGIEditor
             }
 
             //Move Internals dll file data.
-            if (Directory.Exists(cachePath))
-            {
-                if (File.Exists(@"bin" + nativesFile) && !File.Exists(nativesFilePath))
-                    File.Move(@"bin" + nativesFile, nativesFilePath);
-                if (File.Exists(@"bin" + modelsFile) && !File.Exists(modelsFilePath))
-                    File.Move(@"bin" + modelsFile, modelsFilePath);
-            }
+            //if (Directory.Exists(cachePath))
+            //{
+            //    if (File.Exists(@"bin" + nativesFile) && !File.Exists(nativesFilePath))
+            //        File.Move(@"bin" + nativesFile, nativesFilePath);
+            //    if (File.Exists(@"bin" + modelsFile) && !File.Exists(modelsFilePath))
+            //        File.Move(@"bin" + modelsFile, modelsFilePath);
+            //}
 
             //Move AppImages - Resources offline.
-            if (Directory.Exists(cachePath) && Directory.Exists(currPathAppImages))
-            {
-                string qChecksFile = QUtils.igiEditorQEdPath + @"\QChecks.dat";
-                MoveDir(currPathAppImages, cachePath);
+            //if (Directory.Exists(cachePath) && Directory.Exists(currPathAppImages))
+            //{
+            //    string qChecksFile = QUtils.igiEditorQEdPath + @"\QChecks.dat";
+            //    MoveDir(currPathAppImages, cachePath);
 
-                if (File.Exists(customAiPathFile))
-                    File.Move(customAiPathFile, QUtils.appdataPath + "\\" + customAiPathFileQEd);
-                if (File.Exists(customScriptFile))
-                    File.Move(customScriptFile, QUtils.appdataPath + "\\" + customScriptFileQEd);
-                if (File.Exists(qChecksFile)) File.Delete(qChecksFile);
-            }
+            //    if (File.Exists(customAiPathFile))
+            //        File.Move(customAiPathFile, QUtils.appdataPath + "\\" + customAiPathFileQEd);
+            //    if (File.Exists(customScriptFile))
+            //        File.Move(customScriptFile, QUtils.appdataPath + "\\" + customScriptFileQEd);
+            //    if (File.Exists(qChecksFile)) File.Delete(qChecksFile);
+            //}
         }
 
         internal static void CreateCacheDir()
@@ -926,7 +926,7 @@ namespace IGIEditor
             if (File.Exists(objectsQsc)) File.Delete(objectsQsc);
             File.Copy(inputQscPath, objectsQsc);
 
-            var fileData = QCryptor.Decrypt(objectsQsc);
+            var fileData = QUtils.LoadFile(objectsQsc);
             File.WriteAllText(objectsQsc, fileData);
             levelFlowData = File.ReadLines(objectsQsc).Last();
         }
@@ -979,7 +979,7 @@ namespace IGIEditor
             int gameLevel = QMemory.GetCurrentLevel();
             AddLog("CheckModelExist() called with model : " + model + " for level : " + gameLevel);
             var inputQscPath = cfgQscPath + gameLevel + "\\" + objectsQsc;
-            string qscData = QCryptor.Decrypt(inputQscPath);
+            string qscData = QUtils.LoadFile(inputQscPath);
             bool modelExist = false;
 
             if (!String.IsNullOrEmpty(model))
@@ -1032,6 +1032,9 @@ namespace IGIEditor
         //Parse all the Objects.
         private static List<QTask> ParseAllOjects(string qscData)
         {
+            bool isNonASCII = qscData.IsNonASCII();
+            AddLog("ParseAllOjects() isNon ASCII: " + isNonASCII);
+
             //Remove all whitespaces.
             qscData = qscData.Replace("\t", String.Empty);
             string[] qscDataSplit = qscData.Split('\n');
@@ -1068,6 +1071,7 @@ namespace IGIEditor
                     qtaskList.Add(qtask);
                 }
             }
+            AddLog("ParseAllOjects() qtaskList count: " + qtaskList.Count);
             return qtaskList;
         }
 
@@ -1075,78 +1079,88 @@ namespace IGIEditor
         //Parse only Objects.
         private static List<QTask> ParseObjects(string qscData)
         {
-            //Remove all whitespaces.
-            qscData = qscData.Replace("\t", String.Empty);
-            string[] qscDataSplit = qscData.Split('\n');
-
             var qtaskList = new List<QTask>();
-            foreach (var data in qscDataSplit)
+            try
             {
-                if (data.Contains(taskNew))
+                bool isNonASCII = qscData.HasBinaryContent();
+                AddLog("ParseObjects() isNon ASCII: " + isNonASCII);
+                //Remove all whitespaces.
+                qscData = qscData.Replace("\t", String.Empty);
+                string[] qscDataSplit = qscData.Split('\n');
+
+
+                foreach (var data in qscDataSplit)
                 {
-                    var startIndex = data.IndexOf(',') + 1;
-                    var endIndex = data.IndexOf(',', startIndex);
-                    var taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
-
-                    if (data.Contains("Building") && taskName != "Building")
+                    if (data.Contains(taskNew))
                     {
-                        startIndex = data.IndexOf(',') + 1;
-                        endIndex = data.IndexOf(',', startIndex);
-                        taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
-                    }
+                        var startIndex = data.IndexOf(',') + 1;
+                        var endIndex = data.IndexOf(',', startIndex);
+                        var taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
 
-                    if (objTypeList.Any(o => o.Contains(taskName)))
-                    {
-
-                        QTask qtask = new QTask();
-                        Real32 orientation = new Real32();
-                        Real64 position = new Real64();
-
-                        string[] taskNew = data.Split(',');
-                        int taskIndex = 0;
-
-                        foreach (var task in taskNew)
+                        if (data.Contains("Building") && taskName != "Building")
                         {
-                            if (taskIndex == (int)QTASKINFO.QTASK_ID)
-                            {
-                                var taskId = task.Substring(task.IndexOf('(') + 1);
-                                qtask.id = Convert.ToInt32(taskId);
-                            }
-                            else if (taskIndex == (int)QTASKINFO.QTASK_NAME)
-                                qtask.name = task.Trim();
-
-                            else if (taskIndex == (int)QTASKINFO.QTASK_NOTE)
-                                qtask.note = task.Trim();
-
-                            else if (taskIndex == (int)QTASKINFO.QTASK_POSX)
-                                position.x = Double.Parse(task);
-
-                            else if (taskIndex == (int)QTASKINFO.QTASK_POSY)
-                                position.y = Double.Parse(task);
-
-                            else if (taskIndex == (int)QTASKINFO.QTASK_POSZ)
-                                position.z = Double.Parse(task);
-
-                            else if (taskIndex == (int)QTASKINFO.QTASK_ALPHA)
-                                orientation.alpha = float.Parse(task);
-
-                            else if (taskIndex == (int)QTASKINFO.QTASK_BETA)
-                                orientation.beta = float.Parse(task);
-
-                            else if (taskIndex == (int)QTASKINFO.QTASK_GAMMA)
-                                orientation.gamma = float.Parse(task);
-
-                            else if (taskIndex == (int)QTASKINFO.QTASK_MODEL)
-                                qtask.model = task.Trim().Replace(")", String.Empty);
-
-                            qtask.position = position;
-                            qtask.orientation = orientation;
-                            taskIndex++;
+                            startIndex = data.IndexOf(',') + 1;
+                            endIndex = data.IndexOf(',', startIndex);
+                            taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
                         }
-                        qtaskList.Add(qtask);
+
+                        if (objTypeList.Any(o => o.Contains(taskName)))
+                        {
+                            QTask qtask = new QTask();
+                            Real32 orientation = new Real32();
+                            Real64 position = new Real64();
+
+                            string[] taskNew = data.Split(',');
+                            int taskIndex = 0;
+
+                            foreach (var task in taskNew)
+                            {
+                                if (taskIndex == (int)QTASKINFO.QTASK_ID)
+                                {
+                                    var taskId = task.Substring(task.IndexOf('(') + 1);
+                                    qtask.id = Convert.ToInt32(taskId);
+                                }
+                                else if (taskIndex == (int)QTASKINFO.QTASK_NAME)
+                                    qtask.name = task.Trim();
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_NOTE)
+                                    qtask.note = task.Trim();
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_POSX)
+                                    position.x = Double.Parse(task);
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_POSY)
+                                    position.y = Double.Parse(task);
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_POSZ)
+                                    position.z = Double.Parse(task);
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_ALPHA)
+                                    orientation.alpha = float.Parse(task);
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_BETA)
+                                    orientation.beta = float.Parse(task);
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_GAMMA)
+                                    orientation.gamma = float.Parse(task);
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_MODEL)
+                                    qtask.model = task.Trim().Replace(")", String.Empty);
+
+                                qtask.position = position;
+                                qtask.orientation = orientation;
+                                taskIndex++;
+                            }
+                            qtaskList.Add(qtask);
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                QUtils.AddLog("ParseObjects(): Exception: " + ex.ToString());
+            }
+            AddLog("ParseObjects() qtaskList count: " + qtaskList.Count);
             return qtaskList;
         }
 
@@ -1188,7 +1202,7 @@ namespace IGIEditor
             int level = QMemory.GetCurrentLevel();
             string inputQscPath = cfgQscPath + level + "\\" + objectsQsc;
             AddLog("GetQTaskList() : called with level : " + level + " fullList : " + fullQtaskList.ToString() + " distinct : " + distinct.ToString() + " backup : " + fromBackup);
-            string qscData = fromBackup ? QCryptor.Decrypt(inputQscPath) : LoadFile();
+            string qscData = fromBackup ? QUtils.LoadFile(inputQscPath) : LoadFile();
 
             var qtaskList = fullQtaskList ? ParseAllOjects(qscData) : ParseObjects(qscData);
             if (distinct)
@@ -1199,12 +1213,16 @@ namespace IGIEditor
         internal static List<QTask> GetQTaskList(int level, bool fullQtaskList = false, bool distinct = false, bool fromBackup = false)
         {
             string inputQscPath = cfgQscPath + level + "\\" + objectsQsc;
-            AddLog("GetQTaskList() level : called with level : " + level + " fullList : " + fullQtaskList.ToString() + " distinct : " + distinct.ToString() + " backup : " + fromBackup);
-            string qscData = fromBackup ? QCryptor.Decrypt(inputQscPath) : LoadFile();
+            AddLog("GetQTaskList(): Qsc Path: " + inputQscPath + " level : " + level + " fullList : " + fullQtaskList.ToString() + " distinct : " + distinct.ToString() + " backup : " + fromBackup);
+            string qscData = fromBackup ? QUtils.LoadFile(inputQscPath) : LoadFile();
+
+            bool isNonASCII = qscData.IsNonASCII();
+            AddLog("GetQTaskList() isNon ASCII: " + isNonASCII);
 
             var qtaskList = fullQtaskList ? ParseAllOjects(qscData) : ParseObjects(qscData);
-            if (distinct)
-                qtaskList = qtaskList.GroupBy(p => p.model).Select(g => g.First()).ToList();
+            if (qtaskList.Count > 0)
+                if (distinct) qtaskList = qtaskList.GroupBy(p => p.model).Select(g => g.First()).ToList();
+            AddLog("GetQTaskList() task List count " + qtaskList.Count);
             return qtaskList;
         }
 
@@ -1457,12 +1475,24 @@ namespace IGIEditor
 
         internal static bool AttachInternals()
         {
-            tmpDllPath = cachePath + "\\" + GenerateRandStr(0xF) + dllExt;
-            AddLog("AttachInternals() Path : " + tmpDllPath);
-            QCryptor.Decrypt(QUtils.internalDllPath, tmpDllPath);
+            //tmpDllPath = cachePath + "\\" + GenerateRandStr(0xF) + dllExt;
+            AddLog("AttachInternals() Path : " + QUtils.internalsDllPath);
+            //QCryptor.Decrypt(QUtils.internalDllPath, tmpDllPath);
+            //File.Copy(QUtils.internalDllPath, tmpDllPath);
+
+#if TESTING
+            internalsDllFile = Path.GetFileNameWithoutExtension(QUtils.internalsDll) + "-Dbg" + dllExt;
+            internalsDllPath = @"bin\" + internalsDllFile;
+#else
+            internalsDllFile = Path.GetFileNameWithoutExtension(QUtils.internalsDll) + "-Rls" + dllExt;
+            internalsDllPath = @"bin\" + internalsDllFile;
+#endif
+
+            //Init lib and bin folders first.
+            InitLibBin();
 
             //Injector - 1st Method.
-            string internalsCmd = internalDllInjectorPath + " -i " + tmpDllPath;
+            string internalsCmd = internalDllInjectorPath + " -i " + internalsDllFile;
             string shellOut = ShellExec(internalsCmd, true);
             AddLog("AttachInternals() Using first method.");
 
@@ -1473,7 +1503,7 @@ namespace IGIEditor
             if (!internalsAttached)
             {
                 AddLog("AttachInternals() Using second method.");
-                internalsCmd = internalDllGTInjectorPath + " " + tmpDllPath;
+                internalsCmd = internalDllGTInjectorPath + " " + internalsDllFile;
 
                 QUtils.Sleep(1.5f);
                 internalsAttached = QUtils.CheckInternalsAttached();
@@ -1497,7 +1527,7 @@ namespace IGIEditor
                 var internalsAttached = QUtils.CheckInternalsAttached();
                 if (!internalsAttached) return true;
 
-                string dllShellCmd = internalDllInjectorPath + " -e " + QUtils.tmpDllPath;
+                string dllShellCmd = internalDllInjectorPath + " -e " + internalsDllFile;
 
                 GT.GT_SendKeyStroke("END");
                 QUtils.Sleep(5);
@@ -1541,7 +1571,7 @@ namespace IGIEditor
                         {
                             //Get Modification date
                             var objFileInfo = objModule.FileName.ToString();
-                            if (objFileInfo.Contains(QUtils.tmpDllPath))
+                            if (objFileInfo.Contains(QUtils.internalsDllFile))
                             {
                                 return true;
                             }
@@ -1682,6 +1712,11 @@ namespace IGIEditor
         public static bool IsNonASCII(this string str)
         {
             return (Encoding.UTF8.GetByteCount(str) != str.Length);
+        }
+
+        public static bool HasBinaryContent(this string content)
+        {
+            return content.Any(ch => char.IsControl(ch) && ch != '\r' && ch != '\n');
         }
 
         public static double ToRadians(this double angle)

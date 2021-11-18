@@ -125,7 +125,7 @@ namespace IGIEditor
             QUtils.AddLog("GetGraphNodeIds() called with level " + level + " idType : " + idType);
 
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
-            string qscData = QCryptor.Decrypt(inputQscPath);
+            string qscData = QUtils.LoadFile(inputQscPath);
 
             QUtils.AddLog("GetGraphNodeIds() inputQscPath : " + inputQscPath);
 
@@ -154,7 +154,7 @@ namespace IGIEditor
 
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog("GetNodes4Graph() : called with level : " + level);
-            string data = QCryptor.Decrypt(inputQscPath);
+            string data = QUtils.LoadFile(inputQscPath);
 
             var qscDataLines = data.Split('\n');
             string idData = null;
@@ -177,7 +177,7 @@ namespace IGIEditor
                     string aiFileName = aiId + ".qsc";
                     var inputAiPath = QUtils.cfgQscPath + level + "\\ai\\" + aiFileName;
 
-                    var aiFileData = QCryptor.Decrypt(inputAiPath);
+                    var aiFileData = QUtils.LoadFile(inputAiPath);
                     var aiFileLines = aiFileData.Split('\n');
                     foreach (var aiLine in aiFileLines)
                     {
@@ -223,7 +223,7 @@ namespace IGIEditor
             List<int> nodesId = new List<int>();
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog("GetNodes4mPatrolId() : called with level : " + level);
-            string data = QCryptor.Decrypt(inputQscPath);
+            string data = QUtils.LoadFile(inputQscPath);
 
             var dataLines = data.Split('\n');
             bool patrolLine = false;
@@ -316,7 +316,7 @@ namespace IGIEditor
 
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog("GetQTaskGraphList() : called with level : " + level + " backup : " + fromBackup);
-            string qscData = fromBackup ? QCryptor.Decrypt(inputQscPath) : QUtils.LoadFile();
+            string qscData = fromBackup ? QUtils.LoadFile(inputQscPath) : QUtils.LoadFile();
 
             var qtaskList = ParseGraphData(qscData);
 

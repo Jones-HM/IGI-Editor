@@ -185,7 +185,7 @@ namespace IGIEditor
                         if (QUtils.customAiSelected)
                             aiScriptData = QUtils.LoadFile(QUtils.appdataPath + "\\" + QUtils.customScriptFileQEd);
                         else
-                            aiScriptData = QCryptor.Decrypt(file);
+                            aiScriptData = QUtils.LoadFile(file);
 
                         //Add Idle patrol.
                         if (aiScriptData.Contains(QUtils.patroIdleMask))
@@ -261,7 +261,7 @@ namespace IGIEditor
                         if (QUtils.customAiSelected)
                             aiPathData = QUtils.LoadFile(QUtils.appdataPath + "\\" + QUtils.customAiPathFileQEd);
                         else
-                            aiPathData = QCryptor.Decrypt(file);
+                            aiPathData = QUtils.LoadFile(file);
 
                         bool graphExist = false;
                         //var nodesList = QGraphs.GetAllNodes4mGraph(Convert.ToInt32(graphId));
@@ -305,7 +305,7 @@ namespace IGIEditor
                                 patrolAlarmId = (QUtils.aiScriptId + 1).ToString();
                                 string alarmPathFile = file.Replace("idle", "alarm");
 
-                                string aiAlarmPathData = QCryptor.Decrypt(alarmPathFile);
+                                string aiAlarmPathData = QUtils.LoadFile(alarmPathFile);
 
                                 aiAlarmPathData = aiAlarmPathData.Replace("xxxx", patrolAlarmId);
                                 aiAlarmPathData = aiAlarmPathData.Replace(")),", "));");
@@ -479,7 +479,7 @@ namespace IGIEditor
         {
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog("GetAiModels() level : called with level : " + level);
-            string qscData = QCryptor.Decrypt(inputQscPath);
+            string qscData = QUtils.LoadFile(inputQscPath);
             List<string> aiModelIdsList = new List<string>();
             var modelRegex = @"\d{3}_\d{2}_\d{1}";
             var dataLines = qscData.Split('\n');
@@ -592,7 +592,7 @@ namespace IGIEditor
             int level = QUtils.gGameLevel;
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog("GetBoneHeirarchy() level : called with level : " + level + " model : " + model);
-            string qscData = QCryptor.Decrypt(inputQscPath);
+            string qscData = QUtils.LoadFile(inputQscPath);
             List<string> aiModelsList = new List<string>();
             var modelRegex = @"\d{3}_\d{2}_\d{1}";
             var dataLines = qscData.Split('\n');

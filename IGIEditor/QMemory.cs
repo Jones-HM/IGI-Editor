@@ -44,10 +44,14 @@ namespace IGIEditor
 
         internal static int GetCurrentLevel()
         {
-            IntPtr levelAddr = (IntPtr)0x00539560;
-            long level = GT.GT_ReadInt(levelAddr);
-            if (level > QUtils.GAME_MAX_LEVEL) QUtils.ShowSystemFatalError("IGI Editor demo limited to only" + QUtils.GAME_MAX_LEVEL + "levels");
-            return (int)level;
+            try
+            {
+                IntPtr levelAddr = (IntPtr)0x00539560;
+                long level = GT.GT_ReadInt(levelAddr);
+                if (level > QUtils.GAME_MAX_LEVEL) QUtils.ShowSystemFatalError("IGI Editor demo limited to only" + QUtils.GAME_MAX_LEVEL + "levels");
+                return (int)level;
+            }
+            catch (Exception ex) { return 1; }
         }
 
         internal static void DisableGameWarnings()
