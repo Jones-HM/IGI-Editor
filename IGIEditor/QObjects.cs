@@ -58,6 +58,13 @@ namespace IGIEditor
             return qtaskHilight;
         }
 
+        internal static string AddWire(Real64 startPos, Real64 endPos,string taskNote = "", int taskId = -1,string modelId = "320_01_1")
+        {
+            string qtaskWire = "Task_New(" + taskId + ",\"Wire\",\"" + taskNote + "\"," + startPos.x + "," + startPos.y + "," + startPos.z + "," + endPos.x + "," + endPos.y + "," + endPos.z + ",\"" + modelId + "\");" + "\n";
+            QUtils.AddLog("AddWire called with ID : " + taskId + " StartPos X: " + startPos.x + " " + " StartPos Y: " + startPos.y + " StartPos Z: " + startPos.z + " EndPos X: " + endPos.x + " EndPos Y: " + endPos.y + " EndPos Z: " + endPos.z);
+            return qtaskWire;
+        }
+
 
         internal static string UpdatePositionInMeter(int id, ref Real64 position, bool checkModel = false)
         {
@@ -993,7 +1000,7 @@ namespace IGIEditor
                 QUtils.AddLog("GetObjectList() called with level : " + level + " With type : " + ((objType == QTYPES.BUILDING) ? "Buildings" : "3D Rigid objects" + " fromBackup : " + fromBackup));
                 var qtaskList = QUtils.GetQTaskList(level, false, distinct, fromBackup);
                 QUtils.AddLog("GetObjectList() qtaskList count : " + qtaskList.Count);
-            
+
                 string modelName = null;
 
                 foreach (var qtask in qtaskList)
@@ -1034,7 +1041,7 @@ namespace IGIEditor
                 }
                 objList = objList.OrderBy(key => key.Keys.ElementAt(0)).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 AddLog("GetObjectList() Exception: " + ex.Message);
             }

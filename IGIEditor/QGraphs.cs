@@ -80,12 +80,7 @@ namespace IGIEditor
 
         internal static List<int> GetGraphIds(int gameLevel = -1)
         {
-            return GetGraphNodeIds(gameLevel, 1);
-        }
-
-        internal static List<int> GetNodesIds(int gameLevel = -1)
-        {
-            return GetGraphNodeIds(gameLevel, 2);
+            return GetGraphNodeIds(gameLevel);
         }
 
         internal static Real64 GetGraphPosition(int graphId)
@@ -110,19 +105,16 @@ namespace IGIEditor
         }
 
 
-        private static List<int> GetGraphNodeIds(int level = -1, int idType = 1)
+        private static List<int> GetGraphNodeIds(int level = -1)
         {
             List<int> graphNodeIds = new List<int>();
-            string nodeRegex = "node id [0-9]*";
             string graphRegex = "[0-9]{0,4}, \"AIGraph\"";
-            string selectedRegex = (idType == 1) ? graphRegex : nodeRegex;
+            string selectedRegex = graphRegex;
 
             //For current level.
-            if (level == -1)
-                level = QMemory.GetCurrentLevel();
+            if (level == -1) level = QMemory.GetCurrentLevel();
 
-
-            QUtils.AddLog("GetGraphNodeIds() called with level " + level + " idType : " + idType);
+            QUtils.AddLog("GetGraphNodeIds() called with level " + level);
 
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             string qscData = QUtils.LoadFile(inputQscPath);
@@ -139,7 +131,7 @@ namespace IGIEditor
 
             graphNodeIds.Sort();
             graphNodeIds = graphNodeIds.Distinct().ToList();
-            QUtils.AddLog("GetGraphNodeIds() returned  list : " + graphNodeIds);
+            QUtils.AddLog("GetGraphNodeIds() returned  list count : " + graphNodeIds.Count);
             return graphNodeIds;
         }
 
@@ -327,6 +319,7 @@ namespace IGIEditor
         //Parse the Objects.
         private static List<QTaskGraph> ParseGraphData(string qscData)
         {
+            if (String.IsNullOrEmpty(qscData)) return null;
             //Remove all whitespaces.
             qscData = qscData.Replace("\t", String.Empty);
             string[] qscDataSplit = qscData.Split('\n');
@@ -439,7 +432,7 @@ namespace IGIEditor
             return qscData;
         }
 
-        internal static string ShowGraphNodesVisual(int graphId, int visualType = 1, string nodeObject = "000_00_0",string markerColor= "MARKER_COLOR_YELLOW")
+        internal static string ShowGraphNodesVisual(int graphId, int visualType = 1, string nodeObject = "000_00_0", string markerColor = "MARKER_COLOR_YELLOW")
         {
             string qscData = null;
             string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
@@ -447,7 +440,7 @@ namespace IGIEditor
             var nodeData = ReadGraphNodeData(graphFile);
             var graphPos = GetGraphPosition(graphId.ToString());
             QUtils.qtaskId = QUtils.GenerateTaskID(true);
-            var graphArea = QGraphs.GetGraphArea(graphId);
+            var graphArea = GetGraphArea(graphId);
 
             foreach (var node in nodeData)
             {
@@ -459,28 +452,106 @@ namespace IGIEditor
                 nodeRealPos.x = graphPos.x + node.NodePos.x;
                 nodeRealPos.y = graphPos.y + node.NodePos.y;
                 nodeRealPos.z = graphPos.z + node.NodePos.z;
-                
-                string taskNote = "Graph " + graphArea + " Node #" + node.NodeId;
+
+                string taskNote = "Graph#" + graphId + "Node#" + node.NodeId + " - G#" + graphId + "N#1";
 
                 //Visualisation Object - StatusMsg.
                 if (visualType == 1)
                 {
-                    IGIEditorUI.editorRef.AddObject(nodeObject, true, nodeRealPos, false, -1, taskNote,false);
+                    IGIEditorUI.editorRef.AddObject(nodeObject, true, nodeRealPos, false, -1, taskNote, false);
 
-                    var areaDim = new AreaDim(8000);
-                    qscData += QObjects.AddAreaActivate(QUtils.qtaskId, nodeObject, null, "\"" + taskNote + "\"", ref nodeRealPos, ref areaDim);
+                    //var areaDim = new AreaDim(8000);
+                    //qscData += QObjects.AddAreaActivate(QUtils.qtaskId, nodeObject, null, "\"" + taskNote + "\"", ref nodeRealPos, ref areaDim);
                 }
 
                 //Visualisation Hilight - ComputerMap Hilight.
                 else if (visualType == 2)
                 {
-                    IGIEditorUI.editorRef.AddObject(nodeObject, false, nodeRealPos, false, QUtils.qtaskId, taskNote,false);
-                    qscData += QObjects.ComputerMapHilight(QUtils.qtaskId, taskNote, "Graph " + graphArea + graphId, taskNote, "MARKER_BOX", markerColor);
+                    IGIEditorUI.editorRef.AddObject(nodeObject, false, nodeRealPos, false, QUtils.qtaskId, taskNote, false);
+                    qscData += QObjects.ComputerMapHilight(QUtils.qtaskId, taskNote, "Graph#" + graphId, taskNote, "MARKER_BOX", markerColor);
                 }
                 QUtils.qtaskId++;
 
             }
             return qscData;
+        }
+
+        internal static string ShowNodeLinksVisual(int graphId,ref Real64 graphPos)
+        {
+            QInternals.GraphNodeLinks(graphId.ToString());
+            var dataLines = QInternals.InternalDataReadLines();
+            string graphLinkTag;
+
+            if (dataLines.Length < 4 || dataLines.Length >= 50) { return null; }
+             
+            string qscData = null;
+            foreach (var data in dataLines)
+            {
+                try
+                {
+                    var lineData = data.Split('=');
+                    int nodeId1 = Convert.ToInt32(lineData[0].Trim());
+                    int nodeId2 = Convert.ToInt32(lineData[1].Trim());
+                    var nodeId1Pos = RealGrapNodePos(nodeId1, graphId, ref graphPos);
+                    var nodeId2Pos = RealGrapNodePos(nodeId2, graphId, ref graphPos);
+                    if (nodeId1Pos.Empty() || nodeId2Pos.Empty()) continue; //Skip On empty positions.
+
+                    graphLinkTag = "Graph#" + graphId + "Link#" + nodeId1 + "-Link#" + nodeId2 + " - G#" + graphId + "L#1";
+                    qscData += QObjects.AddWire(nodeId1Pos, nodeId2Pos, graphLinkTag);
+                }
+                catch (Exception ex)
+                {
+                    QUtils.AddLog("ShowNodeLinks() Exception : " + ex.Message ?? ex.StackTrace);
+                    //return null;
+                }
+            }
+            return qscData;
+        }
+
+        private static Real64 RealGrapNodePos(int nodeId,int graphId, ref  Real64 graphPos)
+        {
+            Real64 nodeRealPos = null;
+            try
+            {
+                var node = QGraphs.GetGraphNodeData(graphId, nodeId);
+                //Get Node Real Position.
+                //nodeRealPos = new Real64().Real64Operator(graphPos, node.NodePos, "+");
+                nodeRealPos = new Real64();
+                nodeRealPos.x = graphPos.x + node.NodePos.x;
+                nodeRealPos.y = graphPos.y + node.NodePos.y;
+                nodeRealPos.z = graphPos.z + node.NodePos.z + 4500.0f;
+            }
+            catch (Exception ex)
+            {
+                QUtils.AddLog("RealGrapNodePos() Exception : " + ex.Message ?? ex.StackTrace);
+            }
+            return nodeRealPos;
+        }
+
+        internal static bool RemoveNodeLinks(int graphId = 1, int nodeId = 1, string nodeLinkNote = "")
+        {
+            var qscData = QUtils.LoadFile();
+            int linkCount = 0;
+            string nodeLinkObj = (nodeLinkNote.Contains("N#")) ? "EditRigidObj" : "Wire";
+
+            string levelFlowTaskId = "Task_New(10,";
+            int qtaskLevelFlowIndex = qscData.IndexOf(levelFlowTaskId);
+
+            var qscLevelFlowSub = qscData.Substring(qtaskLevelFlowIndex);
+            var qscDataLines = qscLevelFlowSub.Split('\n');
+
+            foreach (var qscDataLine in qscDataLines)
+            {
+                if (qscDataLine.Contains(nodeLinkObj) && qscDataLine.Contains(nodeLinkNote))
+                {
+                    int qtaskIndex = qscData.IndexOf(qscDataLine);
+                    qscData = qscData.Remove(qtaskIndex, qscDataLine.Length);
+                    linkCount++;
+                }
+            }
+            qscData = Regex.Replace(qscData, @"^\s*$", "", RegexOptions.Multiline);
+            if (!String.IsNullOrEmpty(qscData)) QCompiler.CompileEx(qscData);
+            return (linkCount > 0) ? true : false;
         }
 
 
@@ -634,7 +705,7 @@ namespace IGIEditor
         internal static GraphNode GetGraphNodeData(int graphId, int nodeId)
         {
             string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
-            QUtils.AddLog("graphIdDD() GraphFile: '" + graphFile + "'");
+            QUtils.AddLog("GetGraphNodeData() GraphFile: '" + graphFile + "'");
 
             if (QUtils.graphNodesList.Count == 0) QUtils.graphNodesList = QGraphs.ReadGraphNodeData(graphFile);
 

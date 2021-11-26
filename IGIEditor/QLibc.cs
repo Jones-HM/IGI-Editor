@@ -691,7 +691,7 @@ namespace QLibc
             /// <summary>
             /// Next "page down"
             /// </summary>
-            PAGEDOWN = 0x22,
+            PGDN = 0x22,
 
             /// <summary>
             /// Num lock to enable typing numbers
@@ -701,7 +701,7 @@ namespace QLibc
             /// <summary>
             /// Page up key
             /// </summary>
-            PAGE_UP = 0x21,
+            PGUP = 0x21,
 
             /// <summary>
             /// Right control

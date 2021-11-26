@@ -9,21 +9,38 @@ namespace IGIEditor
     {
         private static string internalDataFile =  @"bin\IGI-Internals-data.txt";
 
-        public static void InternalExec(string data, GT.VK[] keys)
+        internal static string InternalDataRead()
+        {
+            string data = File.ReadAllText(internalDataFile);
+            return data;
+        }
+
+        internal static string[] InternalDataReadLines()
+        {
+            var data = File.ReadAllLines(internalDataFile);
+            return data;
+        }
+
+        internal static void InternalDataWrite(string data)
+        {
+            File.WriteAllText(internalDataFile, data);
+        }
+
+        internal static void InternalExec(string data, GT.VK[] keys)
         {
             if (!string.IsNullOrEmpty(data))
             {
-                File.WriteAllText(internalDataFile, data);
+                InternalDataWrite(data);
                 QUtils.Sleep(0.5f);
             }
             GT.MultiKeyPress(keys);
         }
 
-        public static void InternalExec2(string data, GT.VK key, bool ctrl = false, bool alt = false, bool shift = false)
+        internal static void InternalExec2(string data, GT.VK key, bool ctrl = false, bool alt = false, bool shift = false)
         {
             if (!string.IsNullOrEmpty(data))
             {
-                File.WriteAllText(internalDataFile, data);
+                InternalDataWrite(data);
                 QUtils.Sleep(0.5f);
             }
             GT.ActivateApp(QMemory.gameName);
@@ -36,11 +53,11 @@ namespace IGIEditor
         }
 
 
-        public static void InternalExec(string data, GT.VK key, bool ctrl = false, bool alt = false, bool shift = false)
+        internal static void InternalExec(string data, GT.VK key, bool ctrl = false, bool alt = false, bool shift = false)
         {
             if (!string.IsNullOrEmpty(data))
             {
-                File.WriteAllText(internalDataFile, data);
+                InternalDataWrite(data);
                 QUtils.Sleep(0.5f);
             }
             GT.GT_SendKeyStroke(key.ToString(), ctrl, alt, shift);
@@ -110,5 +127,7 @@ namespace IGIEditor
         internal static void AnimTriggerLoad() { InternalExec(null, GT.VK.NUMPAD7, true); }
         internal static void CutsceneRemove() { InternalExec(null, GT.VK.NUMPAD8, true); }
         internal static void StatusMessageShow(string statusMsg) { InternalExec(statusMsg, GT.VK.INSERT, true); }
+
+        internal static void GraphNodeLinks(string graphId) { InternalExec(graphId, GT.VK.HOME, true); }
     }
 }

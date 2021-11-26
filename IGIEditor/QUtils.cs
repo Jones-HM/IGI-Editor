@@ -61,11 +61,11 @@ namespace IGIEditor
         internal static string qvmExt = ".qvm", qscExt = ".qsc", datExt = ".dat", csvExt = ".csv", jsonExt = ".json", txtExt = ".txt", xmlExt = ".xml", dllExt = ".dll", missionExt = ".igimsf", jpgExt = ".jpg", pngExt = ".png";
         internal static float fltInvalidAngle = -9.9999f, fltInvalidVal = -9.9f;
         internal const string CAPTION_CONFIG_ERR = "Config - Error", CAPTION_FATAL_SYS_ERR = "Fatal sytem - Error", CAPTION_APP_ERR = "Application - Error", CAPTION_COMPILER_ERR = "Compiler - Error", EDITOR_LEVEL_ERR = "EDITOR ERROR", alarmControl = "AlarmControl", stationaryGun = "StationaryGun";
-        internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", helpStr = "IGI 1 Editor-Demo. Offers upto " + GAME_MAX_LEVEL + " level\nVersion: v" + appEditorVersion + " BETA.\n\nTools/Language: C#(5.0) VS-Studio/Code\nCreated by Haseeb Mir.\nCredits & People\nUI Designing - Dark\nDimon & Yoejin for their Research.\nOrwa - Tester\nIGI-VK Community.";
+        internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", helpStr = "IGI 1 Editor-Demo. Offers upto " + GAME_MAX_LEVEL + " level\nVersion: v" + appEditorVersion + " BETA.\n\nTools/Language: C#(5.0) VS-Studio/Code\nCreated by Haseeb Mir.\n\nCredits & People\n\nUI Designing - Dark\nResearch (Graphs,MEF,MTP,TEX) - Dimon, Yoejin and GM123.\nQsc/DConv Tools - Artiom.\nTester - Orwa\nIGI-VK Community.";
         internal static string patroIdleMask = "xxxx", patroAlarmMask = "yyyy", alarmControlMask = "xx", gunnerIdMask = "xxx", viewGammaMask = "yyy";
         internal static string movementSpeedMask = "movSpeed", forwardSpeedMask = "forwardSpeed", upwardSpeedMask = "upSpeed", inAirSpeedMask = "iAirSpeed", throwBaseVelMask = "throwBaseVel", healthScaleMask = "healthScale", healthFenceMask = "healthFence", peekLeftRightLenMask = "peekLRLen", peekCrouchLenMask = "peekCrouchLen", peekTimeMask = "peekTime";
         internal static List<string> aiScriptFiles = new List<string>();
-        internal static string aiEnenmyTask = null, aiFriendTask = null, levelFlowData, missionsListFile = "IGIMissionsList.txt", missionLevelFile = "mission_level.txt", missionDescFile = "mission_desc.txt", missionListFile = @"\MissionsList.dat";
+        internal static string aiEnenmyTask = null, aiFriendTask = null, levelFlowData, missionLevelFile = "mission_level.txt", missionDescFile = "mission_desc.txt", missionListFile = @"\MissionsList.dat";
         internal static double movSpeed = 1.75f, forwardSpeed = 17.5f, upwardSpeed = 27, inAirSpeed = 0.5f, peekCrouchLen = 0.8500000238418579f, peekLRLen = 0.8500000238418579f, peekTime = 0.25, healthScale = 3.0f, healthScaleFence = 0.5f;
         private static Random rand = new Random();
         internal static QIniParser qIniParser;
@@ -685,50 +685,50 @@ namespace IGIEditor
         internal static bool SetAIEventIdle(bool aiEvent)
         {
             //New Way - Fast Team version.
-            bool idleStatus = true;
-            var qData = QHuman.UpdateTeamId(aiEvent ? TEAM_ID_ENEMY : TEAM_ID_FRIENDLY);
-            if (!String.IsNullOrEmpty(qData)) idleStatus = QCompiler.Compile(qData, QUtils.gamePath, false, true, false);
-            return idleStatus;
+            //bool idleStatus = true;
+            //var qData = QHuman.UpdateTeamId(aiEvent ? TEAM_ID_ENEMY : TEAM_ID_FRIENDLY);
+            //if (!String.IsNullOrEmpty(qData)) idleStatus = QCompiler.Compile(qData, QUtils.gamePath, false, true, false);
+            //return idleStatus;
 
             //Old way - Slow File version.
-            //var aiFilesList = new List<string>() { "ekk.qvm", "guard.qvm", "gunner.qvm", "patrol.qvm", "radioguard.qvm", "sniper.qvm" };
-            //bool idleStatus = true;
-            //string commonPath = gameAbsPath + @"common\";
-            //string aiCommonPath = gameAbsPath + @"common\ai\";
-            //string aiIdleFile = aiCommonPath + QUtils.aiIdleFile;
+            var aiFilesList = new List<string>() { "ekk.qvm", "guard.qvm", "gunner.qvm", "patrol.qvm", "radioguard.qvm", "sniper.qvm" };
+            bool idleStatus = true;
+            string commonPath = gameAbsPath + @"common\";
+            string aiCommonPath = gameAbsPath + @"common\ai\";
+            string aiIdleFile = aiCommonPath + QUtils.aiIdleFile;
 
-            //if (aiEvent)
-            //{
-            //    if (Directory.Exists(commonPath + @"\ai_copy"))
-            //    {
-            //        return false;
-            //    }
+            if (aiEvent)
+            {
+                if (Directory.Exists(commonPath + @"\ai_copy"))
+                {
+                    return false;
+                }
 
-            //    if (!File.Exists(aiIdleFile))
-            //        File.Copy(aiIdlePath, aiIdleFile);
+                if (!File.Exists(aiIdleFile))
+                    File.Copy(aiIdlePath, aiIdleFile);
 
-            //    if (!File.Exists(commonPath + @"\ai_copy"))
-            //    {
-            //        string copyDirCmd = "xcopy " + commonPath + @"\ai " + commonPath + @"\ai_copy" + " /e /i /h ";
-            //        ShellExec(copyDirCmd, true);
-            //    }
+                if (!File.Exists(commonPath + @"\ai_copy"))
+                {
+                    string copyDirCmd = "xcopy " + commonPath + @"\ai " + commonPath + @"\ai_copy" + " /e /i /h ";
+                    ShellExec(copyDirCmd, true);
+                }
 
-            //    string tmpFile = "tmp_copy.qvm";
+                string tmpFile = "tmp_copy.qvm";
 
-            //    foreach (var aiFile in aiFilesList)
-            //    {
-            //        File.Delete(aiCommonPath + aiFile);
-            //        File.Copy(aiIdleFile, aiCommonPath + tmpFile);
-            //        File.Move(aiCommonPath + tmpFile, aiCommonPath + aiFile);
-            //    }
-            //}
-            //else
-            //{
-            //    Directory.Delete(aiCommonPath, true);
-            //    Thread.Sleep(2500);
-            //    Directory.Move(gameAbsPath + @"common\ai_copy\", aiCommonPath);
-            //}
-            //return idleStatus;
+                foreach (var aiFile in aiFilesList)
+                {
+                    File.Delete(aiCommonPath + aiFile);
+                    File.Copy(aiIdleFile, aiCommonPath + tmpFile);
+                    File.Move(aiCommonPath + tmpFile, aiCommonPath + aiFile);
+                }
+            }
+            else
+            {
+                Directory.Delete(aiCommonPath, true);
+                Thread.Sleep(2500);
+                Directory.Move(gameAbsPath + @"common\ai_copy\", aiCommonPath);
+            }
+            return idleStatus;
         }
 
         protected static string InitAuthBearer()
@@ -919,12 +919,12 @@ namespace IGIEditor
                 File.WriteAllText(fileName, data);
         }
 
-        internal static void ResetFile(int gameLevel)
+        internal static void ResetScriptFile(int gameLevel)
         {
             var inputQscPath = cfgQscPath + gameLevel + "\\" + objectsQsc;
 
             if (File.Exists(objectsQsc)) File.Delete(objectsQsc);
-            File.Copy(inputQscPath, objectsQsc);
+            File.Copy(inputQscPath,QUtils.objectsQsc);
 
             var fileData = QUtils.LoadFile(objectsQsc);
             File.WriteAllText(objectsQsc, fileData);
@@ -948,11 +948,7 @@ namespace IGIEditor
             var inFileData = File.ReadAllText(inputQvmPath);
             var outFileData = File.ReadAllText(outputQvmPath);
 
-            if (inFileData == outFileData)
-            {
-                IGIEditorUI.editorRef.SetStatusText("Restrore of level '" + gameLevel + "' success");
-            }
-            else
+            if (inFileData != outFileData)
                 IGIEditorUI.editorRef.SetStatusText("Error in restroing level : " + gameLevel);
         }
 
@@ -1610,6 +1606,15 @@ namespace IGIEditor
             }
         }
 
+
+
+        internal static int GameitemsCount()
+        {
+            var gameItemAddr = GT.GT_ReadPointerOffset((IntPtr)0x0057BA9C, 0);
+            var gameitems = GT.GT_ReadInt(gameItemAddr);
+            return (int)gameitems;
+        }
+
         internal static void CleanUpAiFiles()
         {
             if (!QUtils.gameReset) return;
@@ -1858,6 +1863,30 @@ namespace IGIEditor
             this.z = z;
         }
 
+        public Real64 Real64Operator(Real64 real1, Real64 real2, string operatorType)
+        {
+            Real64 real = new Real64();
+
+            if (operatorType == "+")
+            {
+                real.x = real1.x + real2.x;
+                real.y = real1.y + real2.y;
+                real.z = real1.z + real2.z;
+            }
+            else if (operatorType == "-")
+            {
+                real.x = real1.x - real2.x;
+                real.y = real1.y - real2.y;
+                real.z = real1.z - real2.z;
+            }
+            return real;
+        }
+
+        public bool Empty()
+        {
+            bool empty = (this.x == 0.0f && this.y == 0.0f && this.z == 0.0f);
+            return empty;
+        }
     };
 
     public class GraphNode
