@@ -41,7 +41,7 @@
             this.levelStartTxt = new System.Windows.Forms.NumericUpDown();
             this.posCoordCb = new System.Windows.Forms.CheckBox();
             this.posMetersCb = new System.Windows.Forms.CheckBox();
-            this.igiSmallIconBtn = new System.Windows.Forms.Button();
+            this.igiIconBtn = new System.Windows.Forms.Button();
             this.restartLevel = new System.Windows.Forms.Button();
             this.refreshGame = new System.Windows.Forms.Button();
             this.headerLbl = new System.Windows.Forms.Label();
@@ -175,13 +175,15 @@
             this.loadMissionBtn = new System.Windows.Forms.Button();
             this.saveMissionBtn = new System.Windows.Forms.Button();
             this.graphEditor = new System.Windows.Forms.TabPage();
+            this.showAllGraphsCb = new System.Windows.Forms.CheckBox();
+            this.gameItemsLbl = new System.Windows.Forms.Label();
             this.stopTraversingNodesBtn = new System.Windows.Forms.Button();
             this.manualTeleportGraphCb = new System.Windows.Forms.CheckBox();
             this.manualTeleportNodeCb = new System.Windows.Forms.CheckBox();
             this.autoTeleportGraphCb = new System.Windows.Forms.CheckBox();
             this.teleportToGraphBtn = new System.Windows.Forms.Button();
             this.autoTeleportNodeCb = new System.Windows.Forms.CheckBox();
-            this.viewPortEnableCb = new System.Windows.Forms.CheckBox();
+            this.viewPortCameraEnableCb = new System.Windows.Forms.CheckBox();
             this.teleportToNodeBtn = new System.Windows.Forms.Button();
             this.nodeIdMetreCb = new System.Windows.Forms.CheckBox();
             this.nodeIdOffsetCb = new System.Windows.Forms.CheckBox();
@@ -196,8 +198,12 @@
             this.nodeXLbl = new System.Windows.Forms.Label();
             this.removeNodesBtn = new System.Windows.Forms.Button();
             this.removeLinksBtn = new System.Windows.Forms.Button();
-            this.showLinksBtn = new System.Windows.Forms.Button();
-            this.showNodesBtn = new System.Windows.Forms.Button();
+            this.refreshLinksBtn = new System.Windows.Forms.Button();
+            this.addLinksBtn = new System.Windows.Forms.Button();
+            this.refreshNodesBtn = new System.Windows.Forms.Button();
+            this.addNodesBtn = new System.Windows.Forms.Button();
+            this.markNodeCb = new System.Windows.Forms.CheckBox();
+            this.nodesAllCb = new System.Windows.Forms.CheckBox();
             this.nodesHilightCb = new System.Windows.Forms.CheckBox();
             this.nodesObjectsCb = new System.Windows.Forms.CheckBox();
             this.nodeIdDD = new System.Windows.Forms.ComboBox();
@@ -238,6 +244,7 @@
             this.xPosLbl_O = new System.Windows.Forms.Label();
             this.updateObjPosition = new System.Windows.Forms.Button();
             this.miscEditor = new System.Windows.Forms.TabPage();
+            this.editorUpdaterBtn = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.appSettingLbl = new System.Windows.Forms.Label();
             this.configLoadBtn = new System.Windows.Forms.Button();
@@ -273,12 +280,10 @@
             this.versionLbl = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.levelNameLbl = new System.Windows.Forms.Label();
-            this.formMoverPnl = new System.Windows.Forms.Panel();
+            this.formMoverPanel = new System.Windows.Forms.Panel();
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.gameItemsLbl = new System.Windows.Forms.Label();
-            this.nodesAllCb = new System.Windows.Forms.CheckBox();
             this.backPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -317,7 +322,7 @@
             this.backPnl.Controls.Add(this.levelStartTxt);
             this.backPnl.Controls.Add(this.posCoordCb);
             this.backPnl.Controls.Add(this.posMetersCb);
-            this.backPnl.Controls.Add(this.igiSmallIconBtn);
+            this.backPnl.Controls.Add(this.igiIconBtn);
             this.backPnl.Controls.Add(this.restartLevel);
             this.backPnl.Controls.Add(this.refreshGame);
             this.backPnl.Controls.Add(this.headerLbl);
@@ -338,7 +343,7 @@
             this.backPnl.Controls.Add(this.versionLbl);
             this.backPnl.Controls.Add(this.label2);
             this.backPnl.Controls.Add(this.levelNameLbl);
-            this.backPnl.Controls.Add(this.formMoverPnl);
+            this.backPnl.Controls.Add(this.formMoverPanel);
             this.backPnl.Controls.Add(this.levelImgBox);
             this.backPnl.Controls.Add(this.label1);
             this.backPnl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -499,20 +504,20 @@
             this.posMetersCb.UseVisualStyleBackColor = true;
             this.posMetersCb.CheckedChanged += new System.EventHandler(this.posMetersCb_CheckedChanged);
             // 
-            // igiSmallIconBtn
+            // igiIconBtn
             // 
-            this.igiSmallIconBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("igiSmallIconBtn.BackgroundImage")));
-            this.igiSmallIconBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.igiSmallIconBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.igiSmallIconBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.igiSmallIconBtn.ForeColor = System.Drawing.Color.Transparent;
-            this.igiSmallIconBtn.Location = new System.Drawing.Point(905, 28);
-            this.igiSmallIconBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.igiSmallIconBtn.Name = "igiSmallIconBtn";
-            this.igiSmallIconBtn.Size = new System.Drawing.Size(52, 46);
-            this.igiSmallIconBtn.TabIndex = 26;
-            this.igiSmallIconBtn.UseVisualStyleBackColor = true;
-            this.igiSmallIconBtn.Click += new System.EventHandler(this.igiSmallIconBtn_Click);
+            this.igiIconBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("igiIconBtn.BackgroundImage")));
+            this.igiIconBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.igiIconBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.igiIconBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.igiIconBtn.ForeColor = System.Drawing.Color.Transparent;
+            this.igiIconBtn.Location = new System.Drawing.Point(905, 28);
+            this.igiIconBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.igiIconBtn.Name = "igiIconBtn";
+            this.igiIconBtn.Size = new System.Drawing.Size(52, 46);
+            this.igiIconBtn.TabIndex = 26;
+            this.igiIconBtn.UseVisualStyleBackColor = true;
+            this.igiIconBtn.Click += new System.EventHandler(this.igiIconBtn_Click);
             // 
             // restartLevel
             // 
@@ -1702,7 +1707,7 @@
             this.aiGraphIdDD.Name = "aiGraphIdDD";
             this.aiGraphIdDD.Size = new System.Drawing.Size(73, 29);
             this.aiGraphIdDD.TabIndex = 40;
-            this.aiGraphIdDD.SelectedValueChanged += new System.EventHandler(this.aiGraphIdDD_SelectedValueChanged);
+            this.aiGraphIdDD.SelectedIndexChanged += new System.EventHandler(this.aiGraphIdDD_SelectedIndexChanged);
             // 
             // aiTypeDD
             // 
@@ -2306,6 +2311,7 @@
             // graphEditor
             // 
             this.graphEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.graphEditor.Controls.Add(this.showAllGraphsCb);
             this.graphEditor.Controls.Add(this.gameItemsLbl);
             this.graphEditor.Controls.Add(this.stopTraversingNodesBtn);
             this.graphEditor.Controls.Add(this.manualTeleportGraphCb);
@@ -2313,7 +2319,7 @@
             this.graphEditor.Controls.Add(this.autoTeleportGraphCb);
             this.graphEditor.Controls.Add(this.teleportToGraphBtn);
             this.graphEditor.Controls.Add(this.autoTeleportNodeCb);
-            this.graphEditor.Controls.Add(this.viewPortEnableCb);
+            this.graphEditor.Controls.Add(this.viewPortCameraEnableCb);
             this.graphEditor.Controls.Add(this.teleportToNodeBtn);
             this.graphEditor.Controls.Add(this.nodeIdMetreCb);
             this.graphEditor.Controls.Add(this.nodeIdOffsetCb);
@@ -2328,8 +2334,11 @@
             this.graphEditor.Controls.Add(this.nodeXLbl);
             this.graphEditor.Controls.Add(this.removeNodesBtn);
             this.graphEditor.Controls.Add(this.removeLinksBtn);
-            this.graphEditor.Controls.Add(this.showLinksBtn);
-            this.graphEditor.Controls.Add(this.showNodesBtn);
+            this.graphEditor.Controls.Add(this.refreshLinksBtn);
+            this.graphEditor.Controls.Add(this.addLinksBtn);
+            this.graphEditor.Controls.Add(this.refreshNodesBtn);
+            this.graphEditor.Controls.Add(this.addNodesBtn);
+            this.graphEditor.Controls.Add(this.markNodeCb);
             this.graphEditor.Controls.Add(this.nodesAllCb);
             this.graphEditor.Controls.Add(this.nodesHilightCb);
             this.graphEditor.Controls.Add(this.nodesObjectsCb);
@@ -2344,6 +2353,32 @@
             this.graphEditor.Size = new System.Drawing.Size(1137, 387);
             this.graphEditor.TabIndex = 9;
             this.graphEditor.Text = "Graph Editor";
+            // 
+            // showAllGraphsCb
+            // 
+            this.showAllGraphsCb.AutoSize = true;
+            this.showAllGraphsCb.Font = new System.Drawing.Font("Century Gothic", 7.8F);
+            this.showAllGraphsCb.Location = new System.Drawing.Point(342, 74);
+            this.showAllGraphsCb.Margin = new System.Windows.Forms.Padding(4);
+            this.showAllGraphsCb.Name = "showAllGraphsCb";
+            this.showAllGraphsCb.Size = new System.Drawing.Size(100, 23);
+            this.showAllGraphsCb.TabIndex = 81;
+            this.showAllGraphsCb.Text = "All Graphs";
+            this.showAllGraphsCb.UseVisualStyleBackColor = true;
+            this.showAllGraphsCb.CheckedChanged += new System.EventHandler(this.showAllGraphsCb_CheckedChanged);
+            // 
+            // gameItemsLbl
+            // 
+            this.gameItemsLbl.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gameItemsLbl.ForeColor = System.Drawing.Color.SpringGreen;
+            this.gameItemsLbl.Location = new System.Drawing.Point(986, 242);
+            this.gameItemsLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.gameItemsLbl.Name = "gameItemsLbl";
+            this.gameItemsLbl.Size = new System.Drawing.Size(127, 19);
+            this.gameItemsLbl.TabIndex = 80;
+            this.gameItemsLbl.Text = "Game Items:";
+            this.gameItemsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.gameItemsLbl.Click += new System.EventHandler(this.gameItemsLbl_Click);
             // 
             // stopTraversingNodesBtn
             // 
@@ -2429,18 +2464,18 @@
             this.autoTeleportNodeCb.UseVisualStyleBackColor = true;
             this.autoTeleportNodeCb.CheckedChanged += new System.EventHandler(this.autoTeleportNodeCb_CheckedChanged);
             // 
-            // viewPortEnableCb
+            // viewPortCameraEnableCb
             // 
-            this.viewPortEnableCb.AutoSize = true;
-            this.viewPortEnableCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewPortEnableCb.Location = new System.Drawing.Point(636, 255);
-            this.viewPortEnableCb.Margin = new System.Windows.Forms.Padding(4);
-            this.viewPortEnableCb.Name = "viewPortEnableCb";
-            this.viewPortEnableCb.Size = new System.Drawing.Size(152, 23);
-            this.viewPortEnableCb.TabIndex = 73;
-            this.viewPortEnableCb.Text = "ViewPort - Enable";
-            this.viewPortEnableCb.UseVisualStyleBackColor = true;
-            this.viewPortEnableCb.CheckedChanged += new System.EventHandler(this.viewPortEnableCb_CheckedChanged);
+            this.viewPortCameraEnableCb.AutoSize = true;
+            this.viewPortCameraEnableCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewPortCameraEnableCb.Location = new System.Drawing.Point(636, 255);
+            this.viewPortCameraEnableCb.Margin = new System.Windows.Forms.Padding(4);
+            this.viewPortCameraEnableCb.Name = "viewPortCameraEnableCb";
+            this.viewPortCameraEnableCb.Size = new System.Drawing.Size(150, 23);
+            this.viewPortCameraEnableCb.TabIndex = 73;
+            this.viewPortCameraEnableCb.Text = "Camera - Enable";
+            this.viewPortCameraEnableCb.UseVisualStyleBackColor = true;
+            this.viewPortCameraEnableCb.CheckedChanged += new System.EventHandler(this.viewPortEnableCb_CheckedChanged);
             // 
             // teleportToNodeBtn
             // 
@@ -2605,7 +2640,7 @@
             this.removeNodesBtn.Name = "removeNodesBtn";
             this.removeNodesBtn.Size = new System.Drawing.Size(267, 41);
             this.removeNodesBtn.TabIndex = 60;
-            this.removeNodesBtn.Text = "Remove Nodes";
+            this.removeNodesBtn.Text = "Remove Node";
             this.removeNodesBtn.UseVisualStyleBackColor = true;
             this.removeNodesBtn.Click += new System.EventHandler(this.removeNodesBtn_Click);
             // 
@@ -2618,35 +2653,88 @@
             this.removeLinksBtn.Name = "removeLinksBtn";
             this.removeLinksBtn.Size = new System.Drawing.Size(267, 41);
             this.removeLinksBtn.TabIndex = 60;
-            this.removeLinksBtn.Text = "Remove Links";
+            this.removeLinksBtn.Text = "Remove Link";
             this.removeLinksBtn.UseVisualStyleBackColor = true;
             this.removeLinksBtn.Click += new System.EventHandler(this.removeLinksBtn_Click);
             // 
-            // showLinksBtn
+            // refreshLinksBtn
             // 
-            this.showLinksBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.showLinksBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.showLinksBtn.Location = new System.Drawing.Point(342, 295);
-            this.showLinksBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.showLinksBtn.Name = "showLinksBtn";
-            this.showLinksBtn.Size = new System.Drawing.Size(267, 41);
-            this.showLinksBtn.TabIndex = 60;
-            this.showLinksBtn.Text = "Show Links";
-            this.showLinksBtn.UseVisualStyleBackColor = true;
-            this.showLinksBtn.Click += new System.EventHandler(this.showLinksBtn_Click);
+            this.refreshLinksBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.refreshLinksBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.refreshLinksBtn.Location = new System.Drawing.Point(476, 295);
+            this.refreshLinksBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.refreshLinksBtn.Name = "refreshLinksBtn";
+            this.refreshLinksBtn.Size = new System.Drawing.Size(133, 41);
+            this.refreshLinksBtn.TabIndex = 60;
+            this.refreshLinksBtn.Text = "Refresh";
+            this.refreshLinksBtn.UseVisualStyleBackColor = true;
+            this.refreshLinksBtn.Click += new System.EventHandler(this.refreshLinksBtn_Click);
             // 
-            // showNodesBtn
+            // addLinksBtn
             // 
-            this.showNodesBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.showNodesBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.showNodesBtn.Location = new System.Drawing.Point(51, 295);
-            this.showNodesBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.showNodesBtn.Name = "showNodesBtn";
-            this.showNodesBtn.Size = new System.Drawing.Size(267, 41);
-            this.showNodesBtn.TabIndex = 60;
-            this.showNodesBtn.Text = "Show Nodes";
-            this.showNodesBtn.UseVisualStyleBackColor = true;
-            this.showNodesBtn.Click += new System.EventHandler(this.showNodesBtn_Click);
+            this.addLinksBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addLinksBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.addLinksBtn.Location = new System.Drawing.Point(342, 295);
+            this.addLinksBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.addLinksBtn.Name = "addLinksBtn";
+            this.addLinksBtn.Size = new System.Drawing.Size(133, 41);
+            this.addLinksBtn.TabIndex = 60;
+            this.addLinksBtn.Text = "Add";
+            this.addLinksBtn.UseVisualStyleBackColor = true;
+            this.addLinksBtn.Click += new System.EventHandler(this.addLinksBtn_Click);
+            // 
+            // refreshNodesBtn
+            // 
+            this.refreshNodesBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.refreshNodesBtn.Font = new System.Drawing.Font("Century Gothic", 9.45F);
+            this.refreshNodesBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.refreshNodesBtn.Location = new System.Drawing.Point(185, 295);
+            this.refreshNodesBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.refreshNodesBtn.Name = "refreshNodesBtn";
+            this.refreshNodesBtn.Size = new System.Drawing.Size(133, 41);
+            this.refreshNodesBtn.TabIndex = 60;
+            this.refreshNodesBtn.Text = "Refresh";
+            this.refreshNodesBtn.UseVisualStyleBackColor = true;
+            this.refreshNodesBtn.Click += new System.EventHandler(this.refreshNodesBtn_Click);
+            // 
+            // addNodesBtn
+            // 
+            this.addNodesBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addNodesBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.addNodesBtn.Location = new System.Drawing.Point(51, 295);
+            this.addNodesBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.addNodesBtn.Name = "addNodesBtn";
+            this.addNodesBtn.Size = new System.Drawing.Size(133, 41);
+            this.addNodesBtn.TabIndex = 60;
+            this.addNodesBtn.Text = "Add";
+            this.addNodesBtn.UseVisualStyleBackColor = true;
+            this.addNodesBtn.Click += new System.EventHandler(this.addNodesBtn_Click);
+            // 
+            // markNodeCb
+            // 
+            this.markNodeCb.AutoSize = true;
+            this.markNodeCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.markNodeCb.Location = new System.Drawing.Point(1001, 276);
+            this.markNodeCb.Margin = new System.Windows.Forms.Padding(4);
+            this.markNodeCb.Name = "markNodeCb";
+            this.markNodeCb.Size = new System.Drawing.Size(116, 23);
+            this.markNodeCb.TabIndex = 58;
+            this.markNodeCb.Text = "Node - Mark";
+            this.markNodeCb.UseVisualStyleBackColor = true;
+            this.markNodeCb.CheckedChanged += new System.EventHandler(this.markNodeCb_CheckedChanged);
+            // 
+            // nodesAllCb
+            // 
+            this.nodesAllCb.AutoSize = true;
+            this.nodesAllCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nodesAllCb.Location = new System.Drawing.Point(1001, 295);
+            this.nodesAllCb.Margin = new System.Windows.Forms.Padding(4);
+            this.nodesAllCb.Name = "nodesAllCb";
+            this.nodesAllCb.Size = new System.Drawing.Size(102, 23);
+            this.nodesAllCb.TabIndex = 58;
+            this.nodesAllCb.Text = "Nodes - All";
+            this.nodesAllCb.UseVisualStyleBackColor = true;
+            this.nodesAllCb.CheckedChanged += new System.EventHandler(this.nodesAllCb_CheckedChanged);
             // 
             // nodesHilightCb
             // 
@@ -3211,6 +3299,7 @@
             // miscEditor
             // 
             this.miscEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.miscEditor.Controls.Add(this.editorUpdaterBtn);
             this.miscEditor.Controls.Add(this.label4);
             this.miscEditor.Controls.Add(this.appSettingLbl);
             this.miscEditor.Controls.Add(this.configLoadBtn);
@@ -3246,6 +3335,20 @@
             this.miscEditor.Size = new System.Drawing.Size(1137, 387);
             this.miscEditor.TabIndex = 6;
             this.miscEditor.Text = "Misc";
+            // 
+            // editorUpdaterBtn
+            // 
+            this.editorUpdaterBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.editorUpdaterBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.editorUpdaterBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.editorUpdaterBtn.Location = new System.Drawing.Point(275, 170);
+            this.editorUpdaterBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.editorUpdaterBtn.Name = "editorUpdaterBtn";
+            this.editorUpdaterBtn.Size = new System.Drawing.Size(190, 38);
+            this.editorUpdaterBtn.TabIndex = 41;
+            this.editorUpdaterBtn.Text = "Check Updates";
+            this.editorUpdaterBtn.UseVisualStyleBackColor = true;
+            this.editorUpdaterBtn.Click += new System.EventHandler(this.editorUpdaterBtn_Click);
             // 
             // label4
             // 
@@ -3470,7 +3573,7 @@
             this.showAppLogBtn.Name = "showAppLogBtn";
             this.showAppLogBtn.Size = new System.Drawing.Size(190, 38);
             this.showAppLogBtn.TabIndex = 21;
-            this.showAppLogBtn.Text = "Show App Logs";
+            this.showAppLogBtn.Text = "Show Logs";
             this.showAppLogBtn.UseVisualStyleBackColor = true;
             this.showAppLogBtn.Click += new System.EventHandler(this.showAppLogBtn_Click);
             // 
@@ -3715,15 +3818,15 @@
             this.levelNameLbl.TabIndex = 2;
             this.levelNameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // formMoverPnl
+            // formMoverPanel
             // 
-            this.formMoverPnl.BackColor = System.Drawing.Color.DodgerBlue;
-            this.formMoverPnl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.formMoverPnl.Location = new System.Drawing.Point(0, 0);
-            this.formMoverPnl.Margin = new System.Windows.Forms.Padding(4);
-            this.formMoverPnl.Name = "formMoverPnl";
-            this.formMoverPnl.Size = new System.Drawing.Size(1145, 12);
-            this.formMoverPnl.TabIndex = 1;
+            this.formMoverPanel.BackColor = System.Drawing.Color.DodgerBlue;
+            this.formMoverPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.formMoverPanel.Location = new System.Drawing.Point(0, 0);
+            this.formMoverPanel.Margin = new System.Windows.Forms.Padding(4);
+            this.formMoverPanel.Name = "formMoverPanel";
+            this.formMoverPanel.Size = new System.Drawing.Size(1145, 12);
+            this.formMoverPanel.TabIndex = 1;
             // 
             // levelImgBox
             // 
@@ -3747,32 +3850,6 @@
             this.label1.Size = new System.Drawing.Size(103, 44);
             this.label1.TabIndex = 0;
             this.label1.Text = "IGI 1";
-            // 
-            // gameItemsLbl
-            // 
-            this.gameItemsLbl.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gameItemsLbl.ForeColor = System.Drawing.Color.SpringGreen;
-            this.gameItemsLbl.Location = new System.Drawing.Point(982, 284);
-            this.gameItemsLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.gameItemsLbl.Name = "gameItemsLbl";
-            this.gameItemsLbl.Size = new System.Drawing.Size(127, 19);
-            this.gameItemsLbl.TabIndex = 80;
-            this.gameItemsLbl.Text = "Game Items:";
-            this.gameItemsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.gameItemsLbl.Click += new System.EventHandler(this.gameItemsLbl_Click);
-            // 
-            // nodesAllCb
-            // 
-            this.nodesAllCb.AutoSize = true;
-            this.nodesAllCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nodesAllCb.Location = new System.Drawing.Point(1000, 307);
-            this.nodesAllCb.Margin = new System.Windows.Forms.Padding(4);
-            this.nodesAllCb.Name = "nodesAllCb";
-            this.nodesAllCb.Size = new System.Drawing.Size(102, 23);
-            this.nodesAllCb.TabIndex = 58;
-            this.nodesAllCb.Text = "Nodes - All";
-            this.nodesAllCb.UseVisualStyleBackColor = true;
-            this.nodesAllCb.CheckedChanged += new System.EventHandler(this.nodesHilightCb_CheckedChanged);
             // 
             // IGIEditorUI
             // 
@@ -3829,7 +3906,7 @@
         private System.Windows.Forms.Label closeBtn;
         private System.Windows.Forms.Label versionLbl;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel formMoverPnl;
+        private System.Windows.Forms.Panel formMoverPanel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabControl editorTabs;
         private System.Windows.Forms.TabPage objectEditor;
@@ -3961,7 +4038,7 @@
         private System.Windows.Forms.Label inAirSpeedLbl;
         private System.Windows.Forms.Button resetHumanBtn;
         private System.Windows.Forms.Button readHumanBtn;
-        private System.Windows.Forms.Button igiSmallIconBtn;
+        private System.Windows.Forms.Button igiIconBtn;
         private System.Windows.Forms.Button updatePeekBtn;
         private System.Windows.Forms.TextBox peekTimeTxt;
         private System.Windows.Forms.Label peekTimeLbl;
@@ -4004,7 +4081,7 @@
         private System.Windows.Forms.Label nodeIdLbl;
         private System.Windows.Forms.CheckBox nodesHilightCb;
         private System.Windows.Forms.CheckBox nodesObjectsCb;
-        private System.Windows.Forms.Button showNodesBtn;
+        private System.Windows.Forms.Button addNodesBtn;
         private System.Windows.Forms.TextBox nodeCriteriaTxt;
         private System.Windows.Forms.TextBox nodeZTxt;
         private System.Windows.Forms.Label nodeZLbl;
@@ -4017,7 +4094,7 @@
         private System.Windows.Forms.CheckBox nodeIdMetreCb;
         private System.Windows.Forms.CheckBox nodeIdOffsetCb;
         private System.Windows.Forms.Button teleportToNodeBtn;
-        private System.Windows.Forms.CheckBox viewPortEnableCb;
+        private System.Windows.Forms.CheckBox viewPortCameraEnableCb;
         private System.Windows.Forms.CheckBox autoTeleportNodeCb;
         private System.Windows.Forms.Button addLevelFlowBtn;
         private System.Windows.Forms.TextBox missionPlayTimeTxt;
@@ -4068,11 +4145,16 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label appSettingLbl;
         private System.Windows.Forms.Button assembleBtn;
-        private System.Windows.Forms.Button showLinksBtn;
+        private System.Windows.Forms.Button addLinksBtn;
         private System.Windows.Forms.Button removeLinksBtn;
         private System.Windows.Forms.Button removeNodesBtn;
         private System.Windows.Forms.Label gameItemsLbl;
         private System.Windows.Forms.CheckBox nodesAllCb;
+        private System.Windows.Forms.CheckBox markNodeCb;
+        private System.Windows.Forms.Button refreshLinksBtn;
+        private System.Windows.Forms.Button refreshNodesBtn;
+        private System.Windows.Forms.Button editorUpdaterBtn;
+        private System.Windows.Forms.CheckBox showAllGraphsCb;
     }
 }
 

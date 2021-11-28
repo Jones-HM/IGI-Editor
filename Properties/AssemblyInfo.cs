@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("IGI 1 Editor")]
-[assembly: AssemblyDescription("Project I.G.I 1 Editor with A.I,Weapons,Level,Mission and more.")]
+[assembly: AssemblyDescription("Project I.G.I 1 Editor with realtime data")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Haseeb Mir")]
-[assembly: AssemblyProduct("Project I.G.I 1 Editor with realtime data.")]
+[assembly: AssemblyProduct("I.G.I 1 Editor A.I,Level,Missions,Graphs.")]
 [assembly: AssemblyCopyright("Copyright Haseeb Mir © 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.0.0.4")]
+[assembly: AssemblyFileVersion("0.0.0.4")]

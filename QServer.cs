@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace IGIEditor
         internal static string serverBaseURL = @"ftp://igiresearchdevelopers.orgfree.com/";
         internal static string missionDir = "QMissions";
         internal static string graphsDir = "QGraphs";
+        internal static string updateDir = "QEdUpdater";
 
         internal struct QServerData
         {
@@ -94,7 +96,7 @@ namespace IGIEditor
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("File unavailable")) QUtils.ShowError("Mission file '" + localFile + "' was not found on server.");
+                if (ex.Message.Contains("File unavailable")) QUtils.ShowError("File '" + localFile + "' was not found on server.");
                 else
                     QUtils.ShowError(ex.Message ?? ex.StackTrace);
                 status = false;
@@ -141,11 +143,11 @@ namespace IGIEditor
             {
                 if (QUtils.qServerMissionDataList.Count > 0)
                 {
-                    QUtils.AddLog("GetMissionsData() using cache method.");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, " using cache method.");
                     return QUtils.qServerMissionDataList;
                 }
             }
-            QUtils.AddLog("GetMissionsData() using normal method.");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "using normal method.");
 
             var missionsDataList = new List<QMissionsData>();
             var dirList = GetDirList(missionDir, useCache);

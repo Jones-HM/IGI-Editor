@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 
 namespace IGIEditor
@@ -87,8 +88,8 @@ namespace IGIEditor
 
             if (addLog)
             {
-                QUtils.AddLog("GetHumanBaseAddress() humanBasePointer 0x" + humanBasePtr);
-                QUtils.AddLog("GetHumanBaseAddress () humanBaseAddress  : 0x" + humanBaseAddr);
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "humanBasePointer 0x" + humanBasePtr);
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "humanBaseAddress  : 0x" + humanBaseAddr);
             }
             return humanBaseAddr;
         }
@@ -125,8 +126,8 @@ namespace IGIEditor
             var angleAddrV = humanBaseAddress + 0xBF4;
 
             float angle = GT.GT_ReadFloat(angleAddrH);
-            QUtils.AddLog("GetRealAngle() Address : 0x" + angleAddrH.ToString());
-            QUtils.AddLog("GetRealAngle() Value : " + angle);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Address : 0x" + angleAddrH.ToString());
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Value : " + angle);
 
             return angle;
         }

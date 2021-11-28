@@ -1,6 +1,7 @@
 ﻿using QLibc;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -15,7 +16,7 @@ namespace IGIEditor
             if (!autoModel)
                 weapon = QUtils.weaponId + weapon;
 
-            QUtils.AddLog("AddWeapon()  Trying to add weapon : " + weapon + " with ammo : " + ammo);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Trying to add weapon : " + weapon + " with ammo : " + ammo);
 
             string idIndexStr = "Task_New(0";
             string gunIndexStr = "Task_New(-1, \"Gun\"";
@@ -25,7 +26,7 @@ namespace IGIEditor
             if (CheckWeaponExist(weapon))
             {
                 QUtils.ShowError("Weapon : " + weapon + " already exist for human");
-                QUtils.AddLog("AddWeapon() Weapon : " + weapon + " does exist for human");
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Weapon : " + weapon + " does exist for human");
                 return null;
             }
 
@@ -83,15 +84,14 @@ namespace IGIEditor
             if (!autoModel)
                 weapon = QUtils.weaponId + weapon;
 
-            QUtils.AddLog("RemoveWeapon()  Trying to remove weapon : " + weapon);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Trying to remove weapon : " + weapon);
             if (!CheckWeaponExist(weapon))
             {
-                QUtils.ShowError("Weapon : " + weapon + " does not exist for human");
-                QUtils.AddLog("RemoveWeapon() Weapon : " + weapon + " does not exist for human");
+                QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "Weapon: " + weapon + " does not exist for human");
                 return null;
             }
 
-            QUtils.AddLog("RemoveWeapon()  Weapon found to remove weapon : " + weapon);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Weapon found to remove weapon : " + weapon);
             string idIndexStr = "Task_New(0";
             int idIndex = qscData.IndexOf(idIndexStr);
             var qscTemp = qscData.Substring(idIndex).Split('\n');
@@ -103,7 +103,7 @@ namespace IGIEditor
                     gunSubStr = data;
             }
 
-            QUtils.AddLog("RemoveWeapon()  Weapon string : " + gunSubStr);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Weapon string : " + gunSubStr);
             var gunIndex = qscData.LastIndexOf(gunSubStr);
 
             qscData = qscData.Remove(gunIndex, gunSubStr.Length);
@@ -130,7 +130,7 @@ namespace IGIEditor
                     break;
                 }
             }
-            QUtils.AddLog("GetAmmo4Weapon() weapon : " + weapon + " with ammo : " + ammoId);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "weapon : " + weapon + " with ammo : " + ammoId);
 
             return ammoId;
         }
@@ -155,20 +155,20 @@ namespace IGIEditor
         private static bool CheckWeaponExist(string weapon)
         {
             weapon = weapon.Replace(QUtils.weaponId, String.Empty);
-            QUtils.AddLog("CheckWeaponExist() : checking for weapon : " + weapon);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "checking for weapon : " + weapon);
 
             var humanData = GetHumanTaskList();
             bool found = false;
             foreach (var humanWeapon in humanData.weaponsList)
             {
-                QUtils.AddLog("CheckWeaponExist() : Weapon_List : " + humanWeapon);
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Weapon_List : " + humanWeapon);
                 if (humanWeapon.Contains(weapon))
                 {
                     found = true;
                     break;
                 }
             }
-            QUtils.AddLog("CheckWeaponExist() returned : " + found.ToString());
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "returned : " + found.ToString());
             return found;
         }
 
@@ -235,15 +235,8 @@ namespace IGIEditor
             var zpos = GT.GT_ReadFloat(zPosAddr);
 
             var position = new Real32(xpos, ypos, zpos);
-
             if (addLog)
-            {
-                QUtils.AddLog("GetPositionCoord() : posBaseAddr : " + posBaseAddr);
-                QUtils.AddLog("GetPositionCoord() xpos : " + xpos);
-                QUtils.AddLog("GetPositionCoord() ypos : " + ypos);
-                QUtils.AddLog("GetPositionCoord() zpos : " + zpos);
-                QUtils.AddLog("GetPositionCoord() : position: " + position);
-            }
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "posBaseAddr:" + posBaseAddr + " xpos : " + xpos + " ypos : " + ypos + " zpos : " + zpos + " position: " + position);
             return position;
         }
 
@@ -265,12 +258,7 @@ namespace IGIEditor
             //Fix this angle for Ground reference.
             var position = new Real64(x, y, z - QMemory.deltaToGround);
             if (addLog)
-            {
-                QUtils.AddLog("GetPositionInMeter() : xpos: " + xpos + " ypos: " + ypos + " zpos: " + zpos);
-                QUtils.AddLog("GetPositionInMeter() : x: " + x + " y: " + y + " z: " + z);
-                QUtils.AddLog("GetPositionInMeter() : position: " + position);
-            }
-
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "posBaseAddr:" + posBaseAddr + " xpos : " + xpos + " ypos : " + ypos + " zpos : " + zpos + " position: " + position);
             return position;
         }
 
@@ -279,7 +267,7 @@ namespace IGIEditor
             var humanData = GetHumanTaskList();
             string qscData = QUtils.LoadFile();
 
-            QUtils.AddLog("Human UpdatePositionInMeter() called with position : X:" + position.x + " Y: " + position.y + " Z: " + position.z + ", Alpha : " + angle);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with position : X:" + position.x + " Y: " + position.y + " Z: " + position.z + ", Alpha : " + angle);
             string humanAngle = angle == 0.0f ? humanData.qtask.orientation.alpha.ToString() : angle.ToString("0.0");
 
             string humanTaskId = "Task_New(0";
@@ -302,8 +290,8 @@ namespace IGIEditor
             int yLen = yVal ? position.y.ToString().Length : 0;
             int zLen = zVal ? position.z.ToString().Length : 0;
 
-            QUtils.AddLog("Human UpdatePositionOffset()  length : X:" + xLen + " Y: " + yLen + " Z: " + zLen);
-            QUtils.AddLog("Human UpdatePositionOffset() called with offset : X:" + position.x + " Y: " + position.y + " Z: " + position.z);
+            QUtils.AddLog("Human " + MethodBase.GetCurrentMethod().Name, "length : X:" + xLen + " Y: " + yLen + " Z: " + zLen);
+            QUtils.AddLog("Human " + MethodBase.GetCurrentMethod().Name, "called with offset : X:" + position.x + " Y: " + position.y + " Z: " + position.z);
 
 
             //Check for length error.
@@ -325,7 +313,7 @@ namespace IGIEditor
 
             string qscData = QUtils.LoadFile();
 
-            QUtils.AddLog("Human UpdatePositionOffset() calculated positions with offsets : X:" + position.x + " Y: " + position.y + " Z: " + position.z);
+            QUtils.AddLog("Human " + MethodBase.GetCurrentMethod().Name, "calculated positions with offsets : X:" + position.x + " Y: " + position.y + " Z: " + position.z);
 
             string humanTaskId = "Task_New(0";
             int qtaskIndex = qscData.IndexOf(humanTaskId);
@@ -343,7 +331,7 @@ namespace IGIEditor
 
             var position = humanData.qtask.position;
             float angle = humanData.qtask.orientation.alpha;
-            QUtils.AddLog("Human UpdateTeamId() called with position : X:" + position.x + " Y: " + position.y + " Z: " + position.z + ", Alpha : " + angle);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with position : X:" + position.x + " Y: " + position.y + " Z: " + position.z + ", Alpha : " + angle);
             string humanAngle = angle == 0.0f ? humanData.qtask.orientation.alpha.ToString() : angle.ToString("0.0");
 
             string humanTaskId = "Task_New(0";
@@ -359,25 +347,25 @@ namespace IGIEditor
         internal static string UpdateOrientation(float alpha)
         {
             var humanData = GetHumanTaskList();
-            QUtils.AddLog("Human UpdateOrientation() called with alpha : " + alpha);
+            QUtils.AddLog("Human " + MethodBase.GetCurrentMethod().Name, "called with alpha : " + alpha);
             return UpdatePositionInMeter(humanData.qtask.position, alpha);
         }
 
         internal static void UpdateHumanPlayerSpeed(double movSpeed = 1.75f, double forwardSpeed = 17.5f, double upwardSpeed = 27.0f, double inAirSpeed = 0.5f)
         {
-            QUtils.AddLog("UpdateHumanPlayerSpeed() : movSpeed: " + movSpeed + " forwardSpeed: " + forwardSpeed + " upwardSpeed: " + upwardSpeed + " inAirSpeed: " + inAirSpeed);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "movSpeed: " + movSpeed + " forwardSpeed: " + forwardSpeed + " upwardSpeed: " + upwardSpeed + " inAirSpeed: " + inAirSpeed);
             UpdateHumanPlayerParams(movSpeed, forwardSpeed, upwardSpeed, inAirSpeed, QUtils.peekLRLen, QUtils.peekCrouchLen, QUtils.peekTime, QUtils.healthScale, QUtils.healthScaleFence);
         }
 
         internal static void UpdateHumanPlayerHealth(double healthScale = 3.0f, double healthScaleFence = 0.5f)
         {
-            QUtils.AddLog("UpdateHumanPlayerHealth() : healthScale: " + healthScale + " healthScaleFence: " + healthScaleFence);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, " healthScale: " + healthScale + " healthScaleFence: " + healthScaleFence);
             UpdateHumanPlayerParams(QUtils.movSpeed, QUtils.forwardSpeed, QUtils.upwardSpeed, QUtils.inAirSpeed, QUtils.peekLRLen, QUtils.peekCrouchLen, QUtils.peekTime, healthScale, healthScaleFence);
         }
 
         internal static void UpdateHumanPlayerPeek(double peekLRLen = 0.8500000238418579f, double peekCrouchLen = 0.8500000238418579f, double peekTime = 0.25f)
         {
-            QUtils.AddLog("UpdateHumanPlayerPeek() : peekLRLen: " + peekLRLen + " peekCrouchLen: " + peekCrouchLen + " peekTime: " + peekTime);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "peekLRLen: " + peekLRLen + " peekCrouchLen: " + peekCrouchLen + " peekTime: " + peekTime);
             UpdateHumanPlayerParams(QUtils.movSpeed, QUtils.forwardSpeed, QUtils.upwardSpeed, QUtils.inAirSpeed, peekLRLen, peekCrouchLen, peekTime, QUtils.healthScale, QUtils.healthScaleFence);
         }
 
@@ -385,7 +373,7 @@ namespace IGIEditor
         {
             var humanPlayerFile = QUtils.cfgHumanplayerPathQsc + @"\humanplayer" + QUtils.qscExt;
             string humanPlayerData = QUtils.LoadFile(humanPlayerFile);
-            QUtils.AddLog("UpdateHumanPlayerParams() : movementSpeed: " + movementSpeed + " forwardSpeed: " + forwardJumpSpeed + " upwardJumpSpeed: " + upwardJumpSpeed + " inAirSpeed: " + inAirSpeed + " peekLeftRightLen: " + peekLeftRightLen + " peekCrouchLen: " + peekCrouchLen + " peekLen: " + peekTimeLen + " healthDamageScale: " + healthDamageScale + " healthFenceDamageScale: " + healthFenceDamageScale);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "movementSpeed: " + movementSpeed + " forwardSpeed: " + forwardJumpSpeed + " upwardJumpSpeed: " + upwardJumpSpeed + " inAirSpeed: " + inAirSpeed + " peekLeftRightLen: " + peekLeftRightLen + " peekCrouchLen: " + peekCrouchLen + " peekLen: " + peekTimeLen + " healthDamageScale: " + healthDamageScale + " healthFenceDamageScale: " + healthFenceDamageScale);
 
             //Add movement speed param.
             if (humanPlayerData.Contains(QUtils.movementSpeedMask))

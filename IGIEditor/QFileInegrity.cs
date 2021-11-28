@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading;
 
@@ -60,8 +61,8 @@ namespace IGIEditor
             if (!fileMatch && showError)
             {
                 QUtils.ShowError("File '" + filePath + "' has been modified externally");
-                QUtils.AddLog("CheckFileInegrity() File '" + filePath + "' has been modified externally");
-                QUtils.AddLog("CheckFileInegrity() Hash1: " + md5Hash + "\tHash2: " + fileHash);
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "File '" + filePath + "' has been modified externally");
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Hash1: " + md5Hash + "\tHash2: " + fileHash);
             }
             return fileMatch;
         }
@@ -83,7 +84,7 @@ namespace IGIEditor
                         {
                             if (Path.GetFileName(files) == Path.GetFileName(exclude))
                             {
-                                QUtils.AddLog("Exclude file '" + Path.GetFileName(exclude) + "', pathFile '" + Path.GetFileName(files) + "'");
+                                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Exclude file '" + Path.GetFileName(exclude) + "', pathFile '" + Path.GetFileName(files) + "'");
                                 return checkInegrity;
                             }
                         }

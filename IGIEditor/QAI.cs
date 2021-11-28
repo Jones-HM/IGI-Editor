@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace IGIEditor
@@ -74,7 +75,7 @@ namespace IGIEditor
             //Add the A.I (Human soldier)
             string humanSoldierType = (model == "015_01_1" || model == "012_01_1") ? "HumanSoldierFemale" : "HumanSoldier";
             string qtaskSoldier = "\nTask_New(" + taskId + ",\"" + humanSoldierType + "\",\"" + taskNote + "\"," + position.x + "," + position.y + "," + position.z + "," + angle + ",\"" + model + "\"," + team + "," + boneHeirachy + "," + standAnimation + ",\n";
-            QUtils.AddLog("AddHumanSoldier() called with Ai Type: '" + aiType + "' ID : " + taskId + "  HumanSoldier : " + taskNote + "\"," + position.x + "," + position.y + "," + position.z + "," + angle + ",\"" + model + "\"," + team + "," + boneHeirachy + "," + standAnimation + ",\n");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with Ai Type: '" + aiType + "' ID : " + taskId + "  HumanSoldier : " + taskNote + "\"," + position.x + "," + position.y + "," + position.z + "," + angle + ",\"" + model + "\"," + team + "," + boneHeirachy + "," + standAnimation + ",\n");
 
             //Add A.I type to status message.
             if (team == 0) QUtils.aiFriendTask += humanSoldierType + "_" + taskId + ".isDead && ";
@@ -282,7 +283,7 @@ namespace IGIEditor
 
                             if (graphExist)
                             {
-                                QUtils.AddLog("AddAIScript() AI Patrol Updated to static for aiId : " + aiId + "\tgraphId : " + graphId);
+                                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "AI Patrol Updated to static for aiId : " + aiId + "\tgraphId : " + graphId);
                                 return AddAIScriptAndPath("AITYPE_STATIC", graphId, aiId, patrolId, level);
                             }
                             else
@@ -316,7 +317,7 @@ namespace IGIEditor
                         int index = 0;
                         if (nodesList.Count <= 2 && !aiType.Contains("AITYPE_SECURITY_PATROL"))
                         {
-                            QUtils.AddLog("AddAIScript() AI Patrol Updated to security for aiId : " + aiId + "\tgraphId : " + graphId);
+                            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "AI Patrol Updated to security for aiId : " + aiId + "\tgraphId : " + graphId);
                             result = AddAIScriptAndPath("AITYPE_SECURITY_PATROL", graphId, aiId, patrolId, level);
                         }
                         else if (aiType.Contains("AITYPE_SECURITY_PATROL"))
@@ -408,11 +409,11 @@ namespace IGIEditor
         {
             int startIndex = 0, endIndex = 0, lcount = 0, rcount = 0;
             bool startRun = false;
-            QUtils.AddLog("RemoveHumanSoldier() called with model : " + model + "\n");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with model : " + model + "\n");
 
             if (String.IsNullOrEmpty(qscData) || String.IsNullOrEmpty(model))
             {
-                QUtils.ShowError("RemoveHumanSoldier : Input is empty");
+                QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "Input data is empty.");
                 return null;
             }
 
@@ -438,9 +439,7 @@ namespace IGIEditor
                             startIndex = qscData.IndexOf(data);
                             if (startIndex == -1)
                             {
-                                QUtils.ShowError("RemoveHumanSoldier : Data couldn't be found in QData file");
-                                QUtils.AddLog("RemoveHumanSoldier() : Data couldn't be found in Substring\n");
-                                QUtils.AddLog(data);
+                                QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "Data couldn't be found in QData file");
                                 QUtils.SaveFile("objectsTmp.txt", qscData);
                                 return qscTmp;
                             }
@@ -471,14 +470,14 @@ namespace IGIEditor
                 }
             }
 
-            QUtils.AddLog("RemoveHumanSoldier() start index : " + startIndex + "  end index : " + endIndex + "\n");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "start index : " + startIndex + "  end index : " + endIndex + "\n");
             return qscData;
         }
 
         internal static List<string> GetAiModelIds(int level)
         {
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
-            QUtils.AddLog("GetAiModels() level : called with level : " + level);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "level : called with level : " + level);
             string qscData = QUtils.LoadFile(inputQscPath);
             List<string> aiModelIdsList = new List<string>();
             var modelRegex = @"\d{3}_\d{2}_\d{1}";
@@ -516,22 +515,21 @@ namespace IGIEditor
 
             var qscDataLines = qscData.Split('\n');
             var dynamiclIdsList = new List<KeyValuePair<int, Real64>>();
-
-            QUtils.AddLog("GetDynamicIds4AI() caled with level : " + QUtils.gGameLevel + " with type : " + dynamicType);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "caled with level : " + QUtils.gGameLevel + " with type : " + dynamicType);
 
             foreach (var dataLine in qscDataLines)
             {
                 if (dataLine.Contains(QUtils.taskNew) && dataLine.Contains(dynamicType))
                 {
                     var dynamicTypeData = dataLine.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    QUtils.AddLog("GetDynamicIds4AI() dynamicType[1] : " + dynamicTypeData[1]);
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "dynamicType[1] : " + dynamicTypeData[1]);
 
                     if (dynamicTypeData[1].Trim() == "\"" + dynamicType + "\"")
                     {
-                        QUtils.AddLog("GetDynamicIds4AI() dynamicType Data : " + dynamicTypeData);
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "dynamicType Data : " + dynamicTypeData);
 
                         int dynamicTypeId = Int32.Parse(Regex.Match(dynamicTypeData[0], @"\d+").Value);
-                        QUtils.AddLog("GetDynamicIds4AI() dynamicTypeId : " + dynamicTypeId);
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "dynamicTypeId : " + dynamicTypeId);
 
                         Double xPos = Double.Parse(dynamicTypeData[3].Trim());
                         Double yPos = Double.Parse(dynamicTypeData[4].Trim());
@@ -542,13 +540,13 @@ namespace IGIEditor
                     }
                 }
             }
-            QUtils.AddLog("GetDynamicIds4AI() returned list count : " + dynamiclIdsList.Count);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "returned list count : " + dynamiclIdsList.Count);
             return dynamiclIdsList;
         }
 
         internal static int GetNearestDynamicId(Real64 aiPos, string dynamicType)
         {
-            QUtils.AddLog("GetNearestDynamicId() called with pos X : " + aiPos.x + " Y : " + aiPos.y + " Z : " + aiPos.z + " dynamicType : " + dynamicType);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with pos X : " + aiPos.x + " Y : " + aiPos.y + " Z : " + aiPos.z + " dynamicType : " + dynamicType);
 
             var dynamicIds = GetDynamicIds4AI(dynamicType, false);
             var diffPosList = new List<KeyValuePair<int, Real64>>();
@@ -569,20 +567,19 @@ namespace IGIEditor
             {
                 nearestDynamicId = dynamicIds[0].Key;
             }
-            QUtils.AddLog("GetNearestDynamicId() returned : " + nearestDynamicId);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "returned : " + nearestDynamicId);
             return nearestDynamicId;
         }
 
         internal static Real64 GetPosDiff(Real64 pos1, Real64 pos2)
         {
-            QUtils.AddLog("GetNearestAlarmId() called");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called");
             Real64 diffPos = new Real64();
 
             diffPos.x = Math.Abs(pos1.x - pos2.x);
             diffPos.y = Math.Abs(pos1.y - pos2.y);
             diffPos.z = Math.Abs(pos1.z - pos2.z);
-
-            QUtils.AddLog("GetNearestAlarmId() returned");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "returned");
             return diffPos;
         }
 
@@ -591,7 +588,7 @@ namespace IGIEditor
             int boneHeirarchy = 1;
             int level = QUtils.gGameLevel;
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
-            QUtils.AddLog("GetBoneHeirarchy() level : called with level : " + level + " model : " + model);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "level : called with level : " + level + " model : " + model);
             string qscData = QUtils.LoadFile(inputQscPath);
             List<string> aiModelsList = new List<string>();
             var modelRegex = @"\d{3}_\d{2}_\d{1}";
@@ -611,10 +608,11 @@ namespace IGIEditor
                     }
                 }
             }
-            QUtils.AddLog("GetBoneHeirarchy() returned boneHeirarchy : " + boneHeirarchy);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "returned boneHeirarchy : " + boneHeirarchy);
             return boneHeirarchy;
         }
 
+        //A.I Models list for all levels.
         private static void InitAiModelList()
         {
             var allLevelsList = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
@@ -675,7 +673,7 @@ namespace IGIEditor
             {
                 if (aiModelName == aiModel.ModelName)
                 {
-                    QUtils.AddLog("GetAiModelIdForName(): model name '" + aiModelName + "' Returned model id : " + aiModel.ModelId);
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "model name '" + aiModelName + "' Returned model id : " + aiModel.ModelId);
                     return aiModel.ModelId;
                 }
             }
@@ -695,7 +693,7 @@ namespace IGIEditor
                     break;
                 }
             }
-            QUtils.AddLog("GetAiImageId(): aiModelName " + aiModelName + " Returned imageId : " + imageId);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Ai ModelName '" + aiModelName + "' Returned imageId : " + imageId);
             return imageId;
         }
 

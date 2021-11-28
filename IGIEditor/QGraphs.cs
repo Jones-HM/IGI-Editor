@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace IGIEditor
@@ -114,12 +115,12 @@ namespace IGIEditor
             //For current level.
             if (level == -1) level = QMemory.GetCurrentLevel();
 
-            QUtils.AddLog("GetGraphNodeIds() called with level " + level);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with level " + level);
 
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             string qscData = QUtils.LoadFile(inputQscPath);
 
-            QUtils.AddLog("GetGraphNodeIds() inputQscPath : " + inputQscPath);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "inputQscPath : '" + inputQscPath + "'");
 
             var matchesResult = Regex.Matches(qscData, selectedRegex).Cast<Match>().Select(m => m.Value).ToList();
 
@@ -131,7 +132,7 @@ namespace IGIEditor
 
             graphNodeIds.Sort();
             graphNodeIds = graphNodeIds.Distinct().ToList();
-            QUtils.AddLog("GetGraphNodeIds() returned  list count : " + graphNodeIds.Count);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "returned  list count : " + graphNodeIds.Count);
             return graphNodeIds;
         }
 
@@ -145,7 +146,7 @@ namespace IGIEditor
             string graphNodesData = "GraphNodesData_Level_" + level + ".txt";
 
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
-            QUtils.AddLog("GetNodes4Graph() : called with level : " + level);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with level : " + level);
             string data = QUtils.LoadFile(inputQscPath);
 
             var qscDataLines = data.Split('\n');
@@ -163,7 +164,7 @@ namespace IGIEditor
                     var graphId = qscLine[4];
                     aiId = Regex.Match(aiId, @"\d+").Value;
                     graphId = Regex.Match(graphId, @"\d+").Value;
-                    QUtils.AddLog("GetNodes4Graph() : Regex aiId : " + aiId + "\tgraphId : " + graphId);
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Regex aiId : " + aiId + "\tgraphId : " + graphId);
 
 
                     string aiFileName = aiId + ".qsc";
@@ -181,7 +182,7 @@ namespace IGIEditor
                             if (hasGraph) idData += "\tGraphId : " + graphId;
                             if (hasPatrol) idData += "\tPatrolId : " + patrolId;
                             idData += "\n";
-                            QUtils.AddLog("GetNodes4Graph() patrolId : " + patrolId.Trim());
+                            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Patrol Id : " + patrolId.Trim());
                             var nodeId = GetNodes4mPatrolId(patrolId, level);
                             var iGraphId = Convert.ToInt32(graphId);
                             graphNodesList.Add(new KeyValuePair<int, List<int>>(iGraphId, nodeId));
@@ -214,21 +215,21 @@ namespace IGIEditor
         {
             List<int> nodesId = new List<int>();
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
-            QUtils.AddLog("GetNodes4mPatrolId() : called with level : " + level);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with level : " + level);
             string data = QUtils.LoadFile(inputQscPath);
 
             var dataLines = data.Split('\n');
             bool patrolLine = false;
             string nodeRegex = "node id [0-9]*";
 
-            QUtils.AddLog("GetNodes4mPatrolId() : called with patrolId : " + patrolId);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with Patrol Id : " + patrolId);
 
 
             foreach (var dataLine in dataLines)
             {
                 if (dataLine.Contains("PatrolPath") && dataLine.Contains(patrolId))
                 {
-                    QUtils.AddLog("GetNodes4mPatrolId() patrolLine : " + patrolLine);
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Patrol Line : " + patrolLine);
                     patrolLine = true;
                 }
 
@@ -236,13 +237,13 @@ namespace IGIEditor
                 {
                     if (dataLine.Contains("node id"))
                     {
-                        QUtils.AddLog("GetNodes4mPatrolId() dataLine : " + dataLine);
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Data Line : " + dataLine);
                         var matchesResult = Regex.Matches(dataLine, nodeRegex).Cast<Match>().Select(m => m.Value).ToList();
 
                         foreach (var matchResult in matchesResult)
                         {
                             var nodeId = Int32.Parse(Regex.Match(matchResult, @"\d+").Value);
-                            QUtils.AddLog("GetNodes4mPatrolId() node id : " + nodeId);
+                            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Node id : " + nodeId);
                             nodesId.Add(nodeId);
                         }
                     }
@@ -252,7 +253,7 @@ namespace IGIEditor
                     patrolLine = false;
                 }
             }
-            QUtils.AddLog("GetNodes4mPatrolId() nodesId count : " + nodesId.Count);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Nodes Id count : " + nodesId.Count);
             return nodesId;
         }
 
@@ -263,14 +264,20 @@ namespace IGIEditor
 
             QUtils.graphNodesList = QGraphs.ReadGraphNodeData(graphFile);
             int totalNodes = QUtils.graphNodesList.Count;
+            int graphWorkCount = 1, graphWorkPercent = 1;
 
             foreach (var node in QUtils.graphNodesList)
             {
                 if (node.NodeId > 0 && node.NodeId < 5000)
+                {
                     graphNodeIds.Add(node.NodeId);
+                    graphWorkPercent = (int)Math.Round((double)(100 * graphWorkCount) / totalNodes);
+                    IGIEditorUI.editorRef.SetStatusText("Graph#" + graphId + " Node#" + node.NodeId + " updating, Completed " + graphWorkPercent + "%");
+                    graphWorkCount++;
+                }
             }
 
-            QUtils.AddLog("GetNodesForGraph() GraphFile: '" + graphFile + "'" + " NodeId Count: " + graphNodeIds.Count);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GraphFile: '" + graphFile + "'" + " NodeId Count: " + graphNodeIds.Count);
             return graphNodeIds;
         }
 
@@ -307,7 +314,7 @@ namespace IGIEditor
             if (level == -1) level = QMemory.GetCurrentLevel();
 
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
-            QUtils.AddLog("GetQTaskGraphList() : called with level : " + level + " backup : " + fromBackup);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Called with level : " + level + " backup : " + fromBackup);
             string qscData = fromBackup ? QUtils.LoadFile(inputQscPath) : QUtils.LoadFile();
 
             var qtaskList = ParseGraphData(qscData);
@@ -414,11 +421,11 @@ namespace IGIEditor
             if (nGraphs == -1) nGraphs = totalGraphs - 1;
             var qtaskList = GetQTaskGraphList(true, true, QUtils.gGameLevel);
             int width = 50000;
-            QUtils.AddLog("ShowGraphVisual() called with nGraphs : " + nGraphs);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name,"called with nGraphs : " + nGraphs);
 
             if (nGraphs > totalGraphs)
             {
-                QUtils.ShowError("Graph cannot be greater than max graphs");
+                QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "Graph cannot be greater than max graphs");
                 return null;
             }
 
@@ -436,17 +443,19 @@ namespace IGIEditor
         {
             string qscData = null;
             string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
-            QUtils.AddLog("ShowGraphNodesVisual() GraphFile: '" + graphFile + "'");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Graph File: '" + graphFile + "'");
             var nodeData = ReadGraphNodeData(graphFile);
             var graphPos = GetGraphPosition(graphId.ToString());
             QUtils.qtaskId = QUtils.GenerateTaskID(true);
             var graphArea = GetGraphArea(graphId);
 
+            int graphWorkTotal = nodeData.Count, graphWorkCount = 1, graphWorkPercent = 1;
+
             foreach (var node in nodeData)
             {
                 if (node.NodeId < 0 || node.NodeId > 5000) continue;
 
-                QUtils.AddLog("Node_" + node.NodeId + " X: " + node.NodePos.x + " Y: " + node.NodePos.y + " Z: " + node.NodePos.z + " Criteria: " + node.NodeCriteria);
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Node_" + node.NodeId + " X: " + node.NodePos.x + " Y: " + node.NodePos.y + " Z: " + node.NodePos.z + " Criteria: " + node.NodeCriteria);
 
                 var nodeRealPos = new Real64();
                 nodeRealPos.x = graphPos.x + node.NodePos.x;
@@ -458,7 +467,7 @@ namespace IGIEditor
                 //Visualisation Object - StatusMsg.
                 if (visualType == 1)
                 {
-                    IGIEditorUI.editorRef.AddObject(nodeObject, true, nodeRealPos, false, -1, taskNote, false);
+                    IGIEditorUI.editorRef.AddRigidObject(nodeObject, true, nodeRealPos, false, -1, taskNote, false);
 
                     //var areaDim = new AreaDim(8000);
                     //qscData += QObjects.AddAreaActivate(QUtils.qtaskId, nodeObject, null, "\"" + taskNote + "\"", ref nodeRealPos, ref areaDim);
@@ -467,23 +476,26 @@ namespace IGIEditor
                 //Visualisation Hilight - ComputerMap Hilight.
                 else if (visualType == 2)
                 {
-                    IGIEditorUI.editorRef.AddObject(nodeObject, false, nodeRealPos, false, QUtils.qtaskId, taskNote, false);
+                    IGIEditorUI.editorRef.AddRigidObject(nodeObject, false, nodeRealPos, false, QUtils.qtaskId, taskNote, false);
                     qscData += QObjects.ComputerMapHilight(QUtils.qtaskId, taskNote, "Graph#" + graphId, taskNote, "MARKER_BOX", markerColor);
                 }
+                graphWorkPercent = (int)Math.Round((double)(100 * graphWorkCount) / graphWorkTotal);
+                IGIEditorUI.editorRef.SetStatusText("Graph#" + graphId + " Node#" + node.NodeId + " added, Completed " + graphWorkPercent + "%");
                 QUtils.qtaskId++;
-
+                graphWorkCount++;
             }
             return qscData;
         }
 
-        internal static string ShowNodeLinksVisual(int graphId,ref Real64 graphPos)
+        internal static string ShowNodeLinksVisual(int graphId, ref Real64 graphPos)
         {
             QInternals.GraphNodeLinks(graphId.ToString());
             var dataLines = QInternals.InternalDataReadLines();
             string graphLinkTag;
 
             if (dataLines.Length < 4 || dataLines.Length >= 50) { return null; }
-             
+            int graphWorkTotal = dataLines.Length, graphWorkCount = 1, graphWorkPercent = 1;
+
             string qscData = null;
             foreach (var data in dataLines)
             {
@@ -498,17 +510,19 @@ namespace IGIEditor
 
                     graphLinkTag = "Graph#" + graphId + "Link#" + nodeId1 + "-Link#" + nodeId2 + " - G#" + graphId + "L#1";
                     qscData += QObjects.AddWire(nodeId1Pos, nodeId2Pos, graphLinkTag);
+                    graphWorkPercent = (int)Math.Round((double)(100 * graphWorkCount) / graphWorkTotal);
+                    IGIEditorUI.editorRef.SetStatusText("Graph#" + graphId + " Link#" + graphWorkCount + " added, Completed " + graphWorkPercent + "%");
+                    graphWorkCount++;
                 }
                 catch (Exception ex)
                 {
-                    QUtils.AddLog("ShowNodeLinks() Exception : " + ex.Message ?? ex.StackTrace);
-                    //return null;
+                    QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
                 }
             }
             return qscData;
         }
 
-        private static Real64 RealGrapNodePos(int nodeId,int graphId, ref  Real64 graphPos)
+        private static Real64 RealGrapNodePos(int nodeId, int graphId, ref Real64 graphPos)
         {
             Real64 nodeRealPos = null;
             try
@@ -523,7 +537,7 @@ namespace IGIEditor
             }
             catch (Exception ex)
             {
-                QUtils.AddLog("RealGrapNodePos() Exception : " + ex.Message ?? ex.StackTrace);
+                QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
             }
             return nodeRealPos;
         }
@@ -626,8 +640,8 @@ namespace IGIEditor
 
         internal static string GetGraphArea(int graphId)
         {
-            string graphFile = QUtils.qGraphsPath + "\\" + "graph_area_level" + QUtils.gGameLevel + ".txt";
-            QUtils.AddLog("GetGraphArea(): Level: " + QUtils.gGameLevel + " graphId: " + graphId + " graphFile: " + graphFile);
+            string graphFile = QUtils.qGraphsPath + "\\Areas\\" + "graph_area_level" + QUtils.gGameLevel + ".txt";
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Level: " + QUtils.gGameLevel + " graphId: " + graphId + " graphFile: " + graphFile);
             if (!System.IO.File.Exists(graphFile)) { return "Area Not Available."; }
 
             if (QUtils.graphAreas.Count == 0) QUtils.graphAreas = GetGraphAreasList(graphFile);
@@ -652,7 +666,7 @@ namespace IGIEditor
                 int graphId = Int32.Parse(Regex.Match(graphIdStr, @"\d+").Value);
                 graphAreas.Add(graphId, graphArea);
             }
-            QUtils.AddLog("GetGraphArea(): Level: " + QUtils.gGameLevel + " graphFile: " + graphFile + " retured Area count: " + graphAreas.Count);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, " Level: " + QUtils.gGameLevel + " graphFile: " + graphFile + " retured Area count: " + graphAreas.Count);
             return graphAreas;
         }
 
@@ -705,7 +719,7 @@ namespace IGIEditor
         internal static GraphNode GetGraphNodeData(int graphId, int nodeId)
         {
             string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
-            QUtils.AddLog("GetGraphNodeData() GraphFile: '" + graphFile + "'");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GraphFile: '" + graphFile + "'");
 
             if (QUtils.graphNodesList.Count == 0) QUtils.graphNodesList = QGraphs.ReadGraphNodeData(graphFile);
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿/* UX Lib by Dark, Contains various elements of U.I Effect,FormMover,Custom Buttons etc.
+*/
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Reflection;
 
 namespace IGIEditor
 {
@@ -104,7 +104,7 @@ namespace IGIEditor
 
     class QWeapon
     {
-        private static string weaponsConfigIn = QUtils.appCurrPath + QUtils.inputQscPath + QUtils.weaponsDirPath + "\\" + QUtils.weaponConfigQSC;
+        private static string weaponsConfigIn = QUtils.editorCurrPath + QUtils.inputQscPath + QUtils.weaponsDirPath + "\\" + QUtils.weaponConfigQSC;
         private static string weaponsConfigOut = QUtils.gameAbsPath + QUtils.weaponsDirPath;
         private static string weaponCfgTask = "Task_New(-1, \"WeaponConfig\",";
 
@@ -117,8 +117,8 @@ namespace IGIEditor
 
         private static string LoadWeaponsConfig()
         {
-            QUtils.AddLog("LoadWeaponsConfig() : weaponsConfigIn : " + weaponsConfigIn);
-            QUtils.AddLog("LoadWeaponsConfig() : weaponsConfigOut : " + weaponsConfigOut);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "weaponsConfigIn : " + weaponsConfigIn);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "weaponsConfigOut : " + weaponsConfigOut);
             return QUtils.LoadFile(weaponsConfigIn);
         }
 
@@ -129,7 +129,7 @@ namespace IGIEditor
             qscData = qscData.Replace("\t", String.Empty);
             var qscDataSplit = qscData.Split('\n');
 
-            QUtils.AddLog("ParseWeaponConfig() started ");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "started ");
 
             var weaponList = new List<Weapon>();
             foreach (var data in qscDataSplit)
@@ -296,7 +296,7 @@ namespace IGIEditor
                     }
                 }
             }
-            QUtils.AddLog("ParseWeaponConfig() returned list with length :  " + weaponList.Count);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "returned list with length :  " + weaponList.Count);
             return weaponList;
         }
     }

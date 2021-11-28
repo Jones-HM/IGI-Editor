@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace IGIEditor
 {
@@ -25,9 +26,9 @@ namespace IGIEditor
             uint missionStaticPtr = (uint)0x006758A8;
             uint[] missionOff = { 0x1F4 };
             IntPtr missionBasePtr = QLibc.GT.GT_ReadPointerOffset(QMemory.gtGameBase, missionStaticPtr);
-            QUtils.AddLog("GetMissionAddr() missionBasePtr : " + missionBasePtr.ToString("X4").ToUpperInvariant());
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, " missionBasePtr : " + missionBasePtr.ToString("X4").ToUpperInvariant());
             IntPtr missionAddr = QLibc.GT.GT_ReadPointerOffsets(missionBasePtr, missionOff, (uint)(sizeof(uint) * missionOff.Length)) + 0x54;
-            QUtils.AddLog("GetMissionAddr() missionAddr : " + missionAddr.ToString("X4").ToUpperInvariant());
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "missionAddr : " + missionAddr.ToString("X4").ToUpperInvariant());
 
             return missionAddr;
         }
@@ -35,7 +36,7 @@ namespace IGIEditor
         internal static string AddLevelFlow(string completeTask, string failedTask, float maxPlayTime, bool timerEnabled = false)
         {
             string levelFlowTask = "Task_New(10, \"LevelFlow\", \"\", 0, 0, 0, 0, 0, 0, 0,\"" + completeTask + "\",\"" + failedTask + "\"," + timerEnabled.ToString().ToUpper() + ", " + maxPlayTime + ");";
-            QUtils.AddLog("AddLevelFlow : completeTask : " + completeTask + "\tfailedTask : " + failedTask + "\tmaxPlayTime : " + maxPlayTime + "\ttimerEnabled : " + timerEnabled.ToString());
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "completeTask : " + completeTask + "\tfailedTask : " + failedTask + "\tmaxPlayTime : " + maxPlayTime + "\ttimerEnabled : " + timerEnabled.ToString());
             return levelFlowTask;
         }
 
@@ -69,8 +70,8 @@ namespace IGIEditor
             {
                 for (int index = 0; index < QUtils.GAME_MAX_LEVEL; ++index)
                 {
-                    QUtils.AddLog("Name Address : " + missionNameAddr.ToString("X4"));
-                    QUtils.AddLog("Desc Address : " + missionNameAddr.ToString("X4"));
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Name Address : " + missionNameAddr.ToString("X4"));
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Desc Address : " + missionNameAddr.ToString("X4"));
 
                     string mName = QLibc.GT.GT_ReadString(missionAddr1);
                     string mDesc = QLibc.GT.GT_ReadString(missionAddr2);
