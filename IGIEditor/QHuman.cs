@@ -155,7 +155,7 @@ namespace IGIEditor
         private static bool CheckWeaponExist(string weapon)
         {
             weapon = weapon.Replace(QUtils.weaponId, String.Empty);
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "checking for weapon : " + weapon);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Weapon : " + weapon);
 
             var humanData = GetHumanTaskList();
             bool found = false;
@@ -176,7 +176,7 @@ namespace IGIEditor
         {
             //Declare types to store position to qtask.
             QUtils.HTask htask = new QUtils.HTask();
-            htask.qtask = new QUtils.QTask();
+            htask.qtask = new QUtils.QScriptTask();
             htask.weaponsList = new List<string>();
 
             Real32 orientation = new Real32();
@@ -191,7 +191,7 @@ namespace IGIEditor
             string idIndexStr = "Task_New(0";
             int idIndex = qscData.IndexOf(idIndexStr);
             string qscTemp = qscData.Substring(idIndex);
-            string[] taskNew = qscTemp.Split(',');
+            var taskNew = qscTemp.Split(',');
 
             //Parse all the data.
             position.x = Double.Parse(taskNew[(int)QTASKINFO.QTASK_POSX]);

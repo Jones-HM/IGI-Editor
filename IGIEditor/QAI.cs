@@ -52,7 +52,7 @@ namespace IGIEditor
         {
             if (QUtils.qtaskId == 0)
             {
-                QUtils.qtaskId = QUtils.GenerateTaskID(true);
+                QUtils.qtaskId = QTask.GenerateTaskID(true);
             }
             else
             {
@@ -368,7 +368,7 @@ namespace IGIEditor
                     statusMsg += QUtils.AddStatusMsg(-1, "Friendly man down! Watch out", varString);
                 }
 
-                QUtils.anyaTeamTaskId = QUtils.GenerateTaskID();
+                QUtils.anyaTeamTaskId = QTask.GenerateTaskID();
                 statusMsg += QUtils.AddStatusMsg(QUtils.anyaTeamTaskId, "Anya team down. Mission Failed", varStringFriendly);
                 QUtils.aiFriendTask = null;
             }
@@ -383,7 +383,7 @@ namespace IGIEditor
                     statusMsg += QUtils.AddStatusMsg(-1, "Enemy man down! Great", varString);
                 }
 
-                QUtils.ekkTeamTaskId = QUtils.GenerateTaskID();
+                QUtils.ekkTeamTaskId = QTask.GenerateTaskID();
                 statusMsg += QUtils.AddStatusMsg(QUtils.ekkTeamTaskId, "Ekk team down. Mission Completed", varStringEnemy);
                 QUtils.aiEnenmyTask = null;
             }

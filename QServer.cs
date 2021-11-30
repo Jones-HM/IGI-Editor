@@ -13,7 +13,7 @@ namespace IGIEditor
         internal static string serverBaseURL = @"ftp://igiresearchdevelopers.orgfree.com/";
         internal static string missionDir = "QMissions";
         internal static string graphsDir = "QGraphs";
-        internal static string updateDir = "QEdUpdater";
+        internal static string updateDir = "QUpdater";
 
         internal struct QServerData
         {
@@ -78,7 +78,7 @@ namespace IGIEditor
             }
             catch (Exception ex)
             {
-                QUtils.ShowError(ex.Message ?? ex.StackTrace);
+                QUtils.ShowLogException("Server" + MethodBase.GetCurrentMethod().Name, ex);
                 status = false;
             }
             return status;
@@ -96,16 +96,16 @@ namespace IGIEditor
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("File unavailable")) QUtils.ShowError("File '" + localFile + "' was not found on server.");
+                if (ex.Message.Contains("File unavailable")) QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "File '" + localFile + "' was not found on server.");
                 else
-                    QUtils.ShowError(ex.Message ?? ex.StackTrace);
+                    QUtils.ShowLogException("Server" + MethodBase.GetCurrentMethod().Name, ex);
                 status = false;
             }
             return status;
         }
 
 
-        private static List<QServerData> GetDirList(string dirName, bool useCache = false)
+        internal static List<QServerData> GetDirList(string dirName, bool useCache = false, string extension = ".igimsf")
         {
             if (useCache)
             {
@@ -124,8 +124,8 @@ namespace IGIEditor
                 int dirDataSize = dirData.Length;
                 try
                 {
-                    qServer.FileName = dirData[dirDataSize - 1].Contains(".igimsf") ? dirData[dirDataSize - 1] : dirData[dirDataSize - 1] + dirData[dirDataSize];
-                    if (dirName == missionDir && !qServer.FileName.Contains(".igimsf")) continue;
+                    qServer.FileName = dirData[dirDataSize - 1].Contains(extension) ? dirData[dirDataSize - 1] : dirData[dirDataSize - 1] + dirData[dirDataSize];
+                    if (dirName == missionDir && !qServer.FileName.Contains(extension)) continue;
                     qServer.Persmission = dirData[0];
                     qServer.OwnerGroup = dirData[5];
                     qServer.FileSize = dirData[19];

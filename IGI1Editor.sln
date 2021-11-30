@@ -9,6 +9,8 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		External|Any CPU = External|Any CPU
+		External|x86 = External|x86
 		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 		Testing|Any CPU = Testing|Any CPU
@@ -19,6 +21,10 @@ Global
 		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.Debug|x86.ActiveCfg = Debug|x86
 		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.Debug|x86.Build.0 = Debug|x86
+		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.External|Any CPU.ActiveCfg = External|Any CPU
+		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.External|Any CPU.Build.0 = External|Any CPU
+		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.External|x86.ActiveCfg = External|x86
+		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.External|x86.Build.0 = External|x86
 		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.Release|x86.ActiveCfg = Release|x86

@@ -1,5 +1,4 @@
-﻿using QLibc;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -33,14 +32,14 @@ namespace IGIEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Exception:" + ex.Message + "\nStack: " + ex.StackTrace, "Application Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                QUtils.ShowLogException("EditorMain", ex);
             }
         }
 
         private static void OnAppExit(object sender, EventArgs e)
         {
             //Update config on exit.
-            QUtils.CreateConfig();
+            if (QUtils.gamePathSet) QUtils.CreateConfig();
 
             //Move Logs and data to cache.
             if (File.Exists(QUtils.logFile))
@@ -55,8 +54,8 @@ namespace IGIEditor
             //Cleanup A.I script files.
             QUtils.CleanUpAiFiles();
 
-            //Deattach internals on Exit.
-            QUtils.DeattachInternals();
+            //Detach internals on Exit.
+            QUtils.DetachInternals();
         }
     }
 }

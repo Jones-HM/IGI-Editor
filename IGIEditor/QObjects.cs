@@ -58,7 +58,7 @@ namespace IGIEditor
             return qtaskHilight;
         }
 
-        internal static string AddWire(Real64 startPos, Real64 endPos,string taskNote = "", int taskId = -1,string modelId = "320_01_1")
+        internal static string AddWire(Real64 startPos, Real64 endPos, string taskNote = "", int taskId = -1, string modelId = "320_01_1")
         {
             string qtaskWire = "Task_New(" + taskId + ",\"Wire\",\"" + taskNote + "\"," + startPos.x + "," + startPos.y + "," + startPos.z + "," + endPos.x + "," + endPos.y + "," + endPos.z + ",\"" + modelId + "\");" + "\n";
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with ID : " + taskId + " StartPos X: " + startPos.x + " " + " StartPos Y: " + startPos.y + " StartPos Z: " + startPos.z + " EndPos X: " + endPos.x + " EndPos Y: " + endPos.y + " EndPos Z: " + endPos.z);
@@ -68,8 +68,8 @@ namespace IGIEditor
 
         internal static string UpdatePositionInMeter(int id, ref Real64 position, bool checkModel = false)
         {
-            QUtils.QTask qtask = null;
-            qtask = QUtils.GetQTask(id);
+            QUtils.QScriptTask qtask = null;
+            qtask = QTask.GetQTask(id);
 
             double xPos = (position.x == 0.0f) ? qtask.position.x : position.x;
             double yPos = (position.y == 0.0f) ? qtask.position.y : position.y;
@@ -102,8 +102,8 @@ namespace IGIEditor
 
         internal static string UpdatePositionOffset(string model, ref Real64 offsets, bool checkModel = false)
         {
-            QUtils.QTask qtask = null;
-            qtask = QUtils.GetQTask(model);
+            QUtils.QScriptTask qtask = null;
+            qtask = QTask.GetQTask(model);
 
             double xPos = (offsets.x == 0.0f) ? 0 : offsets.x;
             double yPos = (offsets.y == 0.0f) ? 0 : offsets.y;
@@ -116,7 +116,7 @@ namespace IGIEditor
             int xLen = xVal ? xPos.ToString().Length : 0;
             int yLen = yVal ? yPos.ToString().Length : 0;
             int zLen = zVal ? zPos.ToString().Length : 0;
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "length : X:" + xLen + " Y: " + yLen + " Z: " + zLen); 
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "length : X:" + xLen + " Y: " + yLen + " Z: " + zLen);
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with offset : X:" + offsets.x + " Y: " + offsets.y + " Z: " + offsets.z);
 
 
@@ -164,7 +164,7 @@ namespace IGIEditor
         internal static string UpdateOrientationAll(int updateType, ref Real32 orientation)
         {
             string qscData = null;
-            var qlist = QUtils.GetQTaskList(true);
+            var qlist = QTask.GetQTaskList(true);
             foreach (var qtask in qlist)
             {
                 if (qtask.name == "\"Building\"" && updateType == (int)QTASKINFO.QTASK_MODEL)
@@ -214,17 +214,17 @@ namespace IGIEditor
             const string angularAmbientEffect = ",1, 1, 1, 0, 0, 0";
             bool isRigidObj = false;
 
-            QUtils.QTask qtask = null;
+            QUtils.QScriptTask qtask = null;
             if (updateType == (int)QTASKINFO.QTASK_ID)
-                qtask = QUtils.GetQTask(id);
+                qtask = QTask.GetQTask(id);
             else if (updateType == (int)QTASKINFO.QTASK_MODEL)
-                qtask = QUtils.GetQTask(model);
+                qtask = QTask.GetQTask(model);
 
             if (qtask.model.Contains(";")) qtask.model = qtask.model.Replace(";", String.Empty);
 
             if (qtask == null)
             {
-                QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "QTask is empty for model : " + model);
+                QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "QScriptTask is empty for model : " + model);
                 return qscData;
             }
 
@@ -234,10 +234,10 @@ namespace IGIEditor
             float alpha = (orientation.alpha == 0.0f) ? qtask.orientation.alpha : orientation.alpha;
             float beta = (orientation.beta == 0.0f) ? qtask.orientation.beta : orientation.beta;
             float gamma = (orientation.gamma == 0.0f) ? qtask.orientation.gamma : orientation.gamma;
-            
+
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with updateType  : " + (updateType == (int)QTASKINFO.QTASK_MODEL ? "MODEL" : "ID") + " position : X:" + position.x + " Y: " + position.y + " Z: " + position.z + "\t Alpha : " + orientation.alpha + ",Beta : " + orientation.beta + ",Gamma : " + orientation.gamma);
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called changed updateType  : " + (updateType == (int)QTASKINFO.QTASK_MODEL ? "MODEL" : "ID") + " position : X:" + xPos + " Y: " + yPos + " Z: " + zPos + "\t Alpha : " + alpha + ",Beta : " + beta + ",Gamma : " + gamma);
-            
+
             string taskIdStr = "Task_New(" + Convert.ToString(qtask.id);
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "finding task id : " + taskIdStr);
 
@@ -397,7 +397,7 @@ namespace IGIEditor
         internal static string GetModelName(string modelId, bool fullQtaskList = false, bool masterModel = false)
         {
             string modelName = String.Empty;
-            var qtaskList = QUtils.GetQTaskList(fullQtaskList, false, true);
+            var qtaskList = QTask.GetQTaskList(fullQtaskList, false, true);
 
             foreach (var qtask in qtaskList)
             {
@@ -494,7 +494,7 @@ namespace IGIEditor
         internal static string GetModelName(int id)
         {
             string modelName = null;
-            var qtaskList = QUtils.GetQTaskList(false, true);
+            var qtaskList = QTask.GetQTaskList(false, true);
 
             foreach (var qtask in qtaskList)
             {
@@ -510,7 +510,7 @@ namespace IGIEditor
 
         internal static string ReplaceAllObjects(string qscData, string newModel, string ligthmap = "")
         {
-            var qtaskList = QUtils.GetQTaskList();
+            var qtaskList = QTask.GetQTaskList();
             foreach (var qtask in qtaskList)
             {
                 if (qtask.name.Contains("Building") || qtask.name.Contains("EditRigidObj") ||
@@ -790,7 +790,7 @@ namespace IGIEditor
 
         internal static string RemoveAllObjects(string qscData, bool buildings = false, bool rigidObjects = false, int count = -1, bool hasRigid = false, bool wholeObj = true)
         {
-            var qtaskList = QUtils.GetQTaskList(true);
+            var qtaskList = QTask.GetQTaskList(true);
             int buildingsCount = qtaskList.Count(o => o.name.Contains("Building"));
             int rigidObjCount = qtaskList.Count(o => o.name.Contains("EditRigidObj"));
 
@@ -850,7 +850,7 @@ namespace IGIEditor
 
         internal static string RemoveRigidObjects(string qscData, int count = -1)
         {
-            var qtaskList = QUtils.GetQTaskList(true);
+            var qtaskList = QTask.GetQTaskList(true);
             int objCount = 0;
             int rigidObjCount = qtaskList.Count(o => o.name.Contains("EditRigidObj"));
             if (count == -1) count = rigidObjCount - 1;
@@ -871,11 +871,11 @@ namespace IGIEditor
 
         internal static string SetAllAreaActivated(AreaDim areaDim, string areaType, int areaCount, float statusDuration = 8.0f, bool isCutscene = false)
         {
-            var qtaskList = QUtils.GetQTaskList(false, false, true);
+            var qtaskList = QTask.GetQTaskList(false, false, true);
             var qtaskGraphList = QGraphs.GetQTaskGraphList(true, true);
 
             var qscData = QUtils.LoadFile();
-            QUtils.qtaskId = QUtils.GenerateTaskID(true);
+            QUtils.qtaskId = QTask.GenerateTaskID(true);
             if (areaType != QUtils.aiGraphTask)
                 areaType = "\"" + areaType + "\"";
 
@@ -949,7 +949,7 @@ namespace IGIEditor
             if (String.IsNullOrEmpty(model))
                 throw new ArgumentNullException();
 
-            var qtaskList = QUtils.GetQTaskList();
+            var qtaskList = QTask.GetQTaskList();
             model = "\"" + model + "\"";
 
             foreach (var qtask in qtaskList)
@@ -971,7 +971,7 @@ namespace IGIEditor
             if (String.IsNullOrEmpty(model))
                 throw new ArgumentNullException();
 
-            var qtaskList = QUtils.GetQTaskList();
+            var qtaskList = QTask.GetQTaskList();
             model = "\"" + model + "\"";
 
             foreach (var qtask in qtaskList)
@@ -992,7 +992,7 @@ namespace IGIEditor
             try
             {
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with level : " + level + " With type : " + ((objType == QTYPES.BUILDING) ? "Buildings" : "3D Rigid objects" + " fromBackup : " + fromBackup));
-                var qtaskList = QUtils.GetQTaskList(level, false, distinct, fromBackup);
+                var qtaskList = QTask.GetQTaskList(level, false, distinct, fromBackup);
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "qtaskList count : " + qtaskList.Count);
 
                 string modelName = null;
@@ -1043,6 +1043,172 @@ namespace IGIEditor
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "objects List count : " + objList.Count + " Game items: " + QUtils.GameitemsCount());
             return objList;
         }
+
+        //Parse all the Objects.
+        internal static List<QScriptTask> ParseAllOjects(string qscData)
+        {
+            bool isBinary = qscData.IsNonASCII();
+            AddLog(MethodBase.GetCurrentMethod().Name, "isBinary: " + isBinary);
+
+            //Remove all whitespaces.
+            qscData = qscData.Replace("\t", String.Empty);
+            string[] qscDataSplit = qscData.Split('\n');
+            var modelRegex = @"\d{3}_\d{2}_\d{1}";
+
+            var qtaskList = new List<QScriptTask>();
+            foreach (var data in qscDataSplit)
+            {
+                if (data.Contains(taskNew))
+                {
+                    QScriptTask qtask = new QScriptTask();
+
+                    string[] taskNew = data.Split(',');
+                    int taskIndex = 0;
+
+                    foreach (var task in taskNew)
+                    {
+                        if (taskIndex == (int)QTASKINFO.QTASK_ID)
+                        {
+                            var taskId = task.Substring(task.IndexOf('(') + 1);
+                            qtask.id = Convert.ToInt32(taskId);
+                        }
+                        else if (taskIndex == (int)QTASKINFO.QTASK_NAME)
+                            qtask.name = task.Trim();
+
+                        else if (taskIndex == (int)QTASKINFO.QTASK_NOTE)
+                            qtask.note = task.Trim();
+
+                        else if (taskIndex == (int)QTASKINFO.QTASK_MODEL)
+                            qtask.model = Regex.Match(task.Trim(), modelRegex).Value;
+
+                        taskIndex++;
+                    }
+                    qtaskList.Add(qtask);
+                }
+            }
+            AddLog(MethodBase.GetCurrentMethod().Name, "qtaskList count: " + qtaskList.Count);
+            return qtaskList;
+        }
+
+
+        //Parse only Objects.
+        internal static List<QScriptTask> ParseObjects(string qscData)
+        {
+            var qtaskList = new List<QScriptTask>();
+            try
+            {
+                bool isBinary = qscData.HasBinaryContent();
+                AddLog(MethodBase.GetCurrentMethod().Name, "isBinary: " + isBinary);
+                //Remove all whitespaces.
+                qscData = qscData.Replace("\t", String.Empty);
+                string[] qscDataSplit = qscData.Split('\n');
+
+
+                foreach (var data in qscDataSplit)
+                {
+                    if (data.Contains(taskNew))
+                    {
+                        var startIndex = data.IndexOf(',') + 1;
+                        var endIndex = data.IndexOf(',', startIndex);
+                        var taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
+
+                        if (data.Contains("Building") && taskName != "Building")
+                        {
+                            startIndex = data.IndexOf(',') + 1;
+                            endIndex = data.IndexOf(',', startIndex);
+                            taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
+                        }
+
+                        if (objTypeList.Any(o => o.Contains(taskName)))
+                        {
+                            QScriptTask qtask = new QScriptTask();
+                            Real32 orientation = new Real32();
+                            Real64 position = new Real64();
+
+                            string[] taskNew = data.Split(',');
+                            int taskIndex = 0;
+
+                            foreach (var task in taskNew)
+                            {
+                                if (taskIndex == (int)QTASKINFO.QTASK_ID)
+                                {
+                                    var taskId = task.Substring(task.IndexOf('(') + 1);
+                                    qtask.id = Convert.ToInt32(taskId);
+                                }
+                                else if (taskIndex == (int)QTASKINFO.QTASK_NAME)
+                                    qtask.name = task.Trim();
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_NOTE)
+                                    qtask.note = task.Trim();
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_POSX)
+                                    position.x = Double.Parse(task);
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_POSY)
+                                    position.y = Double.Parse(task);
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_POSZ)
+                                    position.z = Double.Parse(task);
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_ALPHA)
+                                    orientation.alpha = float.Parse(task);
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_BETA)
+                                    orientation.beta = float.Parse(task);
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_GAMMA)
+                                    orientation.gamma = float.Parse(task);
+
+                                else if (taskIndex == (int)QTASKINFO.QTASK_MODEL)
+                                    qtask.model = task.Trim().Replace(")", String.Empty);
+
+                                qtask.position = position;
+                                qtask.orientation = orientation;
+                                taskIndex++;
+                            }
+                            qtaskList.Add(qtask);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
+            AddLog(MethodBase.GetCurrentMethod().Name, "qtaskList count: " + qtaskList.Count);
+            return qtaskList;
+        }
+
+
+        internal static void GenerateObjDataList(string variablesFile, List<QScriptTask> qtaskList)
+        {
+            AddLog(MethodBase.GetCurrentMethod().Name, "Called with File '" + variablesFile + "'");
+            if (qtaskList.Count <= 0)
+            {
+                ShowLogError(MethodBase.GetCurrentMethod().Name, "Qtask list is empty");
+                return;
+            }
+
+            //Write Constants data.
+            foreach (var qtask in qtaskList)
+            {
+                File.AppendAllText(variablesFile, qtask.model + "\n");
+                string varData = null;
+                if (String.IsNullOrEmpty(qtask.model) || qtask.model == "" || qtask.model.Length < 3)
+                    continue;
+                else
+                {
+                    if (String.IsNullOrEmpty(qtask.note) || qtask.note == "" || qtask.note.Length < 3)
+                        varData = "const string " + qtask.name.Replace("\"", String.Empty).Replace(" ", "_").ToUpperInvariant() + " = " + qtask.model + ";\n";
+                    else
+                        varData = "const string " + qtask.note.Replace("\"", String.Empty).Replace(" ", "_").ToUpperInvariant() + " = " + qtask.model + ";\n";
+                    File.AppendAllText(variablesFile, varData);
+                }
+            }
+            AddLog(MethodBase.GetCurrentMethod().Name, "return success");
+        }
+
+
 
     }
 }

@@ -446,7 +446,7 @@ namespace IGIEditor
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Graph File: '" + graphFile + "'");
             var nodeData = ReadGraphNodeData(graphFile);
             var graphPos = GetGraphPosition(graphId.ToString());
-            QUtils.qtaskId = QUtils.GenerateTaskID(true);
+            QUtils.qtaskId = QTask.GenerateTaskID(true);
             var graphArea = GetGraphArea(graphId);
 
             int graphWorkTotal = nodeData.Count, graphWorkCount = 1, graphWorkPercent = 1;
@@ -463,7 +463,7 @@ namespace IGIEditor
                 nodeRealPos.z = graphPos.z + node.NodePos.z;
 
                 string taskNote = "Graph#" + graphId + "Node#" + node.NodeId + " - G#" + graphId + "N#1";
-
+                string taskInfo = taskNote.Slice(0, taskNote.IndexOf("-")).Trim();
                 //Visualisation Object - StatusMsg.
                 if (visualType == 1)
                 {
@@ -477,7 +477,7 @@ namespace IGIEditor
                 else if (visualType == 2)
                 {
                     IGIEditorUI.editorRef.AddRigidObject(nodeObject, false, nodeRealPos, false, QUtils.qtaskId, taskNote, false);
-                    qscData += QObjects.ComputerMapHilight(QUtils.qtaskId, taskNote, "Graph#" + graphId, taskNote, "MARKER_BOX", markerColor);
+                    qscData += QObjects.ComputerMapHilight(QUtils.qtaskId, taskNote, "Graph#" + graphId, taskInfo, "MARKER_BOX", markerColor);
                 }
                 graphWorkPercent = (int)Math.Round((double)(100 * graphWorkCount) / graphWorkTotal);
                 IGIEditorUI.editorRef.SetStatusText("Graph#" + graphId + " Node#" + node.NodeId + " added, Completed " + graphWorkPercent + "%");

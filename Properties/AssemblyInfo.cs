@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("Haseeb Mir")]
 [assembly: AssemblyProduct("I.G.I 1 Editor A.I,Level,Missions,Graphs.")]
 [assembly: AssemblyCopyright("Copyright Haseeb Mir © 2021")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("Haseeb Mir © 2021")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible

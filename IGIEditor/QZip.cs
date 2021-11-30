@@ -12,7 +12,7 @@ namespace IGIEditor
             var zip = ZipStorer.Create(zipFileName + extension, comment);
             zip.AddDirectory(ZipStorer.Compression.Store, Directory.GetCurrentDirectory() + @"\" + zipFileName, String.Empty);
             zip.Close();
-            if (deleteDir) QUtils.DeleteWholeDir(zipFileName);
+            if (deleteDir) QUtils.DirectoryDelete(zipFileName);
         }
 
         internal static ZipStorer Open(string zipFileName, FileAccess fileAccess = FileAccess.Read)
@@ -38,7 +38,9 @@ namespace IGIEditor
                 var fileName = Path.GetFileName(entry.FilenameInZip);
 
                 // File found, extract it
-                if (fileName.Contains("qvm"))
+                if (entry.FilenameInZip.Contains("bin"))
+                    zip.ExtractFile(entry, extractPath + @"\" + absFileName + @"\bin\" + fileName);
+                else if (fileName.Contains("qvm"))
                     zip.ExtractFile(entry, extractPath + @"\" + absFileName + @"\ai\" + fileName);
                 else
                     zip.ExtractFile(entry, extractPath + @"\" + absFileName + @"\" + fileName);

@@ -85,6 +85,19 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'External|AnyCPU'">
+    <OutputPath>bin\External\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'External|x86'">
+    <OutputPath>bin\x86\External\</OutputPath>
+    <DefineConstants>EXTERNAL,WIN32</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DeviceId, Version=6.0.0.0, Culture=neutral, PublicKeyToken=f755c371b5c59c52, processorArchitecture=MSIL">
       <HintPath>packages\DeviceId.6.0.0\lib\net40\DeviceId.dll</HintPath>
@@ -147,6 +160,7 @@
     <Compile Include="IGIEditor\QFtpClient.cs" />
     <Compile Include="QInternals.cs" />
     <Compile Include="QServer.cs" />
+    <Compile Include="QTask.cs" />
     <EmbeddedResource Include="IGIEditor\IGIEditorUI.resx">
       <DependentUpon>IGIEditorUI.cs</DependentUpon>
     </EmbeddedResource>

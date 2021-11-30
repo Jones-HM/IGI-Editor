@@ -113,7 +113,6 @@ namespace IGIEditor
 
             object value = null;
             if (positionExtract) value = position; else value = rotation;
-
             return (T)Convert.ChangeType(value, typeof(T));
         }
 

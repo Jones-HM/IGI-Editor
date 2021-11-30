@@ -244,6 +244,8 @@
             this.xPosLbl_O = new System.Windows.Forms.Label();
             this.updateObjPosition = new System.Windows.Forms.Button();
             this.miscEditor = new System.Windows.Forms.TabPage();
+            this.autoUpdateLbl = new System.Windows.Forms.Label();
+            this.autoUpdateTimeTxt = new System.Windows.Forms.TextBox();
             this.editorUpdaterBtn = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.appSettingLbl = new System.Windows.Forms.Label();
@@ -265,6 +267,7 @@
             this.xmlCb = new System.Windows.Forms.CheckBox();
             this.jsonCb = new System.Windows.Forms.CheckBox();
             this.csvCb = new System.Windows.Forms.CheckBox();
+            this.updateCheckerCb = new System.Windows.Forms.CheckBox();
             this.appLogsCb = new System.Windows.Forms.CheckBox();
             this.autoResetCb = new System.Windows.Forms.CheckBox();
             this.cutsceneRemoveBtn = new System.Windows.Forms.Button();
@@ -2747,7 +2750,6 @@
             this.nodesHilightCb.TabIndex = 58;
             this.nodesHilightCb.Text = "Nodes - Hilight";
             this.nodesHilightCb.UseVisualStyleBackColor = true;
-            this.nodesHilightCb.Visible = false;
             this.nodesHilightCb.CheckedChanged += new System.EventHandler(this.nodesHilightCb_CheckedChanged);
             // 
             // nodesObjectsCb
@@ -2763,7 +2765,6 @@
             this.nodesObjectsCb.TabIndex = 57;
             this.nodesObjectsCb.Text = "Nodes - Objects";
             this.nodesObjectsCb.UseVisualStyleBackColor = true;
-            this.nodesObjectsCb.Visible = false;
             this.nodesObjectsCb.CheckedChanged += new System.EventHandler(this.nodesObjectsCb_CheckedChanged);
             // 
             // nodeIdDD
@@ -3299,6 +3300,8 @@
             // miscEditor
             // 
             this.miscEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.miscEditor.Controls.Add(this.autoUpdateLbl);
+            this.miscEditor.Controls.Add(this.autoUpdateTimeTxt);
             this.miscEditor.Controls.Add(this.editorUpdaterBtn);
             this.miscEditor.Controls.Add(this.label4);
             this.miscEditor.Controls.Add(this.appSettingLbl);
@@ -3320,6 +3323,7 @@
             this.miscEditor.Controls.Add(this.xmlCb);
             this.miscEditor.Controls.Add(this.jsonCb);
             this.miscEditor.Controls.Add(this.csvCb);
+            this.miscEditor.Controls.Add(this.updateCheckerCb);
             this.miscEditor.Controls.Add(this.appLogsCb);
             this.miscEditor.Controls.Add(this.autoResetCb);
             this.miscEditor.Controls.Add(this.cutsceneRemoveBtn);
@@ -3336,17 +3340,45 @@
             this.miscEditor.TabIndex = 6;
             this.miscEditor.Text = "Misc";
             // 
+            // autoUpdateLbl
+            // 
+            this.autoUpdateLbl.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoUpdateLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.autoUpdateLbl.Location = new System.Drawing.Point(270, 158);
+            this.autoUpdateLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.autoUpdateLbl.Name = "autoUpdateLbl";
+            this.autoUpdateLbl.Size = new System.Drawing.Size(111, 20);
+            this.autoUpdateLbl.TabIndex = 43;
+            this.autoUpdateLbl.Text = "After every";
+            this.autoUpdateLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // autoUpdateTimeTxt
+            // 
+            this.autoUpdateTimeTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.autoUpdateTimeTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.autoUpdateTimeTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.autoUpdateTimeTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.autoUpdateTimeTxt.Location = new System.Drawing.Point(382, 155);
+            this.autoUpdateTimeTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.autoUpdateTimeTxt.Name = "autoUpdateTimeTxt";
+            this.autoUpdateTimeTxt.Size = new System.Drawing.Size(61, 30);
+            this.autoUpdateTimeTxt.TabIndex = 42;
+            this.autoUpdateTimeTxt.Text = "5";
+            this.autoUpdateTimeTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.infoViewer.SetToolTip(this.autoUpdateTimeTxt, "Time in minutes");
+            this.autoUpdateTimeTxt.TextChanged += new System.EventHandler(this.autoUpdateTimeTxt_TextChanged);
+            // 
             // editorUpdaterBtn
             // 
             this.editorUpdaterBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.editorUpdaterBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
             this.editorUpdaterBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.editorUpdaterBtn.Location = new System.Drawing.Point(275, 170);
+            this.editorUpdaterBtn.Location = new System.Drawing.Point(274, 235);
             this.editorUpdaterBtn.Margin = new System.Windows.Forms.Padding(4);
             this.editorUpdaterBtn.Name = "editorUpdaterBtn";
             this.editorUpdaterBtn.Size = new System.Drawing.Size(190, 38);
             this.editorUpdaterBtn.TabIndex = 41;
-            this.editorUpdaterBtn.Text = "Check Updates";
+            this.editorUpdaterBtn.Text = "Update Editor";
             this.editorUpdaterBtn.UseVisualStyleBackColor = true;
             this.editorUpdaterBtn.Click += new System.EventHandler(this.editorUpdaterBtn_Click);
             // 
@@ -3503,7 +3535,7 @@
             this.gfxResetBtn.Name = "gfxResetBtn";
             this.gfxResetBtn.Size = new System.Drawing.Size(190, 38);
             this.gfxResetBtn.TabIndex = 25;
-            this.gfxResetBtn.Text = "GFX Reset";
+            this.gfxResetBtn.Text = "Graphics Reset";
             this.gfxResetBtn.UseVisualStyleBackColor = true;
             this.gfxResetBtn.Click += new System.EventHandler(this.gfxResetBtn_Click);
             // 
@@ -3528,9 +3560,9 @@
             this.aiIdleCb.Location = new System.Drawing.Point(539, 74);
             this.aiIdleCb.Margin = new System.Windows.Forms.Padding(4);
             this.aiIdleCb.Name = "aiIdleCb";
-            this.aiIdleCb.Size = new System.Drawing.Size(91, 25);
+            this.aiIdleCb.Size = new System.Drawing.Size(147, 25);
             this.aiIdleCb.TabIndex = 24;
-            this.aiIdleCb.Text = "A.I Idle";
+            this.aiIdleCb.Text = "A.I Idle Mode";
             this.aiIdleCb.UseVisualStyleBackColor = true;
             this.aiIdleCb.CheckedChanged += new System.EventHandler(this.aiIdleCb_CheckedChanged);
             // 
@@ -3616,6 +3648,19 @@
             this.csvCb.UseVisualStyleBackColor = true;
             this.csvCb.CheckedChanged += new System.EventHandler(this.csvCb_CheckedChanged);
             // 
+            // updateCheckerCb
+            // 
+            this.updateCheckerCb.AutoSize = true;
+            this.updateCheckerCb.Font = new System.Drawing.Font("Century Gothic", 10F);
+            this.updateCheckerCb.Location = new System.Drawing.Point(274, 129);
+            this.updateCheckerCb.Margin = new System.Windows.Forms.Padding(4);
+            this.updateCheckerCb.Name = "updateCheckerCb";
+            this.updateCheckerCb.Size = new System.Drawing.Size(194, 25);
+            this.updateCheckerCb.TabIndex = 20;
+            this.updateCheckerCb.Text = "Check For Updates";
+            this.updateCheckerCb.UseVisualStyleBackColor = true;
+            this.updateCheckerCb.CheckedChanged += new System.EventHandler(this.updateCheckerCb_CheckedChanged);
+            // 
             // appLogsCb
             // 
             this.appLogsCb.AutoSize = true;
@@ -3666,7 +3711,7 @@
             this.resetCurrentLevelBtn.Name = "resetCurrentLevelBtn";
             this.resetCurrentLevelBtn.Size = new System.Drawing.Size(190, 38);
             this.resetCurrentLevelBtn.TabIndex = 18;
-            this.resetCurrentLevelBtn.Text = "Reset current Level";
+            this.resetCurrentLevelBtn.Text = "Reset Level";
             this.resetCurrentLevelBtn.UseVisualStyleBackColor = true;
             this.resetCurrentLevelBtn.Click += new System.EventHandler(this.resetCurrentLevelBtn_Click);
             // 
@@ -3680,7 +3725,7 @@
             this.resetAllLevelsBtn.Name = "resetAllLevelsBtn";
             this.resetAllLevelsBtn.Size = new System.Drawing.Size(190, 38);
             this.resetAllLevelsBtn.TabIndex = 17;
-            this.resetAllLevelsBtn.Text = "Reset all Levels";
+            this.resetAllLevelsBtn.Text = "Reset All Levels";
             this.resetAllLevelsBtn.UseVisualStyleBackColor = true;
             this.resetAllLevelsBtn.Click += new System.EventHandler(this.resetAllLevelsBtn_Click);
             // 
@@ -3863,7 +3908,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "IGIEditorUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "IGI 1 Editor 1.0";
+            this.Text = "IGI 1 Editor ";
             this.backPnl.ResumeLayout(false);
             this.backPnl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).EndInit();
@@ -4155,6 +4200,9 @@
         private System.Windows.Forms.Button refreshNodesBtn;
         private System.Windows.Forms.Button editorUpdaterBtn;
         private System.Windows.Forms.CheckBox showAllGraphsCb;
+        private System.Windows.Forms.TextBox autoUpdateTimeTxt;
+        private System.Windows.Forms.Label autoUpdateLbl;
+        private System.Windows.Forms.CheckBox updateCheckerCb;
     }
 }
 

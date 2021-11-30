@@ -21,13 +21,15 @@ using System.Xml;
 using System.Xml.Linq;
 using static IGIEditor.QServer;
 using File = System.IO.File;
+using FileIO = Microsoft.VisualBasic.FileIO;
+using FileSystem = Microsoft.VisualBasic.FileIO.FileSystem;
 
 namespace IGIEditor
 {
     class QUtils
     {
 
-        public class QTask
+        public class QScriptTask
         {
             public Int32 id;
             public string name;
@@ -40,28 +42,28 @@ namespace IGIEditor
         public class HTask
         {
             public int team;
-            public QTask qtask;
+            public QScriptTask qtask;
             public List<string> weaponsList;
         };
 
         internal static string taskNew = "Task_New", taskDecl = "Task_DeclareParameters";
         internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc", weaponConfigQVM = "weaponconfig.qvm", weaponsModQvm = "weaponconfig-mod.qvm";
-        internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 3, currGameLevel = 1;
+        internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 3, currGameLevel = 1, updateTimeInterval = 5;
         internal static string logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsModelsList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customAiPathFile = "ai_custom_path.qsc", customScriptFileQEd = @"\QEditor\AIFiles\ai_custom_script.qsc", customAiPathFileQEd = @"\QEditor\AIFiles\ai_custom_path.qsc", appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\", nativesFile = @"\IGI-Natives.json", modelsFile = @"\IGI-Models.txt", internalsLogFile = @"\IGI-Internals.log";
-        internal static bool gameFound = false, logEnabled = false, keyExist = false, keyFileExist = false, attachStatus = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false;
+        internal static bool gameFound = false, gamePathSet = false, logEnabled = false, keyExist = false, keyFileExist = false, attachStatus = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false, editorUpdateChecked = false;
         internal static float appEditorVersion = 0.4f, viewPortDelta = 10000.0f;
         internal static string supportDiscordLink = @"https://discord.gg/9T8tzyhvp6", supportYoutubeLink = @"https://www.youtube.com/channel/UChGryl0a0dii81NfDZ12LwA", supportVKLink = @"https://vk.com/id679925339";
         internal static IntPtr viewPortAddrX = (IntPtr)0x00BCAB08, viewPortAddrY = (IntPtr)0x00BCAB10, viewPortAddrZ = (IntPtr)0x00BCAB18;
-        internal const int TEAM_ID_FRIENDLY = 0, TEAM_ID_ENEMY = 1, MAX_FPS = 240, MAX_HUMAN_CAM = 5;
+        internal const int TEAM_ID_FRIENDLY = 0, TEAM_ID_ENEMY = 1, MAX_FPS = 240, MAX_UPDATE_TIME = 120, MAX_HUMAN_CAM = 5;
 
-        internal static string gamePath, appdataPath, igiEditorQEdPath, editorCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, cfgWeaponsPath, weaponsModQvmPath, weaponsOrgCfgPath, weaponsGamePath, humanplayerGamePath, menusystemGamePath, missionsGamePath, commonGamePath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", qGraphs = "QGraphs", cfgFile, projAppName, cachePath, cachePathAppLogs, nativesFilePath, modelsFilePath, internalsLogPath, cachePathAppImages, currPathAppImages, editorUpdaterPath = "IGIEditor_Update", editorUpdaterFile,
+        internal static string gamePath, appdataPath, igiEditorQEdPath, editorCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, qQVMPath, qQSCPath, cfgWeaponsPath, weaponsModQvmPath, weaponsOrgCfgPath, weaponsGamePath, humanplayerGamePath, menusystemGamePath, missionsGamePath, commonGamePath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", qGraphs = "QGraphs", cfgFile, editorAppName, cachePath, cachePathAppLogs, nativesFilePath, modelsFilePath, internalsLogPath, cachePathAppImages, currPathAppImages, editorUpdaterDir = "IGIEditor_Update", editorUpdaterFile,
          igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", graphsPath, cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayerQvm = "humanplayer.qvm", humanplayerQsc = "humanplayer.qsc", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalsDllFile, internalsDll = "IGI-Internals.dll", internalsDllPath = @"bin\IGI-Internals.dll", qLibcPath = @"lib\GTLibc_x86.so", tmpDllPath, internalDllInjectorPath = @"bin\IGI-Injector.exe", internalDllGTInjectorPath = @"bin\IGI-Injector-GT.exe", PATH_SEC = "PATH", EDITOR_SEC = "EDITOR";
         internal static string inputQscPath = @"\IGI_QSC", inputQvmPath = @"\IGI_QVM", inputAiPath = @"\AIFiles", inputVoidPath = @"\Void", inputMissionPath = @"\missions\location0\level", inputHumanplayerPath = @"\humanplayer", inputweaponsPath = @"\weapons";
         internal static List<string> objTypeList = new List<string>() { "Building", "EditRigidObj", "Terminal", "Elevator", "ExplodeObject", "AlarmControl", "Generator", "Radio" };
         internal static string objects = "objects", objectsAll = "objectsAll", weapons = "weapons";
         internal static string qvmExt = ".qvm", qscExt = ".qsc", datExt = ".dat", csvExt = ".csv", jsonExt = ".json", txtExt = ".txt", xmlExt = ".xml", dllExt = ".dll", missionExt = ".igimsf", jpgExt = ".jpg", pngExt = ".png", rarExt = ".rar", zipExt = ".zip", exeExt = ".exe";
         internal static float fltInvalidAngle = -9.9999f, fltInvalidVal = -9.9f;
-        internal const string CAPTION_CONFIG_ERR = "Config - Error", CAPTION_FATAL_SYS_ERR = "Fatal sytem - Error", CAPTION_APP_ERR = "Application - Error", CAPTION_COMPILER_ERR = "Compiler - Error", EDITOR_LEVEL_ERR = "EDITOR ERROR", alarmControl = "AlarmControl", stationaryGun = "StationaryGun";
+        internal const string CAPTION_CONFIG_ERR = "Config - Error", CAPTION_FATAL_SYS_ERR = "Sytem-Fatal - Error", CAPTION_APP_ERR = "Application - Error", CAPTION_COMPILER_ERR = "Compiler - Error", EDITOR_LEVEL_ERR = "EDITOR ERROR", alarmControl = "AlarmControl", stationaryGun = "StationaryGun";
         internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", helpStr = "IGI 1 Editor-Demo. Offers upto " + GAME_MAX_LEVEL + " level\nVersion: v" + appEditorVersion + " BETA.\n\nTools/Language: C#(5.0) VS-Studio/Code\nCreated by Haseeb Mir.\n\nCredits & People\nUI Designing - Dark\nResearch data - Dimon, Yoejin and GM123.\nQScript/DConv Tools - Artiom.\nTester - Orwa\nIGI-VK Community.";
         internal static string patroIdleMask = "xxxx", patroAlarmMask = "yyyy", alarmControlMask = "xx", gunnerIdMask = "xxx", viewGammaMask = "yyy";
         internal static string movementSpeedMask = "movSpeed", forwardSpeedMask = "forwardSpeed", upwardSpeedMask = "upSpeed", inAirSpeedMask = "iAirSpeed", throwBaseVelMask = "throwBaseVel", healthScaleMask = "healthScale", healthFenceMask = "healthFence", peekLeftRightLenMask = "peekLRLen", peekCrouchLenMask = "peekCrouchLen", peekTimeMask = "peekTime";
@@ -71,7 +73,9 @@ namespace IGIEditor
         private static Random rand = new Random();
         internal static QIniParser qIniParser;
         internal enum QTYPES { BUILDING = 1, RIGID_OBJ = 2 };
+        internal enum UPDATE_ACTION { DOWNLOAD = 1, EXTRACT = 2, UPDATE = 3 };
         internal static Dictionary<int, string> graphAreas = new Dictionary<int, string>();
+        //private static IGIIGIEditorUI.editorRef IGIEditorUI.editorRef = IGIIGIEditorUI.editorRef.editorRef;
 
         //List of Dictionary items.
         internal static List<Dictionary<string, int>> weaponList = new List<Dictionary<string, int>>();
@@ -205,7 +209,7 @@ namespace IGIEditor
 
         public static void LogException(string methodName, Exception ex)
         {
-            methodName = methodName.Replace("_Click", String.Empty).Replace("_SelectedIndexChanged",String.Empty).Replace("_SelectedValueChanged", String.Empty);
+            methodName = methodName.Replace("_Click", String.Empty).Replace("_SelectedIndexChanged", String.Empty).Replace("_SelectedValueChanged", String.Empty);
             AddLog(methodName, "Exception MESSAGE: " + ex.Message + "\nREASON: " + ex.StackTrace);
         }
 
@@ -227,9 +231,14 @@ namespace IGIEditor
             methodName = methodName.Replace("_Click", String.Empty).Replace("_SelectedIndexChanged", String.Empty).Replace("_SelectedValueChanged", String.Empty);
             //Show and Log error for method name.
             ShowError(methodName + "(): " + errMsg, caption);
-            AddLog(methodName,errMsg);
+            AddLog(methodName, errMsg);
         }
 
+        public static void ShowLogStatus(string methodName, string logMsg)
+        {
+            IGIEditorUI.editorRef.SetStatusText(logMsg);
+            AddLog(methodName, logMsg);
+        }
 
         public static void ShowInfo(string infoMsg, string caption = "INFO")
         {
@@ -243,8 +252,7 @@ namespace IGIEditor
 
         public static void ShowConfigError(string keyword)
         {
-            ShowError("Config file has invalid property for '" + keyword + "'", CAPTION_CONFIG_ERR);
-            Environment.Exit(1);
+            ShowError("Config has invalid property for '" + keyword + "'", CAPTION_CONFIG_ERR);
         }
 
         public static void ShowSystemFatalError(string errMsg)
@@ -316,6 +324,36 @@ namespace IGIEditor
             return privateIp;
         }
 
+        internal static void ShowGamePathDialog()
+        {
+            OpenFileDialog folderBrowser = new OpenFileDialog();
+            folderBrowser.ValidateNames = false;
+            folderBrowser.CheckFileExists = false;
+            folderBrowser.CheckPathExists = true;
+            folderBrowser.FileName = "Folder Selection.";
+            folderBrowser.Title = "Select Game path";
+
+            if (folderBrowser.ShowDialog() == DialogResult.OK)
+            {
+                gameAbsPath = Path.GetDirectoryName(folderBrowser.FileName) + Path.DirectorySeparatorChar;
+                cfgGamePath = (!String.IsNullOrEmpty(gameAbsPath)) ? (gameAbsPath.Trim() + QMemory.gameName + ".exe") : null;
+                bool status = File.Exists(cfgGamePath);
+
+                if (!status)
+                {
+                    gamePathSet = false;
+                    ShowSystemFatalError("Error occurred while setting game path.");
+                }
+                else
+                {
+                    ShowInfo("IGI Game path was saved successfully.");
+                    CreateGameShortcut();
+                    gamePathSet = true;
+                }
+            }
+        }
+
+
         internal static void CreateConfig()
         {
             gameAbsPath = (gameAbsPath is null) ? LocateExecutable(QMemory.gameName + ".exe") : gameAbsPath;
@@ -341,23 +379,20 @@ namespace IGIEditor
             qIniParser.Write("game_path", gameAbsPath is null ? "\n" : gameAbsPath, PATH_SEC);
 
             //Write App properties to config.
-            qIniParser.Write("game_reset", gameReset.ToString(), EDITOR_SEC);
-            qIniParser.Write("app_logs", appLogs.ToString(), EDITOR_SEC);
-            qIniParser.Write("app_online", editorOnline.ToString(), EDITOR_SEC);
+            qIniParser.Write("game_reset", gameReset.ToString().ToLower(), EDITOR_SEC);
+            qIniParser.Write("app_logs", appLogs.ToString().ToLower(), EDITOR_SEC);
+            qIniParser.Write("app_online", editorOnline.ToString().ToLower(), EDITOR_SEC);
+            qIniParser.Write("update_check", editorUpdateChecked.ToString().ToLower(), EDITOR_SEC);
+            qIniParser.Write("update_interval", updateTimeInterval.ToString().ToLower(), EDITOR_SEC);
 
             if (!gameFound) Environment.Exit(1);
         }
 
         internal static void ParseConfig()
         {
+            bool appLogsParsed = false, gameResetParsed = false, editorOnlineParsed = false, editorUpdateParsed = false, timeInterval = false;
             try
             {
-                projAppName = AppDomain.CurrentDomain.FriendlyName.Replace(".exe", String.Empty);
-                cfgFile = projAppName + ".ini";
-                logFile = projAppName + ".log";
-                editorCurrPath = Directory.GetCurrentDirectory();
-                qIniParser = new QIniParser(cfgFile);
-
                 if (File.Exists(cfgFile))
                 {
                     //Read properties from PATH section.
@@ -369,28 +404,35 @@ namespace IGIEditor
                     if (!File.Exists(gPath + Path.DirectorySeparatorChar + QMemory.gameName + ".exe"))
                     {
                         ShowError("Invalid path selected! Game 'IGI' not found at path '" + gPath + "'", CAPTION_FATAL_SYS_ERR);
-                        Environment.Exit(1);
+                        ShowGamePathDialog();//Prompt for Game path on invalid path.
+                        //Environment.Exit(1);
                     }
-                    gameAbsPath = gPath;
-                    cfgGamePath = configPath.Trim() + cfgGamePathEx;
+                    else
+                    {
+                        gameAbsPath = gPath;
+                        cfgGamePath = configPath.Trim() + cfgGamePathEx;
+                    }
 
-
-                    appLogs = bool.Parse(qIniParser.Read("app_logs", EDITOR_SEC));
-                    gameReset = bool.Parse(qIniParser.Read("game_reset", EDITOR_SEC));
-                    editorOnline = bool.Parse(qIniParser.Read("app_online", EDITOR_SEC));
+                    appLogs = bool.Parse(qIniParser.Read("app_logs", EDITOR_SEC)); appLogsParsed = true;
+                    gameReset = bool.Parse(qIniParser.Read("game_reset", EDITOR_SEC)); gameResetParsed = true;
+                    editorOnline = bool.Parse(qIniParser.Read("app_online", EDITOR_SEC)); editorOnlineParsed = true;
+                    editorUpdateChecked = bool.Parse(qIniParser.Read("update_check", EDITOR_SEC)); editorUpdateParsed = true;
+                    updateTimeInterval = int.Parse(qIniParser.Read("update_interval", EDITOR_SEC)); timeInterval = true;
                 }
                 else
                 {
-                    ShowWarning("Config file not found in current directory", CAPTION_CONFIG_ERR);
+                    //ShowWarning("Config file not found in current directory", CAPTION_CONFIG_ERR);
                     CreateConfig();
                 }
             }
             catch (FormatException ex)
             {
-                if (ex.StackTrace.Contains("Boolean"))
-                    ShowConfigError("app_logs or game_reset");
-                else if (ex.StackTrace.Contains("Int32"))
-                    ShowConfigError("");
+                if (!appLogsParsed) ShowConfigError("app_logs");
+                if (!gameResetParsed) ShowConfigError("game_reset");
+                if (!editorOnlineParsed) ShowConfigError("app_online");
+                if (!editorUpdateParsed) ShowConfigError("update_check");
+                if (!timeInterval) ShowConfigError("update_interval");
+                Environment.Exit(0);
             }
             catch (Exception ex)
             {
@@ -486,8 +528,16 @@ namespace IGIEditor
 
         internal static void InitAppData()
         {
+            bool initStatus = true;
+            string initErrReason = String.Empty;
             appdataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             igiEditorQEdPath = appdataPath + Path.DirectorySeparatorChar + qEditor;
+
+            editorAppName = AppDomain.CurrentDomain.FriendlyName.Replace(".exe", String.Empty);
+            cfgFile = editorAppName + ".ini";
+            logFile = editorAppName + ".log";
+            editorCurrPath = Directory.GetCurrentDirectory();
+            qIniParser = new QIniParser(cfgFile);
 
             //Set new Input QSC & QVM path releative to appdata.
             objectsModelsList = igiEditorQEdPath + Path.DirectorySeparatorChar + "IGIModels.txt";
@@ -498,6 +548,8 @@ namespace IGIEditor
             menusystemGamePath = gameAbsPath + @"\menusystem";
             missionsGamePath = gameAbsPath + @"\missions";
             commonGamePath = gameAbsPath + @"\common";
+            qQVMPath = igiEditorQEdPath + qfilesPath + inputQvmPath;
+            qQSCPath = igiEditorQEdPath + qfilesPath + inputQscPath;
             aiIdlePath = igiEditorQEdPath + Path.DirectorySeparatorChar + "aiIdle.qvm";
             cfgQvmPath = igiEditorQEdPath + qfilesPath + inputQvmPath + inputMissionPath;
             cfgQscPath = igiEditorQEdPath + qfilesPath + inputQscPath + inputMissionPath;
@@ -524,6 +576,19 @@ namespace IGIEditor
             {
                 CreateCacheDir();
             }
+
+            if (!Directory.Exists(igiEditorQEdPath)) { initErrReason = "QEditor"; initStatus = false; }
+            else if (!Directory.Exists(qMissionsPath)) { initErrReason = @"QEditor\QMissions"; initStatus = false; }
+            else if (!Directory.Exists(qQVMPath)) { initErrReason = @"QEditor\QFiles\IGI_QVM"; initStatus = false; }
+            else if (!Directory.Exists(qQSCPath)) { initErrReason = @"QEditor\QFiles\IGI_QSC"; initStatus = false; }
+            else if (!Directory.Exists(cfgAiPath)) { initErrReason = @"QEditor\AIFiles"; initStatus = false; }
+            else if (!Directory.Exists(cfgVoidPath)) { initErrReason = @"QEditor\Void"; initStatus = false; }
+            else if (!Directory.Exists(cfgQFilesPath)) { initErrReason = @"QEditor\QFiles"; initStatus = false; }
+
+            initErrReason = "'" + initErrReason + "' Directory is missing";
+            //Show error if 'QEditor' folder not found in appdata.
+            if (!initStatus) ShowSystemFatalError("Editor Appdata directory is invalid Error: (0x0000000F)\nReason: " + initErrReason + "\nPlease re-install new copy from Setup file.");
+
         }
 
         internal static void CreateCacheDir()
@@ -533,24 +598,84 @@ namespace IGIEditor
             Directory.CreateDirectory(cachePathAppImages);
         }
 
-        internal static void DeleteWholeDir(string dirPath)
+
+        //File Operation Utilities C# Version.
+        internal static void FileMove(string srcPath, string destPath)
         {
             try
             {
-                DirectoryInfo di = new DirectoryInfo(dirPath);
-                foreach (FileInfo file in di.GetFiles())
-                    file.Delete();
-                foreach (DirectoryInfo dir in di.GetDirectories())
-                    dir.Delete(true);
-                Directory.Delete(dirPath);
+                if (File.Exists(srcPath)) File.Move(srcPath, destPath);
             }
-            catch (Exception ex)
-            {
-                ShowError(ex.Message ?? ex.StackTrace, "Delete Directory Error");
-            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
-        internal static void MoveDir(string srcPath, string destPath)
+        internal static void FileCopy(string srcPath, string destPath, bool overwirte = true)
+        {
+            try
+            {
+                if (File.Exists(srcPath)) File.Copy(srcPath, destPath, overwirte);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+        internal static void FileDelete(string path)
+        {
+            try
+            {
+                if (File.Exists(path)) File.Delete(path);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+        //File Operation Utilities VB Version.
+        internal static void FileIOMove(string srcPath, string destPath, FileIO.UIOption showUI = FileIO.UIOption.OnlyErrorDialogs, FileIO.UICancelOption onUserCancel = FileIO.UICancelOption.ThrowException)
+        {
+            try
+            {
+                if (File.Exists(srcPath)) FileSystem.MoveFile(srcPath, destPath, showUI, onUserCancel);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+        internal static void FileIOCopy(string srcPath, string destPath, bool overwrite)
+        {
+            try
+            {
+                if (File.Exists(srcPath)) FileSystem.CopyFile(srcPath, destPath, overwrite);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+        internal static void FileIOCopy(string srcPath, string destPath, FileIO.UIOption showUI, FileIO.UICancelOption onUserCancel)
+        {
+            try
+            {
+                if (File.Exists(srcPath)) FileSystem.CopyFile(srcPath, destPath);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+        internal static void FileIODelete(string path, FileIO.UIOption showUI = FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption recycle = FileIO.RecycleOption.SendToRecycleBin, FileIO.UICancelOption onUserCancel = FileIO.UICancelOption.ThrowException)
+        {
+            try
+            {
+                if (File.Exists(path)) FileSystem.DeleteFile(path, showUI, recycle, onUserCancel);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+
+        //Directory Operation Utilities C#.
+        internal static void DirectoryMove(string srcPath, string destPath)
+        {
+            try
+            {
+                if (Directory.Exists(srcPath)) Directory.Move(srcPath, destPath);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+        internal static void DirectoryMove(string srcPath, string destPath, int __ignore)
         {
             var mvCmd = "mv " + srcPath + " " + destPath;
             var moveCmd = "move " + srcPath + " " + destPath + " /y";
@@ -558,13 +683,13 @@ namespace IGIEditor
             try
             {
                 //#1 solution to move with same root directory.
-                Directory.Move(srcPath, destPath + Path.DirectorySeparatorChar + qEditor);
+                Directory.Move(srcPath, destPath);
             }
             catch (IOException ex)
             {
                 if (ex.Message.Contains("already exist"))
                 {
-                    DeleteWholeDir(srcPath);
+                    DirectoryDelete(srcPath);
                 }
                 else
                 {
@@ -576,6 +701,68 @@ namespace IGIEditor
                 }
             }
         }
+
+        internal static void DirectoryDelete(string dirPath)
+        {
+            try
+            {
+                DirectoryInfo di = new DirectoryInfo(dirPath);
+                foreach (FileInfo file in di.GetFiles())
+                    file.Delete();
+                foreach (DirectoryInfo dir in di.GetDirectories())
+                    dir.Delete(true);
+                Directory.Delete(dirPath);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+        //Directory Operation Utilities VB.
+        internal static void DirectoryIOMove(string srcPath, string destPath, bool overwrite)
+        {
+            try
+            {
+                if (Directory.Exists(srcPath)) FileSystem.MoveDirectory(srcPath, destPath, overwrite);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+        internal static void DirectoryIOMove(string srcPath, string destPath, FileIO.UIOption showUI, FileIO.UICancelOption onUserCancel)
+        {
+            try
+            {
+                if (Directory.Exists(srcPath)) FileSystem.MoveDirectory(srcPath, destPath, showUI, onUserCancel);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+        internal static void DirectoryIOCopy(string srcPath, string destPath,bool overwirte=true)
+        {
+            try
+            {
+                if (Directory.Exists(srcPath)) FileSystem.CopyDirectory(srcPath, destPath, overwirte);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+
+        internal static void DirectoryIOCopy(string srcPath, string destPath, FileIO.UIOption showUI, FileIO.UICancelOption onUserCancel)
+        {
+            try
+            {
+                if (Directory.Exists(srcPath)) FileSystem.CopyDirectory(srcPath, destPath, showUI, onUserCancel);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+        internal static void DirectoryIODelete(string path, FileIO.DeleteDirectoryOption deleteContents = FileIO.DeleteDirectoryOption.DeleteAllContents)
+        {
+            try
+            {
+                if (Directory.Exists(path)) FileSystem.DeleteDirectory(path, deleteContents);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
 
         internal static string Reverse(string str)
         {
@@ -867,6 +1054,16 @@ namespace IGIEditor
             return deviceId;
         }
 
+        internal static void ShowPathExplorer(string path)
+        {
+            Process.Start(new ProcessStartInfo()
+            {
+                FileName = path,
+                UseShellExecute = true,
+                Verb = "open"
+            });
+        }
+
         //Execute shell command and get std-output.
         internal static string ShellExec(string cmdArgs, bool runAsAdmin = false, bool waitForExit = true, string shell = "cmd.exe")
         {
@@ -944,7 +1141,7 @@ namespace IGIEditor
             var outFileData = File.ReadAllText(outputQvmPath);
 
             if (inFileData != outFileData)
-                IGIEditorUI.editorRef.SetStatusText("Error in restroing level : " + gameLevel);
+                ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Error in restroing level : " + gameLevel);
         }
 
         internal static int FindIndex(string temp, string sourceData, int sourceIndex, int qtaskIndex)
@@ -995,15 +1192,15 @@ namespace IGIEditor
         internal static int GetModelCount(string model)
         {
             if (!CheckModelExist(model)) return 0;
-            var qtaskList = GetQTaskList(false, true);
+            var qtaskList = QTask.GetQTaskList(false, true);
             int count = qtaskList.Count(o => String.Compare(o.model, model, true) == 0);
-            IGIEditorUI.editorRef.SetStatusText("Model count : " + count);
+            ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Model count : " + count);
             return count;
         }
 
         internal static bool CheckModelExist(int taskId)
         {
-            var qtaskList = GetQTaskList();
+            var qtaskList = QTask.GetQTaskList();
             if (qtaskList.Count == 0)
                 throw new Exception("QTask list is empty");
 
@@ -1018,305 +1215,151 @@ namespace IGIEditor
             return false;
         }
 
-
-        //Parse all the Objects.
-        private static List<QTask> ParseAllOjects(string qscData)
+        internal static void EditorUpdater(string updateFile = null, UPDATE_ACTION updateAction = UPDATE_ACTION.UPDATE, string updateBatch = "updater.bat")
         {
-            bool isBinary = qscData.IsNonASCII();
-            AddLog(MethodBase.GetCurrentMethod().Name, "isBinary: " + isBinary);
-
-            //Remove all whitespaces.
-            qscData = qscData.Replace("\t", String.Empty);
-            string[] qscDataSplit = qscData.Split('\n');
-            var modelRegex = @"\d{3}_\d{2}_\d{1}";
-
-            var qtaskList = new List<QTask>();
-            foreach (var data in qscDataSplit)
-            {
-                if (data.Contains(taskNew))
-                {
-                    QTask qtask = new QTask();
-
-                    string[] taskNew = data.Split(',');
-                    int taskIndex = 0;
-
-                    foreach (var task in taskNew)
-                    {
-                        if (taskIndex == (int)QTASKINFO.QTASK_ID)
-                        {
-                            var taskId = task.Substring(task.IndexOf('(') + 1);
-                            qtask.id = Convert.ToInt32(taskId);
-                        }
-                        else if (taskIndex == (int)QTASKINFO.QTASK_NAME)
-                            qtask.name = task.Trim();
-
-                        else if (taskIndex == (int)QTASKINFO.QTASK_NOTE)
-                            qtask.note = task.Trim();
-
-                        else if (taskIndex == (int)QTASKINFO.QTASK_MODEL)
-                            qtask.model = Regex.Match(task.Trim(), modelRegex).Value;
-
-                        taskIndex++;
-                    }
-                    qtaskList.Add(qtask);
-                }
-            }
-            AddLog(MethodBase.GetCurrentMethod().Name, "qtaskList count: " + qtaskList.Count);
-            return qtaskList;
-        }
-
-
-        //Parse only Objects.
-        private static List<QTask> ParseObjects(string qscData)
-        {
-            var qtaskList = new List<QTask>();
             try
             {
-                bool isBinary = qscData.HasBinaryContent();
-                AddLog(MethodBase.GetCurrentMethod().Name, "isBinary: " + isBinary);
-                //Remove all whitespaces.
-                qscData = qscData.Replace("\t", String.Empty);
-                string[] qscDataSplit = qscData.Split('\n');
+                AddLog(MethodBase.GetCurrentMethod().Name, "Called with File '" + updateFile + "'" + " action: " + updateAction.ToString() + " Batch File: " + updateBatch);
+                ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Updating application please wait...");
+                string updateUrl = QServer.serverBaseURL + QServer.updateDir;
+                string localFileName = cachePath + "\\" + (String.IsNullOrEmpty(updateFile) ? editorUpdaterDir : updateFile) + zipExt;
+                string updateName = editorUpdaterDir;
+                string localUpdateFile = cachePath + "\\" + updateName + zipExt;
+                string localUpdatePath = cachePath + "\\" + editorUpdaterDir;
+                bool status = false;
 
-
-                foreach (var data in qscDataSplit)
+                //Extract the updater if found.
+                if (File.Exists(localUpdateFile) && !Directory.Exists(localUpdatePath)
+                    && (updateAction == UPDATE_ACTION.EXTRACT || updateAction == UPDATE_ACTION.UPDATE))
                 {
-                    if (data.Contains(taskNew))
+                    ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Updater file found please wait...");
+                    AddLog(MethodBase.GetCurrentMethod().Name, "Extracting: '" + localUpdateFile + "'");
+                    status = QZip.Extract(localUpdateFile, cachePath);
+                    AddLog(MethodBase.GetCurrentMethod().Name, "Extracting of file '" + updateFile + "' done");
+                }
+
+                //Download the updater if not found.
+                else if (updateAction == UPDATE_ACTION.DOWNLOAD || updateAction == UPDATE_ACTION.UPDATE)
+                {
+                    bool newInstallation = true;
+
+                    //Cleanup previous updater files on Update.
+                    if (updateAction == UPDATE_ACTION.UPDATE)
                     {
-                        var startIndex = data.IndexOf(',') + 1;
-                        var endIndex = data.IndexOf(',', startIndex);
-                        var taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
+                        ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Updater cleaning previous files...");
+                        if (Directory.Exists(localUpdatePath)) DirectoryDelete(localUpdatePath);
+                        AddLog(MethodBase.GetCurrentMethod().Name, "Updater cleaning previous files for Action: " + updateAction.ToString());
+                    }
 
-                        if (data.Contains("Building") && taskName != "Building")
+                    //Update from backup on Update.
+                    if (updateAction == UPDATE_ACTION.UPDATE)
+                    {
+                        AddLog(MethodBase.GetCurrentMethod().Name, "Updating from backup file.");
+                        if (File.Exists(localUpdateFile))
                         {
-                            startIndex = data.IndexOf(',') + 1;
-                            endIndex = data.IndexOf(',', startIndex);
-                            taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
-                        }
-
-                        if (objTypeList.Any(o => o.Contains(taskName)))
-                        {
-                            QTask qtask = new QTask();
-                            Real32 orientation = new Real32();
-                            Real64 position = new Real64();
-
-                            string[] taskNew = data.Split(',');
-                            int taskIndex = 0;
-
-                            foreach (var task in taskNew)
+                            var dlgMsg = ShowDialog("Editor found updater file already exist from previous version\nDo you want to delete it and continue with new installation ?");
+                            if (dlgMsg == DialogResult.OK)
                             {
-                                if (taskIndex == (int)QTASKINFO.QTASK_ID)
-                                {
-                                    var taskId = task.Substring(task.IndexOf('(') + 1);
-                                    qtask.id = Convert.ToInt32(taskId);
-                                }
-                                else if (taskIndex == (int)QTASKINFO.QTASK_NAME)
-                                    qtask.name = task.Trim();
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_NOTE)
-                                    qtask.note = task.Trim();
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_POSX)
-                                    position.x = Double.Parse(task);
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_POSY)
-                                    position.y = Double.Parse(task);
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_POSZ)
-                                    position.z = Double.Parse(task);
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_ALPHA)
-                                    orientation.alpha = float.Parse(task);
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_BETA)
-                                    orientation.beta = float.Parse(task);
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_GAMMA)
-                                    orientation.gamma = float.Parse(task);
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_MODEL)
-                                    qtask.model = task.Trim().Replace(")", String.Empty);
-
-                                qtask.position = position;
-                                qtask.orientation = orientation;
-                                taskIndex++;
+                                File.Delete(localUpdateFile);
+                                newInstallation = true;
                             }
-                            qtaskList.Add(qtask);
+                            else
+                            {
+                                ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Updater file found please wait...");
+                                AddLog(MethodBase.GetCurrentMethod().Name, "Extracting: backup file '" + localUpdateFile + "'");
+                                status = QZip.Extract(localUpdateFile, cachePath);
+                                newInstallation = false;
+                                AddLog(MethodBase.GetCurrentMethod().Name, "Extracting from backup file done.");
+                            }
+                        }
+                    }
+
+                    //Download new updater file.
+                    if (newInstallation)
+                    {
+                        updateUrl = updateUrl + "/" + updateName;
+                        string updateNamePath = localFileName;
+                        string updateUrlPath = "/" + QServer.updateDir + "/" + updateName + zipExt;
+
+                        AddLog(MethodBase.GetCurrentMethod().Name, "Downloading new updater file '" + updateNamePath + "'");
+                        ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Downloading new update please wait...");
+                        AddLog(MethodBase.GetCurrentMethod().Name, "Url: '" + updateUrl + "' file '" + updateNamePath + "'");
+                        status = QServer.Download(updateUrlPath, updateNamePath, cachePath);
+
+                        AddLog(MethodBase.GetCurrentMethod().Name, "Downloaded new updater file '" + updateNamePath + "'");
+                        //Download and extract to Cachee.
+                        if (updateAction == UPDATE_ACTION.EXTRACT || updateAction == UPDATE_ACTION.UPDATE)
+                        {
+                            if (status) status = QZip.Extract(updateNamePath, QUtils.cachePath);
+                            if (status)
+                                AddLog(MethodBase.GetCurrentMethod().Name, "Extracting updater file '" + updateNamePath + "' done.");
                         }
                     }
                 }
+
+                //updateFile = QUtils.cachePath + "\\" + updateFile;
+                AddLog(MethodBase.GetCurrentMethod().Name, "Updater: UpdaterFile '" + updateFile + "' exist: " + Directory.Exists(updateFile).ToString());
+                //Start updating the editor files.
+                if (Directory.Exists(localUpdatePath) && updateAction == UPDATE_ACTION.UPDATE)
+                {
+                    AddLog(MethodBase.GetCurrentMethod().Name, "Updating started file '" + updateFile + "'");
+                    AddLog(MethodBase.GetCurrentMethod().Name, "Updating started Local Update Path '" + localUpdatePath + "'");
+                    AddLog(MethodBase.GetCurrentMethod().Name, "Updating started Local Editor Path '" + editorCurrPath + "'");
+                    editorUpdaterFile = localUpdatePath + "\\" + updateBatch;//Updater batch file.
+                    string appUpdaterData =
+                        "@echo off\n" +
+                        "timeout 5\n" + //Timeout for updating in external thread.
+                        "move /y " + "\"" + localUpdatePath + "\\" + editorAppName + exeExt + "\" \"" + editorCurrPath + "\\" + editorAppName + exeExt + "\"" + "\n" +
+                        "move /y " + "\"" + localUpdatePath + "\\" + editorAppName + "_x86" + exeExt + "\" \"" + editorCurrPath + "\\" + editorAppName + "_x86" + exeExt + "\"" + "\n" +
+                        "timeout 5\n" + //Timeout for Restarting editor app.
+                       "\"" + editorCurrPath + "\\" + editorAppName + exeExt + "\"" + "\n";
+                    File.WriteAllText(editorUpdaterFile, appUpdaterData);
+
+                    AddLog(MethodBase.GetCurrentMethod().Name, "Updating batch file '" + updateBatch + "' created");
+
+                    ShowWarning("Updating the editor please wait.\nEditor will now restart to update to the newest version available.");
+
+                    //Detach internals before updating them.
+                    DetachInternals();
+                    Sleep(2.5f);
+
+                    AddLog(MethodBase.GetCurrentMethod().Name, "Updating Internals detached");
+
+                    //If update contains bin - Injector/Natives data as well.
+                    if (Directory.Exists(localUpdatePath + "\\" + "bin"))
+                    {
+                        Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(localUpdatePath + "\\" + "bin", editorCurrPath + "\\" + "bin", true);
+                        AddLog(MethodBase.GetCurrentMethod().Name, "Updating 'bin' directory done.");
+                    }
+
+                    AddLog(MethodBase.GetCurrentMethod().Name, "Updating Executing batch shell command");
+                    ShellExec(editorUpdaterFile, true, false);
+                    AddLog(MethodBase.GetCurrentMethod().Name, "Updating Executing batch shell command done.");
+                    ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Editor was updated successfully.");
+                    Application.Exit();//Exit the application to update.
+                }
+
+                //Show Status of updater.
+                if (status) ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Editor was updated successfully.");
+                else ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Updater: Error occurred while updating editor (Error: 0xC00005F).");
             }
             catch (Exception ex)
             {
-                ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
-            }
-            AddLog(MethodBase.GetCurrentMethod().Name, "qtaskList count: " + qtaskList.Count);
-            return qtaskList;
-        }
-
-        internal static QTask GetQTask(string taskName)
-        {
-            AddLog(MethodBase.GetCurrentMethod().Name, " taskName called");
-            var qtaskList = GetQTaskList();
-
-            foreach (var qtask in qtaskList)
-            {
-                if (qtask.model.Contains(taskName))
+                if (ex.Message.Contains("ould not complete operation on some files and directories"))
                 {
-                    AddLog(MethodBase.GetCurrentMethod().Name, "returned value for Model " + taskName);
-                    return qtask;
+                    QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "Updater failed to move some files, Detach Internals please wait.");
                 }
-            }
-            AddLog(MethodBase.GetCurrentMethod().Name, "returned : null");
-            return null;
-        }
-
-        internal static QTask GetQTask(int taskId)
-        {
-            AddLog(MethodBase.GetCurrentMethod().Name, " taskId called");
-            var qtaskList = GetQTaskList();
-            foreach (var qtask in qtaskList)
-            {
-                if (qtask.id == taskId)
-                {
-                    AddLog(MethodBase.GetCurrentMethod().Name, "returned value for Task_Id " + taskId);
-                    return qtask;
-                }
-            }
-            AddLog(MethodBase.GetCurrentMethod().Name, "returned : null");
-            return null;
-        }
-
-        internal static List<QTask> GetQTaskList(bool fullQtaskList = false, bool distinct = false, bool fromBackup = false)
-        {
-            int level = QMemory.GetCurrentLevel();
-            string inputQscPath = cfgQscPath + level + "\\" + objectsQsc; 
-            AddLog(MethodBase.GetCurrentMethod().Name, "called with level : " + level + " fullList : " + fullQtaskList.ToString() + " distinct : " + distinct.ToString() + " backup : " + fromBackup);
-            string qscData = fromBackup ? LoadFile(inputQscPath) : LoadFile();
-
-            var qtaskList = fullQtaskList ? ParseAllOjects(qscData) : ParseObjects(qscData);
-            if (distinct)
-                qtaskList = qtaskList.GroupBy(p => p.model).Select(g => g.First()).ToList();
-            AddLog(MethodBase.GetCurrentMethod().Name, "returned list count: "+ qtaskList.Count);
-            return qtaskList;
-        }
-
-        internal static List<QTask> GetQTaskList(int level, bool fullQtaskList = false, bool distinct = false, bool fromBackup = false)
-        {
-            string inputQscPath = cfgQscPath + level + "\\" + objectsQsc;
-            AddLog(MethodBase.GetCurrentMethod().Name, " Qsc Path: '" + inputQscPath + "' level : " + level + " full List : " + fullQtaskList.ToString() + " distinct : " + distinct.ToString() + " backup : " + fromBackup);
-            string qscData = fromBackup ? LoadFile(inputQscPath) : LoadFile();
-
-            bool isBinary = qscData.HasBinaryContent();
-            AddLog(MethodBase.GetCurrentMethod().Name, "isBinary: " + isBinary);
-
-            var qtaskList = fullQtaskList ? ParseAllOjects(qscData) : ParseObjects(qscData);
-            if (qtaskList.Count > 0)
-                if (distinct) qtaskList = qtaskList.GroupBy(p => p.model).Select(g => g.First()).ToList();
-            AddLog(MethodBase.GetCurrentMethod().Name, "task List count " + qtaskList.Count);
-            return qtaskList;
-        }
-
-        internal static int GenerateTaskID(bool minimalId = false)
-        {
-            List<int> qidsList = new List<int>();
-            AddLog(MethodBase.GetCurrentMethod().Name, "called minimal Id : " + minimalId);
-
-            var qscData = LoadFile();
-            qscData = qscData.Replace("\t", String.Empty);
-            string[] qscDataSplit = qscData.Split('\n');
-
-            foreach (var data in qscDataSplit)
-            {
-                if (data.Contains(taskNew))
-                {
-                    var startIndex = data.IndexOf(',', 14) + 1;
-                    var taskName = (data.Slice(13, startIndex));
-
-                    string[] taskNew = data.Split(',');
-                    int taskIndex = 0;
-
-                    foreach (var task in taskNew)
-                    {
-                        if (taskIndex == (int)QTASKINFO.QTASK_ID)
-                        {
-                            var taskId = task.Substring(task.IndexOf('(') + 1);
-                            int qid = Convert.ToInt32(taskId);
-                            if (qid > 10)//10 reserved for LevelFlow Id.
-                                qidsList.Add(qid);
-                            break;
-                        }
-                    }
-
-                }
-            }
-
-            qidsList.Sort();
-            AddLog(MethodBase.GetCurrentMethod().Name, "sorting done");
-
-            int qtaskId = qidsList[0] + 1;
-            int maxVal = qidsList[0], minVal = qidsList[1];
-
-            if (minimalId)
-            {
-                int diffVal = 0;
-                for (int index = 0; index < qidsList.Count; index++)
-                {
-                    minVal = qidsList[index];
-                    maxVal = qidsList[index + 1];
-                    diffVal = Math.Abs(maxVal - minVal);
-                    AddLog(MethodBase.GetCurrentMethod().Name, "maxVal : " + maxVal + "\tminVal : " + minVal + "\tdiffVal : " + diffVal);
-
-                    if (diffVal >= 50)
-                    {
-                        qtaskId = minVal + 1;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                qidsList.Reverse();
-                maxVal = qidsList[0];
-                qtaskId = maxVal + 1;
-            }
-            AddLog(MethodBase.GetCurrentMethod().Name, "Returned Task Id: " + qtaskId);
-            return qtaskId;
-        }
-
-        internal static void GenerateObjDataList(string variablesFile, List<QTask> qtaskList)
-        {
-            AddLog(MethodBase.GetCurrentMethod().Name, "Called with File '" + variablesFile + "'"); 
-            if (qtaskList.Count <= 0)
-            {
-                ShowLogError(MethodBase.GetCurrentMethod().Name, "Qtask list is empty");
-                return;
-            }
-
-            //Write Constants data.
-            foreach (var qtask in qtaskList)
-            {
-                File.AppendAllText(variablesFile, qtask.model + "\n");
-                string varData = null;
-                if (String.IsNullOrEmpty(qtask.model) || qtask.model == "" || qtask.model.Length < 3)
-                    continue;
                 else
-                {
-                    if (String.IsNullOrEmpty(qtask.note) || qtask.note == "" || qtask.note.Length < 3)
-                        varData = "const string " + qtask.name.Replace("\"", String.Empty).Replace(" ", "_").ToUpperInvariant() + " = " + qtask.model + ";\n";
-                    else
-                        varData = "const string " + qtask.note.Replace("\"", String.Empty).Replace(" ", "_").ToUpperInvariant() + " = " + qtask.model + ";\n";
-                    File.AppendAllText(variablesFile, varData);
-                }
+                    ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
             }
-            AddLog(MethodBase.GetCurrentMethod().Name, "return success");
         }
 
-        internal static void ExportCSV(string csvFile, List<QTask> qtaskList, bool allObjects = true)
+
+        internal static void ExportCSV(string csvFile, List<QScriptTask> qtaskList, bool allObjects = true)
         {
             if (qtaskList.Count <= 0)
             {
-                IGIEditorUI.editorRef.SetStatusText("Qtask list is empty");
+                ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Qtask list is empty");
                 return;
             }
 
@@ -1346,7 +1389,7 @@ namespace IGIEditor
         {
             if (weaponTaskList.Count <= 0)
             {
-                IGIEditorUI.editorRef.SetStatusText("Weapon list is empty");
+                ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Weapon list is empty");
                 return;
             }
 
@@ -1372,7 +1415,7 @@ namespace IGIEditor
 
         internal static void ExportXML(string fileName)
         {
-            var qtaskList = GetQTaskList();
+            var qtaskList = QTask.GetQTaskList();
             string csvFile = null;
 
             if (File.Exists(csvFile))
@@ -1465,10 +1508,7 @@ namespace IGIEditor
 
         internal static bool AttachInternals()
         {
-            //tmpDllPath = cachePath + "\\" + GenerateRandStr(0xF) + dllExt;
             AddLog(MethodBase.GetCurrentMethod().Name, "Path : " + internalsDllPath);
-            //QCryptor.Decrypt(internalDllPath, tmpDllPath);
-            //File.Copy(internalDllPath, tmpDllPath);
 
 #if TESTING
             internalsDllFile = Path.GetFileNameWithoutExtension(internalsDll) + "-Dbg" + dllExt;
@@ -1499,7 +1539,7 @@ namespace IGIEditor
                 internalsAttached = CheckInternalsAttached();
                 if (!internalsAttached)
                 {
-                    AddLog(MethodBase.GetCurrentMethod().Name,"all methods failed to work. Use Manual injection.");
+                    ShowLogError(MethodBase.GetCurrentMethod().Name, "all methods failed to work. Use Manual injection.");
                     attachStatus = false;
                     return attachStatus;
                 }
@@ -1510,7 +1550,7 @@ namespace IGIEditor
             return attachStatus;
         }
 
-        internal static bool DeattachInternals()
+        internal static bool DetachInternals()
         {
             try
             {
@@ -1519,7 +1559,7 @@ namespace IGIEditor
 
                 string dllShellCmd = internalDllInjectorPath + " -e " + internalsDllFile;
 
-                GT.GT_SendKeyStroke("END");
+                GT.GT_SendKeys2Process(QMemory.gameName, "{END 10}");
                 Sleep(5);
                 internalsAttached = CheckInternalsAttached();
                 if (!internalsAttached) return true;
@@ -1527,7 +1567,7 @@ namespace IGIEditor
                 string shellOut = ShellExec(dllShellCmd, true);
 
                 if (shellOut.Contains("Error")) attachStatus = false; else attachStatus = true;
-                AddLog(MethodBase.GetCurrentMethod().Name, "DeattachInternals() cmd: " + dllShellCmd + " status: " + attachStatus);
+                AddLog(MethodBase.GetCurrentMethod().Name, "DetachInternals() cmd: " + dllShellCmd + " status: " + attachStatus);
             }
             catch (Exception) { return false; }
             return attachStatus;

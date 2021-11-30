@@ -15,6 +15,7 @@ using System.Web;
 using System.Windows.Forms;
 using UXLib.UX;
 using static IGIEditor.QUtils;
+using Timer = System.Windows.Forms.Timer;
 
 namespace IGIEditor
 {
@@ -22,7 +23,7 @@ namespace IGIEditor
     {
         //Variables section.
         private bool compileStatus = true;
-        private List<QUtils.QTask> qtaskList = new List<QUtils.QTask>();
+        private List<QUtils.QScriptTask> qtaskList = new List<QUtils.QScriptTask>();
         private int buildingsCount = 0, rigidObjCount = 0;
         private static bool isBuildingDD = false, isObjectDD = true, internalsAttached = false;
         private static string model3d, blenderModel;
@@ -36,15 +37,16 @@ namespace IGIEditor
         public delegate void EnableTimers(bool enable);
 
         static internal IGIEditorUI editorRef;
-        BackgroundWorker graphNodesAddWorker, graphLinksAddWorker, uiRefreshWorker, graphTraverseWorker, nodesTraverseWorker, downloadMissionWorker, downloadUpdaterWorker, uploadMissionWorker;
+        BackgroundWorker graphNodesAddWorker, graphLinksAddWorker, graphTraverseWorker, nodesTraverseWorker, downloadMissionWorker, downloadUpdaterWorker, uploadMissionWorker;
+        Timer updateCheckerTimer = new Timer();
 
         //Main-Start - Ctr.
         public IGIEditorUI()
         {
-            var editorPosTimer = new System.Windows.Forms.Timer();
-            var fileCheckerTimer = new System.Windows.Forms.Timer();
-            var internalsFileTimer = new System.Windows.Forms.Timer();
-            var levelRunTimer = new System.Windows.Forms.Timer();
+            var editorPosTimer = new Timer();
+            var fileCheckerTimer = new Timer();
+            var internalsAttachTimer = new Timer();
+            var levelRunTimer = new Timer();
 
             InitializeComponent();
             UXWorker formMover = new UXWorker();
@@ -52,7 +54,7 @@ namespace IGIEditor
             editorRef = this;
 
 #if TESTING
-            nodesObjectsCb.Visible = nodesHilightCb.Visible = configLoadBtn.Visible = configSaveBtn.Visible = assembleBtn.Visible = compileBtn.Visible = true;
+            configLoadBtn.Visible = configSaveBtn.Visible = assembleBtn.Visible = compileBtn.Visible = true;
             compileBtn.Enabled = true;
             appSupportBtn.Visible = false;
             GAME_MAX_LEVEL = 14;
@@ -70,25 +72,24 @@ namespace IGIEditor
             editorPosTimer.Tick += new EventHandler(UpdatePositionTimer);
             editorPosTimer.Interval = 500;
 
-
             //Start File Integrity timer.
             fileCheckerTimer.Tick += new EventHandler(FileIntegrityCheckerTimer);
             fileCheckerTimer.Interval = 60000;//1 Minute.
 
-            //Internals File timer.
-            internalsFileTimer.Tick += new EventHandler(InternalsAttachedTimer);
-            internalsFileTimer.Interval = 60000;//1 Minute.
-
+            //Internals Attach/Detach timer.
+            internalsAttachTimer.Tick += new EventHandler(InternalsAttachedTimer);
+            internalsAttachTimer.Interval = 60000;//1 Minute.
 
             //Level runner timer.
             levelRunTimer.Tick += new EventHandler(LevelRunnerTimer);
             levelRunTimer.Interval = 60000;//1 Minute.
 
+            //Update checker timer.
+            updateCheckerTimer.Tick += new EventHandler(UpdateCheckerTimer);
 
             //Adding Background Worker threads
             graphNodesAddWorker = new BackgroundWorker();
             graphLinksAddWorker = new BackgroundWorker();
-            uiRefreshWorker = new BackgroundWorker();
             graphTraverseWorker = new BackgroundWorker();
             nodesTraverseWorker = new BackgroundWorker();
             downloadMissionWorker = new BackgroundWorker();
@@ -97,13 +98,13 @@ namespace IGIEditor
 
             graphNodesAddWorker.DoWork += AddGraphNodesBackground;
             graphLinksAddWorker.DoWork += AddGraphLinksBackground;
-            uiRefreshWorker.DoWork += UpdateUIBackground;
             graphTraverseWorker.DoWork += GraphTraverseBackground;
             nodesTraverseWorker.DoWork += NodeTraverseBackground;
             downloadMissionWorker.DoWork += DownloadMissionBackground;
-            downloadUpdaterWorker.DoWork += DownloadUpdaterackground;
+            downloadUpdaterWorker.DoWork += DownloadUpdaterBackground;
             uploadMissionWorker.DoWork += UploadMissionBackground;
 
+            //Thread Support Cancellation
             graphTraverseWorker.WorkerSupportsCancellation = nodesTraverseWorker.WorkerSupportsCancellation = true;
 
             //Disabling Errors and Warnings.
@@ -148,13 +149,14 @@ namespace IGIEditor
             var inputQscPath = QUtils.cfgQscPath + gameLevel + "\\" + QUtils.objectsQsc;
             QUtils.graphsPath = QUtils.cfgGamePath + gameLevel + "\\" + "graphs";
 
-            if (!File.Exists(QUtils.objectsQsc))
+            if (!File.Exists(QUtils.objectsQsc) && File.Exists(inputQscPath))
             {
                 File.Copy(inputQscPath, QUtils.objectsQsc);
 
                 //Decrypt data onLoad.
                 //QCryptor.Decrypt(QUtils.objectsQsc, null);
             }
+            else if (!File.Exists(inputQscPath)) throw new Exception("File 'objects.qsc' is missing from path '" + QUtils.cfgQscPath + gameLevel + "\\'");
 
             if (gameReset) QUtils.ResetScriptFile(gameLevel);
 
@@ -190,7 +192,7 @@ namespace IGIEditor
                 {
                     fileCheckerTimer.Start();
                     editorPosTimer.Start();
-                    internalsFileTimer.Start();
+                    internalsAttachTimer.Start();
                     levelRunTimer.Start();
                 }
             };
@@ -201,68 +203,73 @@ namespace IGIEditor
 #endif
         }
 
-        private void DownloadUpdaterackground(object sender, DoWorkEventArgs e)
+        private void UpdateCheckerTimer(object sender, EventArgs e)
         {
-            try
-            {
-                SetStatusText("Updating application please wait...");
-                string updateUrl = QServer.serverBaseURL + QServer.updateDir;
-                string updateName = QUtils.editorUpdaterPath + QUtils.zipExt;
-                string localUpdateFile = QUtils.cachePath + "\\" + updateName;
-                string localUpdatePath = QUtils.cachePath + "\\" + QUtils.editorUpdaterPath;
-                bool status = false;
+            updateCheckerTimer.Stop();//Dont check for new updates while updating - 'Macht keinen Sense oder?'
+            string updateName = QUtils.editorUpdaterDir;
+            string updateNameAbs = QUtils.cachePath + "\\" + updateName + zipExt;
 
-                //Extract the updater if found.
-                if (File.Exists(localUpdateFile) && !Directory.Exists(localUpdatePath))
+            string tmpUpdateName = QUtils.GenerateRandStr(6);
+            string tmpUpdateNameAbs = QUtils.cachePath + "\\" + tmpUpdateName + zipExt;
+
+            long updateSize = 0, tmpUpdateSize = 0;
+            bool updateAvailable = false;
+
+            //QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Downloading Updater file '" + tmpUpdateName + ".zip'");
+            //QUtils.EditorUpdater(tmpUpdateName, UPDATE_ACTION.DOWNLOAD);
+            //QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Downloaded Updater file '" + tmpUpdateName + ".zip'");
+
+            ////Get the File size for version checking.
+            //if (File.Exists(updateNameAbs))
+            //    updateSize = new FileInfo(updateNameAbs).Length;
+
+            //if (File.Exists(tmpUpdateNameAbs))
+            //    tmpUpdateSize = new FileInfo(tmpUpdateNameAbs).Length;
+
+
+            var dirData = QServer.GetDirList(QServer.updateDir, false, zipExt);
+            foreach (var dir in dirData)
+            {
+                if (Path.GetFileName(dir.FileName) == QUtils.editorUpdaterDir + zipExt)
                 {
-                    SetStatusText("Updater file found please wait...");
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Extracting: '" + localUpdateFile + "'");
-                    status = QZip.Extract(localUpdateFile, QUtils.cachePath);
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name,"Server: File '" + dir.FileName + "' size: " + Convert.ToInt32(dir.FileSize) / 1024 + "Kb");
+                    tmpUpdateSize = Convert.ToInt32(dir.FileSize);
+                    break;
                 }
-                //Download the updater if not found.
+            }
+
+
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Updater file Size is " + updateSize / 1024 + "Kb");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "TmpUpdater file Size is " + tmpUpdateSize / 1024 + "Kb");
+
+            if (tmpUpdateSize > updateSize) updateAvailable = true;
+
+            if (updateAvailable)
+            {
+                var dlgResult = QUtils.ShowDialog("A New version of Editor is avaliable to Download\nDo you wish to update ?");
+                if (dlgResult == DialogResult.Yes)
+                {
+                    //Replace old version with new version.
+                    if (File.Exists(updateNameAbs)) File.Delete(updateNameAbs);
+                    //File.Move(tmpUpdateNameAbs, updateNameAbs);
+                    QUtils.EditorUpdater(updateName, UPDATE_ACTION.UPDATE);
+                }
                 else
                 {
-                    //Cleanup previous updater files.
-                    SetStatusText("Updater cleaning previous files...");
-                    if (Directory.Exists(localUpdatePath)) QUtils.DeleteWholeDir(localUpdatePath);
-                    if (File.Exists(localUpdateFile)) File.Delete(localUpdateFile);
-                    
-                    //Download new updater file.
-                    updateUrl = updateUrl + "/" + updateName;
-                    string updateNamePath = updateName;
-                    string updateUrlPath = "/" + QServer.updateDir + "/" + updateName;
-
-                    SetStatusText("Downloading new update please wait...");
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Url: '" + updateUrl + "' file '" + updateNamePath + "'");
-                    status = QServer.Download(updateUrlPath, updateNamePath, QUtils.cachePath);
-                    //Download and extract to Cachee.
-                    if (status) status = QZip.Extract(localUpdateFile, QUtils.cachePath);
+                    if (File.Exists(tmpUpdateName))
+                        File.Delete(tmpUpdateName);
                 }
-
-                if (Directory.Exists(localUpdatePath))
-                {
-                    QUtils.editorUpdaterFile = localUpdatePath + "\\" + "updater.bat";//Updater batch file.
-                    string appUpdaterData =
-                        "@echo off\n" +
-                        "timeout 5\n" + //Timeout for updating in external thread.
-                        "move /y " + localUpdatePath + "\\" + QUtils.projAppName + QUtils.exeExt + " " + QUtils.editorCurrPath + "\\" + QUtils.projAppName + QUtils.exeExt + "\n" +
-                        "move /y " + localUpdatePath + "\\" + QUtils.projAppName + "_x86" + QUtils.exeExt + " " + QUtils.editorCurrPath + "\\" + QUtils.projAppName + "_x86" + QUtils.exeExt + "\n" +
-                        "timeout 5\n" + //Timeout for Restarting editor app.
-                        "start " + QUtils.editorCurrPath + "\\" + QUtils.projAppName + QUtils.exeExt;
-                    File.WriteAllText(editorUpdaterFile, appUpdaterData);
-
-                    QUtils.ShowWarning("Updating the editor please wait.\nEditor will now restart to update to the newest version available.");
-                    QUtils.ShellExec(editorUpdaterFile, true, false);
-                    Application.Exit();//Exit the application to update.
-                }
-
-                if (status) SetStatusText("Editor was updated successfully.");
-                else SetStatusText("Editor occurred while updating editor.");
             }
-            catch (Exception ex)
+            else if (tmpUpdateSize == updateSize)
             {
-                QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
+                SetStatusText("Updater: You are already updated to latest version");
             }
+            updateCheckerTimer.Start();//Resume the time again.
+        }
+
+        private void DownloadUpdaterBackground(object sender, DoWorkEventArgs e)
+        {
+            QUtils.EditorUpdater(QUtils.editorUpdaterDir, UPDATE_ACTION.UPDATE);
         }
 
         private void AddGraphLinksBackground(object sender, DoWorkEventArgs e)
@@ -362,10 +369,10 @@ namespace IGIEditor
                 fileDlg.CheckFileExists = fileDlg.RestoreDirectory = fileDlg.AddExtension = true;
                 string missionNamePath = null, missionName = null;
 
-                DialogResult resultDlg = DialogResult.OK;
-                Invoke((Action)(() => { resultDlg = fileDlg.ShowDialog(); }));
+                DialogResult dlgResult = DialogResult.Yes;
+                Invoke((Action)(() => { dlgResult = fileDlg.ShowDialog(); }));
 
-                if (resultDlg == DialogResult.OK)
+                if (dlgResult == DialogResult.Yes)
                 {
                     SetStatusText("Mission Uploading...");
                     missionNamePath = fileDlg.FileName;
@@ -570,7 +577,7 @@ namespace IGIEditor
             }
             else
             {
-                internalsStatusLbl.Text = "Deattached";
+                internalsStatusLbl.Text = "Detached";
                 internalsStatusLbl.ForeColor = Color.Tomato;
             }
         }
@@ -709,21 +716,13 @@ namespace IGIEditor
 
         private void InitEditorApp()
         {
-            //Read paths from config.
-            QUtils.ParseConfig();
-
             //Initialize app data for QEditor.
             QUtils.InitAppData();
 
             string userName = QUtils.GetCurrentUserName();
-            string keyFileAbsPath = QUtils.igiEditorQEdPath + Path.DirectorySeparatorChar + QUtils.projAppName + "Key.txt";
+            string keyFileAbsPath = QUtils.igiEditorQEdPath + Path.DirectorySeparatorChar + QUtils.editorAppName + "Key.txt";
             string deviceKey = QUtils.GetMachineDeviceId();
             string inputKey = null, welcomeMsg = "Welcome " + userName + " to IGI 1 Editor";
-
-            //Setting Options.
-            appLogsCb.Checked = appLogs;
-            autoResetCb.Checked = gameReset;
-            connectionCb.Checked = editorOnline;
 
             bool initUser;
             //Check if user key exist.
@@ -783,19 +782,34 @@ namespace IGIEditor
                 }
             }
 
+            //Show Game set path dialog.
+            if (!File.Exists(QUtils.cfgFile))
+                QUtils.ShowGamePathDialog();
+            else QUtils.gamePathSet = true;
+
+            //Read paths from config.
+            QUtils.ParseConfig();
+
+            //Setting Options from Config.
+            appLogsCb.Checked = appLogs;
+            autoResetCb.Checked = gameReset;
+            connectionCb.Checked = editorOnline;
+            autoUpdateTimeTxt.Text = updateTimeInterval.ToString();
+            updateCheckerCb.Checked = editorUpdateChecked;
+
             //Genrate random scriptId according to Level A.I.
             GenerateAIScriptId(QUtils.gGameLevel);
 
-            string game_path_tmp = QUtils.cfgGamePath;
-            var game_abs_path = game_path_tmp.Slice(0, game_path_tmp.IndexOf("\\", game_path_tmp.IndexOf("\\") + 1));
+            string gamePathTmp = QUtils.cfgGamePath;
+            var gameAbsPath = gamePathTmp.Slice(0, gamePathTmp.IndexOf("\\", gamePathTmp.IndexOf("\\") + 1));
 
             //Move Humanplayer config file for Weapon ammo limitations.
-            var humanplayer_abs_path = game_abs_path + Path.DirectorySeparatorChar + QUtils.humanplayerPath + Path.DirectorySeparatorChar + QUtils.humanplayerQvm;
-            if (File.Exists(QUtils.humanplayerQvm) && !File.Exists(humanplayer_abs_path))
-                File.Move(Path.GetFullPath(QUtils.humanplayerQvm), humanplayer_abs_path);
+            var humanplayerAbsPath = gameAbsPath + Path.DirectorySeparatorChar + QUtils.humanplayerPath + Path.DirectorySeparatorChar + QUtils.humanplayerQvm;
+            if (File.Exists(QUtils.humanplayerQvm) && !File.Exists(humanplayerAbsPath))
+                File.Move(Path.GetFullPath(QUtils.humanplayerQvm), humanplayerAbsPath);
 
             //Creates shortcut of game in current directory.
-            QUtils.CreateGameShortcut();
+            //QUtils.CreateGameShortcut();
 
         }
         delegate void SetTextCallback(string text);
@@ -819,13 +833,6 @@ namespace IGIEditor
             {
                 statusLbl.Text = text;
             }
-        }
-
-        private static void ParseConfigProperty(string configPath, ref bool propertyName, string keyword)
-        {
-            if (configPath.Trim().Contains("true")) propertyName = true;
-            else if (configPath.Trim().Contains("false")) propertyName = false;
-            else QUtils.ShowConfigError(keyword);
         }
 
         private static HumanAi ReadHumanAiConfig(string fileName)
@@ -1397,7 +1404,7 @@ namespace IGIEditor
 
         private void exportObjectsBtn_Click(object sender, EventArgs e)
         {
-            var qtaskList = QUtils.GetQTaskList(false, true);
+            var qtaskList = QTask.GetQTaskList(false, true);
             if (csvCb.Checked)
                 QUtils.ExportCSV(QUtils.objects + QUtils.csvExt, qtaskList);
             else if (xmlCb.Checked)
@@ -1440,7 +1447,7 @@ namespace IGIEditor
             {
                 if (Directory.Exists(QUtils.cachePath))
                 {
-                    QUtils.DeleteWholeDir(QUtils.cachePath);
+                    QUtils.DirectoryDelete(QUtils.cachePath);
                     SetStatusText("Application cache cleared.");
                 }
             }
@@ -1515,7 +1522,7 @@ namespace IGIEditor
                 try
                 {
                     SetStatusText(e.TabPage.Name.ToLower() + " supports live editor features.");
-                    qtaskList = QUtils.GetQTaskList(false, false, true);
+                    qtaskList = QTask.GetQTaskList(false, false, true);
 
                     buildingsCount = qtaskList.Count(o => o.name.Contains("Building"));
                     rigidObjCount = qtaskList.Count(o => o.name.Contains("EditRigidObj"));
@@ -1668,7 +1675,7 @@ namespace IGIEditor
         private void resetBuildingsBtn_Click(object sender, EventArgs e)
         {
             SetStatusText("Resetting please wait...");
-            qtaskList = QUtils.GetQTaskList(false, false, true);
+            qtaskList = QTask.GetQTaskList(false, false, true);
             var qTaskListCount = qtaskList.Count();
             var itemsCount = String.IsNullOrEmpty(buildingsResTxt.Text) ? 0 : Convert.ToInt32(buildingsResTxt.Text);
             int qTaskCount = 0;
@@ -1819,7 +1826,7 @@ namespace IGIEditor
         private void resetObjectsBtn_Click(object sender, EventArgs e)
         {
             SetStatusText("Resetting please wait...");
-            qtaskList = QUtils.GetQTaskList(false, false, true);
+            qtaskList = QTask.GetQTaskList(false, false, true);
             var qTaskListCount = qtaskList.Count();
             var itemsCount = String.IsNullOrEmpty(ObjsResTxt.Text) ? 0 : Convert.ToInt32(ObjsResTxt.Text);
             int qTaskCount = 0;
@@ -2016,11 +2023,17 @@ namespace IGIEditor
 
         private void showAppLogBtn_Click(object sender, EventArgs e)
         {
-            var appLogFile = projAppName + ".log";
+            var appLogFile = editorAppName + ".log";
             if (File.Exists(appLogFile))
-                QUtils.ShellExec("notepad " + appLogFile);
+            {
+                QUtils.ShellExec("notepad " + appLogFile, false, false);
+                QUtils.ShowPathExplorer(QUtils.editorCurrPath);
+            }
             else
-                QUtils.ShellExec("notepad " + QUtils.appLogFileTmp + projAppName + ".log");
+            {
+                QUtils.ShellExec("notepad " + QUtils.appLogFileTmp + editorAppName + ".log", false, false);
+                QUtils.ShowPathExplorer(QUtils.cachePathAppLogs);
+            }
         }
 
         private void connectionCb_CheckedChanged(object sender, EventArgs e)
@@ -2033,7 +2046,7 @@ namespace IGIEditor
                     connectionCb.Text = "Online";
                     connectionCb.ForeColor = Color.Green;
                     registeredUsersLbl.Visible = true;
-                    downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = true;
+                    downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = true;
                     registeredUsersLbl.Text = "Users: " + QUtils.GetRegisteredUsers();
                     InitMissionsOnline(true);
                     SetStatusText("Editor online mode enabled...");
@@ -2045,7 +2058,7 @@ namespace IGIEditor
                     connectionCb.ForeColor = Color.Red;
                     registeredUsersLbl.Visible = false;
                     (((CheckBox)sender).Checked) = false;
-                    downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = false;
+                    downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = false;
                     SetStatusText("Please check your internet connection.");
                 }
             }
@@ -2055,7 +2068,7 @@ namespace IGIEditor
                 connectionCb.Text = "Offline";
                 connectionCb.ForeColor = Color.Red;
                 registeredUsersLbl.Visible = false;
-                downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = false;
+                downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = false;
                 SetStatusText("Editor offline mode enabled...");
             }
         }
@@ -2183,30 +2196,37 @@ namespace IGIEditor
 
         private void graphIdDD_SelectedIndexChanged(object sender, EventArgs e)
         {
-            graphIdDD.SelectedIndex = (graphIdDD.SelectedIndex == -1) ? 0 : graphIdDD.SelectedIndex;
-            graphId = QUtils.aiGraphIdStr[graphIdDD.SelectedIndex];
-            graphPos = QGraphs.GetGraphPosition(graphId);
-
-            SetStatusText("Updating GraphNodes data please wait....");
-            aiGraphNodeIdStr = QGraphs.GetNodesForGraph(graphId);
-            graphTotalNodes = aiGraphNodeIdStr.Count;
-            SetStatusText("Updating GraphNodes data done....");
-
-            //Update Graph Nodes.
-            UpdateUIComponent(nodeIdDD, QUtils.aiGraphNodeIdStr);
-
-            string graphArea = QGraphs.GetGraphArea(graphId);
-            graphAreaLbl.Text = graphArea;
-            graphTotalNodesTxt.Text = graphTotalNodes.ToString();
-
-            //Add all marked GraphIds.
-            if (markNodeCb.Checked)
+            try
             {
-                QUtils.graphdIdsMarked.Add(graphId);
-                SetStatusText("Graph#" + graphId + " Marked...");
-            }
+                graphIdDD.SelectedIndex = (graphIdDD.SelectedIndex == -1) ? 0 : graphIdDD.SelectedIndex;
+                graphId = QUtils.aiGraphIdStr[graphIdDD.SelectedIndex];
+                graphPos = QGraphs.GetGraphPosition(graphId);
 
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GraphId : " + graphId + ",GraphArea: '" + graphArea + "',TotalNodes: " + graphTotalNodes);
+                SetStatusText("Updating GraphNodes data please wait....");
+                aiGraphNodeIdStr = QGraphs.GetNodesForGraph(graphId);
+                graphTotalNodes = aiGraphNodeIdStr.Count;
+                SetStatusText("Updating GraphNodes data done....");
+
+                //Update Graph Nodes.
+                UpdateUIComponent(nodeIdDD, QUtils.aiGraphNodeIdStr);
+
+                string graphArea = QGraphs.GetGraphArea(graphId);
+                graphAreaLbl.Text = graphArea;
+                graphTotalNodesTxt.Text = graphTotalNodes.ToString();
+
+                //Add all marked GraphIds.
+                if (markNodeCb.Checked)
+                {
+                    QUtils.graphdIdsMarked.Add(graphId);
+                    SetStatusText("Graph#" + graphId + " Marked...");
+                }
+
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GraphId : " + graphId + ",GraphArea: '" + graphArea + "',TotalNodes: " + graphTotalNodes);
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
         }
 
         private void viewPortEnableCb_CheckedChanged(object sender, EventArgs e)
@@ -2279,8 +2299,8 @@ namespace IGIEditor
                 fileDlg.CheckFileExists = fileDlg.RestoreDirectory = fileDlg.AddExtension = true;
                 string missionNamePath = null;
 
-                DialogResult resultDlg = fileDlg.ShowDialog();
-                if (resultDlg == DialogResult.OK)
+                DialogResult dlgResult = fileDlg.ShowDialog();
+                if (dlgResult == DialogResult.Yes)
                 {
                     missionNamePath = fileDlg.FileName;
                     missionName = Path.GetFileName(missionNamePath);
@@ -2388,8 +2408,8 @@ namespace IGIEditor
                 fileDlg.Multiselect = false;
                 fileDlg.CheckFileExists = fileDlg.RestoreDirectory = fileDlg.AddExtension = true;
 
-                var resultDlg = fileDlg.ShowDialog();
-                if (resultDlg == DialogResult.OK)
+                var dlgResult = fileDlg.ShowDialog();
+                if (dlgResult == DialogResult.Yes)
                 {
                     var fileName = fileDlg.FileName;
                     missionName = Path.GetFileNameWithoutExtension(fileName);
@@ -2431,7 +2451,7 @@ namespace IGIEditor
                 QMemory.DisableGameWarnings();
                 if (missionLevel != gameLevel)
                 {
-                    var dlgResult = QUtils.ShowDialog("Mission level error do you want to switch level to '" + missionLevel + "' to continue ?", "Error");
+                    dlgResult = QUtils.ShowDialog("Mission level error do you want to switch level to '" + missionLevel + "' to continue ?", "Error");
                     if (dlgResult == DialogResult.Yes)
                     {
                         QUtils.ResetScriptFile(missionLevel);
@@ -2494,7 +2514,7 @@ namespace IGIEditor
                 QUtils.aiScriptId += aiFilesCount * 2;//Update A.I Script Index.
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Ai Script Id : " + aiScriptId);
 
-                QUtils.DeleteWholeDir(missionPath);
+                QUtils.DirectoryDelete(missionPath);
                 missionNameTxt.Text = missionName;
                 missionDescTxt.Text = missionDesc;
                 SetStatusText("Mission '" + missionName + "' was loaded.");
@@ -2734,7 +2754,7 @@ namespace IGIEditor
 
         }
 
-        private void internalsDeattachBtn_Click(object sender, EventArgs e)
+        private void internalsDetachBtn_Click(object sender, EventArgs e)
         {
 
         }
@@ -2828,13 +2848,23 @@ namespace IGIEditor
 
         private void framesTxt_TextChanged(object sender, EventArgs e)
         {
-            var frames = ((TextBox)sender).Text;
-            int fps = Convert.ToInt32(frames);
-            //Check for Max FPS
-            if (fps < 0 || fps > MAX_FPS)
+            int fps = 30;
+            try
+            {
+                var frames = ((TextBox)sender).Text;
+                fps = Convert.ToInt32(frames);
+                //Check for Max FPS
+                if (fps < 0 || fps > MAX_FPS)
+                {
+                    fps = 30;
+                    ((TextBox)sender).Text = fps.ToString();
+                }
+            }
+            catch (Exception ex)
             {
                 fps = 30;
                 ((TextBox)sender).Text = fps.ToString();
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
             }
         }
 
@@ -2962,7 +2992,7 @@ namespace IGIEditor
                 int graphAiId = -1;
                 if (aiGraphIdDD.SelectedIndex == -1) aiGraphIdDD.SelectedIndex = 0;
 
-                if (aiGraphIdDD.Items.Count > 0 && aiGraphIdDD.SelectedIndex >= 0)
+                if (aiGraphIdDD.Items.Count > 0 && aiGraphIdDD.SelectedIndex >= 0 && aiGraphIdDD.SelectedValue != null)
                     graphAiId = (int)aiGraphIdDD.SelectedValue;
 
                 string graphArea = QGraphs.GetGraphArea(graphAiId);
@@ -2988,6 +3018,49 @@ namespace IGIEditor
             catch (Exception ex) { QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
+        private void autoUpdateTimeTxt_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var updateTimeTxt = ((TextBox)sender).Text;
+                QUtils.updateTimeInterval = Convert.ToInt32(updateTimeTxt);
+                //Check for Max Update time
+                if (QUtils.updateTimeInterval < 0 || QUtils.updateTimeInterval > MAX_UPDATE_TIME)
+                {
+                    QUtils.updateTimeInterval = MAX_UPDATE_TIME;
+                    ((TextBox)sender).Text = QUtils.updateTimeInterval.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                QUtils.updateTimeInterval = MAX_UPDATE_TIME;
+                ((TextBox)sender).Text = QUtils.updateTimeInterval.ToString();
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
+        }
+
+        private void updateCheckerCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                var dlgResult = QUtils.ShowDialog("Do you want to check for new updates in every " + QUtils.updateTimeInterval + " minutes?");
+                if (dlgResult == DialogResult.Yes)
+                {
+                    updateCheckerTimer.Interval = QUtils.updateTimeInterval * 60000;
+                    updateCheckerTimer.Start();
+                    SetStatusText("Editor will check for update every " + QUtils.updateTimeInterval + " minutes");
+                    QUtils.editorUpdateChecked = true;
+                }
+                else ((CheckBox)sender).Checked = false;
+            }
+            else
+            {
+                updateCheckerTimer.Stop();
+                SetStatusText("Editor auto update check cancelled");
+                QUtils.editorUpdateChecked = false;
+            }
+        }
+
         private void editorUpdaterBtn_Click(object sender, EventArgs e)
         {
             downloadUpdaterWorker.RunWorkerAsync();
@@ -3002,7 +3075,7 @@ namespace IGIEditor
         {
             var levelTxt = ((NumericUpDown)sender).Value.ToString();
             int level = Convert.ToInt32(levelTxt);
-            //Check for Max FPS
+            //Check for Max Level.
             if (level < 0 || level > GAME_MAX_LEVEL)
             {
                 level = 1;
@@ -3150,7 +3223,7 @@ namespace IGIEditor
                     itemDD.SelectedIndex = 0;
                 Application.DoEvents();
             }
-            catch (Exception ex) { QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+            catch (Exception ex) { QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
         private static void LoadImgBoxWeb(string url, PictureBox imgBox)
