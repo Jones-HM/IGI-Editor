@@ -1,6 +1,7 @@
 ﻿// ZipStorer, by Jaime Olivares
 // Website: http://github.com/jaime-olivares/zipstorer
 
+using IGIEditor;
 using System.Collections.Generic;
 using System.Text;
 
@@ -591,8 +592,8 @@ namespace System.IO.Compression
                 _zip.Close();
                 tempZip.Close();
 
-                File.Delete(_zip.FileName);
-                File.Move(tempZipName, _zip.FileName);
+                QUtils.FileIODelete(_zip.FileName);
+                QUtils.FileIOMove(tempZipName, _zip.FileName);
 
                 _zip = ZipStorer.Open(_zip.FileName, _zip.Access);
             }
@@ -602,10 +603,8 @@ namespace System.IO.Compression
             }
             finally
             {
-                if (File.Exists(tempZipName))
-                    File.Delete(tempZipName);
-                if (File.Exists(tempEntryName))
-                    File.Delete(tempEntryName);
+                QUtils.FileIODelete(tempZipName);
+                QUtils.FileIODelete(tempEntryName);
             }
             return true;
         }

@@ -421,7 +421,7 @@ namespace IGIEditor
             if (nGraphs == -1) nGraphs = totalGraphs - 1;
             var qtaskList = GetQTaskGraphList(true, true, QUtils.gGameLevel);
             int width = 50000;
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name,"called with nGraphs : " + nGraphs);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with nGraphs : " + nGraphs);
 
             if (nGraphs > totalGraphs)
             {
@@ -439,7 +439,7 @@ namespace IGIEditor
             return qscData;
         }
 
-        internal static string ShowGraphNodesVisual(int graphId, int visualType = 1, string nodeObject = "000_00_0", string markerColor = "MARKER_COLOR_YELLOW")
+        internal static string ShowGraphNodesVisual(int graphId, QUtils.GRAPH_VISUAL visualType = QUtils.GRAPH_VISUAL.OBJECTS, bool showNodesInfo = false, string nodeObject = "000_00_0", string markerColor = "MARKER_COLOR_YELLOW")
         {
             string qscData = null;
             string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
@@ -464,17 +464,21 @@ namespace IGIEditor
 
                 string taskNote = "Graph#" + graphId + "Node#" + node.NodeId + " - G#" + graphId + "N#1";
                 string taskInfo = taskNote.Slice(0, taskNote.IndexOf("-")).Trim();
+
                 //Visualisation Object - StatusMsg.
-                if (visualType == 1)
+                if (visualType == QUtils.GRAPH_VISUAL.OBJECTS)
                 {
                     IGIEditorUI.editorRef.AddRigidObject(nodeObject, true, nodeRealPos, false, -1, taskNote, false);
 
-                    //var areaDim = new AreaDim(8000);
-                    //qscData += QObjects.AddAreaActivate(QUtils.qtaskId, nodeObject, null, "\"" + taskNote + "\"", ref nodeRealPos, ref areaDim);
+                    if (showNodesInfo)
+                    {
+                        var areaDim = new AreaDim(8000);
+                        qscData += QObjects.AddAreaActivate(QUtils.qtaskId, nodeObject, null, "\"" + taskInfo + "\"", ref nodeRealPos, ref areaDim);
+                    }
                 }
 
                 //Visualisation Hilight - ComputerMap Hilight.
-                else if (visualType == 2)
+                else if (visualType == QUtils.GRAPH_VISUAL.HILIGHT)
                 {
                     IGIEditorUI.editorRef.AddRigidObject(nodeObject, false, nodeRealPos, false, QUtils.qtaskId, taskNote, false);
                     qscData += QObjects.ComputerMapHilight(QUtils.qtaskId, taskNote, "Graph#" + graphId, taskInfo, "MARKER_BOX", markerColor);
@@ -597,7 +601,7 @@ namespace IGIEditor
             else if (fileData.Contains(id) && idType == "Graph")
                 status = true;
 
-            System.IO.File.Delete(nodesFile);
+            QUtils.FileIODelete(nodesFile);
             return status;
         }
 

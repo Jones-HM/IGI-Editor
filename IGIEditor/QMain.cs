@@ -44,12 +44,10 @@ namespace IGIEditor
             //Move Logs and data to cache.
             if (File.Exists(QUtils.logFile))
             {
-                QUtils.ShellExec("move /Y " + QUtils.logFile + " " + QUtils.cachePathAppLogs, true);
-                QUtils.ShellExec("move /Y " + QUtils.qLibLogsFile + " " + QUtils.cachePathAppLogs, true);
-                QUtils.Sleep(2);
+                QUtils.FileIOMove(QUtils.logFile, QUtils.cachePathAppLogs + "\\"  + QUtils.logFile);
+                QUtils.FileIOMove(QUtils.qLibLogsFile, QUtils.cachePathAppLogs + "\\" + QUtils.qLibLogsFile);
             }
-            if (File.Exists(QUtils.internalsLogPath))
-                QUtils.ShellExec("move /Y " + QUtils.internalsLogPath + " " + QUtils.cachePathAppLogs, true);
+            QUtils.FileIOMove(QUtils.internalsLogPath, QUtils.cachePathAppLogs + "\\" + QUtils.internalsLogPath);
 
             //Cleanup A.I script files.
             QUtils.CleanUpAiFiles();

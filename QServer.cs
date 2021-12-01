@@ -104,8 +104,25 @@ namespace IGIEditor
             return status;
         }
 
+        internal static bool Delete(string remoteFile)
+        {
+            bool status = false;
+            try
+            {
+                var qftpClient = GetQFtpClient();
+                qftpClient.delete(remoteFile);
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowLogException("Server" + MethodBase.GetCurrentMethod().Name, ex);
+                status = false;
+            }
+            return status;
+        }
 
-        internal static List<QServerData> GetDirList(string dirName, bool useCache = false, string extension = ".igimsf")
+
+        internal static List<QServerData> GetDirList(string dirName, bool useCache = false,List<string> extensions=null)
         {
             if (useCache)
             {
@@ -124,8 +141,8 @@ namespace IGIEditor
                 int dirDataSize = dirData.Length;
                 try
                 {
-                    qServer.FileName = dirData[dirDataSize - 1].Contains(extension) ? dirData[dirDataSize - 1] : dirData[dirDataSize - 1] + dirData[dirDataSize];
-                    if (dirName == missionDir && !qServer.FileName.Contains(extension)) continue;
+                    qServer.FileName = extensions.Any(dirData[dirDataSize - 1].Contains) ? dirData[dirDataSize - 1] : dirData[dirDataSize - 1] + dirData[dirDataSize];
+                    if (dirName == missionDir && !qServer.FileName.Contains(QUtils.missionExt)) continue;
                     qServer.Persmission = dirData[0];
                     qServer.OwnerGroup = dirData[5];
                     qServer.FileSize = dirData[19];
@@ -150,7 +167,7 @@ namespace IGIEditor
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "using normal method.");
 
             var missionsDataList = new List<QMissionsData>();
-            var dirList = GetDirList(missionDir, useCache);
+            var dirList = GetDirList(missionDir, useCache, new List<string>() { QUtils.missionExt });
 
             foreach (var dir in dirList)
             {

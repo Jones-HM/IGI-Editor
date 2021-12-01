@@ -252,7 +252,7 @@ namespace IGIEditor
 
                         QUtils.SaveFile(aiFileName, aiScriptData);
                         QCompiler.Compile(aiFileName, outputAiPath, 0x0);
-                        System.IO.File.Delete(aiFileName);
+                        QUtils.FileIODelete(aiFileName);
                     }
 
                     else if (file.Contains("path"))
@@ -333,7 +333,7 @@ namespace IGIEditor
 
                         else
                         {
-                            var nIdsList = new List<char>() { 'a', 'c', 'b', 'd','x','y','z'};
+                            var nIdsList = new List<char>() { 'a', 'c', 'b', 'd', 'x', 'y', 'z' };
                             foreach (var nId in nIdsList)
                             {
                                 int randIndex = new Random().Next(0, nodesList.Count - 1);

@@ -416,7 +416,7 @@ namespace IGIEditor
 
             QUtils.SaveFile(humanFileName, humanPlayerData);
             bool status = QCompiler.Compile(humanFileName, outputHumanPlayerPath, 0x0);
-            System.IO.File.Delete(humanFileName);
+            QUtils.FileIODelete(humanFileName);
 
             if (status) QInternals.HumanplayerLoad();
         }

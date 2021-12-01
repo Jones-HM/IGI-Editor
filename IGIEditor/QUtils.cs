@@ -29,42 +29,43 @@ namespace IGIEditor
     class QUtils
     {
 
-        public class QScriptTask
+        internal class QScriptTask
         {
-            public Int32 id;
-            public string name;
-            public string note;
-            public Real64 position;
-            public Real32 orientation;
-            public string model;
+            internal Int32 id;
+            internal string name;
+            internal string note;
+            internal Real64 position;
+            internal Real32 orientation;
+            internal string model;
         };
 
-        public class HTask
+        internal class HTask
         {
-            public int team;
-            public QScriptTask qtask;
-            public List<string> weaponsList;
+            internal int team;
+            internal QScriptTask qtask;
+            internal List<string> weaponsList;
         };
 
         internal static string taskNew = "Task_New", taskDecl = "Task_DeclareParameters";
         internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc", weaponConfigQVM = "weaponconfig.qvm", weaponsModQvm = "weaponconfig-mod.qvm";
-        internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 3, currGameLevel = 1, updateTimeInterval = 5;
-        internal static string logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsModelsList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customAiPathFile = "ai_custom_path.qsc", customScriptFileQEd = @"\QEditor\AIFiles\ai_custom_script.qsc", customAiPathFileQEd = @"\QEditor\AIFiles\ai_custom_path.qsc", appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\", nativesFile = @"\IGI-Natives.json", modelsFile = @"\IGI-Models.txt", internalsLogFile = @"\IGI-Internals.log";
-        internal static bool gameFound = false, gamePathSet = false, logEnabled = false, keyExist = false, keyFileExist = false, attachStatus = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false, editorUpdateChecked = false;
+        internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 3, currGameLevel = 1, updateTimeInterval = 10;
+        internal static string versionFileName = "VERSION", appEditorSubVersion = "0.4.0.1", logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsModelsList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customAiPathFile = "ai_custom_path.qsc", customScriptFileQEd = @"\QEditor\AIFiles\ai_custom_script.qsc", customAiPathFileQEd = @"\QEditor\AIFiles\ai_custom_path.qsc", appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\", nativesFile = @"\IGI-Natives.json", modelsFile = @"\IGI-Models.txt", internalsLogFile = @"\IGI-Internals.log";
+        internal static bool gameFound = false, gamePathSet = false, logEnabled = false, keyExist = false, keyFileExist = false, attachStatus = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false, editorUpdateCheck = false;
         internal static float appEditorVersion = 0.4f, viewPortDelta = 10000.0f;
         internal static string supportDiscordLink = @"https://discord.gg/9T8tzyhvp6", supportYoutubeLink = @"https://www.youtube.com/channel/UChGryl0a0dii81NfDZ12LwA", supportVKLink = @"https://vk.com/id679925339";
         internal static IntPtr viewPortAddrX = (IntPtr)0x00BCAB08, viewPortAddrY = (IntPtr)0x00BCAB10, viewPortAddrZ = (IntPtr)0x00BCAB18;
         internal const int TEAM_ID_FRIENDLY = 0, TEAM_ID_ENEMY = 1, MAX_FPS = 240, MAX_UPDATE_TIME = 120, MAX_HUMAN_CAM = 5;
 
-        internal static string gamePath, appdataPath, igiEditorQEdPath, editorCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, qQVMPath, qQSCPath, cfgWeaponsPath, weaponsModQvmPath, weaponsOrgCfgPath, weaponsGamePath, humanplayerGamePath, menusystemGamePath, missionsGamePath, commonGamePath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", qGraphs = "QGraphs", cfgFile, editorAppName, cachePath, cachePathAppLogs, nativesFilePath, modelsFilePath, internalsLogPath, cachePathAppImages, currPathAppImages, editorUpdaterDir = "IGIEditor_Update", editorUpdaterFile,
+        internal static string gamePath, appdataPath, igiEditorQEdPath, editorCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, qQVMPath, qQSCPath, cfgWeaponsPath, weaponsModQvmPath, weaponsOrgCfgPath, weaponsGamePath, humanplayerGamePath, menusystemGamePath, missionsGamePath, commonGamePath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", qGraphs = "QGraphs", cfgFile, editorAppName, editorUpdater, cachePath, cachePathAppLogs, nativesFilePath, modelsFilePath, internalsLogPath,
+            cachePathAppImages, currPathAppImages, editorUpdaterDir = "IGIEditor_Update", editorUpdaterAbsDir, editorUpdaterFile, updaterBatchFile,editorChangeLogs= "CHANGELOGS", editorLicence= "LICENCE",editorReadme= "README",editorAutoUpdaterFile, autoUpdaterFile = "AutoUpdater", autoUpdaterBatch,
          igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", graphsPath, cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayerQvm = "humanplayer.qvm", humanplayerQsc = "humanplayer.qsc", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalsDllFile, internalsDll = "IGI-Internals.dll", internalsDllPath = @"bin\IGI-Internals.dll", qLibcPath = @"lib\GTLibc_x86.so", tmpDllPath, internalDllInjectorPath = @"bin\IGI-Injector.exe", internalDllGTInjectorPath = @"bin\IGI-Injector-GT.exe", PATH_SEC = "PATH", EDITOR_SEC = "EDITOR";
         internal static string inputQscPath = @"\IGI_QSC", inputQvmPath = @"\IGI_QVM", inputAiPath = @"\AIFiles", inputVoidPath = @"\Void", inputMissionPath = @"\missions\location0\level", inputHumanplayerPath = @"\humanplayer", inputweaponsPath = @"\weapons";
         internal static List<string> objTypeList = new List<string>() { "Building", "EditRigidObj", "Terminal", "Elevator", "ExplodeObject", "AlarmControl", "Generator", "Radio" };
         internal static string objects = "objects", objectsAll = "objectsAll", weapons = "weapons";
-        internal static string qvmExt = ".qvm", qscExt = ".qsc", datExt = ".dat", csvExt = ".csv", jsonExt = ".json", txtExt = ".txt", xmlExt = ".xml", dllExt = ".dll", missionExt = ".igimsf", jpgExt = ".jpg", pngExt = ".png", rarExt = ".rar", zipExt = ".zip", exeExt = ".exe";
+        internal const string qvmExt = ".qvm", qscExt = ".qsc", datExt = ".dat", csvExt = ".csv", jsonExt = ".json", txtExt = ".txt", xmlExt = ".xml", dllExt = ".dll", missionExt = ".igimsf", jpgExt = ".jpg", pngExt = ".png", rarExt = ".rar", zipExt = ".zip", exeExt = ".exe",batExt=".bat",iniExt = ".ini";
         internal static float fltInvalidAngle = -9.9999f, fltInvalidVal = -9.9f;
         internal const string CAPTION_CONFIG_ERR = "Config - Error", CAPTION_FATAL_SYS_ERR = "Sytem-Fatal - Error", CAPTION_APP_ERR = "Application - Error", CAPTION_COMPILER_ERR = "Compiler - Error", EDITOR_LEVEL_ERR = "EDITOR ERROR", alarmControl = "AlarmControl", stationaryGun = "StationaryGun";
-        internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", helpStr = "IGI 1 Editor-Demo. Offers upto " + GAME_MAX_LEVEL + " level\nVersion: v" + appEditorVersion + " BETA.\n\nTools/Language: C#(5.0) VS-Studio/Code\nCreated by Haseeb Mir.\n\nCredits & People\nUI Designing - Dark\nResearch data - Dimon, Yoejin and GM123.\nQScript/DConv Tools - Artiom.\nTester - Orwa\nIGI-VK Community.";
+        internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", helpStr = "IGI 1 Editor-Demo. Offers upto " + GAME_MAX_LEVEL + " level\nVersion: v" + appEditorSubVersion + " BETA.\n\nTools/Language: C#(5.0) VS-Studio/Code\nCreated by Haseeb Mir.\n\nCredits & People\nUI Designing - Dark\nResearch data - Dimon, Yoejin and GM123.\nQScript/DConv Tools - Artiom.\nTester - Orwa\nIGI-VK Community.";
         internal static string patroIdleMask = "xxxx", patroAlarmMask = "yyyy", alarmControlMask = "xx", gunnerIdMask = "xxx", viewGammaMask = "yyy";
         internal static string movementSpeedMask = "movSpeed", forwardSpeedMask = "forwardSpeed", upwardSpeedMask = "upSpeed", inAirSpeedMask = "iAirSpeed", throwBaseVelMask = "throwBaseVel", healthScaleMask = "healthScale", healthFenceMask = "healthFence", peekLeftRightLenMask = "peekLRLen", peekCrouchLenMask = "peekCrouchLen", peekTimeMask = "peekTime";
         internal static List<string> aiScriptFiles = new List<string>();
@@ -73,6 +74,7 @@ namespace IGIEditor
         private static Random rand = new Random();
         internal static QIniParser qIniParser;
         internal enum QTYPES { BUILDING = 1, RIGID_OBJ = 2 };
+        internal enum GRAPH_VISUAL { OBJECTS = 1, HILIGHT = 2 };
         internal enum UPDATE_ACTION { DOWNLOAD = 1, EXTRACT = 2, UPDATE = 3 };
         internal static Dictionary<int, string> graphAreas = new Dictionary<int, string>();
         //private static IGIIGIEditorUI.editorRef IGIEditorUI.editorRef = IGIIGIEditorUI.editorRef.editorRef;
@@ -95,7 +97,7 @@ namespace IGIEditor
         internal static List<QMissionsData> qServerMissionDataList = new List<QMissionsData>();
 
         //Weapons variables.
-        internal static string weaponId = "WEAPON_ID_";
+        internal const string weaponId = "WEAPON_ID_";
         internal static Dictionary<string, string> ammoList = new Dictionary<string, string>(){
         {"SPAS12/JACKHAMMER","AMMO_ID_12"},
         {"COLT","AMMO_ID_357"},//AMMO_ID_44 Original slot fix.
@@ -197,28 +199,29 @@ namespace IGIEditor
 
         internal static List<string> aiTypes = new List<string>() { "AITYPE_RPG", "AITYPE_GUNNER", "AITYPE_SNIPER", "AITYPE_ANYA", "AITYPE_EKK", "AITYPE_PRIBOI", "AITYPE_CIVILIAN", "AITYPE_PATROL_AK", "AITYPE_GUARD_AK", "AITYPE_SECURITY_PATROL_UZI", "AITYPE_MAFIA_PATROL_UZI", "AITYPE_MAFIA_GUARD_AK", "AITYPE_SPETNAZ_PATROL_AK", "AITYPE_SPETNAZ_GUARD_AK" };
 
-        public static void ShowWarning(string warnMsg, string caption = "WARNING")
+        //UI-Dialogs and MessageBox.
+        internal static void ShowWarning(string warnMsg, string caption = "WARNING")
         {
             MessageBox.Show(warnMsg, caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        public static void ShowError(string errMsg, string caption = "ERROR")
+        internal static void ShowError(string errMsg, string caption = "ERROR")
         {
             MessageBox.Show(errMsg, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        public static void LogException(string methodName, Exception ex)
+        internal static void LogException(string methodName, Exception ex)
         {
             methodName = methodName.Replace("_Click", String.Empty).Replace("_SelectedIndexChanged", String.Empty).Replace("_SelectedValueChanged", String.Empty);
             AddLog(methodName, "Exception MESSAGE: " + ex.Message + "\nREASON: " + ex.StackTrace);
         }
 
-        public static void ShowException(string methodName, Exception ex)
+        internal static void ShowException(string methodName, Exception ex)
         {
             ShowError("MESSAGE: " + ex.Message + "\nREASON: " + ex.StackTrace, methodName + " Exception");
         }
 
-        public static void ShowLogException(string methodName, Exception ex)
+        internal static void ShowLogException(string methodName, Exception ex)
         {
             methodName = methodName.Replace("_Click", String.Empty).Replace("_SelectedIndexChanged", String.Empty).Replace("_SelectedValueChanged", String.Empty);
             //Show and Log exception for method name.
@@ -226,7 +229,7 @@ namespace IGIEditor
             LogException(methodName, ex);
         }
 
-        public static void ShowLogError(string methodName, string errMsg, string caption = "ERROR")
+        internal static void ShowLogError(string methodName, string errMsg, string caption = "ERROR")
         {
             methodName = methodName.Replace("_Click", String.Empty).Replace("_SelectedIndexChanged", String.Empty).Replace("_SelectedValueChanged", String.Empty);
             //Show and Log error for method name.
@@ -234,34 +237,40 @@ namespace IGIEditor
             AddLog(methodName, errMsg);
         }
 
-        public static void ShowLogStatus(string methodName, string logMsg)
+        internal static void ShowLogStatus(string methodName, string logMsg)
         {
             IGIEditorUI.editorRef.SetStatusText(logMsg);
             AddLog(methodName, logMsg);
         }
 
-        public static void ShowInfo(string infoMsg, string caption = "INFO")
+        internal static void ShowLogInfo(string methodName, string logMsg)
+        {
+            ShowInfo(logMsg);
+            AddLog(methodName, logMsg);
+        }
+
+        internal static void ShowInfo(string infoMsg, string caption = "INFO")
         {
             MessageBox.Show(infoMsg, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        public static DialogResult ShowDialog(string infoMsg, string caption = "INFO")
+        internal static DialogResult ShowDialog(string infoMsg, string caption = "INFO")
         {
             return MessageBox.Show(infoMsg, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
         }
 
-        public static void ShowConfigError(string keyword)
+        internal static void ShowConfigError(string keyword)
         {
             ShowError("Config has invalid property for '" + keyword + "'", CAPTION_CONFIG_ERR);
         }
 
-        public static void ShowSystemFatalError(string errMsg)
+        internal static void ShowSystemFatalError(string errMsg)
         {
             ShowError(errMsg, CAPTION_FATAL_SYS_ERR);
             Environment.Exit(1);
         }
 
-        public static bool ShowEditModeDialog()
+        internal static bool ShowEditModeDialog()
         {
             var editorDlg = ShowDialog("Edit Mode not enabled to edit the level\nDo you want to enable Edit mode now ?", EDITOR_LEVEL_ERR);
             if (editorDlg == DialogResult.Yes)
@@ -346,7 +355,7 @@ namespace IGIEditor
                 }
                 else
                 {
-                    ShowInfo("IGI Game path was saved successfully.");
+                    ShowInfo("Game path was saved successfully.");
                     CreateGameShortcut();
                     gamePathSet = true;
                 }
@@ -366,8 +375,6 @@ namespace IGIEditor
             }
             else
             {
-                //gameAbsPath = gameAbsPath.Substring(0, gameAbsPath.LastIndexOf("\\"));
-
                 if (!File.Exists(gameAbsPath + Path.DirectorySeparatorChar + QMemory.gameName + ".exe"))
                 {
                     ShowError("Invalid path selected! Game 'IGI' not found at path '" + gameAbsPath + "'", CAPTION_FATAL_SYS_ERR);
@@ -382,7 +389,7 @@ namespace IGIEditor
             qIniParser.Write("game_reset", gameReset.ToString().ToLower(), EDITOR_SEC);
             qIniParser.Write("app_logs", appLogs.ToString().ToLower(), EDITOR_SEC);
             qIniParser.Write("app_online", editorOnline.ToString().ToLower(), EDITOR_SEC);
-            qIniParser.Write("update_check", editorUpdateChecked.ToString().ToLower(), EDITOR_SEC);
+            qIniParser.Write("update_check", editorUpdateCheck.ToString().ToLower(), EDITOR_SEC);
             qIniParser.Write("update_interval", updateTimeInterval.ToString().ToLower(), EDITOR_SEC);
 
             if (!gameFound) Environment.Exit(1);
@@ -416,8 +423,11 @@ namespace IGIEditor
                     appLogs = bool.Parse(qIniParser.Read("app_logs", EDITOR_SEC)); appLogsParsed = true;
                     gameReset = bool.Parse(qIniParser.Read("game_reset", EDITOR_SEC)); gameResetParsed = true;
                     editorOnline = bool.Parse(qIniParser.Read("app_online", EDITOR_SEC)); editorOnlineParsed = true;
-                    editorUpdateChecked = bool.Parse(qIniParser.Read("update_check", EDITOR_SEC)); editorUpdateParsed = true;
+                    editorUpdateCheck = bool.Parse(qIniParser.Read("update_check", EDITOR_SEC)); editorUpdateParsed = true;
                     updateTimeInterval = int.Parse(qIniParser.Read("update_interval", EDITOR_SEC)); timeInterval = true;
+
+                    //Setting for Auto-Updater.
+                    if (!editorOnline && editorUpdateCheck) editorUpdateCheck = false;
                 }
                 else
                 {
@@ -457,7 +467,7 @@ namespace IGIEditor
             if (!status) ShowSystemFatalError("Editor internal files were not found in directory (ERROR: 0xC33000F)");
         }
 
-        public static bool CheckAppInstalled(string appName)
+        internal static bool CheckAppInstalled(string appName)
         {
             if (appName is null)
             {
@@ -473,7 +483,7 @@ namespace IGIEditor
             if (!String.IsNullOrEmpty(appVersionData))
             {
                 installed = true;
-                File.Delete(appVersionFile);
+                FileIODelete(appVersionFile);
             }
 
             return installed;
@@ -498,8 +508,7 @@ namespace IGIEditor
             var shell = new WshShell();
             string shortcutAddress = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + linkName + ".lnk";
 
-            if (File.Exists(shortcutAddress))
-                File.Delete(shortcutAddress);
+            FileIODelete(shortcutAddress);
 
             var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
             shortcut.Description = "Shortcut for IGI";
@@ -521,12 +530,7 @@ namespace IGIEditor
             }
         }
 
-        internal static bool IsDirectoryEmpty(string path)
-        {
-            return !Directory.EnumerateFileSystemEntries(path).Any();
-        }
-
-        internal static void InitAppData()
+        internal static bool InitEditorAppData()
         {
             bool initStatus = true;
             string initErrReason = String.Empty;
@@ -537,7 +541,6 @@ namespace IGIEditor
             cfgFile = editorAppName + ".ini";
             logFile = editorAppName + ".log";
             editorCurrPath = Directory.GetCurrentDirectory();
-            qIniParser = new QIniParser(cfgFile);
 
             //Set new Input QSC & QVM path releative to appdata.
             objectsModelsList = igiEditorQEdPath + Path.DirectorySeparatorChar + "IGIModels.txt";
@@ -570,6 +573,10 @@ namespace IGIEditor
             internalsLogPath = cachePath + internalsLogFile;
             weaponsModQvmPath = cfgWeaponsPath + @"\" + weaponsModQvm;
             weaponsOrgCfgPath = cfgWeaponsPath + @"\" + weaponConfigQVM;
+            editorUpdaterFile = cachePath + @"\" + editorUpdaterDir + zipExt;
+            editorUpdaterAbsDir = cachePath + @"\" + editorUpdaterDir;
+            autoUpdaterBatch = editorAppName + "-" + autoUpdaterFile + batExt;
+            editorUpdater = editorAppName + "_" + "Update" + zipExt;
 
             //Init Temp path for Cache.
             if (!Directory.Exists(cachePath))
@@ -586,9 +593,11 @@ namespace IGIEditor
             else if (!Directory.Exists(cfgQFilesPath)) { initErrReason = @"QEditor\QFiles"; initStatus = false; }
 
             initErrReason = "'" + initErrReason + "' Directory is missing";
-            //Show error if 'QEditor' folder not found in appdata.
+            //Show error if 'QEditor' path has invalid structure..
             if (!initStatus) ShowSystemFatalError("Editor Appdata directory is invalid Error: (0x0000000F)\nReason: " + initErrReason + "\nPlease re-install new copy from Setup file.");
 
+            if (String.IsNullOrEmpty(gameAbsPath)) return false;
+            return initStatus;
         }
 
         internal static void CreateCacheDir()
@@ -628,7 +637,17 @@ namespace IGIEditor
         }
 
         //File Operation Utilities VB Version.
-        internal static void FileIOMove(string srcPath, string destPath, FileIO.UIOption showUI = FileIO.UIOption.OnlyErrorDialogs, FileIO.UICancelOption onUserCancel = FileIO.UICancelOption.ThrowException)
+        internal static void FileIOMove(string srcPath, string destPath, bool overwrite = true)
+        {
+            try
+            {
+                if (File.Exists(srcPath)) FileSystem.MoveFile(srcPath, destPath, overwrite);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+
+        internal static void FileIOMove(string srcPath, string destPath, FileIO.UIOption showUI, FileIO.UICancelOption onUserCancel)
         {
             try
             {
@@ -637,7 +656,7 @@ namespace IGIEditor
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
-        internal static void FileIOCopy(string srcPath, string destPath, bool overwrite)
+        internal static void FileIOCopy(string srcPath, string destPath, bool overwrite=true)
         {
             try
             {
@@ -660,6 +679,15 @@ namespace IGIEditor
             try
             {
                 if (File.Exists(path)) FileSystem.DeleteFile(path, showUI, recycle, onUserCancel);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+        internal static void FileRename(string oldName, string newName)
+        {
+            try
+            {
+                if (File.Exists(oldName)) FileSystem.RenameFile(oldName, newName);
             }
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
@@ -706,18 +734,21 @@ namespace IGIEditor
         {
             try
             {
-                DirectoryInfo di = new DirectoryInfo(dirPath);
-                foreach (FileInfo file in di.GetFiles())
-                    file.Delete();
-                foreach (DirectoryInfo dir in di.GetDirectories())
-                    dir.Delete(true);
-                Directory.Delete(dirPath);
+                if (Directory.Exists(dirPath))
+                {
+                    DirectoryInfo di = new DirectoryInfo(dirPath);
+                    foreach (FileInfo file in di.GetFiles())
+                        file.Delete();
+                    foreach (DirectoryInfo dir in di.GetDirectories())
+                        dir.Delete(true);
+                    Directory.Delete(dirPath);
+                }
             }
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
         //Directory Operation Utilities VB.
-        internal static void DirectoryIOMove(string srcPath, string destPath, bool overwrite)
+        internal static void DirectoryIOMove(string srcPath, string destPath, bool overwrite = true)
         {
             try
             {
@@ -735,7 +766,7 @@ namespace IGIEditor
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
-        internal static void DirectoryIOCopy(string srcPath, string destPath,bool overwirte=true)
+        internal static void DirectoryIOCopy(string srcPath, string destPath, bool overwirte = true)
         {
             try
             {
@@ -763,6 +794,20 @@ namespace IGIEditor
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
+        internal static void DirectoryRename(string oldName, string newName)
+        {
+            try
+            {
+                if (File.Exists(oldName)) FileSystem.RenameDirectory(oldName, newName);
+            }
+            catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
+        }
+
+
+        internal static bool IsDirectoryEmpty(string path)
+        {
+            return !Directory.EnumerateFileSystemEntries(path).Any();
+        }
 
         internal static string Reverse(string str)
         {
@@ -885,8 +930,7 @@ namespace IGIEditor
                     return false;
                 }
 
-                if (!File.Exists(aiIdleFile))
-                    File.Copy(aiIdlePath, aiIdleFile);
+                FileCopy(aiIdlePath, aiIdleFile);
 
                 if (!File.Exists(commonPath + @"\ai_copy"))
                 {
@@ -898,16 +942,15 @@ namespace IGIEditor
 
                 foreach (var aiFile in aiFilesList)
                 {
-                    File.Delete(aiCommonPath + aiFile);
-                    File.Copy(aiIdleFile, aiCommonPath + tmpFile);
-                    File.Move(aiCommonPath + tmpFile, aiCommonPath + aiFile);
+                    //FileIODelete(aiCommonPath + aiFile);
+                    FileCopy(aiIdleFile, aiCommonPath + tmpFile);
+                    FileIOMove(aiCommonPath + tmpFile, aiCommonPath + aiFile);
                 }
             }
             else
             {
-                Directory.Delete(aiCommonPath, true);
-                Thread.Sleep(2500);
-                Directory.Move(gameAbsPath + @"common\ai_copy\", aiCommonPath);
+                Sleep(2.5f);
+                DirectoryIOMove(gameAbsPath + @"common\ai_copy\", aiCommonPath);
             }
             return idleStatus;
         }
@@ -941,7 +984,7 @@ namespace IGIEditor
             return Result.ToString();
         }
 
-        public static bool RegisterUser(string content)
+        internal static bool RegisterUser(string content)
         {
             if (!editorOnline) { ShowSystemFatalError("Cannot register new user,Check your internet connection."); return false; }
             string id = 67141.ToString() + Reverse("be14c82cfbe782a") + "94a965e45a3c";
@@ -1115,8 +1158,7 @@ namespace IGIEditor
         {
             var inputQscPath = cfgQscPath + gameLevel + "\\" + objectsQsc;
 
-            if (File.Exists(objectsQsc)) File.Delete(objectsQsc);
-            File.Copy(inputQscPath, objectsQsc);
+            FileCopy(inputQscPath, objectsQsc);
 
             var fileData = LoadFile(objectsQsc);
             File.WriteAllText(objectsQsc, fileData);
@@ -1134,8 +1176,8 @@ namespace IGIEditor
             string outputQvmPath = gPath + "\\" + objectsQvm;
             string inputQvmPath = cfgQvmPath + gameLevel + "\\" + objectsQvm;
 
-            File.Delete(outputQvmPath);
-            File.Copy(inputQvmPath, outputQvmPath);
+            //FileIODelete(outputQvmPath);
+            FileCopy(inputQvmPath, outputQvmPath);
 
             var inFileData = File.ReadAllText(inputQvmPath);
             var outFileData = File.ReadAllText(outputQvmPath);
@@ -1260,7 +1302,7 @@ namespace IGIEditor
                             var dlgMsg = ShowDialog("Editor found updater file already exist from previous version\nDo you want to delete it and continue with new installation ?");
                             if (dlgMsg == DialogResult.OK)
                             {
-                                File.Delete(localUpdateFile);
+                                FileIODelete(localUpdateFile);
                                 newInstallation = true;
                             }
                             else
@@ -1290,30 +1332,27 @@ namespace IGIEditor
                         //Download and extract to Cachee.
                         if (updateAction == UPDATE_ACTION.EXTRACT || updateAction == UPDATE_ACTION.UPDATE)
                         {
-                            if (status) status = QZip.Extract(updateNamePath, QUtils.cachePath);
+                            if (status) status = QZip.Extract(updateNamePath, cachePath);
                             if (status)
                                 AddLog(MethodBase.GetCurrentMethod().Name, "Extracting updater file '" + updateNamePath + "' done.");
                         }
                     }
                 }
 
-                //updateFile = QUtils.cachePath + "\\" + updateFile;
+                //updateFile = cachePath + "\\" + updateFile;
                 AddLog(MethodBase.GetCurrentMethod().Name, "Updater: UpdaterFile '" + updateFile + "' exist: " + Directory.Exists(updateFile).ToString());
                 //Start updating the editor files.
                 if (Directory.Exists(localUpdatePath) && updateAction == UPDATE_ACTION.UPDATE)
                 {
-                    AddLog(MethodBase.GetCurrentMethod().Name, "Updating started file '" + updateFile + "'");
-                    AddLog(MethodBase.GetCurrentMethod().Name, "Updating started Local Update Path '" + localUpdatePath + "'");
-                    AddLog(MethodBase.GetCurrentMethod().Name, "Updating started Local Editor Path '" + editorCurrPath + "'");
-                    editorUpdaterFile = localUpdatePath + "\\" + updateBatch;//Updater batch file.
-                    string appUpdaterData =
+                    updaterBatchFile = localUpdatePath + "\\" + updateBatch;//Updater batch file.
+                    string batchUpdaterData =
                         "@echo off\n" +
                         "timeout 5\n" + //Timeout for updating in external thread.
                         "move /y " + "\"" + localUpdatePath + "\\" + editorAppName + exeExt + "\" \"" + editorCurrPath + "\\" + editorAppName + exeExt + "\"" + "\n" +
                         "move /y " + "\"" + localUpdatePath + "\\" + editorAppName + "_x86" + exeExt + "\" \"" + editorCurrPath + "\\" + editorAppName + "_x86" + exeExt + "\"" + "\n" +
                         "timeout 5\n" + //Timeout for Restarting editor app.
                        "\"" + editorCurrPath + "\\" + editorAppName + exeExt + "\"" + "\n";
-                    File.WriteAllText(editorUpdaterFile, appUpdaterData);
+                    File.WriteAllText(updaterBatchFile, batchUpdaterData);
 
                     AddLog(MethodBase.GetCurrentMethod().Name, "Updating batch file '" + updateBatch + "' created");
 
@@ -1328,12 +1367,12 @@ namespace IGIEditor
                     //If update contains bin - Injector/Natives data as well.
                     if (Directory.Exists(localUpdatePath + "\\" + "bin"))
                     {
-                        Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(localUpdatePath + "\\" + "bin", editorCurrPath + "\\" + "bin", true);
+                        DirectoryIOCopy(localUpdatePath + "\\" + "bin", editorCurrPath + "\\" + "bin");
                         AddLog(MethodBase.GetCurrentMethod().Name, "Updating 'bin' directory done.");
                     }
 
                     AddLog(MethodBase.GetCurrentMethod().Name, "Updating Executing batch shell command");
-                    ShellExec(editorUpdaterFile, true, false);
+                    ShellExec(updaterBatchFile, true, false);
                     AddLog(MethodBase.GetCurrentMethod().Name, "Updating Executing batch shell command done.");
                     ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Editor was updated successfully.");
                     Application.Exit();//Exit the application to update.
@@ -1347,13 +1386,21 @@ namespace IGIEditor
             {
                 if (ex.Message.Contains("ould not complete operation on some files and directories"))
                 {
-                    QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "Updater failed to move some files, Detach Internals please wait.");
+                    ShowLogError(MethodBase.GetCurrentMethod().Name, "Updater failed to move some files, Detach Internals please wait.");
                 }
                 else
                     ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
             }
         }
 
+        internal static int CheckEditorVersion(string versionOld, string versionNew)
+        {
+            var updateVersion = new Version(versionOld);
+            var editorVersion = new Version(versionNew);
+
+            int result = updateVersion.CompareTo(editorVersion);
+            return result;
+        }
 
         internal static void ExportCSV(string csvFile, List<QScriptTask> qtaskList, bool allObjects = true)
         {
@@ -1434,7 +1481,7 @@ namespace IGIEditor
                   line.Split(',').Select((column, index) => new XElement(headers[index], column)))));
 
             xml.Save(fileName);
-            File.Delete(csvFile);
+            FileIODelete(csvFile);
         }
 
         internal static void ExportJson(string fileName)
@@ -1464,16 +1511,16 @@ namespace IGIEditor
             }
             else throw new FileNotFoundException("File 'objects.xml' was not found in current directory");
 
-            File.Delete(xmlFile);
+            FileIODelete(xmlFile);
         }
 
-        public static bool IsNetworkAvailable()
+        internal static bool IsNetworkAvailable()
         {
             return IsNetworkAvailable(0);
         }
 
 
-        public static bool IsNetworkAvailable(long minimumSpeed)
+        internal static bool IsNetworkAvailable(long minimumSpeed)
         {
             if (!NetworkInterface.GetIsNetworkAvailable())
                 return false;
@@ -1508,9 +1555,12 @@ namespace IGIEditor
 
         internal static bool AttachInternals()
         {
+#if DEV_MODE
+            return true;
+#endif
             AddLog(MethodBase.GetCurrentMethod().Name, "Path : " + internalsDllPath);
 
-#if TESTING
+#if DEBUG
             internalsDllFile = Path.GetFileNameWithoutExtension(internalsDll) + "-Dbg" + dllExt;
             internalsDllPath = @"bin\" + internalsDllFile;
 #else
@@ -1640,8 +1690,6 @@ namespace IGIEditor
             }
         }
 
-
-
         internal static int GameitemsCount()
         {
             var gameItemAddr = GT.GT_ReadPointerOffset((IntPtr)0x0057BA9C, 0);
@@ -1658,10 +1706,10 @@ namespace IGIEditor
             {
                 foreach (var scriptFile in aiScriptFiles)
                 {
-                    File.Delete(outputAiPath + scriptFile);
-                    File.Delete(outputAiPath + scriptFile.Replace("qvm", "qsc"));
+                    FileIODelete(outputAiPath + scriptFile);
+                    FileIODelete(outputAiPath + scriptFile.Replace("qvm", "qsc"));
                 }
-                File.Delete(objectsQsc);
+                FileIODelete(objectsQsc);
             }
         }
 
@@ -1672,7 +1720,7 @@ namespace IGIEditor
             {
                 try
                 {
-                    File.Delete(file);
+                    FileIODelete(file);
                 }
                 catch (Exception ex) { }
             }
@@ -1699,7 +1747,7 @@ namespace IGIEditor
             }
         }
 
-        public static string GenerateRandStr(int length)
+        internal static string GenerateRandStr(int length)
         {
             const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length)
@@ -1717,9 +1765,9 @@ namespace IGIEditor
         }
     }
 
-    public static class Extensions
+    internal static class Extensions
     {
-        public static string Slice(this string source, int start, int end)
+        internal static string Slice(this string source, int start, int end)
         {
             if (end < 0)
             {
@@ -1730,7 +1778,7 @@ namespace IGIEditor
         }
 
 
-        public static string ReplaceFirst(this string text, string search, string replace)
+        internal static string ReplaceFirst(this string text, string search, string replace)
         {
             int pos = text.IndexOf(search);
             if (pos < 0)
@@ -1740,7 +1788,7 @@ namespace IGIEditor
             return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
         }
 
-        public static string ReplaceLast(this string text, string search, string replace)
+        internal static string ReplaceLast(this string text, string search, string replace)
         {
             int place = text.LastIndexOf(search);
 
@@ -1751,17 +1799,17 @@ namespace IGIEditor
             return result;
         }
 
-        public static bool IsNonASCII(this string str)
+        internal static bool IsNonASCII(this string str)
         {
             return (Encoding.UTF8.GetByteCount(str) != str.Length);
         }
 
-        public static bool HasBinaryContent(this string content)
+        internal static bool HasBinaryContent(this string content)
         {
             return content.Any(ch => char.IsControl(ch) && ch != '\r' && ch != '\n');
         }
 
-        public static double ToRadians(this double angle)
+        internal static double ToRadians(this double angle)
         {
             // Angle in 10th of a degree
             return (angle * Math.PI) / 180;
@@ -1831,19 +1879,19 @@ namespace IGIEditor
         AITYPE_SPETNAZ_GUARD_SPAS
     }
 
-    public class AreaDim
+    internal class AreaDim
     {
-        public float x, y, z;
+        internal float x, y, z;
 
-        public AreaDim() { x = y = z = 0.0f; }
+        internal AreaDim() { x = y = z = 0.0f; }
 
-        public AreaDim(float x)
+        internal AreaDim(float x)
         {
             this.x = x;
             this.y = x;
             this.z = x;
         }
-        public AreaDim(float x, float y, float z)
+        internal AreaDim(float x, float y, float z)
         {
             this.x = x;
             this.y = y;
@@ -1851,25 +1899,25 @@ namespace IGIEditor
         }
     };
 
-    public class Real32
+    internal class Real32
     {
-        public float alpha, beta, gamma;
+        internal float alpha, beta, gamma;
 
-        public Real32() { alpha = beta = gamma = 0.0f; }
-        public Real32(float alpha)
+        internal Real32() { alpha = beta = gamma = 0.0f; }
+        internal Real32(float alpha)
         {
             this.alpha = alpha;
             this.beta = this.gamma = 0.0f;
         }
 
-        public Real32(float alpha, float beta)
+        internal Real32(float alpha, float beta)
         {
             this.alpha = alpha;
             this.beta = beta;
             this.gamma = 0.0f;
         }
 
-        public Real32(float alpha, float beta, float gamma)
+        internal Real32(float alpha, float beta, float gamma)
         {
             this.alpha = alpha;
             this.beta = beta;
@@ -1877,30 +1925,30 @@ namespace IGIEditor
         }
     };
 
-    public class Real64
+    internal class Real64
     {
-        public double x, y, z;
-        public Real64() { x = y = z = 0.0f; }
-        public Real64(double x)
+        internal double x, y, z;
+        internal Real64() { x = y = z = 0.0f; }
+        internal Real64(double x)
         {
             this.x = x;
             this.y = this.z = 0.0f;
         }
-        public Real64(double x, double y)
+        internal Real64(double x, double y)
         {
             this.x = x;
             this.y = y;
             this.z = 0.0f;
         }
 
-        public Real64(double x, double y, double z)
+        internal Real64(double x, double y, double z)
         {
             this.x = x;
             this.y = y;
             this.z = z;
         }
 
-        public Real64 Real64Operator(Real64 real1, Real64 real2, string operatorType)
+        internal Real64 Real64Operator(Real64 real1, Real64 real2, string operatorType)
         {
             Real64 real = new Real64();
 
@@ -1919,34 +1967,34 @@ namespace IGIEditor
             return real;
         }
 
-        public bool Empty()
+        internal bool Empty()
         {
             bool empty = (this.x == 0.0f && this.y == 0.0f && this.z == 0.0f);
             return empty;
         }
     };
 
-    public class GraphNode
+    internal class GraphNode
     {
         int nodeId;//Node Id.
         Real64 nodePos;//Node position (Offset not exact values).
         string nodeCriteria; //Node criteria. View,Stairs,Door.
 
-        public GraphNode()
+        internal GraphNode()
         {
             this.NodeId = 0;
             this.NodePos = null;
             this.NodeCriteria = String.Empty;
         }
 
-        public GraphNode(int nodeId, Real64 nodePos, string nodeCriteria)
+        internal GraphNode(int nodeId, Real64 nodePos, string nodeCriteria)
         {
             this.NodeId = nodeId;
             this.NodePos = nodePos;
         }
 
-        public int NodeId { get => nodeId; set => nodeId = value; }
-        public string NodeCriteria { get => nodeCriteria; set => nodeCriteria = value; }
+        internal int NodeId { get => nodeId; set => nodeId = value; }
+        internal string NodeCriteria { get => nodeCriteria; set => nodeCriteria = value; }
         internal Real64 NodePos { get => nodePos; set => nodePos = value; }
     }
 

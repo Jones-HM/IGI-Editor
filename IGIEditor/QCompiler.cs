@@ -40,11 +40,11 @@ namespace IGIEditor
                     if (File.Exists(outScriptPath))
                     {
                         QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscFile : File exist '" + outScriptPath + "' deleting file.");
-                        File.Delete(outScriptPath);
+                        QUtils.FileIODelete(outScriptPath);
                     }
 
                     //Copy file to OutPath and Compile with Internal Compiler.
-                    File.Copy(qscFile, outScriptPath);
+                    QUtils.FileCopy(qscFile, outScriptPath);
 
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscFile : Starting Compiling of file '" + scriptFile + "'");
                     QInternals.ScriptCompile(scriptFile);
@@ -87,18 +87,18 @@ namespace IGIEditor
                     if (File.Exists(outScriptPath))
                     {
                         QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscData : File exist '" + outScriptPath + "' deleting file.");
-                        File.Delete(outScriptPath);
+                        QUtils.FileIODelete(outScriptPath);
                     }
 
                     //Copy file to OutPath and Compile with Internal Compiler.
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscData : Starting Compiling of file '" + QUtils.objectsQsc + "'");
-                    File.Copy(QUtils.objectsQsc, outScriptPath);
+                    QUtils.FileCopy(QUtils.objectsQsc, outScriptPath);
                     QInternals.ScriptCompile(scriptFile);
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscData : Compiling of file '" + scriptFile + "' done\tOutput Path: '" + outScriptPath + "'");
 
                     QUtils.Sleep(1.5f);
                     //Delete script file after compiling.
-                    File.Delete(outScriptPath);
+                    QUtils.FileIODelete(outScriptPath);
 
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscData : Output Path: '" + outScriptPath + "' removed");
 

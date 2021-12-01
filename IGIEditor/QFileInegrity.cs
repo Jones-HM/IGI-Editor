@@ -107,7 +107,7 @@ namespace IGIEditor
 
         public static void GenerateDirHashes(List<string> dirNames)
         {
-            File.Delete(qChecksFile);
+            QUtils.FileIODelete(qChecksFile);
             foreach (string dirName in dirNames)
             {
                 string[] allFiles = Directory.GetFiles(dirName, ".", SearchOption.AllDirectories);
