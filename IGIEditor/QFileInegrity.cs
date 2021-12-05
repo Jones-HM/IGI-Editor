@@ -13,7 +13,7 @@ namespace IGIEditor
 
         public static void RunFileInegrityCheck(string processName = null, List<string> gameDirs = null)
         {
-            var exclude_list = new List<string>() { QUtils.customAiPathFileQEd, QUtils.customScriptFileQEd };
+            var exclude_list = new List<string>() { QUtils.customPatrolPathQEd, QUtils.customScriptPathQEd };
             bool isQFilesValid = CheckDirInegrity(gameDirs, exclude_list, true);
             IGIEditorUI.editorRef.Enabled = isQFilesValid;
         }

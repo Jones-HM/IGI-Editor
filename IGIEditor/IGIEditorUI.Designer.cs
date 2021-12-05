@@ -88,45 +88,44 @@
             this.removeBuildingsBtn = new System.Windows.Forms.Button();
             this.removeObjsBtn = new System.Windows.Forms.Button();
             this.humanEditor = new System.Windows.Forms.TabPage();
+            this.inAirSpeedTxt = new System.Windows.Forms.NumericUpDown();
+            this.upwardJumpTxt = new System.Windows.Forms.NumericUpDown();
+            this.forwardJumpTxt = new System.Windows.Forms.NumericUpDown();
+            this.peekTimeTxt = new System.Windows.Forms.NumericUpDown();
+            this.peekCrouchTxt = new System.Windows.Forms.NumericUpDown();
+            this.peekLRTxt = new System.Windows.Forms.NumericUpDown();
+            this.humanViewCamTxt = new System.Windows.Forms.NumericUpDown();
+            this.damageScaleFenceTxt = new System.Windows.Forms.NumericUpDown();
+            this.teamIdTxt = new System.Windows.Forms.NumericUpDown();
+            this.damageScaleTxt = new System.Windows.Forms.NumericUpDown();
+            this.movementSpeedTxt = new System.Windows.Forms.NumericUpDown();
             this.updateHumanBtn = new System.Windows.Forms.Button();
             this.readHumanBtn = new System.Windows.Forms.Button();
             this.resetHumanBtn = new System.Windows.Forms.Button();
-            this.inAirSpeedTxt = new System.Windows.Forms.TextBox();
             this.inAirSpeedLbl = new System.Windows.Forms.Label();
             this.updatePeekBtn = new System.Windows.Forms.Button();
             this.updateHumanHealthBtn = new System.Windows.Forms.Button();
-            this.damageScaleFenceTxt = new System.Windows.Forms.TextBox();
             this.damageScaleLbl = new System.Windows.Forms.Label();
             this.fenceDamageScaleLbl = new System.Windows.Forms.Label();
-            this.damageScaleTxt = new System.Windows.Forms.TextBox();
             this.updateHumanSpeedBtn = new System.Windows.Forms.Button();
-            this.peekTimeTxt = new System.Windows.Forms.TextBox();
-            this.upwardJumpTxt = new System.Windows.Forms.TextBox();
             this.peekTimeLbl = new System.Windows.Forms.Label();
             this.upwardJumpLbl = new System.Windows.Forms.Label();
-            this.peekCrouchTxt = new System.Windows.Forms.TextBox();
-            this.forwardJumpTxt = new System.Windows.Forms.TextBox();
             this.peekCrouchLbl = new System.Windows.Forms.Label();
             this.forwardJumpLbl = new System.Windows.Forms.Label();
-            this.humanViewCamTxt = new System.Windows.Forms.TextBox();
-            this.teamIdTxt = new System.Windows.Forms.TextBox();
-            this.peekLRTxt = new System.Windows.Forms.TextBox();
             this.humanViewCamLbl = new System.Windows.Forms.Label();
             this.teamIdLbl = new System.Windows.Forms.Label();
             this.peekLRLbl = new System.Windows.Forms.Label();
-            this.movementSpeedTxt = new System.Windows.Forms.TextBox();
             this.movementSpeedLbl = new System.Windows.Forms.Label();
             this.aiEditor = new System.Windows.Forms.TabPage();
             this.removeAllAi = new System.Windows.Forms.Button();
             this.graphAreaAiLbl = new System.Windows.Forms.TextBox();
+            this.taskDetectionAiCb = new System.Windows.Forms.CheckBox();
             this.customAiCb = new System.Windows.Forms.CheckBox();
-            this.maxSpawnsTxt = new System.Windows.Forms.TextBox();
             this.maxSpawnsLbl = new System.Windows.Forms.Label();
             this.aiFriendlyCb = new System.Windows.Forms.CheckBox();
             this.aiAdvanceViewCb = new System.Windows.Forms.CheckBox();
             this.guardGeneratorCb = new System.Windows.Forms.CheckBox();
             this.aiinvulnerabilityCb = new System.Windows.Forms.CheckBox();
-            this.aiCountTxt = new System.Windows.Forms.TextBox();
             this.aiGraphIdDD = new System.Windows.Forms.ComboBox();
             this.aiTypeDD = new System.Windows.Forms.ComboBox();
             this.aiWeaponDD = new System.Windows.Forms.ComboBox();
@@ -245,6 +244,7 @@
             this.xPosLbl_O = new System.Windows.Forms.Label();
             this.updateObjPosition = new System.Windows.Forms.Button();
             this.miscEditor = new System.Windows.Forms.TabPage();
+            this.framesTxt = new System.Windows.Forms.NumericUpDown();
             this.minutesLbl = new System.Windows.Forms.Label();
             this.editorUpdaterBtn = new System.Windows.Forms.Button();
             this.gameSettingsLbl = new System.Windows.Forms.Label();
@@ -257,7 +257,6 @@
             this.sfxMusicCb = new System.Windows.Forms.CheckBox();
             this.enableMusicCb = new System.Windows.Forms.CheckBox();
             this.debugModeCb = new System.Windows.Forms.CheckBox();
-            this.framesTxt = new System.Windows.Forms.TextBox();
             this.udpateMusicBtn = new System.Windows.Forms.Button();
             this.gfxResetBtn = new System.Windows.Forms.Button();
             this.setFramesBtn = new System.Windows.Forms.Button();
@@ -298,6 +297,8 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.gameLogoLbl = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
+            this.aiCountTxt = new System.Windows.Forms.NumericUpDown();
+            this.maxSpawnsTxt = new System.Windows.Forms.NumericUpDown();
             this.backPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -305,6 +306,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).BeginInit();
             this.objectEditor.SuspendLayout();
             this.humanEditor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.inAirSpeedTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upwardJumpTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.forwardJumpTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.peekTimeTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.peekCrouchTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.peekLRTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.humanViewCamTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.damageScaleFenceTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.teamIdTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.damageScaleTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.movementSpeedTxt)).BeginInit();
             this.aiEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weaponAIImgBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.aiImgBox)).BeginInit();
@@ -318,10 +330,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.betaTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).BeginInit();
             this.miscEditor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.framesTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.updateIntervalTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.musicTrackBar)).BeginInit();
             this.devMode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aiCountTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maxSpawnsTxt)).BeginInit();
             this.SuspendLayout();
             // 
             // backPnl
@@ -390,7 +405,7 @@
             this.internalsLbl.Name = "internalsLbl";
             this.internalsLbl.Size = new System.Drawing.Size(79, 19);
             this.internalsLbl.TabIndex = 47;
-            this.internalsLbl.Text = "Internals:";
+            this.internalsLbl.Text = "Internals";
             this.internalsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // liveEditorCb
@@ -460,7 +475,7 @@
             this.registeredUsersLbl.Name = "registeredUsersLbl";
             this.registeredUsersLbl.Size = new System.Drawing.Size(79, 19);
             this.registeredUsersLbl.TabIndex = 43;
-            this.registeredUsersLbl.Text = "Users :";
+            this.registeredUsersLbl.Text = "Users ";
             this.registeredUsersLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.registeredUsersLbl.Visible = false;
             // 
@@ -572,7 +587,7 @@
             this.headerLbl.Name = "headerLbl";
             this.headerLbl.Size = new System.Drawing.Size(399, 33);
             this.headerLbl.TabIndex = 25;
-            this.headerLbl.Text = "Licenced to :";
+            this.headerLbl.Text = "Licenced to ";
             this.headerLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // posTypeLbl
@@ -584,7 +599,7 @@
             this.posTypeLbl.Name = "posTypeLbl";
             this.posTypeLbl.Size = new System.Drawing.Size(103, 33);
             this.posTypeLbl.TabIndex = 24;
-            this.posTypeLbl.Text = "Position:";
+            this.posTypeLbl.Text = "Position";
             this.posTypeLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // startGameBtn
@@ -660,7 +675,7 @@
             this.statusLbl.Name = "statusLbl";
             this.statusLbl.Size = new System.Drawing.Size(83, 33);
             this.statusLbl.TabIndex = 10;
-            this.statusLbl.Text = "Status :";
+            this.statusLbl.Text = "Status ";
             this.statusLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // zPosLbl_M
@@ -672,7 +687,7 @@
             this.zPosLbl_M.Name = "zPosLbl_M";
             this.zPosLbl_M.Size = new System.Drawing.Size(37, 33);
             this.zPosLbl_M.TabIndex = 9;
-            this.zPosLbl_M.Text = "Z :";
+            this.zPosLbl_M.Text = "Z ";
             this.zPosLbl_M.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // yPosLbl_M
@@ -684,7 +699,7 @@
             this.yPosLbl_M.Name = "yPosLbl_M";
             this.yPosLbl_M.Size = new System.Drawing.Size(37, 33);
             this.yPosLbl_M.TabIndex = 8;
-            this.yPosLbl_M.Text = "Y :";
+            this.yPosLbl_M.Text = "Y ";
             this.yPosLbl_M.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // xPosLbl_M
@@ -696,7 +711,7 @@
             this.xPosLbl_M.Name = "xPosLbl_M";
             this.xPosLbl_M.Size = new System.Drawing.Size(37, 33);
             this.xPosLbl_M.TabIndex = 7;
-            this.xPosLbl_M.Text = "X :";
+            this.xPosLbl_M.Text = "X ";
             this.xPosLbl_M.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // editorTabs
@@ -930,7 +945,7 @@
             this.itemsLbl4.Name = "itemsLbl4";
             this.itemsLbl4.Size = new System.Drawing.Size(117, 33);
             this.itemsLbl4.TabIndex = 28;
-            this.itemsLbl4.Text = "Items :";
+            this.itemsLbl4.Text = "Items ";
             this.itemsLbl4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // itemsLbl3
@@ -942,7 +957,7 @@
             this.itemsLbl3.Name = "itemsLbl3";
             this.itemsLbl3.Size = new System.Drawing.Size(117, 33);
             this.itemsLbl3.TabIndex = 29;
-            this.itemsLbl3.Text = "Items :";
+            this.itemsLbl3.Text = "Items ";
             this.itemsLbl3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // maxItemsLbl3
@@ -1002,7 +1017,7 @@
             this.itemsLbl2.Name = "itemsLbl2";
             this.itemsLbl2.Size = new System.Drawing.Size(117, 33);
             this.itemsLbl2.TabIndex = 24;
-            this.itemsLbl2.Text = "Items :";
+            this.itemsLbl2.Text = "Items ";
             this.itemsLbl2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // itemsLbl1
@@ -1014,7 +1029,7 @@
             this.itemsLbl1.Name = "itemsLbl1";
             this.itemsLbl1.Size = new System.Drawing.Size(117, 33);
             this.itemsLbl1.TabIndex = 24;
-            this.itemsLbl1.Text = "Items :";
+            this.itemsLbl1.Text = "Items ";
             this.itemsLbl1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // resetBuildingsBtn
@@ -1052,7 +1067,7 @@
             this.objectIDLbl.Name = "objectIDLbl";
             this.objectIDLbl.Size = new System.Drawing.Size(289, 33);
             this.objectIDLbl.TabIndex = 9;
-            this.objectIDLbl.Text = "Model Name:";
+            this.objectIDLbl.Text = "Model Name";
             this.objectIDLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // objectIDTxt
@@ -1091,7 +1106,7 @@
             this.modelIdLbl.Name = "modelIdLbl";
             this.modelIdLbl.Size = new System.Drawing.Size(117, 33);
             this.modelIdLbl.TabIndex = 6;
-            this.modelIdLbl.Text = "Model ID :";
+            this.modelIdLbl.Text = "Model ID ";
             this.modelIdLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // restoreModelBtn
@@ -1149,33 +1164,33 @@
             // humanEditor
             // 
             this.humanEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.humanEditor.Controls.Add(this.inAirSpeedTxt);
+            this.humanEditor.Controls.Add(this.upwardJumpTxt);
+            this.humanEditor.Controls.Add(this.forwardJumpTxt);
+            this.humanEditor.Controls.Add(this.peekTimeTxt);
+            this.humanEditor.Controls.Add(this.peekCrouchTxt);
+            this.humanEditor.Controls.Add(this.peekLRTxt);
+            this.humanEditor.Controls.Add(this.humanViewCamTxt);
+            this.humanEditor.Controls.Add(this.damageScaleFenceTxt);
+            this.humanEditor.Controls.Add(this.teamIdTxt);
+            this.humanEditor.Controls.Add(this.damageScaleTxt);
+            this.humanEditor.Controls.Add(this.movementSpeedTxt);
             this.humanEditor.Controls.Add(this.updateHumanBtn);
             this.humanEditor.Controls.Add(this.readHumanBtn);
             this.humanEditor.Controls.Add(this.resetHumanBtn);
-            this.humanEditor.Controls.Add(this.inAirSpeedTxt);
             this.humanEditor.Controls.Add(this.inAirSpeedLbl);
             this.humanEditor.Controls.Add(this.updatePeekBtn);
             this.humanEditor.Controls.Add(this.updateHumanHealthBtn);
-            this.humanEditor.Controls.Add(this.damageScaleFenceTxt);
             this.humanEditor.Controls.Add(this.damageScaleLbl);
             this.humanEditor.Controls.Add(this.fenceDamageScaleLbl);
-            this.humanEditor.Controls.Add(this.damageScaleTxt);
             this.humanEditor.Controls.Add(this.updateHumanSpeedBtn);
-            this.humanEditor.Controls.Add(this.peekTimeTxt);
-            this.humanEditor.Controls.Add(this.upwardJumpTxt);
             this.humanEditor.Controls.Add(this.peekTimeLbl);
             this.humanEditor.Controls.Add(this.upwardJumpLbl);
-            this.humanEditor.Controls.Add(this.peekCrouchTxt);
-            this.humanEditor.Controls.Add(this.forwardJumpTxt);
             this.humanEditor.Controls.Add(this.peekCrouchLbl);
             this.humanEditor.Controls.Add(this.forwardJumpLbl);
-            this.humanEditor.Controls.Add(this.humanViewCamTxt);
-            this.humanEditor.Controls.Add(this.teamIdTxt);
-            this.humanEditor.Controls.Add(this.peekLRTxt);
             this.humanEditor.Controls.Add(this.humanViewCamLbl);
             this.humanEditor.Controls.Add(this.teamIdLbl);
             this.humanEditor.Controls.Add(this.peekLRLbl);
-            this.humanEditor.Controls.Add(this.movementSpeedTxt);
             this.humanEditor.Controls.Add(this.movementSpeedLbl);
             this.humanEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.humanEditor.Location = new System.Drawing.Point(4, 30);
@@ -1185,11 +1200,295 @@
             this.humanEditor.TabIndex = 2;
             this.humanEditor.Text = "Human Editor";
             // 
+            // inAirSpeedTxt
+            // 
+            this.inAirSpeedTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.inAirSpeedTxt.DecimalPlaces = 2;
+            this.inAirSpeedTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.inAirSpeedTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.inAirSpeedTxt.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.inAirSpeedTxt.Location = new System.Drawing.Point(823, 47);
+            this.inAirSpeedTxt.Maximum = new decimal(new int[] {
+            -805306368,
+            967903254,
+            1843143693,
+            0});
+            this.inAirSpeedTxt.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            65536});
+            this.inAirSpeedTxt.Name = "inAirSpeedTxt";
+            this.inAirSpeedTxt.Size = new System.Drawing.Size(100, 30);
+            this.inAirSpeedTxt.TabIndex = 76;
+            this.inAirSpeedTxt.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // upwardJumpTxt
+            // 
+            this.upwardJumpTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.upwardJumpTxt.DecimalPlaces = 2;
+            this.upwardJumpTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.upwardJumpTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.upwardJumpTxt.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.upwardJumpTxt.Location = new System.Drawing.Point(604, 46);
+            this.upwardJumpTxt.Maximum = new decimal(new int[] {
+            -805306368,
+            967903254,
+            1843143693,
+            0});
+            this.upwardJumpTxt.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            65536});
+            this.upwardJumpTxt.Name = "upwardJumpTxt";
+            this.upwardJumpTxt.Size = new System.Drawing.Size(100, 30);
+            this.upwardJumpTxt.TabIndex = 75;
+            this.upwardJumpTxt.Value = new decimal(new int[] {
+            70,
+            0,
+            0,
+            0});
+            // 
+            // forwardJumpTxt
+            // 
+            this.forwardJumpTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.forwardJumpTxt.DecimalPlaces = 2;
+            this.forwardJumpTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.forwardJumpTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.forwardJumpTxt.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.forwardJumpTxt.Location = new System.Drawing.Point(362, 45);
+            this.forwardJumpTxt.Maximum = new decimal(new int[] {
+            -805306368,
+            967903254,
+            1843143693,
+            0});
+            this.forwardJumpTxt.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            65536});
+            this.forwardJumpTxt.Name = "forwardJumpTxt";
+            this.forwardJumpTxt.Size = new System.Drawing.Size(100, 30);
+            this.forwardJumpTxt.TabIndex = 74;
+            this.forwardJumpTxt.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            // 
+            // peekTimeTxt
+            // 
+            this.peekTimeTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.peekTimeTxt.DecimalPlaces = 16;
+            this.peekTimeTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.peekTimeTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.peekTimeTxt.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.peekTimeTxt.Location = new System.Drawing.Point(604, 124);
+            this.peekTimeTxt.Maximum = new decimal(new int[] {
+            -805306368,
+            967903254,
+            1843143693,
+            0});
+            this.peekTimeTxt.Name = "peekTimeTxt";
+            this.peekTimeTxt.Size = new System.Drawing.Size(100, 30);
+            this.peekTimeTxt.TabIndex = 79;
+            this.peekTimeTxt.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // peekCrouchTxt
+            // 
+            this.peekCrouchTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.peekCrouchTxt.DecimalPlaces = 16;
+            this.peekCrouchTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.peekCrouchTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.peekCrouchTxt.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.peekCrouchTxt.Location = new System.Drawing.Point(362, 124);
+            this.peekCrouchTxt.Maximum = new decimal(new int[] {
+            -805306368,
+            967903254,
+            1843143693,
+            0});
+            this.peekCrouchTxt.Name = "peekCrouchTxt";
+            this.peekCrouchTxt.Size = new System.Drawing.Size(100, 30);
+            this.peekCrouchTxt.TabIndex = 78;
+            this.peekCrouchTxt.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // peekLRTxt
+            // 
+            this.peekLRTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.peekLRTxt.DecimalPlaces = 16;
+            this.peekLRTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.peekLRTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.peekLRTxt.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.peekLRTxt.Location = new System.Drawing.Point(134, 124);
+            this.peekLRTxt.Maximum = new decimal(new int[] {
+            -805306368,
+            967903254,
+            1843143693,
+            0});
+            this.peekLRTxt.Name = "peekLRTxt";
+            this.peekLRTxt.Size = new System.Drawing.Size(100, 30);
+            this.peekLRTxt.TabIndex = 77;
+            this.peekLRTxt.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // humanViewCamTxt
+            // 
+            this.humanViewCamTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.humanViewCamTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.humanViewCamTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.humanViewCamTxt.Location = new System.Drawing.Point(366, 296);
+            this.humanViewCamTxt.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.humanViewCamTxt.Name = "humanViewCamTxt";
+            this.humanViewCamTxt.Size = new System.Drawing.Size(100, 30);
+            this.humanViewCamTxt.TabIndex = 83;
+            this.humanViewCamTxt.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // damageScaleFenceTxt
+            // 
+            this.damageScaleFenceTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.damageScaleFenceTxt.DecimalPlaces = 2;
+            this.damageScaleFenceTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.damageScaleFenceTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.damageScaleFenceTxt.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.damageScaleFenceTxt.Location = new System.Drawing.Point(365, 218);
+            this.damageScaleFenceTxt.Maximum = new decimal(new int[] {
+            -805306368,
+            967903254,
+            1843143693,
+            0});
+            this.damageScaleFenceTxt.Name = "damageScaleFenceTxt";
+            this.damageScaleFenceTxt.Size = new System.Drawing.Size(100, 30);
+            this.damageScaleFenceTxt.TabIndex = 81;
+            // 
+            // teamIdTxt
+            // 
+            this.teamIdTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.teamIdTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.teamIdTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.teamIdTxt.Location = new System.Drawing.Point(135, 296);
+            this.teamIdTxt.Name = "teamIdTxt";
+            this.teamIdTxt.Size = new System.Drawing.Size(100, 30);
+            this.teamIdTxt.TabIndex = 82;
+            // 
+            // damageScaleTxt
+            // 
+            this.damageScaleTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.damageScaleTxt.DecimalPlaces = 2;
+            this.damageScaleTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.damageScaleTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.damageScaleTxt.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.damageScaleTxt.Location = new System.Drawing.Point(134, 218);
+            this.damageScaleTxt.Maximum = new decimal(new int[] {
+            -805306368,
+            967903254,
+            1843143693,
+            0});
+            this.damageScaleTxt.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            65536});
+            this.damageScaleTxt.Name = "damageScaleTxt";
+            this.damageScaleTxt.Size = new System.Drawing.Size(100, 30);
+            this.damageScaleTxt.TabIndex = 80;
+            this.damageScaleTxt.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // movementSpeedTxt
+            // 
+            this.movementSpeedTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.movementSpeedTxt.DecimalPlaces = 2;
+            this.movementSpeedTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.movementSpeedTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.movementSpeedTxt.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.movementSpeedTxt.Location = new System.Drawing.Point(140, 44);
+            this.movementSpeedTxt.Maximum = new decimal(new int[] {
+            -805306368,
+            967903254,
+            1843143693,
+            0});
+            this.movementSpeedTxt.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            65536});
+            this.movementSpeedTxt.Name = "movementSpeedTxt";
+            this.movementSpeedTxt.Size = new System.Drawing.Size(100, 30);
+            this.movementSpeedTxt.TabIndex = 73;
+            this.movementSpeedTxt.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
             // updateHumanBtn
             // 
             this.updateHumanBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updateHumanBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.updateHumanBtn.Location = new System.Drawing.Point(931, 302);
+            this.updateHumanBtn.Location = new System.Drawing.Point(931, 289);
             this.updateHumanBtn.Margin = new System.Windows.Forms.Padding(4);
             this.updateHumanBtn.Name = "updateHumanBtn";
             this.updateHumanBtn.Size = new System.Drawing.Size(181, 31);
@@ -1225,20 +1524,6 @@
             this.resetHumanBtn.UseVisualStyleBackColor = true;
             this.resetHumanBtn.Click += new System.EventHandler(this.resetHumanBtn_Click);
             // 
-            // inAirSpeedTxt
-            // 
-            this.inAirSpeedTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.inAirSpeedTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.inAirSpeedTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.inAirSpeedTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.inAirSpeedTxt.Location = new System.Drawing.Point(823, 47);
-            this.inAirSpeedTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.inAirSpeedTxt.Name = "inAirSpeedTxt";
-            this.inAirSpeedTxt.Size = new System.Drawing.Size(100, 30);
-            this.inAirSpeedTxt.TabIndex = 53;
-            this.inAirSpeedTxt.Text = "5";
-            this.infoViewer.SetToolTip(this.inAirSpeedTxt, "In Air Control");
-            // 
             // inAirSpeedLbl
             // 
             this.inAirSpeedLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
@@ -1248,7 +1533,7 @@
             this.inAirSpeedLbl.Name = "inAirSpeedLbl";
             this.inAirSpeedLbl.Size = new System.Drawing.Size(107, 33);
             this.inAirSpeedLbl.TabIndex = 52;
-            this.inAirSpeedLbl.Text = "In Air:";
+            this.inAirSpeedLbl.Text = "In Air";
             this.inAirSpeedLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // updatePeekBtn
@@ -1268,7 +1553,7 @@
             // 
             this.updateHumanHealthBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updateHumanHealthBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.updateHumanHealthBtn.Location = new System.Drawing.Point(931, 215);
+            this.updateHumanHealthBtn.Location = new System.Drawing.Point(931, 218);
             this.updateHumanHealthBtn.Margin = new System.Windows.Forms.Padding(4);
             this.updateHumanHealthBtn.Name = "updateHumanHealthBtn";
             this.updateHumanHealthBtn.Size = new System.Drawing.Size(181, 31);
@@ -1277,58 +1562,30 @@
             this.updateHumanHealthBtn.UseVisualStyleBackColor = true;
             this.updateHumanHealthBtn.Click += new System.EventHandler(this.updateHumanHealthBtn_Click);
             // 
-            // damageScaleFenceTxt
-            // 
-            this.damageScaleFenceTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.damageScaleFenceTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.damageScaleFenceTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.damageScaleFenceTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.damageScaleFenceTxt.Location = new System.Drawing.Point(823, 215);
-            this.damageScaleFenceTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.damageScaleFenceTxt.Name = "damageScaleFenceTxt";
-            this.damageScaleFenceTxt.Size = new System.Drawing.Size(100, 30);
-            this.damageScaleFenceTxt.TabIndex = 48;
-            this.damageScaleFenceTxt.Text = "0";
-            this.infoViewer.SetToolTip(this.damageScaleFenceTxt, "Fence damage scale - Lower is better");
-            // 
             // damageScaleLbl
             // 
-            this.damageScaleLbl.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.damageScaleLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.damageScaleLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.damageScaleLbl.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.damageScaleLbl.Location = new System.Drawing.Point(22, 219);
+            this.damageScaleLbl.Location = new System.Drawing.Point(23, 218);
             this.damageScaleLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.damageScaleLbl.Name = "damageScaleLbl";
-            this.damageScaleLbl.Size = new System.Drawing.Size(312, 33);
+            this.damageScaleLbl.Size = new System.Drawing.Size(110, 33);
             this.damageScaleLbl.TabIndex = 47;
-            this.damageScaleLbl.Text = "Human Damage Scale:";
-            this.damageScaleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.damageScaleLbl.Text = "Human";
+            this.damageScaleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // fenceDamageScaleLbl
             // 
-            this.fenceDamageScaleLbl.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fenceDamageScaleLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.fenceDamageScaleLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.fenceDamageScaleLbl.Location = new System.Drawing.Point(510, 213);
+            this.fenceDamageScaleLbl.Location = new System.Drawing.Point(237, 218);
             this.fenceDamageScaleLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.fenceDamageScaleLbl.Name = "fenceDamageScaleLbl";
-            this.fenceDamageScaleLbl.Size = new System.Drawing.Size(224, 33);
+            this.fenceDamageScaleLbl.Size = new System.Drawing.Size(96, 33);
             this.fenceDamageScaleLbl.TabIndex = 47;
-            this.fenceDamageScaleLbl.Text = "Fence Damage Scale:";
-            this.fenceDamageScaleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // damageScaleTxt
-            // 
-            this.damageScaleTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.damageScaleTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.damageScaleTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.damageScaleTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.damageScaleTxt.Location = new System.Drawing.Point(360, 219);
-            this.damageScaleTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.damageScaleTxt.Name = "damageScaleTxt";
-            this.damageScaleTxt.Size = new System.Drawing.Size(100, 30);
-            this.damageScaleTxt.TabIndex = 46;
-            this.damageScaleTxt.Text = "10";
-            this.infoViewer.SetToolTip(this.damageScaleTxt, "Human damage scale - Higher is better");
+            this.fenceDamageScaleLbl.Text = "Fence";
+            this.fenceDamageScaleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // updateHumanSpeedBtn
             // 
@@ -1343,34 +1600,6 @@
             this.updateHumanSpeedBtn.UseVisualStyleBackColor = true;
             this.updateHumanSpeedBtn.Click += new System.EventHandler(this.updateHumanSpeedBtn_Click);
             // 
-            // peekTimeTxt
-            // 
-            this.peekTimeTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.peekTimeTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.peekTimeTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.peekTimeTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.peekTimeTxt.Location = new System.Drawing.Point(604, 124);
-            this.peekTimeTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.peekTimeTxt.Name = "peekTimeTxt";
-            this.peekTimeTxt.Size = new System.Drawing.Size(100, 30);
-            this.peekTimeTxt.TabIndex = 13;
-            this.peekTimeTxt.Text = "5";
-            this.infoViewer.SetToolTip(this.peekTimeTxt, "Time to get back to original position");
-            // 
-            // upwardJumpTxt
-            // 
-            this.upwardJumpTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.upwardJumpTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.upwardJumpTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.upwardJumpTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.upwardJumpTxt.Location = new System.Drawing.Point(604, 46);
-            this.upwardJumpTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.upwardJumpTxt.Name = "upwardJumpTxt";
-            this.upwardJumpTxt.Size = new System.Drawing.Size(100, 30);
-            this.upwardJumpTxt.TabIndex = 13;
-            this.upwardJumpTxt.Text = "70";
-            this.infoViewer.SetToolTip(this.upwardJumpTxt, "Upward Speed Height (M/S)");
-            // 
             // peekTimeLbl
             // 
             this.peekTimeLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
@@ -1380,7 +1609,7 @@
             this.peekTimeLbl.Name = "peekTimeLbl";
             this.peekTimeLbl.Size = new System.Drawing.Size(129, 33);
             this.peekTimeLbl.TabIndex = 12;
-            this.peekTimeLbl.Text = "Time:";
+            this.peekTimeLbl.Text = "Time";
             this.peekTimeLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // upwardJumpLbl
@@ -1392,36 +1621,8 @@
             this.upwardJumpLbl.Name = "upwardJumpLbl";
             this.upwardJumpLbl.Size = new System.Drawing.Size(129, 33);
             this.upwardJumpLbl.TabIndex = 12;
-            this.upwardJumpLbl.Text = "Upward:";
+            this.upwardJumpLbl.Text = "Upward";
             this.upwardJumpLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // peekCrouchTxt
-            // 
-            this.peekCrouchTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.peekCrouchTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.peekCrouchTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.peekCrouchTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.peekCrouchTxt.Location = new System.Drawing.Point(360, 123);
-            this.peekCrouchTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.peekCrouchTxt.Name = "peekCrouchTxt";
-            this.peekCrouchTxt.Size = new System.Drawing.Size(100, 30);
-            this.peekCrouchTxt.TabIndex = 11;
-            this.peekCrouchTxt.Text = "50";
-            this.infoViewer.SetToolTip(this.peekCrouchTxt, "Crouch Peek length");
-            // 
-            // forwardJumpTxt
-            // 
-            this.forwardJumpTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.forwardJumpTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.forwardJumpTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.forwardJumpTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.forwardJumpTxt.Location = new System.Drawing.Point(362, 45);
-            this.forwardJumpTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.forwardJumpTxt.Name = "forwardJumpTxt";
-            this.forwardJumpTxt.Size = new System.Drawing.Size(100, 30);
-            this.forwardJumpTxt.TabIndex = 11;
-            this.forwardJumpTxt.Text = "20";
-            this.infoViewer.SetToolTip(this.forwardJumpTxt, "Forward Jump Speed (M/S)");
             // 
             // peekCrouchLbl
             // 
@@ -1432,7 +1633,7 @@
             this.peekCrouchLbl.Name = "peekCrouchLbl";
             this.peekCrouchLbl.Size = new System.Drawing.Size(117, 33);
             this.peekCrouchLbl.TabIndex = 10;
-            this.peekCrouchLbl.Text = "Crouch:";
+            this.peekCrouchLbl.Text = "Crouch";
             this.peekCrouchLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // forwardJumpLbl
@@ -1444,56 +1645,14 @@
             this.forwardJumpLbl.Name = "forwardJumpLbl";
             this.forwardJumpLbl.Size = new System.Drawing.Size(117, 33);
             this.forwardJumpLbl.TabIndex = 10;
-            this.forwardJumpLbl.Text = "Forward:";
+            this.forwardJumpLbl.Text = "Forward";
             this.forwardJumpLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // humanViewCamTxt
-            // 
-            this.humanViewCamTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.humanViewCamTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.humanViewCamTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.humanViewCamTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.humanViewCamTxt.Location = new System.Drawing.Point(360, 305);
-            this.humanViewCamTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.humanViewCamTxt.Name = "humanViewCamTxt";
-            this.humanViewCamTxt.Size = new System.Drawing.Size(100, 30);
-            this.humanViewCamTxt.TabIndex = 9;
-            this.humanViewCamTxt.Text = "1";
-            this.humanViewCamTxt.TextChanged += new System.EventHandler(this.humanViewCamTxt_TextChanged);
-            // 
-            // teamIdTxt
-            // 
-            this.teamIdTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.teamIdTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.teamIdTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.teamIdTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.teamIdTxt.Location = new System.Drawing.Point(124, 305);
-            this.teamIdTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.teamIdTxt.Name = "teamIdTxt";
-            this.teamIdTxt.Size = new System.Drawing.Size(100, 30);
-            this.teamIdTxt.TabIndex = 9;
-            this.teamIdTxt.Text = "0";
-            this.infoViewer.SetToolTip(this.teamIdTxt, "Team Id of Human , 0 - Friendly, 1 - Enemy");
-            // 
-            // peekLRTxt
-            // 
-            this.peekLRTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.peekLRTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.peekLRTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.peekLRTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.peekLRTxt.Location = new System.Drawing.Point(134, 121);
-            this.peekLRTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.peekLRTxt.Name = "peekLRTxt";
-            this.peekLRTxt.Size = new System.Drawing.Size(100, 30);
-            this.peekLRTxt.TabIndex = 9;
-            this.peekLRTxt.Text = "50";
-            this.infoViewer.SetToolTip(this.peekLRTxt, "Left/Right Peek length");
             // 
             // humanViewCamLbl
             // 
             this.humanViewCamLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.humanViewCamLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.humanViewCamLbl.Location = new System.Drawing.Point(237, 305);
+            this.humanViewCamLbl.Location = new System.Drawing.Point(237, 292);
             this.humanViewCamLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.humanViewCamLbl.Name = "humanViewCamLbl";
             this.humanViewCamLbl.Size = new System.Drawing.Size(117, 33);
@@ -1505,7 +1664,7 @@
             // 
             this.teamIdLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.teamIdLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.teamIdLbl.Location = new System.Drawing.Point(8, 305);
+            this.teamIdLbl.Location = new System.Drawing.Point(8, 292);
             this.teamIdLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.teamIdLbl.Name = "teamIdLbl";
             this.teamIdLbl.Size = new System.Drawing.Size(114, 33);
@@ -1525,20 +1684,6 @@
             this.peekLRLbl.Text = "Left Right";
             this.peekLRLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // movementSpeedTxt
-            // 
-            this.movementSpeedTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.movementSpeedTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.movementSpeedTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.movementSpeedTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.movementSpeedTxt.Location = new System.Drawing.Point(133, 45);
-            this.movementSpeedTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.movementSpeedTxt.Name = "movementSpeedTxt";
-            this.movementSpeedTxt.Size = new System.Drawing.Size(100, 30);
-            this.movementSpeedTxt.TabIndex = 9;
-            this.movementSpeedTxt.Text = "10";
-            this.infoViewer.SetToolTip(this.movementSpeedTxt, "Movement Speed (M/S)");
-            // 
             // movementSpeedLbl
             // 
             this.movementSpeedLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
@@ -1548,22 +1693,23 @@
             this.movementSpeedLbl.Name = "movementSpeedLbl";
             this.movementSpeedLbl.Size = new System.Drawing.Size(125, 33);
             this.movementSpeedLbl.TabIndex = 8;
-            this.movementSpeedLbl.Text = "Movement:";
+            this.movementSpeedLbl.Text = "Movement";
             this.movementSpeedLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // aiEditor
             // 
             this.aiEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiEditor.Controls.Add(this.maxSpawnsTxt);
+            this.aiEditor.Controls.Add(this.aiCountTxt);
             this.aiEditor.Controls.Add(this.removeAllAi);
             this.aiEditor.Controls.Add(this.graphAreaAiLbl);
+            this.aiEditor.Controls.Add(this.taskDetectionAiCb);
             this.aiEditor.Controls.Add(this.customAiCb);
-            this.aiEditor.Controls.Add(this.maxSpawnsTxt);
             this.aiEditor.Controls.Add(this.maxSpawnsLbl);
             this.aiEditor.Controls.Add(this.aiFriendlyCb);
             this.aiEditor.Controls.Add(this.aiAdvanceViewCb);
             this.aiEditor.Controls.Add(this.guardGeneratorCb);
             this.aiEditor.Controls.Add(this.aiinvulnerabilityCb);
-            this.aiEditor.Controls.Add(this.aiCountTxt);
             this.aiEditor.Controls.Add(this.aiGraphIdDD);
             this.aiEditor.Controls.Add(this.aiTypeDD);
             this.aiEditor.Controls.Add(this.aiWeaponDD);
@@ -1589,10 +1735,10 @@
             // 
             this.removeAllAi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeAllAi.ForeColor = System.Drawing.Color.Tomato;
-            this.removeAllAi.Location = new System.Drawing.Point(455, 335);
+            this.removeAllAi.Location = new System.Drawing.Point(901, 335);
             this.removeAllAi.Margin = new System.Windows.Forms.Padding(4);
             this.removeAllAi.Name = "removeAllAi";
-            this.removeAllAi.Size = new System.Drawing.Size(217, 31);
+            this.removeAllAi.Size = new System.Drawing.Size(208, 31);
             this.removeAllAi.TabIndex = 48;
             this.removeAllAi.Text = "Remove all A.I";
             this.removeAllAi.UseVisualStyleBackColor = true;
@@ -1612,11 +1758,23 @@
             this.graphAreaAiLbl.TabIndex = 47;
             this.graphAreaAiLbl.Text = "Graph Area";
             // 
+            // taskDetectionAiCb
+            // 
+            this.taskDetectionAiCb.AutoSize = true;
+            this.taskDetectionAiCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.taskDetectionAiCb.Location = new System.Drawing.Point(275, 140);
+            this.taskDetectionAiCb.Margin = new System.Windows.Forms.Padding(4);
+            this.taskDetectionAiCb.Name = "taskDetectionAiCb";
+            this.taskDetectionAiCb.Size = new System.Drawing.Size(157, 25);
+            this.taskDetectionAiCb.TabIndex = 45;
+            this.taskDetectionAiCb.Text = "Task Detection";
+            this.taskDetectionAiCb.UseVisualStyleBackColor = true;
+            // 
             // customAiCb
             // 
             this.customAiCb.AutoSize = true;
             this.customAiCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customAiCb.Location = new System.Drawing.Point(275, 149);
+            this.customAiCb.Location = new System.Drawing.Point(275, 114);
             this.customAiCb.Margin = new System.Windows.Forms.Padding(4);
             this.customAiCb.Name = "customAiCb";
             this.customAiCb.Size = new System.Drawing.Size(124, 25);
@@ -1625,37 +1783,23 @@
             this.customAiCb.UseVisualStyleBackColor = true;
             this.customAiCb.CheckedChanged += new System.EventHandler(this.customAiCb_CheckedChanged);
             // 
-            // maxSpawnsTxt
-            // 
-            this.maxSpawnsTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.maxSpawnsTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maxSpawnsTxt.Enabled = false;
-            this.maxSpawnsTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.maxSpawnsTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.maxSpawnsTxt.Location = new System.Drawing.Point(914, 263);
-            this.maxSpawnsTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.maxSpawnsTxt.Name = "maxSpawnsTxt";
-            this.maxSpawnsTxt.Size = new System.Drawing.Size(195, 30);
-            this.maxSpawnsTxt.TabIndex = 44;
-            this.maxSpawnsTxt.Text = "1";
-            // 
             // maxSpawnsLbl
             // 
             this.maxSpawnsLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.maxSpawnsLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.maxSpawnsLbl.Location = new System.Drawing.Point(728, 263);
+            this.maxSpawnsLbl.Location = new System.Drawing.Point(795, 264);
             this.maxSpawnsLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.maxSpawnsLbl.Name = "maxSpawnsLbl";
             this.maxSpawnsLbl.Size = new System.Drawing.Size(173, 33);
             this.maxSpawnsLbl.TabIndex = 43;
-            this.maxSpawnsLbl.Text = "Max Spawns :";
+            this.maxSpawnsLbl.Text = "Max Spawns ";
             this.maxSpawnsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // aiFriendlyCb
             // 
             this.aiFriendlyCb.AutoSize = true;
             this.aiFriendlyCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aiFriendlyCb.Location = new System.Drawing.Point(275, 86);
+            this.aiFriendlyCb.Location = new System.Drawing.Point(275, 62);
             this.aiFriendlyCb.Margin = new System.Windows.Forms.Padding(4);
             this.aiFriendlyCb.Name = "aiFriendlyCb";
             this.aiFriendlyCb.Size = new System.Drawing.Size(92, 25);
@@ -1667,7 +1811,7 @@
             // 
             this.aiAdvanceViewCb.AutoSize = true;
             this.aiAdvanceViewCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aiAdvanceViewCb.Location = new System.Drawing.Point(275, 51);
+            this.aiAdvanceViewCb.Location = new System.Drawing.Point(275, 36);
             this.aiAdvanceViewCb.Margin = new System.Windows.Forms.Padding(4);
             this.aiAdvanceViewCb.Name = "aiAdvanceViewCb";
             this.aiAdvanceViewCb.Size = new System.Drawing.Size(158, 25);
@@ -1679,7 +1823,7 @@
             // 
             this.guardGeneratorCb.AutoSize = true;
             this.guardGeneratorCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guardGeneratorCb.Location = new System.Drawing.Point(275, 116);
+            this.guardGeneratorCb.Location = new System.Drawing.Point(275, 88);
             this.guardGeneratorCb.Margin = new System.Windows.Forms.Padding(4);
             this.guardGeneratorCb.Name = "guardGeneratorCb";
             this.guardGeneratorCb.Size = new System.Drawing.Size(178, 25);
@@ -1692,26 +1836,13 @@
             // 
             this.aiinvulnerabilityCb.AutoSize = true;
             this.aiinvulnerabilityCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aiinvulnerabilityCb.Location = new System.Drawing.Point(275, 17);
+            this.aiinvulnerabilityCb.Location = new System.Drawing.Point(275, 10);
             this.aiinvulnerabilityCb.Margin = new System.Windows.Forms.Padding(4);
             this.aiinvulnerabilityCb.Name = "aiinvulnerabilityCb";
             this.aiinvulnerabilityCb.Size = new System.Drawing.Size(111, 25);
             this.aiinvulnerabilityCb.TabIndex = 42;
             this.aiinvulnerabilityCb.Text = "Invincible";
             this.aiinvulnerabilityCb.UseVisualStyleBackColor = true;
-            // 
-            // aiCountTxt
-            // 
-            this.aiCountTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.aiCountTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.aiCountTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.aiCountTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.aiCountTxt.Location = new System.Drawing.Point(644, 267);
-            this.aiCountTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.aiCountTxt.Name = "aiCountTxt";
-            this.aiCountTxt.Size = new System.Drawing.Size(76, 30);
-            this.aiCountTxt.TabIndex = 41;
-            this.aiCountTxt.Text = "1";
             // 
             // aiGraphIdDD
             // 
@@ -1761,7 +1892,7 @@
             this.graphIdAiLbl.Name = "graphIdAiLbl";
             this.graphIdAiLbl.Size = new System.Drawing.Size(173, 33);
             this.graphIdAiLbl.TabIndex = 39;
-            this.graphIdAiLbl.Text = "Graph Id :";
+            this.graphIdAiLbl.Text = "Graph Id ";
             this.graphIdAiLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // aiTypeLbl
@@ -1773,7 +1904,7 @@
             this.aiTypeLbl.Name = "aiTypeLbl";
             this.aiTypeLbl.Size = new System.Drawing.Size(173, 33);
             this.aiTypeLbl.TabIndex = 39;
-            this.aiTypeLbl.Text = "Type :";
+            this.aiTypeLbl.Text = "Type ";
             this.aiTypeLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // weaponAiLbl
@@ -1785,7 +1916,7 @@
             this.weaponAiLbl.Name = "weaponAiLbl";
             this.weaponAiLbl.Size = new System.Drawing.Size(173, 33);
             this.weaponAiLbl.TabIndex = 39;
-            this.weaponAiLbl.Text = "Weapon :";
+            this.weaponAiLbl.Text = "Weapon ";
             this.weaponAiLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // weaponAIImgBox
@@ -1833,7 +1964,7 @@
             this.aiCountLbl.Name = "aiCountLbl";
             this.aiCountLbl.Size = new System.Drawing.Size(119, 33);
             this.aiCountLbl.TabIndex = 34;
-            this.aiCountLbl.Text = "AI Count:";
+            this.aiCountLbl.Text = "AI Count";
             this.aiCountLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // aiModelNameLbl
@@ -1856,7 +1987,7 @@
             this.aiModelLbl.Name = "aiModelLbl";
             this.aiModelLbl.Size = new System.Drawing.Size(173, 33);
             this.aiModelLbl.TabIndex = 34;
-            this.aiModelLbl.Text = "Model:";
+            this.aiModelLbl.Text = "Model";
             this.aiModelLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // addAiBtn
@@ -1866,7 +1997,7 @@
             this.addAiBtn.Location = new System.Drawing.Point(685, 335);
             this.addAiBtn.Margin = new System.Windows.Forms.Padding(4);
             this.addAiBtn.Name = "addAiBtn";
-            this.addAiBtn.Size = new System.Drawing.Size(424, 31);
+            this.addAiBtn.Size = new System.Drawing.Size(208, 31);
             this.addAiBtn.TabIndex = 33;
             this.addAiBtn.Text = "Add A.I Soldier";
             this.addAiBtn.UseVisualStyleBackColor = true;
@@ -1914,7 +2045,7 @@
             this.weaponAmmolbl.Name = "weaponAmmolbl";
             this.weaponAmmolbl.Size = new System.Drawing.Size(173, 33);
             this.weaponAmmolbl.TabIndex = 31;
-            this.weaponAmmolbl.Text = "Ammo :";
+            this.weaponAmmolbl.Text = "Ammo ";
             this.weaponAmmolbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // weaponDD
@@ -1976,7 +2107,7 @@
             this.weaponNameLbl.Name = "weaponNameLbl";
             this.weaponNameLbl.Size = new System.Drawing.Size(173, 33);
             this.weaponNameLbl.TabIndex = 25;
-            this.weaponNameLbl.Text = "Weapon:";
+            this.weaponNameLbl.Text = "Weapon";
             this.weaponNameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // modWeaponBtn
@@ -2082,7 +2213,7 @@
             this.missionLevelLbl.Name = "missionLevelLbl";
             this.missionLevelLbl.Size = new System.Drawing.Size(104, 33);
             this.missionLevelLbl.TabIndex = 81;
-            this.missionLevelLbl.Text = "Level:";
+            this.missionLevelLbl.Text = "Level";
             this.missionLevelLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // missionAuthorLbl
@@ -2144,7 +2275,7 @@
             this.missionServerList.Name = "missionServerList";
             this.missionServerList.Size = new System.Drawing.Size(173, 33);
             this.missionServerList.TabIndex = 76;
-            this.missionServerList.Text = "Missions Online:";
+            this.missionServerList.Text = "Missions Online";
             this.missionServerList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // missionLevelFlowTimerCb
@@ -2233,7 +2364,7 @@
             this.missionDescLbl.Name = "missionDescLbl";
             this.missionDescLbl.Size = new System.Drawing.Size(173, 33);
             this.missionDescLbl.TabIndex = 32;
-            this.missionDescLbl.Text = "Description :";
+            this.missionDescLbl.Text = "Description ";
             this.missionDescLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // missionRefreshBtn
@@ -2296,7 +2427,7 @@
             this.missionNameLbl.Name = "missionNameLbl";
             this.missionNameLbl.Size = new System.Drawing.Size(173, 33);
             this.missionNameLbl.TabIndex = 29;
-            this.missionNameLbl.Text = "Name :";
+            this.missionNameLbl.Text = "Name ";
             this.missionNameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // loadMissionBtn
@@ -2407,7 +2538,7 @@
             this.gameItemsLbl.Name = "gameItemsLbl";
             this.gameItemsLbl.Size = new System.Drawing.Size(127, 19);
             this.gameItemsLbl.TabIndex = 80;
-            this.gameItemsLbl.Text = "Game Items:";
+            this.gameItemsLbl.Text = "Game Items";
             this.gameItemsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.infoViewer.SetToolTip(this.gameItemsLbl, "Click to show Game items");
             this.gameItemsLbl.Click += new System.EventHandler(this.gameItemsLbl_Click);
@@ -2572,7 +2703,7 @@
             this.graphTotalNodesLbl.Name = "graphTotalNodesLbl";
             this.graphTotalNodesLbl.Size = new System.Drawing.Size(165, 33);
             this.graphTotalNodesLbl.TabIndex = 68;
-            this.graphTotalNodesLbl.Text = "Total Nodes:";
+            this.graphTotalNodesLbl.Text = "Total Nodes";
             this.graphTotalNodesLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // nodeCriteriaTxt
@@ -2610,7 +2741,7 @@
             this.nodeZLbl.Name = "nodeZLbl";
             this.nodeZLbl.Size = new System.Drawing.Size(44, 33);
             this.nodeZLbl.TabIndex = 65;
-            this.nodeZLbl.Text = "Z :";
+            this.nodeZLbl.Text = "Z ";
             this.nodeZLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // nodeYTxt
@@ -2635,7 +2766,7 @@
             this.nodeYLbl.Name = "nodeYLbl";
             this.nodeYLbl.Size = new System.Drawing.Size(44, 33);
             this.nodeYLbl.TabIndex = 63;
-            this.nodeYLbl.Text = "Y :";
+            this.nodeYLbl.Text = "Y ";
             this.nodeYLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // nodeXTxt
@@ -2660,7 +2791,7 @@
             this.nodeXLbl.Name = "nodeXLbl";
             this.nodeXLbl.Size = new System.Drawing.Size(44, 33);
             this.nodeXLbl.TabIndex = 61;
-            this.nodeXLbl.Text = "X :";
+            this.nodeXLbl.Text = "X ";
             this.nodeXLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // removeNodesBtn
@@ -2753,7 +2884,7 @@
             this.graphsMarkCb.TabIndex = 58;
             this.graphsMarkCb.Text = "Graph - Mark";
             this.graphsMarkCb.UseVisualStyleBackColor = true;
-            this.graphsMarkCb.CheckedChanged += new System.EventHandler(this.markNodeCb_CheckedChanged);
+            this.graphsMarkCb.CheckedChanged += new System.EventHandler(this.graphsMarkCb_CheckedChanged);
             // 
             // graphsAllCb
             // 
@@ -2818,7 +2949,7 @@
             this.nodeIdLbl.Name = "nodeIdLbl";
             this.nodeIdLbl.Size = new System.Drawing.Size(173, 33);
             this.nodeIdLbl.TabIndex = 55;
-            this.nodeIdLbl.Text = "Node Id :";
+            this.nodeIdLbl.Text = "Node Id ";
             this.nodeIdLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // graphAreaLbl
@@ -2857,7 +2988,7 @@
             this.graphIdLbl.Name = "graphIdLbl";
             this.graphIdLbl.Size = new System.Drawing.Size(173, 33);
             this.graphIdLbl.TabIndex = 50;
-            this.graphIdLbl.Text = "Graph Id :";
+            this.graphIdLbl.Text = "Graph Id ";
             this.graphIdLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // positionEditor
@@ -2988,7 +3119,7 @@
             this.gammaLbl.Name = "gammaLbl";
             this.gammaLbl.Size = new System.Drawing.Size(104, 33);
             this.gammaLbl.TabIndex = 69;
-            this.gammaLbl.Text = "Gamma :";
+            this.gammaLbl.Text = "Gamma ";
             this.gammaLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // betaLbl
@@ -3000,7 +3131,7 @@
             this.betaLbl.Name = "betaLbl";
             this.betaLbl.Size = new System.Drawing.Size(93, 33);
             this.betaLbl.TabIndex = 68;
-            this.betaLbl.Text = "Beta :";
+            this.betaLbl.Text = "Beta ";
             this.betaLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // alphaLbl
@@ -3012,7 +3143,7 @@
             this.alphaLbl.Name = "alphaLbl";
             this.alphaLbl.Size = new System.Drawing.Size(93, 33);
             this.alphaLbl.TabIndex = 67;
-            this.alphaLbl.Text = "Alpha :";
+            this.alphaLbl.Text = "Alpha ";
             this.alphaLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // updateObjOrientation
@@ -3078,7 +3209,7 @@
             this.zPosLbl_H.Name = "zPosLbl_H";
             this.zPosLbl_H.Size = new System.Drawing.Size(104, 33);
             this.zPosLbl_H.TabIndex = 62;
-            this.zPosLbl_H.Text = "Z :";
+            this.zPosLbl_H.Text = "Z ";
             this.zPosLbl_H.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // yPosTxt_H
@@ -3103,7 +3234,7 @@
             this.yPosLbl_H.Name = "yPosLbl_H";
             this.yPosLbl_H.Size = new System.Drawing.Size(93, 33);
             this.yPosLbl_H.TabIndex = 60;
-            this.yPosLbl_H.Text = "Y :";
+            this.yPosLbl_H.Text = "Y ";
             this.yPosLbl_H.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // xPosTxt_H
@@ -3128,7 +3259,7 @@
             this.xPosLbl_H.Name = "xPosLbl_H";
             this.xPosLbl_H.Size = new System.Drawing.Size(93, 33);
             this.xPosLbl_H.TabIndex = 58;
-            this.xPosLbl_H.Text = "X :";
+            this.xPosLbl_H.Text = "X ";
             this.xPosLbl_H.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // updateHumaPosition
@@ -3162,12 +3293,12 @@
             // 
             this.objPosLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.objPosLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.objPosLbl.Location = new System.Drawing.Point(534, 38);
+            this.objPosLbl.Location = new System.Drawing.Point(510, 37);
             this.objPosLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.objPosLbl.Name = "objPosLbl";
             this.objPosLbl.Size = new System.Drawing.Size(173, 33);
             this.objPosLbl.TabIndex = 55;
-            this.objPosLbl.Text = "Object :";
+            this.objPosLbl.Text = "Object";
             this.objPosLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // buildingPosDD
@@ -3193,7 +3324,7 @@
             this.buildingPosLbl.Name = "buildingPosLbl";
             this.buildingPosLbl.Size = new System.Drawing.Size(173, 33);
             this.buildingPosLbl.TabIndex = 53;
-            this.buildingPosLbl.Text = "Building :";
+            this.buildingPosLbl.Text = "Building";
             this.buildingPosLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // posCurrentCb
@@ -3260,7 +3391,7 @@
             this.zPosLbl_O.Name = "zPosLbl_O";
             this.zPosLbl_O.Size = new System.Drawing.Size(104, 33);
             this.zPosLbl_O.TabIndex = 48;
-            this.zPosLbl_O.Text = "Z :";
+            this.zPosLbl_O.Text = "Z ";
             this.zPosLbl_O.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // yPosObjTxt
@@ -3285,7 +3416,7 @@
             this.yPosLbl_O.Name = "yPosLbl_O";
             this.yPosLbl_O.Size = new System.Drawing.Size(93, 33);
             this.yPosLbl_O.TabIndex = 46;
-            this.yPosLbl_O.Text = "Y :";
+            this.yPosLbl_O.Text = "Y ";
             this.yPosLbl_O.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // xPosObjTxt
@@ -3310,7 +3441,7 @@
             this.xPosLbl_O.Name = "xPosLbl_O";
             this.xPosLbl_O.Size = new System.Drawing.Size(93, 33);
             this.xPosLbl_O.TabIndex = 44;
-            this.xPosLbl_O.Text = "X :";
+            this.xPosLbl_O.Text = "X ";
             this.xPosLbl_O.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // updateObjPosition
@@ -3329,6 +3460,7 @@
             // miscEditor
             // 
             this.miscEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.miscEditor.Controls.Add(this.framesTxt);
             this.miscEditor.Controls.Add(this.minutesLbl);
             this.miscEditor.Controls.Add(this.editorUpdaterBtn);
             this.miscEditor.Controls.Add(this.gameSettingsLbl);
@@ -3341,7 +3473,6 @@
             this.miscEditor.Controls.Add(this.sfxMusicCb);
             this.miscEditor.Controls.Add(this.enableMusicCb);
             this.miscEditor.Controls.Add(this.debugModeCb);
-            this.miscEditor.Controls.Add(this.framesTxt);
             this.miscEditor.Controls.Add(this.udpateMusicBtn);
             this.miscEditor.Controls.Add(this.gfxResetBtn);
             this.miscEditor.Controls.Add(this.setFramesBtn);
@@ -3367,6 +3498,32 @@
             this.miscEditor.Size = new System.Drawing.Size(1137, 387);
             this.miscEditor.TabIndex = 6;
             this.miscEditor.Text = "Misc";
+            // 
+            // framesTxt
+            // 
+            this.framesTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.framesTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.framesTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.framesTxt.Location = new System.Drawing.Point(980, 56);
+            this.framesTxt.Maximum = new decimal(new int[] {
+            240,
+            0,
+            0,
+            0});
+            this.framesTxt.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.framesTxt.Name = "framesTxt";
+            this.framesTxt.Size = new System.Drawing.Size(101, 30);
+            this.framesTxt.TabIndex = 45;
+            this.framesTxt.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.framesTxt.ValueChanged += new System.EventHandler(this.framesTxt_ValueChanged);
             // 
             // minutesLbl
             // 
@@ -3536,20 +3693,6 @@
             this.debugModeCb.Text = "Debug Mode";
             this.debugModeCb.UseVisualStyleBackColor = true;
             this.debugModeCb.CheckedChanged += new System.EventHandler(this.debugModeCb_CheckedChanged);
-            // 
-            // framesTxt
-            // 
-            this.framesTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.framesTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.framesTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.framesTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.framesTxt.Location = new System.Drawing.Point(976, 57);
-            this.framesTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.framesTxt.Name = "framesTxt";
-            this.framesTxt.Size = new System.Drawing.Size(89, 30);
-            this.framesTxt.TabIndex = 31;
-            this.framesTxt.Text = "30";
-            this.framesTxt.TextChanged += new System.EventHandler(this.framesTxt_TextChanged);
             // 
             // udpateMusicBtn
             // 
@@ -4076,6 +4219,37 @@
             this.gameLogoLbl.TabIndex = 0;
             this.gameLogoLbl.Text = "IGI 1";
             // 
+            // aiCountTxt
+            // 
+            this.aiCountTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiCountTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.aiCountTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.aiCountTxt.Location = new System.Drawing.Point(685, 266);
+            this.aiCountTxt.Name = "aiCountTxt";
+            this.aiCountTxt.Size = new System.Drawing.Size(100, 30);
+            this.aiCountTxt.TabIndex = 83;
+            this.aiCountTxt.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // maxSpawnsTxt
+            // 
+            this.maxSpawnsTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.maxSpawnsTxt.Enabled = false;
+            this.maxSpawnsTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.maxSpawnsTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.maxSpawnsTxt.Location = new System.Drawing.Point(975, 267);
+            this.maxSpawnsTxt.Name = "maxSpawnsTxt";
+            this.maxSpawnsTxt.Size = new System.Drawing.Size(134, 30);
+            this.maxSpawnsTxt.TabIndex = 84;
+            this.maxSpawnsTxt.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // IGIEditorUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -4098,7 +4272,17 @@
             this.objectEditor.ResumeLayout(false);
             this.objectEditor.PerformLayout();
             this.humanEditor.ResumeLayout(false);
-            this.humanEditor.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.inAirSpeedTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upwardJumpTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.forwardJumpTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.peekTimeTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.peekCrouchTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.peekLRTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.humanViewCamTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.damageScaleFenceTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.teamIdTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.damageScaleTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.movementSpeedTxt)).EndInit();
             this.aiEditor.ResumeLayout(false);
             this.aiEditor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weaponAIImgBox)).EndInit();
@@ -4118,11 +4302,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).EndInit();
             this.miscEditor.ResumeLayout(false);
             this.miscEditor.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.framesTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.updateIntervalTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.musicTrackBar)).EndInit();
             this.devMode.ResumeLayout(false);
             this.devMode.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aiCountTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maxSpawnsTxt)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -4252,27 +4439,18 @@
         private System.Windows.Forms.Label alphaLbl;
         private System.Windows.Forms.Button updateObjOrientation;
         private System.Windows.Forms.Button updateHumanHealthBtn;
-        private System.Windows.Forms.TextBox damageScaleFenceTxt;
         private System.Windows.Forms.Label fenceDamageScaleLbl;
-        private System.Windows.Forms.TextBox damageScaleTxt;
         private System.Windows.Forms.Button updateHumanSpeedBtn;
-        private System.Windows.Forms.TextBox upwardJumpTxt;
         private System.Windows.Forms.Label upwardJumpLbl;
-        private System.Windows.Forms.TextBox forwardJumpTxt;
         private System.Windows.Forms.Label forwardJumpLbl;
-        private System.Windows.Forms.TextBox movementSpeedTxt;
         private System.Windows.Forms.Label movementSpeedLbl;
-        private System.Windows.Forms.TextBox inAirSpeedTxt;
         private System.Windows.Forms.Label inAirSpeedLbl;
         private System.Windows.Forms.Button resetHumanBtn;
         private System.Windows.Forms.Button readHumanBtn;
         private System.Windows.Forms.Button gameIconBtn;
         private System.Windows.Forms.Button updatePeekBtn;
-        private System.Windows.Forms.TextBox peekTimeTxt;
         private System.Windows.Forms.Label peekTimeLbl;
-        private System.Windows.Forms.TextBox peekCrouchTxt;
         private System.Windows.Forms.Label peekCrouchLbl;
-        private System.Windows.Forms.TextBox peekLRTxt;
         private System.Windows.Forms.Label peekLRLbl;
         private System.Windows.Forms.ComboBox aiModelSelectDD;
         private System.Windows.Forms.PictureBox aiImgBox;
@@ -4281,14 +4459,12 @@
         private System.Windows.Forms.PictureBox weaponAIImgBox;
         private System.Windows.Forms.ComboBox aiWeaponDD;
         private System.Windows.Forms.Label weaponAiLbl;
-        private System.Windows.Forms.TextBox aiCountTxt;
         private System.Windows.Forms.ComboBox aiTypeDD;
         private System.Windows.Forms.Label aiTypeLbl;
         private System.Windows.Forms.Label aiCountLbl;
         private System.Windows.Forms.CheckBox aiAdvanceViewCb;
         private System.Windows.Forms.CheckBox aiinvulnerabilityCb;
         private System.Windows.Forms.CheckBox aiFriendlyCb;
-        private System.Windows.Forms.TextBox maxSpawnsTxt;
         private System.Windows.Forms.Label maxSpawnsLbl;
         private System.Windows.Forms.ComboBox aiGraphIdDD;
         private System.Windows.Forms.Label graphIdAiLbl;
@@ -4345,13 +4521,10 @@
         private System.Windows.Forms.Button missionRefreshBtn;
         private System.Windows.Forms.CheckBox aiIdleCb;
         private System.Windows.Forms.Label damageScaleLbl;
-        private System.Windows.Forms.TextBox teamIdTxt;
         private System.Windows.Forms.Label teamIdLbl;
         private System.Windows.Forms.Button updateHumanBtn;
         private System.Windows.Forms.CheckBox editorModeCb;
         private System.Windows.Forms.Button setFramesBtn;
-        private System.Windows.Forms.TextBox framesTxt;
-        private System.Windows.Forms.TextBox humanViewCamTxt;
         private System.Windows.Forms.Label humanViewCamLbl;
         private System.Windows.Forms.Button quitLevelBtn;
         private System.Windows.Forms.CheckBox debugModeCb;
@@ -4397,6 +4570,21 @@
         private System.Windows.Forms.CheckBox devClearContentsCb;
         private System.Windows.Forms.CheckBox devAutoFormatCb;
         private System.Windows.Forms.CheckBox nodesInfoCb;
+        private System.Windows.Forms.CheckBox taskDetectionAiCb;
+        private System.Windows.Forms.NumericUpDown framesTxt;
+        private System.Windows.Forms.NumericUpDown movementSpeedTxt;
+        private System.Windows.Forms.NumericUpDown upwardJumpTxt;
+        private System.Windows.Forms.NumericUpDown forwardJumpTxt;
+        private System.Windows.Forms.NumericUpDown inAirSpeedTxt;
+        private System.Windows.Forms.NumericUpDown peekLRTxt;
+        private System.Windows.Forms.NumericUpDown peekCrouchTxt;
+        private System.Windows.Forms.NumericUpDown peekTimeTxt;
+        private System.Windows.Forms.NumericUpDown damageScaleFenceTxt;
+        private System.Windows.Forms.NumericUpDown damageScaleTxt;
+        private System.Windows.Forms.NumericUpDown humanViewCamTxt;
+        private System.Windows.Forms.NumericUpDown teamIdTxt;
+        private System.Windows.Forms.NumericUpDown maxSpawnsTxt;
+        private System.Windows.Forms.NumericUpDown aiCountTxt;
     }
 }
 

@@ -14,7 +14,7 @@ namespace IGIEditor
         {
             if (checkModel)
             {
-                bool modelExist = QUtils.CheckModelExist(model);
+                bool modelExist = CheckModelExist(model);
 
                 if (!modelExist)
                 {
@@ -29,7 +29,7 @@ namespace IGIEditor
         {
             if (checkModel)
             {
-                bool modelExist = QUtils.CheckModelExist(model);
+                bool modelExist = CheckModelExist(model);
 
                 if (!modelExist)
                 {
@@ -196,7 +196,7 @@ namespace IGIEditor
 
             if (checkModel)
             {
-                bool modelExist = QUtils.CheckModelExist(model);
+                bool modelExist = CheckModelExist(model);
                 if (!modelExist)
                 {
                     QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "Model " + model + " does not exist in current level");
@@ -362,7 +362,7 @@ namespace IGIEditor
             return hasMultiObjs;
         }
 
-        internal static string FindModelName(string modelId)
+        internal static string FindModelName(string modelId,bool addLogs=true)
         {
             string modelName = "UNKNOWN_OBJECT";
 
@@ -382,14 +382,15 @@ namespace IGIEditor
                         modelName = obj.Split('=')[0];
                         if (modelName.Length < 3 || String.IsNullOrEmpty(modelName))
                         {
+                            if(addLogs)
                             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "couldn't find model name for Model id : " + modelId);
                             return modelName;
                         }
                     }
                 }
 
-                if (modelName.Length > 3 && !String.IsNullOrEmpty(modelName))
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Found model name " + modelName + " for id : " + modelId);
+                if (modelName.Length > 3 && !String.IsNullOrEmpty(modelName) && addLogs)
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Found model name '" + modelName + "' for id : " + modelId);
             }
             return modelName;
         }
@@ -552,7 +553,7 @@ namespace IGIEditor
         {
             if (checkModel)
             {
-                bool modelExist = QUtils.CheckModelExist(model);
+                bool modelExist = CheckModelExist(model);
 
                 if (!modelExist)
                 {
@@ -640,7 +641,7 @@ namespace IGIEditor
 
             if (checkModel)
             {
-                bool modelExist = QUtils.CheckModelExist(model);
+                bool modelExist = CheckModelExist(model);
 
                 if (!modelExist)
                 {
@@ -920,7 +921,7 @@ namespace IGIEditor
 
         internal static string AddAreaActivate(int taskId, string model, string modelName, string taskNote, ref Real64 position, ref AreaDim areaDim, float statusDuration = 5.0f, bool isCutscene = false)
         {
-            var areaId = QUtils.qtaskId;
+            var areaId = taskId;
             var statusId = areaId + 1;
             var taskNoteStr = taskNote.Replace("\"", String.Empty).ToUpperInvariant();
 
@@ -933,7 +934,7 @@ namespace IGIEditor
                 taskNoteStr = GetModelName(model);
 
             string taskComment = "\n//" + taskNoteStr + " Area" + "\n";
-            string areaTask = "Task_New(" + QUtils.qtaskId++ + ",\"AreaActivate\"," + taskNote + "," + position.x + "," + position.y + "," + position.z + ",0,0,0," + areaDim.x + "," + areaDim.y + "," + areaDim.z + ",\"CRITERIA_HUMAN0\");" + "\n";
+            string areaTask = "Task_New(" + taskId + ",\"AreaActivate\"," + taskNote + "," + position.x + "," + position.y + "," + position.z + ",0,0,0," + areaDim.x + "," + areaDim.y + "," + areaDim.z + ",\"CRITERIA_HUMAN0\");" + "\n";
 
             //string statusMsgTask = "Task_New(" + -1 + ",\"StatusMessage\"," + taskNote + ",0,0,0,0,0,0,\"AreaActivate_" + areaId + ".nActive\",\"" + taskNoteStr + " " + modelName + " ID : " + taskId + " Pos : X : " + position.x + " Y: " + position.y + " Z: " + position.z + "\"," + "\"\", \"message\",FALSE," + isCutscene.ToString().ToUpperInvariant() + "," + statusDuration + ");" + "\n";
             string statusMsgTask = "Task_New(" + -1 + ",\"StatusMessage\"," + taskNote + ",0,0,0,0,0,0,\"AreaActivate_" + areaId + ".nActive\",\"" + taskNoteStr + "\"," + "\"\", \"message\",FALSE," + isCutscene.ToString().ToUpperInvariant() + "," + statusDuration + ");" + "\n";
@@ -1042,6 +1043,51 @@ namespace IGIEditor
 
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "objects List count : " + objList.Count + " Game items: " + QUtils.GameitemsCount());
             return objList;
+        }
+
+        internal static bool CheckModelExist(int taskId)
+        {
+            var qtaskList = QTask.GetQTaskList();
+            if (qtaskList.Count == 0)
+                throw new Exception("QTask list is empty");
+
+            if (taskId != -1)
+            {
+                foreach (var qtask in qtaskList)
+                {
+                    if (qtask.id == taskId)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+
+        internal static bool CheckModelExist(string model)
+        {
+            int gameLevel = QMemory.GetCurrentLevel();
+            AddLog(MethodBase.GetCurrentMethod().Name, "called with model : " + model + " for level : " + gameLevel);
+            var inputQscPath = cfgQscPath + gameLevel + "\\" + objectsQsc;
+            string qscData = LoadFile(inputQscPath);
+            bool modelExist = false;
+
+            if (!String.IsNullOrEmpty(model))
+            {
+                if (!model.Contains("\""))
+                    model = "\"" + model + "\"";
+            }
+
+            var modelList = Regex.Matches(qscData, model).Cast<Match>().Select(m => m.Value);
+            foreach (var modelObj in modelList)
+                AddLog(MethodBase.GetCurrentMethod().Name, "Models list : " + modelObj);
+
+            if (!String.IsNullOrEmpty(model))
+            {
+                if (modelList.Any(o => o.Contains(model)))
+                    modelExist = true;
+            }
+            AddLog(MethodBase.GetCurrentMethod().Name, "returned : " + (modelExist ? "Model exist" : "Model doesn't exist"));
+            return modelExist;
         }
 
         //Parse all the Objects.

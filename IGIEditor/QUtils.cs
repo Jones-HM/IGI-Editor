@@ -49,12 +49,12 @@ namespace IGIEditor
         internal static string taskNew = "Task_New", taskDecl = "Task_DeclareParameters";
         internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc", weaponConfigQVM = "weaponconfig.qvm", weaponsModQvm = "weaponconfig-mod.qvm";
         internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 3, currGameLevel = 1, updateTimeInterval = 10;
-        internal static string versionFileName = "VERSION", appEditorSubVersion = "0.4.0.1", logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsModelsList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customAiPathFile = "ai_custom_path.qsc", customScriptFileQEd = @"\QEditor\AIFiles\ai_custom_script.qsc", customAiPathFileQEd = @"\QEditor\AIFiles\ai_custom_path.qsc", appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\", nativesFile = @"\IGI-Natives.json", modelsFile = @"\IGI-Models.txt", internalsLogFile = @"\IGI-Internals.log";
-        internal static bool gameFound = false, gamePathSet = false, logEnabled = false, keyExist = false, keyFileExist = false, attachStatus = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false, editorUpdateCheck = false;
+        internal static string versionFileName = "VERSION", appEditorSubVersion = "0.4.0.1", logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsModelsList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customPatrolFile = "ai_custom_path.qsc", customScriptPathQEd, customPatrolPathQEd, appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\", nativesFile = @"\IGI-Natives.json", modelsFile = @"\IGI-Models.txt", internalsLogFile = @"\IGI-Internals.log";
+        internal static bool gameFound = false, gamePathSet = false, logEnabled = false, keyExist = false, keyFileExist = false, attachStatus = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false, editorUpdateCheck = false, nppInstalled=false;
         internal static float appEditorVersion = 0.4f, viewPortDelta = 10000.0f;
         internal static string supportDiscordLink = @"https://discord.gg/9T8tzyhvp6", supportYoutubeLink = @"https://www.youtube.com/channel/UChGryl0a0dii81NfDZ12LwA", supportVKLink = @"https://vk.com/id679925339";
         internal static IntPtr viewPortAddrX = (IntPtr)0x00BCAB08, viewPortAddrY = (IntPtr)0x00BCAB10, viewPortAddrZ = (IntPtr)0x00BCAB18;
-        internal const int TEAM_ID_FRIENDLY = 0, TEAM_ID_ENEMY = 1, MAX_FPS = 240, MAX_UPDATE_TIME = 120, MAX_HUMAN_CAM = 5;
+        internal const int TEAM_ID_FRIENDLY = 0, TEAM_ID_ENEMY = 1,MAX_AI_COUNT = 100, MAX_FPS = 240, MAX_UPDATE_TIME = 120, MAX_HUMAN_CAM = 5,LEVEL_FLOW_TASK_ID = 10, HUMANPLAYER_TASK_ID = 0, MAX_MINIMAL_ID_DIFF = 10;
 
         internal static string gamePath, appdataPath, igiEditorQEdPath, editorCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, qQVMPath, qQSCPath, cfgWeaponsPath, weaponsModQvmPath, weaponsOrgCfgPath, weaponsGamePath, humanplayerGamePath, menusystemGamePath, missionsGamePath, commonGamePath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", qGraphs = "QGraphs", cfgFile, editorAppName, editorUpdater, cachePath, cachePathAppLogs, nativesFilePath, modelsFilePath, internalsLogPath,
             cachePathAppImages, currPathAppImages, editorUpdaterDir = "IGIEditor_Update", editorUpdaterAbsDir, editorUpdaterFile, updaterBatchFile,editorChangeLogs= "CHANGELOGS", editorLicence= "LICENCE",editorReadme= "README",editorAutoUpdaterFile, autoUpdaterFile = "AutoUpdater", autoUpdaterBatch,
@@ -91,6 +91,7 @@ namespace IGIEditor
         internal static List<int> graphdIdsMarked = new List<int>();
         internal static List<int> aiGraphNodeIdStr = new List<int>();
         internal static List<GraphNode> graphNodesList = new List<GraphNode>();
+        internal static List<int> qIdsList = new List<int>();
 
         //Server data list.
         internal static List<QServerData> qServerDataList = new List<QServerData>();
@@ -467,7 +468,7 @@ namespace IGIEditor
             if (!status) ShowSystemFatalError("Editor internal files were not found in directory (ERROR: 0xC33000F)");
         }
 
-        internal static bool CheckAppInstalled(string appName)
+        internal static bool CheckAppInstalled(string appName,string helpVerText = "--version")
         {
             if (appName is null)
             {
@@ -476,7 +477,7 @@ namespace IGIEditor
 
             bool installed = false;
             string appVersionFile = appName + "_version.txt";
-            string appCheckCmd = appName + " --version > " + appVersionFile;
+            string appCheckCmd = appName + helpVerText  + " > " + appVersionFile;
             ShellExec(appCheckCmd);
             string appVersionData = File.ReadAllText(appVersionFile);
 
@@ -551,6 +552,8 @@ namespace IGIEditor
             menusystemGamePath = gameAbsPath + @"\menusystem";
             missionsGamePath = gameAbsPath + @"\missions";
             commonGamePath = gameAbsPath + @"\common";
+            customScriptPathQEd = igiEditorQEdPath + @"\AIFiles\" + customScriptFile;
+            customPatrolPathQEd = igiEditorQEdPath + @"\AIFiles\" + customPatrolFile;
             qQVMPath = igiEditorQEdPath + qfilesPath + inputQvmPath;
             qQSCPath = igiEditorQEdPath + qfilesPath + inputQscPath;
             aiIdlePath = igiEditorQEdPath + Path.DirectorySeparatorChar + "aiIdle.qvm";
@@ -1203,58 +1206,13 @@ namespace IGIEditor
             return sourceIndex;
         }
 
-
-        internal static bool CheckModelExist(string model)
-        {
-            int gameLevel = QMemory.GetCurrentLevel();
-            AddLog(MethodBase.GetCurrentMethod().Name, "called with model : " + model + " for level : " + gameLevel);
-            var inputQscPath = cfgQscPath + gameLevel + "\\" + objectsQsc;
-            string qscData = LoadFile(inputQscPath);
-            bool modelExist = false;
-
-            if (!String.IsNullOrEmpty(model))
-            {
-                if (!model.Contains("\""))
-                    model = "\"" + model + "\"";
-            }
-
-            var modelList = Regex.Matches(qscData, model).Cast<Match>().Select(m => m.Value);
-            foreach (var modelObj in modelList)
-                AddLog(MethodBase.GetCurrentMethod().Name, "Models list : " + modelObj);
-
-            if (!String.IsNullOrEmpty(model))
-            {
-                if (modelList.Any(o => o.Contains(model)))
-                    modelExist = true;
-            }
-            AddLog(MethodBase.GetCurrentMethod().Name, "returned : " + (modelExist ? "Model exist" : "Model doesn't exist"));
-            return modelExist;
-        }
-
         internal static int GetModelCount(string model)
         {
-            if (!CheckModelExist(model)) return 0;
+            if (!QObjects.CheckModelExist(model)) return 0;
             var qtaskList = QTask.GetQTaskList(false, true);
             int count = qtaskList.Count(o => String.Compare(o.model, model, true) == 0);
             ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Model count : " + count);
             return count;
-        }
-
-        internal static bool CheckModelExist(int taskId)
-        {
-            var qtaskList = QTask.GetQTaskList();
-            if (qtaskList.Count == 0)
-                throw new Exception("QTask list is empty");
-
-            if (taskId != -1)
-            {
-                foreach (var qtask in qtaskList)
-                {
-                    if (qtask.id == taskId)
-                        return true;
-                }
-            }
-            return false;
         }
 
         internal static void EditorUpdater(string updateFile = null, UPDATE_ACTION updateAction = UPDATE_ACTION.UPDATE, string updateBatch = "updater.bat")

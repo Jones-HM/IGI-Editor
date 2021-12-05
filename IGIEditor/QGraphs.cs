@@ -264,16 +264,16 @@ namespace IGIEditor
 
             QUtils.graphNodesList = QGraphs.ReadGraphNodeData(graphFile);
             int totalNodes = QUtils.graphNodesList.Count;
-            int graphWorkCount = 1, graphWorkPercent = 1;
+            //int graphWorkCount = 1, graphWorkPercent = 1;
 
             foreach (var node in QUtils.graphNodesList)
             {
                 if (node.NodeId > 0 && node.NodeId < 5000)
                 {
                     graphNodeIds.Add(node.NodeId);
-                    graphWorkPercent = (int)Math.Round((double)(100 * graphWorkCount) / totalNodes);
-                    IGIEditorUI.editorRef.SetStatusText("Graph#" + graphId + " Node#" + node.NodeId + " updating, Completed " + graphWorkPercent + "%");
-                    graphWorkCount++;
+                    //graphWorkPercent = (int)Math.Round((double)(100 * graphWorkCount) / totalNodes);
+                    //IGIEditorUI.editorRef.SetStatusText("Graph#" + graphId + " Node#" + node.NodeId + " updating, Completed " + graphWorkPercent + "%");
+                    //graphWorkCount++;
                 }
             }
 
@@ -447,7 +447,7 @@ namespace IGIEditor
             var nodeData = ReadGraphNodeData(graphFile);
             var graphPos = GetGraphPosition(graphId.ToString());
             QUtils.qtaskId = QTask.GenerateTaskID(true);
-            var graphArea = GetGraphArea(graphId);
+            //var graphArea = GetGraphArea(graphId);
 
             int graphWorkTotal = nodeData.Count, graphWorkCount = 1, graphWorkPercent = 1;
 
@@ -465,6 +465,9 @@ namespace IGIEditor
                 string taskNote = "Graph#" + graphId + "Node#" + node.NodeId + " - G#" + graphId + "N#1";
                 string taskInfo = taskNote.Slice(0, taskNote.IndexOf("-")).Trim();
 
+                //Generate Unique QTaskId's.
+                QUtils.qtaskId = QTask.GetUniqueQTaskId(QUtils.qtaskId);
+
                 //Visualisation Object - StatusMsg.
                 if (visualType == QUtils.GRAPH_VISUAL.OBJECTS)
                 {
@@ -473,7 +476,7 @@ namespace IGIEditor
                     if (showNodesInfo)
                     {
                         var areaDim = new AreaDim(8000);
-                        qscData += QObjects.AddAreaActivate(QUtils.qtaskId, nodeObject, null, "\"" + taskInfo + "\"", ref nodeRealPos, ref areaDim);
+                        qscData += QObjects.AddAreaActivate(QUtils.qtaskId++, nodeObject, null, "\"" + taskInfo + "\"", ref nodeRealPos, ref areaDim);
                     }
                 }
 
@@ -481,11 +484,10 @@ namespace IGIEditor
                 else if (visualType == QUtils.GRAPH_VISUAL.HILIGHT)
                 {
                     IGIEditorUI.editorRef.AddRigidObject(nodeObject, false, nodeRealPos, false, QUtils.qtaskId, taskNote, false);
-                    qscData += QObjects.ComputerMapHilight(QUtils.qtaskId, taskNote, "Graph#" + graphId, taskInfo, "MARKER_BOX", markerColor);
+                    qscData += QObjects.ComputerMapHilight(QUtils.qtaskId++, taskNote, "Graph#" + graphId, taskInfo, "MARKER_BOX", markerColor);
                 }
                 graphWorkPercent = (int)Math.Round((double)(100 * graphWorkCount) / graphWorkTotal);
                 IGIEditorUI.editorRef.SetStatusText("Graph#" + graphId + " Node#" + node.NodeId + " added, Completed " + graphWorkPercent + "%");
-                QUtils.qtaskId++;
                 graphWorkCount++;
             }
             return qscData;
@@ -588,17 +590,17 @@ namespace IGIEditor
             string nodesFile = "GraphNodesDetails_Level_" + gameLevel + ".txt";
             string fileData = QUtils.LoadFile(nodesFile);
 
-            if (fileData.Contains(id) && idType != "Graph")
+            if (Regex.Match(fileData, @"^" + id + "$").Success && idType != "Graph")
             {
                 QUtils.ShowError(errMsg);
                 status = true;
             }
-            else if (!fileData.Contains(id) && idType == "Graph")
+            else if (!Regex.Match(fileData, @"^" + id + "$").Success && idType == "Graph")
             {
                 QUtils.ShowError(errMsg);
                 status = false;
             }
-            else if (fileData.Contains(id) && idType == "Graph")
+            else if (Regex.Match(fileData, @"^" + id + "$").Success && idType == "Graph")
                 status = true;
 
             QUtils.FileIODelete(nodesFile);

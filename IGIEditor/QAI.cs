@@ -50,24 +50,13 @@ namespace IGIEditor
 
         internal static string AddHumanSoldier(string aiType, int aiScriptId, int graphId, Real64 position, float angle, string model, int team, bool addWeapon, string weapon, int ammo, bool guardGenerator)
         {
-            if (QUtils.qtaskId == 0)
-            {
-                QUtils.qtaskId = QTask.GenerateTaskID(true);
-            }
-            else
-            {
-                QUtils.qtaskId++;
-            }
+            if (position == null) position = QHuman.GetHumanTaskList().qtask.position;
 
-            if (position == null)
-            {
-                position = QHuman.GetHumanTaskList().qtask.position;
-            }
             int boneHeirarchy = 1;
             if (model == "015_01_1" || model == "012_01_1")//HumanSoldierFemale.
                 boneHeirarchy = GetBoneHeirarchy(model);
 
-            return AddHumanSoldier(QUtils.qtaskId, "A.I", aiType, aiScriptId, graphId, position, angle, model, team, boneHeirarchy, -1, addWeapon, weapon, ammo, guardGenerator);
+            return AddHumanSoldier(aiScriptId, "A.I", aiType, aiScriptId + 1, graphId, position, angle, model, team, boneHeirarchy, -1, addWeapon, weapon, ammo, guardGenerator);
         }
 
         internal static string AddHumanSoldier(int taskId, string taskNote, string aiType, int aiScriptId, int graphId, Real64 position, float angle, string model, int team, int boneHeirachy, int standAnimation, bool addWeapon, string weapon, int ammo, bool guardGenerator)
@@ -75,7 +64,7 @@ namespace IGIEditor
             //Add the A.I (Human soldier)
             string humanSoldierType = (model == "015_01_1" || model == "012_01_1") ? "HumanSoldierFemale" : "HumanSoldier";
             string qtaskSoldier = "\nTask_New(" + taskId + ",\"" + humanSoldierType + "\",\"" + taskNote + "\"," + position.x + "," + position.y + "," + position.z + "," + angle + ",\"" + model + "\"," + team + "," + boneHeirachy + "," + standAnimation + ",\n";
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with Ai Type: '" + aiType + "' ID : " + taskId + "  HumanSoldier : " + taskNote + "\"," + position.x + "," + position.y + "," + position.z + "," + angle + ",\"" + model + "\"," + team + "," + boneHeirachy + "," + standAnimation + ",\n");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Ai Type: '" + aiType + "' ID : " + taskId + ",HumanSoldier : " + QObjects.FindModelName(model) + ", Position: \"," + position.x + "," + position.y + "," + position.z + ", Angle: " + angle + ",\", Model:" + model + "\", TeamId: " + team + ", BoneHeirachy: " + boneHeirachy + ", Stand Animation: " + standAnimation + ",\n");
 
             //Add A.I type to status message.
             if (team == 0) QUtils.aiFriendTask += humanSoldierType + "_" + taskId + ".isDead && ";
@@ -83,8 +72,7 @@ namespace IGIEditor
             else QUtils.aiEnenmyTask += humanSoldierType + "_" + taskId + ".isDead && ";
 
             //Add the weapon.
-            if (addWeapon)
-                qtaskSoldier += QHuman.Weapon(weapon, ammo);
+            if (addWeapon) qtaskSoldier += QHuman.Weapon(weapon, ammo);
 
             //Add AI's script and graph data.
             qtaskSoldier += "Task_New(" + aiScriptId + ",\"HumanAI\",\"" + taskNote + "\",\"" + aiType + "\"," + graphId;
@@ -92,41 +80,55 @@ namespace IGIEditor
             return qtaskSoldier;
         }
 
-        internal static string GuardGenerator(string taskNote = "AI Army", int maxSpawn = 10)
+        internal static string AddGuardGenerator(string taskNote = "AI Army", int maxSpawn = 10)
         {
             string qTaskGuardGen = "Task_New(-1, \"GuardGenerator\",\"" + taskNote + "\"," + "\"!HumanPlayer_0.isDead\"," + maxSpawn + ",";
             return qTaskGuardGen;
         }
 
-        internal static string AddHumanSoldier(HumanAi humanAi, bool guardGenerator = false, int maxSpawns = 10, bool invulnerability = false, bool advanceView = false)
+        internal static string AddHumanSoldier(HumanAi humanAi)
         {
-            string aiType = null, aiWeapon = null, graphId = null, aiId = null, patrolId = null, modelId = null;
+            bool guardGenerator = humanAi.guardGenerator, advanceView = humanAi.advanceView, invulnerability = humanAi.invulnerability;
+            int maxSpawns = humanAi.maxSpawns;
+            string aiType = null, aiWeapon = null, modelId = null;
             int aiCount = 1, teamId = 0, aiAmmo = 999;
-            string qscData = null;
+            int graphId = 0, aiId = 0, patrolId = 0;
+            string qscData = null,aiModelName = QObjects.FindModelName(humanAi.model);
+
+            //QUtils.aiScriptId = QTask.GenerateUniqueQTaskId(QUtils.aiScriptId);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "A.I Script Id: " + QUtils.aiScriptId);
 
             if (humanAi != null) aiCount = humanAi.aiCount;
 
-            for (int i = 1; i <= aiCount; i++)
+            int aiWorkTotal = humanAi.aiCount, aiWorkCount = 1, aiWorkPercent = 1;
+
+            for (int index = 1; index <= aiCount; index++)
             {
                 if (humanAi != null)
                 {
                     aiType = humanAi.aiType;
-                    graphId = humanAi.graphId.ToString();
+                    graphId = humanAi.graphId;
                 }
 
-                aiId = QUtils.aiScriptId.ToString();
-                bool aiIdExist = QGraphs.CheckIdExist(aiId, "AI", QUtils.gGameLevel, "AI Id " + aiId + " already exist for current level");
+                aiId = QUtils.aiScriptId;
+                aiId = QTask.GetUniqueQTaskId(aiId);//Get Unique Id for A.I.
+                bool aiIdExist = false;//QGraphs.CheckIdExist(aiId, "AI", QUtils.gGameLevel, "AI Id " + aiId + " already exist for current level");
 
-                patrolId = (QUtils.aiScriptId + 1).ToString();
-                bool patrolIdExist = QGraphs.CheckIdExist(patrolId, "Patrol", QUtils.gGameLevel, "PatrolId " + patrolId + " already exist for current level");
+                patrolId = QUtils.aiScriptId + 2;
+                patrolId = QTask.GetUniqueQTaskId(patrolId);//Get Unique Id for PatrolId.
+                bool patrolIdExist = false; //QGraphs.CheckIdExist(patrolId, "Patrol", QUtils.gGameLevel, "PatrolId " + patrolId + " already exist for current level");
                 bool graphIdExist = true;//QGraphs.CheckIdExist(graphId, "Graph", QUtils.gGameLevel, "GraphId " + graphId + " doesn't exist for current level");
+
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "A.I Script Id: " + aiId + " A.I Patrol Id: " + patrolId);
 
                 if (!patrolIdExist && !aiIdExist && graphIdExist)
                 {
-                    int aiIdI = Convert.ToInt32(aiId);
+                    int humanId = Convert.ToInt32(aiId);
+                    aiId = humanId + 1;
                     int patrolIdI = Convert.ToInt32(patrolId);
                     int graphIdI = Convert.ToInt32(graphId);
 
+                    //Set A.I Position on Graph.
                     Real64 aiPos = QGraphs.GetGraphPosition(graphId);
                     float aiAngle = QMemory.GetRealAngle();
                     aiPos.x += new Random().Next(1000, 100000);
@@ -138,39 +140,33 @@ namespace IGIEditor
                         aiWeapon = humanAi.weapon;
                         teamId = humanAi.friendly ? 0 : 1;
                         aiAmmo = 999;
-
-                        //Remove after - TEST.
-                        //bool modelExist = QUtils.CheckModelExist(modelId);
-
-                        //if (!modelExist)
-                        //{
-                        //    QUtils.ShowError("Model '" + modelId + "' doesnt exist for current level");
-                        //    return qscData;
-                        //}
                     }
 
                     //Add GuardGenerator .
-                    if (guardGenerator) qscData += QAI.GuardGenerator("AI Army", maxSpawns);
+                    if (guardGenerator) qscData += QAI.AddGuardGenerator("AI Army", maxSpawns);
 
                     //Add A.I HumanSoldier.
-                    qscData += AddHumanSoldier(aiType, aiIdI, graphIdI, aiPos, aiAngle, modelId, teamId, true, aiWeapon, aiAmmo, guardGenerator);
+                    qscData += AddHumanSoldier(aiType, humanId, graphIdI, aiPos, aiAngle, modelId, teamId, true, aiWeapon, aiAmmo, guardGenerator);
 
                     //Add A.I Script to HumanSoldier.
-                    var aiScriptData = AddAIScriptAndPath(aiType, graphId, aiId, patrolId, QUtils.gGameLevel, invulnerability, advanceView);
-                    if (!String.IsNullOrEmpty(aiScriptData))
-                        qscData += aiScriptData;
+                    var aiScriptData = AddAIScriptPath(aiType, graphIdI, aiId, patrolId, QUtils.gGameLevel, invulnerability, advanceView);
+                    if (!String.IsNullOrEmpty(aiScriptData)) qscData += aiScriptData;
                 }
                 QUtils.aiScriptId += 3;
+
+                aiWorkPercent = (int)Math.Round((double)(100 * aiWorkCount) / aiWorkTotal);
+                IGIEditorUI.editorRef.SetStatusText("AI " + aiModelName + " #" + index + " added, Completed " + aiWorkPercent + "%");
+                aiWorkCount++;
             }
 
             return qscData;
         }
 
-        internal static string AddAIScriptAndPath(string aiType, string graphId, string aiId, string patrolId, int level, bool invulnerability = false, bool advanceView = false)
+        internal static string AddAIScriptPath(string aiType, int graphId, int aiId, int patrolId, int level, bool invulnerability = false, bool advanceView = false)
         {
             var inputAiPath = QUtils.cfgAiPath;
             string result = null;
-            string patrolAlarmId = null;
+            int patrolAlarmId = 0;
 
             string[] fileArray = System.IO.Directory.GetFiles(inputAiPath);
             var aiTypeSplit = aiType.Split('_')[1].ToLower();
@@ -179,25 +175,26 @@ namespace IGIEditor
             {
                 if (file.Contains(aiTypeSplit))
                 {
+                    //AI Script section.
                     if (file.Contains("script"))
                     {
                         string aiScriptData;
                         //If Custom A.I selected.
                         if (QUtils.customAiSelected)
-                            aiScriptData = QUtils.LoadFile(QUtils.appdataPath + "\\" + QUtils.customScriptFileQEd);
+                            aiScriptData = QUtils.LoadFile(QUtils.customScriptPathQEd);
                         else
                             aiScriptData = QUtils.LoadFile(file);
 
                         //Add Idle patrol.
                         if (aiScriptData.Contains(QUtils.patroIdleMask))
                         {
-                            aiScriptData = aiScriptData.ReplaceFirst(QUtils.patroIdleMask, patrolId);
+                            aiScriptData = aiScriptData.ReplaceFirst(QUtils.patroIdleMask, patrolId.ToString());
                         }
 
                         //Add Alarm patrol.
                         if (aiScriptData.Contains(QUtils.patroAlarmMask))
                         {
-                            aiScriptData = aiScriptData.ReplaceFirst(QUtils.patroAlarmMask, patrolAlarmId);
+                            aiScriptData = aiScriptData.ReplaceFirst(QUtils.patroAlarmMask, patrolAlarmId.ToString());
                         }
 
                         //Add Alarm control Id.
@@ -226,23 +223,23 @@ namespace IGIEditor
                         //Add invulnerability if opted for.
                         if (invulnerability)
                         {
-                            string invulnerabilityMode = "AIFunction_DefaultHandler();\n" +
+                            string invulnerabilityMode = "\nAIFunction_DefaultHandler();\n" +
                                 "AIFunction_SetEventPriority(AIEVENT_COMBAT);\n" +
                                 "AIFunction_SetInstantDeath(FALSE);\n" +
                                 "AIFunction_SetInvulnerability(TRUE);\n";
-                            aiScriptData = aiScriptData.ReplaceFirst("AIFunction_DefaultHandler();", invulnerabilityMode);
+                            aiScriptData = aiScriptData.ReplaceFirst("AIFunction_DefaultHandler();", invulnerabilityMode.Trim());
                         }
 
                         //Add advance View if opted for.
                         if (advanceView)
                         {
-                            string advanceViewLengthMode = "AIFunction_DefaultHandler();\n" +
+                            string advanceViewLengthMode = "\nAIFunction_DefaultHandler();\n" +
                                 "AIFunction_SetViewGamma(90000);\n" +
                                 " AIFunction_SetSecondaryViewGamma(90000);\n" +
                                 "AIFunction_SetSecondaryViewAlpha(90000);\n" +
                                 "AIFunction_SetViewLength(90000);\n" +
                                 "AIFunction_SetSecondaryViewLength(90000);\n";
-                            aiScriptData = aiScriptData.ReplaceFirst("AIFunction_DefaultHandler();", advanceViewLengthMode);
+                            aiScriptData = aiScriptData.ReplaceFirst("AIFunction_DefaultHandler();", advanceViewLengthMode.Trim());
                         }
 
 
@@ -255,47 +252,48 @@ namespace IGIEditor
                         QUtils.FileIODelete(aiFileName);
                     }
 
+                    //PatrolPath section.
                     else if (file.Contains("path"))
                     {
                         string aiPathData;
                         //If Custom A.I selected.
                         if (QUtils.customAiSelected)
-                            aiPathData = QUtils.LoadFile(QUtils.appdataPath + "\\" + QUtils.customAiPathFileQEd);
+                            aiPathData = QUtils.LoadFile(QUtils.customPatrolPathQEd);
                         else
                             aiPathData = QUtils.LoadFile(file);
 
                         bool graphExist = false;
-                        //var nodesList = QGraphs.GetAllNodes4mGraph(Convert.ToInt32(graphId));
-                        var nodesList = QGraphs.GetNodesForGraph(Convert.ToInt32(graphId));
+                        //var nodesList = QGraphs.GetAllNodes4mGraph(Convert.ToInt32(graphId));//Slow One Old method.
+                        var nodesList = QGraphs.GetNodesForGraph(graphId);
 
-                        if (nodesList == null)
-                        {
-                            var qTaskGraphList = QGraphs.GetQTaskGraphList(true, true, level);
+                        //if (nodesList == null)
+                        //{
+                        //    var qTaskGraphList = QGraphs.GetQTaskGraphList(true, true, level);
 
-                            foreach (var qTaskGraph in qTaskGraphList)
-                            {
-                                if (qTaskGraph.id.ToString() == graphId)
-                                {
-                                    graphExist = true;
-                                    break;
-                                }
-                            }
+                        //    foreach (var qTaskGraph in qTaskGraphList)
+                        //    {
+                        //        if (qTaskGraph.id == graphId)
+                        //        {
+                        //            graphExist = true;
+                        //            break;
+                        //        }
+                        //    }
 
-                            if (graphExist)
-                            {
-                                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "AI Patrol Updated to static for aiId : " + aiId + "\tgraphId : " + graphId);
-                                return AddAIScriptAndPath("AITYPE_STATIC", graphId, aiId, patrolId, level);
-                            }
-                            else
-                            {
-                                QUtils.ShowError("Invalid GraphId " + graphId + "provided.");
-                                return null;
-                            }
-                        }
+                        //    if (graphExist)
+                        //    {
+                        //        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "AI Patrol Updated to static for aiId : " + aiId + "\tgraphId : " + graphId);
+                        //        return AddAIScriptPath("AITYPE_STATIC", graphId, aiId, patrolId, level);
+                        //    }
+                        //    else
+                        //    {
+                        //        QUtils.ShowError("Invalid GraphId " + graphId + "provided.");
+                        //        return null;
+                        //    }
+                        //}
 
                         if (aiPathData.Contains("xxxx"))
                         {
-                            aiPathData = aiPathData.Replace("xxxx", patrolId);
+                            aiPathData = aiPathData.Replace("xxxx", patrolId.ToString());
                             aiPathData = aiPathData.Replace(")),", "));");
                             result = aiPathData;
 
@@ -303,12 +301,11 @@ namespace IGIEditor
                             if (file.Contains("idle"))
                             {
                                 QUtils.aiScriptId++;
-                                patrolAlarmId = (QUtils.aiScriptId + 1).ToString();
+                                patrolAlarmId = patrolId + 1;
                                 string alarmPathFile = file.Replace("idle", "alarm");
 
                                 string aiAlarmPathData = QUtils.LoadFile(alarmPathFile);
-
-                                aiAlarmPathData = aiAlarmPathData.Replace("xxxx", patrolAlarmId);
+                                aiAlarmPathData = aiAlarmPathData.Replace("xxxx", patrolAlarmId.ToString());
                                 aiAlarmPathData = aiAlarmPathData.Replace(")),", "));");
                                 result = aiPathData + "\n" + aiAlarmPathData;
                             }
@@ -318,7 +315,7 @@ namespace IGIEditor
                         if (nodesList.Count <= 2 && !aiType.Contains("AITYPE_SECURITY_PATROL"))
                         {
                             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "AI Patrol Updated to security for aiId : " + aiId + "\tgraphId : " + graphId);
-                            result = AddAIScriptAndPath("AITYPE_SECURITY_PATROL", graphId, aiId, patrolId, level);
+                            result = AddAIScriptPath("AITYPE_SECURITY_PATROL", graphId, aiId, patrolId, level);
                         }
                         else if (aiType.Contains("AITYPE_SECURITY_PATROL"))
                         {
@@ -388,7 +385,7 @@ namespace IGIEditor
                 QUtils.aiEnenmyTask = null;
             }
 
-            qscData += statusMsg.ReplaceLast("),", "));");
+            qscData = statusMsg.ReplaceLast("),", "));");
             return qscData;
         }
 

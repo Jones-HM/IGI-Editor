@@ -14,13 +14,13 @@ namespace IGIEditor
             bool status = false;
             QUtils.currGameLevel = QMemory.GetCurrentLevel();
             string currLevelPath = "level" + QUtils.currGameLevel;
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "file: '" + qscFile + "' Game Path: '" + gamePath + "'" + " CurrLevel path: " + currLevelPath);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QFile: '" + qscFile + "' Game Path: '" + gamePath + "'" + " CurrLevel path: " + currLevelPath);
 
             if (File.Exists(qscFile))
             {
-                string scriptFile = "MISSION:objects.qsc";
+                string scriptFile = "";
                 string outScriptPath = gamePath + "\\" + qscFile;
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscFile : Output path '" + outScriptPath + "'");
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QFile : Output path '" + outScriptPath + "'");
 
                 var qscData = QUtils.LoadFile(qscFile);
 
@@ -28,28 +28,24 @@ namespace IGIEditor
                 {
                     //Compile for Humanplayer.
                     if (gamePath.Contains(QUtils.humanplayerPath))
-                    {
                         scriptFile = "LOCAL:humanplayer/" + qscFile;
-                    }
 
                     else if (gamePath.Contains("ai"))
-                    {
                         scriptFile = "MISSION:AI/" + qscFile;
-                    }
 
                     if (File.Exists(outScriptPath))
                     {
-                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscFile : File exist '" + outScriptPath + "' deleting file.");
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QFile : File exist '" + outScriptPath + "' deleting file.");
                         QUtils.FileIODelete(outScriptPath);
                     }
 
                     //Copy file to OutPath and Compile with Internal Compiler.
                     QUtils.FileCopy(qscFile, outScriptPath);
 
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscFile : Starting Compiling of file '" + scriptFile + "'");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QFile : Starting Compiling of file '" + scriptFile + "'");
                     QInternals.ScriptCompile(scriptFile);
                     status = true;
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscFile : Compiling of file '" + scriptFile + "' done\tOutput Script Path: '" + outScriptPath + "'");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QFile : Compiling of file '" + scriptFile + "' done\tOutput Script Path: '" + outScriptPath + "'");
 
 
                     if (status) IGIEditorUI.editorRef.SetStatusText("Compile success");
@@ -70,7 +66,7 @@ namespace IGIEditor
                 if (!String.IsNullOrEmpty(qscData))
                 {
                     string scriptFile = "MISSION:objects.qsc";
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscData : Script File :'" + scriptFile + "' Game Path: '" + gamePath + ",CurrLevel path: " + currLevelPath + "',Append Data: " + appendData + ",Restart Level: " + restartLevel + ",Save Position: " + savePos);
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QData : Script File :'" + scriptFile + "' Game Path: '" + gamePath + ",CurrLevel path: " + currLevelPath + "',Append Data: " + appendData + ",Restart Level: " + restartLevel + ",Save Position: " + savePos);
 
                     if (!gamePath.Contains(currLevelPath))
                     {
@@ -82,25 +78,25 @@ namespace IGIEditor
                     QUtils.SaveFile(qscData, appendData);
                     QUtils.gamePath = QUtils.cfgGamePath + QMemory.GetCurrentLevel();
                     string outScriptPath = QUtils.gamePath + "\\" + QUtils.objectsQsc;
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscData : Output Path: '" + outScriptPath + "'");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QData : Output Path: '" + outScriptPath + "'");
 
                     if (File.Exists(outScriptPath))
                     {
-                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscData : File exist '" + outScriptPath + "' deleting file.");
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QData : File exist '" + outScriptPath + "' deleting file.");
                         QUtils.FileIODelete(outScriptPath);
                     }
 
                     //Copy file to OutPath and Compile with Internal Compiler.
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscData : Starting Compiling of file '" + QUtils.objectsQsc + "'");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QData : Starting Compiling of file '" + QUtils.objectsQsc + "'");
                     QUtils.FileCopy(QUtils.objectsQsc, outScriptPath);
                     QInternals.ScriptCompile(scriptFile);
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscData : Compiling of file '" + scriptFile + "' done\tOutput Path: '" + outScriptPath + "'");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QData : Compiling of file '" + scriptFile + "' done\tOutput Path: '" + outScriptPath + "'");
 
                     QUtils.Sleep(1.5f);
                     //Delete script file after compiling.
                     QUtils.FileIODelete(outScriptPath);
 
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QscData : Output Path: '" + outScriptPath + "' removed");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QData : Output Path: '" + outScriptPath + "' removed");
 
                     if (restartLevel) QMemory.RestartLevel(savePos);
                     status = true;

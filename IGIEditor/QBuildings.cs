@@ -14,7 +14,7 @@ namespace IGIEditor
 
             if (checkModel)
             {
-                bool modelExist = QUtils.CheckModelExist(model);
+                bool modelExist = QObjects.CheckModelExist(model);
 
                 if (!modelExist)
                 {
@@ -28,19 +28,19 @@ namespace IGIEditor
             return Building(taskId, modelName, position.x, position.y, position.z, 0, 0, 0, model);
         }
 
-        internal static string AddBuilding(string modelId, Real64 position, Real32 orientation, bool checkModel = false, int taskId = -1,string taskNote = "")
+        internal static string AddBuilding(string modelId, Real64 position, Real32 orientation, bool checkModel = false, int taskId = -1, string taskNote = "")
         {
             string modelName = QObjects.FindModelName(modelId);
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called checkModel : " + checkModel.ToString() + "  Building : '" + modelName + "'\tX : " + position.x + " Y : " + position.y + " Z : " + position.z + "\tBeta : " + orientation.beta + " Gamma : " + orientation.gamma + ",Alpha : " + orientation.alpha + " Model : " + modelId + "\n");
 
             if (checkModel)
             {
-                bool modelExist = QUtils.CheckModelExist(modelId);
+                bool modelExist = QObjects.CheckModelExist(modelId);
 
                 if (!modelExist)
                 {
                     QUtils.ShowError("Model " + modelId + " does not exist in current level");
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name,"Model " + modelId + " does not exist in current level");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Model " + modelId + " does not exist in current level");
                     return null;
                 }
             }
@@ -50,8 +50,7 @@ namespace IGIEditor
 
         internal static string Building(int taskId = -1, string taskNote = "", double x = 0.0f, double y = 0.0f, double z = 0.0f, float alpha = 0.0f, float beta = 0.0f, float gamma = 0.0f, string modelId = "")
         {
-            if (modelId.Contains("\""))
-                modelId = modelId.Replace("\"", String.Empty);
+            if (modelId.Contains("\"")) modelId = modelId.Replace("\"", String.Empty);
 
             string qtaskBuilding = "Task_New(" + taskId + ",\"Building\",\"" + taskNote + "\"," + x + "," + y + "," + z + "," + alpha + "," + beta + "," + gamma + ",\"" + modelId + "\");" + "\n";
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with ID : " + QUtils.qtaskObjId + "  Building : '" + QObjects.GetModelName(modelId) + "'\tX : " + x + " Y : " + y + " Z : " + z + "\t Alpha : " + alpha + " Beta : " + beta + ",Gamma : " + gamma + " Model : " + modelId + "\n");
