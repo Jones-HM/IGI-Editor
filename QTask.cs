@@ -12,7 +12,7 @@ namespace IGIEditor
     {
         internal static List<QScriptTask> GetQTaskList(bool fullQtaskList = false, bool distinct = false, bool fromBackup = false)
         {
-            int level = QMemory.GetCurrentLevel();
+            int level = QMemory.GetRunningLevel();
             string inputQscPath = cfgQscPath + level + "\\" + objectsQsc;
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with level : " + level + " fullList : " + fullQtaskList.ToString() + " distinct : " + distinct.ToString() + " backup : " + fromBackup);
             string qscData = fromBackup ? LoadFile(inputQscPath) : LoadFile();

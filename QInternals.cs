@@ -43,7 +43,7 @@ namespace IGIEditor
                 InternalDataWrite(data);
                 QUtils.Sleep(0.5f);
             }
-            GT.ActivateApp(QMemory.gameName);
+            GT.ShowAppForeground(QMemory.gameName);
             if (ctrl)
                 GT.MultiKeyPress(new VK[] { VK.CONTROL, key });
             else if (alt)

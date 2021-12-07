@@ -42,53 +42,60 @@ namespace IGIEditor
 
         internal static string GetMissionInfo(int gameLevel = -1, bool name = true, bool desc = false)
         {
-            var missionNameAddr = GetMissionAddr();
-            var missionAddr1 = missionNameAddr;
-            var missionAddr2 = missionNameAddr;
-            string missionInfo = null;
-
-            if (gameLevel != -1)
+            string missionInfo = "";
+            try
             {
-                if (name)
+                var missionNameAddr = GetMissionAddr();
+                var missionAddr1 = missionNameAddr;
+                var missionAddr2 = missionNameAddr;
+
+                if (gameLevel != -1)
                 {
-                    gameLevel = gameLevel <= 1 ? 0 : gameLevel - 1;
-                    var mNameAddr = missionNameAddr + (int)missionNameOffsets[gameLevel];
-                    var mName = QLibc.GT.GT_ReadString(mNameAddr);
-                    missionInfo = mName;
+                    if (name)
+                    {
+                        gameLevel = gameLevel <= 1 ? 0 : gameLevel - 1;
+                        var mNameAddr = missionNameAddr + (int)missionNameOffsets[gameLevel];
+                        var mName = QLibc.GT.GT_ReadString(mNameAddr);
+                        missionInfo = mName;
+                    }
+
+                    if (desc)
+                    {
+                        gameLevel = gameLevel <= 1 ? 0 : gameLevel - 1;
+                        var mDescAddr = missionNameAddr + (int)missionDescOffsets[gameLevel];
+                        var mDesc = QLibc.GT.GT_ReadString(mDescAddr);
+                        missionInfo = mDesc;
+                    }
                 }
 
-                if (desc)
+                else
                 {
-                    gameLevel = gameLevel <= 1 ? 0 : gameLevel - 1;
-                    var mDescAddr = missionNameAddr + (int)missionDescOffsets[gameLevel];
-                    var mDesc = QLibc.GT.GT_ReadString(mDescAddr);
-                    missionInfo = mDesc;
+                    for (int index = 0; index < QUtils.GAME_MAX_LEVEL; ++index)
+                    {
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Name Address : " + missionNameAddr.ToString("X4"));
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Desc Address : " + missionNameAddr.ToString("X4"));
+
+                        string mName = QLibc.GT.GT_ReadString(missionAddr1);
+                        string mDesc = QLibc.GT.GT_ReadString(missionAddr2);
+                        if (name) QUtils.ShowInfo("Mission " + (index + 1).ToString() + " : " + mName);
+                        if (desc) QUtils.ShowInfo("Mission " + (index + 1).ToString() + " : " + mDesc);
+
+                        if (index == 13) break;
+                        missionAddr1 = missionNameAddr + (int)missionNameOffsets[index];
+                        missionAddr2 = missionNameAddr + (int)missionDescOffsets[index];
+                    }
                 }
             }
-
-            else
+            catch (Exception ex)
             {
-                for (int index = 0; index < QUtils.GAME_MAX_LEVEL; ++index)
-                {
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Name Address : " + missionNameAddr.ToString("X4"));
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Desc Address : " + missionNameAddr.ToString("X4"));
-
-                    string mName = QLibc.GT.GT_ReadString(missionAddr1);
-                    string mDesc = QLibc.GT.GT_ReadString(missionAddr2);
-                    if (name) QUtils.ShowInfo("Mission " + (index + 1).ToString() + " : " + mName);
-                    if (desc) QUtils.ShowInfo("Mission " + (index + 1).ToString() + " : " + mDesc);
-
-                    if (index == 13) break;
-                    missionAddr1 = missionNameAddr + (int)missionNameOffsets[index];
-                    missionAddr2 = missionNameAddr + (int)missionDescOffsets[index];
-                }
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
             }
             return missionInfo;
         }
 
         internal static void ChangeMissionDetails(int gameLevel = -1, string missionNewName = null, string missionNewDesc = null)
         {
-            if (gameLevel <= 0) gameLevel = QMemory.GetCurrentLevel();
+            if (gameLevel <= 0) gameLevel = QMemory.GetRunningLevel();
             var missionAddr = GetMissionAddr();
             var missionNameAddr = missionAddr + (int)missionNameOffsets[gameLevel - 1];
             var missionDescAddr = missionAddr + (int)missionDescOffsets[gameLevel - 1];

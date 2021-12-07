@@ -117,6 +117,10 @@
             this.peekLRLbl = new System.Windows.Forms.Label();
             this.movementSpeedLbl = new System.Windows.Forms.Label();
             this.aiEditor = new System.Windows.Forms.TabPage();
+            this.aiEditorTabs = new System.Windows.Forms.TabControl();
+            this.aiEditorMainTab = new System.Windows.Forms.TabPage();
+            this.maxSpawnsTxt = new System.Windows.Forms.NumericUpDown();
+            this.aiCountTxt = new System.Windows.Forms.NumericUpDown();
             this.removeAllAi = new System.Windows.Forms.Button();
             this.graphAreaAiLbl = new System.Windows.Forms.TextBox();
             this.taskDetectionAiCb = new System.Windows.Forms.CheckBox();
@@ -139,8 +143,21 @@
             this.aiModelNameLbl = new System.Windows.Forms.Label();
             this.aiModelLbl = new System.Windows.Forms.Label();
             this.addAiBtn = new System.Windows.Forms.Button();
+            this.aiJSONEditor = new System.Windows.Forms.TabPage();
+            this.aiJsonAutoFmtCb = new System.Windows.Forms.CheckBox();
+            this.aiJsonClearDataCb = new System.Windows.Forms.CheckBox();
+            this.aiJsonEditorTxt = new System.Windows.Forms.RichTextBox();
+            this.aiJsonSaveBtn = new System.Windows.Forms.Button();
+            this.aiJsonLoadBtn = new System.Windows.Forms.Button();
+            this.aiJsonAddAiBtn = new System.Windows.Forms.Button();
+            this.aiFileNameTxt = new System.Windows.Forms.TextBox();
+            this.aiFileSizeTxt = new System.Windows.Forms.TextBox();
+            this.aiJsonVersionTxt = new System.Windows.Forms.TextBox();
+            this.aiJsonSaveAiBtn = new System.Windows.Forms.Button();
+            this.aiScriptEditor = new System.Windows.Forms.TabPage();
+            this.aiPatrolPathEditor = new System.Windows.Forms.TabPage();
             this.weaponEditor = new System.Windows.Forms.TabPage();
-            this.weaponAmmoTxt = new System.Windows.Forms.TextBox();
+            this.allWeaponsCb = new System.Windows.Forms.CheckBox();
             this.weaponAmmolbl = new System.Windows.Forms.Label();
             this.weaponDD = new System.Windows.Forms.ComboBox();
             this.weaponImgBox = new System.Windows.Forms.PictureBox();
@@ -246,6 +263,7 @@
             this.miscEditor = new System.Windows.Forms.TabPage();
             this.framesTxt = new System.Windows.Forms.NumericUpDown();
             this.minutesLbl = new System.Windows.Forms.Label();
+            this.gamePathBtn = new System.Windows.Forms.Button();
             this.editorUpdaterBtn = new System.Windows.Forms.Button();
             this.gameSettingsLbl = new System.Windows.Forms.Label();
             this.appSettingLbl = new System.Windows.Forms.Label();
@@ -297,8 +315,7 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.gameLogoLbl = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.aiCountTxt = new System.Windows.Forms.NumericUpDown();
-            this.maxSpawnsTxt = new System.Windows.Forms.NumericUpDown();
+            this.weaponAmmoTxt = new System.Windows.Forms.NumericUpDown();
             this.backPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -318,8 +335,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.damageScaleTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.movementSpeedTxt)).BeginInit();
             this.aiEditor.SuspendLayout();
+            this.aiEditorTabs.SuspendLayout();
+            this.aiEditorMainTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxSpawnsTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aiCountTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponAIImgBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.aiImgBox)).BeginInit();
+            this.aiJSONEditor.SuspendLayout();
             this.weaponEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weaponImgBox)).BeginInit();
             this.threeDEditor.SuspendLayout();
@@ -335,8 +357,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.musicTrackBar)).BeginInit();
             this.devMode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.aiCountTxt)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.maxSpawnsTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.weaponAmmoTxt)).BeginInit();
             this.SuspendLayout();
             // 
             // backPnl
@@ -1699,30 +1720,7 @@
             // aiEditor
             // 
             this.aiEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.aiEditor.Controls.Add(this.maxSpawnsTxt);
-            this.aiEditor.Controls.Add(this.aiCountTxt);
-            this.aiEditor.Controls.Add(this.removeAllAi);
-            this.aiEditor.Controls.Add(this.graphAreaAiLbl);
-            this.aiEditor.Controls.Add(this.taskDetectionAiCb);
-            this.aiEditor.Controls.Add(this.customAiCb);
-            this.aiEditor.Controls.Add(this.maxSpawnsLbl);
-            this.aiEditor.Controls.Add(this.aiFriendlyCb);
-            this.aiEditor.Controls.Add(this.aiAdvanceViewCb);
-            this.aiEditor.Controls.Add(this.guardGeneratorCb);
-            this.aiEditor.Controls.Add(this.aiinvulnerabilityCb);
-            this.aiEditor.Controls.Add(this.aiGraphIdDD);
-            this.aiEditor.Controls.Add(this.aiTypeDD);
-            this.aiEditor.Controls.Add(this.aiWeaponDD);
-            this.aiEditor.Controls.Add(this.graphIdAiLbl);
-            this.aiEditor.Controls.Add(this.aiTypeLbl);
-            this.aiEditor.Controls.Add(this.weaponAiLbl);
-            this.aiEditor.Controls.Add(this.weaponAIImgBox);
-            this.aiEditor.Controls.Add(this.aiModelSelectDD);
-            this.aiEditor.Controls.Add(this.aiImgBox);
-            this.aiEditor.Controls.Add(this.aiCountLbl);
-            this.aiEditor.Controls.Add(this.aiModelNameLbl);
-            this.aiEditor.Controls.Add(this.aiModelLbl);
-            this.aiEditor.Controls.Add(this.addAiBtn);
+            this.aiEditor.Controls.Add(this.aiEditorTabs);
             this.aiEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.aiEditor.Location = new System.Drawing.Point(4, 30);
             this.aiEditor.Margin = new System.Windows.Forms.Padding(4);
@@ -1731,15 +1729,96 @@
             this.aiEditor.TabIndex = 8;
             this.aiEditor.Text = "A.I Editor";
             // 
+            // aiEditorTabs
+            // 
+            this.aiEditorTabs.Controls.Add(this.aiEditorMainTab);
+            this.aiEditorTabs.Controls.Add(this.aiJSONEditor);
+            this.aiEditorTabs.Controls.Add(this.aiScriptEditor);
+            this.aiEditorTabs.Controls.Add(this.aiPatrolPathEditor);
+            this.aiEditorTabs.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aiEditorTabs.Location = new System.Drawing.Point(0, 0);
+            this.aiEditorTabs.Margin = new System.Windows.Forms.Padding(4);
+            this.aiEditorTabs.Name = "aiEditorTabs";
+            this.aiEditorTabs.SelectedIndex = 0;
+            this.aiEditorTabs.Size = new System.Drawing.Size(1137, 408);
+            this.aiEditorTabs.TabIndex = 85;
+            // 
+            // aiEditorMainTab
+            // 
+            this.aiEditorMainTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiEditorMainTab.Controls.Add(this.maxSpawnsTxt);
+            this.aiEditorMainTab.Controls.Add(this.aiCountTxt);
+            this.aiEditorMainTab.Controls.Add(this.removeAllAi);
+            this.aiEditorMainTab.Controls.Add(this.graphAreaAiLbl);
+            this.aiEditorMainTab.Controls.Add(this.taskDetectionAiCb);
+            this.aiEditorMainTab.Controls.Add(this.customAiCb);
+            this.aiEditorMainTab.Controls.Add(this.maxSpawnsLbl);
+            this.aiEditorMainTab.Controls.Add(this.aiFriendlyCb);
+            this.aiEditorMainTab.Controls.Add(this.aiAdvanceViewCb);
+            this.aiEditorMainTab.Controls.Add(this.guardGeneratorCb);
+            this.aiEditorMainTab.Controls.Add(this.aiinvulnerabilityCb);
+            this.aiEditorMainTab.Controls.Add(this.aiGraphIdDD);
+            this.aiEditorMainTab.Controls.Add(this.aiTypeDD);
+            this.aiEditorMainTab.Controls.Add(this.aiWeaponDD);
+            this.aiEditorMainTab.Controls.Add(this.graphIdAiLbl);
+            this.aiEditorMainTab.Controls.Add(this.aiTypeLbl);
+            this.aiEditorMainTab.Controls.Add(this.weaponAiLbl);
+            this.aiEditorMainTab.Controls.Add(this.weaponAIImgBox);
+            this.aiEditorMainTab.Controls.Add(this.aiModelSelectDD);
+            this.aiEditorMainTab.Controls.Add(this.aiImgBox);
+            this.aiEditorMainTab.Controls.Add(this.aiCountLbl);
+            this.aiEditorMainTab.Controls.Add(this.aiModelNameLbl);
+            this.aiEditorMainTab.Controls.Add(this.aiModelLbl);
+            this.aiEditorMainTab.Controls.Add(this.addAiBtn);
+            this.aiEditorMainTab.Font = new System.Drawing.Font("Century Gothic", 9.75F);
+            this.aiEditorMainTab.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.aiEditorMainTab.Location = new System.Drawing.Point(4, 26);
+            this.aiEditorMainTab.Margin = new System.Windows.Forms.Padding(4);
+            this.aiEditorMainTab.Name = "aiEditorMainTab";
+            this.aiEditorMainTab.Size = new System.Drawing.Size(1129, 378);
+            this.aiEditorMainTab.TabIndex = 0;
+            this.aiEditorMainTab.Text = "Main Editor";
+            // 
+            // maxSpawnsTxt
+            // 
+            this.maxSpawnsTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.maxSpawnsTxt.Enabled = false;
+            this.maxSpawnsTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.maxSpawnsTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.maxSpawnsTxt.Location = new System.Drawing.Point(974, 260);
+            this.maxSpawnsTxt.Name = "maxSpawnsTxt";
+            this.maxSpawnsTxt.Size = new System.Drawing.Size(134, 30);
+            this.maxSpawnsTxt.TabIndex = 108;
+            this.maxSpawnsTxt.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // aiCountTxt
+            // 
+            this.aiCountTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiCountTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.aiCountTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.aiCountTxt.Location = new System.Drawing.Point(684, 259);
+            this.aiCountTxt.Name = "aiCountTxt";
+            this.aiCountTxt.Size = new System.Drawing.Size(100, 30);
+            this.aiCountTxt.TabIndex = 107;
+            this.aiCountTxt.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // removeAllAi
             // 
             this.removeAllAi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeAllAi.ForeColor = System.Drawing.Color.Tomato;
-            this.removeAllAi.Location = new System.Drawing.Point(901, 335);
+            this.removeAllAi.Location = new System.Drawing.Point(900, 317);
             this.removeAllAi.Margin = new System.Windows.Forms.Padding(4);
             this.removeAllAi.Name = "removeAllAi";
             this.removeAllAi.Size = new System.Drawing.Size(208, 31);
-            this.removeAllAi.TabIndex = 48;
+            this.removeAllAi.TabIndex = 106;
             this.removeAllAi.Text = "Remove all A.I";
             this.removeAllAi.UseVisualStyleBackColor = true;
             this.removeAllAi.Click += new System.EventHandler(this.removeAllAi_Click);
@@ -1750,23 +1829,23 @@
             this.graphAreaAiLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.graphAreaAiLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.graphAreaAiLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.graphAreaAiLbl.Location = new System.Drawing.Point(776, 196);
+            this.graphAreaAiLbl.Location = new System.Drawing.Point(775, 189);
             this.graphAreaAiLbl.Margin = new System.Windows.Forms.Padding(4);
             this.graphAreaAiLbl.Name = "graphAreaAiLbl";
             this.graphAreaAiLbl.ReadOnly = true;
             this.graphAreaAiLbl.Size = new System.Drawing.Size(328, 30);
-            this.graphAreaAiLbl.TabIndex = 47;
+            this.graphAreaAiLbl.TabIndex = 105;
             this.graphAreaAiLbl.Text = "Graph Area";
             // 
             // taskDetectionAiCb
             // 
             this.taskDetectionAiCb.AutoSize = true;
             this.taskDetectionAiCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.taskDetectionAiCb.Location = new System.Drawing.Point(275, 140);
+            this.taskDetectionAiCb.Location = new System.Drawing.Point(221, 135);
             this.taskDetectionAiCb.Margin = new System.Windows.Forms.Padding(4);
             this.taskDetectionAiCb.Name = "taskDetectionAiCb";
             this.taskDetectionAiCb.Size = new System.Drawing.Size(157, 25);
-            this.taskDetectionAiCb.TabIndex = 45;
+            this.taskDetectionAiCb.TabIndex = 104;
             this.taskDetectionAiCb.Text = "Task Detection";
             this.taskDetectionAiCb.UseVisualStyleBackColor = true;
             // 
@@ -1774,24 +1853,24 @@
             // 
             this.customAiCb.AutoSize = true;
             this.customAiCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customAiCb.Location = new System.Drawing.Point(275, 114);
+            this.customAiCb.Location = new System.Drawing.Point(221, 109);
             this.customAiCb.Margin = new System.Windows.Forms.Padding(4);
             this.customAiCb.Name = "customAiCb";
             this.customAiCb.Size = new System.Drawing.Size(124, 25);
-            this.customAiCb.TabIndex = 45;
+            this.customAiCb.TabIndex = 103;
             this.customAiCb.Text = "Custom A.I";
             this.customAiCb.UseVisualStyleBackColor = true;
-            this.customAiCb.CheckedChanged += new System.EventHandler(this.customAiCb_CheckedChanged);
+            this.customAiCb.Click += new System.EventHandler(this.customAiCb_CheckedChanged);
             // 
             // maxSpawnsLbl
             // 
             this.maxSpawnsLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.maxSpawnsLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.maxSpawnsLbl.Location = new System.Drawing.Point(795, 264);
+            this.maxSpawnsLbl.Location = new System.Drawing.Point(794, 257);
             this.maxSpawnsLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.maxSpawnsLbl.Name = "maxSpawnsLbl";
             this.maxSpawnsLbl.Size = new System.Drawing.Size(173, 33);
-            this.maxSpawnsLbl.TabIndex = 43;
+            this.maxSpawnsLbl.TabIndex = 102;
             this.maxSpawnsLbl.Text = "Max Spawns ";
             this.maxSpawnsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -1799,11 +1878,11 @@
             // 
             this.aiFriendlyCb.AutoSize = true;
             this.aiFriendlyCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aiFriendlyCb.Location = new System.Drawing.Point(275, 62);
+            this.aiFriendlyCb.Location = new System.Drawing.Point(221, 57);
             this.aiFriendlyCb.Margin = new System.Windows.Forms.Padding(4);
             this.aiFriendlyCb.Name = "aiFriendlyCb";
             this.aiFriendlyCb.Size = new System.Drawing.Size(92, 25);
-            this.aiFriendlyCb.TabIndex = 42;
+            this.aiFriendlyCb.TabIndex = 100;
             this.aiFriendlyCb.Text = "Friendly";
             this.aiFriendlyCb.UseVisualStyleBackColor = true;
             // 
@@ -1811,11 +1890,11 @@
             // 
             this.aiAdvanceViewCb.AutoSize = true;
             this.aiAdvanceViewCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aiAdvanceViewCb.Location = new System.Drawing.Point(275, 36);
+            this.aiAdvanceViewCb.Location = new System.Drawing.Point(221, 31);
             this.aiAdvanceViewCb.Margin = new System.Windows.Forms.Padding(4);
             this.aiAdvanceViewCb.Name = "aiAdvanceViewCb";
             this.aiAdvanceViewCb.Size = new System.Drawing.Size(158, 25);
-            this.aiAdvanceViewCb.TabIndex = 42;
+            this.aiAdvanceViewCb.TabIndex = 99;
             this.aiAdvanceViewCb.Text = "Advance View";
             this.aiAdvanceViewCb.UseVisualStyleBackColor = true;
             // 
@@ -1823,24 +1902,23 @@
             // 
             this.guardGeneratorCb.AutoSize = true;
             this.guardGeneratorCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guardGeneratorCb.Location = new System.Drawing.Point(275, 88);
+            this.guardGeneratorCb.Location = new System.Drawing.Point(221, 83);
             this.guardGeneratorCb.Margin = new System.Windows.Forms.Padding(4);
             this.guardGeneratorCb.Name = "guardGeneratorCb";
             this.guardGeneratorCb.Size = new System.Drawing.Size(178, 25);
-            this.guardGeneratorCb.TabIndex = 42;
+            this.guardGeneratorCb.TabIndex = 98;
             this.guardGeneratorCb.Text = "Guard Generator";
             this.guardGeneratorCb.UseVisualStyleBackColor = true;
-            this.guardGeneratorCb.CheckedChanged += new System.EventHandler(this.guardGeneratorCb_CheckedChanged);
             // 
             // aiinvulnerabilityCb
             // 
             this.aiinvulnerabilityCb.AutoSize = true;
             this.aiinvulnerabilityCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aiinvulnerabilityCb.Location = new System.Drawing.Point(275, 10);
+            this.aiinvulnerabilityCb.Location = new System.Drawing.Point(221, 5);
             this.aiinvulnerabilityCb.Margin = new System.Windows.Forms.Padding(4);
             this.aiinvulnerabilityCb.Name = "aiinvulnerabilityCb";
             this.aiinvulnerabilityCb.Size = new System.Drawing.Size(111, 25);
-            this.aiinvulnerabilityCb.TabIndex = 42;
+            this.aiinvulnerabilityCb.TabIndex = 101;
             this.aiinvulnerabilityCb.Text = "Invincible";
             this.aiinvulnerabilityCb.UseVisualStyleBackColor = true;
             // 
@@ -1851,11 +1929,11 @@
             this.aiGraphIdDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.aiGraphIdDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.aiGraphIdDD.FormattingEnabled = true;
-            this.aiGraphIdDD.Location = new System.Drawing.Point(685, 195);
+            this.aiGraphIdDD.Location = new System.Drawing.Point(684, 188);
             this.aiGraphIdDD.Name = "aiGraphIdDD";
             this.aiGraphIdDD.Size = new System.Drawing.Size(73, 29);
-            this.aiGraphIdDD.TabIndex = 40;
-            this.aiGraphIdDD.SelectedIndexChanged += new System.EventHandler(this.aiGraphIdDD_SelectedIndexChanged);
+            this.aiGraphIdDD.TabIndex = 97;
+            this.aiGraphIdDD.SelectedIndexChanged += new System.EventHandler(this.aiGraphIdDD_SelectedValueChanged);
             // 
             // aiTypeDD
             // 
@@ -1864,10 +1942,10 @@
             this.aiTypeDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.aiTypeDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.aiTypeDD.FormattingEnabled = true;
-            this.aiTypeDD.Location = new System.Drawing.Point(685, 132);
+            this.aiTypeDD.Location = new System.Drawing.Point(684, 125);
             this.aiTypeDD.Name = "aiTypeDD";
             this.aiTypeDD.Size = new System.Drawing.Size(424, 29);
-            this.aiTypeDD.TabIndex = 40;
+            this.aiTypeDD.TabIndex = 96;
             this.aiTypeDD.SelectedIndexChanged += new System.EventHandler(this.aiTypeDD_SelectedIndexChanged);
             // 
             // aiWeaponDD
@@ -1877,21 +1955,21 @@
             this.aiWeaponDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.aiWeaponDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.aiWeaponDD.FormattingEnabled = true;
-            this.aiWeaponDD.Location = new System.Drawing.Point(685, 74);
+            this.aiWeaponDD.Location = new System.Drawing.Point(684, 67);
             this.aiWeaponDD.Name = "aiWeaponDD";
             this.aiWeaponDD.Size = new System.Drawing.Size(424, 29);
-            this.aiWeaponDD.TabIndex = 40;
+            this.aiWeaponDD.TabIndex = 95;
             this.aiWeaponDD.SelectedValueChanged += new System.EventHandler(this.weaponAiDD_SelectedValueChanged);
             // 
             // graphIdAiLbl
             // 
             this.graphIdAiLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.graphIdAiLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.graphIdAiLbl.Location = new System.Drawing.Point(499, 192);
+            this.graphIdAiLbl.Location = new System.Drawing.Point(498, 185);
             this.graphIdAiLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.graphIdAiLbl.Name = "graphIdAiLbl";
             this.graphIdAiLbl.Size = new System.Drawing.Size(173, 33);
-            this.graphIdAiLbl.TabIndex = 39;
+            this.graphIdAiLbl.TabIndex = 94;
             this.graphIdAiLbl.Text = "Graph Id ";
             this.graphIdAiLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -1899,11 +1977,11 @@
             // 
             this.aiTypeLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.aiTypeLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.aiTypeLbl.Location = new System.Drawing.Point(499, 132);
+            this.aiTypeLbl.Location = new System.Drawing.Point(498, 125);
             this.aiTypeLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.aiTypeLbl.Name = "aiTypeLbl";
             this.aiTypeLbl.Size = new System.Drawing.Size(173, 33);
-            this.aiTypeLbl.TabIndex = 39;
+            this.aiTypeLbl.TabIndex = 93;
             this.aiTypeLbl.Text = "Type ";
             this.aiTypeLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -1911,23 +1989,23 @@
             // 
             this.weaponAiLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.weaponAiLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.weaponAiLbl.Location = new System.Drawing.Point(499, 70);
+            this.weaponAiLbl.Location = new System.Drawing.Point(498, 63);
             this.weaponAiLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.weaponAiLbl.Name = "weaponAiLbl";
             this.weaponAiLbl.Size = new System.Drawing.Size(173, 33);
-            this.weaponAiLbl.TabIndex = 39;
+            this.weaponAiLbl.TabIndex = 92;
             this.weaponAiLbl.Text = "Weapon ";
             this.weaponAiLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // weaponAIImgBox
             // 
             this.weaponAIImgBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.weaponAIImgBox.Location = new System.Drawing.Point(244, 182);
+            this.weaponAIImgBox.Location = new System.Drawing.Point(211, 167);
             this.weaponAIImgBox.Margin = new System.Windows.Forms.Padding(4);
             this.weaponAIImgBox.Name = "weaponAIImgBox";
             this.weaponAIImgBox.Size = new System.Drawing.Size(199, 184);
             this.weaponAIImgBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.weaponAIImgBox.TabIndex = 38;
+            this.weaponAIImgBox.TabIndex = 91;
             this.weaponAIImgBox.TabStop = false;
             // 
             // aiModelSelectDD
@@ -1937,33 +2015,32 @@
             this.aiModelSelectDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.aiModelSelectDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.aiModelSelectDD.FormattingEnabled = true;
-            this.aiModelSelectDD.Location = new System.Drawing.Point(685, 13);
+            this.aiModelSelectDD.Location = new System.Drawing.Point(684, 6);
             this.aiModelSelectDD.Name = "aiModelSelectDD";
             this.aiModelSelectDD.Size = new System.Drawing.Size(419, 29);
-            this.aiModelSelectDD.TabIndex = 37;
-            this.aiModelSelectDD.SelectedIndexChanged += new System.EventHandler(this.aiModelSelectDD_SelectedIndexChanged);
+            this.aiModelSelectDD.TabIndex = 90;
             this.aiModelSelectDD.SelectedValueChanged += new System.EventHandler(this.aiModelSelectDD_SelectedValueChanged);
             // 
             // aiImgBox
             // 
             this.aiImgBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.aiImgBox.Location = new System.Drawing.Point(27, 44);
+            this.aiImgBox.Location = new System.Drawing.Point(4, 29);
             this.aiImgBox.Margin = new System.Windows.Forms.Padding(4);
             this.aiImgBox.Name = "aiImgBox";
             this.aiImgBox.Size = new System.Drawing.Size(199, 322);
             this.aiImgBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.aiImgBox.TabIndex = 36;
+            this.aiImgBox.TabIndex = 89;
             this.aiImgBox.TabStop = false;
             // 
             // aiCountLbl
             // 
             this.aiCountLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.aiCountLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.aiCountLbl.Location = new System.Drawing.Point(524, 263);
+            this.aiCountLbl.Location = new System.Drawing.Point(523, 256);
             this.aiCountLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.aiCountLbl.Name = "aiCountLbl";
             this.aiCountLbl.Size = new System.Drawing.Size(119, 33);
-            this.aiCountLbl.TabIndex = 34;
+            this.aiCountLbl.TabIndex = 87;
             this.aiCountLbl.Text = "AI Count";
             this.aiCountLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -1971,22 +2048,22 @@
             // 
             this.aiModelNameLbl.Font = new System.Drawing.Font("Century Gothic", 13F);
             this.aiModelNameLbl.ForeColor = System.Drawing.Color.LightSalmon;
-            this.aiModelNameLbl.Location = new System.Drawing.Point(8, 7);
+            this.aiModelNameLbl.Location = new System.Drawing.Point(0, 0);
             this.aiModelNameLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.aiModelNameLbl.Name = "aiModelNameLbl";
-            this.aiModelNameLbl.Size = new System.Drawing.Size(259, 33);
-            this.aiModelNameLbl.TabIndex = 34;
+            this.aiModelNameLbl.Size = new System.Drawing.Size(259, 28);
+            this.aiModelNameLbl.TabIndex = 86;
             this.aiModelNameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // aiModelLbl
             // 
             this.aiModelLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.aiModelLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.aiModelLbl.Location = new System.Drawing.Point(494, 9);
+            this.aiModelLbl.Location = new System.Drawing.Point(493, 2);
             this.aiModelLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.aiModelLbl.Name = "aiModelLbl";
             this.aiModelLbl.Size = new System.Drawing.Size(173, 33);
-            this.aiModelLbl.TabIndex = 34;
+            this.aiModelLbl.TabIndex = 88;
             this.aiModelLbl.Text = "Model";
             this.aiModelLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -1994,19 +2071,189 @@
             // 
             this.addAiBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addAiBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.addAiBtn.Location = new System.Drawing.Point(685, 335);
+            this.addAiBtn.Location = new System.Drawing.Point(684, 317);
             this.addAiBtn.Margin = new System.Windows.Forms.Padding(4);
             this.addAiBtn.Name = "addAiBtn";
             this.addAiBtn.Size = new System.Drawing.Size(208, 31);
-            this.addAiBtn.TabIndex = 33;
+            this.addAiBtn.TabIndex = 85;
             this.addAiBtn.Text = "Add A.I Soldier";
             this.addAiBtn.UseVisualStyleBackColor = true;
             this.addAiBtn.Click += new System.EventHandler(this.addAiBtn_Click);
+            // 
+            // aiJSONEditor
+            // 
+            this.aiJSONEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiJSONEditor.Controls.Add(this.aiJsonAutoFmtCb);
+            this.aiJSONEditor.Controls.Add(this.aiJsonClearDataCb);
+            this.aiJSONEditor.Controls.Add(this.aiJsonEditorTxt);
+            this.aiJSONEditor.Controls.Add(this.aiJsonSaveBtn);
+            this.aiJSONEditor.Controls.Add(this.aiJsonLoadBtn);
+            this.aiJSONEditor.Controls.Add(this.aiJsonAddAiBtn);
+            this.aiJSONEditor.Controls.Add(this.aiFileNameTxt);
+            this.aiJSONEditor.Controls.Add(this.aiFileSizeTxt);
+            this.aiJSONEditor.Controls.Add(this.aiJsonVersionTxt);
+            this.aiJSONEditor.Controls.Add(this.aiJsonSaveAiBtn);
+            this.aiJSONEditor.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aiJSONEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.aiJSONEditor.Location = new System.Drawing.Point(4, 26);
+            this.aiJSONEditor.Name = "aiJSONEditor";
+            this.aiJSONEditor.Padding = new System.Windows.Forms.Padding(3);
+            this.aiJSONEditor.Size = new System.Drawing.Size(1129, 378);
+            this.aiJSONEditor.TabIndex = 1;
+            this.aiJSONEditor.Text = "JSON Editor";
+            // 
+            // aiJsonAutoFmtCb
+            // 
+            this.aiJsonAutoFmtCb.AutoSize = true;
+            this.aiJsonAutoFmtCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aiJsonAutoFmtCb.Location = new System.Drawing.Point(977, 219);
+            this.aiJsonAutoFmtCb.Margin = new System.Windows.Forms.Padding(4);
+            this.aiJsonAutoFmtCb.Name = "aiJsonAutoFmtCb";
+            this.aiJsonAutoFmtCb.Size = new System.Drawing.Size(115, 23);
+            this.aiJsonAutoFmtCb.TabIndex = 64;
+            this.aiJsonAutoFmtCb.Text = "Auto Format";
+            this.aiJsonAutoFmtCb.UseVisualStyleBackColor = true;
+            // 
+            // aiJsonClearDataCb
+            // 
+            this.aiJsonClearDataCb.AutoSize = true;
+            this.aiJsonClearDataCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aiJsonClearDataCb.Location = new System.Drawing.Point(873, 219);
+            this.aiJsonClearDataCb.Margin = new System.Windows.Forms.Padding(4);
+            this.aiJsonClearDataCb.Name = "aiJsonClearDataCb";
+            this.aiJsonClearDataCb.Size = new System.Drawing.Size(107, 23);
+            this.aiJsonClearDataCb.TabIndex = 65;
+            this.aiJsonClearDataCb.Text = "Clear Data";
+            this.aiJsonClearDataCb.UseVisualStyleBackColor = true;
+            // 
+            // aiJsonEditorTxt
+            // 
+            this.aiJsonEditorTxt.AutoWordSelection = true;
+            this.aiJsonEditorTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiJsonEditorTxt.Font = new System.Drawing.Font("Century Gothic", 10.15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aiJsonEditorTxt.ForeColor = System.Drawing.Color.White;
+            this.aiJsonEditorTxt.Location = new System.Drawing.Point(1, -2);
+            this.aiJsonEditorTxt.Name = "aiJsonEditorTxt";
+            this.aiJsonEditorTxt.Size = new System.Drawing.Size(865, 360);
+            this.aiJsonEditorTxt.TabIndex = 63;
+            this.aiJsonEditorTxt.Text = "A.I JSON EDITOR";
+            // 
+            // aiJsonSaveBtn
+            // 
+            this.aiJsonSaveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.aiJsonSaveBtn.Font = new System.Drawing.Font("Century Gothic", 10.2F);
+            this.aiJsonSaveBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.aiJsonSaveBtn.Location = new System.Drawing.Point(871, 170);
+            this.aiJsonSaveBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.aiJsonSaveBtn.Name = "aiJsonSaveBtn";
+            this.aiJsonSaveBtn.Size = new System.Drawing.Size(254, 41);
+            this.aiJsonSaveBtn.TabIndex = 60;
+            this.aiJsonSaveBtn.Text = "Save JSON";
+            this.aiJsonSaveBtn.UseVisualStyleBackColor = true;
+            // 
+            // aiJsonLoadBtn
+            // 
+            this.aiJsonLoadBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.aiJsonLoadBtn.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aiJsonLoadBtn.ForeColor = System.Drawing.Color.Tomato;
+            this.aiJsonLoadBtn.Location = new System.Drawing.Point(871, 121);
+            this.aiJsonLoadBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.aiJsonLoadBtn.Name = "aiJsonLoadBtn";
+            this.aiJsonLoadBtn.Size = new System.Drawing.Size(254, 41);
+            this.aiJsonLoadBtn.TabIndex = 61;
+            this.aiJsonLoadBtn.Text = "Load JSON";
+            this.aiJsonLoadBtn.UseVisualStyleBackColor = true;
+            this.aiJsonLoadBtn.Click += new System.EventHandler(this.aiJsonLoadBtn_Click);
+            // 
+            // aiJsonAddAiBtn
+            // 
+            this.aiJsonAddAiBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.aiJsonAddAiBtn.Font = new System.Drawing.Font("Century Gothic", 10.2F);
+            this.aiJsonAddAiBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.aiJsonAddAiBtn.Location = new System.Drawing.Point(871, 313);
+            this.aiJsonAddAiBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.aiJsonAddAiBtn.Name = "aiJsonAddAiBtn";
+            this.aiJsonAddAiBtn.Size = new System.Drawing.Size(254, 41);
+            this.aiJsonAddAiBtn.TabIndex = 62;
+            this.aiJsonAddAiBtn.Text = "Add A.I";
+            this.aiJsonAddAiBtn.UseVisualStyleBackColor = true;
+            // 
+            // aiFileNameTxt
+            // 
+            this.aiFileNameTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiFileNameTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.aiFileNameTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.aiFileNameTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.aiFileNameTxt.Location = new System.Drawing.Point(881, 36);
+            this.aiFileNameTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.aiFileNameTxt.Name = "aiFileNameTxt";
+            this.aiFileNameTxt.ReadOnly = true;
+            this.aiFileNameTxt.Size = new System.Drawing.Size(223, 30);
+            this.aiFileNameTxt.TabIndex = 57;
+            // 
+            // aiFileSizeTxt
+            // 
+            this.aiFileSizeTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiFileSizeTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.aiFileSizeTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.aiFileSizeTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.aiFileSizeTxt.Location = new System.Drawing.Point(881, 74);
+            this.aiFileSizeTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.aiFileSizeTxt.Name = "aiFileSizeTxt";
+            this.aiFileSizeTxt.ReadOnly = true;
+            this.aiFileSizeTxt.Size = new System.Drawing.Size(223, 30);
+            this.aiFileSizeTxt.TabIndex = 58;
+            // 
+            // aiJsonVersionTxt
+            // 
+            this.aiJsonVersionTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiJsonVersionTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.aiJsonVersionTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.aiJsonVersionTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.aiJsonVersionTxt.Location = new System.Drawing.Point(881, -2);
+            this.aiJsonVersionTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.aiJsonVersionTxt.Name = "aiJsonVersionTxt";
+            this.aiJsonVersionTxt.Size = new System.Drawing.Size(223, 30);
+            this.aiJsonVersionTxt.TabIndex = 59;
+            this.aiJsonVersionTxt.Text = "1.0.0.0";
+            // 
+            // aiJsonSaveAiBtn
+            // 
+            this.aiJsonSaveAiBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.aiJsonSaveAiBtn.Font = new System.Drawing.Font("Century Gothic", 10.2F);
+            this.aiJsonSaveAiBtn.ForeColor = System.Drawing.Color.Tomato;
+            this.aiJsonSaveAiBtn.Location = new System.Drawing.Point(871, 264);
+            this.aiJsonSaveAiBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.aiJsonSaveAiBtn.Name = "aiJsonSaveAiBtn";
+            this.aiJsonSaveAiBtn.Size = new System.Drawing.Size(254, 41);
+            this.aiJsonSaveAiBtn.TabIndex = 56;
+            this.aiJsonSaveAiBtn.Text = "Save A.I";
+            this.aiJsonSaveAiBtn.UseVisualStyleBackColor = true;
+            // 
+            // aiScriptEditor
+            // 
+            this.aiScriptEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiScriptEditor.Location = new System.Drawing.Point(4, 26);
+            this.aiScriptEditor.Name = "aiScriptEditor";
+            this.aiScriptEditor.Padding = new System.Windows.Forms.Padding(3);
+            this.aiScriptEditor.Size = new System.Drawing.Size(1129, 378);
+            this.aiScriptEditor.TabIndex = 2;
+            this.aiScriptEditor.Text = "Script Editor";
+            // 
+            // aiPatrolPathEditor
+            // 
+            this.aiPatrolPathEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiPatrolPathEditor.Location = new System.Drawing.Point(4, 26);
+            this.aiPatrolPathEditor.Name = "aiPatrolPathEditor";
+            this.aiPatrolPathEditor.Size = new System.Drawing.Size(1129, 378);
+            this.aiPatrolPathEditor.TabIndex = 3;
+            this.aiPatrolPathEditor.Text = "Patrol Editor";
             // 
             // weaponEditor
             // 
             this.weaponEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.weaponEditor.Controls.Add(this.weaponAmmoTxt);
+            this.weaponEditor.Controls.Add(this.allWeaponsCb);
             this.weaponEditor.Controls.Add(this.weaponAmmolbl);
             this.weaponEditor.Controls.Add(this.weaponDD);
             this.weaponEditor.Controls.Add(this.weaponImgBox);
@@ -2023,18 +2270,17 @@
             this.weaponEditor.TabIndex = 7;
             this.weaponEditor.Text = "Weapon Editor";
             // 
-            // weaponAmmoTxt
+            // allWeaponsCb
             // 
-            this.weaponAmmoTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.weaponAmmoTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.weaponAmmoTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.weaponAmmoTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.weaponAmmoTxt.Location = new System.Drawing.Point(262, 115);
-            this.weaponAmmoTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.weaponAmmoTxt.Name = "weaponAmmoTxt";
-            this.weaponAmmoTxt.Size = new System.Drawing.Size(152, 30);
-            this.weaponAmmoTxt.TabIndex = 32;
-            this.weaponAmmoTxt.Text = "100";
+            this.allWeaponsCb.AutoSize = true;
+            this.allWeaponsCb.Font = new System.Drawing.Font("Century Gothic", 7.8F);
+            this.allWeaponsCb.Location = new System.Drawing.Point(1012, 89);
+            this.allWeaponsCb.Margin = new System.Windows.Forms.Padding(4);
+            this.allWeaponsCb.Name = "allWeaponsCb";
+            this.allWeaponsCb.Size = new System.Drawing.Size(117, 23);
+            this.allWeaponsCb.TabIndex = 82;
+            this.allWeaponsCb.Text = "All Weapons";
+            this.allWeaponsCb.UseVisualStyleBackColor = true;
             // 
             // weaponAmmolbl
             // 
@@ -2076,7 +2322,7 @@
             // 
             this.resetModWeaponBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.resetModWeaponBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.resetModWeaponBtn.Location = new System.Drawing.Point(918, 115);
+            this.resetModWeaponBtn.Location = new System.Drawing.Point(918, 127);
             this.resetModWeaponBtn.Margin = new System.Windows.Forms.Padding(4);
             this.resetModWeaponBtn.Name = "resetModWeaponBtn";
             this.resetModWeaponBtn.Size = new System.Drawing.Size(211, 31);
@@ -2114,7 +2360,7 @@
             // 
             this.modWeaponBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.modWeaponBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.modWeaponBtn.Location = new System.Drawing.Point(699, 115);
+            this.modWeaponBtn.Location = new System.Drawing.Point(699, 127);
             this.modWeaponBtn.Margin = new System.Windows.Forms.Padding(4);
             this.modWeaponBtn.Name = "modWeaponBtn";
             this.modWeaponBtn.Size = new System.Drawing.Size(211, 31);
@@ -3462,6 +3708,7 @@
             this.miscEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.miscEditor.Controls.Add(this.framesTxt);
             this.miscEditor.Controls.Add(this.minutesLbl);
+            this.miscEditor.Controls.Add(this.gamePathBtn);
             this.miscEditor.Controls.Add(this.editorUpdaterBtn);
             this.miscEditor.Controls.Add(this.gameSettingsLbl);
             this.miscEditor.Controls.Add(this.appSettingLbl);
@@ -3537,6 +3784,21 @@
             this.minutesLbl.Text = "minutes";
             this.minutesLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.minutesLbl.MouseEnter += new System.EventHandler(this.minutesLbl_MouseEnter);
+            // 
+            // gamePathBtn
+            // 
+            this.gamePathBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.gamePathBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.gamePathBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.gamePathBtn.Location = new System.Drawing.Point(267, 217);
+            this.gamePathBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.gamePathBtn.Name = "gamePathBtn";
+            this.gamePathBtn.Size = new System.Drawing.Size(190, 38);
+            this.gamePathBtn.TabIndex = 41;
+            this.gamePathBtn.Text = "Set Game Path";
+            this.gamePathBtn.UseVisualStyleBackColor = true;
+            this.gamePathBtn.Click += new System.EventHandler(this.gamePathBtn_Click);
+            this.gamePathBtn.MouseEnter += new System.EventHandler(this.editorUpdaterBtn_MouseEnter);
             // 
             // editorUpdaterBtn
             // 
@@ -4219,33 +4481,27 @@
             this.gameLogoLbl.TabIndex = 0;
             this.gameLogoLbl.Text = "IGI 1";
             // 
-            // aiCountTxt
+            // weaponAmmoTxt
             // 
-            this.aiCountTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.aiCountTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.aiCountTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.aiCountTxt.Location = new System.Drawing.Point(685, 266);
-            this.aiCountTxt.Name = "aiCountTxt";
-            this.aiCountTxt.Size = new System.Drawing.Size(100, 30);
-            this.aiCountTxt.TabIndex = 83;
-            this.aiCountTxt.Value = new decimal(new int[] {
+            this.weaponAmmoTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.weaponAmmoTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.weaponAmmoTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.weaponAmmoTxt.Location = new System.Drawing.Point(261, 114);
+            this.weaponAmmoTxt.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.weaponAmmoTxt.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            // 
-            // maxSpawnsTxt
-            // 
-            this.maxSpawnsTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.maxSpawnsTxt.Enabled = false;
-            this.maxSpawnsTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.maxSpawnsTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.maxSpawnsTxt.Location = new System.Drawing.Point(975, 267);
-            this.maxSpawnsTxt.Name = "maxSpawnsTxt";
-            this.maxSpawnsTxt.Size = new System.Drawing.Size(134, 30);
-            this.maxSpawnsTxt.TabIndex = 84;
-            this.maxSpawnsTxt.Value = new decimal(new int[] {
-            1,
+            this.weaponAmmoTxt.Name = "weaponAmmoTxt";
+            this.weaponAmmoTxt.Size = new System.Drawing.Size(101, 30);
+            this.weaponAmmoTxt.TabIndex = 83;
+            this.weaponAmmoTxt.Value = new decimal(new int[] {
+            100,
             0,
             0,
             0});
@@ -4284,9 +4540,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.damageScaleTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.movementSpeedTxt)).EndInit();
             this.aiEditor.ResumeLayout(false);
-            this.aiEditor.PerformLayout();
+            this.aiEditorTabs.ResumeLayout(false);
+            this.aiEditorMainTab.ResumeLayout(false);
+            this.aiEditorMainTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxSpawnsTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aiCountTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponAIImgBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.aiImgBox)).EndInit();
+            this.aiJSONEditor.ResumeLayout(false);
+            this.aiJSONEditor.PerformLayout();
             this.weaponEditor.ResumeLayout(false);
             this.weaponEditor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weaponImgBox)).EndInit();
@@ -4308,8 +4570,7 @@
             this.devMode.ResumeLayout(false);
             this.devMode.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.aiCountTxt)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.maxSpawnsTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.weaponAmmoTxt)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -4384,7 +4645,6 @@
         private System.Windows.Forms.CheckBox posMetersCb;
         private System.Windows.Forms.CheckBox posCoordCb;
         private System.Windows.Forms.Label posTypeLbl;
-        private System.Windows.Forms.TextBox weaponAmmoTxt;
         private System.Windows.Forms.Label weaponAmmolbl;
         private System.Windows.Forms.CheckBox xmlCb;
         private System.Windows.Forms.CheckBox jsonCb;
@@ -4452,29 +4712,9 @@
         private System.Windows.Forms.Label peekTimeLbl;
         private System.Windows.Forms.Label peekCrouchLbl;
         private System.Windows.Forms.Label peekLRLbl;
-        private System.Windows.Forms.ComboBox aiModelSelectDD;
-        private System.Windows.Forms.PictureBox aiImgBox;
-        private System.Windows.Forms.Label aiModelLbl;
-        private System.Windows.Forms.Button addAiBtn;
-        private System.Windows.Forms.PictureBox weaponAIImgBox;
-        private System.Windows.Forms.ComboBox aiWeaponDD;
-        private System.Windows.Forms.Label weaponAiLbl;
-        private System.Windows.Forms.ComboBox aiTypeDD;
-        private System.Windows.Forms.Label aiTypeLbl;
-        private System.Windows.Forms.Label aiCountLbl;
-        private System.Windows.Forms.CheckBox aiAdvanceViewCb;
-        private System.Windows.Forms.CheckBox aiinvulnerabilityCb;
-        private System.Windows.Forms.CheckBox aiFriendlyCb;
-        private System.Windows.Forms.Label maxSpawnsLbl;
-        private System.Windows.Forms.ComboBox aiGraphIdDD;
-        private System.Windows.Forms.Label graphIdAiLbl;
-        private System.Windows.Forms.CheckBox guardGeneratorCb;
-        private System.Windows.Forms.Label aiModelNameLbl;
         private System.Windows.Forms.Label registeredUsersLbl;
-        private System.Windows.Forms.CheckBox customAiCb;
         private System.Windows.Forms.Button showAppLogBtn;
         private System.Windows.Forms.CheckBox connectionCb;
-        private System.Windows.Forms.TextBox graphAreaAiLbl;
         private System.Windows.Forms.CheckBox disableWarningsCb;
         private System.Windows.Forms.Button appSupportBtn;
         private System.Windows.Forms.TabPage graphEditor;
@@ -4504,7 +4744,6 @@
         private System.Windows.Forms.TextBox missionPlayTimeTxt;
         private System.Windows.Forms.Label missionPlayTimeLbl;
         private System.Windows.Forms.CheckBox missionLevelFlowTimerCb;
-        private System.Windows.Forms.Button removeAllAi;
         private System.Windows.Forms.Button teleportToGraphBtn;
         private System.Windows.Forms.CheckBox autoTeleportGraphCb;
         private System.Windows.Forms.PictureBox objectImgBox;
@@ -4570,7 +4809,6 @@
         private System.Windows.Forms.CheckBox devClearContentsCb;
         private System.Windows.Forms.CheckBox devAutoFormatCb;
         private System.Windows.Forms.CheckBox nodesInfoCb;
-        private System.Windows.Forms.CheckBox taskDetectionAiCb;
         private System.Windows.Forms.NumericUpDown framesTxt;
         private System.Windows.Forms.NumericUpDown movementSpeedTxt;
         private System.Windows.Forms.NumericUpDown upwardJumpTxt;
@@ -4583,8 +4821,48 @@
         private System.Windows.Forms.NumericUpDown damageScaleTxt;
         private System.Windows.Forms.NumericUpDown humanViewCamTxt;
         private System.Windows.Forms.NumericUpDown teamIdTxt;
+        private System.Windows.Forms.TabControl aiEditorTabs;
+        private System.Windows.Forms.TabPage aiEditorMainTab;
+        private System.Windows.Forms.TabPage aiJSONEditor;
         private System.Windows.Forms.NumericUpDown maxSpawnsTxt;
         private System.Windows.Forms.NumericUpDown aiCountTxt;
+        private System.Windows.Forms.Button removeAllAi;
+        private System.Windows.Forms.TextBox graphAreaAiLbl;
+        private System.Windows.Forms.CheckBox taskDetectionAiCb;
+        private System.Windows.Forms.CheckBox customAiCb;
+        private System.Windows.Forms.Label maxSpawnsLbl;
+        private System.Windows.Forms.CheckBox aiFriendlyCb;
+        private System.Windows.Forms.CheckBox aiAdvanceViewCb;
+        private System.Windows.Forms.CheckBox guardGeneratorCb;
+        private System.Windows.Forms.CheckBox aiinvulnerabilityCb;
+        private System.Windows.Forms.ComboBox aiGraphIdDD;
+        private System.Windows.Forms.ComboBox aiTypeDD;
+        private System.Windows.Forms.ComboBox aiWeaponDD;
+        private System.Windows.Forms.Label graphIdAiLbl;
+        private System.Windows.Forms.Label aiTypeLbl;
+        private System.Windows.Forms.Label weaponAiLbl;
+        private System.Windows.Forms.PictureBox weaponAIImgBox;
+        private System.Windows.Forms.ComboBox aiModelSelectDD;
+        private System.Windows.Forms.PictureBox aiImgBox;
+        private System.Windows.Forms.Label aiCountLbl;
+        private System.Windows.Forms.Label aiModelNameLbl;
+        private System.Windows.Forms.Label aiModelLbl;
+        private System.Windows.Forms.Button addAiBtn;
+        private System.Windows.Forms.TabPage aiScriptEditor;
+        private System.Windows.Forms.TabPage aiPatrolPathEditor;
+        private System.Windows.Forms.CheckBox aiJsonAutoFmtCb;
+        private System.Windows.Forms.CheckBox aiJsonClearDataCb;
+        private System.Windows.Forms.RichTextBox aiJsonEditorTxt;
+        private System.Windows.Forms.Button aiJsonSaveBtn;
+        private System.Windows.Forms.Button aiJsonLoadBtn;
+        private System.Windows.Forms.Button aiJsonAddAiBtn;
+        private System.Windows.Forms.TextBox aiFileNameTxt;
+        private System.Windows.Forms.TextBox aiFileSizeTxt;
+        private System.Windows.Forms.TextBox aiJsonVersionTxt;
+        private System.Windows.Forms.Button aiJsonSaveAiBtn;
+        private System.Windows.Forms.CheckBox allWeaponsCb;
+        private System.Windows.Forms.Button gamePathBtn;
+        private System.Windows.Forms.NumericUpDown weaponAmmoTxt;
     }
 }
 

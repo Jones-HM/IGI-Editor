@@ -46,23 +46,45 @@ namespace IGIEditor
             internal List<string> weaponsList;
         };
 
+        internal class FOpenIO
+        {
+            string fileName;
+            string fileData;
+            long fileLength;
+            float fileSize;
+            public FOpenIO() { FileName = FileData = null; FileLength = 0; FileSize = 0; }
+
+            public FOpenIO(string fileName, string fileData, long fileLength, float fileSize)
+            {
+                this.FileName = fileName;
+                this.FileData = fileData;
+                this.FileLength = fileLength;
+                this.FileSize = fileSize;
+            }
+
+            public string FileName { get => fileName; set => fileName = value; }
+            public string FileData { get => fileData; set => fileData = value; }
+            public long FileLength { get => fileLength; set => fileLength = value; }
+            public float FileSize { get => fileSize; set => fileSize = value; }
+        }
+
         internal static string taskNew = "Task_New", taskDecl = "Task_DeclareParameters";
         internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc", weaponConfigQVM = "weaponconfig.qvm", weaponsModQvm = "weaponconfig-mod.qvm";
         internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 3, currGameLevel = 1, updateTimeInterval = 10;
         internal static string versionFileName = "VERSION", appEditorSubVersion = "0.4.0.1", logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsModelsList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customPatrolFile = "ai_custom_path.qsc", customScriptPathQEd, customPatrolPathQEd, appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\", nativesFile = @"\IGI-Natives.json", modelsFile = @"\IGI-Models.txt", internalsLogFile = @"\IGI-Internals.log";
-        internal static bool gameFound = false, gamePathSet = false, logEnabled = false, keyExist = false, keyFileExist = false, attachStatus = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false, editorUpdateCheck = false, nppInstalled=false;
+        internal static bool gameFound = false, gamePathSet = false, logEnabled = false, keyExist = false, keyFileExist = false, attachStatus = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false, editorUpdateCheck = false, nppInstalled = false, shortcutCreated = false, shortcutExist = false;
         internal static float appEditorVersion = 0.4f, viewPortDelta = 10000.0f;
         internal static string supportDiscordLink = @"https://discord.gg/9T8tzyhvp6", supportYoutubeLink = @"https://www.youtube.com/channel/UChGryl0a0dii81NfDZ12LwA", supportVKLink = @"https://vk.com/id679925339";
         internal static IntPtr viewPortAddrX = (IntPtr)0x00BCAB08, viewPortAddrY = (IntPtr)0x00BCAB10, viewPortAddrZ = (IntPtr)0x00BCAB18;
-        internal const int TEAM_ID_FRIENDLY = 0, TEAM_ID_ENEMY = 1,MAX_AI_COUNT = 100, MAX_FPS = 240, MAX_UPDATE_TIME = 120, MAX_HUMAN_CAM = 5,LEVEL_FLOW_TASK_ID = 10, HUMANPLAYER_TASK_ID = 0, MAX_MINIMAL_ID_DIFF = 10;
+        internal const int TEAM_ID_FRIENDLY = 0, TEAM_ID_ENEMY = 1, MAX_AI_COUNT = 100, MAX_FPS = 240, MAX_UPDATE_TIME = 120, MAX_HUMAN_CAM = 5, LEVEL_FLOW_TASK_ID = 10, HUMANPLAYER_TASK_ID = 0, MAX_MINIMAL_ID_DIFF = 10;
 
-        internal static string gamePath, appdataPath, igiEditorQEdPath, editorCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, qQVMPath, qQSCPath, cfgWeaponsPath, weaponsModQvmPath, weaponsOrgCfgPath, weaponsGamePath, humanplayerGamePath, menusystemGamePath, missionsGamePath, commonGamePath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", qGraphs = "QGraphs", cfgFile, editorAppName, editorUpdater, cachePath, cachePathAppLogs, nativesFilePath, modelsFilePath, internalsLogPath,
-            cachePathAppImages, currPathAppImages, editorUpdaterDir = "IGIEditor_Update", editorUpdaterAbsDir, editorUpdaterFile, updaterBatchFile,editorChangeLogs= "CHANGELOGS", editorLicence= "LICENCE",editorReadme= "README",editorAutoUpdaterFile, autoUpdaterFile = "AutoUpdater", autoUpdaterBatch,
+        internal static string gamePath, appdataPath, igiEditorQEdPath, editorCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, qQVMPath, qQSCPath, cfgWeaponsPath, weaponsModQvmPath, weaponsOrgCfgPath, weaponsGamePath, humanplayerGamePath, menusystemGamePath, missionsGamePath, commonGamePath, qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qfiles = "QFiles", qGraphs = "QGraphs", iniCfgFile, editorAppName, editorUpdater, cachePath, cachePathAppLogs, nativesFilePath, modelsFilePath, internalsLogPath,
+            cachePathAppImages, currPathAppImages, editorUpdaterDir = "IGIEditor_Update", editorUpdaterAbsDir, editorUpdaterFile, updaterBatchFile, editorChangeLogs = "CHANGELOGS", editorLicence = "LICENCE", editorReadme = "README", editorAutoUpdaterFile, autoUpdaterFile = "AutoUpdater", autoUpdaterBatch,
          igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", graphsPath, cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayerQvm = "humanplayer.qvm", humanplayerQsc = "humanplayer.qsc", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalsDllFile, internalsDll = "IGI-Internals.dll", internalsDllPath = @"bin\IGI-Internals.dll", qLibcPath = @"lib\GTLibc_x86.so", tmpDllPath, internalDllInjectorPath = @"bin\IGI-Injector.exe", internalDllGTInjectorPath = @"bin\IGI-Injector-GT.exe", PATH_SEC = "PATH", EDITOR_SEC = "EDITOR";
         internal static string inputQscPath = @"\IGI_QSC", inputQvmPath = @"\IGI_QVM", inputAiPath = @"\AIFiles", inputVoidPath = @"\Void", inputMissionPath = @"\missions\location0\level", inputHumanplayerPath = @"\humanplayer", inputweaponsPath = @"\weapons";
         internal static List<string> objTypeList = new List<string>() { "Building", "EditRigidObj", "Terminal", "Elevator", "ExplodeObject", "AlarmControl", "Generator", "Radio" };
         internal static string objects = "objects", objectsAll = "objectsAll", weapons = "weapons";
-        internal const string qvmExt = ".qvm", qscExt = ".qsc", datExt = ".dat", csvExt = ".csv", jsonExt = ".json", txtExt = ".txt", xmlExt = ".xml", dllExt = ".dll", missionExt = ".igimsf", jpgExt = ".jpg", pngExt = ".png", rarExt = ".rar", zipExt = ".zip", exeExt = ".exe",batExt=".bat",iniExt = ".ini";
+        internal const string qvmExt = ".qvm", qscExt = ".qsc", datExt = ".dat", csvExt = ".csv", jsonExt = ".json", txtExt = ".txt", xmlExt = ".xml", dllExt = ".dll", missionExt = ".igimsf", jpgExt = ".jpg", pngExt = ".png", rarExt = ".rar", zipExt = ".zip", exeExt = ".exe", batExt = ".bat", iniExt = ".ini";
         internal static float fltInvalidAngle = -9.9999f, fltInvalidVal = -9.9f;
         internal const string CAPTION_CONFIG_ERR = "Config - Error", CAPTION_FATAL_SYS_ERR = "Sytem-Fatal - Error", CAPTION_APP_ERR = "Application - Error", CAPTION_COMPILER_ERR = "Compiler - Error", EDITOR_LEVEL_ERR = "EDITOR ERROR", alarmControl = "AlarmControl", stationaryGun = "StationaryGun";
         internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", helpStr = "IGI 1 Editor-Demo. Offers upto " + GAME_MAX_LEVEL + " level\nVersion: v" + appEditorSubVersion + " BETA.\n\nTools/Language: C#(5.0) VS-Studio/Code\nCreated by Haseeb Mir.\n\nCredits & People\nUI Designing - Dark\nResearch data - Dimon, Yoejin and GM123.\nQScript/DConv Tools - Artiom.\nTester - Orwa\nIGI-VK Community.";
@@ -334,6 +356,11 @@ namespace IGIEditor
             return privateIp;
         }
 
+        internal static void SwitchEditorUI()
+        {
+            GT.ShowAppForeground(QUtils.editorAppName);
+        }
+
         internal static void ShowGamePathDialog()
         {
             OpenFileDialog folderBrowser = new OpenFileDialog();
@@ -345,22 +372,72 @@ namespace IGIEditor
 
             if (folderBrowser.ShowDialog() == DialogResult.OK)
             {
-                gameAbsPath = Path.GetDirectoryName(folderBrowser.FileName) + Path.DirectorySeparatorChar;
+                var newGameAbsPath = Path.GetDirectoryName(folderBrowser.FileName) + Path.DirectorySeparatorChar;
+
+                if (!String.IsNullOrEmpty(gameAbsPath) && gameAbsPath == newGameAbsPath && CheckShortcutExist())
+                {
+                    QUtils.ShowLogError("GamePathDialog", "Selected path is same as current game path\nChoose a diffrent path or try again.");
+                    gamePathSet = shortcutCreated = shortcutExist = false;
+                }
+
+                //Delete Previous Config.
+                QUtils.FileIODelete(QUtils.iniCfgFile);
+                
+                gameAbsPath = newGameAbsPath;
                 cfgGamePath = (!String.IsNullOrEmpty(gameAbsPath)) ? (gameAbsPath.Trim() + QMemory.gameName + ".exe") : null;
                 bool status = File.Exists(cfgGamePath);
 
                 if (!status)
                 {
-                    gamePathSet = false;
+                    gamePathSet = shortcutCreated = shortcutExist = false;
                     ShowSystemFatalError("Error occurred while setting game path.");
                 }
                 else
                 {
                     ShowInfo("Game path was saved successfully.");
                     CreateGameShortcut();
+                    //Create New Config.
+                    QUtils.CreateConfig();
+
+                    //Read New Config.
+                    QUtils.ParseConfig();
+
                     gamePathSet = true;
                 }
             }
+        }
+
+        internal static FOpenIO ShowOpenFileDlg(string title, string defaultExt, string filter, bool openFileData = true, bool exceptionOnEmpty = true)
+        {
+            var fopenIO = new FOpenIO();
+
+            try
+            {
+                var fileBrowser = new OpenFileDialog();
+                fileBrowser.ValidateNames = false;
+                fileBrowser.CheckFileExists = false;
+                fileBrowser.CheckPathExists = true;
+                fileBrowser.Title = title;
+                fileBrowser.DefaultExt = defaultExt;
+                fileBrowser.Filter = filter;
+
+                if (fileBrowser.ShowDialog() == DialogResult.OK)
+                {
+                    fopenIO.FileName = fileBrowser.FileName;
+                    fopenIO.FileLength = new FileInfo(fopenIO.FileName).Length;
+                    fopenIO.FileSize = ((float)fopenIO.FileLength / (float)1024);
+                    if (openFileData)
+                    {
+                        fopenIO.FileData = QUtils.LoadFile(fopenIO.FileName);
+                        if (String.IsNullOrEmpty(fopenIO.FileData) && exceptionOnEmpty) throw new FileLoadException("File '" + fopenIO.FileName + "' is invalid or data is empty.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
+            return fopenIO;
         }
 
 
@@ -401,7 +478,7 @@ namespace IGIEditor
             bool appLogsParsed = false, gameResetParsed = false, editorOnlineParsed = false, editorUpdateParsed = false, timeInterval = false;
             try
             {
-                if (File.Exists(cfgFile))
+                if (File.Exists(iniCfgFile))
                 {
                     //Read properties from PATH section.
                     var configPath = qIniParser.Read("game_path", PATH_SEC);
@@ -468,7 +545,7 @@ namespace IGIEditor
             if (!status) ShowSystemFatalError("Editor internal files were not found in directory (ERROR: 0xC33000F)");
         }
 
-        internal static bool CheckAppInstalled(string appName,string helpVerText = "--version")
+        internal static bool CheckAppInstalled(string appName, string helpVerText = "--version")
         {
             if (appName is null)
             {
@@ -476,17 +553,14 @@ namespace IGIEditor
             }
 
             bool installed = false;
-            string appVersionFile = appName + "_version.txt";
-            string appCheckCmd = appName + helpVerText  + " > " + appVersionFile;
+            string appVersionFile = appName + "_info.txt";
+            string appCheckCmd = appName + helpVerText + " > " + appVersionFile;
             ShellExec(appCheckCmd);
             string appVersionData = File.ReadAllText(appVersionFile);
 
-            if (!String.IsNullOrEmpty(appVersionData))
-            {
-                installed = true;
-                FileIODelete(appVersionFile);
-            }
-
+            if (!String.IsNullOrEmpty(appVersionData)) installed = true;
+            
+            FileIODelete(appVersionFile);
             return installed;
         }
 
@@ -504,24 +578,57 @@ namespace IGIEditor
             return (string)result;
         }
 
-        private static void CreateGameShortcut(string linkName, string pathToApp, string gameArgs = "")
+        internal static bool CheckShortcutExist()
         {
-            var shell = new WshShell();
-            string shortcutAddress = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + linkName + ".lnk";
-
-            FileIODelete(shortcutAddress);
-
-            var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
-            shortcut.Description = "Shortcut for IGI";
-            shortcut.Hotkey = "Ctrl+ALT+I";
-            shortcut.Arguments = gameArgs;
-            shortcut.WorkingDirectory = pathToApp;
-            shortcut.TargetPath = pathToApp + Path.DirectorySeparatorChar + "igi.exe";
-            shortcut.Save();
+            bool exist = File.Exists(QMemory.gameName + "_window.lnk") || File.Exists(QMemory.gameName + "_full.lnk");
+            return exist;
         }
 
-        internal static void CreateGameShortcut()
+        internal static bool RemoveGameShortcut()
         {
+            bool status = false;
+            try
+            {
+                FileIODelete(QMemory.gameName + "_window.lnk");
+                FileIODelete(QMemory.gameName + "_full.lnk");
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                status = false;
+                QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
+            return status;
+        }
+
+        private static void CreateGameShortcut(string linkName, string pathToApp, string gameArgs = "")
+        {
+            try
+            {
+                var shell = new WshShell();
+                string shortcutAddress = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + linkName + ".lnk";
+
+                FileIODelete(shortcutAddress);
+
+                var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+                shortcut.Description = "Shortcut for IGI";
+                shortcut.Hotkey = "Ctrl+ALT+I";
+                shortcut.Arguments = gameArgs;
+                shortcut.WorkingDirectory = pathToApp;
+                shortcut.TargetPath = pathToApp + Path.DirectorySeparatorChar + "igi.exe";
+                shortcut.Save();
+                shortcutCreated = shortcutExist = true;
+            }
+            catch (Exception ex)
+            {
+                shortcutCreated = shortcutExist = false;
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
+        }
+
+        internal static bool CreateGameShortcut()
+        {
+            shortcutExist = shortcutCreated = false;
             if (!File.Exists(QMemory.gameName + "_full.lnk") || !File.Exists(QMemory.gameName + "_full.lnk"))
             {
                 if (gameAbsPath.Contains("\""))
@@ -529,6 +636,7 @@ namespace IGIEditor
                 CreateGameShortcut(QMemory.gameName + "_full", gameAbsPath);
                 CreateGameShortcut(QMemory.gameName + "_window", gameAbsPath, "window");
             }
+            return shortcutCreated;
         }
 
         internal static bool InitEditorAppData()
@@ -539,7 +647,7 @@ namespace IGIEditor
             igiEditorQEdPath = appdataPath + Path.DirectorySeparatorChar + qEditor;
 
             editorAppName = AppDomain.CurrentDomain.FriendlyName.Replace(".exe", String.Empty);
-            cfgFile = editorAppName + ".ini";
+            iniCfgFile = editorAppName + ".ini";
             logFile = editorAppName + ".log";
             editorCurrPath = Directory.GetCurrentDirectory();
 
@@ -659,7 +767,7 @@ namespace IGIEditor
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
-        internal static void FileIOCopy(string srcPath, string destPath, bool overwrite=true)
+        internal static void FileIOCopy(string srcPath, string destPath, bool overwrite = true)
         {
             try
             {
@@ -1144,6 +1252,17 @@ namespace IGIEditor
             return data;
         }
 
+        internal static void ResetCurrentLevel(bool restartLevel=false)
+        {
+            int level = QMemory.GetRunningLevel();
+            if (level <= 0 || level > GAME_MAX_LEVEL) level = 1;
+            QUtils.RestoreLevel(level);
+            QUtils.ResetScriptFile(level);
+            QMemory.RestartLevel(restartLevel);
+            CleanUpAiFiles();
+            IGIEditorUI.editorRef.GenerateAIScriptId(true);
+        }
+
         internal static void SaveFile(string data = null, bool appendData = false)
         {
             SaveFile(objectsQsc, data, appendData);
@@ -1170,7 +1289,7 @@ namespace IGIEditor
 
         internal static void RestoreLevel(int gameLevel)
         {
-            if (gameLevel < 0 || gameLevel > GAME_MAX_LEVEL) gameLevel = 1;
+            if (gameLevel <= 0 || gameLevel > GAME_MAX_LEVEL) gameLevel = 1;
             var gPath = gamePath;
 
             if (gamePath.Contains(" ")) gPath = gamePath.Replace("\"", String.Empty);
@@ -1513,9 +1632,9 @@ namespace IGIEditor
 
         internal static bool AttachInternals()
         {
-#if DEV_MODE
-            return true;
-#endif
+            //#if DEV_MODE
+            //            return true;
+            //#endif
             AddLog(MethodBase.GetCurrentMethod().Name, "Path : " + internalsDllPath);
 
 #if DEBUG

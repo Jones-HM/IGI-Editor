@@ -24,8 +24,7 @@ namespace IGIEditor
             bool gameFound = false;
             try
             {
-                if (enableLogs)
-                    GT.GT_EnableLogs();
+                if (enableLogs) GT.GT_EnableLogs();
 
                 var pname = Process.GetProcessesByName(gameName);
                 if (pname.Length == 0)
@@ -38,12 +37,12 @@ namespace IGIEditor
             }
             catch (Exception ex)
             {
-                QUtils.ShowError(ex.Message);
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
             }
             return gameFound;
         }
 
-        internal static int GetCurrentLevel()
+        internal static int GetRunningLevel()
         {
             try
             {
@@ -79,29 +78,40 @@ namespace IGIEditor
 
         internal static IntPtr GetHumanBaseAddress(bool addLog = true)
         {
-            uint humanStaticPtr = (uint)0x0016E210;
-            uint[] humanAddrOffs = { 0x8, 0x7CC, 0x14 };
             IntPtr humanBasePtr = IntPtr.Zero, humanBaseAddr = IntPtr.Zero;
-
-            humanBasePtr = GT.GT_ReadPointerOffset(gtGameBase, humanStaticPtr);
-            humanBaseAddr = GT.GT_ReadPointerOffsets(humanBasePtr, humanAddrOffs, (uint)humanAddrOffs.Count() * sizeof(int));
-
-            if (addLog)
+            try
             {
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "humanBasePointer 0x" + humanBasePtr);
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "humanBaseAddress  : 0x" + humanBaseAddr);
+                uint humanStaticPtr = (uint)0x0016E210;
+                uint[] humanAddrOffs = { 0x8, 0x7CC, 0x14 };
+
+                humanBasePtr = GT.GT_ReadPointerOffset(gtGameBase, humanStaticPtr);
+                humanBaseAddr = GT.GT_ReadPointerOffsets(humanBasePtr, humanAddrOffs, (uint)humanAddrOffs.Count() * sizeof(int));
+
+                if (addLog)
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "HumanBase Pointer 0x" + humanBasePtr + " Address  : 0x" + humanBaseAddr);
+            }
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
             }
             return humanBaseAddr;
         }
 
         internal static IntPtr GetStatusMsgAddr()
         {
-            uint statusMsgStaticPointer = (uint)0x001C8A20;
-            uint[] statusMsgAddressOffsets = { 0x8, 0x8, 0x8, 0x4E4 };
             IntPtr statusMsgBasePointer = IntPtr.Zero, statusMsgAddress = IntPtr.Zero;
+            try
+            {
+                uint statusMsgStaticPointer = (uint)0x001C8A20;
+                uint[] statusMsgAddressOffsets = { 0x8, 0x8, 0x8, 0x4E4 };
 
-            statusMsgBasePointer = GT.GT_ReadPointerOffset(gtGameBase, statusMsgStaticPointer);
-            statusMsgAddress = GT.GT_ReadPointerOffsets(statusMsgBasePointer, statusMsgAddressOffsets, (uint)statusMsgAddressOffsets.Count() * sizeof(int)) + 0x4C;
+                statusMsgBasePointer = GT.GT_ReadPointerOffset(gtGameBase, statusMsgStaticPointer);
+                statusMsgAddress = GT.GT_ReadPointerOffsets(statusMsgBasePointer, statusMsgAddressOffsets, (uint)statusMsgAddressOffsets.Count() * sizeof(int)) + 0x4C;
+            }
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
             return statusMsgAddress;
         }
 
@@ -121,14 +131,20 @@ namespace IGIEditor
 
         static internal float GetRealAngle()
         {
-            IntPtr humanBaseAddress = GetHumanBaseAddress() + (int)0x348;
-            var angleAddrH = humanBaseAddress + 0x1C4;
-            var angleAddrV = humanBaseAddress + 0xBF4;
+            float angle = 0.0f;
+            try
+            {
+                IntPtr humanBaseAddress = GetHumanBaseAddress() + (int)0x348;
+                var angleAddrH = humanBaseAddress + 0x1C4;
+                var angleAddrV = humanBaseAddress + 0xBF4;
 
-            float angle = GT.GT_ReadFloat(angleAddrH);
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Address : 0x" + angleAddrH.ToString());
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Value : " + angle);
-
+                angle = GT.GT_ReadFloat(angleAddrH);
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Address : 0x" + angleAddrH.ToString() + " Value : " + angle);
+            }
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
             return angle;
         }
 
@@ -149,32 +165,66 @@ namespace IGIEditor
 
         internal static void StartLevel(int level, bool windowed = false)
         {
-            if (level <= 0 || level > QUtils.GAME_MAX_LEVEL) throw new ArgumentNullException("Level must be between 1-3");
+            try
+            {
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Called with level: " + level + " windowed: " + windowed);
+                if (level <= 0 || level > QUtils.GAME_MAX_LEVEL) throw new ArgumentNullException("Level must be between 1-" + QUtils.GAME_MAX_LEVEL);
 
-            var igiProc = Process.GetProcessesByName(gameName);
-            if (igiProc.Length > 0)
-                igiProc[0].Kill();
+                var igiProc = Process.GetProcessesByName(gameName);
+                if (igiProc.Length > 0) igiProc[0].Kill();
 
-            string igiLevelCmd = "start igi_" + (windowed ? "window" : "full") + ".lnk level" + level;
-            QUtils.ShellExec(igiLevelCmd);
-            FindGame(QUtils.logEnabled);
+                string igiLevelCmd = "start igi_" + (windowed ? "window" : "full") + ".lnk level" + level;
+                QUtils.shortcutExist = QUtils.CheckShortcutExist();
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, " Shortcut Exist: " + QUtils.shortcutExist);
+                
+                if (QUtils.shortcutExist)
+                {
+                    FindGame(QUtils.logEnabled);
+                }
+                else
+                {
+                    QUtils.ShowGamePathDialog();
+                    
+                    if (!QUtils.shortcutExist)
+                        throw new System.IO.FileNotFoundException("File igi_window.link shortcut not found");
+                }
+                QUtils.ResetCurrentLevel();
+
+                if (QUtils.shortcutExist)
+                {
+                    QUtils.ShellExec(igiLevelCmd);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
         }
 
         internal static void RestartLevel(bool savePosition = true)
         {
-            if (savePosition)
+            try
             {
-                //Set the human position.
-                var humanPos = QHuman.GetPositionInMeter();
-                var humanAngle = GetRealAngle();
-                if (humanPos.x != 0.0f || humanPos.y != 0.0f)
+                if (savePosition)
                 {
-                    string qscData = QHuman.UpdatePositionInMeter(humanPos, humanAngle);
-                    if (!String.IsNullOrEmpty(qscData)) QCompiler.Compile(qscData, QUtils.gamePath);
+                    //Set the human position.
+                    var humanPos = QHuman.GetPositionInMeter();
+                    var humanAngle = GetRealAngle();
+                    if (humanPos.x != 0.0f || humanPos.y != 0.0f)
+                    {
+                        string qscData = QHuman.UpdatePositionInMeter(humanPos, humanAngle);
+                        if (!String.IsNullOrEmpty(qscData)) QCompiler.Compile(qscData, QUtils.gamePath);
+                    }
+                    QUtils.Sleep(1);
                 }
-                QUtils.Sleep(1);
+                QLibc.GT.ShowAppForeground(QUtils.editorAppName);
+                QInternals.RestartLevel();
             }
-            QInternals.RestartLevel();
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
         }
     }
 }

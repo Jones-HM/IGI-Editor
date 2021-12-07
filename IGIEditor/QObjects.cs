@@ -362,35 +362,41 @@ namespace IGIEditor
             return hasMultiObjs;
         }
 
-        internal static string FindModelName(string modelId,bool addLogs=true)
+        internal static string FindModelName(string modelId, bool addLogs = false)
         {
             string modelName = "UNKNOWN_OBJECT";
-
-            if (modelId.Contains("\""))
-                modelId = modelId.Replace("\"", String.Empty);
-
-            if (File.Exists(QUtils.objectsModelsList))
+            try
             {
-                var masterobjList = QUtils.LoadFile(QUtils.objectsModelsList);
-                var objList = masterobjList.Split('\n');
-                //QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with id : \"" + modelId + "\"");
+                if (modelId.Contains("\""))
+                    modelId = modelId.Replace("\"", String.Empty);
 
-                foreach (var obj in objList)
+                if (File.Exists(QUtils.objectsModelsList))
                 {
-                    if (obj.Contains(modelId))
+                    var masterobjList = QUtils.LoadFile(QUtils.objectsModelsList);
+                    var objList = masterobjList.Split('\n');
+                    //QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with id : \"" + modelId + "\"");
+
+                    foreach (var obj in objList)
                     {
-                        modelName = obj.Split('=')[0];
-                        if (modelName.Length < 3 || String.IsNullOrEmpty(modelName))
+                        if (obj.Contains(modelId))
                         {
-                            if(addLogs)
-                            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "couldn't find model name for Model id : " + modelId);
-                            return modelName;
+                            modelName = obj.Split('=')[0];
+                            if (modelName.Length < 3 || String.IsNullOrEmpty(modelName))
+                            {
+                                if (addLogs)
+                                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "couldn't find model name for Model id : " + modelId);
+                                return modelName;
+                            }
                         }
                     }
-                }
 
-                if (modelName.Length > 3 && !String.IsNullOrEmpty(modelName) && addLogs)
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Found model name '" + modelName + "' for id : " + modelId);
+                    if (modelName.Length > 3 && !String.IsNullOrEmpty(modelName) && addLogs)
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Found model name '" + modelName + "' for id : " + modelId);
+                }
+            }
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
             }
             return modelName;
         }
@@ -1065,7 +1071,7 @@ namespace IGIEditor
 
         internal static bool CheckModelExist(string model)
         {
-            int gameLevel = QMemory.GetCurrentLevel();
+            int gameLevel = QMemory.GetRunningLevel();
             AddLog(MethodBase.GetCurrentMethod().Name, "called with model : " + model + " for level : " + gameLevel);
             var inputQscPath = cfgQscPath + gameLevel + "\\" + objectsQsc;
             string qscData = LoadFile(inputQscPath);

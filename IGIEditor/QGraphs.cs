@@ -113,7 +113,7 @@ namespace IGIEditor
             string selectedRegex = graphRegex;
 
             //For current level.
-            if (level == -1) level = QMemory.GetCurrentLevel();
+            if (level == -1) level = QMemory.GetRunningLevel();
 
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with level " + level);
 
@@ -141,7 +141,7 @@ namespace IGIEditor
             List<KeyValuePair<int, List<int>>> graphNodesList = new List<KeyValuePair<int, List<int>>>();
 
             //For current level.
-            if (level == -1) level = QMemory.GetCurrentLevel();
+            if (level == -1) level = QMemory.GetRunningLevel();
             string graphNodesDetails = "GraphNodesDetails_Level_" + level + ".txt";
             string graphNodesData = "GraphNodesData_Level_" + level + ".txt";
 
@@ -311,7 +311,7 @@ namespace IGIEditor
         internal static List<QTaskGraph> GetQTaskGraphList(bool sorted = false, bool fromBackup = false, int level = -1)
         {
             //For current level.
-            if (level == -1) level = QMemory.GetCurrentLevel();
+            if (level == -1) level = QMemory.GetRunningLevel();
 
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Called with level : " + level + " backup : " + fromBackup);
@@ -490,6 +490,7 @@ namespace IGIEditor
                 IGIEditorUI.editorRef.SetStatusText("Graph#" + graphId + " Node#" + node.NodeId + " added, Completed " + graphWorkPercent + "%");
                 graphWorkCount++;
             }
+            QUtils.SwitchEditorUI();
             return qscData;
         }
 
@@ -525,6 +526,7 @@ namespace IGIEditor
                     QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
                 }
             }
+            QUtils.SwitchEditorUI();
             return qscData;
         }
 

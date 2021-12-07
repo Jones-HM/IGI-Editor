@@ -17,7 +17,7 @@ namespace IGIEditor
         public bool guardGenerator { get; set; }
         public int maxSpawns { get; set; }
         public bool friendly { get; set; }
-        public bool invulnerability { get; set; }
+        public bool invincible { get; set; }
         public bool advanceView { get; set; }
     }
 
@@ -88,7 +88,7 @@ namespace IGIEditor
 
         internal static string AddHumanSoldier(HumanAi humanAi)
         {
-            bool guardGenerator = humanAi.guardGenerator, advanceView = humanAi.advanceView, invulnerability = humanAi.invulnerability;
+            bool guardGenerator = humanAi.guardGenerator, advanceView = humanAi.advanceView, invulnerability = humanAi.invincible;
             int maxSpawns = humanAi.maxSpawns;
             string aiType = null, aiWeapon = null, modelId = null;
             int aiCount = 1, teamId = 0, aiAmmo = 999;
@@ -158,7 +158,7 @@ namespace IGIEditor
                 IGIEditorUI.editorRef.SetStatusText("AI " + aiModelName + " #" + index + " added, Completed " + aiWorkPercent + "%");
                 aiWorkCount++;
             }
-
+            QUtils.SwitchEditorUI();
             return qscData;
         }
 
@@ -474,7 +474,7 @@ namespace IGIEditor
         internal static List<string> GetAiModelIds(int level)
         {
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "level : called with level : " + level);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with level : " + level);
             string qscData = QUtils.LoadFile(inputQscPath);
             List<string> aiModelIdsList = new List<string>();
             var modelRegex = @"\d{3}_\d{2}_\d{1}";

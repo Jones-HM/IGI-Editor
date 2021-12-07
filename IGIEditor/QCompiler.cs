@@ -12,7 +12,7 @@ namespace IGIEditor
         internal static bool Compile(string qscFile, string gamePath, int _ignore)
         {
             bool status = false;
-            QUtils.currGameLevel = QMemory.GetCurrentLevel();
+            QUtils.currGameLevel = QMemory.GetRunningLevel();
             string currLevelPath = "level" + QUtils.currGameLevel;
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QFile: '" + qscFile + "' Game Path: '" + gamePath + "'" + " CurrLevel path: " + currLevelPath);
 
@@ -61,7 +61,7 @@ namespace IGIEditor
             bool status = false;
             try
             {
-                QUtils.currGameLevel = QMemory.GetCurrentLevel();
+                QUtils.currGameLevel = QMemory.GetRunningLevel();
                 string currLevelPath = "level" + QUtils.currGameLevel;
                 if (!String.IsNullOrEmpty(qscData))
                 {
@@ -76,7 +76,7 @@ namespace IGIEditor
 
                     //Compile for Objets.
                     QUtils.SaveFile(qscData, appendData);
-                    QUtils.gamePath = QUtils.cfgGamePath + QMemory.GetCurrentLevel();
+                    QUtils.gamePath = QUtils.cfgGamePath + QMemory.GetRunningLevel();
                     string outScriptPath = QUtils.gamePath + "\\" + QUtils.objectsQsc;
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QData : Output Path: '" + outScriptPath + "'");
 

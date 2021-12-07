@@ -869,7 +869,7 @@ namespace QLibc
         [DllImport("user32.dll", SetLastError = true)]
         private static extern uint SendInput(uint numberOfInputs, INPUT[] inputs, int sizeOfInputStructure);
 
-        internal static void ActivateApp(string processName)
+        internal static void ShowAppForeground(string processName)
         {
             Process[] p = Process.GetProcessesByName(processName);
 
@@ -913,7 +913,7 @@ namespace QLibc
 
         public static void GT_SendKeys2Process(string process_name, string keys, bool appForeground = true)
         {
-            var process = System.Diagnostics.Process.GetProcessesByName(process_name).FirstOrDefault();
+            var process = Process.GetProcessesByName(process_name).FirstOrDefault();
             if (process != null)
             {
                 IntPtr handle = process.MainWindowHandle;
@@ -926,7 +926,7 @@ namespace QLibc
 
         public static void GT_SendKeys2Process(string process_name, VK key)
         {
-            var process = System.Diagnostics.Process.GetProcessesByName(process_name).FirstOrDefault();
+            var process = Process.GetProcessesByName(process_name).FirstOrDefault();
             if (process != null)
             {
                 IntPtr handle = process.MainWindowHandle;

@@ -78,14 +78,14 @@ namespace IGIEditor
             return weaponTask;
         }
 
-        internal static string RemoveWeapon(string weapon, bool autoModel)
+        internal static string RemoveWeapon(string weapon, bool autoModel, bool checkExist = true)
         {
             string qscData = QUtils.LoadFile();
             if (!autoModel)
                 weapon = QUtils.weaponId + weapon;
 
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Trying to remove weapon : " + weapon);
-            if (!CheckWeaponExist(weapon))
+            if (!CheckWeaponExist(weapon) && checkExist)
             {
                 QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "Weapon: " + weapon + " does not exist for human");
                 return null;
@@ -100,7 +100,10 @@ namespace IGIEditor
             foreach (var data in qscTemp)
             {
                 if (data.Contains(weapon))
+                {
                     gunSubStr = data;
+                    break;
+                }
             }
 
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Weapon string : " + gunSubStr);
@@ -110,8 +113,18 @@ namespace IGIEditor
             qscData = Regex.Replace(qscData, @"^\s+$[\r\n]*", string.Empty, RegexOptions.Multiline);
             qscData = qscData.Replace("\t", String.Empty);
 
-            if (!String.IsNullOrEmpty(qscData))
-                IGIEditorUI.editorRef.SetStatusText("Weapon removed successfully");
+            return qscData;
+        }
+
+        internal static string RemoveWeapons()
+        {
+            string qscData = null;
+            var humanData = GetHumanTaskList();
+            foreach (var weapon in humanData.weaponsList)
+            {
+                qscData = RemoveWeapon(weapon, true, false);
+                QUtils.SaveFile(QUtils.objectsQsc,qscData);
+            }
             return qscData;
         }
 
