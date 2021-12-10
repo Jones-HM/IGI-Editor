@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IGIEditorUI));
-            this.backPnl = new System.Windows.Forms.Panel();
+            this.editorMainPanel = new System.Windows.Forms.Panel();
             this.internalsStatusLbl = new System.Windows.Forms.Label();
-            this.internalsLbl = new System.Windows.Forms.Label();
+            this.compilerTagLbl = new System.Windows.Forms.Label();
             this.liveEditorCb = new System.Windows.Forms.CheckBox();
             this.quitLevelBtn = new System.Windows.Forms.Button();
             this.connectionCb = new System.Windows.Forms.CheckBox();
@@ -66,22 +66,14 @@
             this.addObjectBtn = new System.Windows.Forms.Button();
             this.addBuildingBtn = new System.Windows.Forms.Button();
             this.objectEditor = new System.Windows.Forms.TabPage();
-            this.maxItemsLbl4 = new System.Windows.Forms.Label();
-            this.buildingsResTxt = new System.Windows.Forms.TextBox();
-            this.ObjsResTxt = new System.Windows.Forms.TextBox();
-            this.itemsLbl4 = new System.Windows.Forms.Label();
-            this.itemsLbl3 = new System.Windows.Forms.Label();
-            this.maxItemsLbl3 = new System.Windows.Forms.Label();
-            this.maxItemsLbl2 = new System.Windows.Forms.Label();
-            this.buildingsRemTxt = new System.Windows.Forms.TextBox();
-            this.ObjsRemTxt = new System.Windows.Forms.TextBox();
-            this.itemsLbl2 = new System.Windows.Forms.Label();
-            this.itemsLbl1 = new System.Windows.Forms.Label();
+            this.buildingsResetTxt = new System.Windows.Forms.NumericUpDown();
+            this.objectsResetTxt = new System.Windows.Forms.NumericUpDown();
+            this.buildingsRemoveTxt = new System.Windows.Forms.NumericUpDown();
+            this.objectsRemoveTxt = new System.Windows.Forms.NumericUpDown();
             this.resetBuildingsBtn = new System.Windows.Forms.Button();
             this.resetObjectsBtn = new System.Windows.Forms.Button();
             this.objectIDLbl = new System.Windows.Forms.Label();
             this.objectIDTxt = new System.Windows.Forms.TextBox();
-            this.maxItemsLbl1 = new System.Windows.Forms.Label();
             this.modelIdLbl = new System.Windows.Forms.Label();
             this.restoreModelBtn = new System.Windows.Forms.Button();
             this.removeModelBtn = new System.Windows.Forms.Button();
@@ -95,6 +87,7 @@
             this.peekCrouchTxt = new System.Windows.Forms.NumericUpDown();
             this.peekLRTxt = new System.Windows.Forms.NumericUpDown();
             this.humanViewCamTxt = new System.Windows.Forms.NumericUpDown();
+            this.damageScaleFallTxt = new System.Windows.Forms.NumericUpDown();
             this.damageScaleFenceTxt = new System.Windows.Forms.NumericUpDown();
             this.teamIdTxt = new System.Windows.Forms.NumericUpDown();
             this.damageScaleTxt = new System.Windows.Forms.NumericUpDown();
@@ -106,6 +99,7 @@
             this.updatePeekBtn = new System.Windows.Forms.Button();
             this.updateHumanHealthBtn = new System.Windows.Forms.Button();
             this.damageScaleLbl = new System.Windows.Forms.Label();
+            this.fallDamageLbl = new System.Windows.Forms.Label();
             this.fenceDamageScaleLbl = new System.Windows.Forms.Label();
             this.updateHumanSpeedBtn = new System.Windows.Forms.Button();
             this.peekTimeLbl = new System.Windows.Forms.Label();
@@ -121,7 +115,7 @@
             this.aiEditorMainTab = new System.Windows.Forms.TabPage();
             this.maxSpawnsTxt = new System.Windows.Forms.NumericUpDown();
             this.aiCountTxt = new System.Windows.Forms.NumericUpDown();
-            this.removeAllAi = new System.Windows.Forms.Button();
+            this.removeAiBtn = new System.Windows.Forms.Button();
             this.graphAreaAiLbl = new System.Windows.Forms.TextBox();
             this.taskDetectionAiCb = new System.Windows.Forms.CheckBox();
             this.customAiCb = new System.Windows.Forms.CheckBox();
@@ -129,7 +123,7 @@
             this.aiFriendlyCb = new System.Windows.Forms.CheckBox();
             this.aiAdvanceViewCb = new System.Windows.Forms.CheckBox();
             this.guardGeneratorCb = new System.Windows.Forms.CheckBox();
-            this.aiinvulnerabilityCb = new System.Windows.Forms.CheckBox();
+            this.aiInvincibleCb = new System.Windows.Forms.CheckBox();
             this.aiGraphIdDD = new System.Windows.Forms.ComboBox();
             this.aiTypeDD = new System.Windows.Forms.ComboBox();
             this.aiWeaponDD = new System.Windows.Forms.ComboBox();
@@ -142,9 +136,11 @@
             this.aiCountLbl = new System.Windows.Forms.Label();
             this.aiModelNameLbl = new System.Windows.Forms.Label();
             this.aiModelLbl = new System.Windows.Forms.Label();
+            this.saveAIBtn = new System.Windows.Forms.Button();
             this.addAiBtn = new System.Windows.Forms.Button();
             this.aiJSONEditor = new System.Windows.Forms.TabPage();
             this.aiJsonAutoFmtCb = new System.Windows.Forms.CheckBox();
+            this.aiJsonEditModeCb = new System.Windows.Forms.CheckBox();
             this.aiJsonClearDataCb = new System.Windows.Forms.CheckBox();
             this.aiJsonEditorTxt = new System.Windows.Forms.RichTextBox();
             this.aiJsonSaveBtn = new System.Windows.Forms.Button();
@@ -157,6 +153,7 @@
             this.aiScriptEditor = new System.Windows.Forms.TabPage();
             this.aiPatrolPathEditor = new System.Windows.Forms.TabPage();
             this.weaponEditor = new System.Windows.Forms.TabPage();
+            this.weaponAmmoTxt = new System.Windows.Forms.NumericUpDown();
             this.allWeaponsCb = new System.Windows.Forms.CheckBox();
             this.weaponAmmolbl = new System.Windows.Forms.Label();
             this.weaponDD = new System.Windows.Forms.ComboBox();
@@ -261,6 +258,8 @@
             this.xPosLbl_O = new System.Windows.Forms.Label();
             this.updateObjPosition = new System.Windows.Forms.Button();
             this.miscEditor = new System.Windows.Forms.TabPage();
+            this.externalCompilerCb = new System.Windows.Forms.CheckBox();
+            this.internalCompilerCb = new System.Windows.Forms.CheckBox();
             this.framesTxt = new System.Windows.Forms.NumericUpDown();
             this.minutesLbl = new System.Windows.Forms.Label();
             this.gamePathBtn = new System.Windows.Forms.Button();
@@ -287,10 +286,11 @@
             this.csvCb = new System.Windows.Forms.CheckBox();
             this.updateCheckerCb = new System.Windows.Forms.CheckBox();
             this.appLogsCb = new System.Windows.Forms.CheckBox();
+            this.autoRefreshGameCb = new System.Windows.Forms.CheckBox();
             this.autoResetCb = new System.Windows.Forms.CheckBox();
             this.cutsceneRemoveBtn = new System.Windows.Forms.Button();
-            this.resetCurrentLevelBtn = new System.Windows.Forms.Button();
-            this.resetAllLevelsBtn = new System.Windows.Forms.Button();
+            this.resetScriptsFileBtn = new System.Windows.Forms.Button();
+            this.resetLevelBtn = new System.Windows.Forms.Button();
             this.compileBtn = new System.Windows.Forms.Button();
             this.clearCacheBtn = new System.Windows.Forms.Button();
             this.exportObjectsBtn = new System.Windows.Forms.Button();
@@ -315,13 +315,18 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.gameLogoLbl = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.weaponAmmoTxt = new System.Windows.Forms.NumericUpDown();
-            this.backPnl.SuspendLayout();
+            this.compilerTypeLbl = new System.Windows.Forms.Label();
+            this.internalsLbl = new System.Windows.Forms.Label();
+            this.editorMainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
             this.levelEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).BeginInit();
             this.objectEditor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.buildingsResetTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.objectsResetTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.buildingsRemoveTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.objectsRemoveTxt)).BeginInit();
             this.humanEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inAirSpeedTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upwardJumpTxt)).BeginInit();
@@ -330,6 +335,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.peekCrouchTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.peekLRTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.humanViewCamTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.damageScaleFallTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.damageScaleFenceTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.teamIdTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.damageScaleTxt)).BeginInit();
@@ -343,6 +349,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.aiImgBox)).BeginInit();
             this.aiJSONEditor.SuspendLayout();
             this.weaponEditor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.weaponAmmoTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponImgBox)).BeginInit();
             this.threeDEditor.SuspendLayout();
             this.missionEditor.SuspendLayout();
@@ -357,53 +364,54 @@
             ((System.ComponentModel.ISupportInitialize)(this.musicTrackBar)).BeginInit();
             this.devMode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.weaponAmmoTxt)).BeginInit();
             this.SuspendLayout();
             // 
-            // backPnl
+            // editorMainPanel
             // 
-            this.backPnl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.backPnl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.backPnl.Controls.Add(this.internalsStatusLbl);
-            this.backPnl.Controls.Add(this.internalsLbl);
-            this.backPnl.Controls.Add(this.liveEditorCb);
-            this.backPnl.Controls.Add(this.quitLevelBtn);
-            this.backPnl.Controls.Add(this.connectionCb);
-            this.backPnl.Controls.Add(this.editorModeCb);
-            this.backPnl.Controls.Add(this.registeredUsersLbl);
-            this.backPnl.Controls.Add(this.levelStartTxt);
-            this.backPnl.Controls.Add(this.posCoordCb);
-            this.backPnl.Controls.Add(this.posMetersCb);
-            this.backPnl.Controls.Add(this.gameIconBtn);
-            this.backPnl.Controls.Add(this.restartLevel);
-            this.backPnl.Controls.Add(this.refreshGame);
-            this.backPnl.Controls.Add(this.headerLbl);
-            this.backPnl.Controls.Add(this.posTypeLbl);
-            this.backPnl.Controls.Add(this.startGameBtn);
-            this.backPnl.Controls.Add(this.xPosLbl);
-            this.backPnl.Controls.Add(this.yPosLbl);
-            this.backPnl.Controls.Add(this.zPosLbl);
-            this.backPnl.Controls.Add(this.statusTxt);
-            this.backPnl.Controls.Add(this.statusLbl);
-            this.backPnl.Controls.Add(this.zPosLbl_M);
-            this.backPnl.Controls.Add(this.yPosLbl_M);
-            this.backPnl.Controls.Add(this.xPosLbl_M);
-            this.backPnl.Controls.Add(this.editorTabs);
-            this.backPnl.Controls.Add(this.helpBtn);
-            this.backPnl.Controls.Add(this.minimizeBtn);
-            this.backPnl.Controls.Add(this.closeBtn);
-            this.backPnl.Controls.Add(this.versionLbl);
-            this.backPnl.Controls.Add(this.editorLogoLbl);
-            this.backPnl.Controls.Add(this.levelNameLbl);
-            this.backPnl.Controls.Add(this.formMoverPanel);
-            this.backPnl.Controls.Add(this.levelImgBox);
-            this.backPnl.Controls.Add(this.gameLogoLbl);
-            this.backPnl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.backPnl.Location = new System.Drawing.Point(0, 0);
-            this.backPnl.Margin = new System.Windows.Forms.Padding(4);
-            this.backPnl.Name = "backPnl";
-            this.backPnl.Size = new System.Drawing.Size(1147, 741);
-            this.backPnl.TabIndex = 0;
+            this.editorMainPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.editorMainPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.editorMainPanel.Controls.Add(this.compilerTypeLbl);
+            this.editorMainPanel.Controls.Add(this.internalsStatusLbl);
+            this.editorMainPanel.Controls.Add(this.internalsLbl);
+            this.editorMainPanel.Controls.Add(this.compilerTagLbl);
+            this.editorMainPanel.Controls.Add(this.liveEditorCb);
+            this.editorMainPanel.Controls.Add(this.quitLevelBtn);
+            this.editorMainPanel.Controls.Add(this.connectionCb);
+            this.editorMainPanel.Controls.Add(this.editorModeCb);
+            this.editorMainPanel.Controls.Add(this.registeredUsersLbl);
+            this.editorMainPanel.Controls.Add(this.levelStartTxt);
+            this.editorMainPanel.Controls.Add(this.posCoordCb);
+            this.editorMainPanel.Controls.Add(this.posMetersCb);
+            this.editorMainPanel.Controls.Add(this.gameIconBtn);
+            this.editorMainPanel.Controls.Add(this.restartLevel);
+            this.editorMainPanel.Controls.Add(this.refreshGame);
+            this.editorMainPanel.Controls.Add(this.headerLbl);
+            this.editorMainPanel.Controls.Add(this.posTypeLbl);
+            this.editorMainPanel.Controls.Add(this.startGameBtn);
+            this.editorMainPanel.Controls.Add(this.xPosLbl);
+            this.editorMainPanel.Controls.Add(this.yPosLbl);
+            this.editorMainPanel.Controls.Add(this.zPosLbl);
+            this.editorMainPanel.Controls.Add(this.statusTxt);
+            this.editorMainPanel.Controls.Add(this.statusLbl);
+            this.editorMainPanel.Controls.Add(this.zPosLbl_M);
+            this.editorMainPanel.Controls.Add(this.yPosLbl_M);
+            this.editorMainPanel.Controls.Add(this.xPosLbl_M);
+            this.editorMainPanel.Controls.Add(this.editorTabs);
+            this.editorMainPanel.Controls.Add(this.helpBtn);
+            this.editorMainPanel.Controls.Add(this.minimizeBtn);
+            this.editorMainPanel.Controls.Add(this.closeBtn);
+            this.editorMainPanel.Controls.Add(this.versionLbl);
+            this.editorMainPanel.Controls.Add(this.editorLogoLbl);
+            this.editorMainPanel.Controls.Add(this.levelNameLbl);
+            this.editorMainPanel.Controls.Add(this.formMoverPanel);
+            this.editorMainPanel.Controls.Add(this.levelImgBox);
+            this.editorMainPanel.Controls.Add(this.gameLogoLbl);
+            this.editorMainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editorMainPanel.Location = new System.Drawing.Point(0, 0);
+            this.editorMainPanel.Margin = new System.Windows.Forms.Padding(4);
+            this.editorMainPanel.Name = "editorMainPanel";
+            this.editorMainPanel.Size = new System.Drawing.Size(1147, 741);
+            this.editorMainPanel.TabIndex = 0;
             // 
             // internalsStatusLbl
             // 
@@ -417,17 +425,18 @@
             this.internalsStatusLbl.Text = "Attached";
             this.internalsStatusLbl.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // internalsLbl
+            // compilerTagLbl
             // 
-            this.internalsLbl.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.internalsLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.internalsLbl.Location = new System.Drawing.Point(27, 71);
-            this.internalsLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.internalsLbl.Name = "internalsLbl";
-            this.internalsLbl.Size = new System.Drawing.Size(79, 19);
-            this.internalsLbl.TabIndex = 47;
-            this.internalsLbl.Text = "Internals";
-            this.internalsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.compilerTagLbl.AutoSize = true;
+            this.compilerTagLbl.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.compilerTagLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.compilerTagLbl.Location = new System.Drawing.Point(279, 100);
+            this.compilerTagLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.compilerTagLbl.Name = "compilerTagLbl";
+            this.compilerTagLbl.Size = new System.Drawing.Size(83, 20);
+            this.compilerTagLbl.TabIndex = 47;
+            this.compilerTagLbl.Text = "Compiler: ";
+            this.compilerTagLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // liveEditorCb
             // 
@@ -464,7 +473,7 @@
             this.connectionCb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.connectionCb.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.connectionCb.ForeColor = System.Drawing.Color.SpringGreen;
-            this.connectionCb.Location = new System.Drawing.Point(279, 93);
+            this.connectionCb.Location = new System.Drawing.Point(279, 73);
             this.connectionCb.Margin = new System.Windows.Forms.Padding(4);
             this.connectionCb.Name = "connectionCb";
             this.connectionCb.Size = new System.Drawing.Size(78, 24);
@@ -478,7 +487,7 @@
             this.editorModeCb.AutoSize = true;
             this.editorModeCb.Font = new System.Drawing.Font("Century Gothic", 9F);
             this.editorModeCb.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.editorModeCb.Location = new System.Drawing.Point(279, 62);
+            this.editorModeCb.Location = new System.Drawing.Point(279, 50);
             this.editorModeCb.Margin = new System.Windows.Forms.Padding(4);
             this.editorModeCb.Name = "editorModeCb";
             this.editorModeCb.Size = new System.Drawing.Size(110, 24);
@@ -491,7 +500,7 @@
             // 
             this.registeredUsersLbl.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.registeredUsersLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.registeredUsersLbl.Location = new System.Drawing.Point(365, 96);
+            this.registeredUsersLbl.Location = new System.Drawing.Point(365, 78);
             this.registeredUsersLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.registeredUsersLbl.Name = "registeredUsersLbl";
             this.registeredUsersLbl.Size = new System.Drawing.Size(79, 19);
@@ -798,7 +807,7 @@
             // 
             this.clearAllLvlBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.clearAllLvlBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.clearAllLvlBtn.Location = new System.Drawing.Point(869, 173);
+            this.clearAllLvlBtn.Location = new System.Drawing.Point(919, 173);
             this.clearAllLvlBtn.Margin = new System.Windows.Forms.Padding(4);
             this.clearAllLvlBtn.Name = "clearAllLvlBtn";
             this.clearAllLvlBtn.Size = new System.Drawing.Size(211, 31);
@@ -839,7 +848,7 @@
             // 
             this.removeObjectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeObjectBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.removeObjectBtn.Location = new System.Drawing.Point(869, 108);
+            this.removeObjectBtn.Location = new System.Drawing.Point(919, 107);
             this.removeObjectBtn.Margin = new System.Windows.Forms.Padding(4);
             this.removeObjectBtn.Name = "removeObjectBtn";
             this.removeObjectBtn.Size = new System.Drawing.Size(211, 31);
@@ -852,10 +861,10 @@
             // 
             this.removeBuildingBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeBuildingBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.removeBuildingBtn.Location = new System.Drawing.Point(869, 43);
+            this.removeBuildingBtn.Location = new System.Drawing.Point(919, 43);
             this.removeBuildingBtn.Margin = new System.Windows.Forms.Padding(4);
             this.removeBuildingBtn.Name = "removeBuildingBtn";
-            this.removeBuildingBtn.Size = new System.Drawing.Size(211, 31);
+            this.removeBuildingBtn.Size = new System.Drawing.Size(210, 31);
             this.removeBuildingBtn.TabIndex = 19;
             this.removeBuildingBtn.Text = "Remove building";
             this.removeBuildingBtn.UseVisualStyleBackColor = true;
@@ -868,7 +877,7 @@
             this.addObjectBtn.Location = new System.Drawing.Point(702, 107);
             this.addObjectBtn.Margin = new System.Windows.Forms.Padding(4);
             this.addObjectBtn.Name = "addObjectBtn";
-            this.addObjectBtn.Size = new System.Drawing.Size(143, 31);
+            this.addObjectBtn.Size = new System.Drawing.Size(210, 31);
             this.addObjectBtn.TabIndex = 11;
             this.addObjectBtn.Text = "Add object";
             this.addObjectBtn.UseVisualStyleBackColor = true;
@@ -881,7 +890,7 @@
             this.addBuildingBtn.Location = new System.Drawing.Point(702, 43);
             this.addBuildingBtn.Margin = new System.Windows.Forms.Padding(4);
             this.addBuildingBtn.Name = "addBuildingBtn";
-            this.addBuildingBtn.Size = new System.Drawing.Size(143, 31);
+            this.addBuildingBtn.Size = new System.Drawing.Size(210, 31);
             this.addBuildingBtn.TabIndex = 8;
             this.addBuildingBtn.Text = "Add building";
             this.addBuildingBtn.UseVisualStyleBackColor = true;
@@ -890,22 +899,14 @@
             // objectEditor
             // 
             this.objectEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.objectEditor.Controls.Add(this.maxItemsLbl4);
-            this.objectEditor.Controls.Add(this.buildingsResTxt);
-            this.objectEditor.Controls.Add(this.ObjsResTxt);
-            this.objectEditor.Controls.Add(this.itemsLbl4);
-            this.objectEditor.Controls.Add(this.itemsLbl3);
-            this.objectEditor.Controls.Add(this.maxItemsLbl3);
-            this.objectEditor.Controls.Add(this.maxItemsLbl2);
-            this.objectEditor.Controls.Add(this.buildingsRemTxt);
-            this.objectEditor.Controls.Add(this.ObjsRemTxt);
-            this.objectEditor.Controls.Add(this.itemsLbl2);
-            this.objectEditor.Controls.Add(this.itemsLbl1);
+            this.objectEditor.Controls.Add(this.buildingsResetTxt);
+            this.objectEditor.Controls.Add(this.objectsResetTxt);
+            this.objectEditor.Controls.Add(this.buildingsRemoveTxt);
+            this.objectEditor.Controls.Add(this.objectsRemoveTxt);
             this.objectEditor.Controls.Add(this.resetBuildingsBtn);
             this.objectEditor.Controls.Add(this.resetObjectsBtn);
             this.objectEditor.Controls.Add(this.objectIDLbl);
             this.objectEditor.Controls.Add(this.objectIDTxt);
-            this.objectEditor.Controls.Add(this.maxItemsLbl1);
             this.objectEditor.Controls.Add(this.modelIdLbl);
             this.objectEditor.Controls.Add(this.restoreModelBtn);
             this.objectEditor.Controls.Add(this.removeModelBtn);
@@ -920,144 +921,91 @@
             this.objectEditor.TabIndex = 0;
             this.objectEditor.Text = "Object Editor";
             // 
-            // maxItemsLbl4
+            // buildingsResetTxt
             // 
-            this.maxItemsLbl4.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.maxItemsLbl4.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.maxItemsLbl4.Location = new System.Drawing.Point(396, 287);
-            this.maxItemsLbl4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.maxItemsLbl4.Name = "maxItemsLbl4";
-            this.maxItemsLbl4.Size = new System.Drawing.Size(169, 33);
-            this.maxItemsLbl4.TabIndex = 32;
-            this.maxItemsLbl4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.buildingsResetTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.buildingsResetTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.buildingsResetTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.buildingsResetTxt.Location = new System.Drawing.Point(920, 284);
+            this.buildingsResetTxt.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.buildingsResetTxt.Name = "buildingsResetTxt";
+            this.buildingsResetTxt.Size = new System.Drawing.Size(197, 30);
+            this.buildingsResetTxt.TabIndex = 49;
+            this.buildingsResetTxt.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
-            // buildingsResTxt
+            // objectsResetTxt
             // 
-            this.buildingsResTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.buildingsResTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.buildingsResTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.buildingsResTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.buildingsResTxt.Location = new System.Drawing.Point(158, 289);
-            this.buildingsResTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.buildingsResTxt.Name = "buildingsResTxt";
-            this.buildingsResTxt.Size = new System.Drawing.Size(208, 30);
-            this.buildingsResTxt.TabIndex = 30;
-            this.buildingsResTxt.Text = "0";
+            this.objectsResetTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.objectsResetTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.objectsResetTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.objectsResetTxt.Location = new System.Drawing.Point(921, 232);
+            this.objectsResetTxt.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.objectsResetTxt.Name = "objectsResetTxt";
+            this.objectsResetTxt.Size = new System.Drawing.Size(197, 30);
+            this.objectsResetTxt.TabIndex = 48;
+            this.objectsResetTxt.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
-            // ObjsResTxt
+            // buildingsRemoveTxt
             // 
-            this.ObjsResTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.ObjsResTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ObjsResTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.ObjsResTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.ObjsResTxt.Location = new System.Drawing.Point(158, 238);
-            this.ObjsResTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.ObjsResTxt.Name = "ObjsResTxt";
-            this.ObjsResTxt.Size = new System.Drawing.Size(208, 30);
-            this.ObjsResTxt.TabIndex = 31;
-            this.ObjsResTxt.Text = "0";
+            this.buildingsRemoveTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.buildingsRemoveTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.buildingsRemoveTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.buildingsRemoveTxt.Location = new System.Drawing.Point(920, 161);
+            this.buildingsRemoveTxt.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.buildingsRemoveTxt.Name = "buildingsRemoveTxt";
+            this.buildingsRemoveTxt.Size = new System.Drawing.Size(197, 30);
+            this.buildingsRemoveTxt.TabIndex = 47;
+            this.buildingsRemoveTxt.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
-            // itemsLbl4
+            // objectsRemoveTxt
             // 
-            this.itemsLbl4.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.itemsLbl4.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.itemsLbl4.Location = new System.Drawing.Point(33, 286);
-            this.itemsLbl4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.itemsLbl4.Name = "itemsLbl4";
-            this.itemsLbl4.Size = new System.Drawing.Size(117, 33);
-            this.itemsLbl4.TabIndex = 28;
-            this.itemsLbl4.Text = "Items ";
-            this.itemsLbl4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // itemsLbl3
-            // 
-            this.itemsLbl3.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.itemsLbl3.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.itemsLbl3.Location = new System.Drawing.Point(33, 238);
-            this.itemsLbl3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.itemsLbl3.Name = "itemsLbl3";
-            this.itemsLbl3.Size = new System.Drawing.Size(117, 33);
-            this.itemsLbl3.TabIndex = 29;
-            this.itemsLbl3.Text = "Items ";
-            this.itemsLbl3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // maxItemsLbl3
-            // 
-            this.maxItemsLbl3.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.maxItemsLbl3.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.maxItemsLbl3.Location = new System.Drawing.Point(396, 238);
-            this.maxItemsLbl3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.maxItemsLbl3.Name = "maxItemsLbl3";
-            this.maxItemsLbl3.Size = new System.Drawing.Size(169, 33);
-            this.maxItemsLbl3.TabIndex = 27;
-            this.maxItemsLbl3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // maxItemsLbl2
-            // 
-            this.maxItemsLbl2.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.maxItemsLbl2.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.maxItemsLbl2.Location = new System.Drawing.Point(396, 168);
-            this.maxItemsLbl2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.maxItemsLbl2.Name = "maxItemsLbl2";
-            this.maxItemsLbl2.Size = new System.Drawing.Size(169, 33);
-            this.maxItemsLbl2.TabIndex = 26;
-            this.maxItemsLbl2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // buildingsRemTxt
-            // 
-            this.buildingsRemTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.buildingsRemTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.buildingsRemTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.buildingsRemTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.buildingsRemTxt.Location = new System.Drawing.Point(158, 170);
-            this.buildingsRemTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.buildingsRemTxt.Name = "buildingsRemTxt";
-            this.buildingsRemTxt.Size = new System.Drawing.Size(208, 30);
-            this.buildingsRemTxt.TabIndex = 25;
-            this.buildingsRemTxt.Text = "0";
-            // 
-            // ObjsRemTxt
-            // 
-            this.ObjsRemTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.ObjsRemTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ObjsRemTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.ObjsRemTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.ObjsRemTxt.Location = new System.Drawing.Point(158, 119);
-            this.ObjsRemTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.ObjsRemTxt.Name = "ObjsRemTxt";
-            this.ObjsRemTxt.Size = new System.Drawing.Size(208, 30);
-            this.ObjsRemTxt.TabIndex = 25;
-            this.ObjsRemTxt.Text = "0";
-            // 
-            // itemsLbl2
-            // 
-            this.itemsLbl2.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.itemsLbl2.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.itemsLbl2.Location = new System.Drawing.Point(33, 167);
-            this.itemsLbl2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.itemsLbl2.Name = "itemsLbl2";
-            this.itemsLbl2.Size = new System.Drawing.Size(117, 33);
-            this.itemsLbl2.TabIndex = 24;
-            this.itemsLbl2.Text = "Items ";
-            this.itemsLbl2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // itemsLbl1
-            // 
-            this.itemsLbl1.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.itemsLbl1.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.itemsLbl1.Location = new System.Drawing.Point(33, 119);
-            this.itemsLbl1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.itemsLbl1.Name = "itemsLbl1";
-            this.itemsLbl1.Size = new System.Drawing.Size(117, 33);
-            this.itemsLbl1.TabIndex = 24;
-            this.itemsLbl1.Text = "Items ";
-            this.itemsLbl1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.objectsRemoveTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.objectsRemoveTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.objectsRemoveTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.objectsRemoveTxt.Location = new System.Drawing.Point(921, 112);
+            this.objectsRemoveTxt.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.objectsRemoveTxt.Name = "objectsRemoveTxt";
+            this.objectsRemoveTxt.Size = new System.Drawing.Size(197, 30);
+            this.objectsRemoveTxt.TabIndex = 46;
+            this.objectsRemoveTxt.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // resetBuildingsBtn
             // 
             this.resetBuildingsBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.resetBuildingsBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.resetBuildingsBtn.Location = new System.Drawing.Point(674, 289);
+            this.resetBuildingsBtn.Location = new System.Drawing.Point(674, 280);
             this.resetBuildingsBtn.Margin = new System.Windows.Forms.Padding(4);
             this.resetBuildingsBtn.Name = "resetBuildingsBtn";
             this.resetBuildingsBtn.Size = new System.Drawing.Size(217, 34);
@@ -1070,7 +1018,7 @@
             // 
             this.resetObjectsBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.resetObjectsBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.resetObjectsBtn.Location = new System.Drawing.Point(674, 238);
+            this.resetObjectsBtn.Location = new System.Drawing.Point(674, 229);
             this.resetObjectsBtn.Margin = new System.Windows.Forms.Padding(4);
             this.resetObjectsBtn.Name = "resetObjectsBtn";
             this.resetObjectsBtn.Size = new System.Drawing.Size(217, 34);
@@ -1106,17 +1054,6 @@
             this.infoViewer.SetToolTip(this.objectIDTxt, "Model id of object like 435_01_1 for WaterTower");
             this.objectIDTxt.TextChanged += new System.EventHandler(this.objectIDTxt_TextChanged);
             this.objectIDTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.objectIDTxt_KeyDown);
-            // 
-            // maxItemsLbl1
-            // 
-            this.maxItemsLbl1.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.maxItemsLbl1.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.maxItemsLbl1.Location = new System.Drawing.Point(396, 119);
-            this.maxItemsLbl1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.maxItemsLbl1.Name = "maxItemsLbl1";
-            this.maxItemsLbl1.Size = new System.Drawing.Size(169, 33);
-            this.maxItemsLbl1.TabIndex = 6;
-            this.maxItemsLbl1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // modelIdLbl
             // 
@@ -1160,7 +1097,7 @@
             // 
             this.removeBuildingsBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeBuildingsBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.removeBuildingsBtn.Location = new System.Drawing.Point(674, 167);
+            this.removeBuildingsBtn.Location = new System.Drawing.Point(674, 158);
             this.removeBuildingsBtn.Margin = new System.Windows.Forms.Padding(4);
             this.removeBuildingsBtn.Name = "removeBuildingsBtn";
             this.removeBuildingsBtn.Size = new System.Drawing.Size(217, 34);
@@ -1173,7 +1110,7 @@
             // 
             this.removeObjsBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeObjsBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.removeObjsBtn.Location = new System.Drawing.Point(674, 117);
+            this.removeObjsBtn.Location = new System.Drawing.Point(674, 108);
             this.removeObjsBtn.Margin = new System.Windows.Forms.Padding(4);
             this.removeObjsBtn.Name = "removeObjsBtn";
             this.removeObjsBtn.Size = new System.Drawing.Size(217, 34);
@@ -1192,6 +1129,7 @@
             this.humanEditor.Controls.Add(this.peekCrouchTxt);
             this.humanEditor.Controls.Add(this.peekLRTxt);
             this.humanEditor.Controls.Add(this.humanViewCamTxt);
+            this.humanEditor.Controls.Add(this.damageScaleFallTxt);
             this.humanEditor.Controls.Add(this.damageScaleFenceTxt);
             this.humanEditor.Controls.Add(this.teamIdTxt);
             this.humanEditor.Controls.Add(this.damageScaleTxt);
@@ -1203,6 +1141,7 @@
             this.humanEditor.Controls.Add(this.updatePeekBtn);
             this.humanEditor.Controls.Add(this.updateHumanHealthBtn);
             this.humanEditor.Controls.Add(this.damageScaleLbl);
+            this.humanEditor.Controls.Add(this.fallDamageLbl);
             this.humanEditor.Controls.Add(this.fenceDamageScaleLbl);
             this.humanEditor.Controls.Add(this.updateHumanSpeedBtn);
             this.humanEditor.Controls.Add(this.peekTimeLbl);
@@ -1397,7 +1336,7 @@
             this.humanViewCamTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.humanViewCamTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.humanViewCamTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.humanViewCamTxt.Location = new System.Drawing.Point(366, 296);
+            this.humanViewCamTxt.Location = new System.Drawing.Point(366, 273);
             this.humanViewCamTxt.Maximum = new decimal(new int[] {
             5,
             0,
@@ -1412,6 +1351,21 @@
             0,
             0});
             // 
+            // damageScaleFallTxt
+            // 
+            this.damageScaleFallTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.damageScaleFallTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.damageScaleFallTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.damageScaleFallTxt.Location = new System.Drawing.Point(604, 196);
+            this.damageScaleFallTxt.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.damageScaleFallTxt.Name = "damageScaleFallTxt";
+            this.damageScaleFallTxt.Size = new System.Drawing.Size(100, 30);
+            this.damageScaleFallTxt.TabIndex = 81;
+            // 
             // damageScaleFenceTxt
             // 
             this.damageScaleFenceTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
@@ -1423,7 +1377,7 @@
             0,
             0,
             131072});
-            this.damageScaleFenceTxt.Location = new System.Drawing.Point(365, 218);
+            this.damageScaleFenceTxt.Location = new System.Drawing.Point(365, 195);
             this.damageScaleFenceTxt.Maximum = new decimal(new int[] {
             -805306368,
             967903254,
@@ -1438,7 +1392,7 @@
             this.teamIdTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.teamIdTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.teamIdTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.teamIdTxt.Location = new System.Drawing.Point(135, 296);
+            this.teamIdTxt.Location = new System.Drawing.Point(135, 273);
             this.teamIdTxt.Name = "teamIdTxt";
             this.teamIdTxt.Size = new System.Drawing.Size(100, 30);
             this.teamIdTxt.TabIndex = 82;
@@ -1454,7 +1408,7 @@
             0,
             0,
             131072});
-            this.damageScaleTxt.Location = new System.Drawing.Point(134, 218);
+            this.damageScaleTxt.Location = new System.Drawing.Point(134, 195);
             this.damageScaleTxt.Maximum = new decimal(new int[] {
             -805306368,
             967903254,
@@ -1509,7 +1463,7 @@
             // 
             this.updateHumanBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updateHumanBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.updateHumanBtn.Location = new System.Drawing.Point(931, 289);
+            this.updateHumanBtn.Location = new System.Drawing.Point(931, 273);
             this.updateHumanBtn.Margin = new System.Windows.Forms.Padding(4);
             this.updateHumanBtn.Name = "updateHumanBtn";
             this.updateHumanBtn.Size = new System.Drawing.Size(181, 31);
@@ -1574,7 +1528,7 @@
             // 
             this.updateHumanHealthBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updateHumanHealthBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.updateHumanHealthBtn.Location = new System.Drawing.Point(931, 218);
+            this.updateHumanHealthBtn.Location = new System.Drawing.Point(931, 197);
             this.updateHumanHealthBtn.Margin = new System.Windows.Forms.Padding(4);
             this.updateHumanHealthBtn.Name = "updateHumanHealthBtn";
             this.updateHumanHealthBtn.Size = new System.Drawing.Size(181, 31);
@@ -1588,7 +1542,7 @@
             this.damageScaleLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.damageScaleLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.damageScaleLbl.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.damageScaleLbl.Location = new System.Drawing.Point(23, 218);
+            this.damageScaleLbl.Location = new System.Drawing.Point(23, 195);
             this.damageScaleLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.damageScaleLbl.Name = "damageScaleLbl";
             this.damageScaleLbl.Size = new System.Drawing.Size(110, 33);
@@ -1596,11 +1550,23 @@
             this.damageScaleLbl.Text = "Human";
             this.damageScaleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // fallDamageLbl
+            // 
+            this.fallDamageLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.fallDamageLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.fallDamageLbl.Location = new System.Drawing.Point(479, 196);
+            this.fallDamageLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.fallDamageLbl.Name = "fallDamageLbl";
+            this.fallDamageLbl.Size = new System.Drawing.Size(96, 33);
+            this.fallDamageLbl.TabIndex = 47;
+            this.fallDamageLbl.Text = "Fall";
+            this.fallDamageLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // fenceDamageScaleLbl
             // 
             this.fenceDamageScaleLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.fenceDamageScaleLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.fenceDamageScaleLbl.Location = new System.Drawing.Point(237, 218);
+            this.fenceDamageScaleLbl.Location = new System.Drawing.Point(237, 195);
             this.fenceDamageScaleLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.fenceDamageScaleLbl.Name = "fenceDamageScaleLbl";
             this.fenceDamageScaleLbl.Size = new System.Drawing.Size(96, 33);
@@ -1673,7 +1639,7 @@
             // 
             this.humanViewCamLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.humanViewCamLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.humanViewCamLbl.Location = new System.Drawing.Point(237, 292);
+            this.humanViewCamLbl.Location = new System.Drawing.Point(237, 269);
             this.humanViewCamLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.humanViewCamLbl.Name = "humanViewCamLbl";
             this.humanViewCamLbl.Size = new System.Drawing.Size(117, 33);
@@ -1685,7 +1651,7 @@
             // 
             this.teamIdLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.teamIdLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.teamIdLbl.Location = new System.Drawing.Point(8, 292);
+            this.teamIdLbl.Location = new System.Drawing.Point(8, 269);
             this.teamIdLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.teamIdLbl.Name = "teamIdLbl";
             this.teamIdLbl.Size = new System.Drawing.Size(114, 33);
@@ -1748,7 +1714,7 @@
             this.aiEditorMainTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.aiEditorMainTab.Controls.Add(this.maxSpawnsTxt);
             this.aiEditorMainTab.Controls.Add(this.aiCountTxt);
-            this.aiEditorMainTab.Controls.Add(this.removeAllAi);
+            this.aiEditorMainTab.Controls.Add(this.removeAiBtn);
             this.aiEditorMainTab.Controls.Add(this.graphAreaAiLbl);
             this.aiEditorMainTab.Controls.Add(this.taskDetectionAiCb);
             this.aiEditorMainTab.Controls.Add(this.customAiCb);
@@ -1756,7 +1722,7 @@
             this.aiEditorMainTab.Controls.Add(this.aiFriendlyCb);
             this.aiEditorMainTab.Controls.Add(this.aiAdvanceViewCb);
             this.aiEditorMainTab.Controls.Add(this.guardGeneratorCb);
-            this.aiEditorMainTab.Controls.Add(this.aiinvulnerabilityCb);
+            this.aiEditorMainTab.Controls.Add(this.aiInvincibleCb);
             this.aiEditorMainTab.Controls.Add(this.aiGraphIdDD);
             this.aiEditorMainTab.Controls.Add(this.aiTypeDD);
             this.aiEditorMainTab.Controls.Add(this.aiWeaponDD);
@@ -1769,6 +1735,7 @@
             this.aiEditorMainTab.Controls.Add(this.aiCountLbl);
             this.aiEditorMainTab.Controls.Add(this.aiModelNameLbl);
             this.aiEditorMainTab.Controls.Add(this.aiModelLbl);
+            this.aiEditorMainTab.Controls.Add(this.saveAIBtn);
             this.aiEditorMainTab.Controls.Add(this.addAiBtn);
             this.aiEditorMainTab.Font = new System.Drawing.Font("Century Gothic", 9.75F);
             this.aiEditorMainTab.ForeColor = System.Drawing.Color.DeepSkyBlue;
@@ -1810,18 +1777,18 @@
             0,
             0});
             // 
-            // removeAllAi
+            // removeAiBtn
             // 
-            this.removeAllAi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.removeAllAi.ForeColor = System.Drawing.Color.Tomato;
-            this.removeAllAi.Location = new System.Drawing.Point(900, 317);
-            this.removeAllAi.Margin = new System.Windows.Forms.Padding(4);
-            this.removeAllAi.Name = "removeAllAi";
-            this.removeAllAi.Size = new System.Drawing.Size(208, 31);
-            this.removeAllAi.TabIndex = 106;
-            this.removeAllAi.Text = "Remove all A.I";
-            this.removeAllAi.UseVisualStyleBackColor = true;
-            this.removeAllAi.Click += new System.EventHandler(this.removeAllAi_Click);
+            this.removeAiBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.removeAiBtn.ForeColor = System.Drawing.Color.Tomato;
+            this.removeAiBtn.Location = new System.Drawing.Point(974, 317);
+            this.removeAiBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.removeAiBtn.Name = "removeAiBtn";
+            this.removeAiBtn.Size = new System.Drawing.Size(134, 31);
+            this.removeAiBtn.TabIndex = 106;
+            this.removeAiBtn.Text = "Remove A.I";
+            this.removeAiBtn.UseVisualStyleBackColor = true;
+            this.removeAiBtn.Click += new System.EventHandler(this.removeAiBtn_Click);
             // 
             // graphAreaAiLbl
             // 
@@ -1909,18 +1876,19 @@
             this.guardGeneratorCb.TabIndex = 98;
             this.guardGeneratorCb.Text = "Guard Generator";
             this.guardGeneratorCb.UseVisualStyleBackColor = true;
+            this.guardGeneratorCb.CheckedChanged += new System.EventHandler(this.guardGeneratorCb_CheckedChanged);
             // 
-            // aiinvulnerabilityCb
+            // aiInvincibleCb
             // 
-            this.aiinvulnerabilityCb.AutoSize = true;
-            this.aiinvulnerabilityCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aiinvulnerabilityCb.Location = new System.Drawing.Point(221, 5);
-            this.aiinvulnerabilityCb.Margin = new System.Windows.Forms.Padding(4);
-            this.aiinvulnerabilityCb.Name = "aiinvulnerabilityCb";
-            this.aiinvulnerabilityCb.Size = new System.Drawing.Size(111, 25);
-            this.aiinvulnerabilityCb.TabIndex = 101;
-            this.aiinvulnerabilityCb.Text = "Invincible";
-            this.aiinvulnerabilityCb.UseVisualStyleBackColor = true;
+            this.aiInvincibleCb.AutoSize = true;
+            this.aiInvincibleCb.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aiInvincibleCb.Location = new System.Drawing.Point(221, 5);
+            this.aiInvincibleCb.Margin = new System.Windows.Forms.Padding(4);
+            this.aiInvincibleCb.Name = "aiInvincibleCb";
+            this.aiInvincibleCb.Size = new System.Drawing.Size(111, 25);
+            this.aiInvincibleCb.TabIndex = 101;
+            this.aiInvincibleCb.Text = "Invincible";
+            this.aiInvincibleCb.UseVisualStyleBackColor = true;
             // 
             // aiGraphIdDD
             // 
@@ -2067,6 +2035,19 @@
             this.aiModelLbl.Text = "Model";
             this.aiModelLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // saveAIBtn
+            // 
+            this.saveAIBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.saveAIBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.saveAIBtn.Location = new System.Drawing.Point(826, 317);
+            this.saveAIBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.saveAIBtn.Name = "saveAIBtn";
+            this.saveAIBtn.Size = new System.Drawing.Size(134, 31);
+            this.saveAIBtn.TabIndex = 85;
+            this.saveAIBtn.Text = "Save A.I";
+            this.saveAIBtn.UseVisualStyleBackColor = true;
+            this.saveAIBtn.Click += new System.EventHandler(this.saveAIBtn_Click);
+            // 
             // addAiBtn
             // 
             this.addAiBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -2074,9 +2055,9 @@
             this.addAiBtn.Location = new System.Drawing.Point(684, 317);
             this.addAiBtn.Margin = new System.Windows.Forms.Padding(4);
             this.addAiBtn.Name = "addAiBtn";
-            this.addAiBtn.Size = new System.Drawing.Size(208, 31);
+            this.addAiBtn.Size = new System.Drawing.Size(134, 31);
             this.addAiBtn.TabIndex = 85;
-            this.addAiBtn.Text = "Add A.I Soldier";
+            this.addAiBtn.Text = "Add A.I";
             this.addAiBtn.UseVisualStyleBackColor = true;
             this.addAiBtn.Click += new System.EventHandler(this.addAiBtn_Click);
             // 
@@ -2084,6 +2065,7 @@
             // 
             this.aiJSONEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.aiJSONEditor.Controls.Add(this.aiJsonAutoFmtCb);
+            this.aiJSONEditor.Controls.Add(this.aiJsonEditModeCb);
             this.aiJSONEditor.Controls.Add(this.aiJsonClearDataCb);
             this.aiJSONEditor.Controls.Add(this.aiJsonEditorTxt);
             this.aiJSONEditor.Controls.Add(this.aiJsonSaveBtn);
@@ -2106,24 +2088,37 @@
             // 
             this.aiJsonAutoFmtCb.AutoSize = true;
             this.aiJsonAutoFmtCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aiJsonAutoFmtCb.Location = new System.Drawing.Point(977, 219);
+            this.aiJsonAutoFmtCb.Location = new System.Drawing.Point(1046, 219);
             this.aiJsonAutoFmtCb.Margin = new System.Windows.Forms.Padding(4);
             this.aiJsonAutoFmtCb.Name = "aiJsonAutoFmtCb";
-            this.aiJsonAutoFmtCb.Size = new System.Drawing.Size(115, 23);
+            this.aiJsonAutoFmtCb.Size = new System.Drawing.Size(79, 23);
             this.aiJsonAutoFmtCb.TabIndex = 64;
-            this.aiJsonAutoFmtCb.Text = "Auto Format";
+            this.aiJsonAutoFmtCb.Text = "Format";
             this.aiJsonAutoFmtCb.UseVisualStyleBackColor = true;
+            // 
+            // aiJsonEditModeCb
+            // 
+            this.aiJsonEditModeCb.AutoSize = true;
+            this.aiJsonEditModeCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aiJsonEditModeCb.Location = new System.Drawing.Point(873, 219);
+            this.aiJsonEditModeCb.Margin = new System.Windows.Forms.Padding(4);
+            this.aiJsonEditModeCb.Name = "aiJsonEditModeCb";
+            this.aiJsonEditModeCb.Size = new System.Drawing.Size(57, 23);
+            this.aiJsonEditModeCb.TabIndex = 65;
+            this.aiJsonEditModeCb.Text = "Edit";
+            this.aiJsonEditModeCb.UseVisualStyleBackColor = true;
+            this.aiJsonEditModeCb.CheckedChanged += new System.EventHandler(this.aiJsonEditModeCb_CheckedChanged);
             // 
             // aiJsonClearDataCb
             // 
             this.aiJsonClearDataCb.AutoSize = true;
             this.aiJsonClearDataCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aiJsonClearDataCb.Location = new System.Drawing.Point(873, 219);
+            this.aiJsonClearDataCb.Location = new System.Drawing.Point(956, 219);
             this.aiJsonClearDataCb.Margin = new System.Windows.Forms.Padding(4);
             this.aiJsonClearDataCb.Name = "aiJsonClearDataCb";
-            this.aiJsonClearDataCb.Size = new System.Drawing.Size(107, 23);
+            this.aiJsonClearDataCb.Size = new System.Drawing.Size(68, 23);
             this.aiJsonClearDataCb.TabIndex = 65;
-            this.aiJsonClearDataCb.Text = "Clear Data";
+            this.aiJsonClearDataCb.Text = "Clear";
             this.aiJsonClearDataCb.UseVisualStyleBackColor = true;
             // 
             // aiJsonEditorTxt
@@ -2134,9 +2129,12 @@
             this.aiJsonEditorTxt.ForeColor = System.Drawing.Color.White;
             this.aiJsonEditorTxt.Location = new System.Drawing.Point(1, -2);
             this.aiJsonEditorTxt.Name = "aiJsonEditorTxt";
+            this.aiJsonEditorTxt.ReadOnly = true;
             this.aiJsonEditorTxt.Size = new System.Drawing.Size(865, 360);
             this.aiJsonEditorTxt.TabIndex = 63;
-            this.aiJsonEditorTxt.Text = "A.I JSON EDITOR";
+            this.aiJsonEditorTxt.Text = "";
+            this.aiJsonEditorTxt.TextChanged += new System.EventHandler(this.aiJsonEditorTxt_TextChanged);
+            this.aiJsonEditorTxt.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.aiJsonEditorTxt_PreviewKeyDown);
             // 
             // aiJsonSaveBtn
             // 
@@ -2150,6 +2148,7 @@
             this.aiJsonSaveBtn.TabIndex = 60;
             this.aiJsonSaveBtn.Text = "Save JSON";
             this.aiJsonSaveBtn.UseVisualStyleBackColor = true;
+            this.aiJsonSaveBtn.Click += new System.EventHandler(this.aiJsonSaveBtn_Click);
             // 
             // aiJsonLoadBtn
             // 
@@ -2169,14 +2168,15 @@
             // 
             this.aiJsonAddAiBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.aiJsonAddAiBtn.Font = new System.Drawing.Font("Century Gothic", 10.2F);
-            this.aiJsonAddAiBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.aiJsonAddAiBtn.Location = new System.Drawing.Point(871, 313);
+            this.aiJsonAddAiBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.aiJsonAddAiBtn.Location = new System.Drawing.Point(873, 262);
             this.aiJsonAddAiBtn.Margin = new System.Windows.Forms.Padding(4);
             this.aiJsonAddAiBtn.Name = "aiJsonAddAiBtn";
             this.aiJsonAddAiBtn.Size = new System.Drawing.Size(254, 41);
             this.aiJsonAddAiBtn.TabIndex = 62;
-            this.aiJsonAddAiBtn.Text = "Add A.I";
+            this.aiJsonAddAiBtn.Text = "Add to Level";
             this.aiJsonAddAiBtn.UseVisualStyleBackColor = true;
+            this.aiJsonAddAiBtn.Click += new System.EventHandler(this.aiJsonAddAiBtn_Click);
             // 
             // aiFileNameTxt
             // 
@@ -2215,20 +2215,21 @@
             this.aiJsonVersionTxt.Name = "aiJsonVersionTxt";
             this.aiJsonVersionTxt.Size = new System.Drawing.Size(223, 30);
             this.aiJsonVersionTxt.TabIndex = 59;
-            this.aiJsonVersionTxt.Text = "1.0.0.0";
+            this.aiJsonVersionTxt.Text = "JSON v1.0.0";
             // 
             // aiJsonSaveAiBtn
             // 
             this.aiJsonSaveAiBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.aiJsonSaveAiBtn.Font = new System.Drawing.Font("Century Gothic", 10.2F);
-            this.aiJsonSaveAiBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.aiJsonSaveAiBtn.Location = new System.Drawing.Point(871, 264);
+            this.aiJsonSaveAiBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.aiJsonSaveAiBtn.Location = new System.Drawing.Point(871, 311);
             this.aiJsonSaveAiBtn.Margin = new System.Windows.Forms.Padding(4);
             this.aiJsonSaveAiBtn.Name = "aiJsonSaveAiBtn";
             this.aiJsonSaveAiBtn.Size = new System.Drawing.Size(254, 41);
             this.aiJsonSaveAiBtn.TabIndex = 56;
-            this.aiJsonSaveAiBtn.Text = "Save A.I";
+            this.aiJsonSaveAiBtn.Text = "Save to List";
             this.aiJsonSaveAiBtn.UseVisualStyleBackColor = true;
+            this.aiJsonSaveAiBtn.Click += new System.EventHandler(this.aiJsonSaveAiBtn_Click);
             // 
             // aiScriptEditor
             // 
@@ -2270,11 +2271,36 @@
             this.weaponEditor.TabIndex = 7;
             this.weaponEditor.Text = "Weapon Editor";
             // 
+            // weaponAmmoTxt
+            // 
+            this.weaponAmmoTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.weaponAmmoTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.weaponAmmoTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.weaponAmmoTxt.Location = new System.Drawing.Point(261, 114);
+            this.weaponAmmoTxt.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.weaponAmmoTxt.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.weaponAmmoTxt.Name = "weaponAmmoTxt";
+            this.weaponAmmoTxt.Size = new System.Drawing.Size(101, 30);
+            this.weaponAmmoTxt.TabIndex = 83;
+            this.weaponAmmoTxt.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
             // allWeaponsCb
             // 
             this.allWeaponsCb.AutoSize = true;
             this.allWeaponsCb.Font = new System.Drawing.Font("Century Gothic", 7.8F);
-            this.allWeaponsCb.Location = new System.Drawing.Point(1012, 89);
+            this.allWeaponsCb.Location = new System.Drawing.Point(918, 89);
             this.allWeaponsCb.Margin = new System.Windows.Forms.Padding(4);
             this.allWeaponsCb.Name = "allWeaponsCb";
             this.allWeaponsCb.Size = new System.Drawing.Size(117, 23);
@@ -3706,6 +3732,8 @@
             // miscEditor
             // 
             this.miscEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.miscEditor.Controls.Add(this.externalCompilerCb);
+            this.miscEditor.Controls.Add(this.internalCompilerCb);
             this.miscEditor.Controls.Add(this.framesTxt);
             this.miscEditor.Controls.Add(this.minutesLbl);
             this.miscEditor.Controls.Add(this.gamePathBtn);
@@ -3732,10 +3760,11 @@
             this.miscEditor.Controls.Add(this.csvCb);
             this.miscEditor.Controls.Add(this.updateCheckerCb);
             this.miscEditor.Controls.Add(this.appLogsCb);
+            this.miscEditor.Controls.Add(this.autoRefreshGameCb);
             this.miscEditor.Controls.Add(this.autoResetCb);
             this.miscEditor.Controls.Add(this.cutsceneRemoveBtn);
-            this.miscEditor.Controls.Add(this.resetCurrentLevelBtn);
-            this.miscEditor.Controls.Add(this.resetAllLevelsBtn);
+            this.miscEditor.Controls.Add(this.resetScriptsFileBtn);
+            this.miscEditor.Controls.Add(this.resetLevelBtn);
             this.miscEditor.Controls.Add(this.compileBtn);
             this.miscEditor.Controls.Add(this.clearCacheBtn);
             this.miscEditor.Controls.Add(this.exportObjectsBtn);
@@ -3745,6 +3774,34 @@
             this.miscEditor.Size = new System.Drawing.Size(1137, 387);
             this.miscEditor.TabIndex = 6;
             this.miscEditor.Text = "Misc";
+            // 
+            // externalCompilerCb
+            // 
+            this.externalCompilerCb.AutoSize = true;
+            this.externalCompilerCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.externalCompilerCb.Location = new System.Drawing.Point(149, 354);
+            this.externalCompilerCb.Margin = new System.Windows.Forms.Padding(4);
+            this.externalCompilerCb.Name = "externalCompilerCb";
+            this.externalCompilerCb.Size = new System.Drawing.Size(86, 23);
+            this.externalCompilerCb.TabIndex = 56;
+            this.externalCompilerCb.Text = "External";
+            this.externalCompilerCb.UseVisualStyleBackColor = true;
+            this.externalCompilerCb.CheckedChanged += new System.EventHandler(this.externalCompilerCb_CheckedChanged);
+            // 
+            // internalCompilerCb
+            // 
+            this.internalCompilerCb.AutoSize = true;
+            this.internalCompilerCb.Checked = true;
+            this.internalCompilerCb.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.internalCompilerCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.internalCompilerCb.Location = new System.Drawing.Point(42, 354);
+            this.internalCompilerCb.Margin = new System.Windows.Forms.Padding(4);
+            this.internalCompilerCb.Name = "internalCompilerCb";
+            this.internalCompilerCb.Size = new System.Drawing.Size(83, 23);
+            this.internalCompilerCb.TabIndex = 56;
+            this.internalCompilerCb.Text = "Internal";
+            this.internalCompilerCb.UseVisualStyleBackColor = true;
+            this.internalCompilerCb.CheckedChanged += new System.EventHandler(this.internalCompilerCb_CheckedChanged);
             // 
             // framesTxt
             // 
@@ -3776,7 +3833,7 @@
             // 
             this.minutesLbl.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.minutesLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.minutesLbl.Location = new System.Drawing.Point(342, 133);
+            this.minutesLbl.Location = new System.Drawing.Point(334, 177);
             this.minutesLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.minutesLbl.Name = "minutesLbl";
             this.minutesLbl.Size = new System.Drawing.Size(96, 33);
@@ -3789,8 +3846,8 @@
             // 
             this.gamePathBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.gamePathBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.gamePathBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.gamePathBtn.Location = new System.Drawing.Point(267, 217);
+            this.gamePathBtn.ForeColor = System.Drawing.Color.Tomato;
+            this.gamePathBtn.Location = new System.Drawing.Point(267, 262);
             this.gamePathBtn.Margin = new System.Windows.Forms.Padding(4);
             this.gamePathBtn.Name = "gamePathBtn";
             this.gamePathBtn.Size = new System.Drawing.Size(190, 38);
@@ -3805,7 +3862,7 @@
             this.editorUpdaterBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.editorUpdaterBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
             this.editorUpdaterBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.editorUpdaterBtn.Location = new System.Drawing.Point(267, 170);
+            this.editorUpdaterBtn.Location = new System.Drawing.Point(267, 214);
             this.editorUpdaterBtn.Margin = new System.Windows.Forms.Padding(4);
             this.editorUpdaterBtn.Name = "editorUpdaterBtn";
             this.editorUpdaterBtn.Size = new System.Drawing.Size(190, 38);
@@ -3851,7 +3908,6 @@
             this.configLoadBtn.TabIndex = 35;
             this.configLoadBtn.Text = "Config Load";
             this.configLoadBtn.UseVisualStyleBackColor = true;
-            this.configLoadBtn.Visible = false;
             this.configLoadBtn.Click += new System.EventHandler(this.configLoadBtn_Click);
             // 
             // configSaveBtn
@@ -3866,7 +3922,6 @@
             this.configSaveBtn.TabIndex = 34;
             this.configSaveBtn.Text = "Config Save";
             this.configSaveBtn.UseVisualStyleBackColor = true;
-            this.configSaveBtn.Visible = false;
             this.configSaveBtn.Click += new System.EventHandler(this.configSaveBtn_Click);
             // 
             // updateIntervalTxt
@@ -3874,7 +3929,7 @@
             this.updateIntervalTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.updateIntervalTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.updateIntervalTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.updateIntervalTxt.Location = new System.Drawing.Point(275, 133);
+            this.updateIntervalTxt.Location = new System.Drawing.Point(267, 177);
             this.updateIntervalTxt.Maximum = new decimal(new int[] {
             120,
             0,
@@ -3897,9 +3952,10 @@
             // 
             // musicTrackBar
             // 
-            this.musicTrackBar.Location = new System.Drawing.Point(958, 114);
+            this.musicTrackBar.AutoSize = false;
+            this.musicTrackBar.Location = new System.Drawing.Point(958, 96);
             this.musicTrackBar.Name = "musicTrackBar";
-            this.musicTrackBar.Size = new System.Drawing.Size(171, 56);
+            this.musicTrackBar.Size = new System.Drawing.Size(171, 37);
             this.musicTrackBar.TabIndex = 33;
             // 
             // musicSoundCb
@@ -3908,7 +3964,7 @@
             this.musicSoundCb.Checked = true;
             this.musicSoundCb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.musicSoundCb.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.musicSoundCb.Location = new System.Drawing.Point(975, 170);
+            this.musicSoundCb.Location = new System.Drawing.Point(975, 138);
             this.musicSoundCb.Margin = new System.Windows.Forms.Padding(4);
             this.musicSoundCb.Name = "musicSoundCb";
             this.musicSoundCb.Size = new System.Drawing.Size(70, 23);
@@ -3921,7 +3977,7 @@
             // 
             this.sfxMusicCb.AutoSize = true;
             this.sfxMusicCb.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.sfxMusicCb.Location = new System.Drawing.Point(1053, 170);
+            this.sfxMusicCb.Location = new System.Drawing.Point(1053, 138);
             this.sfxMusicCb.Margin = new System.Windows.Forms.Padding(4);
             this.sfxMusicCb.Name = "sfxMusicCb";
             this.sfxMusicCb.Size = new System.Drawing.Size(54, 23);
@@ -4058,7 +4114,7 @@
             // 
             this.xmlCb.AutoSize = true;
             this.xmlCb.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.xmlCb.Location = new System.Drawing.Point(190, 112);
+            this.xmlCb.Location = new System.Drawing.Point(190, 96);
             this.xmlCb.Margin = new System.Windows.Forms.Padding(4);
             this.xmlCb.Name = "xmlCb";
             this.xmlCb.Size = new System.Drawing.Size(62, 24);
@@ -4071,7 +4127,7 @@
             // 
             this.jsonCb.AutoSize = true;
             this.jsonCb.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.jsonCb.Location = new System.Drawing.Point(113, 112);
+            this.jsonCb.Location = new System.Drawing.Point(113, 96);
             this.jsonCb.Margin = new System.Windows.Forms.Padding(4);
             this.jsonCb.Name = "jsonCb";
             this.jsonCb.Size = new System.Drawing.Size(69, 24);
@@ -4086,7 +4142,7 @@
             this.csvCb.Checked = true;
             this.csvCb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.csvCb.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.csvCb.Location = new System.Drawing.Point(42, 112);
+            this.csvCb.Location = new System.Drawing.Point(42, 96);
             this.csvCb.Margin = new System.Windows.Forms.Padding(4);
             this.csvCb.Name = "csvCb";
             this.csvCb.Size = new System.Drawing.Size(61, 24);
@@ -4099,7 +4155,7 @@
             // 
             this.updateCheckerCb.AutoSize = true;
             this.updateCheckerCb.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.updateCheckerCb.Location = new System.Drawing.Point(275, 101);
+            this.updateCheckerCb.Location = new System.Drawing.Point(267, 146);
             this.updateCheckerCb.Margin = new System.Windows.Forms.Padding(4);
             this.updateCheckerCb.Name = "updateCheckerCb";
             this.updateCheckerCb.Size = new System.Drawing.Size(194, 25);
@@ -4113,7 +4169,7 @@
             // 
             this.appLogsCb.AutoSize = true;
             this.appLogsCb.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.appLogsCb.Location = new System.Drawing.Point(275, 73);
+            this.appLogsCb.Location = new System.Drawing.Point(267, 103);
             this.appLogsCb.Margin = new System.Windows.Forms.Padding(4);
             this.appLogsCb.Name = "appLogsCb";
             this.appLogsCb.Size = new System.Drawing.Size(166, 25);
@@ -4122,11 +4178,24 @@
             this.appLogsCb.UseVisualStyleBackColor = true;
             this.appLogsCb.CheckedChanged += new System.EventHandler(this.appLogsCb_CheckedChanged);
             // 
+            // autoRefreshGameCb
+            // 
+            this.autoRefreshGameCb.AutoSize = true;
+            this.autoRefreshGameCb.Font = new System.Drawing.Font("Century Gothic", 10F);
+            this.autoRefreshGameCb.Location = new System.Drawing.Point(267, 75);
+            this.autoRefreshGameCb.Margin = new System.Windows.Forms.Padding(4);
+            this.autoRefreshGameCb.Name = "autoRefreshGameCb";
+            this.autoRefreshGameCb.Size = new System.Drawing.Size(186, 25);
+            this.autoRefreshGameCb.TabIndex = 19;
+            this.autoRefreshGameCb.Text = "Auto refresh game";
+            this.autoRefreshGameCb.UseVisualStyleBackColor = true;
+            this.autoRefreshGameCb.CheckedChanged += new System.EventHandler(this.autoRefreshGameCb_CheckedChanged);
+            // 
             // autoResetCb
             // 
             this.autoResetCb.AutoSize = true;
             this.autoResetCb.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.autoResetCb.Location = new System.Drawing.Point(275, 49);
+            this.autoResetCb.Location = new System.Drawing.Point(267, 50);
             this.autoResetCb.Margin = new System.Windows.Forms.Padding(4);
             this.autoResetCb.Name = "autoResetCb";
             this.autoResetCb.Size = new System.Drawing.Size(163, 25);
@@ -4149,47 +4218,46 @@
             this.cutsceneRemoveBtn.UseVisualStyleBackColor = true;
             this.cutsceneRemoveBtn.Click += new System.EventHandler(this.cutsceneRemoveBtn_Click);
             // 
-            // resetCurrentLevelBtn
+            // resetScriptsFileBtn
             // 
-            this.resetCurrentLevelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.resetCurrentLevelBtn.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.resetCurrentLevelBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.resetCurrentLevelBtn.Location = new System.Drawing.Point(542, 215);
-            this.resetCurrentLevelBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.resetCurrentLevelBtn.Name = "resetCurrentLevelBtn";
-            this.resetCurrentLevelBtn.Size = new System.Drawing.Size(190, 38);
-            this.resetCurrentLevelBtn.TabIndex = 18;
-            this.resetCurrentLevelBtn.Text = "Reset Level";
-            this.resetCurrentLevelBtn.UseVisualStyleBackColor = true;
-            this.resetCurrentLevelBtn.Click += new System.EventHandler(this.resetCurrentLevelBtn_Click);
+            this.resetScriptsFileBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.resetScriptsFileBtn.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resetScriptsFileBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.resetScriptsFileBtn.Location = new System.Drawing.Point(542, 215);
+            this.resetScriptsFileBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.resetScriptsFileBtn.Name = "resetScriptsFileBtn";
+            this.resetScriptsFileBtn.Size = new System.Drawing.Size(190, 38);
+            this.resetScriptsFileBtn.TabIndex = 18;
+            this.resetScriptsFileBtn.Text = "Reset File";
+            this.resetScriptsFileBtn.UseVisualStyleBackColor = true;
+            this.resetScriptsFileBtn.Click += new System.EventHandler(this.resetScriptsFileBtn_Click);
             // 
-            // resetAllLevelsBtn
+            // resetLevelBtn
             // 
-            this.resetAllLevelsBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.resetAllLevelsBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.resetAllLevelsBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.resetAllLevelsBtn.Location = new System.Drawing.Point(542, 170);
-            this.resetAllLevelsBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.resetAllLevelsBtn.Name = "resetAllLevelsBtn";
-            this.resetAllLevelsBtn.Size = new System.Drawing.Size(190, 38);
-            this.resetAllLevelsBtn.TabIndex = 17;
-            this.resetAllLevelsBtn.Text = "Reset All Levels";
-            this.resetAllLevelsBtn.UseVisualStyleBackColor = true;
-            this.resetAllLevelsBtn.Click += new System.EventHandler(this.resetAllLevelsBtn_Click);
+            this.resetLevelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.resetLevelBtn.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resetLevelBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.resetLevelBtn.Location = new System.Drawing.Point(542, 170);
+            this.resetLevelBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.resetLevelBtn.Name = "resetLevelBtn";
+            this.resetLevelBtn.Size = new System.Drawing.Size(190, 38);
+            this.resetLevelBtn.TabIndex = 18;
+            this.resetLevelBtn.Text = "Reset Level";
+            this.resetLevelBtn.UseVisualStyleBackColor = true;
+            this.resetLevelBtn.Click += new System.EventHandler(this.resetLevelBtn_Click);
             // 
             // compileBtn
             // 
             this.compileBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.compileBtn.Font = new System.Drawing.Font("Century Gothic", 7.8F);
             this.compileBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.compileBtn.Location = new System.Drawing.Point(964, 217);
+            this.compileBtn.Location = new System.Drawing.Point(42, 308);
             this.compileBtn.Margin = new System.Windows.Forms.Padding(4);
             this.compileBtn.Name = "compileBtn";
-            this.compileBtn.Size = new System.Drawing.Size(153, 38);
+            this.compileBtn.Size = new System.Drawing.Size(190, 38);
             this.compileBtn.TabIndex = 16;
             this.compileBtn.Text = "Compile";
             this.compileBtn.UseVisualStyleBackColor = true;
-            this.compileBtn.Visible = false;
             this.compileBtn.Click += new System.EventHandler(this.compileBtn_Click);
             // 
             // clearCacheBtn
@@ -4211,7 +4279,7 @@
             this.exportObjectsBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.exportObjectsBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
             this.exportObjectsBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.exportObjectsBtn.Location = new System.Drawing.Point(42, 66);
+            this.exportObjectsBtn.Location = new System.Drawing.Point(42, 50);
             this.exportObjectsBtn.Margin = new System.Windows.Forms.Padding(4);
             this.exportObjectsBtn.Name = "exportObjectsBtn";
             this.exportObjectsBtn.Size = new System.Drawing.Size(193, 38);
@@ -4440,7 +4508,7 @@
             // levelNameLbl
             // 
             this.levelNameLbl.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.levelNameLbl.ForeColor = System.Drawing.Color.SpringGreen;
+            this.levelNameLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.levelNameLbl.Location = new System.Drawing.Point(50, 90);
             this.levelNameLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.levelNameLbl.Name = "levelNameLbl";
@@ -4481,30 +4549,30 @@
             this.gameLogoLbl.TabIndex = 0;
             this.gameLogoLbl.Text = "IGI 1";
             // 
-            // weaponAmmoTxt
+            // compilerTypeLbl
             // 
-            this.weaponAmmoTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.weaponAmmoTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.weaponAmmoTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.weaponAmmoTxt.Location = new System.Drawing.Point(261, 114);
-            this.weaponAmmoTxt.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.weaponAmmoTxt.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.weaponAmmoTxt.Name = "weaponAmmoTxt";
-            this.weaponAmmoTxt.Size = new System.Drawing.Size(101, 30);
-            this.weaponAmmoTxt.TabIndex = 83;
-            this.weaponAmmoTxt.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
+            this.compilerTypeLbl.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.compilerTypeLbl.ForeColor = System.Drawing.Color.SpringGreen;
+            this.compilerTypeLbl.Location = new System.Drawing.Point(365, 100);
+            this.compilerTypeLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.compilerTypeLbl.Name = "compilerTypeLbl";
+            this.compilerTypeLbl.Size = new System.Drawing.Size(92, 19);
+            this.compilerTypeLbl.TabIndex = 47;
+            this.compilerTypeLbl.Text = "Internal";
+            this.compilerTypeLbl.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // internalsLbl
+            // 
+            this.internalsLbl.AutoSize = true;
+            this.internalsLbl.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.internalsLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.internalsLbl.Location = new System.Drawing.Point(35, 71);
+            this.internalsLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.internalsLbl.Name = "internalsLbl";
+            this.internalsLbl.Size = new System.Drawing.Size(71, 20);
+            this.internalsLbl.TabIndex = 47;
+            this.internalsLbl.Text = "Internals";
+            this.internalsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // IGIEditorUI
             // 
@@ -4512,21 +4580,25 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.ClientSize = new System.Drawing.Size(1147, 741);
-            this.Controls.Add(this.backPnl);
+            this.Controls.Add(this.editorMainPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "IGIEditorUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "IGI 1 Editor ";
-            this.backPnl.ResumeLayout(false);
-            this.backPnl.PerformLayout();
+            this.editorMainPanel.ResumeLayout(false);
+            this.editorMainPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).EndInit();
             this.editorTabs.ResumeLayout(false);
             this.levelEditor.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).EndInit();
             this.objectEditor.ResumeLayout(false);
             this.objectEditor.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.buildingsResetTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.objectsResetTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.buildingsRemoveTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.objectsRemoveTxt)).EndInit();
             this.humanEditor.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.inAirSpeedTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.upwardJumpTxt)).EndInit();
@@ -4535,6 +4607,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.peekCrouchTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.peekLRTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.humanViewCamTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.damageScaleFallTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.damageScaleFenceTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.teamIdTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.damageScaleTxt)).EndInit();
@@ -4551,6 +4624,7 @@
             this.aiJSONEditor.PerformLayout();
             this.weaponEditor.ResumeLayout(false);
             this.weaponEditor.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.weaponAmmoTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponImgBox)).EndInit();
             this.threeDEditor.ResumeLayout(false);
             this.missionEditor.ResumeLayout(false);
@@ -4570,14 +4644,13 @@
             this.devMode.ResumeLayout(false);
             this.devMode.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.weaponAmmoTxt)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel backPnl;
+        private System.Windows.Forms.Panel editorMainPanel;
         private System.Windows.Forms.Label minimizeBtn;
         private System.Windows.Forms.Label closeBtn;
         private System.Windows.Forms.Label versionLbl;
@@ -4620,8 +4693,7 @@
         private System.Windows.Forms.Button exportObjectsBtn;
         private System.Windows.Forms.CheckBox appLogsCb;
         private System.Windows.Forms.CheckBox autoResetCb;
-        private System.Windows.Forms.Button resetCurrentLevelBtn;
-        private System.Windows.Forms.Button resetAllLevelsBtn;
+        private System.Windows.Forms.Button resetLevelBtn;
         private System.Windows.Forms.TabPage weaponEditor;
         private System.Windows.Forms.Button removeWeaponBtn;
         private System.Windows.Forms.Label weaponNameLbl;
@@ -4651,19 +4723,7 @@
         private System.Windows.Forms.CheckBox csvCb;
         private System.Windows.Forms.Button clearCacheBtn;
         private System.Windows.Forms.Label helpBtn;
-        private System.Windows.Forms.TextBox ObjsRemTxt;
-        private System.Windows.Forms.Label itemsLbl1;
-        private System.Windows.Forms.TextBox buildingsRemTxt;
-        private System.Windows.Forms.Label itemsLbl2;
-        private System.Windows.Forms.Label maxItemsLbl2;
-        private System.Windows.Forms.Label maxItemsLbl1;
         private System.Windows.Forms.Button clearAllLvlBtn;
-        private System.Windows.Forms.Label maxItemsLbl4;
-        private System.Windows.Forms.TextBox buildingsResTxt;
-        private System.Windows.Forms.TextBox ObjsResTxt;
-        private System.Windows.Forms.Label itemsLbl4;
-        private System.Windows.Forms.Label itemsLbl3;
-        private System.Windows.Forms.Label maxItemsLbl3;
         private System.Windows.Forms.Button restartLevel;
         private System.Windows.Forms.Button compileBtn;
         private System.Windows.Forms.Button cutsceneRemoveBtn;
@@ -4781,7 +4841,7 @@
         private System.Windows.Forms.Button resetModWeaponBtn;
         private System.Windows.Forms.Button modWeaponBtn;
         private System.Windows.Forms.Label internalsStatusLbl;
-        private System.Windows.Forms.Label internalsLbl;
+        private System.Windows.Forms.Label compilerTagLbl;
         private System.Windows.Forms.Label gameSettingsLbl;
         private System.Windows.Forms.Label appSettingLbl;
         private System.Windows.Forms.Button addLinksBtn;
@@ -4826,7 +4886,7 @@
         private System.Windows.Forms.TabPage aiJSONEditor;
         private System.Windows.Forms.NumericUpDown maxSpawnsTxt;
         private System.Windows.Forms.NumericUpDown aiCountTxt;
-        private System.Windows.Forms.Button removeAllAi;
+        private System.Windows.Forms.Button removeAiBtn;
         private System.Windows.Forms.TextBox graphAreaAiLbl;
         private System.Windows.Forms.CheckBox taskDetectionAiCb;
         private System.Windows.Forms.CheckBox customAiCb;
@@ -4834,7 +4894,7 @@
         private System.Windows.Forms.CheckBox aiFriendlyCb;
         private System.Windows.Forms.CheckBox aiAdvanceViewCb;
         private System.Windows.Forms.CheckBox guardGeneratorCb;
-        private System.Windows.Forms.CheckBox aiinvulnerabilityCb;
+        private System.Windows.Forms.CheckBox aiInvincibleCb;
         private System.Windows.Forms.ComboBox aiGraphIdDD;
         private System.Windows.Forms.ComboBox aiTypeDD;
         private System.Windows.Forms.ComboBox aiWeaponDD;
@@ -4863,6 +4923,20 @@
         private System.Windows.Forms.CheckBox allWeaponsCb;
         private System.Windows.Forms.Button gamePathBtn;
         private System.Windows.Forms.NumericUpDown weaponAmmoTxt;
+        private System.Windows.Forms.Button saveAIBtn;
+        private System.Windows.Forms.CheckBox autoRefreshGameCb;
+        private System.Windows.Forms.CheckBox aiJsonEditModeCb;
+        private System.Windows.Forms.CheckBox externalCompilerCb;
+        private System.Windows.Forms.CheckBox internalCompilerCb;
+        private System.Windows.Forms.Button resetScriptsFileBtn;
+        private System.Windows.Forms.NumericUpDown buildingsResetTxt;
+        private System.Windows.Forms.NumericUpDown objectsResetTxt;
+        private System.Windows.Forms.NumericUpDown buildingsRemoveTxt;
+        private System.Windows.Forms.NumericUpDown objectsRemoveTxt;
+        private System.Windows.Forms.NumericUpDown damageScaleFallTxt;
+        private System.Windows.Forms.Label fallDamageLbl;
+        private System.Windows.Forms.Label compilerTypeLbl;
+        private System.Windows.Forms.Label internalsLbl;
     }
 }
 

@@ -6,6 +6,7 @@ namespace IGIEditor
 {
     public partial class DialogMsgBox : Form
     {
+        private static DialogMsgBox thisRef;
         protected override CreateParams CreateParams
         {
             get
@@ -19,11 +20,19 @@ namespace IGIEditor
         public DialogMsgBox()
         {
             InitializeComponent();
-            AnimWorker aw = new AnimWorker();
-            aw.FormFadeInEffect(this);
+            thisRef = this;
+            //AnimWorker aw = new AnimWorker();
+            //aw.FormFadeInEffect(this);
         }
 
-        static public DialogResult ShowBox(string boxTitle, string messageContent, MsgBoxButtons boxButton = MsgBoxButtons.Ok)
+        internal static string GetInputBoxData()
+        {
+            if (!String.IsNullOrEmpty(thisRef.dialogInputBoxTxt.Text))
+                return thisRef.dialogInputBoxTxt.Text;
+            return null;
+        }
+
+        static public DialogResult ShowBox(string boxTitle, string messageContent, MsgBoxButtons boxButton = MsgBoxButtons.Ok, bool showInput = false, bool inputHidden = false)
         {
             if (boxButton == MsgBoxButtons.Ok)
             {
@@ -42,6 +51,9 @@ namespace IGIEditor
                 msg.dialogBoxBtnNo.DialogResult = DialogResult.No;
                 msg.dialogBoxBtnYes.Text = "Yes";
                 msg.dialogBoxBtnYes.DialogResult = DialogResult.Yes;
+                thisRef.dialogInputBoxTxt.Visible = showInput;
+                thisRef.dialogBoxMsg.Visible = !showInput;
+                thisRef.dialogInputBoxTxt.UseSystemPasswordChar = inputHidden;
                 return msg.ShowDialog();
             }
         }
@@ -71,6 +83,11 @@ namespace IGIEditor
         private void dialogBoxBtnNo_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void dialogBoxPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 

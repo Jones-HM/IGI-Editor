@@ -123,7 +123,7 @@ namespace IGIEditor
             foreach (var weapon in humanData.weaponsList)
             {
                 qscData = RemoveWeapon(weapon, true, false);
-                QUtils.SaveFile(QUtils.objectsQsc,qscData);
+                QUtils.SaveFile(QUtils.objectsQsc, qscData);
             }
             return qscData;
         }
@@ -370,10 +370,11 @@ namespace IGIEditor
             UpdateHumanPlayerParams(movSpeed, forwardSpeed, upwardSpeed, inAirSpeed, QUtils.peekLRLen, QUtils.peekCrouchLen, QUtils.peekTime, QUtils.healthScale, QUtils.healthScaleFence);
         }
 
-        internal static void UpdateHumanPlayerHealth(double healthScale = 3.0f, double healthScaleFence = 0.5f)
+        internal static void UpdateHumanPlayerHealth(double healthScale = 3.0f, double healthScaleFence = 0.5f, int healthScaleFall = 0)
         {
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, " healthScale: " + healthScale + " healthScaleFence: " + healthScaleFence);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, " healthScale: " + healthScale + " healthScaleFence: " + healthScaleFence + " healthScaleFall: " + healthScaleFall);
             UpdateHumanPlayerParams(QUtils.movSpeed, QUtils.forwardSpeed, QUtils.upwardSpeed, QUtils.inAirSpeed, QUtils.peekLRLen, QUtils.peekCrouchLen, QUtils.peekTime, healthScale, healthScaleFence);
+            if (healthScaleFall != -1) QMemory.UpdateHumanHealth((QUtils.HEALTH_ACTION)healthScaleFall);
         }
 
         internal static void UpdateHumanPlayerPeek(double peekLRLen = 0.8500000238418579f, double peekCrouchLen = 0.8500000238418579f, double peekTime = 0.25f)

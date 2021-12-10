@@ -19,6 +19,14 @@ namespace IGIEditor
         public bool friendly { get; set; }
         public bool invincible { get; set; }
         public bool advanceView { get; set; }
+
+        public HumanAi() { }
+        public HumanAi(int aiCount, string aiType, int graphId, string weapon, string model, bool guardGenerator, int maxSpawns, bool friendly, bool invincible, bool advanceView)
+        {
+            this.aiCount = aiCount;this.aiType = aiType;this.graphId = graphId;this.weapon = weapon;
+            this.model = model; this.guardGenerator = guardGenerator; this.maxSpawns = maxSpawns; this.friendly = friendly;
+            this.invincible = invincible; this.advanceView = advanceView;
+        }
     }
 
     class AIModel
@@ -164,14 +172,16 @@ namespace IGIEditor
 
         internal static string AddAIScriptPath(string aiType, int graphId, int aiId, int patrolId, int level, bool invulnerability = false, bool advanceView = false)
         {
-            var inputAiPath = QUtils.cfgAiPath;
             string result = null;
             int patrolAlarmId = 0;
 
-            string[] fileArray = System.IO.Directory.GetFiles(inputAiPath);
+            //Append list from Both path - Ai-Patrol/Ai-Script.
+            var aiFilesList = System.IO.Directory.GetFiles(QUtils.qedAiPatrolPath).ToList();
+            aiFilesList.AddRange(System.IO.Directory.GetFiles(QUtils.qedAiScriptPath).ToList());
+
             var aiTypeSplit = aiType.Split('_')[1].ToLower();
 
-            foreach (var file in fileArray)
+            foreach (var file in aiFilesList)
             {
                 if (file.Contains(aiTypeSplit))
                 {
@@ -265,31 +275,6 @@ namespace IGIEditor
                         bool graphExist = false;
                         //var nodesList = QGraphs.GetAllNodes4mGraph(Convert.ToInt32(graphId));//Slow One Old method.
                         var nodesList = QGraphs.GetNodesForGraph(graphId);
-
-                        //if (nodesList == null)
-                        //{
-                        //    var qTaskGraphList = QGraphs.GetQTaskGraphList(true, true, level);
-
-                        //    foreach (var qTaskGraph in qTaskGraphList)
-                        //    {
-                        //        if (qTaskGraph.id == graphId)
-                        //        {
-                        //            graphExist = true;
-                        //            break;
-                        //        }
-                        //    }
-
-                        //    if (graphExist)
-                        //    {
-                        //        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "AI Patrol Updated to static for aiId : " + aiId + "\tgraphId : " + graphId);
-                        //        return AddAIScriptPath("AITYPE_STATIC", graphId, aiId, patrolId, level);
-                        //    }
-                        //    else
-                        //    {
-                        //        QUtils.ShowError("Invalid GraphId " + graphId + "provided.");
-                        //        return null;
-                        //    }
-                        //}
 
                         if (aiPathData.Contains("xxxx"))
                         {
@@ -675,23 +660,6 @@ namespace IGIEditor
                 }
             }
             return null;
-        }
-
-        internal static string GetAiImageId(string aiModelName)
-        {
-            string imageId = null;
-            aiModelName = aiModelName.Replace("_", "-");
-
-            foreach (var aiModel in QUtils.aiModelDict)
-            {
-                if (aiModel.Value == aiModelName)
-                {
-                    imageId = aiModel.Key;
-                    break;
-                }
-            }
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Ai ModelName '" + aiModelName + "' Returned imageId : " + imageId);
-            return imageId;
         }
 
         internal static List<string> GetAiTypes()

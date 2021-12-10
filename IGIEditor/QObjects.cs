@@ -1153,73 +1153,79 @@ namespace IGIEditor
                 AddLog(MethodBase.GetCurrentMethod().Name, "isBinary: " + isBinary);
                 //Remove all whitespaces.
                 qscData = qscData.Replace("\t", String.Empty);
-                string[] qscDataSplit = qscData.Split('\n');
-
+                var qscDataSplit = qscData.Split('\n');
 
                 foreach (var data in qscDataSplit)
                 {
-                    if (data.Contains(taskNew))
+                    try
                     {
-                        var startIndex = data.IndexOf(',') + 1;
-                        var endIndex = data.IndexOf(',', startIndex);
-                        var taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
-
-                        if (data.Contains("Building") && taskName != "Building")
+                        if (data.Contains(taskNew))
                         {
-                            startIndex = data.IndexOf(',') + 1;
-                            endIndex = data.IndexOf(',', startIndex);
-                            taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
-                        }
+                            var startIndex = data.IndexOf(',') + 1;
+                            var endIndex = data.IndexOf(',', startIndex);
+                            var taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
 
-                        if (objTypeList.Any(o => o.Contains(taskName)))
-                        {
-                            QScriptTask qtask = new QScriptTask();
-                            Real32 orientation = new Real32();
-                            Real64 position = new Real64();
-
-                            string[] taskNew = data.Split(',');
-                            int taskIndex = 0;
-
-                            foreach (var task in taskNew)
+                            if (data.Contains("Building") && taskName != "Building")
                             {
-                                if (taskIndex == (int)QTASKINFO.QTASK_ID)
-                                {
-                                    var taskId = task.Substring(task.IndexOf('(') + 1);
-                                    qtask.id = Convert.ToInt32(taskId);
-                                }
-                                else if (taskIndex == (int)QTASKINFO.QTASK_NAME)
-                                    qtask.name = task.Trim();
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_NOTE)
-                                    qtask.note = task.Trim();
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_POSX)
-                                    position.x = Double.Parse(task);
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_POSY)
-                                    position.y = Double.Parse(task);
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_POSZ)
-                                    position.z = Double.Parse(task);
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_ALPHA)
-                                    orientation.alpha = float.Parse(task);
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_BETA)
-                                    orientation.beta = float.Parse(task);
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_GAMMA)
-                                    orientation.gamma = float.Parse(task);
-
-                                else if (taskIndex == (int)QTASKINFO.QTASK_MODEL)
-                                    qtask.model = task.Trim().Replace(")", String.Empty);
-
-                                qtask.position = position;
-                                qtask.orientation = orientation;
-                                taskIndex++;
+                                startIndex = data.IndexOf(',') + 1;
+                                endIndex = data.IndexOf(',', startIndex);
+                                taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
                             }
-                            qtaskList.Add(qtask);
+
+                            if (objTypeList.Any(o => o.Contains(taskName)))
+                            {
+                                QScriptTask qtask = new QScriptTask();
+                                Real32 orientation = new Real32();
+                                Real64 position = new Real64();
+
+                                string[] taskNew = data.Split(',');
+                                int taskIndex = 0;
+
+                                foreach (var task in taskNew)
+                                {
+                                    if (taskIndex == (int)QTASKINFO.QTASK_ID)
+                                    {
+                                        var taskId = task.Substring(task.IndexOf('(') + 1);
+                                        qtask.id = Convert.ToInt32(taskId);
+                                    }
+                                    else if (taskIndex == (int)QTASKINFO.QTASK_NAME)
+                                        qtask.name = task.Trim();
+
+                                    else if (taskIndex == (int)QTASKINFO.QTASK_NOTE)
+                                        qtask.note = task.Trim();
+
+                                    else if (taskIndex == (int)QTASKINFO.QTASK_POSX)
+                                        position.x = Double.Parse(task);
+
+                                    else if (taskIndex == (int)QTASKINFO.QTASK_POSY)
+                                        position.y = Double.Parse(task);
+
+                                    else if (taskIndex == (int)QTASKINFO.QTASK_POSZ)
+                                        position.z = Double.Parse(task);
+
+                                    else if (taskIndex == (int)QTASKINFO.QTASK_ALPHA)
+                                        orientation.alpha = float.Parse(task);
+
+                                    else if (taskIndex == (int)QTASKINFO.QTASK_BETA)
+                                        orientation.beta = float.Parse(task);
+
+                                    else if (taskIndex == (int)QTASKINFO.QTASK_GAMMA)
+                                        orientation.gamma = float.Parse(task);
+
+                                    else if (taskIndex == (int)QTASKINFO.QTASK_MODEL)
+                                        qtask.model = task.Trim().Replace(")", String.Empty);
+
+                                    qtask.position = position;
+                                    qtask.orientation = orientation;
+                                    taskIndex++;
+                                }
+                                qtaskList.Add(qtask);
+                            }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
                     }
                 }
             }
@@ -1227,7 +1233,7 @@ namespace IGIEditor
             {
                 ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
             }
-            AddLog(MethodBase.GetCurrentMethod().Name, "qtaskList count: " + qtaskList.Count);
+            AddLog(MethodBase.GetCurrentMethod().Name, "TaskList count: " + qtaskList.Count);
             return qtaskList;
         }
 

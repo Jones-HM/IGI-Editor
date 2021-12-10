@@ -12,6 +12,7 @@ namespace IGIEditor
         internal static string gameName = "IGI";
         internal static float deltaToGround = 7000.0f;
         internal static IntPtr gtGameBase = (IntPtr)0x00400000; //Game base address.
+        internal static IntPtr humanXPL_DamageAddr = (IntPtr)0x00416D85;
 
         internal static void StartGame(string args = "window")
         {
@@ -148,18 +149,24 @@ namespace IGIEditor
             return angle;
         }
 
-        internal static void UpdateHumanHealth(bool permanent = true)
+        internal static void UpdateHumanHealth(QUtils.HEALTH_ACTION healthAction)
         {
-            IntPtr humanXPL_DamageAddr = (IntPtr)0x00416D85;
-            if (permanent)
+            if (healthAction == QUtils.HEALTH_ACTION.RESTORE || healthAction == QUtils.HEALTH_ACTION.NONE)
+            {
+                GT.GT_WriteMemory(humanXPL_DamageAddr, "bytes", "8A 80 E1 00 00 00");//mov al,[eax+000000E1]
+            }
+            else if (healthAction == QUtils.HEALTH_ACTION.PERMANENT)
             {
                 //Enable normal and fence damage scale. 
-                QHuman.UpdateHumanPlayerHealth(float.MaxValue, 0.0f);
+                QHuman.UpdateHumanPlayerHealth(float.MaxValue, 0.0f, -1);
             }
-            unsafe
+            else if (healthAction == QUtils.HEALTH_ACTION.TEMPORARY)
             {
-                //Enable PlayerXP Hit damage.
-                GT.GT_WriteNOP(humanXPL_DamageAddr, 6);
+                unsafe
+                {
+                    //Enable PlayerXP Hit damage.
+                    GT.GT_WriteNOP(humanXPL_DamageAddr, 6);
+                }
             }
         }
 
@@ -176,17 +183,19 @@ namespace IGIEditor
                 string igiLevelCmd = "start igi_" + (windowed ? "window" : "full") + ".lnk level" + level;
                 QUtils.shortcutExist = QUtils.CheckShortcutExist();
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, " Shortcut Exist: " + QUtils.shortcutExist);
-                
+
                 if (QUtils.shortcutExist)
                 {
                     FindGame(QUtils.logEnabled);
                 }
                 else
                 {
-                    QUtils.ShowGamePathDialog();
-                    
-                    if (!QUtils.shortcutExist)
-                        throw new System.IO.FileNotFoundException("File igi_window.link shortcut not found");
+                    if (QUtils.ShowGamePathDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+
+                        if (!QUtils.shortcutExist)
+                            throw new System.IO.FileNotFoundException("File igi_window.link shortcut not found");
+                    }
                 }
                 QUtils.ResetCurrentLevel();
 
@@ -218,7 +227,7 @@ namespace IGIEditor
                     }
                     QUtils.Sleep(1);
                 }
-                QLibc.GT.ShowAppForeground(QUtils.editorAppName);
+                GT.ShowAppForeground(QUtils.editorAppName);
                 QInternals.RestartLevel();
             }
             catch (Exception ex)

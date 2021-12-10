@@ -14,8 +14,8 @@ namespace IGIEditor
         public static void RunFileInegrityCheck(string processName = null, List<string> gameDirs = null)
         {
             var exclude_list = new List<string>() { QUtils.customPatrolPathQEd, QUtils.customScriptPathQEd };
-            bool isQFilesValid = CheckDirInegrity(gameDirs, exclude_list, true);
-            IGIEditorUI.editorRef.Enabled = isQFilesValid;
+            bool qFilesValid = CheckDirInegrity(gameDirs, exclude_list, true);
+            IGIEditorUI.editorRef.Enabled = qFilesValid;//Disable UI.
         }
 
         public static bool CheckFileInegrity(string qfilePath, bool showError = true)
@@ -75,6 +75,7 @@ namespace IGIEditor
             foreach (string dirName in dirNames)
             {
                 string[] allFiles = Directory.GetFiles(dirName, ".", SearchOption.AllDirectories);
+                bool excluded = false;
 
                 foreach (var files in allFiles)
                 {
@@ -85,12 +86,13 @@ namespace IGIEditor
                             if (Path.GetFileName(files) == Path.GetFileName(exclude))
                             {
                                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Exclude file '" + Path.GetFileName(exclude) + "', pathFile '" + Path.GetFileName(files) + "'");
-                                return checkInegrity;
+                                //return checkInegrity;
+                                excluded = true;
+                                continue;
                             }
                         }
                     }
-
-                    checkInegrity = CheckFileInegrity(files, showError);
+                    if (!excluded) checkInegrity = CheckFileInegrity(files, showError);
                     if (!checkInegrity) return false;
                 }
             }

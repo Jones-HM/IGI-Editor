@@ -146,6 +146,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IGIEditor\DialogMsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IGIEditor\DialogMsgBox.Designer.cs">
+      <DependentUpon>DialogMsgBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="DynamicJson.cs" />
     <Compile Include="IGIEditor\AutomateLib.cs" />
     <Compile Include="IGIEditor\QAI.cs" />
@@ -182,6 +188,9 @@
     <Compile Include="QInternals.cs" />
     <Compile Include="QServer.cs" />
     <Compile Include="QTask.cs" />
+    <EmbeddedResource Include="IGIEditor\DialogMsgBox.resx">
+      <DependentUpon>DialogMsgBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IGIEditor\IGIEditorUI.resx">
       <DependentUpon>IGIEditorUI.cs</DependentUpon>
     </EmbeddedResource>
