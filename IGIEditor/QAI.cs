@@ -56,15 +56,15 @@ namespace IGIEditor
 
         private static List<AIModel> aiModelList = new List<AIModel>();
 
-        internal static string AddHumanSoldier(string aiType, int aiScriptId, int graphId, Real64 position, float angle, string model, int team, bool addWeapon, string weapon, int ammo, bool guardGenerator)
+        internal static string AddHumanSoldier(string aiType, int aiScriptId, int graphId, Real64 position, float angle, string aiModel, int team, bool addWeapon, string weapon, int ammo, bool guardGenerator)
         {
             if (position == null) position = QHuman.GetHumanTaskList().qtask.position;
 
             int boneHeirarchy = 1;
-            if (model == "015_01_1" || model == "012_01_1")//HumanSoldierFemale.
-                boneHeirarchy = GetBoneHeirarchy(model);
+            if (aiModel == "015_01_1" || aiModel == "012_01_1")//HumanSoldierFemale.
+                boneHeirarchy = GetBoneHeirarchy(aiModel);
 
-            return AddHumanSoldier(aiScriptId, "A.I", aiType, aiScriptId + 1, graphId, position, angle, model, team, boneHeirarchy, -1, addWeapon, weapon, ammo, guardGenerator);
+            return AddHumanSoldier(aiScriptId, "A.I - " + aiModel, aiType, aiScriptId + 1, graphId, position, angle, aiModel, team, boneHeirarchy, -1, addWeapon, weapon, ammo, guardGenerator);
         }
 
         internal static string AddHumanSoldier(int taskId, string taskNote, string aiType, int aiScriptId, int graphId, Real64 position, float angle, string model, int team, int boneHeirachy, int standAnimation, bool addWeapon, string weapon, int ammo, bool guardGenerator)
@@ -80,7 +80,7 @@ namespace IGIEditor
             else QUtils.aiEnenmyTask += humanSoldierType + "_" + taskId + ".isDead && ";
 
             //Add the weapon.
-            if (addWeapon) qtaskSoldier += QHuman.Weapon(weapon, ammo);
+            if (addWeapon) qtaskSoldier += QHuman.AddWeapon(weapon, ammo);
 
             //Add AI's script and graph data.
             qtaskSoldier += "Task_New(" + aiScriptId + ",\"HumanAI\",\"" + taskNote + "\",\"" + aiType + "\"," + graphId;
@@ -117,7 +117,7 @@ namespace IGIEditor
                     aiType = humanAi.aiType;
                     graphId = humanAi.graphId;
                 }
-
+               
                 aiId = QUtils.aiScriptId;
                 aiId = QTask.GetUniqueQTaskId(aiId);//Get Unique Id for A.I.
                 bool aiIdExist = false;//QGraphs.CheckIdExist(aiId, "AI", QUtils.gGameLevel, "AI Id " + aiId + " already exist for current level");
@@ -149,16 +149,14 @@ namespace IGIEditor
                         teamId = humanAi.friendly ? 0 : 1;
                         aiAmmo = 999;
                     }
-
                     //Add GuardGenerator .
                     if (guardGenerator) qscData += QAI.AddGuardGenerator("AI Army", maxSpawns);
-
                     //Add A.I HumanSoldier.
                     qscData += AddHumanSoldier(aiType, humanId, graphIdI, aiPos, aiAngle, modelId, teamId, true, aiWeapon, aiAmmo, guardGenerator);
-
                     //Add A.I Script to HumanSoldier.
                     var aiScriptData = AddAIScriptPath(aiType, graphIdI, aiId, patrolId, QUtils.gGameLevel, invulnerability, advanceView);
                     if (!String.IsNullOrEmpty(aiScriptData)) qscData += aiScriptData;
+                   
                 }
                 QUtils.aiScriptId += 3;
 
@@ -387,13 +385,13 @@ namespace IGIEditor
             return patrolTask;
         }
 
-        internal static string RemoveHumanSoldier(string qscData, string model)
+        internal static string RemoveHumanSoldier(string qscData, string aiModel)
         {
             int startIndex = 0, endIndex = 0, lcount = 0, rcount = 0;
             bool startRun = false;
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with model : " + model + "\n");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with model : " + aiModel + "\n");
 
-            if (String.IsNullOrEmpty(qscData) || String.IsNullOrEmpty(model))
+            if (String.IsNullOrEmpty(qscData) || String.IsNullOrEmpty(aiModel))
             {
                 QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "Input data is empty.");
                 return null;
@@ -407,7 +405,7 @@ namespace IGIEditor
             {
                 if (data.Contains(QUtils.taskNew))
                 {
-                    if (data.Contains(model) && data.Contains("HumanSoldier"))
+                    if (data.Contains(aiModel) && data.Contains("HumanSoldier"))
                     {
                         if (data.Contains("Task_New(-1,"))
                         {
@@ -422,7 +420,6 @@ namespace IGIEditor
                             if (startIndex == -1)
                             {
                                 QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "Data couldn't be found in QData file");
-                                QUtils.SaveFile("objectsTmp.txt", qscData);
                                 return qscTmp;
                             }
                             endIndex += data.Length + 1;
@@ -453,6 +450,7 @@ namespace IGIEditor
             }
 
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "start index : " + startIndex + "  end index : " + endIndex + "\n");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Ai Model '" + aiModel + "' removed successfully.");
             return qscData;
         }
 
@@ -647,7 +645,7 @@ namespace IGIEditor
         }
 
 
-        internal static string GetAiModelIdForName(string aiModelName)
+        internal static string GetAiModelId4Name(string aiModelName)
         {
             if (aiModelList.Count == 0)
                 InitAiModelList();

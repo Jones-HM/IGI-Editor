@@ -14,6 +14,7 @@ namespace IGIEditor
         internal static string missionDir = "QMissions";
         internal static string graphsDir = "QGraphs";
         internal static string updateDir = "QUpdater";
+        internal static string resourceDir = "QResources";
 
         internal struct QServerData
         {
@@ -122,7 +123,7 @@ namespace IGIEditor
         }
 
 
-        internal static List<QServerData> GetDirList(string dirName, bool useCache = false,List<string> extensions=null)
+        internal static List<QServerData> GetDirList(string dirName, bool useCache = false, List<string> extensions = null)
         {
             if (useCache)
             {
@@ -145,7 +146,16 @@ namespace IGIEditor
                     if (dirName == missionDir && !qServer.FileName.Contains(QUtils.missionExt)) continue;
                     qServer.Persmission = dirData[0];
                     qServer.OwnerGroup = dirData[5];
-                    qServer.FileSize = dirData[19];
+
+                    for (int i = 17; i <= 19; i++)
+                    {
+                        var dataSize = dirData[i];
+                        if (dataSize.Length > 3 && dataSize.All(char.IsDigit))
+                        {
+                            qServer.FileSize = dirData[i];
+                            break;
+                        }
+                    }
                     qServerData.Add(qServer);
                 }
                 catch (Exception) { }
@@ -156,37 +166,51 @@ namespace IGIEditor
 
         internal static List<QMissionsData> GetMissionsData(bool useCache = false)
         {
-            if (useCache)
+            var missionsDataList = new List<QMissionsData>();
+            try
             {
-                if (QUtils.qServerMissionDataList.Count > 0)
+                if (useCache)
                 {
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, " using cache method.");
-                    return QUtils.qServerMissionDataList;
+                    if (QUtils.qServerMissionDataList.Count > 0)
+                    {
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, " using cache method.");
+                        return QUtils.qServerMissionDataList;
+                    }
+                }
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "using normal method.");
+                var dirList = GetDirList(missionDir, useCache, new List<string>() { QUtils.missionExt });
+
+                foreach (var dir in dirList)
+                {
+                    try
+                    {
+                        string dirFileName = dir.FileName;
+                        string missionName = dirFileName.Slice(0, dirFileName.IndexOf("@"));
+                        float missionSize = 0.0f;
+
+                        if (!String.IsNullOrEmpty(dir.FileSize))
+                            missionSize = (float)Convert.ToInt32(dir.FileSize) / 1000;
+
+                        string missionAuthor = dirFileName.Slice(dirFileName.IndexOf("@") + 1, dirFileName.IndexOf("#"));
+
+                        string missionLevelStr = dirFileName.Slice(dirFileName.IndexOf("#") + 1, dirFileName.IndexOf("."));
+                        int missionLevel = Convert.ToInt32(missionLevelStr);
+
+                        var missionData = new QMissionsData(missionName, missionSize, missionAuthor, missionLevel);
+                        missionsDataList.Add(missionData);
+                    }
+                    catch (Exception ex)
+                    {
+                        QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+                    }
                 }
             }
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "using normal method.");
 
-            var missionsDataList = new List<QMissionsData>();
-            var dirList = GetDirList(missionDir, useCache, new List<string>() { QUtils.missionExt });
-
-            foreach (var dir in dirList)
+            catch (Exception ex)
             {
-                string dirFileName = dir.FileName;
-                string missionName = dirFileName.Slice(0, dirFileName.IndexOf("@"));
-                float missionSize = 0.0f;
-
-                if (!String.IsNullOrEmpty(dir.FileSize))
-                    missionSize = (float)Convert.ToInt32(dir.FileSize) / 1000;
-
-                string missionAuthor = dirFileName.Slice(dirFileName.IndexOf("@") + 1, dirFileName.IndexOf("#"));
-
-                string missionLevelStr = dirFileName.Slice(dirFileName.IndexOf("#") + 1, dirFileName.IndexOf("."));
-                int missionLevel = Convert.ToInt32(missionLevelStr);
-
-                var missionData = new QMissionsData(missionName, missionSize, missionAuthor, missionLevel);
-                missionsDataList.Add(missionData);
-
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
             }
+
             QUtils.qServerMissionDataList = missionsDataList;
             return missionsDataList;
         }

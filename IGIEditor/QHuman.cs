@@ -1,6 +1,7 @@
 ﻿using QLibc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -10,13 +11,13 @@ namespace IGIEditor
     class QHuman
     {
 
-        internal static string AddWeapon(string weapon, int ammo, bool autoModel)
+        internal static string AddWeapon(string weapon, int ammo, bool autoModel = true, bool supressErr = false)
         {
             string qscData = QUtils.LoadFile();
             if (!autoModel)
                 weapon = QUtils.weaponId + weapon;
 
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Trying to add weapon : " + weapon + " with ammo : " + ammo);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Trying to add weapon : '" + weapon + "' with ammo : " + ammo);
 
             string idIndexStr = "Task_New(0";
             string gunIndexStr = "Task_New(-1, \"Gun\"";
@@ -25,18 +26,19 @@ namespace IGIEditor
 
             if (CheckWeaponExist(weapon))
             {
-                QUtils.ShowError("Weapon : " + weapon + " already exist for human");
+                if (!supressErr)
+                    QUtils.ShowError("Weapon : " + weapon + " already exist for human");
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Weapon : " + weapon + " does exist for human");
                 return null;
             }
 
-            string gun = Weapon(weapon, ammo);
+            string gun = AddWeapon(weapon, ammo);
             qscData = qscData.Insert(gunIndex, gun);
             return qscData;
         }
 
 
-        internal static string Weapon(string weapon, int ammo)
+        internal static string AddWeapon(string weapon, int ammo)
         {
             //Primary ammo slot.
             string ammoIdPrimary = GetAmmo4Weapon(weapon);
@@ -87,7 +89,7 @@ namespace IGIEditor
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Trying to remove weapon : " + weapon);
             if (!CheckWeaponExist(weapon) && checkExist)
             {
-                QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "Weapon: " + weapon + " does not exist for human");
+                QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "Weapon: " + weapon + " doesn't exist for human");
                 return null;
             }
 
@@ -219,8 +221,8 @@ namespace IGIEditor
 
             string weaponRegex = "[A-Z]{6}_[A-Z]{2}_[A-Z0-9]*";
             var qscSub = qscData.Substring(idIndex).Split('\n');
-            int weaponsIndex = 0;
-            int maxWeapons = 0xA;
+            //int weaponsIndex = 0;
+            //int maxWeapons = 0x18;
 
             foreach (var data in qscSub)
             {
@@ -229,8 +231,10 @@ namespace IGIEditor
                     htask.weaponsList.Add(matchData.Value);
 
                 //Break after reaching max weapons limit.
-                if (weaponsIndex > maxWeapons) break;
-                weaponsIndex++;
+                int endCount = data.Count(c => c == ')');
+                if (endCount > 1) break;
+                //if (weaponsIndex > maxWeapons) break;
+                //weaponsIndex++;
             }
             return htask;
         }

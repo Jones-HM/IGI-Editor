@@ -911,9 +911,9 @@ namespace QLibc
             GT_SendKeys2Process(QMemory.gameName, keyString, false);
         }
 
-        public static void GT_SendKeys2Process(string process_name, string keys, bool appForeground = true)
+        public static void GT_SendKeys2Process(string processName, string keys, bool appForeground = true)
         {
-            var process = Process.GetProcessesByName(process_name).FirstOrDefault();
+            var process = Process.GetProcessesByName(processName).FirstOrDefault();
             if (process != null)
             {
                 IntPtr handle = process.MainWindowHandle;
