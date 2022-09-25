@@ -74,8 +74,8 @@
             this.objectsRemoveTxt = new System.Windows.Forms.NumericUpDown();
             this.resetBuildingsBtn = new System.Windows.Forms.Button();
             this.resetObjectsBtn = new System.Windows.Forms.Button();
-            this.objectIDLbl = new System.Windows.Forms.Label();
-            this.objectIDTxt = new System.Windows.Forms.TextBox();
+            this.modelNameOutLbl = new System.Windows.Forms.Label();
+            this.modelIDTxt = new System.Windows.Forms.TextBox();
             this.modelIdLbl = new System.Windows.Forms.Label();
             this.restoreModelBtn = new System.Windows.Forms.Button();
             this.removeModelBtn = new System.Windows.Forms.Button();
@@ -323,6 +323,9 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.gameLogoLbl = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
+            this.modelIdOutLbl = new System.Windows.Forms.Label();
+            this.modelNameTxt = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.editorMainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -930,14 +933,17 @@
             // objectEditor
             // 
             this.objectEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.objectEditor.Controls.Add(this.modelIdOutLbl);
+            this.objectEditor.Controls.Add(this.modelNameTxt);
+            this.objectEditor.Controls.Add(this.label3);
             this.objectEditor.Controls.Add(this.buildingsResetTxt);
             this.objectEditor.Controls.Add(this.objectsResetTxt);
             this.objectEditor.Controls.Add(this.buildingsRemoveTxt);
             this.objectEditor.Controls.Add(this.objectsRemoveTxt);
             this.objectEditor.Controls.Add(this.resetBuildingsBtn);
             this.objectEditor.Controls.Add(this.resetObjectsBtn);
-            this.objectEditor.Controls.Add(this.objectIDLbl);
-            this.objectEditor.Controls.Add(this.objectIDTxt);
+            this.objectEditor.Controls.Add(this.modelNameOutLbl);
+            this.objectEditor.Controls.Add(this.modelIDTxt);
             this.objectEditor.Controls.Add(this.modelIdLbl);
             this.objectEditor.Controls.Add(this.restoreModelBtn);
             this.objectEditor.Controls.Add(this.removeModelBtn);
@@ -1058,33 +1064,33 @@
             this.resetObjectsBtn.UseVisualStyleBackColor = true;
             this.resetObjectsBtn.Click += new System.EventHandler(this.resetObjectsBtn_Click);
             // 
-            // objectIDLbl
+            // modelNameOutLbl
             // 
-            this.objectIDLbl.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.objectIDLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.objectIDLbl.Location = new System.Drawing.Point(377, 49);
-            this.objectIDLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.objectIDLbl.Name = "objectIDLbl";
-            this.objectIDLbl.Size = new System.Drawing.Size(289, 33);
-            this.objectIDLbl.TabIndex = 9;
-            this.objectIDLbl.Text = "Model Name";
-            this.objectIDLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.modelNameOutLbl.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modelNameOutLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.modelNameOutLbl.Location = new System.Drawing.Point(377, 49);
+            this.modelNameOutLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.modelNameOutLbl.Name = "modelNameOutLbl";
+            this.modelNameOutLbl.Size = new System.Drawing.Size(289, 33);
+            this.modelNameOutLbl.TabIndex = 9;
+            this.modelNameOutLbl.Text = "Model Name";
+            this.modelNameOutLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // objectIDTxt
+            // modelIDTxt
             // 
-            this.objectIDTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.objectIDTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.objectIDTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.objectIDTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.objectIDTxt.Location = new System.Drawing.Point(158, 49);
-            this.objectIDTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.objectIDTxt.Name = "objectIDTxt";
-            this.objectIDTxt.Size = new System.Drawing.Size(208, 30);
-            this.objectIDTxt.TabIndex = 7;
-            this.objectIDTxt.Text = "435_01_1";
-            this.infoViewer.SetToolTip(this.objectIDTxt, "Model id of object like 435_01_1 for WaterTower");
-            this.objectIDTxt.TextChanged += new System.EventHandler(this.objectIDTxt_TextChanged);
-            this.objectIDTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.objectIDTxt_KeyDown);
+            this.modelIDTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.modelIDTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.modelIDTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.modelIDTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.modelIDTxt.Location = new System.Drawing.Point(158, 49);
+            this.modelIDTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.modelIDTxt.Name = "modelIDTxt";
+            this.modelIDTxt.Size = new System.Drawing.Size(208, 30);
+            this.modelIDTxt.TabIndex = 7;
+            this.modelIDTxt.Text = "435_01_1";
+            this.infoViewer.SetToolTip(this.modelIDTxt, "Model id of object like 435_01_1 for WaterTower");
+            this.modelIDTxt.TextChanged += new System.EventHandler(this.objectIDTxt_TextChanged);
+            this.modelIDTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.objectIDTxt_KeyDown);
             // 
             // modelIdLbl
             // 
@@ -2791,7 +2797,7 @@
             this.missionPlayTimeTxt.Name = "missionPlayTimeTxt";
             this.missionPlayTimeTxt.Size = new System.Drawing.Size(183, 30);
             this.missionPlayTimeTxt.TabIndex = 30;
-            this.missionPlayTimeTxt.Text = "120";
+            this.missionPlayTimeTxt.Text = "60";
             // 
             // missionNameTxt
             // 
@@ -4059,7 +4065,7 @@
             this.updateIntervalTxt.Size = new System.Drawing.Size(63, 30);
             this.updateIntervalTxt.TabIndex = 42;
             this.updateIntervalTxt.Value = new decimal(new int[] {
-            10,
+            15,
             0,
             0,
             0});
@@ -4664,6 +4670,45 @@
             this.gameLogoLbl.TabIndex = 0;
             this.gameLogoLbl.Text = "IGI 1";
             // 
+            // modelIdOutLbl
+            // 
+            this.modelIdOutLbl.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modelIdOutLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.modelIdOutLbl.Location = new System.Drawing.Point(377, 109);
+            this.modelIdOutLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.modelIdOutLbl.Name = "modelIdOutLbl";
+            this.modelIdOutLbl.Size = new System.Drawing.Size(289, 33);
+            this.modelIdOutLbl.TabIndex = 52;
+            this.modelIdOutLbl.Text = "Model Name";
+            this.modelIdOutLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // modelNameTxt
+            // 
+            this.modelNameTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.modelNameTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.modelNameTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.modelNameTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.modelNameTxt.Location = new System.Drawing.Point(158, 109);
+            this.modelNameTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.modelNameTxt.Name = "modelNameTxt";
+            this.modelNameTxt.Size = new System.Drawing.Size(208, 30);
+            this.modelNameTxt.TabIndex = 51;
+            this.modelNameTxt.Text = "WaterTower";
+            this.infoViewer.SetToolTip(this.modelNameTxt, "Model id of object like 435_01_1 for WaterTower");
+            this.modelNameTxt.TextChanged += new System.EventHandler(this.modelNameTxt_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.Font = new System.Drawing.Font("Century Gothic", 10F);
+            this.label3.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.label3.Location = new System.Drawing.Point(8, 108);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(142, 33);
+            this.label3.TabIndex = 50;
+            this.label3.Text = "Model Name";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // IGIEditorUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -4755,7 +4800,7 @@
         private System.Windows.Forms.TabPage missionEditor;
         private System.Windows.Forms.TabPage positionEditor;
         private System.Windows.Forms.TabPage miscEditor;
-        private System.Windows.Forms.TextBox objectIDTxt;
+        private System.Windows.Forms.TextBox modelIDTxt;
         private System.Windows.Forms.Label modelIdLbl;
         private System.Windows.Forms.Button removeModelBtn;
         private System.Windows.Forms.Button removeBuildingsBtn;
@@ -4772,7 +4817,7 @@
         private System.Windows.Forms.Label xPosLbl_M;
         private System.Windows.Forms.Button resetBuildingsBtn;
         private System.Windows.Forms.Button resetObjectsBtn;
-        private System.Windows.Forms.Label objectIDLbl;
+        private System.Windows.Forms.Label modelNameOutLbl;
         private System.Windows.Forms.Button startGameBtn;
         private System.Windows.Forms.Button removeObjectBtn;
         private System.Windows.Forms.Button removeBuildingBtn;
@@ -5033,6 +5078,9 @@
         private System.Windows.Forms.Button loadWeaponGroupBtn;
         private System.Windows.Forms.TextBox weaponGroupFileTxt;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label modelIdOutLbl;
+        private System.Windows.Forms.TextBox modelNameTxt;
+        private System.Windows.Forms.Label label3;
     }
 }
 

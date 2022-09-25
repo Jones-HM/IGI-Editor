@@ -26,9 +26,8 @@ using FileSystem = Microsoft.VisualBasic.FileIO.FileSystem;
 
 namespace IGIEditor
 {
-    class QUtils
+    internal class QUtils
     {
-
         internal class QScriptTask
         {
             internal Int32 id;
@@ -81,7 +80,7 @@ namespace IGIEditor
         internal static string taskNew = "Task_New", taskDecl = "Task_DeclareParameters";
         internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc", weaponConfigQVM = "weaponconfig.qvm", weaponsModQvm = "weaponconfig-mod.qvm";
         internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 3, currGameLevel = 1, updateTimeInterval = 10, gameFPS = 30, healthScaleFall = 0;
-        internal static string versionFileName = "VERSION", appEditorSubVersion = "0.4.0.6", logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsModelsList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customPatrolFile = "ai_custom_path.qsc", customScriptPathQEd, customPatrolPathQEd, appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\", nativesFile = @"\IGI-Natives.json", modelsFile = @"\IGI-Models.txt", internalsLogFile = @"\IGI-Internals.log";
+        internal static string versionFileName = "VERSION", appEditorSubVersion = "0.4.0.7", logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsModelsList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customPatrolFile = "ai_custom_path.qsc", customScriptPathQEd, customPatrolPathQEd, appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\", nativesFile = @"\IGI-Natives.json", modelsFile = @"\IGI-Models.txt", internalsLogFile = @"\IGI-Internals.log";
         internal static bool gameFound = false, gamePathSet = false, logEnabled = false, keyExist = false, keyFileExist = false, attachStatus = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false, editorUpdateCheck = false, nppInstalled = false, shortcutCreated = false, shortcutExist = false, gameMusicEnabled = false, gameAiIdleMode = false, gameDebugMode = false, gameDisableWarns = true, gameRefresh = false;
         internal static bool internalCompiler = false, externalCompiler = false;
         internal static float appEditorVersion = 0.4f, viewPortDelta = 10000.0f;
@@ -130,7 +129,7 @@ namespace IGIEditor
         internal static List<int> graphdIdsMarked = new List<int>();
         internal static List<int> aiGraphNodeIdStr = new List<int>();
         internal static List<int> weaponMarkedIds = new List<int>();
-        internal static List<GraphNode> graphNodesList = new List<GraphNode>();
+        internal static List<QGraphs.GraphNode> graphNodesList = new List<QGraphs.GraphNode>();
         internal static List<int> qIdsList = new List<int>();
         internal static List<HumanAi> humanAiList = new List<HumanAi>();
 
@@ -1865,6 +1864,11 @@ namespace IGIEditor
         {
             Thread.Sleep((int)seconds * 1000);
         }
+
+        internal static bool IsNonASCII(string str)
+        {
+            return (Encoding.UTF8.GetByteCount(str) != str.Length);
+        }
     }
 
     internal static class Extensions
@@ -2076,28 +2080,27 @@ namespace IGIEditor
         }
     };
 
-    internal class GraphNode
-    {
-        int nodeId;//Node Id.
-        Real64 nodePos;//Node position (Offset not exact values).
-        string nodeCriteria; //Node criteria. View,Stairs,Door.
+    //internal class GraphNode
+    //{
+    //    int nodeId;//Node Id.
+    //    Real64 nodePos;//Node position (Offset not exact values).
+    //    string nodeCriteria; //Node criteria. View,Stairs,Door.
 
-        internal GraphNode()
-        {
-            this.NodeId = 0;
-            this.NodePos = null;
-            this.NodeCriteria = String.Empty;
-        }
+    //    internal GraphNode()
+    //    {
+    //        this.NodeId = 0;
+    //        this.NodePos = null;
+    //        this.NodeCriteria = String.Empty;
+    //    }
 
-        internal GraphNode(int nodeId, Real64 nodePos, string nodeCriteria)
-        {
-            this.NodeId = nodeId;
-            this.NodePos = nodePos;
-        }
+    //    internal GraphNode(int nodeId, Real64 nodePos, string nodeCriteria)
+    //    {
+    //        this.NodeId = nodeId;
+    //        this.NodePos = nodePos;
+    //    }
 
-        internal int NodeId { get => nodeId; set => nodeId = value; }
-        internal string NodeCriteria { get => nodeCriteria; set => nodeCriteria = value; }
-        internal Real64 NodePos { get => nodePos; set => nodePos = value; }
-    }
-
+    //    internal int NodeId { get => nodeId; set => nodeId = value; }
+    //    internal string NodeCriteria { get => nodeCriteria; set => nodeCriteria = value; }
+    //    internal Real64 NodePos { get => nodePos; set => nodePos = value; }
+    //}
 }

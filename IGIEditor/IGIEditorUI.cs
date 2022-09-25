@@ -33,7 +33,7 @@ namespace IGIEditor
         string inputQvmPath, inputQscPath;
         private static int gameLevel = 1, aiGraphId = 1, nodeId = 1;
         private Real64 graphPos, nodeRealPos;
-        private GraphNode graphNode;
+        private QGraphs.GraphNode graphNode;
         private int graphTotalNodes;
         private QServer.QMissionsData missionData;
         public delegate void EnableTimers(bool enable);
@@ -76,12 +76,14 @@ namespace IGIEditor
                 versionLbl.Text = "DBG";
                 editorTabs.TabPages.RemoveByKey("threeDEditor");
                 editorTabs.TabPages.RemoveByKey("devMode");
+                gameItemsLbl.Visible = true;
 #else
                 GAME_MAX_LEVEL = 3;
                 editorTabs.TabPages.RemoveByKey("threeDEditor");
                 //editorTabs.TabPages.RemoveByKey("graphEditor");
                 versionLbl.Text = appEditorSubVersion;
                 editorTabs.TabPages.RemoveByKey("devMode");
+                gameItemsLbl.Visible = false;
 #endif
 
                 //Start Position timer.
@@ -436,7 +438,7 @@ namespace IGIEditor
                     foreach (var graphId in graphIdList)
                     {
                         var graphNodes = QGraphs.GetNodesForGraph(graphId);
-                        if (graphNodes.Count <= 100)
+                        if (graphNodes.Count <= 300)
                         {
                             var graphPos = QGraphs.GetGraphPosition(graphId);
                             qscData += QGraphs.ShowNodeLinksVisual(graphId, ref graphPos) + "\n";
@@ -637,9 +639,9 @@ namespace IGIEditor
                         var graphNodeData = QGraphs.GetGraphNodeData(aiGraphId, nodeId);
                         //Get Node Real Position.
                         var nodePos = new Real64();
-                        nodePos.x = graphPos.x + graphNodeData.NodePos.x;
-                        nodePos.y = graphPos.y + graphNodeData.NodePos.y;
-                        nodePos.z = graphPos.z + graphNodeData.NodePos.z + QUtils.viewPortDelta;
+                        nodePos.x = graphPos.x + graphNodeData.MGraphVertexNodes.LastOrDefault().NodePos.x;
+                        nodePos.y = graphPos.y + graphNodeData.MGraphVertexNodes.LastOrDefault().NodePos.y;
+                        nodePos.z = graphPos.z + graphNodeData.MGraphVertexNodes.LastOrDefault().NodePos.z + QUtils.viewPortDelta;
 
                         QUtils.UpdateViewPort(nodePos);
                         graphArea = QGraphs.GetGraphArea(aiGraphId);
@@ -1810,9 +1812,9 @@ namespace IGIEditor
         {
             if (e.KeyCode == Keys.Enter)
             {
-                var modelId = objectIDTxt.Text;
+                var modelId = modelIDTxt.Text;
                 var modelName = QObjects.FindModelName(modelId);
-                if (!String.IsNullOrEmpty(modelName)) objectIDLbl.Text = modelName;
+                if (!String.IsNullOrEmpty(modelName)) modelNameOutLbl.Text = modelName;
             }
         }
 
@@ -2363,21 +2365,21 @@ namespace IGIEditor
 
                 if (liveEditorCb.Checked)
                 {
-                    var modelId = objectIDTxt.Text;
+                    var modelId = modelIDTxt.Text;
                     QInternals.MEF_ModelRemove(modelId);
                     var modelName = QObjects.FindModelName(modelId);
-                    if (!String.IsNullOrEmpty(modelName)) objectIDLbl.Text = modelName;
+                    if (!String.IsNullOrEmpty(modelName)) modelNameOutLbl.Text = modelName;
                     SetStatusText("Object " + modelName + " removed successfully");
                 }
                 else
                 {
                     var modelRegex = @"\d{3}_\d{2}_\d{1}";
-                    var valueRegex = Regex.Match(objectIDTxt.Text, modelRegex).Value;
+                    var valueRegex = Regex.Match(modelIDTxt.Text, modelRegex).Value;
                     if (String.IsNullOrEmpty(valueRegex))
                         QUtils.ShowError("Input Object Id is in wrong format. Check Help for proper format");
                     else
                     {
-                        var modelId = objectIDTxt.Text;
+                        var modelId = modelIDTxt.Text;
                         var qscData = QUtils.LoadFile();
                         qscData = QObjects.RemoveObject(qscData, modelId, true, true);
 
@@ -2386,7 +2388,7 @@ namespace IGIEditor
                             compileStatus = QCompiler.CompileEx(qscData);
 
                             var modelName = QObjects.FindModelName(modelId);
-                            if (!String.IsNullOrEmpty(modelName)) objectIDLbl.Text = modelName;
+                            if (!String.IsNullOrEmpty(modelName)) modelNameOutLbl.Text = modelName;
 
                             if (compileStatus)
                                 SetStatusText("Object " + modelName + " removed successfully");
@@ -2410,10 +2412,10 @@ namespace IGIEditor
             }
             if (liveEditorCb.Checked)
             {
-                var modelId = objectIDTxt.Text;
+                var modelId = modelIDTxt.Text;
                 QInternals.MEF_ModelRestore();
                 var modelName = QObjects.FindModelName(modelId);
-                if (!String.IsNullOrEmpty(modelName)) objectIDLbl.Text = modelName;
+                if (!String.IsNullOrEmpty(modelName)) modelNameOutLbl.Text = modelName;
                 SetStatusText("Object " + modelName + " restored successfully");
             }
         }
@@ -3167,7 +3169,14 @@ namespace IGIEditor
         {
             var modelId = ((TextBox)sender).Text;
             var modelName = QObjects.FindModelName(modelId, false);
-            if (!String.IsNullOrEmpty(modelName)) objectIDLbl.Text = modelName;
+            if (!String.IsNullOrEmpty(modelName)) modelNameOutLbl.Text = modelName;
+        }
+
+        private void modelNameTxt_TextChanged(object sender, EventArgs e)
+        {
+            var modelName = ((TextBox)sender).Text;
+            var modelId = QObjects.FindModelId(modelName, false);
+            if (!String.IsNullOrEmpty(modelName)) modelIdOutLbl.Text = modelId;
         }
 
         private void stopTraversingNodesBtn_Click(object sender, EventArgs e)
@@ -4169,26 +4178,26 @@ namespace IGIEditor
             graphNode = QGraphs.GetGraphNodeData(aiGraphId, nodeId);
 
             //Setting Node properties.
-            nodeCriteriaTxt.Text = graphNode.NodeCriteria;
+            nodeCriteriaTxt.Text = graphNode.MGraphVertexNodes.LastOrDefault().NodeCriteria;
 
             if (nodeIdOffsetCb.Checked)
             {
-                nodeXTxt.Text = graphNode.NodePos.x.ToString("0.0000");
-                nodeYTxt.Text = graphNode.NodePos.y.ToString("0.0000");
-                nodeZTxt.Text = graphNode.NodePos.z.ToString("0.0000");
+                nodeXTxt.Text = graphNode.MGraphVertexNodes.LastOrDefault().NodePos.x.ToString("0.0000");
+                nodeYTxt.Text = graphNode.MGraphVertexNodes.LastOrDefault().NodePos.y.ToString("0.0000");
+                nodeZTxt.Text = graphNode.MGraphVertexNodes.LastOrDefault().NodePos.z.ToString("0.0000");
             }
             else
             {
-                nodeXTxt.Text = graphPos.x + graphNode.NodePos.x.ToString("R");
-                nodeYTxt.Text = graphPos.y + graphNode.NodePos.y.ToString("R");
-                nodeZTxt.Text = graphPos.z + graphNode.NodePos.z.ToString("R");
+                nodeXTxt.Text = graphPos.x + graphNode.MGraphVertexNodes.LastOrDefault().NodePos.x.ToString("R");
+                nodeYTxt.Text = graphPos.y + graphNode.MGraphVertexNodes.LastOrDefault().NodePos.y.ToString("R");
+                nodeZTxt.Text = graphPos.z + graphNode.MGraphVertexNodes.LastOrDefault().NodePos.z.ToString("R");
             }
 
             //Get Node Real Position.
             nodeRealPos = new Real64();
-            nodeRealPos.x = graphPos.x + graphNode.NodePos.x;
-            nodeRealPos.y = graphPos.y + graphNode.NodePos.y;
-            nodeRealPos.z = graphPos.z + graphNode.NodePos.z + QUtils.viewPortDelta;
+            nodeRealPos.x = graphPos.x + graphNode.MGraphVertexNodes.LastOrDefault().NodePos.x;
+            nodeRealPos.y = graphPos.y + graphNode.MGraphVertexNodes.LastOrDefault().NodePos.y;
+            nodeRealPos.z = graphPos.z + graphNode.MGraphVertexNodes.LastOrDefault().NodePos.z + QUtils.viewPortDelta;
         }
 
         private void appSupportBtn_Click(object sender, EventArgs e)

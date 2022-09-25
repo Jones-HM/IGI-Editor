@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace IGIEditor
@@ -52,6 +54,73 @@ namespace IGIEditor
             public Double groundDist;
             public Double preciseStepVal;
         };
+
+        internal class GraphNode
+        {
+
+            int graphId; //Graph Id.
+            int nodeMax;//Maximum no. of nodes.
+            int nodeTotal;//Total no. of nodes.
+
+            public class VertexNode
+            {
+                int nodeId; //Current Node id.
+                Real64 nodePos; //Node position in Real64.
+                float nodeRadius; //Node radius in metre.
+                float nodeGamma; //Node gamma angle.
+                int nodeMaterial; //Node material like 'Air','Ground','Metal'.
+                string nodeCriteria;//Node criteria example Door,Ladder for A.I Graph.
+
+                public VertexNode()
+                {
+                    this.NodeId = this.nodeMaterial = 0;
+                    this.nodeRadius = this.nodeGamma = 0.0f;
+                    this.NodeId = 0;
+                    this.NodePos = null;
+                    this.NodeCriteria = String.Empty;
+                }
+
+                public VertexNode(int nodeId, Real64 nodePos, string nodeCriteria)
+                {
+                    this.NodeId = nodeId;
+                    this.NodePos = nodePos;
+                    this.nodeCriteria = nodeCriteria;
+                }
+
+                public int NodeId { get => nodeId; set => nodeId = value; }
+                public string NodeCriteria { get => nodeCriteria; set => nodeCriteria = value; }
+                internal Real64 NodePos { get => nodePos; set => nodePos = value; }
+            }
+
+            public class EdgeLink
+            {
+                int nodeLink1;//Node link 1, Connection/Link to 1st node adjacent to it.
+                int nodeLink2;//Node link 2, Connection/Link to 2nd node adjacent to it.
+                int nodeLinkType;//Link type to other nodes. (Precise) ?
+
+                public EdgeLink()
+                {
+                    this.nodeLink1 = this.nodeLink2 = this.nodeLinkType = 0;
+                }
+
+                public EdgeLink(int nodeLink1, int nodeLink2, int nodeLinkType)
+                {
+                    this.nodeLink1 = nodeLink1;
+                    this.nodeLink2 = nodeLink2;
+                    this.nodeLinkType = nodeLinkType;
+                }
+
+                public int NodeLink1 { get => nodeLink1; set => nodeLink1 = value; }
+                public int NodeLink2 { get => nodeLink2; set => nodeLink2 = value; }
+                public int NodeLinkType { get => nodeLinkType; set => nodeLinkType = value; }
+            }
+            private List<GraphNode.VertexNode> mGraphVertexNodes = new List<VertexNode>();
+            private List<GraphNode.EdgeLink> mGraphEdgeLinks = new List<EdgeLink>();
+
+            internal List<EdgeLink> MGraphEdgeLinks { get => mGraphEdgeLinks; set => mGraphEdgeLinks = value; }
+            internal List<VertexNode> MGraphVertexNodes { get => mGraphVertexNodes; set => mGraphVertexNodes = value; }
+        }
+
 
         enum QTASKINFO
         {
@@ -268,13 +337,17 @@ namespace IGIEditor
 
             foreach (var node in QUtils.graphNodesList)
             {
-                if (node.NodeId > 0 && node.NodeId < 5000)
+                try
                 {
-                    graphNodeIds.Add(node.NodeId);
-                    //graphWorkPercent = (int)Math.Round((double)(100 * graphWorkCount) / totalNodes);
-                    //IGIEditorUI.editorRef.SetStatusText("Graph#" + graphId + " Node#" + node.NodeId + " updating, Completed " + graphWorkPercent + "%");
-                    //graphWorkCount++;
-                }
+                    if (node.MGraphVertexNodes.Count == 0) continue;
+                    if (node.MGraphVertexNodes.LastOrDefault().NodeId > 0 && node.MGraphVertexNodes.LastOrDefault().NodeId < 5000)
+                    {
+                        graphNodeIds.Add(node.MGraphVertexNodes.LastOrDefault().NodeId);
+                        //graphWorkPercent = (int)Math.Round((double)(100 * graphWorkCount) / totalNodes);
+                        //IGIEditorUI.editorRef.SetStatusText("Graph#" + graphId + " Node#" + node.NodeId + " updating, Completed " + graphWorkPercent + "%");
+                        //graphWorkCount++;
+                    }
+                }catch(Exception ex) { }
             }
 
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GraphFile: '" + graphFile + "'" + " NodeId Count: " + graphNodeIds.Count);
@@ -453,16 +526,17 @@ namespace IGIEditor
 
             foreach (var node in nodeData)
             {
-                if (node.NodeId < 0 || node.NodeId > 5000) continue;
+                if (node.MGraphVertexNodes.Count == 0) continue;
+                if (node.MGraphVertexNodes.LastOrDefault().NodeId < 0 || node.MGraphVertexNodes.LastOrDefault().NodeId > 5000) continue;
 
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Node_" + node.NodeId + " X: " + node.NodePos.x + " Y: " + node.NodePos.y + " Z: " + node.NodePos.z + " Criteria: " + node.NodeCriteria);
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Node_" + node.MGraphVertexNodes.LastOrDefault().NodeId + " X: " + node.MGraphVertexNodes.LastOrDefault().NodePos.x + " Y: " + node.MGraphVertexNodes.LastOrDefault().NodePos.y + " Z: " + node.MGraphVertexNodes.LastOrDefault().NodePos.z + " Criteria: " + node.MGraphVertexNodes.LastOrDefault().NodeCriteria);
 
                 var nodeRealPos = new Real64();
-                nodeRealPos.x = graphPos.x + node.NodePos.x;
-                nodeRealPos.y = graphPos.y + node.NodePos.y;
-                nodeRealPos.z = graphPos.z + node.NodePos.z;
+                nodeRealPos.x = graphPos.x + node.MGraphVertexNodes.LastOrDefault().NodePos.x;
+                nodeRealPos.y = graphPos.y + node.MGraphVertexNodes.LastOrDefault().NodePos.y;
+                nodeRealPos.z = graphPos.z + node.MGraphVertexNodes.LastOrDefault().NodePos.z;
 
-                string taskNote = "Graph#" + graphId + "Node#" + node.NodeId + " - G#" + graphId + "N#1";
+                string taskNote = "Graph#" + graphId + "Node#" + node.MGraphVertexNodes.LastOrDefault().NodeId + " - G#" + graphId + "N#1";
                 string taskInfo = taskNote.Slice(0, taskNote.IndexOf("-")).Trim();
 
                 //Generate Unique QTaskId's.
@@ -487,21 +561,121 @@ namespace IGIEditor
                     qscData += QObjects.ComputerMapHilight(QUtils.qtaskId++, taskNote, "Graph#" + graphId, taskInfo, "MARKER_BOX", markerColor);
                 }
                 graphWorkPercent = (int)Math.Round((double)(100 * graphWorkCount) / graphWorkTotal);
-                IGIEditorUI.editorRef.SetStatusText("Graph#" + graphId + " Node#" + node.NodeId + " added, Completed " + graphWorkPercent + "%");
+                IGIEditorUI.editorRef.SetStatusText("Graph#" + graphId + " Node#" + node.MGraphVertexNodes.LastOrDefault().NodeId + " added, Completed " + graphWorkPercent + "%");
                 graphWorkCount++;
             }
             QUtils.SwitchEditorUI();
             return qscData;
         }
 
+        internal static List<string> GraphNodeLinks(int graphId)
+        {
+            string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GraphFile: '" + graphFile + "'");
+            var graphData = ReadGraphNodeData(graphFile);
+            List<string> nodeLinks = new List<string>();
+
+            foreach (var graph in graphData)
+            {
+                foreach (var nodeLink in graph.MGraphEdgeLinks)
+                {
+                    if (nodeLink.NodeLink1 > 0 && nodeLink.NodeLink2 > 0)
+                    {
+                        string nodeLinkStr = nodeLink.NodeLink1 + "=" + nodeLink.NodeLink2;
+                        nodeLinks.Add(nodeLinkStr);
+                    }
+                }
+            }
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "nodeLinks count: '" + nodeLinks.Count + "'");
+            return nodeLinks;
+        }
+
+        internal static List<GraphNode> ReadGraphNodeData(string graphFile)
+        {
+            var graphFileData = File.ReadAllBytes(graphFile);
+            List<GraphNode> graphs = new List<GraphNode>();
+            GraphNode graph = new GraphNode();
+            var graphNode = new GraphNode.VertexNode();
+            var graphLink = new GraphNode.EdgeLink();
+            int nodeLink1, nodeLink2, nodeLinkType;
+
+            for (int index = 0; index < graphFileData.Length; index++)
+            {
+                //Find Node Vertex - '04CE'
+                if (graphFileData[index] == 0x04 && graphFileData[index + 1] == 0xCE)
+                {
+                    double x, y, z;
+                    var nodeIdData = graphFileData.Skip(index + 8).Take(4).ToArray();
+                    int nodeId = BitConverter.ToInt32(nodeIdData,0);
+
+                    //Read Node X,Y,Z Position offset.
+
+                    int nodePosXIndex = index + 20;
+                    int nodePosYIndex = nodePosXIndex + 8;
+                    int nodePosZIndex = nodePosYIndex + 8;
+
+                    var nodePosXData = graphFileData.Skip(nodePosXIndex).Take(8).ToArray();
+                    x = BitConverter.ToDouble(nodePosXData,0);
+
+                    var nodePosYData = graphFileData.Skip(nodePosYIndex).Take(8).ToArray();
+                    y = BitConverter.ToDouble(nodePosYData,0);
+
+                    var nodePosZData = graphFileData.Skip(nodePosZIndex).Take(8).ToArray();
+                    z = BitConverter.ToDouble(nodePosZData,0);
+
+                    //Read node criteria.
+                    int nodeCriteriaIndex = index + 88 + 1;
+                    var nodeCriteriaData = graphFileData.Skip(nodeCriteriaIndex).Take(18).ToArray();
+                    string nodeCriteria = Encoding.UTF8.GetString(nodeCriteriaData);
+                    nodeCriteria = (QUtils.IsNonASCII(nodeCriteria) ? String.Empty : nodeCriteria);
+
+                    //Adding Graph Node data.
+                    graphNode.NodeId = nodeId;
+                    graphNode.NodePos = new Real64(x, y, z);
+                    graphNode.NodeCriteria = nodeCriteria;
+                    graph.MGraphVertexNodes.Add(graphNode);
+                }
+
+                //Find Node Edge(Link1) - '044A'
+                else if (graphFileData[index] == 0x04 && graphFileData[index + 1] == 0x4A)
+                {
+                    nodeLink1 = graphFileData[index + 8];
+                    graphLink.NodeLink1 = nodeLink1;
+                }
+
+                //Find Node Edge(Link2) - '04F6'
+
+                else if (graphFileData[index] == 0x04 && graphFileData[index + 1] == 0xF6)
+                {
+                    nodeLink2 = graphFileData[index + 8];
+                    graphLink.NodeLink2 = nodeLink2;
+                }
+
+                //Find Node Edge(LinkType) - '0423'
+                else if (graphFileData[index] == 0x04 && graphFileData[index + 1] == 0x23)
+                {
+                    nodeLinkType = graphFileData[index + 8];
+                    graphLink.NodeLinkType = nodeLinkType;
+                    graph.MGraphEdgeLinks.Add(graphLink);
+                    graphs.Add(graph);
+
+                    //Reset date for next Graph node.
+                    graph = new GraphNode();
+                    graphNode = new GraphNode.VertexNode();
+                    graphLink = new GraphNode.EdgeLink();
+                }
+            }
+            return graphs;
+        }
+
         internal static string ShowNodeLinksVisual(int graphId, ref Real64 graphPos)
         {
-            QInternals.GraphNodeLinks(graphId.ToString());
-            var dataLines = QInternals.InternalDataReadLines();
+            var dataLines = GraphNodeLinks(graphId); 
             string graphLinkTag;
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "dataLines count: '" + dataLines.Count + "'");
 
-            if (dataLines.Length < 4 || dataLines.Length >= 50) { return null; }
-            int graphWorkTotal = dataLines.Length, graphWorkCount = 1, graphWorkPercent = 1;
+            if (dataLines.Count < 4 || dataLines.Count >= 1024) { QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Skipping Graph because of huge size."); return null; }
+            int graphWorkTotal = dataLines.Count, graphWorkCount = 1, graphWorkPercent = 1;
 
             string qscData = null;
             foreach (var data in dataLines)
@@ -539,9 +713,9 @@ namespace IGIEditor
                 //Get Node Real Position.
                 //nodeRealPos = new Real64().Real64Operator(graphPos, node.NodePos, "+");
                 nodeRealPos = new Real64();
-                nodeRealPos.x = graphPos.x + node.NodePos.x;
-                nodeRealPos.y = graphPos.y + node.NodePos.y;
-                nodeRealPos.z = graphPos.z + node.NodePos.z + 4500.0f;
+                nodeRealPos.x = graphPos.x + node.MGraphVertexNodes.LastOrDefault().NodePos.x;
+                nodeRealPos.y = graphPos.y + node.MGraphVertexNodes.LastOrDefault().NodePos.y;
+                nodeRealPos.z = graphPos.z + node.MGraphVertexNodes.LastOrDefault().NodePos.z + 4500.0f;
             }
             catch (Exception ex)
             {
@@ -678,52 +852,6 @@ namespace IGIEditor
             return graphAreas;
         }
 
-        internal static List<GraphNode> ReadGraphNodeData(string graphFile)
-        {
-            var graphFileData = System.IO.File.ReadAllBytes(graphFile);
-            List<GraphNode> graphNodeData = new List<GraphNode>();
-
-            for (int index = 0; index < graphFileData.Length; index++)
-            {
-                //Find Node signature - 04CE
-                if (graphFileData[index] == 0x04 && graphFileData[index + 1] == 0xCE)
-                {
-                    var graphData = new GraphNode();
-                    double x, y, z;
-                    var nodeIdData = graphFileData.Skip(index + 8).Take(4).ToArray();
-                    int nodeId = BitConverter.ToInt32(nodeIdData, 0);
-
-                    //Read Node X,Y,Z Position offset.
-
-                    int nodePosXIndex = index + 20;
-                    int nodePosYIndex = nodePosXIndex + 8;
-                    int nodePosZIndex = nodePosYIndex + 8;
-
-                    var nodePosXData = graphFileData.Skip(nodePosXIndex).Take(8).ToArray();
-                    x = BitConverter.ToDouble(nodePosXData, 0);
-
-                    var nodePosYData = graphFileData.Skip(nodePosYIndex).Take(8).ToArray();
-                    y = BitConverter.ToDouble(nodePosYData, 0);
-
-                    var nodePosZData = graphFileData.Skip(nodePosZIndex).Take(8).ToArray();
-                    z = BitConverter.ToDouble(nodePosZData, 0);
-
-                    //Read node criteria.
-                    int nodeCriteriaIndex = index + 88 + 1;
-                    var nodeCriteriaData = graphFileData.Skip(nodeCriteriaIndex).Take(18).ToArray();
-                    string nodeCriteria = System.Text.Encoding.UTF8.GetString(nodeCriteriaData);
-                    nodeCriteria = nodeCriteria.IsNonASCII() ? String.Empty : nodeCriteria;
-
-                    //Adding Graph Node data.
-                    graphData.NodeId = nodeId;
-                    graphData.NodePos = new Real64(x, y, z);
-                    graphData.NodeCriteria = nodeCriteria;
-                    graphNodeData.Add(graphData);
-                }
-            }
-            return graphNodeData;
-        }
-
         internal static GraphNode GetGraphNodeData(int graphId, int nodeId)
         {
             string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
@@ -733,7 +861,8 @@ namespace IGIEditor
 
             foreach (var node in QUtils.graphNodesList)
             {
-                if (node.NodeId == nodeId)
+                if (node.MGraphVertexNodes.Count == 0) continue;
+                if (node.MGraphVertexNodes.LastOrDefault().NodeId == nodeId)
                     return node;
             }
             return null;
