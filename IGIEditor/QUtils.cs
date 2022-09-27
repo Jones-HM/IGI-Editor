@@ -80,15 +80,15 @@ namespace IGIEditor
         internal static string taskNew = "Task_New", taskDecl = "Task_DeclareParameters";
         internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc", weaponConfigQVM = "weaponconfig.qvm", weaponsModQvm = "weaponconfig-mod.qvm";
         internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 3, currGameLevel = 1, updateTimeInterval = 10, gameFPS = 30, healthScaleFall = 0;
-        internal static string versionFileName = "VERSION", appEditorSubVersion = "0.4.0.7", logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsModelsList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customPatrolFile = "ai_custom_path.qsc", customScriptPathQEd, customPatrolPathQEd, appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\", nativesFile = @"\IGI-Natives.json", modelsFile = @"\IGI-Models.txt", internalsLogFile = @"\IGI-Internals.log";
-        internal static bool gameFound = false, gamePathSet = false, logEnabled = false, keyExist = false, keyFileExist = false, attachStatus = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false, editorUpdateCheck = false, nppInstalled = false, shortcutCreated = false, shortcutExist = false, gameMusicEnabled = false, gameAiIdleMode = false, gameDebugMode = false, gameDisableWarns = true, gameRefresh = false;
+        internal static string versionFileName = "VERSION", appEditorSubVersion = "0.5.0.0", logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsModelsList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customPatrolFile = "ai_custom_path.qsc", customScriptPathQEd, customPatrolPathQEd, appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\", nativesFile = @"\IGI-Natives.json", modelsFile = @"\IGI-Models.txt", internalsLogFile = @"\IGI-Internals.log";
+        internal static bool gameFound = false, gameProfileLoaded = false, gamePathSet = false, logEnabled = false, keyExist = false, keyFileExist = false, attachStatus = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false, editorUpdateCheck = false, nppInstalled = false, shortcutCreated = false, shortcutExist = false, gameMusicEnabled = false, gameAiIdleMode = false, gameDebugMode = false, gameDisableWarns = true, gameRefresh = false;
         internal static bool internalCompiler = false, externalCompiler = false;
         internal static float appEditorVersion = 0.4f, viewPortDelta = 10000.0f;
         internal static string supportDiscordLink = @"https://discord.gg/9T8tzyhvp6", supportYoutubeLink = @"https://www.youtube.com/channel/UChGryl0a0dii81NfDZ12LwA", supportVKLink = @"https://vk.com/id679925339";
         internal static IntPtr viewPortAddrX = (IntPtr)0x00BCAB08, viewPortAddrY = (IntPtr)0x00BCAB10, viewPortAddrZ = (IntPtr)0x00BCAB18;
         internal const int TEAM_ID_FRIENDLY = 0, TEAM_ID_ENEMY = 1, MAX_AI_COUNT = 100, MAX_FPS = 240, MAX_UPDATE_TIME = 120, MAX_HUMAN_CAM = 5, LEVEL_FLOW_TASK_ID = 10, HUMANPLAYER_TASK_ID = 0, MAX_MINIMAL_ID_DIFF = 10;
 
-        internal static string gamePath, appdataPath, igiEditorQEdPath, editorCurrPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, qWeaponsPath, qWeaponsGroupPath, qQVMPath, qQSCPath, cfgWeaponsPath, weaponsModQvmPath, weaponsOrgCfgPath, weaponsGamePath, humanplayerGamePath, menusystemGamePath, missionsGamePath, commonGamePath,
+        internal static string gamePath, appdataPath, igiEditorQEdPath, editorCurrPath, deviceIdDLLPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, qWeaponsPath, qWeaponsGroupPath, qQVMPath, qQSCPath, cfgWeaponsPath, weaponsModQvmPath, weaponsOrgCfgPath, weaponsGamePath, humanplayerGamePath, menusystemGamePath, missionsGamePath, commonGamePath,
             qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qCompiler = "QCompiler", qfiles = "QFiles", qGraphs = "QGraphs", iniCfgFile, editorAppName, editorUpdater, cachePath, cachePathAppLogs, nativesFilePath, modelsFilePath, internalsLogPath, qedAiJsonPath, qedAiScriptPath, qedAiPatrolPath,
             cachePathAppImages, currPathAppImages, editorUpdaterDir = "IGIEditor_Update", editorUpdaterAbsDir, editorUpdaterFile, updaterBatchFile, editorChangeLogs = "CHANGELOGS", editorLicence = "LICENCE", editorReadme = "README", editorAutoUpdaterFile, autoUpdaterFile = "AutoUpdater", autoUpdaterBatch,
          igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", graphsPath, cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayerQvm = "humanplayer.qvm", humanplayerQsc = "humanplayer.qsc", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalsDllFile, internalsDll = "IGI-Internals.dll",
@@ -100,7 +100,7 @@ namespace IGIEditor
         internal const string qvmExt = ".qvm", qscExt = ".qsc", datExt = ".dat", csvExt = ".csv", jsonExt = ".json", txtExt = ".txt", xmlExt = ".xml", dllExt = ".dll", missionExt = ".igimsf", jpgExt = ".jpg", pngExt = ".png", rarExt = ".rar", zipExt = ".zip", exeExt = ".exe", batExt = ".bat", iniExt = ".ini";
         internal static float fltInvalidAngle = -9.9999f, fltInvalidVal = -9.9f;
         internal const string CAPTION_CONFIG_ERR = "Config - Error", CAPTION_FATAL_SYS_ERR = "Sytem-Fatal - Error", CAPTION_APP_ERR = "Application - Error", CAPTION_COMPILER_ERR = "Compiler - Error", EDITOR_LEVEL_ERR = "EDITOR ERROR", alarmControl = "AlarmControl", stationaryGun = "StationaryGun";
-        internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", helpStr = "IGI 1 Editor-Demo. Offers upto " + GAME_MAX_LEVEL + " level\nVersion: v" + appEditorSubVersion + " BETA.\n\nTools/Language: C#(5.0) VS-Studio/Code\nCreated by Haseeb Mir.\n\nCredits & People\nUI Designing - Dark\nResearch data - Dimon, Yoejin and GM123.\nQScript/DConv Tools - Artiom.\nTester - Orwa\nIGI-VK Community.";
+        internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", aboutStr = "IGI Editor is powerful editor to edit game levels" + "\n" + "Offers upto " + GAME_MAX_LEVEL + " level\nVersion: v" + appEditorSubVersion + " BETA.\n\nTools/Language: C#(5.0) VS-Studio/Code\nCreated by Haseeb Mir.\n\nCredits & People\nUI Designing - Dark\nResearch data - Dimon, Yoejin and GM123.\nQScript/DConv Tools - Artiom.\nTester - Orwa\nIGI-VK Community.";
         internal static string patroIdleMask = "xxxx", patroAlarmMask = "yyyy", alarmControlMask = "xx", gunnerIdMask = "xxx", viewGammaMask = "yyy";
         internal static string movementSpeedMask = "movSpeed", forwardSpeedMask = "forwardSpeed", upwardSpeedMask = "upSpeed", inAirSpeedMask = "iAirSpeed", throwBaseVelMask = "throwBaseVel", healthScaleMask = "healthScale", healthFenceMask = "healthFence", peekLeftRightLenMask = "peekLRLen", peekCrouchLenMask = "peekCrouchLen", peekTimeMask = "peekTime";
         internal static List<string> aiScriptFiles = new List<string>();
@@ -187,7 +187,12 @@ namespace IGIEditor
         //Base server url for Downloading resources.
         internal static string baseServerUrl = @"http://igiresearchdevelopers.orgfree.com";
 
-        internal static List<string> aiTypes = new List<string>() { "AITYPE_RPG", "AITYPE_GUNNER", "AITYPE_SNIPER", "AITYPE_ANYA", "AITYPE_EKK", "AITYPE_PRIBOI", "AITYPE_CIVILIAN", "AITYPE_PATROL_AK", "AITYPE_GUARD_AK", "AITYPE_SECURITY_PATROL_UZI", "AITYPE_MAFIA_PATROL_UZI", "AITYPE_MAFIA_GUARD_AK", "AITYPE_SPETNAZ_PATROL_AK", "AITYPE_SPETNAZ_GUARD_AK" };
+        internal static List<string> aiTypes = new List<string>() { 
+            "AITYPE_RPG", "AITYPE_GUNNER", "AITYPE_SNIPER",
+            "AITYPE_ANYA", "AITYPE_EKK", "AITYPE_PRIBOI",
+            "AITYPE_CIVILIAN", "AITYPE_PATROL_AK", "AITYPE_GUARD_AK",
+            "AITYPE_SECURITY_PATROL_UZI", "AITYPE_MAFIA_PATROL_UZI", "AITYPE_MAFIA_GUARD_AK",
+            "AITYPE_SPETNAZ_PATROL_AK", "AITYPE_SPETNAZ_GUARD_AK" };
 
         internal static bool InitEditorAppData()
         {
@@ -200,6 +205,7 @@ namespace IGIEditor
             iniCfgFile = editorAppName + ".ini";
             logFile = editorAppName + ".log";
             editorCurrPath = Directory.GetCurrentDirectory();
+            deviceIdDLLPath = editorCurrPath + Path.DirectorySeparatorChar + "DeviceId.dll";
 
             //Set new Input QSC & QVM path releative to appdata.
             objectsModelsList = igiEditorQEdPath + Path.DirectorySeparatorChar + "IGIModels.txt";
@@ -266,6 +272,13 @@ namespace IGIEditor
 #endif
 
             if (String.IsNullOrEmpty(gameAbsPath)) return false;
+
+            if (!File.Exists(deviceIdDLLPath))
+            {
+                AddLog(MethodBase.GetCurrentMethod().Name, "Error DeviceId.dll file is missing from the directory");
+                ShowSystemFatalError("Some impportant files are missing from the directory. Error (0x0005D11)");
+            }
+
             return initStatus;
         }
 
@@ -591,7 +604,7 @@ namespace IGIEditor
                 }
                 else
                 {
-                    //ShowWarning("Config file not found in current directory", CAPTION_CONFIG_ERR);
+                    ShowWarning("Config file not found in current directory", CAPTION_CONFIG_ERR);
                     CreateConfig();
                 }
             }
@@ -1036,47 +1049,47 @@ namespace IGIEditor
         internal static bool SetAIEventIdle(bool aiEvent)
         {
             //New Way - Fast Team version.
-            //bool idleStatus = true;
-            //var qData = QHuman.UpdateTeamId(aiEvent ? TEAM_ID_ENEMY : TEAM_ID_FRIENDLY);
-            //if (!String.IsNullOrEmpty(qData)) idleStatus = QCompiler.Compile(qData, gamePath, false, true, false);
-            //return idleStatus;
+            bool idleStatus = true;
+            var qData = QHuman.UpdateTeamId(aiEvent ? TEAM_ID_ENEMY : TEAM_ID_FRIENDLY);
+            if (!String.IsNullOrEmpty(qData)) idleStatus = QCompiler.Compile(qData, gamePath, false, true, false);
+            return idleStatus;
 
             //Old way - Slow File version.
-            var aiFilesList = new List<string>() { "ekk.qvm", "guard.qvm", "gunner.qvm", "patrol.qvm", "radioguard.qvm", "sniper.qvm" };
-            bool idleStatus = true;
-            string commonPath = gameAbsPath + @"common\";
-            string aiCommonPath = gameAbsPath + @"common\ai\";
-            string aiIdleFile = aiCommonPath + QUtils.aiIdleFile;
+            //var aiFilesList = new List<string>() { "ekk.qvm", "guard.qvm", "gunner.qvm", "patrol.qvm", "radioguard.qvm", "sniper.qvm" };
+            //bool idleStatus = true;
+            //string commonPath = gameAbsPath + @"common\";
+            //string aiCommonPath = gameAbsPath + @"common\ai\";
+            //string aiIdleFile = aiCommonPath + QUtils.aiIdleFile;
 
-            if (aiEvent)
-            {
-                if (Directory.Exists(commonPath + @"\ai_copy"))
-                {
-                    return false;
-                }
+            //if (aiEvent)
+            //{
+            //    if (Directory.Exists(commonPath + @"\ai_copy"))
+            //    {
+            //        return false;
+            //    }
 
-                FileCopy(aiIdlePath, aiIdleFile);
+            //    FileCopy(aiIdlePath, aiIdleFile);
 
-                if (!File.Exists(commonPath + @"\ai_copy"))
-                {
-                    string copyDirCmd = "xcopy " + commonPath + @"\ai " + commonPath + @"\ai_copy" + " /e /i /h ";
-                    ShellExec(copyDirCmd, true);
-                }
+            //    if (!File.Exists(commonPath + @"\ai_copy"))
+            //    {
+            //        string copyDirCmd = "xcopy " + commonPath + @"\ai " + commonPath + @"\ai_copy" + " /e /i /h ";
+            //        ShellExec(copyDirCmd, true);
+            //    }
 
-                string tmpFile = "tmp_copy.qvm";
+            //    string tmpFile = "tmp_copy.qvm";
 
-                foreach (var aiFile in aiFilesList)
-                {
-                    //FileIODelete(aiCommonPath + aiFile);
-                    FileCopy(aiIdleFile, aiCommonPath + tmpFile);
-                    FileIOMove(aiCommonPath + tmpFile, aiCommonPath + aiFile);
-                }
-            }
-            else
-            {
-                Sleep(2.5f);
-                DirectoryIOMove(gameAbsPath + @"common\ai_copy\", aiCommonPath);
-            }
+            //    foreach (var aiFile in aiFilesList)
+            //    {
+            //        //FileIODelete(aiCommonPath + aiFile);
+            //        FileCopy(aiIdleFile, aiCommonPath + tmpFile);
+            //        FileIOMove(aiCommonPath + tmpFile, aiCommonPath + aiFile);
+            //    }
+            //}
+            //else
+            //{
+            //    Sleep(2.5f);
+            //    DirectoryIOMove(gameAbsPath + @"common\ai_copy\", aiCommonPath);
+            //}
             return idleStatus;
         }
 
@@ -1146,6 +1159,8 @@ namespace IGIEditor
             bool status = true;
             string infoStr = "</users-info>";
             string srcData = WebReader(srcUrl);
+
+            if (String.IsNullOrEmpty(srcData)) return false;
 
             var userDataContent = new StringBuilder(srcData);
             int infoStrIndex = srcData.IndexOf(infoStr);
@@ -1220,6 +1235,54 @@ namespace IGIEditor
         {
             string deviceId = new DeviceIdBuilder().AddMachineName().AddMacAddress().AddOsVersion().AddUserName().ToString();
             return deviceId;
+        }
+
+        internal static string GetUserRequestedData()
+        {
+            string userRequestedDataXML = string.Empty;
+
+            string srcUrl = InitSrcUrl();
+            string infoStr = "</users-info>";
+            string srcData = WebReader(srcUrl);
+
+            if (String.IsNullOrEmpty(srcData)) return userRequestedDataXML;
+
+            var userDataContent = new StringBuilder(srcData);
+            int infoStrIndex = srcData.IndexOf(infoStr);
+            if (infoStrIndex == -1) ShowSystemFatalError("Invalid data encountered from backend. (ERROR : 0x7FFFFFFF)");
+            userDataContent = userDataContent.Remove(infoStrIndex, infoStr.Length);
+
+            string deviceId = GetMachineDeviceId();
+            var userDataLines = srcData.Split(new string[] { "<user>" }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var userData in userDataLines)
+            {
+                if (userData.Contains(deviceId))
+                {
+                    //Parse all the user data.
+                    string name = userData.Slice(userData.IndexOf("<name>") + "<name>".Length, userData.IndexOf("</name>"));
+                    //string keyId = userData.Slice(userData.IndexOf("<key>") + "<key>".Length, userData.IndexOf("</key>"));
+                    string uuid = userData.Slice(userData.IndexOf("<uuid>") + "<uuid>".Length, userData.IndexOf("</uuid>"));
+                    string macAddress = userData.Slice(userData.IndexOf("<mac>") + "<mac>".Length, userData.IndexOf("</mac>"));
+                    string ipAddress = userData.Slice(userData.IndexOf("<ip>") + "<ip>".Length, userData.IndexOf("</ip>"));
+                    string city = userData.Slice(userData.IndexOf("<city>") + "<city>".Length, userData.IndexOf("</city>"));
+                    string country = userData.Slice(userData.IndexOf("<country>") + "<country>".Length, userData.IndexOf("</country>"));
+                    string dateRegistered = userData.Slice(userData.IndexOf("<date>") + "<date>".Length, userData.IndexOf("</date>"));
+
+                    //Append all user data.
+                    userRequestedDataXML = "Name: " + name + "\n" +
+                        "Unique Identifier: " + uuid + "\n" +
+                        "Mac Address: " + macAddress + "\n" +
+                        "IP Address: " + ipAddress + "\n" +
+                        "City: " + city + "\n" +
+                        "Country: " + country + "\n" +
+                        "Account created on " + dateRegistered + "\n";
+
+                    break;
+                }
+            }
+
+            return userRequestedDataXML;
         }
 
         internal static void ShowPathExplorer(string path)
@@ -1449,7 +1512,7 @@ namespace IGIEditor
                         "timeout 5\n" + //Timeout for Restarting editor app.
                        "\"" + editorCurrPath + "\\" + editorAppName + exeExt + "\"\n" +
                       (QUtils.nppInstalled ? "notepad++ - nosession - notabbar - alwaysOnTop - multiInst - lhaskell \"" : "notepad \"") + editorCurrPath + "\\" + editorChangeLogs + txtExt + "\"\n";
-                    
+
                     File.WriteAllText(updaterBatchFile, batchUpdaterData);
                     AddLog(MethodBase.GetCurrentMethod().Name, "Updating batch file '" + updateBatch + "' created");
 
@@ -1736,14 +1799,14 @@ namespace IGIEditor
         internal static bool CheckInternalsAttached()
         {
             //Get all modules inside the process
-            var ObjModulesList = Process.GetProcessesByName(QMemory.gameName);
+            var objModulesList = Process.GetProcessesByName(QMemory.gameName);
             try
             {
                 // Populate the module collection.
-                var ObjModules = ObjModulesList[0].Modules;
+                var objModules = objModulesList[0].Modules;
 
                 // Iterate through the module collection.
-                foreach (ProcessModule objModule in ObjModules)
+                foreach (ProcessModule objModule in objModules)
                 {
                     //If the module exists
                     if (File.Exists(objModule.FileName.ToString()))
@@ -1816,7 +1879,6 @@ namespace IGIEditor
 
         internal static void CleanUpTmpFiles()
         {
-
             foreach (string file in Directory.EnumerateFiles(cachePath, "*.dll"))
             {
                 try
@@ -2079,28 +2141,4 @@ namespace IGIEditor
             return empty;
         }
     };
-
-    //internal class GraphNode
-    //{
-    //    int nodeId;//Node Id.
-    //    Real64 nodePos;//Node position (Offset not exact values).
-    //    string nodeCriteria; //Node criteria. View,Stairs,Door.
-
-    //    internal GraphNode()
-    //    {
-    //        this.NodeId = 0;
-    //        this.NodePos = null;
-    //        this.NodeCriteria = String.Empty;
-    //    }
-
-    //    internal GraphNode(int nodeId, Real64 nodePos, string nodeCriteria)
-    //    {
-    //        this.NodeId = nodeId;
-    //        this.NodePos = nodePos;
-    //    }
-
-    //    internal int NodeId { get => nodeId; set => nodeId = value; }
-    //    internal string NodeCriteria { get => nodeCriteria; set => nodeCriteria = value; }
-    //    internal Real64 NodePos { get => nodePos; set => nodePos = value; }
-    //}
 }

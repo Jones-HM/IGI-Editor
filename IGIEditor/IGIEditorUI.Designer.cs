@@ -46,7 +46,7 @@
             this.gameIconBtn = new System.Windows.Forms.Button();
             this.restartLevel = new System.Windows.Forms.Button();
             this.refreshGame = new System.Windows.Forms.Button();
-            this.headerLbl = new System.Windows.Forms.Label();
+            this.licensedToLbl = new System.Windows.Forms.Label();
             this.posTypeLbl = new System.Windows.Forms.Label();
             this.startGameBtn = new System.Windows.Forms.Button();
             this.xPosLbl = new System.Windows.Forms.Label();
@@ -68,6 +68,9 @@
             this.addObjectBtn = new System.Windows.Forms.Button();
             this.addBuildingBtn = new System.Windows.Forms.Button();
             this.objectEditor = new System.Windows.Forms.TabPage();
+            this.modelIdOutLbl = new System.Windows.Forms.Label();
+            this.modelNameTxt = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.buildingsResetTxt = new System.Windows.Forms.NumericUpDown();
             this.objectsResetTxt = new System.Windows.Forms.NumericUpDown();
             this.buildingsRemoveTxt = new System.Windows.Forms.NumericUpDown();
@@ -271,6 +274,7 @@
             this.framesTxt = new System.Windows.Forms.NumericUpDown();
             this.minutesLbl = new System.Windows.Forms.Label();
             this.gamePathBtn = new System.Windows.Forms.Button();
+            this.requestDataBtn = new System.Windows.Forms.Button();
             this.editorUpdaterBtn = new System.Windows.Forms.Button();
             this.gameSettingsLbl = new System.Windows.Forms.Label();
             this.appSettingLbl = new System.Windows.Forms.Label();
@@ -313,7 +317,7 @@
             this.devFileSizeTxt = new System.Windows.Forms.TextBox();
             this.devVersionTxt = new System.Windows.Forms.TextBox();
             this.createUpdateBtn = new System.Windows.Forms.Button();
-            this.helpBtn = new System.Windows.Forms.Label();
+            this.aboutBtn = new System.Windows.Forms.Label();
             this.minimizeBtn = new System.Windows.Forms.Label();
             this.closeBtn = new System.Windows.Forms.Label();
             this.versionLbl = new System.Windows.Forms.Label();
@@ -323,9 +327,7 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.gameLogoLbl = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.modelIdOutLbl = new System.Windows.Forms.Label();
-            this.modelNameTxt = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.gameProfileLbl = new System.Windows.Forms.Label();
             this.editorMainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -379,6 +381,7 @@
             // 
             this.editorMainPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.editorMainPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.editorMainPanel.Controls.Add(this.gameProfileLbl);
             this.editorMainPanel.Controls.Add(this.compilerTypeLbl);
             this.editorMainPanel.Controls.Add(this.internalsStatusLbl);
             this.editorMainPanel.Controls.Add(this.internalsLbl);
@@ -394,7 +397,7 @@
             this.editorMainPanel.Controls.Add(this.gameIconBtn);
             this.editorMainPanel.Controls.Add(this.restartLevel);
             this.editorMainPanel.Controls.Add(this.refreshGame);
-            this.editorMainPanel.Controls.Add(this.headerLbl);
+            this.editorMainPanel.Controls.Add(this.licensedToLbl);
             this.editorMainPanel.Controls.Add(this.posTypeLbl);
             this.editorMainPanel.Controls.Add(this.startGameBtn);
             this.editorMainPanel.Controls.Add(this.xPosLbl);
@@ -406,7 +409,7 @@
             this.editorMainPanel.Controls.Add(this.yPosLbl_M);
             this.editorMainPanel.Controls.Add(this.xPosLbl_M);
             this.editorMainPanel.Controls.Add(this.editorTabs);
-            this.editorMainPanel.Controls.Add(this.helpBtn);
+            this.editorMainPanel.Controls.Add(this.aboutBtn);
             this.editorMainPanel.Controls.Add(this.minimizeBtn);
             this.editorMainPanel.Controls.Add(this.closeBtn);
             this.editorMainPanel.Controls.Add(this.versionLbl);
@@ -606,7 +609,7 @@
             this.gameIconBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.gameIconBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.gameIconBtn.ForeColor = System.Drawing.Color.Transparent;
-            this.gameIconBtn.Location = new System.Drawing.Point(905, 28);
+            this.gameIconBtn.Location = new System.Drawing.Point(905, 16);
             this.gameIconBtn.Margin = new System.Windows.Forms.Padding(4);
             this.gameIconBtn.Name = "gameIconBtn";
             this.gameIconBtn.Size = new System.Drawing.Size(52, 46);
@@ -642,17 +645,17 @@
             this.refreshGame.UseVisualStyleBackColor = true;
             this.refreshGame.Click += new System.EventHandler(this.refreshGame_Click);
             // 
-            // headerLbl
+            // licensedToLbl
             // 
-            this.headerLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.headerLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.headerLbl.Location = new System.Drawing.Point(434, 40);
-            this.headerLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.headerLbl.Name = "headerLbl";
-            this.headerLbl.Size = new System.Drawing.Size(399, 33);
-            this.headerLbl.TabIndex = 25;
-            this.headerLbl.Text = "Licenced to ";
-            this.headerLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.licensedToLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.licensedToLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.licensedToLbl.Location = new System.Drawing.Point(434, 27);
+            this.licensedToLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.licensedToLbl.Name = "licensedToLbl";
+            this.licensedToLbl.Size = new System.Drawing.Size(399, 33);
+            this.licensedToLbl.TabIndex = 25;
+            this.licensedToLbl.Text = "Licensed to ";
+            this.licensedToLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // posTypeLbl
             // 
@@ -957,6 +960,45 @@
             this.objectEditor.Size = new System.Drawing.Size(1137, 387);
             this.objectEditor.TabIndex = 0;
             this.objectEditor.Text = "Object Editor";
+            // 
+            // modelIdOutLbl
+            // 
+            this.modelIdOutLbl.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modelIdOutLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.modelIdOutLbl.Location = new System.Drawing.Point(377, 109);
+            this.modelIdOutLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.modelIdOutLbl.Name = "modelIdOutLbl";
+            this.modelIdOutLbl.Size = new System.Drawing.Size(289, 33);
+            this.modelIdOutLbl.TabIndex = 52;
+            this.modelIdOutLbl.Text = "Model Id";
+            this.modelIdOutLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // modelNameTxt
+            // 
+            this.modelNameTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.modelNameTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.modelNameTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.modelNameTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.modelNameTxt.Location = new System.Drawing.Point(158, 109);
+            this.modelNameTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.modelNameTxt.Name = "modelNameTxt";
+            this.modelNameTxt.Size = new System.Drawing.Size(208, 30);
+            this.modelNameTxt.TabIndex = 51;
+            this.modelNameTxt.Text = "WaterTower";
+            this.infoViewer.SetToolTip(this.modelNameTxt, "Model id of object like 435_01_1 for WaterTower");
+            this.modelNameTxt.TextChanged += new System.EventHandler(this.modelNameTxt_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.Font = new System.Drawing.Font("Century Gothic", 10F);
+            this.label3.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.label3.Location = new System.Drawing.Point(8, 108);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(142, 33);
+            this.label3.TabIndex = 50;
+            this.label3.Text = "Model Name";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // buildingsResetTxt
             // 
@@ -2599,36 +2641,39 @@
             // 
             // missionLevelLbl
             // 
+            this.missionLevelLbl.AutoSize = true;
             this.missionLevelLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.missionLevelLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.missionLevelLbl.Location = new System.Drawing.Point(397, 257);
+            this.missionLevelLbl.Location = new System.Drawing.Point(447, 257);
             this.missionLevelLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.missionLevelLbl.Name = "missionLevelLbl";
-            this.missionLevelLbl.Size = new System.Drawing.Size(104, 33);
+            this.missionLevelLbl.Size = new System.Drawing.Size(59, 22);
             this.missionLevelLbl.TabIndex = 81;
             this.missionLevelLbl.Text = "Level";
             this.missionLevelLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // missionAuthorLbl
             // 
+            this.missionAuthorLbl.AutoSize = true;
             this.missionAuthorLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.missionAuthorLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.missionAuthorLbl.Location = new System.Drawing.Point(522, 257);
+            this.missionAuthorLbl.Location = new System.Drawing.Point(225, 257);
             this.missionAuthorLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.missionAuthorLbl.Name = "missionAuthorLbl";
-            this.missionAuthorLbl.Size = new System.Drawing.Size(258, 33);
+            this.missionAuthorLbl.Size = new System.Drawing.Size(84, 22);
             this.missionAuthorLbl.TabIndex = 80;
             this.missionAuthorLbl.Text = "Author: ";
             this.missionAuthorLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // missionSizeLbl
             // 
+            this.missionSizeLbl.AutoSize = true;
             this.missionSizeLbl.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.missionSizeLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.missionSizeLbl.Location = new System.Drawing.Point(222, 257);
+            this.missionSizeLbl.Location = new System.Drawing.Point(527, 257);
             this.missionSizeLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.missionSizeLbl.Name = "missionSizeLbl";
-            this.missionSizeLbl.Size = new System.Drawing.Size(191, 33);
+            this.missionSizeLbl.Size = new System.Drawing.Size(49, 21);
             this.missionSizeLbl.TabIndex = 79;
             this.missionSizeLbl.Text = "Size: ";
             this.missionSizeLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3858,6 +3903,7 @@
             this.miscEditor.Controls.Add(this.framesTxt);
             this.miscEditor.Controls.Add(this.minutesLbl);
             this.miscEditor.Controls.Add(this.gamePathBtn);
+            this.miscEditor.Controls.Add(this.requestDataBtn);
             this.miscEditor.Controls.Add(this.editorUpdaterBtn);
             this.miscEditor.Controls.Add(this.gameSettingsLbl);
             this.miscEditor.Controls.Add(this.appSettingLbl);
@@ -3967,7 +4013,7 @@
             // 
             this.gamePathBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.gamePathBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.gamePathBtn.ForeColor = System.Drawing.Color.Tomato;
+            this.gamePathBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.gamePathBtn.Location = new System.Drawing.Point(267, 262);
             this.gamePathBtn.Margin = new System.Windows.Forms.Padding(4);
             this.gamePathBtn.Name = "gamePathBtn";
@@ -3978,11 +4024,26 @@
             this.gamePathBtn.Click += new System.EventHandler(this.gamePathBtn_Click);
             this.gamePathBtn.MouseEnter += new System.EventHandler(this.editorUpdaterBtn_MouseEnter);
             // 
+            // requestDataBtn
+            // 
+            this.requestDataBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.requestDataBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.requestDataBtn.ForeColor = System.Drawing.Color.Tomato;
+            this.requestDataBtn.Location = new System.Drawing.Point(267, 307);
+            this.requestDataBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.requestDataBtn.Name = "requestDataBtn";
+            this.requestDataBtn.Size = new System.Drawing.Size(190, 38);
+            this.requestDataBtn.TabIndex = 41;
+            this.requestDataBtn.Text = "Request User Data";
+            this.requestDataBtn.UseVisualStyleBackColor = true;
+            this.requestDataBtn.Click += new System.EventHandler(this.requestDataBtn_Click);
+            this.requestDataBtn.MouseEnter += new System.EventHandler(this.editorUpdaterBtn_MouseEnter);
+            // 
             // editorUpdaterBtn
             // 
             this.editorUpdaterBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.editorUpdaterBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.editorUpdaterBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.editorUpdaterBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.editorUpdaterBtn.Location = new System.Drawing.Point(267, 214);
             this.editorUpdaterBtn.Margin = new System.Windows.Forms.Padding(4);
             this.editorUpdaterBtn.Name = "editorUpdaterBtn";
@@ -4561,24 +4622,26 @@
             this.createUpdateBtn.UseVisualStyleBackColor = true;
             this.createUpdateBtn.Click += new System.EventHandler(this.createUpdateBtn_Click);
             // 
-            // helpBtn
+            // aboutBtn
             // 
-            this.helpBtn.Font = new System.Drawing.Font("Century Gothic", 15F, System.Drawing.FontStyle.Bold);
-            this.helpBtn.ForeColor = System.Drawing.Color.White;
-            this.helpBtn.Location = new System.Drawing.Point(974, 16);
-            this.helpBtn.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.helpBtn.Name = "helpBtn";
-            this.helpBtn.Size = new System.Drawing.Size(52, 46);
-            this.helpBtn.TabIndex = 5;
-            this.helpBtn.Text = "?";
-            this.helpBtn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.helpBtn.Click += new System.EventHandler(this.helpBtn_Click);
+            this.aboutBtn.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.aboutBtn.Font = new System.Drawing.Font("Century Gothic", 15F, System.Drawing.FontStyle.Bold);
+            this.aboutBtn.ForeColor = System.Drawing.Color.White;
+            this.aboutBtn.Location = new System.Drawing.Point(974, 16);
+            this.aboutBtn.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.aboutBtn.Name = "aboutBtn";
+            this.aboutBtn.Size = new System.Drawing.Size(52, 46);
+            this.aboutBtn.TabIndex = 5;
+            this.aboutBtn.Text = "?";
+            this.aboutBtn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.aboutBtn.Click += new System.EventHandler(this.aboutBtn_Click);
             // 
             // minimizeBtn
             // 
+            this.minimizeBtn.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.minimizeBtn.Font = new System.Drawing.Font("Century Gothic", 15F, System.Drawing.FontStyle.Bold);
             this.minimizeBtn.ForeColor = System.Drawing.Color.White;
-            this.minimizeBtn.Location = new System.Drawing.Point(1033, 12);
+            this.minimizeBtn.Location = new System.Drawing.Point(1034, 16);
             this.minimizeBtn.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.minimizeBtn.Name = "minimizeBtn";
             this.minimizeBtn.Size = new System.Drawing.Size(52, 46);
@@ -4589,9 +4652,10 @@
             // 
             // closeBtn
             // 
+            this.closeBtn.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.closeBtn.Font = new System.Drawing.Font("Century Gothic", 15F);
             this.closeBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.closeBtn.Location = new System.Drawing.Point(1091, 12);
+            this.closeBtn.Location = new System.Drawing.Point(1093, 16);
             this.closeBtn.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.closeBtn.Name = "closeBtn";
             this.closeBtn.Size = new System.Drawing.Size(52, 46);
@@ -4670,44 +4734,17 @@
             this.gameLogoLbl.TabIndex = 0;
             this.gameLogoLbl.Text = "IGI 1";
             // 
-            // modelIdOutLbl
+            // gameProfileLbl
             // 
-            this.modelIdOutLbl.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.modelIdOutLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.modelIdOutLbl.Location = new System.Drawing.Point(377, 109);
-            this.modelIdOutLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.modelIdOutLbl.Name = "modelIdOutLbl";
-            this.modelIdOutLbl.Size = new System.Drawing.Size(289, 33);
-            this.modelIdOutLbl.TabIndex = 52;
-            this.modelIdOutLbl.Text = "Model Name";
-            this.modelIdOutLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // modelNameTxt
-            // 
-            this.modelNameTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.modelNameTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.modelNameTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.modelNameTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.modelNameTxt.Location = new System.Drawing.Point(158, 109);
-            this.modelNameTxt.Margin = new System.Windows.Forms.Padding(4);
-            this.modelNameTxt.Name = "modelNameTxt";
-            this.modelNameTxt.Size = new System.Drawing.Size(208, 30);
-            this.modelNameTxt.TabIndex = 51;
-            this.modelNameTxt.Text = "WaterTower";
-            this.infoViewer.SetToolTip(this.modelNameTxt, "Model id of object like 435_01_1 for WaterTower");
-            this.modelNameTxt.TextChanged += new System.EventHandler(this.modelNameTxt_TextChanged);
-            // 
-            // label3
-            // 
-            this.label3.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.label3.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.label3.Location = new System.Drawing.Point(8, 108);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(142, 33);
-            this.label3.TabIndex = 50;
-            this.label3.Text = "Model Name";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.gameProfileLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.gameProfileLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.gameProfileLbl.Location = new System.Drawing.Point(434, 62);
+            this.gameProfileLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.gameProfileLbl.Name = "gameProfileLbl";
+            this.gameProfileLbl.Size = new System.Drawing.Size(399, 33);
+            this.gameProfileLbl.TabIndex = 48;
+            this.gameProfileLbl.Text = "Game Profile";
+            this.gameProfileLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // IGIEditorUI
             // 
@@ -4786,8 +4823,6 @@
         #endregion
 
         private System.Windows.Forms.Panel editorMainPanel;
-        private System.Windows.Forms.Label minimizeBtn;
-        private System.Windows.Forms.Label closeBtn;
         private System.Windows.Forms.Label versionLbl;
         private System.Windows.Forms.Label editorLogoLbl;
         private System.Windows.Forms.Panel formMoverPanel;
@@ -4833,7 +4868,7 @@
         private System.Windows.Forms.Button removeWeaponBtn;
         private System.Windows.Forms.Label weaponNameLbl;
         private System.Windows.Forms.Button addWeaponBtn;
-        private System.Windows.Forms.Label headerLbl;
+        private System.Windows.Forms.Label licensedToLbl;
         private System.Windows.Forms.Button installMissionBtn;
         private System.Windows.Forms.TextBox missionDescTxt;
         private System.Windows.Forms.Label missionDescLbl;
@@ -4857,7 +4892,6 @@
         private System.Windows.Forms.CheckBox jsonCb;
         private System.Windows.Forms.CheckBox csvCb;
         private System.Windows.Forms.Button clearCacheBtn;
-        private System.Windows.Forms.Label helpBtn;
         private System.Windows.Forms.Button clearAllLvlBtn;
         private System.Windows.Forms.Button restartLevel;
         private System.Windows.Forms.Button compileBtn;
@@ -5081,6 +5115,11 @@
         private System.Windows.Forms.Label modelIdOutLbl;
         private System.Windows.Forms.TextBox modelNameTxt;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button requestDataBtn;
+        private System.Windows.Forms.Label aboutBtn;
+        private System.Windows.Forms.Label minimizeBtn;
+        private System.Windows.Forms.Label closeBtn;
+        private System.Windows.Forms.Label gameProfileLbl;
     }
 }
 

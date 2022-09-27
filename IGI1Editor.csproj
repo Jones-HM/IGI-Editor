@@ -120,8 +120,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DeviceId, Version=6.0.0.0, Culture=neutral, PublicKeyToken=f755c371b5c59c52, processorArchitecture=MSIL">
-      <HintPath>packages\DeviceId.6.0.0\lib\net40\DeviceId.dll</HintPath>
+    <Reference Include="DeviceId, Version=6.2.0.0, Culture=neutral, PublicKeyToken=f755c371b5c59c52, processorArchitecture=MSIL">
+      <HintPath>packages\DeviceId.6.2.0\lib\net40\DeviceId.dll</HintPath>
     </Reference>
     <Reference Include="Interop.IWshRuntimeLibrary">
       <HintPath>IGIEditor\Interop.IWshRuntimeLibrary.dll</HintPath>

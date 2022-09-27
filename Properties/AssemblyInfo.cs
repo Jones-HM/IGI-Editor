@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Haseeb Mir")]
 [assembly: AssemblyProduct("I.G.I 1 Editor A.I,Level,Missions,Graphs.")]
-[assembly: AssemblyCopyright("Copyright Haseeb Mir © 2021")]
-[assembly: AssemblyTrademark("Haseeb Mir © 2021")]
+[assembly: AssemblyCopyright("Copyright Haseeb Mir © 2022")]
+[assembly: AssemblyTrademark("Haseeb Mir © 2022")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.4.0.3")]
-[assembly: AssemblyFileVersion("0.4.0.3")]
+[assembly: AssemblyVersion("0.5.0.0")]
+[assembly: AssemblyFileVersion("0.5.0.0")]

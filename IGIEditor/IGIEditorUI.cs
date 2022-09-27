@@ -23,6 +23,7 @@ namespace IGIEditor
 {
     public partial class IGIEditorUI : Form
     {
+        #region variables
         //Variables section.
         private bool compileStatus = true;
         private List<QUtils.QScriptTask> qtaskList = new List<QUtils.QScriptTask>();
@@ -38,12 +39,15 @@ namespace IGIEditor
         private QServer.QMissionsData missionData;
         public delegate void EnableTimers(bool enable);
         private static FOpenIO fopenIO;
+        #endregion
 
+        #region timers
         static internal IGIEditorUI editorRef;
         BackgroundWorker graphNodesAddWorker, graphLinksAddWorker, graphTraverseWorker, nodesTraverseWorker, downloadMissionWorker, downloadUpdaterWorker, uploadMissionWorker, addAiSoldierWorker;
         Timer updateCheckerTimer = new Timer();
         Timer internalsAttachTimer = new Timer();
         Timer levelRunTimer = new Timer();
+        #endregion
 
         //Main-Start - Ctr.
         public IGIEditorUI()
@@ -85,7 +89,7 @@ namespace IGIEditor
                 editorTabs.TabPages.RemoveByKey("devMode");
                 gameItemsLbl.Visible = false;
 #endif
-
+                #region Timers
                 //Start Position timer.
                 updatePositionTimer.Tick += new EventHandler(UpdatePositionTimer);
                 updatePositionTimer.Interval = 500;
@@ -104,7 +108,9 @@ namespace IGIEditor
 
                 //Update checker timer.
                 updateCheckerTimer.Tick += new EventHandler(UpdateCheckerTimer);
+                #endregion
 
+                #region WorkerThreads
 #if DEV_MODE
 #else
                 //Adding Background Worker threads
@@ -129,6 +135,7 @@ namespace IGIEditor
                 //Thread Support Cancellation
                 graphTraverseWorker.WorkerSupportsCancellation = nodesTraverseWorker.WorkerSupportsCancellation = true;
 #endif
+                #endregion
 
                 //Disabling Errors and Warnings.
                 GT.GT_SuppressErrors(true);
@@ -140,12 +147,6 @@ namespace IGIEditor
                 //Initialize application data and paths.
                 InitEditorApp();
                 InitEditorPaths(gameLevel);
-
-                //FileInegrity.GenerateDirHashes(new List<string> { QUtils.cfgAiPath, QUtils.cfgQFilesPath, QUtils.cfgVoidPath });
-                //QUtils.ShowInfo("Hashes generated");
-
-                //QCryptor.Encrypt(QUtils.internalDllPath);
-                //return;
 
                 if (QMemory.FindGame())
                 {
@@ -172,9 +173,6 @@ namespace IGIEditor
                 if (!File.Exists(QUtils.objectsQsc) && File.Exists(inputQscPath))
                 {
                     QUtils.FileCopy(inputQscPath, QUtils.objectsQsc);
-
-                    //Decrypt data onLoad.
-                    //QCryptor.Decrypt(QUtils.objectsQsc, null);
                 }
                 else if (!File.Exists(inputQscPath)) throw new Exception("File 'objects.qsc' is missing from path '" + QUtils.cfgQscPath + gameLevel + "\\'");
 
@@ -183,7 +181,7 @@ namespace IGIEditor
                 if (appLogs)
                 {
                     QUtils.EnableLogs();
-                    GT.GT_EnableLogs();
+                    //GT.GT_EnableLogs(); //Disabling Library logs as they are increasing huge in size.
                 }
 
                 //Get current level selected.
@@ -192,14 +190,11 @@ namespace IGIEditor
                     gameLevel = QMemory.GetRunningLevel();
                     if (gameLevel <= 0 || gameLevel > GAME_MAX_LEVEL) gameLevel = 1;
                     levelStartTxt.Text = gameLevel.ToString();
-                    SetStatusText("Game running...");
+                    SetStatusText("Game is running...");
                     LoadLevelDetails(gameLevel);
-                    //#if DEBUG
-                    //                    QMemory.UpdateHumanHealth(false);
-                    //#endif
                 }
                 else
-                    SetStatusText("Game not running...");
+                    SetStatusText("Game is not running...");
 
                 //Init Dropdown,List UI components.
                 InitUIComponents(gameLevel);
@@ -231,7 +226,6 @@ namespace IGIEditor
                 enableTimers(true);
                 //Delete previous Updater from Cache.
                 QUtils.DirectoryIODelete(QUtils.editorUpdaterAbsDir);
-
             }
             catch (Exception ex)
             {
@@ -503,6 +497,9 @@ namespace IGIEditor
             if (internalsAttached)
             {
                 SetInternalsStatus(true);
+
+                //Load game data after internals.
+                LoadGameProfile();
             }
             else
             {
@@ -940,6 +937,7 @@ namespace IGIEditor
             {
                 qIniParser = new QIniParser(iniCfgFile);
                 QUtils.gameAbsPath = qIniParser.Read("game_path", PATH_SEC);
+                QUtils.editorOnline = QUtils.IsNetworkAvailable();
 
                 //Initialize app data for QEditor.
                 var status = QUtils.InitEditorAppData();
@@ -951,26 +949,35 @@ namespace IGIEditor
                 string deviceKey = QUtils.GetMachineDeviceId();
                 string inputKey = null, welcomeMsg = "Welcome " + userName + " to IGI 1 Editor";
 
-                bool initUser;
+                bool initUser = false;
                 //Check if user key exist.
                 keyFileExist = File.Exists(keyFileAbsPath);
 
                 //Initialize user info - Offline.
-                if (!editorOnline) initUser = true;
+                if (!QUtils.editorOnline)
+                {
+                    if (keyFileExist)
+                    {
+                        inputKey = File.ReadAllText(keyFileAbsPath);
+                        initUser = (inputKey == deviceKey);
+                        if (deviceKey != inputKey)
+                            QUtils.ShowSystemFatalError("Wrong key encountered! ERROR_INVALID_KEY_USAGE (Error : 0x0000000C)");
+                    }
+                }
 
                 //Initialize user info - Online.
                 else initUser = QUtils.InitUserInfo();
 
                 if (initUser)
                 {
-                    headerLbl.Text += " " + userName;
+                    licensedToLbl.Text += " " + userName;
                     SetStatusText(welcomeMsg);
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, welcomeMsg);
                 }
 
                 else
                 {
-                    QUtils.ShowSystemFatalError("Error occurred while initializing user data. (Error: SERVER_ERR)");
+                    QUtils.ShowError("Error occurred while initializing user data. (Error: SERVER_ERR)");
                 }
 
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Device Id Exist : " + QUtils.keyExist);
@@ -986,7 +993,7 @@ namespace IGIEditor
                 if (QUtils.keyFileExist && !QUtils.keyExist)
                 {
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "KeyFileExist : " + QUtils.keyFileExist + "\nkeyExist : " + QUtils.keyExist);
-                    QUtils.ShowSystemFatalError("No such user found in our database, ERROR_NO_USER_FOUND (0x525).");
+                    QUtils.ShowSystemFatalError("No such user found in our database, ERROR_NO_USER_FOUND (0x0000525).");
                 }
                 else
                 {
@@ -1016,6 +1023,7 @@ namespace IGIEditor
                     QUtils.gamePathSet = QUtils.ShowGamePathDialog() == DialogResult.OK;
                 else QUtils.gamePathSet = true;
 
+                //Start parsing data from Config file.
                 QUtils.ParseConfig();
 
                 //Initialize app data for QEditor.
@@ -1118,13 +1126,33 @@ namespace IGIEditor
             }
         }
 
-        public void LoadLevelDetails(int level)
+        private void LoadGameProfile()
+        {
+            try
+            {
+                if (!QUtils.gameProfileLoaded)
+                {
+                    string playerActiveName = QInternals.Player_ActiveName();
+                    string playerActiveMission = QInternals.Player_ActiveMission();
+
+                    string gameProfileText = "Gamer: " + playerActiveName + " Mission: " + playerActiveMission;
+                    gameProfileLbl.Text = gameProfileText;
+                    QUtils.gameProfileLoaded = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
+        }
+
+        private void LoadLevelDetails(int level)
         {
             try
             {
                 //load level Description.
                 levelNameLbl.Text = QMission.GetMissionInfo(level);
-                var imgPath = "mission_" + level + QUtils.jpgExt;
+                var imgPath = "mission_" + level + QUtils.pngExt;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
 
                 //Load level image from Cache.
@@ -1473,7 +1501,6 @@ namespace IGIEditor
                     }
                     QUtils.attachStatus = QUtils.CheckInternalsAttached();
                     if (!QUtils.attachStatus) QUtils.AttachInternals();
-
                     QUtils.graphAreas.Clear();
                 }
             }
@@ -1657,7 +1684,7 @@ namespace IGIEditor
                 weaponName = QUtils.weaponList[index].Keys.ElementAt(0);
                 //Weapon image paths.
                 //imgUrl = baseImgUrl + weaponsImgUrl[index];
-                imgPath = weaponName + QUtils.jpgExt;
+                imgPath = weaponName + QUtils.pngExt;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
 
                 //Load image from Cache.
@@ -1800,9 +1827,9 @@ namespace IGIEditor
             }
         }
 
-        private void helpBtn_Click(object sender, EventArgs e)
+        private void aboutBtn_Click(object sender, EventArgs e)
         {
-            QUtils.ShowInfo(QUtils.helpStr, "HELP");
+            QUtils.ShowInfo(QUtils.aboutStr, "ABOUT");
             string readmeCmd = (QUtils.nppInstalled ? "notepad++  -nosession -notabbar -alwaysOnTop -multiInst -lhaskell \"" : "notepad \"") + QUtils.editorCurrPath + "\\" + QUtils.editorReadme + txtExt + "\"";
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, readmeCmd);
             QUtils.ShellExec(readmeCmd);
@@ -2894,17 +2921,31 @@ namespace IGIEditor
 
         private void objectSelectDD_SelectedIndexChanged(object sender, EventArgs e)
         {
-#if DEV_MODE
-            var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
-            PopulateImageBox(objectRigidModel, objectImgBox);
+#if! DEV_MODE
+            try
+            {
+                var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
+                PopulateImageBox(objectRigidModel, objectImgBox);
+            }
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
 #endif
         }
 
         private void buildingSelectDD_SelectedIndexChanged(object sender, EventArgs e)
         {
-#if DEV_MODE
-            var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
-            PopulateImageBox(buildingModel, objectImgBox);
+#if !DEV_MODE
+            try
+            {
+                var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
+                PopulateImageBox(buildingModel, objectImgBox);
+            }
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
 #endif
         }
 
@@ -2960,8 +3001,6 @@ namespace IGIEditor
         {
             if (((CheckBox)sender).Checked)
             {
-                //QUtils.SetAIEventIdle(true);
-                //Thread.Sleep(3000);
                 QInternals.HumanFreeCam();
                 ((CheckBox)sender).Text = "Edit Mode";
                 ((CheckBox)sender).ForeColor = SpringGreen;
@@ -2971,8 +3010,6 @@ namespace IGIEditor
             {
                 GT.GT_SendKeyStroke("HOME");
                 QUtils.Sleep(0.5f);
-                //QUtils.SetAIEventIdle(false);
-                //QInternals.RestartLevel();
                 ((CheckBox)sender).Text = "Play Mode";
                 ((CheckBox)sender).ForeColor = Tomato;
                 QInternals.StatusMessageShow("Play mode enabled - Play level.");
@@ -2984,7 +3021,7 @@ namespace IGIEditor
         {
             if (((CheckBox)sender).Checked)
             {
-                QUtils.SetAIEventIdle(true);
+                bool status = QUtils.SetAIEventIdle(true);
                 SetStatusText("A.I Idle Mode Enabled");
             }
             else
@@ -4091,13 +4128,13 @@ namespace IGIEditor
                     weaponGroupFileTxt.Text = fileName;
                     string json = fopenIO.FileData;
                     var weaponsGroup = JsonConvert.DeserializeObject<List<WeaponGroup>>(json);
-                    
+
                     foreach (var weapon in weaponsGroup)
                     {
                         var weaponModel = QUtils.weaponId + weapon.Weapon;
                         int weaponAmmo = weapon.Ammo;
 
-                        qscData = QHuman.AddWeapon(weaponModel, weaponAmmo, true,true);
+                        qscData = QHuman.AddWeapon(weaponModel, weaponAmmo, true, true);
                         if (!String.IsNullOrEmpty(qscData))
                             QUtils.SaveFile(qscData);
                     }
@@ -4112,6 +4149,25 @@ namespace IGIEditor
             catch (Exception ex)
             {
                 QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
+        }
+
+        private void requestDataBtn_Click(object sender, EventArgs e)
+        {
+            string machineDeviceId = QUtils.GetMachineDeviceId();
+            string userDataReuquested = QUtils.GetUserRequestedData();
+            var inputDlgResult = DialogMsgBox.ShowBox("Enter your IGI license key to view data", "editorkey", MsgBoxButtons.YesNo, true, true);
+            if (inputDlgResult == DialogResult.Yes)
+            {
+                string inputKey = DialogMsgBox.GetInputBoxData();
+                if (machineDeviceId == inputKey)
+                {
+                    QUtils.ShowInfo(userDataReuquested);
+                }
+                else
+                {
+                    QUtils.ShowError("Invalid license key encountered. Please check your key and try again");
+                }
             }
         }
 
@@ -4233,10 +4289,6 @@ namespace IGIEditor
 
                 RefreshUIComponents(level);
                 QUtils.AttachInternals();
-
-                //#if DEBUG
-                //                QMemory.UpdateHumanHealth(false);
-                //#endif
             }
             catch (Exception ex)
             {
