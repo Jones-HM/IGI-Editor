@@ -65,8 +65,6 @@ namespace IGIEditor
                 QUtils.appEditorSubVersion = devVersionTxt.Text = ParseEditorVersion();
                 QUtils.shortcutExist = CheckShortcutExist();
 #if DEV_MODE
-                configLoadBtn.Visible = configSaveBtn.Visible = compileBtn.Visible = true;
-                compileBtn.Enabled = true;
                 appSupportBtn.Visible = true;
                 GAME_MAX_LEVEL = 14;
                 versionLbl.Text = "DEV";
@@ -238,7 +236,7 @@ namespace IGIEditor
             try
             {
                 string aiModelName = null, aiModelId = null, aiWeaponMode = null, aiType = null, aiWeaponModel = null;
-                int aiCount = 1, maxSpawns = 1;
+                int aiCount = 1, maxSpawns = 1, teamId = TEAM_ID_ENEMY;
 
                 Invoke((Action)(() =>
                 {
@@ -249,6 +247,7 @@ namespace IGIEditor
                     aiType = QUtils.aiTypes[aiTypeDD.SelectedIndex];
                     aiCount = Convert.ToInt32(aiCountTxt.Text);
                     maxSpawns = Convert.ToInt32(maxSpawnsTxt.Text);
+                    teamId = Convert.ToInt32(teamIdText.Text);
                 }));
 
                 //Set human A.I properties.
@@ -262,19 +261,19 @@ namespace IGIEditor
                 humanAi.maxSpawns = maxSpawns;
                 humanAi.invincible = aiInvincibleCb.Checked;
                 humanAi.advanceView = aiAdvanceViewCb.Checked;
-                humanAi.friendly = aiFriendlyCb.Checked;
+                humanAi.teamId = teamId;
 
                 string configOut = "";
-                configOut += "aiCount : " + humanAi.aiCount + "\n";
-                configOut += "aiType : " + humanAi.aiType + "\n";
-                configOut += "graphId : " + humanAi.graphId + "\n";
-                configOut += "weapon : " + humanAi.weapon + "\n";
-                configOut += "model : " + humanAi.model + "\n";
-                configOut += "friendly : " + humanAi.friendly + "\n";
-                configOut += "guardGenerator : " + humanAi.guardGenerator + "\n";
-                configOut += "maxSpawns : " + humanAi.maxSpawns + "\n";
-                configOut += "invincible : " + humanAi.invincible + "\n";
-                configOut += "advanceView : " + humanAi.advanceView + "\n";
+                configOut += "A.I Count : " + humanAi.aiCount + "\n";
+                configOut += "AI Type : " + humanAi.aiType + "\n";
+                configOut += "Graph Id : " + humanAi.graphId + "\n";
+                configOut += "Weapon : " + humanAi.weapon + "\n";
+                configOut += "Model : " + humanAi.model + "\n";
+                configOut += "Team Id : " + humanAi.teamId + "\n";
+                configOut += "Guard Generator : " + humanAi.guardGenerator + "\n";
+                configOut += "Spawns : " + humanAi.maxSpawns + "\n";
+                configOut += "Invincible : " + humanAi.invincible + "\n";
+                configOut += "Advance View : " + humanAi.advanceView + "\n";
 
                 var dlgResult = QUtils.ShowDialog("You are about to Add A.I confirm ?\n" + configOut);
 
@@ -681,7 +680,6 @@ namespace IGIEditor
                         graphWorkTotal = QUtils.graphdIdsMarked.Count;
                         foreach (var graphId in QUtils.graphdIdsMarked)
                         {
-                            //var objModel = "301_01_1";//QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
                             qscData += QGraphs.ShowGraphNodesVisual(graphId, GRAPH_VISUAL.OBJECTS, nodesInfoCb.Checked, objModel) + "\n";
                             graphWorkPercent = (int)Math.Round((double)(100 * graphWorkCount) / graphWorkTotal);
                             SetStatusText("Graph#" + graphId + " Nodes added, Completed " + graphWorkPercent + "%");
@@ -1152,7 +1150,7 @@ namespace IGIEditor
             {
                 //load level Description.
                 levelNameLbl.Text = QMission.GetMissionInfo(level);
-                var imgPath = "mission_" + level + QUtils.pngExt;
+                var imgPath = "mission_" + level + QUtils.jpgExt;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
 
                 //Load level image from Cache.
@@ -1263,6 +1261,17 @@ namespace IGIEditor
         {
             try
             {
+                var buildingName = QUtils.buildingList[buildingSelectDD.SelectedIndex].Keys.ElementAt(0);
+                var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
+                var buildingPos = QUtils.GetViewPortPos(); //QHuman.GetPositionInMeter();
+
+                if (liveEditorCb.Checked)
+                {
+                    QInternals.MEF_ModelRestore();
+                    SetStatusText("Buildiing " + buildingName + " restored successfully");
+                    return;
+                }
+
 #if !DEV_MODE
                 if (!editorModeCb.Checked)
                 {
@@ -1271,9 +1280,9 @@ namespace IGIEditor
                     else return;
                 }
 #endif
-                var buildingName = QUtils.buildingList[buildingSelectDD.SelectedIndex].Keys.ElementAt(0);
-                var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
-                var buildingPos = QUtils.GetViewPortPos(); //QHuman.GetPositionInMeter();
+
+
+
 
                 bool hasOrientation = String.IsNullOrEmpty(alphaTxt.Text) && String.IsNullOrEmpty(betaTxt.Text) && String.IsNullOrEmpty(gammaTxt.Text);
                 if (buildingPos.x != 0.0f || buildingPos.y != 0.0f)
@@ -1283,7 +1292,11 @@ namespace IGIEditor
                     string buildingInfoMsg = buildingName + " Model: " + buildingModel + " Added.";
                     QInternals.StatusMessageShow(buildingInfoMsg);
                 }
-                else SetStatusText("Error: Buildiing positions are invalid.");
+                else
+                {
+                    SetStatusText("Error: Buildiing positions are invalid.");
+                }
+
             }
             catch (Exception ex)
             {
@@ -1302,19 +1315,22 @@ namespace IGIEditor
             {
                 var buildingModel = QUtils.buildingList[buildingSelectDD.SelectedIndex].Values.ElementAt(0);
                 var buildingName = QUtils.buildingList[buildingSelectDD.SelectedIndex].Keys.ElementAt(0);
-                //QUtils.ShowInfo(buildingModel);
-                //GT.GT_WriteMemory((IntPtr)0x00401043, "string", buildingModel+'\0');
-                //Thread.Sleep(1000);
-                //GT.GT_SendKeyStroke("r", true, true, false);
-
-                //return;
 
                 if (String.IsNullOrEmpty(buildingModel)) return;
-                var qscData = QUtils.LoadFile();
-                qscData = QObjects.RemoveObject(qscData, buildingModel, true, false);
-                compileStatus = QCompiler.CompileEx(qscData);
-                if (compileStatus)
+
+                if (liveEditorCb.Checked)
+                {
+                    QInternals.MEF_ModelRemove(buildingModel);
                     SetStatusText("Buildiing " + buildingName + " removed successfully");
+                }
+                else
+                {
+                    var qscData = QUtils.LoadFile();
+                    qscData = QObjects.RemoveObject(qscData, buildingModel, true, false);
+                    compileStatus = QCompiler.CompileEx(qscData);
+                    if (compileStatus)
+                        SetStatusText("Buildiing " + buildingName + " removed successfully");
+                }
             }
             catch (Exception ex)
             {
@@ -1333,6 +1349,18 @@ namespace IGIEditor
         {
             try
             {
+                var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
+                var objectRigidName = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Keys.ElementAt(0);
+                var objectPos = QUtils.GetViewPortPos();//QHuman.GetPositionInMeter();
+                bool hasOrientation = String.IsNullOrEmpty(alphaTxt.Text) && String.IsNullOrEmpty(betaTxt.Text) && String.IsNullOrEmpty(gammaTxt.Text);
+
+                if (liveEditorCb.Checked)
+                {
+                    QInternals.MEF_ModelRestore();
+                    SetStatusText("Object " + objectRigidName + " restored successfully");
+                    return;
+                }
+
 #if !DEV_MODE
                 if (!editorModeCb.Checked)
                 {
@@ -1341,17 +1369,18 @@ namespace IGIEditor
                     else return;
                 }
 #endif
-                var objectRigidModel = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Values.ElementAt(0);
-                var objectRigidName = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Keys.ElementAt(0);
-                var objectPos = QUtils.GetViewPortPos();//QHuman.GetPositionInMeter();
-                bool hasOrientation = String.IsNullOrEmpty(alphaTxt.Text) && String.IsNullOrEmpty(betaTxt.Text) && String.IsNullOrEmpty(gammaTxt.Text);
+
 
                 if (objectPos.x != 0.0f || objectPos.y != 0.0f)
                 {
                     AddRigidObject(objectRigidModel, true, objectPos, !hasOrientation);
                     if (compileStatus) SetStatusText("Object " + objectRigidName + " added successfully");
                 }
-                else SetStatusText("Error: Object position is invalid.");
+                else
+                {
+                    SetStatusText("Error: Object position is invalid.");
+                }
+
 
             }
             catch (Exception ex)
@@ -1371,11 +1400,20 @@ namespace IGIEditor
                 var objectRigidName = QUtils.objectRigidList[objectSelectDD.SelectedIndex].Keys.ElementAt(0);
 
                 if (String.IsNullOrEmpty(objectRigidModel)) return;
-                var qscData = QUtils.LoadFile();
-                qscData = QObjects.RemoveObject(qscData, objectRigidModel, true, false);
-                compileStatus = QCompiler.CompileEx(qscData);
-                if (compileStatus)
+
+                if (liveEditorCb.Checked)
+                {
+                    QInternals.MEF_ModelRemove(objectRigidModel);
                     SetStatusText("Object " + objectRigidName + " removed successfully");
+                }
+                else
+                {
+                    var qscData = QUtils.LoadFile();
+                    qscData = QObjects.RemoveObject(qscData, objectRigidModel, true, false);
+                    compileStatus = QCompiler.CompileEx(qscData);
+                    if (compileStatus)
+                        SetStatusText("Object " + objectRigidName + " removed successfully");
+                }
             }
             catch (Exception ex)
             {
@@ -1684,7 +1722,7 @@ namespace IGIEditor
                 weaponName = QUtils.weaponList[index].Keys.ElementAt(0);
                 //Weapon image paths.
                 //imgUrl = baseImgUrl + weaponsImgUrl[index];
-                imgPath = weaponName + QUtils.pngExt;
+                imgPath = weaponName + QUtils.jpgExt;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
 
                 //Load image from Cache.
@@ -1793,6 +1831,7 @@ namespace IGIEditor
                 {
                     QUtils.DirectoryDelete(QUtils.cachePath);
                     SetStatusText("Application cache cleared.");
+                    CreateCacheDir();//Create empty cache directory after.
                 }
             }
         }
@@ -1852,15 +1891,9 @@ namespace IGIEditor
             {
                 try
                 {
-                    try
-                    {
-                        //UpdateUIComponent(buildingSelectDD, QUtils.buildingListStr);
-                        //UpdateUIComponent(objectSelectDD, QUtils.objectRigidListStr);
-                        //buildingSelectDD.SelectedIndex = objectSelectDD.SelectedIndex = 0;
-                    }
-                    catch (Exception) { }
+                    //Nothing to update at the moment.
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
             }
 
             //Object Editor
@@ -1955,12 +1988,31 @@ namespace IGIEditor
         {
             try
             {
-                var qscData = QUtils.LoadFile();
                 var itemsCount = Convert.ToInt32(objectsRemoveTxt.Text);
-                qscData = QObjects.RemoveAllObjects(qscData, false, true, itemsCount, true);
-                compileStatus = QCompiler.CompileEx(qscData);
-                if (compileStatus)
-                    SetStatusText(itemsCount + " Objects removed successfully");
+                int itemCount = 0;
+                if (liveEditorCb.Checked)
+                {
+                    foreach (var objectRigid in QUtils.objectRigidList)
+                    {
+                        string modelName = objectRigid.Keys.ElementAt(0);
+                        string modelId = objectRigid.Values.ElementAt(0);
+                        if (itemCount >= itemsCount) break;
+
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Object model " + modelName + "[" + modelId + "] removed via Live Editor");
+                        QInternals.MEF_ModelRemove(modelId);
+                        SetStatusText("Object " + modelName + " removed successfully");
+                        QUtils.Sleep(1f);
+                        itemCount++;
+                    }
+                }
+                else
+                {
+                    var qscData = QUtils.LoadFile();
+                    qscData = QObjects.RemoveAllObjects(qscData, false, true, itemsCount, true);
+                    compileStatus = QCompiler.CompileEx(qscData);
+                    if (compileStatus)
+                        SetStatusText(itemsCount + " Objects removed successfully");
+                }
             }
             catch (Exception ex)
             {
@@ -1972,12 +2024,35 @@ namespace IGIEditor
         {
             try
             {
-                var qscData = QUtils.LoadFile();
                 var itemsCount = Convert.ToInt32(buildingsRemoveTxt.Text);
-                qscData = QObjects.RemoveAllObjects(qscData, true, false, itemsCount, true);
-                compileStatus = QCompiler.CompileEx(qscData);
-                if (compileStatus)
-                    SetStatusText(itemsCount + " Buildings removed successfully");
+                int itemCount = 0;
+                if (liveEditorCb.Checked)
+                {
+                    foreach (var building in QUtils.buildingList)
+                    {
+                        string modelName = building.Keys.ElementAt(0);
+                        string modelId = building.Values.ElementAt(0);
+                        if (modelId == "472_01_1") continue;
+
+                        if (itemCount >= itemsCount) break;
+
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Building model " + modelName + "[" + modelId + "] removed via Live Editor");
+                        QInternals.MEF_ModelRemove(modelId);
+                        SetStatusText("Buildiing " + modelName + " removed successfully");
+                        QUtils.Sleep(1f);
+                        itemCount++;
+                    }
+                }
+
+                else
+                {
+                    var qscData = QUtils.LoadFile();
+
+                    qscData = QObjects.RemoveAllObjects(qscData, true, false, itemsCount, true);
+                    compileStatus = QCompiler.CompileEx(qscData);
+                    if (compileStatus)
+                        SetStatusText(itemsCount + " Buildings removed successfully");
+                }
             }
             catch (Exception ex)
             {
@@ -2025,6 +2100,12 @@ namespace IGIEditor
 
         private void resetBuildingsBtn_Click(object sender, EventArgs e)
         {
+            if (liveEditorCb.Checked)
+            {
+                QInternals.MEF_ModelRestore();
+                return;
+            }
+
             SetStatusText("Resetting please wait...");
             qtaskList = QTask.GetQTaskList(false, false, true);
             var qTaskListCount = qtaskList.Count();
@@ -2178,6 +2259,12 @@ namespace IGIEditor
 
         private void resetObjectsBtn_Click(object sender, EventArgs e)
         {
+            if (liveEditorCb.Checked)
+            {
+                QInternals.MEF_ModelRestore();
+                return;
+            }
+
             SetStatusText("Resetting please wait...");
             qtaskList = QTask.GetQTaskList(false, false, true);
             var qTaskListCount = qtaskList.Count();
@@ -2234,7 +2321,7 @@ namespace IGIEditor
                 var aiModelName = QAI.GetAiModelNamesList(gameLevel)[aiModelSelectDD.SelectedIndex];
                 var aiModelId = QAI.GetAiModelId4Name(aiModelName);
 
-                var imgPath = aiModelName + QUtils.pngExt;
+                var imgPath = aiModelName + QUtils.jpgExt;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
                 var aiModelQualifyName = aiModelName.Contains("_") ? aiModelName.Substring(0, aiModelName.IndexOf("_")) : aiModelName;
                 aiModelNameLbl.Text = aiModelQualifyName;
@@ -2254,7 +2341,7 @@ namespace IGIEditor
                 {
                     QUtils.ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Downloading resource please wait...");
                     //A.I image paths.
-                    var imgUrl = "/" + QServer.resourceDir + "/" + aiModelName + pngExt;
+                    var imgUrl = "/" + QServer.resourceDir + "/" + aiModelName + jpgExt;
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Downloading image resource: URL : " + imgUrl);
                     QServer.Download(imgUrl, imgPath, imgTmpPath);
                     aiImgBox.Refresh();
@@ -2328,15 +2415,28 @@ namespace IGIEditor
         {
             string nppCmd = (QUtils.nppInstalled) ? "notepad++ -titleAdd=\"IGI Editor Logs\" -nosession -notabbar -alwaysOnTop -lcpp " : "notepad ";
             var appLogFile = Path.GetFullPath(editorAppName + ".log");
-            if (File.Exists(appLogFile))
+            string appLogPath = (File.Exists(appLogFile)) ? appLogFile :QUtils.cachePathAppLogs + editorAppName + ".log";
+
+            if (viewLogsCb.Checked)
             {
-                QUtils.ShellExec(nppCmd + appLogFile, false, false);
-                QUtils.ShowPathExplorer(QUtils.editorCurrPath);
+                if (File.Exists(appLogFile))
+                {
+                    QUtils.ShellExec(nppCmd + appLogFile, false, false);
+                    QUtils.ShowPathExplorer(QUtils.editorCurrPath);
+                }
+                else
+                {
+                    QUtils.ShellExec(nppCmd + QUtils.appLogFileTmp + editorAppName + ".log", false, false);
+                    QUtils.ShowPathExplorer(QUtils.cachePathAppLogs);
+                }
             }
-            else
+            else if (shareLogsCb.Checked)
             {
-                QUtils.ShellExec(nppCmd + QUtils.appLogFileTmp + editorAppName + ".log", false, false);
-                QUtils.ShowPathExplorer(QUtils.cachePathAppLogs);
+                string mailToUrl = @"mailto:igiproz.hm@gmail.com?subject=IGI%20Editor%20Logs&body=Hi%2Ci%20have%20encountered%20error"
+                + @"%20while%20using%20editor%20please%20check%20the%20logs%20attached.%0D%0APlease%20attach%20the%20Logs%20file%20located%20at" 
+                + @"%20'" + appLogPath + @"'%20location%20in%20the%20attachment%20to%20this%20email.";
+                QUtils.ShellExecUrl(mailToUrl);
+                QUtils.ShowWarning("Please attach the log file located at '" + appLogPath + "' with this email.");
             }
         }
 
@@ -2381,7 +2481,7 @@ namespace IGIEditor
         {
             try
             {
-#if !DEV_MODE
+#if DEV_MODE
                 if (!editorModeCb.Checked && !liveEditorCb.Checked)
                 {
                     var result = QUtils.ShowEditModeDialog();
@@ -2437,6 +2537,7 @@ namespace IGIEditor
                 if (result) editorModeCb.Checked = true;
                 else return;
             }
+
             if (liveEditorCb.Checked)
             {
                 var modelId = modelIDTxt.Text;
@@ -3122,14 +3223,17 @@ namespace IGIEditor
             {
                 ((CheckBox)sender).ForeColor = SpringGreen;
                 SetStatusText("Live Editor enabled.");
+                addBuildingBtn.Text = "Restore Building";
+                addObjectBtn.Text = "Restore Object";
             }
             else
             {
                 ((CheckBox)sender).ForeColor = DeepSkyBlue;
                 SetStatusText("Live Editor disabled.");
+                addBuildingBtn.Text = "Add Building";
+                addObjectBtn.Text = "Add Object";
             }
-            removeWeaponBtn.Enabled = removeObjsBtn.Enabled = removeBuildingsBtn.Enabled = resetObjectsBtn.Enabled = resetBuildingsBtn.Enabled = !((CheckBox)sender).Checked;
-
+            removeWeaponBtn.Enabled = !((CheckBox)sender).Checked;
         }
 
         private void gfxResetBtn_Click(object sender, EventArgs e)
@@ -3204,16 +3308,30 @@ namespace IGIEditor
 
         private void objectIDTxt_TextChanged(object sender, EventArgs e)
         {
-            var modelId = ((TextBox)sender).Text;
-            var modelName = QObjects.FindModelName(modelId, false);
-            if (!String.IsNullOrEmpty(modelName)) modelNameOutLbl.Text = modelName;
+            try
+            {
+                var modelId = ((TextBox)sender).Text;
+                var modelName = QObjects.FindModelName(modelId, false);
+                if (!String.IsNullOrEmpty(modelName)) modelNameOutLbl.Text = modelName;
+            }
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
         }
 
         private void modelNameTxt_TextChanged(object sender, EventArgs e)
         {
-            var modelName = ((TextBox)sender).Text;
-            var modelId = QObjects.FindModelId(modelName, false);
-            if (!String.IsNullOrEmpty(modelName)) modelIdOutLbl.Text = modelId;
+            try
+            {
+                var modelName = ((TextBox)sender).Text;
+                var modelId = QObjects.FindModelId(modelName, false);
+                if (!String.IsNullOrEmpty(modelName)) modelIdOutLbl.Text = modelId;
+            }
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
         }
 
         private void stopTraversingNodesBtn_Click(object sender, EventArgs e)
@@ -3472,9 +3590,9 @@ namespace IGIEditor
 
             if (aiFileNameTxt.Text.Contains(jsonExt))
             {
-                var keywords = new List<string>() { "aiCount", "aiType", "model", "graphId", "weapon", "friendly", "guardGenerator", "maxSpawns", "invincible", "advanceView", "true", "false" };
-                var colors = new List<Color>() { Red, Red, Green, Cyan, Cyan, Cyan, Cyan, Cyan, Cyan, Cyan, DarkGreen, Olive };
-                var fontStyles = new List<FontStyle>() { Underline, Underline, Bold, Bold, Bold, Bold, Bold, Bold, Bold, Bold, Italic, Italic };
+                var keywords = new List<string>() { "aiCount", "aiType", "model", "graphId", "weapon", "friendly", "guardGenerator", "maxSpawns", "teamId", "invincible", "advanceView", "true", "false" };
+                var colors = new List<Color>() { Red, Red, Green, Cyan, Cyan, Cyan, Cyan, Cyan, Cyan, Cyan, Cyan, DarkGreen, Olive };
+                var fontStyles = new List<FontStyle>() { Underline, Underline, Bold, Bold, Bold, Bold, Bold, Bold, Bold, Bold, Bold, Italic, Italic };
 
                 RichViewerFormatter(aiJsonEditorTxt, keywords, colors, "Consolas", 12, fontStyles);
             }
@@ -3928,7 +4046,7 @@ namespace IGIEditor
         private void saveAIBtn_Click(object sender, EventArgs e)
         {
             string aiModelName = null, aiModel = null, aiWeaponMode = null, aiType = null, aiWeapon = null;
-            int aiCount = 1, maxSpawns = 1;
+            int aiCount = 1, maxSpawns = 1, teamId = TEAM_ID_ENEMY;
 
             Invoke((Action)(() =>
             {
@@ -3939,10 +4057,11 @@ namespace IGIEditor
                 aiType = QUtils.aiTypes[aiTypeDD.SelectedIndex];
                 aiCount = Convert.ToInt32(aiCountTxt.Text);
                 maxSpawns = Convert.ToInt32(maxSpawnsTxt.Text);
+                teamId = Convert.ToInt32(teamIdText.Text);
             }));
 
             //Convert HumanAI obj to JSON.
-            var humanAi = new HumanAi(aiCount, aiType, aiGraphId, aiWeapon, aiModel, guardGeneratorCb.Checked, maxSpawns, aiFriendlyCb.Checked, aiInvincibleCb.Checked, aiAdvanceViewCb.Checked);
+            var humanAi = new HumanAi(aiCount, aiType, aiGraphId, aiWeapon, aiModel, guardGeneratorCb.Checked, maxSpawns, teamId, aiInvincibleCb.Checked, aiAdvanceViewCb.Checked);
             var humanJSON = JsonConvert.SerializeObject(humanAi, Formatting.Indented);
 
             var inputDlgMsg = DialogMsgBox.ShowBox("Enter A.I File name", aiModelName + "_" + gameLevel + jsonExt, MsgBoxButtons.YesNo, true);
@@ -4093,13 +4212,20 @@ namespace IGIEditor
         {
             try
             {
+                string weaponGroupFileName = weaponGroupFileTxt.Text;
                 if (weaponsGroupList.Count == 0)
                 {
                     ShowLogStatus(MethodBase.GetCurrentMethod().Name, "No Weapons were added into the Group.");
                     return;
                 }
 
-                string weaponsGroupJsonFile = weaponGroupFileTxt.Text;
+                if (String.IsNullOrEmpty(weaponGroupFileName))
+                {
+                    ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Weapon group name cannot be empty.");
+                    return;
+                }
+
+                string weaponsGroupJsonFile = weaponGroupFileName;
                 string weaponJsonData = JsonConvert.SerializeObject(weaponsGroupList);
                 var weaponsGroupDir = qWeaponsGroupPath + @"\" + weaponsGroupJsonFile + jsonExt;
                 QUtils.SaveFile(weaponsGroupDir, weaponJsonData);
@@ -4169,6 +4295,32 @@ namespace IGIEditor
                     QUtils.ShowError("Invalid license key encountered. Please check your key and try again");
                 }
             }
+        }
+
+        private void aiFriendlyCb_CheckedChanged(object sender, EventArgs e)
+        {
+            teamIdText.Value = (aiFriendlyCb.Checked) ? TEAM_ID_FRIENDLY : TEAM_ID_ENEMY;
+        }
+
+        private void sendLogsBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void shareLogsCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked) viewLogsCb.Checked = false;
+        }
+
+        private void viewLogsCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked) shareLogsCb.Checked = false;
+        }
+
+        private void showAppDataCachePathBtn_Click(object sender, EventArgs e)
+        {
+            QUtils.ShowPathExplorer(QUtils.cachePath);
+            QUtils.ShowPathExplorer(QUtils.igiEditorQEdPath);
         }
 
         private void graphsMarkCb_CheckedChanged(object sender, EventArgs e)
@@ -4403,7 +4555,7 @@ namespace IGIEditor
 
         internal void PopulateImageBox(string modelId, PictureBox imgBox)
         {
-            var imgTmpPath = QUtils.cachePathAppImages + "\\" + modelId + QUtils.pngExt;
+            var imgTmpPath = QUtils.cachePathAppImages + "\\" + modelId + QUtils.jpgExt;
 
             //Load image from Cache.
             if (File.Exists(imgTmpPath))

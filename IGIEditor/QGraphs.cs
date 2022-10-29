@@ -659,7 +659,7 @@ namespace IGIEditor
                     graph.MGraphEdgeLinks.Add(graphLink);
                     graphs.Add(graph);
 
-                    //Reset date for next Graph node.
+                    //Reset data for next Graph node.
                     graph = new GraphNode();
                     graphNode = new GraphNode.VertexNode();
                     graphLink = new GraphNode.EdgeLink();
@@ -715,7 +715,7 @@ namespace IGIEditor
                 nodeRealPos = new Real64();
                 nodeRealPos.x = graphPos.x + node.MGraphVertexNodes.LastOrDefault().NodePos.x;
                 nodeRealPos.y = graphPos.y + node.MGraphVertexNodes.LastOrDefault().NodePos.y;
-                nodeRealPos.z = graphPos.z + node.MGraphVertexNodes.LastOrDefault().NodePos.z + 4500.0f;
+                nodeRealPos.z = graphPos.z + node.MGraphVertexNodes.LastOrDefault().NodePos.z; //+ 4500.0f;
             }
             catch (Exception ex)
             {

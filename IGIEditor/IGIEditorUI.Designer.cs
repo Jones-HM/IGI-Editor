@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IGIEditorUI));
             this.editorMainPanel = new System.Windows.Forms.Panel();
+            this.gameProfileLbl = new System.Windows.Forms.Label();
             this.compilerTypeLbl = new System.Windows.Forms.Label();
             this.internalsStatusLbl = new System.Windows.Forms.Label();
             this.internalsLbl = new System.Windows.Forms.Label();
@@ -118,6 +119,8 @@
             this.aiEditor = new System.Windows.Forms.TabPage();
             this.aiEditorTabs = new System.Windows.Forms.TabControl();
             this.aiEditorMainTab = new System.Windows.Forms.TabPage();
+            this.teamIdText = new System.Windows.Forms.NumericUpDown();
+            this.teamIdLabel = new System.Windows.Forms.Label();
             this.removeAllAiCb = new System.Windows.Forms.CheckBox();
             this.maxSpawnsTxt = new System.Windows.Forms.NumericUpDown();
             this.aiCountTxt = new System.Windows.Forms.NumericUpDown();
@@ -303,7 +306,6 @@
             this.cutsceneRemoveBtn = new System.Windows.Forms.Button();
             this.resetScriptsFileBtn = new System.Windows.Forms.Button();
             this.resetLevelBtn = new System.Windows.Forms.Button();
-            this.compileBtn = new System.Windows.Forms.Button();
             this.clearCacheBtn = new System.Windows.Forms.Button();
             this.exportObjectsBtn = new System.Windows.Forms.Button();
             this.devMode = new System.Windows.Forms.TabPage();
@@ -327,7 +329,9 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.gameLogoLbl = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.gameProfileLbl = new System.Windows.Forms.Label();
+            this.shareLogsCb = new System.Windows.Forms.CheckBox();
+            this.viewLogsCb = new System.Windows.Forms.CheckBox();
+            this.showAppDataCachePathBtn = new System.Windows.Forms.Button();
             this.editorMainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -354,6 +358,7 @@
             this.aiEditor.SuspendLayout();
             this.aiEditorTabs.SuspendLayout();
             this.aiEditorMainTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.teamIdText)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxSpawnsTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.aiCountTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponAIImgBox)).BeginInit();
@@ -424,6 +429,18 @@
             this.editorMainPanel.Name = "editorMainPanel";
             this.editorMainPanel.Size = new System.Drawing.Size(1147, 741);
             this.editorMainPanel.TabIndex = 0;
+            // 
+            // gameProfileLbl
+            // 
+            this.gameProfileLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.gameProfileLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.gameProfileLbl.Location = new System.Drawing.Point(434, 62);
+            this.gameProfileLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.gameProfileLbl.Name = "gameProfileLbl";
+            this.gameProfileLbl.Size = new System.Drawing.Size(399, 33);
+            this.gameProfileLbl.TabIndex = 48;
+            this.gameProfileLbl.Text = "Game Profile";
+            this.gameProfileLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // compilerTypeLbl
             // 
@@ -1143,7 +1160,7 @@
             this.modelIdLbl.Name = "modelIdLbl";
             this.modelIdLbl.Size = new System.Drawing.Size(117, 33);
             this.modelIdLbl.TabIndex = 6;
-            this.modelIdLbl.Text = "Model ID ";
+            this.modelIdLbl.Text = "Model Id";
             this.modelIdLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // restoreModelBtn
@@ -1792,6 +1809,8 @@
             // aiEditorMainTab
             // 
             this.aiEditorMainTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.aiEditorMainTab.Controls.Add(this.teamIdText);
+            this.aiEditorMainTab.Controls.Add(this.teamIdLabel);
             this.aiEditorMainTab.Controls.Add(this.removeAllAiCb);
             this.aiEditorMainTab.Controls.Add(this.maxSpawnsTxt);
             this.aiEditorMainTab.Controls.Add(this.aiCountTxt);
@@ -1827,6 +1846,28 @@
             this.aiEditorMainTab.TabIndex = 0;
             this.aiEditorMainTab.Text = "Main Editor";
             // 
+            // teamIdText
+            // 
+            this.teamIdText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.teamIdText.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.teamIdText.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.teamIdText.Location = new System.Drawing.Point(684, 260);
+            this.teamIdText.Name = "teamIdText";
+            this.teamIdText.Size = new System.Drawing.Size(68, 30);
+            this.teamIdText.TabIndex = 111;
+            // 
+            // teamIdLabel
+            // 
+            this.teamIdLabel.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.teamIdLabel.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.teamIdLabel.Location = new System.Drawing.Point(533, 260);
+            this.teamIdLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.teamIdLabel.Name = "teamIdLabel";
+            this.teamIdLabel.Size = new System.Drawing.Size(119, 33);
+            this.teamIdLabel.TabIndex = 110;
+            this.teamIdLabel.Text = "Team Id";
+            this.teamIdLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // removeAllAiCb
             // 
             this.removeAllAiCb.Font = new System.Drawing.Font("Century Gothic", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1844,9 +1885,9 @@
             this.maxSpawnsTxt.Enabled = false;
             this.maxSpawnsTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.maxSpawnsTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.maxSpawnsTxt.Location = new System.Drawing.Point(974, 260);
+            this.maxSpawnsTxt.Location = new System.Drawing.Point(1040, 260);
             this.maxSpawnsTxt.Name = "maxSpawnsTxt";
-            this.maxSpawnsTxt.Size = new System.Drawing.Size(134, 30);
+            this.maxSpawnsTxt.Size = new System.Drawing.Size(68, 30);
             this.maxSpawnsTxt.TabIndex = 108;
             this.maxSpawnsTxt.Value = new decimal(new int[] {
             1,
@@ -1859,9 +1900,9 @@
             this.aiCountTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.aiCountTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.aiCountTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.aiCountTxt.Location = new System.Drawing.Point(684, 259);
+            this.aiCountTxt.Location = new System.Drawing.Point(874, 260);
             this.aiCountTxt.Name = "aiCountTxt";
-            this.aiCountTxt.Size = new System.Drawing.Size(100, 30);
+            this.aiCountTxt.Size = new System.Drawing.Size(68, 30);
             this.aiCountTxt.TabIndex = 107;
             this.aiCountTxt.Value = new decimal(new int[] {
             1,
@@ -1925,12 +1966,12 @@
             // 
             this.maxSpawnsLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.maxSpawnsLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.maxSpawnsLbl.Location = new System.Drawing.Point(794, 257);
+            this.maxSpawnsLbl.Location = new System.Drawing.Point(949, 257);
             this.maxSpawnsLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.maxSpawnsLbl.Name = "maxSpawnsLbl";
-            this.maxSpawnsLbl.Size = new System.Drawing.Size(173, 33);
+            this.maxSpawnsLbl.Size = new System.Drawing.Size(84, 33);
             this.maxSpawnsLbl.TabIndex = 102;
-            this.maxSpawnsLbl.Text = "Max Spawns ";
+            this.maxSpawnsLbl.Text = "Spawns ";
             this.maxSpawnsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // aiFriendlyCb
@@ -1944,6 +1985,7 @@
             this.aiFriendlyCb.TabIndex = 100;
             this.aiFriendlyCb.Text = "Friendly";
             this.aiFriendlyCb.UseVisualStyleBackColor = true;
+            this.aiFriendlyCb.CheckedChanged += new System.EventHandler(this.aiFriendlyCb_CheckedChanged);
             // 
             // aiAdvanceViewCb
             // 
@@ -2096,7 +2138,7 @@
             // 
             this.aiCountLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.aiCountLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.aiCountLbl.Location = new System.Drawing.Point(523, 256);
+            this.aiCountLbl.Location = new System.Drawing.Point(747, 259);
             this.aiCountLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.aiCountLbl.Name = "aiCountLbl";
             this.aiCountLbl.Size = new System.Drawing.Size(119, 33);
@@ -2307,7 +2349,7 @@
             this.aiJsonVersionTxt.Name = "aiJsonVersionTxt";
             this.aiJsonVersionTxt.Size = new System.Drawing.Size(223, 30);
             this.aiJsonVersionTxt.TabIndex = 59;
-            this.aiJsonVersionTxt.Text = "JSON v1.0.0";
+            this.aiJsonVersionTxt.Text = "JSON v1.1";
             // 
             // aiJsonSaveAiBtn
             // 
@@ -2379,7 +2421,6 @@
             this.weaponGroupFileTxt.Name = "weaponGroupFileTxt";
             this.weaponGroupFileTxt.Size = new System.Drawing.Size(401, 30);
             this.weaponGroupFileTxt.TabIndex = 84;
-            this.weaponGroupFileTxt.Text = "Group Name";
             this.infoViewer.SetToolTip(this.weaponGroupFileTxt, "Weapon Group File Name");
             // 
             // weaponAmmoTxt
@@ -2414,9 +2455,9 @@
             this.markWeaponsCb.Location = new System.Drawing.Point(699, 89);
             this.markWeaponsCb.Margin = new System.Windows.Forms.Padding(4);
             this.markWeaponsCb.Name = "markWeaponsCb";
-            this.markWeaponsCb.Size = new System.Drawing.Size(136, 23);
+            this.markWeaponsCb.Size = new System.Drawing.Size(131, 23);
             this.markWeaponsCb.TabIndex = 82;
-            this.markWeaponsCb.Text = "Mark Weapons";
+            this.markWeaponsCb.Text = "Mark Weapon";
             this.markWeaponsCb.UseVisualStyleBackColor = true;
             this.markWeaponsCb.CheckedChanged += new System.EventHandler(this.markWeaponsCb_CheckedChanged);
             // 
@@ -2424,7 +2465,7 @@
             // 
             this.allWeaponsCb.AutoSize = true;
             this.allWeaponsCb.Font = new System.Drawing.Font("Century Gothic", 7.8F);
-            this.allWeaponsCb.Location = new System.Drawing.Point(869, 89);
+            this.allWeaponsCb.Location = new System.Drawing.Point(918, 89);
             this.allWeaponsCb.Margin = new System.Windows.Forms.Padding(4);
             this.allWeaponsCb.Name = "allWeaponsCb";
             this.allWeaponsCb.Size = new System.Drawing.Size(117, 23);
@@ -2517,7 +2558,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(267, 33);
             this.label1.TabIndex = 25;
-            this.label1.Text = "Weapon Group Section";
+            this.label1.Text = "Weapon Group";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // weaponNameLbl
@@ -3898,10 +3939,13 @@
             // miscEditor
             // 
             this.miscEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.miscEditor.Controls.Add(this.viewLogsCb);
+            this.miscEditor.Controls.Add(this.shareLogsCb);
             this.miscEditor.Controls.Add(this.externalCompilerCb);
             this.miscEditor.Controls.Add(this.internalCompilerCb);
             this.miscEditor.Controls.Add(this.framesTxt);
             this.miscEditor.Controls.Add(this.minutesLbl);
+            this.miscEditor.Controls.Add(this.showAppDataCachePathBtn);
             this.miscEditor.Controls.Add(this.gamePathBtn);
             this.miscEditor.Controls.Add(this.requestDataBtn);
             this.miscEditor.Controls.Add(this.editorUpdaterBtn);
@@ -3932,7 +3976,6 @@
             this.miscEditor.Controls.Add(this.cutsceneRemoveBtn);
             this.miscEditor.Controls.Add(this.resetScriptsFileBtn);
             this.miscEditor.Controls.Add(this.resetLevelBtn);
-            this.miscEditor.Controls.Add(this.compileBtn);
             this.miscEditor.Controls.Add(this.clearCacheBtn);
             this.miscEditor.Controls.Add(this.exportObjectsBtn);
             this.miscEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
@@ -4254,7 +4297,7 @@
             this.appSupportBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.appSupportBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
             this.appSupportBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.appSupportBtn.Location = new System.Drawing.Point(42, 262);
+            this.appSupportBtn.Location = new System.Drawing.Point(42, 307);
             this.appSupportBtn.Margin = new System.Windows.Forms.Padding(4);
             this.appSupportBtn.Name = "appSupportBtn";
             this.appSupportBtn.Size = new System.Drawing.Size(190, 38);
@@ -4286,9 +4329,9 @@
             this.showAppLogBtn.Location = new System.Drawing.Point(42, 216);
             this.showAppLogBtn.Margin = new System.Windows.Forms.Padding(4);
             this.showAppLogBtn.Name = "showAppLogBtn";
-            this.showAppLogBtn.Size = new System.Drawing.Size(190, 38);
+            this.showAppLogBtn.Size = new System.Drawing.Size(112, 38);
             this.showAppLogBtn.TabIndex = 21;
-            this.showAppLogBtn.Text = "Show Logs";
+            this.showAppLogBtn.Text = "App Logs";
             this.showAppLogBtn.UseVisualStyleBackColor = true;
             this.showAppLogBtn.Click += new System.EventHandler(this.showAppLogBtn_Click);
             // 
@@ -4427,20 +4470,6 @@
             this.resetLevelBtn.Text = "Reset Level";
             this.resetLevelBtn.UseVisualStyleBackColor = true;
             this.resetLevelBtn.Click += new System.EventHandler(this.resetLevelBtn_Click);
-            // 
-            // compileBtn
-            // 
-            this.compileBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.compileBtn.Font = new System.Drawing.Font("Century Gothic", 7.8F);
-            this.compileBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.compileBtn.Location = new System.Drawing.Point(42, 308);
-            this.compileBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.compileBtn.Name = "compileBtn";
-            this.compileBtn.Size = new System.Drawing.Size(190, 38);
-            this.compileBtn.TabIndex = 16;
-            this.compileBtn.Text = "Compile";
-            this.compileBtn.UseVisualStyleBackColor = true;
-            this.compileBtn.Click += new System.EventHandler(this.compileBtn_Click);
             // 
             // clearCacheBtn
             // 
@@ -4734,17 +4763,48 @@
             this.gameLogoLbl.TabIndex = 0;
             this.gameLogoLbl.Text = "IGI 1";
             // 
-            // gameProfileLbl
+            // shareLogsCb
             // 
-            this.gameProfileLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.gameProfileLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.gameProfileLbl.Location = new System.Drawing.Point(434, 62);
-            this.gameProfileLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.gameProfileLbl.Name = "gameProfileLbl";
-            this.gameProfileLbl.Size = new System.Drawing.Size(399, 33);
-            this.gameProfileLbl.TabIndex = 48;
-            this.gameProfileLbl.Text = "Game Profile";
-            this.gameProfileLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shareLogsCb.AutoSize = true;
+            this.shareLogsCb.Font = new System.Drawing.Font("Century Gothic", 8F);
+            this.shareLogsCb.Location = new System.Drawing.Point(162, 216);
+            this.shareLogsCb.Margin = new System.Windows.Forms.Padding(4);
+            this.shareLogsCb.Name = "shareLogsCb";
+            this.shareLogsCb.Size = new System.Drawing.Size(70, 23);
+            this.shareLogsCb.TabIndex = 57;
+            this.shareLogsCb.Text = "Share";
+            this.shareLogsCb.UseVisualStyleBackColor = true;
+            this.shareLogsCb.CheckedChanged += new System.EventHandler(this.shareLogsCb_CheckedChanged);
+            // 
+            // viewLogsCb
+            // 
+            this.viewLogsCb.AutoSize = true;
+            this.viewLogsCb.Checked = true;
+            this.viewLogsCb.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewLogsCb.Font = new System.Drawing.Font("Century Gothic", 8F);
+            this.viewLogsCb.Location = new System.Drawing.Point(162, 233);
+            this.viewLogsCb.Margin = new System.Windows.Forms.Padding(4);
+            this.viewLogsCb.Name = "viewLogsCb";
+            this.viewLogsCb.Size = new System.Drawing.Size(64, 23);
+            this.viewLogsCb.TabIndex = 58;
+            this.viewLogsCb.Text = "View";
+            this.viewLogsCb.UseVisualStyleBackColor = true;
+            this.viewLogsCb.CheckedChanged += new System.EventHandler(this.viewLogsCb_CheckedChanged);
+            // 
+            // showAppDataCachePathBtn
+            // 
+            this.showAppDataCachePathBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.showAppDataCachePathBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.showAppDataCachePathBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.showAppDataCachePathBtn.Location = new System.Drawing.Point(42, 264);
+            this.showAppDataCachePathBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.showAppDataCachePathBtn.Name = "showAppDataCachePathBtn";
+            this.showAppDataCachePathBtn.Size = new System.Drawing.Size(190, 38);
+            this.showAppDataCachePathBtn.TabIndex = 41;
+            this.showAppDataCachePathBtn.Text = "Show AppData Path";
+            this.showAppDataCachePathBtn.UseVisualStyleBackColor = true;
+            this.showAppDataCachePathBtn.Click += new System.EventHandler(this.showAppDataCachePathBtn_Click);
+            this.showAppDataCachePathBtn.MouseEnter += new System.EventHandler(this.editorUpdaterBtn_MouseEnter);
             // 
             // IGIEditorUI
             // 
@@ -4788,6 +4848,7 @@
             this.aiEditorTabs.ResumeLayout(false);
             this.aiEditorMainTab.ResumeLayout(false);
             this.aiEditorMainTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.teamIdText)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxSpawnsTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.aiCountTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponAIImgBox)).EndInit();
@@ -4894,7 +4955,6 @@
         private System.Windows.Forms.Button clearCacheBtn;
         private System.Windows.Forms.Button clearAllLvlBtn;
         private System.Windows.Forms.Button restartLevel;
-        private System.Windows.Forms.Button compileBtn;
         private System.Windows.Forms.Button cutsceneRemoveBtn;
         private System.Windows.Forms.NumericUpDown levelStartTxt;
         private System.Windows.Forms.CheckBox posCurrentCb;
@@ -5120,6 +5180,11 @@
         private System.Windows.Forms.Label minimizeBtn;
         private System.Windows.Forms.Label closeBtn;
         private System.Windows.Forms.Label gameProfileLbl;
+        private System.Windows.Forms.NumericUpDown teamIdText;
+        private System.Windows.Forms.Label teamIdLabel;
+        private System.Windows.Forms.CheckBox shareLogsCb;
+        private System.Windows.Forms.CheckBox viewLogsCb;
+        private System.Windows.Forms.Button showAppDataCachePathBtn;
     }
 }
 

@@ -16,15 +16,15 @@ namespace IGIEditor
         public string model { get; set; }
         public bool guardGenerator { get; set; }
         public int maxSpawns { get; set; }
-        public bool friendly { get; set; }
+        public int teamId { get; set; }
         public bool invincible { get; set; }
         public bool advanceView { get; set; }
 
         public HumanAi() { }
-        public HumanAi(int aiCount, string aiType, int graphId, string weapon, string model, bool guardGenerator, int maxSpawns, bool friendly, bool invincible, bool advanceView)
+        public HumanAi(int aiCount, string aiType, int graphId, string weapon, string model, bool guardGenerator, int maxSpawns, int teamId, bool invincible, bool advanceView)
         {
             this.aiCount = aiCount;this.aiType = aiType;this.graphId = graphId;this.weapon = weapon;
-            this.model = model; this.guardGenerator = guardGenerator; this.maxSpawns = maxSpawns; this.friendly = friendly;
+            this.model = model; this.guardGenerator = guardGenerator; this.maxSpawns = maxSpawns; this.teamId = teamId;
             this.invincible = invincible; this.advanceView = advanceView;
         }
     }
@@ -146,7 +146,7 @@ namespace IGIEditor
                     {
                         modelId = humanAi.model;
                         aiWeapon = humanAi.weapon;
-                        teamId = humanAi.friendly ? 0 : 1;
+                        teamId = humanAi.teamId;
                         aiAmmo = 999;
                     }
                     //Add GuardGenerator .

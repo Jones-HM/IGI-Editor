@@ -77,35 +77,277 @@ namespace IGIEditor
             public int Ammo { get => ammo; set => ammo = value; }
         }
 
-        internal static string taskNew = "Task_New", taskDecl = "Task_DeclareParameters";
-        internal static string objectsQsc = "objects.qsc", objectsQvm = "objects.qvm", weaponConfigQSC = "weaponconfig.qsc", weaponConfigQVM = "weaponconfig.qvm", weaponsModQvm = "weaponconfig-mod.qvm";
-        internal static int qtaskObjId, qtaskId, anyaTeamTaskId = -1, ekkTeamTaskId = -1, aiScriptId = 0, gGameLevel = 1, GAME_MAX_LEVEL = 3, currGameLevel = 1, updateTimeInterval = 10, gameFPS = 30, healthScaleFall = 0;
-        internal static string versionFileName = "VERSION", appEditorSubVersion = "0.5.0.0", logFile = "app.log", qLibLogsFile = "QLibc_logs.log", aiIdleFile = "aiIdle.qvm", objectsModelsList, aiIdlePath, customScriptFile = "ai_custom_script.qsc", customPatrolFile = "ai_custom_path.qsc", customScriptPathQEd, customPatrolPathQEd, appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\", nativesFile = @"\IGI-Natives.json", modelsFile = @"\IGI-Models.txt", internalsLogFile = @"\IGI-Internals.log";
-        internal static bool gameFound = false, gameProfileLoaded = false, gamePathSet = false, logEnabled = false, keyExist = false, keyFileExist = false, attachStatus = false, customAiSelected = false, editorOnline = true, gameReset = false, appLogs = false, editorUpdateCheck = false, nppInstalled = false, shortcutCreated = false, shortcutExist = false, gameMusicEnabled = false, gameAiIdleMode = false, gameDebugMode = false, gameDisableWarns = true, gameRefresh = false;
-        internal static bool internalCompiler = false, externalCompiler = false;
-        internal static float appEditorVersion = 0.4f, viewPortDelta = 10000.0f;
-        internal static string supportDiscordLink = @"https://discord.gg/9T8tzyhvp6", supportYoutubeLink = @"https://www.youtube.com/channel/UChGryl0a0dii81NfDZ12LwA", supportVKLink = @"https://vk.com/id679925339";
-        internal static IntPtr viewPortAddrX = (IntPtr)0x00BCAB08, viewPortAddrY = (IntPtr)0x00BCAB10, viewPortAddrZ = (IntPtr)0x00BCAB18;
-        internal const int TEAM_ID_FRIENDLY = 0, TEAM_ID_ENEMY = 1, MAX_AI_COUNT = 100, MAX_FPS = 240, MAX_UPDATE_TIME = 120, MAX_HUMAN_CAM = 5, LEVEL_FLOW_TASK_ID = 10, HUMANPLAYER_TASK_ID = 0, MAX_MINIMAL_ID_DIFF = 10;
+        #region Task Decl
+        internal static string taskNew = "Task_New";
+        internal static string taskDecl = "Task_DeclareParameters";
+        internal static string objectsQsc = "objects.qsc";
+        internal static string objectsQvm = "objects.qvm";
+        internal static string weaponConfigQSC = "weaponconfig.qsc";
+        internal static string weaponConfigQVM = "weaponconfig.qvm";
+        internal static string weaponsModQvm = "weaponconfig-mod.qvm";
+        #endregion
 
-        internal static string gamePath, appdataPath, igiEditorQEdPath, editorCurrPath, deviceIdDLLPath, gameAbsPath, cfgGamePath, cfgHumanplayerPathQsc, cfgHumanplayerPathQvm, cfgQscPath, cfgAiPath, cfgQvmPath, cfgVoidPath, cfgQFilesPath, qMissionsPath, qGraphsPath, qWeaponsPath, qWeaponsGroupPath, qQVMPath, qQSCPath, cfgWeaponsPath, weaponsModQvmPath, weaponsOrgCfgPath, weaponsGamePath, humanplayerGamePath, menusystemGamePath, missionsGamePath, commonGamePath,
-            qfilesPath = @"\QFiles", qEditor = "QEditor", qconv = "QConv", qCompiler = "QCompiler", qfiles = "QFiles", qGraphs = "QGraphs", iniCfgFile, editorAppName, editorUpdater, cachePath, cachePathAppLogs, nativesFilePath, modelsFilePath, internalsLogPath, qedAiJsonPath, qedAiScriptPath, qedAiPatrolPath,
-            cachePathAppImages, currPathAppImages, editorUpdaterDir = "IGIEditor_Update", editorUpdaterAbsDir, editorUpdaterFile, updaterBatchFile, editorChangeLogs = "CHANGELOGS", editorLicence = "LICENCE", editorReadme = "README", editorAutoUpdaterFile, autoUpdaterFile = "AutoUpdater", autoUpdaterBatch,
-         igiQsc = "IGI_QSC", igiQvm = "IGI_QVM", graphsPath, cfgGamePathEx = @"\missions\location0\level", weaponsDirPath = @"\weapons", humanplayerQvm = "humanplayer.qvm", humanplayerQsc = "humanplayer.qsc", humanplayerPath = @"\humanplayer", aiGraphTask = "AIGraph", menuSystemDir = "menusystem", menuSystemPath = null, internalsDllFile, internalsDll = "IGI-Internals.dll",
-            internalsDllPath = @"bin\IGI-Internals.dll", qLibcPath = @"lib\GTLibc_x86.so", tmpDllPath, internalDllInjectorPath = @"bin\IGI-Injector.exe", internalDllGTInjectorPath = @"bin\IGI-Injector-GT.exe", PATH_SEC = "PATH", EDITOR_SEC = "EDITOR", GAME_SEC = "GAME";
+        #region Task Ids
+        internal static int qtaskObjId;
+        internal static int qtaskId;
+        internal static int anyaTeamTaskId = -1;
+        internal static int ekkTeamTaskId = -1;
+        internal static int aiScriptId = 0;
+        internal static int gGameLevel = 1;
+        internal static int GAME_MAX_LEVEL = 3;
+        internal static int currGameLevel = 1;
+        internal static int updateTimeInterval = 10;
+        internal static int gameFPS = 30;
+        internal static int healthScaleFall = 0;
+        #endregion
 
-        internal static string qedQscPath = @"\IGI_QSC", qedQvmPath = @"\IGI_QVM", qedAiPath = @"\AIFiles", qedVoidPath = @"\Void", qedAiJson = @"\AI-Json", qedAiScript = @"\AI-Script", qedAiPatrol = @"\AI-Path", inputMissionPath = @"\missions\location0\level", inputHumanplayerPath = @"\humanplayer", inputWeaponsPath = @"\weapons";
-        internal static List<string> objTypeList = new List<string>() { "Building", "EditRigidObj", "Terminal", "Elevator", "ExplodeObject", "AlarmControl", "Generator", "Radio" };
-        internal static string objects = "objects", objectsAll = "objectsAll", weapons = "weapons";
-        internal const string qvmExt = ".qvm", qscExt = ".qsc", datExt = ".dat", csvExt = ".csv", jsonExt = ".json", txtExt = ".txt", xmlExt = ".xml", dllExt = ".dll", missionExt = ".igimsf", jpgExt = ".jpg", pngExt = ".png", rarExt = ".rar", zipExt = ".zip", exeExt = ".exe", batExt = ".bat", iniExt = ".ini";
-        internal static float fltInvalidAngle = -9.9999f, fltInvalidVal = -9.9f;
-        internal const string CAPTION_CONFIG_ERR = "Config - Error", CAPTION_FATAL_SYS_ERR = "Sytem-Fatal - Error", CAPTION_APP_ERR = "Application - Error", CAPTION_COMPILER_ERR = "Compiler - Error", EDITOR_LEVEL_ERR = "EDITOR ERROR", alarmControl = "AlarmControl", stationaryGun = "StationaryGun";
-        internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", aboutStr = "IGI Editor is powerful editor to edit game levels" + "\n" + "Offers upto " + GAME_MAX_LEVEL + " level\nVersion: v" + appEditorSubVersion + " BETA.\n\nTools/Language: C#(5.0) VS-Studio/Code\nCreated by Haseeb Mir.\n\nCredits & People\nUI Designing - Dark\nResearch data - Dimon, Yoejin and GM123.\nQScript/DConv Tools - Artiom.\nTester - Orwa\nIGI-VK Community.";
-        internal static string patroIdleMask = "xxxx", patroAlarmMask = "yyyy", alarmControlMask = "xx", gunnerIdMask = "xxx", viewGammaMask = "yyy";
-        internal static string movementSpeedMask = "movSpeed", forwardSpeedMask = "forwardSpeed", upwardSpeedMask = "upSpeed", inAirSpeedMask = "iAirSpeed", throwBaseVelMask = "throwBaseVel", healthScaleMask = "healthScale", healthFenceMask = "healthFence", peekLeftRightLenMask = "peekLRLen", peekCrouchLenMask = "peekCrouchLen", peekTimeMask = "peekTime";
+        #region Log & Custom Scripts
+        internal static string logFile = "app.log";
+        internal static string qLibLogsFile = "QLibc_logs.log";
+        internal static string aiIdleFile = "aiIdle.qvm";
+        internal static string objectsModelsList;
+        internal static string aiIdlePath;
+        internal static string customScriptFile = "ai_custom_script.qsc";
+        internal static string customPatrolFile = "ai_custom_path.qsc";
+        internal static string customScriptPathQEd;
+        internal static string customPatrolPathQEd;
+        internal static string appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\";
+        internal static string nativesFile = @"\IGI-Natives.json";
+        internal static string modelsFile = @"\IGI-Models.txt";
+        internal static string internalsLogFile = @"\IGI-Internals.log";
+        #endregion
+
+
+        #region Booleans
+        internal static bool gameFound = false;
+        internal static bool gameProfileLoaded = false;
+        internal static bool gamePathSet = false;
+        internal static bool logEnabled = false;
+        internal static bool keyExist = false;
+        internal static bool keyFileExist = false;
+        internal static bool attachStatus = false;
+        internal static bool customAiSelected = false;
+        internal static bool editorOnline = true;
+        internal static bool gameReset = false;
+        internal static bool appLogs = false;
+        internal static bool editorUpdateCheck = false;
+        internal static bool nppInstalled = false;
+        internal static bool shortcutCreated = false;
+        internal static bool shortcutExist = false;
+        internal static bool gameMusicEnabled = false;
+        internal static bool gameAiIdleMode = false;
+        internal static bool gameDebugMode = false;
+        internal static bool gameDisableWarns = true;
+        internal static bool gameRefresh = false;
+        internal static bool internalCompiler = false;
+        internal static bool externalCompiler = false;
+        #endregion
+
+        #region App Version
+        internal static string versionFileName = "VERSION";
+        internal static string appEditorSubVersion = "0.5.0.3";
+        internal static float viewPortDelta = 10000.0f;
+        #endregion
+
+        #region Support Links
+        internal static string supportDiscordLink = @"https://discord.gg/9T8tzyhvp6";
+        internal static string supportYoutubeLink = @"https://www.youtube.com/channel/UChGryl0a0dii81NfDZ12LwA";
+        internal static string supportVKLink = @"https://vk.com/id679925339";
+        #endregion
+
+        #region Game and Data Path.
+        internal static string gamePath;
+        internal static string appdataPath;
+        internal static string igiEditorQEdPath;
+        internal static string editorCurrPath;
+        internal static string deviceIdDLLPath;
+        internal static string gameAbsPath;
+        internal static string cfgGamePath;
+        internal static string cfgHumanplayerPathQsc;
+        internal static string cfgHumanplayerPathQvm;
+        internal static string cfgQscPath;
+        internal static string cfgAiPath;
+        internal static string cfgQvmPath;
+        internal static string cfgVoidPath;
+        internal static string cfgQFilesPath;
+        internal static string qMissionsPath;
+        internal static string qGraphsPath;
+        internal static string qWeaponsPath;
+        internal static string qWeaponsGroupPath;
+        internal static string qQVMPath;
+        internal static string qQSCPath;
+        internal static string cfgWeaponsPath;
+        internal static string weaponsModQvmPath;
+        internal static string weaponsOrgCfgPath;
+        internal static string weaponsGamePath;
+        internal static string humanplayerGamePath;
+        internal static string menusystemGamePath;
+        internal static string missionsGamePath;
+        internal static string commonGamePath;
+        internal static string qfilesPath = @"\QFiles";
+        internal static string qEditor = "QEditor";
+        internal static string qconv = "QConv";
+        internal static string qCompiler = "QCompiler";
+        internal static string qfiles = "QFiles";
+        internal static string qGraphs = "QGraphs";
+        internal static string iniCfgFile;
+        internal static string editorAppName;
+        internal static string editorUpdater;
+        internal static string cachePath;
+        internal static string cachePathAppLogs;
+        internal static string nativesFilePath;
+        internal static string modelsFilePath;
+        internal static string internalsLogPath;
+        internal static string qedAiJsonPath;
+        internal static string qedAiScriptPath;
+        internal static string qedAiPatrolPath;
+        internal static string cachePathAppImages;
+        internal static string currPathAppImages;
+        internal static string editorUpdaterDir = "IGIEditor_Update";
+        internal static string editorUpdaterAbsDir;
+        internal static string editorUpdaterFile;
+        internal static string updaterBatchFile;
+        internal static string editorChangeLogs = "CHANGELOGS";
+        internal static string editorLicence = "LICENCE";
+        internal static string editorReadme = "README";
+        internal static string editorAutoUpdaterFile;
+        internal static string autoUpdaterFile = "AutoUpdater";
+        internal static string autoUpdaterBatch;
+        internal static string igiQsc = "IGI_QSC";
+        internal static string igiQvm = "IGI_QVM";
+        internal static string graphsPath;
+        internal static string cfgGamePathEx = @"\missions\location0\level";
+        internal static string weaponsDirPath = @"\weapons";
+        internal static string humanplayerQvm = "humanplayer.qvm";
+        internal static string humanplayerQsc = "humanplayer.qsc";
+        internal static string humanplayerPath = @"\humanplayer";
+        internal static string aiGraphTask = "AIGraph";
+        internal static string menuSystemDir = "menusystem";
+        internal static string menuSystemPath = null;
+        internal static string internalsDllFile;
+        internal static string internalsDll = "IGI-Internals.dll";
+        internal static string internalsDllPath = @"bin\IGI-Internals.dll";
+        internal static string qLibcPath = @"lib\GTLibc_x86.so";
+        internal static string tmpDllPath;
+        internal static string internalDllInjectorPath = @"bin\IGI-Injector.exe";
+        internal static string internalDllGTInjectorPath = @"bin\IGI-Injector-GT.exe";
+        internal static string PATH_SEC = "PATH";
+        internal static string EDITOR_SEC = "EDITOR";
+        internal static string GAME_SEC = "GAME";
+        internal static string qedQscPath = @"\IGI_QSC";
+        internal static string qedQvmPath = @"\IGI_QVM";
+        internal static string qedAiPath = @"\AIFiles";
+        internal static string qedVoidPath = @"\Void";
+        internal static string qedAiJson = @"\AI-Json";
+        internal static string qedAiScript = @"\AI-Script";
+        internal static string qedAiPatrol = @"\AI-Path";
+        internal static string inputMissionPath = @"\missions\location0\level";
+        internal static string inputHumanplayerPath = @"\humanplayer";
+        internal static string inputWeaponsPath = @"\weapons";
+        internal static string objects = "objects";
+        internal static string objectsAll = "objectsAll";
+        internal static string weapons = "weapons";
+        #endregion
+
+        #region Extensions Constants
+        internal const string qvmExt = ".qvm";
+        internal const string qscExt = ".qsc";
+        internal const string datExt = ".dat";
+        internal const string csvExt = ".csv";
+        internal const string jsonExt = ".json";
+        internal const string txtExt = ".txt";
+        internal const string xmlExt = ".xml";
+        internal const string dllExt = ".dll";
+        internal const string missionExt = ".igimsf";
+        internal const string jpgExt = ".jpg";
+        internal const string pngExt = ".png";
+        internal const string rarExt = ".rar";
+        internal const string zipExt = ".zip";
+        internal const string exeExt = ".exe";
+        internal const string batExt = ".bat";
+        internal const string iniExt = ".ini";
+        #endregion
+
+        #region Address_Ptr
+        internal static IntPtr viewPortAddrX = (IntPtr)0x00BCAB08;
+        internal static IntPtr viewPortAddrY = (IntPtr)0x00BCAB10;
+        internal static IntPtr viewPortAddrZ = (IntPtr)0x00BCAB18;
+        #endregion
+
+        #region AI_Soldier Constants
+        internal const int TEAM_ID_FRIENDLY = 0;
+        internal const int TEAM_ID_ENEMY = 1;
+        internal const int MAX_AI_COUNT = 100;
+        internal const int MAX_FPS = 240;
+        internal const int MAX_UPDATE_TIME = 120;
+        internal const int MAX_HUMAN_CAM = 5;
+        internal const int LEVEL_FLOW_TASK_ID = 10;
+        internal const int HUMANPLAYER_TASK_ID = 0;
+        internal const int MAX_MINIMAL_ID_DIFF = 10;
+        #endregion
+
+        #region Error Constants
+        internal const string CAPTION_CONFIG_ERR = "Config - Error";
+        internal const string CAPTION_FATAL_SYS_ERR = "Sytem-Fatal - Error";
+        internal const string CAPTION_APP_ERR = "Application - Error";
+        internal const string CAPTION_COMPILER_ERR = "Compiler - Error";
+        internal const string EDITOR_LEVEL_ERR = "EDITOR ERROR";
+        internal const string alarmControl = "AlarmControl";
+        internal const string stationaryGun = "StationaryGun";
+        #endregion
+
+        #region About Info
+        internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths";
+        internal static string aboutStr = "IGI Editor is powerful editor to edit game levels" + "\n" + "Offers upto " + GAME_MAX_LEVEL + " level\nVersion: v"
+            + appEditorSubVersion + " BETA.\n\nTools/Language: C#(5.0) VS-Studio/Code\nCreated by Haseeb Mir.\n\nCredits & People\nUI Designing - Dark\nResearch data - Dimon Yoejin and GM123.\nQScript/DConv Tools - Artiom.\nTester - Orwa\nIGI-VK Community.";
+        #endregion
+
+        #region Mask Constants
+        internal static string patroIdleMask = "xxxx";
+        internal static string patroAlarmMask = "yyyy";
+        internal static string alarmControlMask = "xx";
+        internal static string gunnerIdMask = "xxx";
+        internal static string viewGammaMask = "yyy";
+        #endregion
+
+        #region Angle Constants
+        internal static float fltInvalidAngle = -9.9999f;
+        internal static float fltInvalidVal = -9.9f;
+        #endregion
+
+        #region HumanPlayer data
+        internal static string movementSpeedMask = "movSpeed";
+        internal static string forwardSpeedMask = "forwardSpeed";
+        internal static string upwardSpeedMask = "upSpeed";
+        internal static string inAirSpeedMask = "iAirSpeed";
+        internal static string throwBaseVelMask = "throwBaseVel";
+        internal static string healthScaleMask = "healthScale";
+        internal static string healthFenceMask = "healthFence";
+        internal static string peekLeftRightLenMask = "peekLRLen";
+        internal static string peekCrouchLenMask = "peekCrouchLen";
+        internal static string peekTimeMask = "peekTime";
+        internal static double movSpeed = 1.75f;
+        internal static double forwardSpeed = 17.5f;
+        internal static double upwardSpeed = 27;
+        internal static double inAirSpeed = 0.5f;
+        internal static double peekCrouchLen = 0.8500000238418579f;
+        internal static double peekLRLen = 0.8500000238418579f;
+        internal static double peekTime = 0.25;
+        internal static double healthScale = 3.0f;
+        internal static double healthScaleFence = 0.5f;
+        #endregion
+
+        #region Misc Data
         internal static List<string> aiScriptFiles = new List<string>();
-        internal static string aiEnenmyTask = null, aiFriendTask = null, levelFlowData, missionLevelFile = "mission_level.txt", missionDescFile = "mission_desc.txt", missionListFile = @"\MissionsList.dat";
-        internal static double movSpeed = 1.75f, forwardSpeed = 17.5f, upwardSpeed = 27, inAirSpeed = 0.5f, peekCrouchLen = 0.8500000238418579f, peekLRLen = 0.8500000238418579f, peekTime = 0.25, healthScale = 3.0f, healthScaleFence = 0.5f;
+        internal static string aiEnenmyTask = null;
+        internal static string aiFriendTask = null;
+        internal static string levelFlowData;
+        internal static string missionLevelFile = "mission_level.txt";
+        internal static string missionDescFile = "mission_desc.txt";
+        internal static string missionListFile = @"\MissionsList.dat";
+        #endregion
+
+        internal static List<string> objTypeList = new List<string>() { "Building", "EditRigidObj", "Terminal", "Elevator", "ExplodeObject", "AlarmControl", "Generator", "Radio" };
         private static Random rand = new Random();
         internal static QIniParser qIniParser;
         internal enum QTYPES { BUILDING = 1, RIGID_OBJ = 2 };
@@ -113,8 +355,8 @@ namespace IGIEditor
         internal enum UPDATE_ACTION { DOWNLOAD = 1, EXTRACT = 2, UPDATE = 3 };
         internal enum HEALTH_ACTION { NONE = 0, TEMPORARY = 1, PERMANENT = 2, RESTORE = 3 };
         internal static Dictionary<int, string> graphAreas = new Dictionary<int, string>();
-        //private static IGIIGIEditorUI.editorRef IGIEditorUI.editorRef = IGIIGIEditorUI.editorRef.editorRef;
 
+        #region Dictionary items
         //List of Dictionary items.
         internal static List<Dictionary<string, int>> weaponList = new List<Dictionary<string, int>>();
         internal static List<Dictionary<string, string>> buildingList = new List<Dictionary<string, string>>();
@@ -132,12 +374,13 @@ namespace IGIEditor
         internal static List<QGraphs.GraphNode> graphNodesList = new List<QGraphs.GraphNode>();
         internal static List<int> qIdsList = new List<int>();
         internal static List<HumanAi> humanAiList = new List<HumanAi>();
-
+        #endregion
 
         //Server data list.
         internal static List<QServerData> qServerDataList = new List<QServerData>();
         internal static List<QMissionsData> qServerMissionDataList = new List<QMissionsData>();
 
+        #region Game weapon ammo
         //Weapons variables.
         internal const string weaponId = "WEAPON_ID_";
         internal static Dictionary<string, string> ammoList = new Dictionary<string, string>(){
@@ -155,7 +398,9 @@ namespace IGIEditor
         {"M203","AMMO_ID_M203"},
         {"MEDIPACK","AMMO_ID_MEDIPACK"},
         {"PROXIMITYMINE","AMMO_ID_PROXIMITYMINE"}};
+        #endregion
 
+        #region Game weapon data
         internal enum GAME_WEAPON
         {
             WEAPON_ID_GLOCK = 1, //Weapon Type: Pistol.
@@ -183,11 +428,12 @@ namespace IGIEditor
             WEAPON_ID_T80 = 43,//Weapon Type: Launcher.
             WEAPON_ID_SENTRY = 44//Weapon Type: HMG (Machine Gun).
         };
+        #endregion
 
         //Base server url for Downloading resources.
         internal static string baseServerUrl = @"http://igiresearchdevelopers.orgfree.com";
 
-        internal static List<string> aiTypes = new List<string>() { 
+        internal static List<string> aiTypes = new List<string>() {
             "AITYPE_RPG", "AITYPE_GUNNER", "AITYPE_SNIPER",
             "AITYPE_ANYA", "AITYPE_EKK", "AITYPE_PRIBOI",
             "AITYPE_CIVILIAN", "AITYPE_PATROL_AK", "AITYPE_GUARD_AK",
@@ -1261,7 +1507,7 @@ namespace IGIEditor
                 {
                     //Parse all the user data.
                     string name = userData.Slice(userData.IndexOf("<name>") + "<name>".Length, userData.IndexOf("</name>"));
-                    //string keyId = userData.Slice(userData.IndexOf("<key>") + "<key>".Length, userData.IndexOf("</key>"));
+                    string keyId = userData.Slice(userData.IndexOf("<key>") + "<key>".Length, userData.IndexOf("</key>"));
                     string uuid = userData.Slice(userData.IndexOf("<uuid>") + "<uuid>".Length, userData.IndexOf("</uuid>"));
                     string macAddress = userData.Slice(userData.IndexOf("<mac>") + "<mac>".Length, userData.IndexOf("</mac>"));
                     string ipAddress = userData.Slice(userData.IndexOf("<ip>") + "<ip>".Length, userData.IndexOf("</ip>"));
@@ -1272,6 +1518,7 @@ namespace IGIEditor
                     //Append all user data.
                     userRequestedDataXML = "Name: " + name + "\n" +
                         "Unique Identifier: " + uuid + "\n" +
+                        "License Key: " + keyId + "\n" +
                         "Mac Address: " + macAddress + "\n" +
                         "IP Address: " + ipAddress + "\n" +
                         "City: " + city + "\n" +
@@ -1287,12 +1534,19 @@ namespace IGIEditor
 
         internal static void ShowPathExplorer(string path)
         {
-            Process.Start(new ProcessStartInfo()
+            try
             {
-                FileName = path,
-                UseShellExecute = true,
-                Verb = "open"
-            });
+                Process.Start(new ProcessStartInfo()
+                {
+                    FileName = path,
+                    UseShellExecute = true,
+                    Verb = "open"
+                });
+            }
+            catch (Exception ex)
+            {
+                LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
         }
 
         //Execute shell command and get std-output.
@@ -1314,6 +1568,15 @@ namespace IGIEditor
             string output = (runAsAdmin) ? String.Empty : process.StandardOutput.ReadToEnd();
             process.WaitForExit();
             return output;
+        }
+
+        internal static void ShellExecUrl(string url)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true
+            });
         }
 
         internal static string LoadFile()
