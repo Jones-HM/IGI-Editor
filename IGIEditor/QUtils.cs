@@ -117,7 +117,6 @@ namespace IGIEditor
         internal static string internalsLogFile = @"\IGI-Internals.log";
         #endregion
 
-
         #region Booleans
         internal static bool gameFound = false;
         internal static bool gameProfileLoaded = false;
@@ -184,6 +183,7 @@ namespace IGIEditor
         internal static string menusystemGamePath;
         internal static string missionsGamePath;
         internal static string commonGamePath;
+        internal static string weaponsCfgQscPath;
         internal static string qfilesPath = @"\QFiles";
         internal static string qEditor = "QEditor";
         internal static string qconv = "QConv";
@@ -210,7 +210,6 @@ namespace IGIEditor
         internal static string editorChangeLogs = "CHANGELOGS";
         internal static string editorLicence = "LICENCE";
         internal static string editorReadme = "README";
-        internal static string editorAutoUpdaterFile;
         internal static string autoUpdaterFile = "AutoUpdater";
         internal static string autoUpdaterBatch;
         internal static string igiQsc = "IGI_QSC";
@@ -223,7 +222,7 @@ namespace IGIEditor
         internal static string humanplayerPath = @"\humanplayer";
         internal static string aiGraphTask = "AIGraph";
         internal static string menuSystemDir = "menusystem";
-        internal static string menuSystemPath = null;
+        internal static string menuSystemPath;
         internal static string internalsDllFile;
         internal static string internalsDll = "IGI-Internals.dll";
         internal static string internalsDllPath = @"bin\IGI-Internals.dll";
@@ -231,9 +230,6 @@ namespace IGIEditor
         internal static string tmpDllPath;
         internal static string internalDllInjectorPath = @"bin\IGI-Injector.exe";
         internal static string internalDllGTInjectorPath = @"bin\IGI-Injector-GT.exe";
-        internal static string PATH_SEC = "PATH";
-        internal static string EDITOR_SEC = "EDITOR";
-        internal static string GAME_SEC = "GAME";
         internal static string qedQscPath = @"\IGI_QSC";
         internal static string qedQvmPath = @"\IGI_QVM";
         internal static string qedAiPath = @"\AIFiles";
@@ -244,6 +240,9 @@ namespace IGIEditor
         internal static string inputMissionPath = @"\missions\location0\level";
         internal static string inputHumanplayerPath = @"\humanplayer";
         internal static string inputWeaponsPath = @"\weapons";
+        internal static string PATH_SECTION = "PATH";
+        internal static string EDITOR_SECTION = "EDITOR";
+        internal static string GAME_SECTION = "GAME";
         internal static string objects = "objects";
         internal static string objectsAll = "objectsAll";
         internal static string weapons = "weapons";
@@ -294,6 +293,7 @@ namespace IGIEditor
         internal const string EDITOR_LEVEL_ERR = "EDITOR ERROR";
         internal const string alarmControl = "AlarmControl";
         internal const string stationaryGun = "StationaryGun";
+        internal const string EXTERNAL_COMPILER_ERR = "External Compiler not found in QEditor directory." + "\n" +"Try switching to External compiler from settings";
         #endregion
 
         #region About Info
@@ -374,6 +374,7 @@ namespace IGIEditor
         internal static List<QGraphs.GraphNode> graphNodesList = new List<QGraphs.GraphNode>();
         internal static List<int> qIdsList = new List<int>();
         internal static List<HumanAi> humanAiList = new List<HumanAi>();
+        internal static List<Weapon> weaponDataList = new List<Weapon>();
         #endregion
 
         //Server data list.
@@ -404,29 +405,29 @@ namespace IGIEditor
         internal enum GAME_WEAPON
         {
             WEAPON_ID_GLOCK = 1, //Weapon Type: Pistol.
+            WEAPON_ID_COLT = 21,//Weapon Type: Revolver.
             WEAPON_ID_DESERTEAGLE = 3,//Weapon Type: Pistol.
+            WEAPON_ID_MP5SD = 7,//Weapon Type: SMG.
+            WEAPON_ID_UZI = 6,//Weapon Type: SMG.
+            WEAPON_ID_UZIX2 = 13,//Weapon Type: SMG.
             WEAPON_ID_M16A2 = 4,//Weapon Type: Rifle.
             WEAPON_ID_AK47 = 5,//Weapon Type: Rifle.
-            WEAPON_ID_UZI = 6,//Weapon Type: SMG.
-            WEAPON_ID_MP5SD = 7,//Weapon Type: SMG.
+            WEAPON_ID_MINIMI = 10,//Weapon Type: HMG (Machine Gun).
             WEAPON_ID_SPAS12 = 8,//Weapon Type: Shotgun.
             WEAPON_ID_JACKHAMMER = 9,//Weapon Type: Shotgun.
-            WEAPON_ID_MINIMI = 10,//Weapon Type: HMG (Machine Gun).
             WEAPON_ID_DRAGUNOV = 11,//Weapon Type: Sniper.
-            WEAPON_ID_RPG18 = 12,//Weapon Type: Launcher.
-            WEAPON_ID_UZIX2 = 13,//Weapon Type: SMG.
-            WEAPON_ID_GRENADE = 14,//Weapon Type: Grenade.
             WEAPON_ID_FLASHBANG = 15,//Weapon Type: Grenade.
-            WEAPON_ID_PROXIMITYMINE = 16,//Weapon Type: Grenade.
-            WEAPON_ID_BINOCULARS = 18,//Weapon Type: Binoculars.
+            WEAPON_ID_GRENADE = 14,//Weapon Type: Grenade.
+            WEAPON_ID_T80 = 43,//Weapon Type: Launcher.
+            WEAPON_ID_SENTRY = 44,//Weapon Type: HMG (Machine Gun).
+            WEAPON_ID_RPG18 = 12,//Weapon Type: Launcher.
+            WEAPON_ID_PROXIMITYMINE = 41,//Weapon Type: Grenade.
+            WEAPON_ID_MIL = 41,//Weapon Type: HMG (Machine Gun).
             WEAPON_ID_MEDIPACK = 19,//Weapon Type: MediPack.
             WEAPON_ID_KNIFE = 20,//Weapon Type: Knife.
-            WEAPON_ID_COLT = 21,//Weapon Type: Revolver.
-            WEAPON_ID_APC = 40,//Weapon Type: Launcher.
-            WEAPON_ID_MIL = 41,//Weapon Type: HMG (Machine Gun).
             WEAPON_ID_M2HB = 42,//Weapon Type: HMG (Machine Gun).
-            WEAPON_ID_T80 = 43,//Weapon Type: Launcher.
-            WEAPON_ID_SENTRY = 44//Weapon Type: HMG (Machine Gun).
+            WEAPON_ID_BINOCULARS = 18,//Weapon Type: Binoculars.
+            WEAPON_ID_APC = 40,//Weapon Type: Launcher.
         };
         #endregion
 
@@ -491,6 +492,7 @@ namespace IGIEditor
             internalsLogPath = cachePath + internalsLogFile;
             weaponsModQvmPath = cfgWeaponsPath + @"\" + weaponsModQvm;
             weaponsOrgCfgPath = cfgWeaponsPath + @"\" + weaponConfigQVM;
+            weaponsCfgQscPath = qQSCPath + @"\weapons\" + weaponConfigQSC;
             editorUpdaterFile = cachePath + @"\" + editorUpdaterDir + zipExt;
             editorUpdaterAbsDir = cachePath + @"\" + editorUpdaterDir;
             autoUpdaterBatch = editorAppName + "-" + autoUpdaterFile + batExt;
@@ -781,23 +783,23 @@ namespace IGIEditor
             }
 
             //Write App path to config.
-            qIniParser.Write("game_path", gameAbsPath is null ? "\n" : gameAbsPath, PATH_SEC);
+            qIniParser.Write("game_path", gameAbsPath is null ? "\n" : gameAbsPath, PATH_SECTION);
 
             //Write App properties to config [EDITOR-SECTION].
-            qIniParser.Write("game_reset", gameReset.ToString().ToLower(), EDITOR_SEC);
-            qIniParser.Write("game_refresh", gameRefresh.ToString().ToLower(), EDITOR_SEC);
-            qIniParser.Write("app_logs", appLogs.ToString().ToLower(), EDITOR_SEC);
-            qIniParser.Write("app_online", editorOnline.ToString().ToLower(), EDITOR_SEC);
-            qIniParser.Write("update_check", editorUpdateCheck.ToString().ToLower(), EDITOR_SEC);
-            qIniParser.Write("update_interval", updateTimeInterval.ToString().ToLower(), EDITOR_SEC);
-            qIniParser.Write("compiler_type", (internalCompiler) ? "internal" : "external", EDITOR_SEC);
+            qIniParser.Write("game_reset", gameReset.ToString().ToLower(), EDITOR_SECTION);
+            qIniParser.Write("game_refresh", gameRefresh.ToString().ToLower(), EDITOR_SECTION);
+            qIniParser.Write("app_logs", appLogs.ToString().ToLower(), EDITOR_SECTION);
+            qIniParser.Write("app_online", editorOnline.ToString().ToLower(), EDITOR_SECTION);
+            qIniParser.Write("update_check", editorUpdateCheck.ToString().ToLower(), EDITOR_SECTION);
+            qIniParser.Write("update_interval", updateTimeInterval.ToString().ToLower(), EDITOR_SECTION);
+            qIniParser.Write("compiler_type", (internalCompiler) ? "internal" : "external", EDITOR_SECTION);
 
             //Write Game properties to config [GAME-SECTION].
-            qIniParser.Write("music_enabled", gameMusicEnabled.ToString().ToLower(), GAME_SEC);
-            qIniParser.Write("ai_idle_mode", gameAiIdleMode.ToString().ToLower(), GAME_SEC);
-            qIniParser.Write("debug_mode", gameDebugMode.ToString().ToLower(), GAME_SEC);
-            qIniParser.Write("disable_warnings", gameDisableWarns.ToString().ToLower(), GAME_SEC);
-            qIniParser.Write("game_fps", gameFPS.ToString().ToLower(), GAME_SEC);
+            qIniParser.Write("music_enabled", gameMusicEnabled.ToString().ToLower(), GAME_SECTION);
+            qIniParser.Write("ai_idle_mode", gameAiIdleMode.ToString().ToLower(), GAME_SECTION);
+            qIniParser.Write("debug_mode", gameDebugMode.ToString().ToLower(), GAME_SECTION);
+            qIniParser.Write("disable_warnings", gameDisableWarns.ToString().ToLower(), GAME_SECTION);
+            qIniParser.Write("game_fps", gameFPS.ToString().ToLower(), GAME_SECTION);
 
             if (!gameFound) Environment.Exit(1);
         }
@@ -811,7 +813,7 @@ namespace IGIEditor
                 if (File.Exists(iniCfgFile))
                 {
                     //Read properties from PATH section.
-                    var configPath = qIniParser.Read("game_path", PATH_SEC);
+                    var configPath = qIniParser.Read("game_path", PATH_SECTION);
 
                     string gPath = configPath.Trim();
                     if (gPath.Contains("\""))
@@ -829,21 +831,21 @@ namespace IGIEditor
                     }
 
                     //Parse all data for Applications settings.
-                    appLogs = bool.Parse(qIniParser.Read("app_logs", EDITOR_SEC)); appLogsParsed = true;
-                    gameReset = bool.Parse(qIniParser.Read("game_reset", EDITOR_SEC)); gameResetParsed = true;
-                    gameRefresh = bool.Parse(qIniParser.Read("game_refresh", EDITOR_SEC)); gameRefreshParsed = true;
-                    editorOnline = bool.Parse(qIniParser.Read("app_online", EDITOR_SEC)); editorOnlineParsed = true;
-                    editorUpdateCheck = bool.Parse(qIniParser.Read("update_check", EDITOR_SEC)); editorUpdateParsed = true;
-                    updateTimeInterval = int.Parse(qIniParser.Read("update_interval", EDITOR_SEC)); timeInterval = true;
-                    var compilerType = qIniParser.Read("compiler_type", EDITOR_SEC);
+                    appLogs = bool.Parse(qIniParser.Read("app_logs", EDITOR_SECTION)); appLogsParsed = true;
+                    gameReset = bool.Parse(qIniParser.Read("game_reset", EDITOR_SECTION)); gameResetParsed = true;
+                    gameRefresh = bool.Parse(qIniParser.Read("game_refresh", EDITOR_SECTION)); gameRefreshParsed = true;
+                    editorOnline = bool.Parse(qIniParser.Read("app_online", EDITOR_SECTION)); editorOnlineParsed = true;
+                    editorUpdateCheck = bool.Parse(qIniParser.Read("update_check", EDITOR_SECTION)); editorUpdateParsed = true;
+                    updateTimeInterval = int.Parse(qIniParser.Read("update_interval", EDITOR_SECTION)); timeInterval = true;
+                    var compilerType = qIniParser.Read("compiler_type", EDITOR_SECTION);
                     if (compilerType.Contains("internal") || compilerType.Contains("external")) { internalCompiler = (compilerType.Contains("internal")); externalCompiler = (compilerType.Contains("external")); compilerParsed = true; } else compilerParsed = false;
 
                     //Parse all data for Game settings.
-                    gameMusicEnabled = bool.Parse(qIniParser.Read("music_enabled", GAME_SEC)); gameMusicParsed = true;
-                    gameAiIdleMode = bool.Parse(qIniParser.Read("ai_idle_mode", GAME_SEC)); gameAiIdleModeParsed = true;
-                    gameDebugMode = bool.Parse(qIniParser.Read("debug_mode", GAME_SEC)); gameDebugModeParsed = true;
-                    gameDisableWarns = bool.Parse(qIniParser.Read("disable_warnings", GAME_SEC)); gameDisableWarnParsed = true;
-                    gameFPS = Int32.Parse(qIniParser.Read("game_fps", GAME_SEC)); gameFPSParsed = true;
+                    gameMusicEnabled = bool.Parse(qIniParser.Read("music_enabled", GAME_SECTION)); gameMusicParsed = true;
+                    gameAiIdleMode = bool.Parse(qIniParser.Read("ai_idle_mode", GAME_SECTION)); gameAiIdleModeParsed = true;
+                    gameDebugMode = bool.Parse(qIniParser.Read("debug_mode", GAME_SECTION)); gameDebugModeParsed = true;
+                    gameDisableWarns = bool.Parse(qIniParser.Read("disable_warnings", GAME_SECTION)); gameDisableWarnParsed = true;
+                    gameFPS = Int32.Parse(qIniParser.Read("game_fps", GAME_SECTION)); gameFPSParsed = true;
 
                     //Setting for Auto-Updater.
                     if (!editorOnline && editorUpdateCheck) editorUpdateCheck = false;
@@ -1622,6 +1624,7 @@ namespace IGIEditor
             var inputQscPath = cfgQscPath + gameLevel + "\\" + objectsQsc;
 
             FileCopy(inputQscPath, objectsQsc);
+            FileIOCopy(weaponsCfgQscPath, QUtils.weaponConfigQSC);
 
             var fileData = LoadFile(objectsQsc);
             File.WriteAllText(objectsQsc, fileData);
@@ -1877,7 +1880,7 @@ namespace IGIEditor
                 string csvData = null;
                 if (!advancedData)
                 {
-                    csvData = "" + weaponTask.name + "," + weaponTask.scriptId + "," + weaponTask.typeEnum + "," + weaponTask.ammoDispType + "," + weaponTask.mass + "," + weaponTask.damage + "," + weaponTask.power + "," + weaponTask.reloadTime + "," + weaponTask.bullets + "," + weaponTask.rpm + "," + weaponTask.clips + "," + weaponTask.range + "," + weaponTask.burst + "," + weaponTask.muzzleVelocity + "," + "\n";
+                    csvData = "" + weaponTask.weaponName + "," + weaponTask.scriptId + "," + weaponTask.typeEnum + "," + weaponTask.ammoDispType + "," + weaponTask.mass + "," + weaponTask.damage + "," + weaponTask.power + "," + weaponTask.reloadTime + "," + weaponTask.bullets + "," + weaponTask.roundsPerMinute + "," + weaponTask.roundsPerClip + "," + weaponTask.weaponRange + "," + weaponTask.burst + "," + weaponTask.muzzleVelocity + "," + "\n";
                 }
 
                 else

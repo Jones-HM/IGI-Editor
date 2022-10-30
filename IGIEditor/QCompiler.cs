@@ -127,6 +127,7 @@ namespace IGIEditor
             {
                 string scriptFile = "";
                 string outScriptPath = gamePath + "\\" + qscFile;
+                string scriptWeaponFile = "LOCAL:weapons/weaponconfig.qsc";
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QFile : Output path '" + outScriptPath + "'");
 
                 var qscData = QUtils.LoadFile(qscFile);
@@ -139,6 +140,10 @@ namespace IGIEditor
 
                     else if (gamePath.Contains("ai"))
                         scriptFile = "MISSION:AI/" + qscFile;
+
+                    else if (gamePath.Contains(QUtils.weaponsDirPath))
+                        scriptFile = "LOCAL:weapons/" + qscFile;
+
 
                     if (File.Exists(outScriptPath))
                     {
@@ -227,7 +232,10 @@ namespace IGIEditor
                 if (!String.IsNullOrEmpty(qscFile))
                 {
                     var qcompiler = GetQCompiler();
-                    status = qcompiler.QCompile(new List<string>() { qscFile }, qscPath);
+                    if (qcompiler is null)
+                        QUtils.ShowError(QUtils.EXTERNAL_COMPILER_ERR);
+                   else 
+                        status = qcompiler.QCompile(new List<string>() { qscFile }, qscPath);
                 }
             }
             catch (Exception ex)
@@ -246,7 +254,10 @@ namespace IGIEditor
                 {
                     QUtils.SaveFile(qscData, appendData);
                     var qcompiler = GetQCompiler();
-                    status = qcompiler.QCompile(new List<string>() { QUtils.objectsQsc }, gamePath);
+                    if (qcompiler is null)
+                        QUtils.ShowError(QUtils.EXTERNAL_COMPILER_ERR);
+                    else
+                        status = qcompiler.QCompile(new List<string>() { QUtils.objectsQsc }, gamePath);
 
                     if (status)
                         if (restartLevel) QMemory.RestartLevel(savePos);
@@ -321,6 +332,106 @@ namespace IGIEditor
                 status = CompileInternalData(qscData, gamePath, appendData, restartLevel, savePos);
             else if (QUtils.externalCompiler)
                 status = CompileExternalData(qscData, gamePath, appendData, restartLevel, savePos);
+            return status;
+        }
+
+
+        //Decompiler  - QConv Tools.
+        internal static bool DecompileExternalFile(string qvmFile, string qvmPath)
+        {
+            bool status = false;
+            try
+            {
+                if (!String.IsNullOrEmpty(qvmFile))
+                {
+                    var qcompiler = GetQCompiler();
+                    if (qcompiler is null)
+                        QUtils.ShowError(QUtils.EXTERNAL_COMPILER_ERR);
+                    else
+                        status = qcompiler.QDecompile(new List<string>() { qvmFile }, qvmPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
+            return status;
+        }
+
+        internal static bool DecompileExternalData(string qvmFile, string gamePath, bool appendData = false, bool restartLevel = false, bool savePos = true)
+        {
+            bool status = false;
+            try
+            {
+                if (!String.IsNullOrEmpty(qvmFile))
+                {
+                    QUtils.SaveFile(qvmFile, appendData);
+                    var qcompiler = GetQCompiler();
+                    if (qcompiler is null)
+                        QUtils.ShowError(QUtils.EXTERNAL_COMPILER_ERR);
+                    else
+                        status = qcompiler.QDecompile(new List<string>() { QUtils.objectsQvm }, gamePath);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
+            return status;
+        }
+
+        internal static bool Decompile(string qvmFile, string gamePath, int _ignore)
+        {
+            bool status = DecompileExternalFile(qvmFile, gamePath);
+            return status;
+        }
+
+        internal static bool Decompile(string qvmData, string gamePath, bool appendData = false, bool restartLevel = false, bool savePos = true)
+        {
+            bool status = DecompileExternalData(qvmData, gamePath, appendData, restartLevel, savePos);
+            return status;
+        }
+
+        public bool QDecompile(List<string> qvmFiles, string outputPath)
+        {
+            bool status = true;
+            try
+            {
+                status = QCopy(qvmFiles, QTYPE.DECOMPILE);
+
+                if (!status)
+                    QUtils.ShowError("Error occurred while copying files");
+
+                //Change directory to compile directory.
+                QSetPath(decompilePath);
+
+                //Start compile command.
+                string shellOut = QUtils.ShellExec(decompileStart);
+                if (shellOut.Contains("Error") || shellOut.Contains("importModule") || shellOut.Contains("ModuleNotFoundError") || shellOut.Contains("Converted: 0"))
+                {
+                    QUtils.ShowError("Error in decompiling input files");
+                    return false;
+                }
+
+                var currDir = Directory.GetCurrentDirectory();
+                if (Directory.Exists(currDir))
+                {
+                    bool moveStatus = XMove("output", outputPath, QTYPE.DECOMPILE);
+                    if (!moveStatus)
+                        QUtils.ShowError("Error while moving data to Output path");
+                }
+                else
+                {
+                    QUtils.ShowError("Path '" + currDir + "' does not exist!");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
+            Directory.SetCurrentDirectory(qappPath);
             return status;
         }
 

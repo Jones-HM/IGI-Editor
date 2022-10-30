@@ -99,7 +99,6 @@
             this.damageScaleTxt = new System.Windows.Forms.NumericUpDown();
             this.movementSpeedTxt = new System.Windows.Forms.NumericUpDown();
             this.updateHumanBtn = new System.Windows.Forms.Button();
-            this.readHumanBtn = new System.Windows.Forms.Button();
             this.resetHumanBtn = new System.Windows.Forms.Button();
             this.inAirSpeedLbl = new System.Windows.Forms.Label();
             this.updatePeekBtn = new System.Windows.Forms.Button();
@@ -162,6 +161,8 @@
             this.aiScriptEditor = new System.Windows.Forms.TabPage();
             this.aiPatrolPathEditor = new System.Windows.Forms.TabPage();
             this.weaponEditor = new System.Windows.Forms.TabPage();
+            this.saveWeaponNameBtn = new System.Windows.Forms.Button();
+            this.weaponNameTxt = new System.Windows.Forms.TextBox();
             this.weaponGroupFileTxt = new System.Windows.Forms.TextBox();
             this.weaponAmmoTxt = new System.Windows.Forms.NumericUpDown();
             this.markWeaponsCb = new System.Windows.Forms.CheckBox();
@@ -169,12 +170,10 @@
             this.weaponAmmolbl = new System.Windows.Forms.Label();
             this.weaponDD = new System.Windows.Forms.ComboBox();
             this.weaponImgBox = new System.Windows.Forms.PictureBox();
-            this.resetModWeaponBtn = new System.Windows.Forms.Button();
+            this.updateWeaponBtn = new System.Windows.Forms.Button();
             this.loadWeaponGroupBtn = new System.Windows.Forms.Button();
             this.removeWeaponBtn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.weaponNameLbl = new System.Windows.Forms.Label();
-            this.modWeaponBtn = new System.Windows.Forms.Button();
             this.saveWeaponGroupBtn = new System.Windows.Forms.Button();
             this.addWeaponBtn = new System.Windows.Forms.Button();
             this.threeDEditor = new System.Windows.Forms.TabPage();
@@ -272,10 +271,13 @@
             this.xPosLbl_O = new System.Windows.Forms.Label();
             this.updateObjPosition = new System.Windows.Forms.Button();
             this.miscEditor = new System.Windows.Forms.TabPage();
+            this.viewLogsCb = new System.Windows.Forms.CheckBox();
+            this.shareLogsCb = new System.Windows.Forms.CheckBox();
             this.externalCompilerCb = new System.Windows.Forms.CheckBox();
             this.internalCompilerCb = new System.Windows.Forms.CheckBox();
             this.framesTxt = new System.Windows.Forms.NumericUpDown();
             this.minutesLbl = new System.Windows.Forms.Label();
+            this.showAppDataCachePathBtn = new System.Windows.Forms.Button();
             this.gamePathBtn = new System.Windows.Forms.Button();
             this.requestDataBtn = new System.Windows.Forms.Button();
             this.editorUpdaterBtn = new System.Windows.Forms.Button();
@@ -329,9 +331,6 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.gameLogoLbl = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.shareLogsCb = new System.Windows.Forms.CheckBox();
-            this.viewLogsCb = new System.Windows.Forms.CheckBox();
-            this.showAppDataCachePathBtn = new System.Windows.Forms.Button();
             this.editorMainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -1231,7 +1230,6 @@
             this.humanEditor.Controls.Add(this.damageScaleTxt);
             this.humanEditor.Controls.Add(this.movementSpeedTxt);
             this.humanEditor.Controls.Add(this.updateHumanBtn);
-            this.humanEditor.Controls.Add(this.readHumanBtn);
             this.humanEditor.Controls.Add(this.resetHumanBtn);
             this.humanEditor.Controls.Add(this.inAirSpeedLbl);
             this.humanEditor.Controls.Add(this.updatePeekBtn);
@@ -1567,20 +1565,6 @@
             this.updateHumanBtn.Text = "Update Human";
             this.updateHumanBtn.UseVisualStyleBackColor = true;
             this.updateHumanBtn.Click += new System.EventHandler(this.updateTeamIdBtn_Click);
-            // 
-            // readHumanBtn
-            // 
-            this.readHumanBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.readHumanBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.readHumanBtn.Location = new System.Drawing.Point(743, 347);
-            this.readHumanBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.readHumanBtn.Name = "readHumanBtn";
-            this.readHumanBtn.Size = new System.Drawing.Size(148, 31);
-            this.readHumanBtn.TabIndex = 59;
-            this.readHumanBtn.Text = "Read Human";
-            this.readHumanBtn.UseVisualStyleBackColor = true;
-            this.readHumanBtn.Visible = false;
-            this.readHumanBtn.Click += new System.EventHandler(this.readHumanBtn_Click);
             // 
             // resetHumanBtn
             // 
@@ -2387,6 +2371,8 @@
             // weaponEditor
             // 
             this.weaponEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.weaponEditor.Controls.Add(this.saveWeaponNameBtn);
+            this.weaponEditor.Controls.Add(this.weaponNameTxt);
             this.weaponEditor.Controls.Add(this.weaponGroupFileTxt);
             this.weaponEditor.Controls.Add(this.weaponAmmoTxt);
             this.weaponEditor.Controls.Add(this.markWeaponsCb);
@@ -2394,12 +2380,10 @@
             this.weaponEditor.Controls.Add(this.weaponAmmolbl);
             this.weaponEditor.Controls.Add(this.weaponDD);
             this.weaponEditor.Controls.Add(this.weaponImgBox);
-            this.weaponEditor.Controls.Add(this.resetModWeaponBtn);
+            this.weaponEditor.Controls.Add(this.updateWeaponBtn);
             this.weaponEditor.Controls.Add(this.loadWeaponGroupBtn);
             this.weaponEditor.Controls.Add(this.removeWeaponBtn);
-            this.weaponEditor.Controls.Add(this.label1);
             this.weaponEditor.Controls.Add(this.weaponNameLbl);
-            this.weaponEditor.Controls.Add(this.modWeaponBtn);
             this.weaponEditor.Controls.Add(this.saveWeaponGroupBtn);
             this.weaponEditor.Controls.Add(this.addWeaponBtn);
             this.weaponEditor.ForeColor = System.Drawing.Color.DeepSkyBlue;
@@ -2410,17 +2394,45 @@
             this.weaponEditor.TabIndex = 7;
             this.weaponEditor.Text = "Weapon Editor";
             // 
+            // saveWeaponNameBtn
+            // 
+            this.saveWeaponNameBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.saveWeaponNameBtn.ForeColor = System.Drawing.Color.SpringGreen;
+            this.saveWeaponNameBtn.Location = new System.Drawing.Point(702, 268);
+            this.saveWeaponNameBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.saveWeaponNameBtn.Name = "saveWeaponNameBtn";
+            this.saveWeaponNameBtn.Size = new System.Drawing.Size(211, 31);
+            this.saveWeaponNameBtn.TabIndex = 86;
+            this.saveWeaponNameBtn.Text = "Save Name";
+            this.saveWeaponNameBtn.UseVisualStyleBackColor = true;
+            this.saveWeaponNameBtn.Click += new System.EventHandler(this.saveWeaponNameBtn_Click);
+            // 
+            // weaponNameTxt
+            // 
+            this.weaponNameTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.weaponNameTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.weaponNameTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.weaponNameTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.weaponNameTxt.Location = new System.Drawing.Point(282, 268);
+            this.weaponNameTxt.Margin = new System.Windows.Forms.Padding(4);
+            this.weaponNameTxt.Name = "weaponNameTxt";
+            this.weaponNameTxt.Size = new System.Drawing.Size(401, 30);
+            this.weaponNameTxt.TabIndex = 85;
+            this.weaponNameTxt.Text = "NEW_WEAPON_NAME";
+            this.infoViewer.SetToolTip(this.weaponNameTxt, "Weapon Name");
+            // 
             // weaponGroupFileTxt
             // 
             this.weaponGroupFileTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.weaponGroupFileTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.weaponGroupFileTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.weaponGroupFileTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.weaponGroupFileTxt.Location = new System.Drawing.Point(279, 238);
+            this.weaponGroupFileTxt.Location = new System.Drawing.Point(282, 199);
             this.weaponGroupFileTxt.Margin = new System.Windows.Forms.Padding(4);
             this.weaponGroupFileTxt.Name = "weaponGroupFileTxt";
             this.weaponGroupFileTxt.Size = new System.Drawing.Size(401, 30);
             this.weaponGroupFileTxt.TabIndex = 84;
+            this.weaponGroupFileTxt.Text = "NEW_WEAPON_GROUP_NAME";
             this.infoViewer.SetToolTip(this.weaponGroupFileTxt, "Weapon Group File Name");
             // 
             // weaponAmmoTxt
@@ -2428,7 +2440,7 @@
             this.weaponAmmoTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.weaponAmmoTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.weaponAmmoTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.weaponAmmoTxt.Location = new System.Drawing.Point(261, 114);
+            this.weaponAmmoTxt.Location = new System.Drawing.Point(264, 75);
             this.weaponAmmoTxt.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -2452,7 +2464,7 @@
             // 
             this.markWeaponsCb.AutoSize = true;
             this.markWeaponsCb.Font = new System.Drawing.Font("Century Gothic", 7.8F);
-            this.markWeaponsCb.Location = new System.Drawing.Point(699, 89);
+            this.markWeaponsCb.Location = new System.Drawing.Point(702, 50);
             this.markWeaponsCb.Margin = new System.Windows.Forms.Padding(4);
             this.markWeaponsCb.Name = "markWeaponsCb";
             this.markWeaponsCb.Size = new System.Drawing.Size(131, 23);
@@ -2465,7 +2477,7 @@
             // 
             this.allWeaponsCb.AutoSize = true;
             this.allWeaponsCb.Font = new System.Drawing.Font("Century Gothic", 7.8F);
-            this.allWeaponsCb.Location = new System.Drawing.Point(918, 89);
+            this.allWeaponsCb.Location = new System.Drawing.Point(921, 50);
             this.allWeaponsCb.Margin = new System.Windows.Forms.Padding(4);
             this.allWeaponsCb.Name = "allWeaponsCb";
             this.allWeaponsCb.Size = new System.Drawing.Size(117, 23);
@@ -2478,7 +2490,7 @@
             // 
             this.weaponAmmolbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.weaponAmmolbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.weaponAmmolbl.Location = new System.Drawing.Point(73, 111);
+            this.weaponAmmolbl.Location = new System.Drawing.Point(76, 72);
             this.weaponAmmolbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.weaponAmmolbl.Name = "weaponAmmolbl";
             this.weaponAmmolbl.Size = new System.Drawing.Size(173, 33);
@@ -2493,7 +2505,7 @@
             this.weaponDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.weaponDD.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.weaponDD.FormattingEnabled = true;
-            this.weaponDD.Location = new System.Drawing.Point(261, 59);
+            this.weaponDD.Location = new System.Drawing.Point(264, 20);
             this.weaponDD.Name = "weaponDD";
             this.weaponDD.Size = new System.Drawing.Size(419, 29);
             this.weaponDD.TabIndex = 30;
@@ -2502,7 +2514,7 @@
             // weaponImgBox
             // 
             this.weaponImgBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.weaponImgBox.Location = new System.Drawing.Point(47, 170);
+            this.weaponImgBox.Location = new System.Drawing.Point(50, 131);
             this.weaponImgBox.Margin = new System.Windows.Forms.Padding(4);
             this.weaponImgBox.Name = "weaponImgBox";
             this.weaponImgBox.Size = new System.Drawing.Size(199, 184);
@@ -2510,24 +2522,24 @@
             this.weaponImgBox.TabIndex = 28;
             this.weaponImgBox.TabStop = false;
             // 
-            // resetModWeaponBtn
+            // updateWeaponBtn
             // 
-            this.resetModWeaponBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.resetModWeaponBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.resetModWeaponBtn.Location = new System.Drawing.Point(918, 127);
-            this.resetModWeaponBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.resetModWeaponBtn.Name = "resetModWeaponBtn";
-            this.resetModWeaponBtn.Size = new System.Drawing.Size(211, 31);
-            this.resetModWeaponBtn.TabIndex = 27;
-            this.resetModWeaponBtn.Text = "Reset Modified";
-            this.resetModWeaponBtn.UseVisualStyleBackColor = true;
-            this.resetModWeaponBtn.Click += new System.EventHandler(this.resetModWeaponBtn_Click);
+            this.updateWeaponBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.updateWeaponBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.updateWeaponBtn.Location = new System.Drawing.Point(852, 347);
+            this.updateWeaponBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.updateWeaponBtn.Name = "updateWeaponBtn";
+            this.updateWeaponBtn.Size = new System.Drawing.Size(277, 31);
+            this.updateWeaponBtn.TabIndex = 27;
+            this.updateWeaponBtn.Text = "Update Weapon Properties";
+            this.updateWeaponBtn.UseVisualStyleBackColor = true;
+            this.updateWeaponBtn.Click += new System.EventHandler(this.updateWeaponNameBtn_Click);
             // 
             // loadWeaponGroupBtn
             // 
             this.loadWeaponGroupBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.loadWeaponGroupBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.loadWeaponGroupBtn.Location = new System.Drawing.Point(918, 238);
+            this.loadWeaponGroupBtn.Location = new System.Drawing.Point(921, 199);
             this.loadWeaponGroupBtn.Margin = new System.Windows.Forms.Padding(4);
             this.loadWeaponGroupBtn.Name = "loadWeaponGroupBtn";
             this.loadWeaponGroupBtn.Size = new System.Drawing.Size(211, 31);
@@ -2540,7 +2552,7 @@
             // 
             this.removeWeaponBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeWeaponBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.removeWeaponBtn.Location = new System.Drawing.Point(918, 57);
+            this.removeWeaponBtn.Location = new System.Drawing.Point(921, 18);
             this.removeWeaponBtn.Margin = new System.Windows.Forms.Padding(4);
             this.removeWeaponBtn.Name = "removeWeaponBtn";
             this.removeWeaponBtn.Size = new System.Drawing.Size(211, 31);
@@ -2549,23 +2561,11 @@
             this.removeWeaponBtn.UseVisualStyleBackColor = true;
             this.removeWeaponBtn.Click += new System.EventHandler(this.removeWeaponBtn_Click);
             // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.label1.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.label1.Location = new System.Drawing.Point(373, 189);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(267, 33);
-            this.label1.TabIndex = 25;
-            this.label1.Text = "Weapon Group";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // weaponNameLbl
             // 
             this.weaponNameLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.weaponNameLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.weaponNameLbl.Location = new System.Drawing.Point(70, 55);
+            this.weaponNameLbl.Location = new System.Drawing.Point(73, 16);
             this.weaponNameLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.weaponNameLbl.Name = "weaponNameLbl";
             this.weaponNameLbl.Size = new System.Drawing.Size(173, 33);
@@ -2573,24 +2573,11 @@
             this.weaponNameLbl.Text = "Weapon";
             this.weaponNameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // modWeaponBtn
-            // 
-            this.modWeaponBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.modWeaponBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.modWeaponBtn.Location = new System.Drawing.Point(699, 127);
-            this.modWeaponBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.modWeaponBtn.Name = "modWeaponBtn";
-            this.modWeaponBtn.Size = new System.Drawing.Size(211, 31);
-            this.modWeaponBtn.TabIndex = 24;
-            this.modWeaponBtn.Text = "Weapons Modified";
-            this.modWeaponBtn.UseVisualStyleBackColor = true;
-            this.modWeaponBtn.Click += new System.EventHandler(this.modWeaponBtn_Click);
-            // 
             // saveWeaponGroupBtn
             // 
             this.saveWeaponGroupBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveWeaponGroupBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.saveWeaponGroupBtn.Location = new System.Drawing.Point(699, 238);
+            this.saveWeaponGroupBtn.Location = new System.Drawing.Point(702, 199);
             this.saveWeaponGroupBtn.Margin = new System.Windows.Forms.Padding(4);
             this.saveWeaponGroupBtn.Name = "saveWeaponGroupBtn";
             this.saveWeaponGroupBtn.Size = new System.Drawing.Size(211, 31);
@@ -2603,7 +2590,7 @@
             // 
             this.addWeaponBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addWeaponBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.addWeaponBtn.Location = new System.Drawing.Point(699, 57);
+            this.addWeaponBtn.Location = new System.Drawing.Point(702, 18);
             this.addWeaponBtn.Margin = new System.Windows.Forms.Padding(4);
             this.addWeaponBtn.Name = "addWeaponBtn";
             this.addWeaponBtn.Size = new System.Drawing.Size(211, 31);
@@ -3985,6 +3972,34 @@
             this.miscEditor.TabIndex = 6;
             this.miscEditor.Text = "Misc";
             // 
+            // viewLogsCb
+            // 
+            this.viewLogsCb.AutoSize = true;
+            this.viewLogsCb.Checked = true;
+            this.viewLogsCb.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewLogsCb.Font = new System.Drawing.Font("Century Gothic", 8F);
+            this.viewLogsCb.Location = new System.Drawing.Point(162, 233);
+            this.viewLogsCb.Margin = new System.Windows.Forms.Padding(4);
+            this.viewLogsCb.Name = "viewLogsCb";
+            this.viewLogsCb.Size = new System.Drawing.Size(64, 23);
+            this.viewLogsCb.TabIndex = 58;
+            this.viewLogsCb.Text = "View";
+            this.viewLogsCb.UseVisualStyleBackColor = true;
+            this.viewLogsCb.CheckedChanged += new System.EventHandler(this.viewLogsCb_CheckedChanged);
+            // 
+            // shareLogsCb
+            // 
+            this.shareLogsCb.AutoSize = true;
+            this.shareLogsCb.Font = new System.Drawing.Font("Century Gothic", 8F);
+            this.shareLogsCb.Location = new System.Drawing.Point(162, 214);
+            this.shareLogsCb.Margin = new System.Windows.Forms.Padding(4);
+            this.shareLogsCb.Name = "shareLogsCb";
+            this.shareLogsCb.Size = new System.Drawing.Size(70, 23);
+            this.shareLogsCb.TabIndex = 57;
+            this.shareLogsCb.Text = "Share";
+            this.shareLogsCb.UseVisualStyleBackColor = true;
+            this.shareLogsCb.CheckedChanged += new System.EventHandler(this.shareLogsCb_CheckedChanged);
+            // 
             // externalCompilerCb
             // 
             this.externalCompilerCb.AutoSize = true;
@@ -4051,6 +4066,21 @@
             this.minutesLbl.Text = "minutes";
             this.minutesLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.minutesLbl.MouseEnter += new System.EventHandler(this.minutesLbl_MouseEnter);
+            // 
+            // showAppDataCachePathBtn
+            // 
+            this.showAppDataCachePathBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.showAppDataCachePathBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.showAppDataCachePathBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.showAppDataCachePathBtn.Location = new System.Drawing.Point(42, 264);
+            this.showAppDataCachePathBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.showAppDataCachePathBtn.Name = "showAppDataCachePathBtn";
+            this.showAppDataCachePathBtn.Size = new System.Drawing.Size(190, 38);
+            this.showAppDataCachePathBtn.TabIndex = 41;
+            this.showAppDataCachePathBtn.Text = "Show AppData Path";
+            this.showAppDataCachePathBtn.UseVisualStyleBackColor = true;
+            this.showAppDataCachePathBtn.Click += new System.EventHandler(this.showAppDataCachePathBtn_Click);
+            this.showAppDataCachePathBtn.MouseEnter += new System.EventHandler(this.editorUpdaterBtn_MouseEnter);
             // 
             // gamePathBtn
             // 
@@ -4763,49 +4793,6 @@
             this.gameLogoLbl.TabIndex = 0;
             this.gameLogoLbl.Text = "IGI 1";
             // 
-            // shareLogsCb
-            // 
-            this.shareLogsCb.AutoSize = true;
-            this.shareLogsCb.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.shareLogsCb.Location = new System.Drawing.Point(162, 216);
-            this.shareLogsCb.Margin = new System.Windows.Forms.Padding(4);
-            this.shareLogsCb.Name = "shareLogsCb";
-            this.shareLogsCb.Size = new System.Drawing.Size(70, 23);
-            this.shareLogsCb.TabIndex = 57;
-            this.shareLogsCb.Text = "Share";
-            this.shareLogsCb.UseVisualStyleBackColor = true;
-            this.shareLogsCb.CheckedChanged += new System.EventHandler(this.shareLogsCb_CheckedChanged);
-            // 
-            // viewLogsCb
-            // 
-            this.viewLogsCb.AutoSize = true;
-            this.viewLogsCb.Checked = true;
-            this.viewLogsCb.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewLogsCb.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.viewLogsCb.Location = new System.Drawing.Point(162, 233);
-            this.viewLogsCb.Margin = new System.Windows.Forms.Padding(4);
-            this.viewLogsCb.Name = "viewLogsCb";
-            this.viewLogsCb.Size = new System.Drawing.Size(64, 23);
-            this.viewLogsCb.TabIndex = 58;
-            this.viewLogsCb.Text = "View";
-            this.viewLogsCb.UseVisualStyleBackColor = true;
-            this.viewLogsCb.CheckedChanged += new System.EventHandler(this.viewLogsCb_CheckedChanged);
-            // 
-            // showAppDataCachePathBtn
-            // 
-            this.showAppDataCachePathBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.showAppDataCachePathBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.showAppDataCachePathBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.showAppDataCachePathBtn.Location = new System.Drawing.Point(42, 264);
-            this.showAppDataCachePathBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.showAppDataCachePathBtn.Name = "showAppDataCachePathBtn";
-            this.showAppDataCachePathBtn.Size = new System.Drawing.Size(190, 38);
-            this.showAppDataCachePathBtn.TabIndex = 41;
-            this.showAppDataCachePathBtn.Text = "Show AppData Path";
-            this.showAppDataCachePathBtn.UseVisualStyleBackColor = true;
-            this.showAppDataCachePathBtn.Click += new System.EventHandler(this.showAppDataCachePathBtn_Click);
-            this.showAppDataCachePathBtn.MouseEnter += new System.EventHandler(this.editorUpdaterBtn_MouseEnter);
-            // 
             // IGIEditorUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -4995,7 +4982,6 @@
         private System.Windows.Forms.Label movementSpeedLbl;
         private System.Windows.Forms.Label inAirSpeedLbl;
         private System.Windows.Forms.Button resetHumanBtn;
-        private System.Windows.Forms.Button readHumanBtn;
         private System.Windows.Forms.Button gameIconBtn;
         private System.Windows.Forms.Button updatePeekBtn;
         private System.Windows.Forms.Label peekTimeLbl;
@@ -5067,8 +5053,6 @@
         private System.Windows.Forms.CheckBox liveEditorCb;
         private System.Windows.Forms.Button gfxResetBtn;
         private System.Windows.Forms.CheckBox resetPosCb;
-        private System.Windows.Forms.Button resetModWeaponBtn;
-        private System.Windows.Forms.Button modWeaponBtn;
         private System.Windows.Forms.Label internalsStatusLbl;
         private System.Windows.Forms.Label compilerTagLbl;
         private System.Windows.Forms.Label gameSettingsLbl;
@@ -5171,7 +5155,6 @@
         private System.Windows.Forms.Button saveWeaponGroupBtn;
         private System.Windows.Forms.Button loadWeaponGroupBtn;
         private System.Windows.Forms.TextBox weaponGroupFileTxt;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label modelIdOutLbl;
         private System.Windows.Forms.TextBox modelNameTxt;
         private System.Windows.Forms.Label label3;
@@ -5185,6 +5168,9 @@
         private System.Windows.Forms.CheckBox shareLogsCb;
         private System.Windows.Forms.CheckBox viewLogsCb;
         private System.Windows.Forms.Button showAppDataCachePathBtn;
+        private System.Windows.Forms.Button saveWeaponNameBtn;
+        private System.Windows.Forms.TextBox weaponNameTxt;
+        private System.Windows.Forms.Button updateWeaponBtn;
     }
 }
 

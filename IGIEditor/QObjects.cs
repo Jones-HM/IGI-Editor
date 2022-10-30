@@ -144,7 +144,7 @@ namespace IGIEditor
         internal static string UpdatePositionMeter(string model, ref Real64 position, bool checkModel = false)
         {
             var r32 = new Real32();
-            return Update(-999, model, ref position, ref r32, (int)QTASKINFO.QTASK_MODEL, checkModel);
+            return Update(-1, model, ref position, ref r32, (int)QTASKINFO.QTASK_MODEL, checkModel);
         }
 
         internal static string UpdateOrientation(int taskId, ref Real32 orientation, bool checkModel = false)

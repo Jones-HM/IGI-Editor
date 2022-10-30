@@ -75,6 +75,7 @@ namespace IGIEditor
         WEAPON_SOUND_LOOP,
 
         WEAPON_DETECTION_RANGE,//EnumReal32
+        WEAPON_PROJECTILE_TASK_TYPE,//EnumInt32
         WEAPON_TASK_TYPE,//EnumInt32
         WEAPON_EMPTY_ON_CLEAR,//bool8
     }
@@ -82,18 +83,18 @@ namespace IGIEditor
     public class Weapon
     {
         //Properties in int32.
-        public Int32 weaponId, mass, caliberId, bullets, rpm, clips, burst, weaponLength, barrelLength,
+        public Int32 weaponId, mass, caliberId, bullets, roundsPerMinute, roundsPerClip, burst, weaponLength, barrelLength,
             animStand, animMove, animFire1, animFire2, animFire3, animReload, animUpperbodystand,
-            animUpperbodywalk, anim_, animUpperbodycrouch, animUpperbodycrouchrun, animUpperbodyrun, animUpperbodyfire, animUpperbodyreload;
+            animUpperbodywalk, animUpperbodycrouch, animUpperbodycrouchrun, animUpperbodyrun, animUpperbodyfire, animUpperbodyreload;
 
         //Properties in Real32.
-        public float damage, power, reloadTime, muzzleVelocity, minRandSpeed, maxRangeSpeed, range, fixViewX, fixViewZ, randViewX, randViewZ;
+        public float damage, power, reloadTime, muzzleVelocity, minRandSpeed, maxRandSpeed, weaponRange, fixViewX, fixViewZ, randViewX, randViewZ;
 
         //Properties in String256
-        public string scriptId, name, manufacturer, description, typeStr, users, gunModel, casingModel, soundSingle, soundLoop;
+        public string scriptId, weaponName, manufacturer, description, typeStr, weaponUsers, gunModel, casingModel, soundSingle, soundLoop;
 
         //Properties in EnumInt32
-        public string typeEnum, crosshairType, ammoDispType, taskType;
+        public string typeEnum, crosshairType, ammoDispType, projectileTaskType, weaponTaskType;
 
         //Properties in EnumReal32
         public string detectionRange;
@@ -104,9 +105,10 @@ namespace IGIEditor
 
     class QWeapon
     {
-        private static string weaponsConfigIn = QUtils.editorCurrPath + QUtils.qedQscPath + QUtils.weaponsDirPath + "\\" + QUtils.weaponConfigQSC;
-        private static string weaponsConfigOut = QUtils.gameAbsPath + QUtils.weaponsDirPath;
-        private static string weaponCfgTask = "Task_New(-1, \"WeaponConfig\",";
+        private static string weaponsConfigIn = QUtils.weaponsCfgQscPath;
+        private static string weaponsConfigOut = QUtils.weaponsGamePath;
+        private static string weaponCfgTask = "WeaponConfig";
+        //private static string weaponCfgTask = "Task_New(-1, \"WeaponConfig\",";
 
         internal static List<Weapon> GetWeaponTaskList(bool advanceData = false)
         {
@@ -127,20 +129,20 @@ namespace IGIEditor
         {
             //Remove all whitespaces.
             qscData = qscData.Replace("\t", String.Empty);
-            var qscDataSplit = qscData.Split('\n');
+            var qscDataSplit = qscData.Split(new string[] { QUtils.taskNew }, StringSplitOptions.None);
 
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "started ");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "started parsing.");
 
             var weaponList = new List<Weapon>();
             foreach (var data in qscDataSplit)
             {
-                if (data.Contains(QUtils.taskNew))
+                if (data.Contains(weaponCfgTask))
                 {
                     var startIndex = data.IndexOf(',') + 1;
                     var endIndex = data.IndexOf(',', startIndex);
                     var taskName = data.Slice(startIndex, endIndex).Trim().Replace("\"", String.Empty);
 
-                    if (String.Compare(taskName, "WeaponConfig") == 0)
+                    if (taskName == weaponCfgTask)
                     {
                         Weapon weapon = new Weapon();
 
@@ -149,7 +151,7 @@ namespace IGIEditor
 
                         foreach (var task in taskNew)
                         {
-                            // QUtils.AddLog("ParseWeaponConfig() taskName : " + taskName + " taskIndex " + taskIndex + " data  : " + task.Trim());
+                            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, " taskName : " + taskName + " taskIndex " + taskIndex + " data  : " + task.Trim());
 
                             if (taskIndex == (int)WEAPONCFG.WEAPON_ID)
                                 weapon.weaponId = Convert.ToInt32(task.Trim());
@@ -158,16 +160,25 @@ namespace IGIEditor
                                 weapon.scriptId = task.Trim();
 
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_NAME)
-                                weapon.name = task.Trim();
+                                weapon.weaponName = task.Trim();
 
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_MANUFACTURER)
                                 weapon.manufacturer = task.Trim();
 
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_DESCRIPTION)
+                                weapon.description = task.Trim();
+
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_TYPE_ENUM)
                                 weapon.typeEnum = task.Trim();
 
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_CROSSHAIR_TYPE)
+                                weapon.crosshairType = task.Trim();
+
                             else if (taskIndex == (int)WEAPONCFG.AMMO_DISPLAY_TYPE)
                                 weapon.ammoDispType = task.Trim();
+
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_USERS)
+                                weapon.weaponUsers = task.Trim();
 
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_MASS)
                                 weapon.mass = Convert.ToInt32(task.Trim());
@@ -187,17 +198,17 @@ namespace IGIEditor
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_MUZZLE_VEL)
                                 weapon.muzzleVelocity = float.Parse(task.Trim());
 
-                            else if (taskIndex == (int)WEAPONCFG.WEAPON_DETECTION_RANGE)
-                                weapon.range = float.Parse(task.Trim());
+                            else if (taskIndex == (int)WEAPONCFG.WEAPON_RANGE)
+                                weapon.weaponRange = float.Parse(task.Trim());
 
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_BULLETS)
                                 weapon.bullets = Convert.ToInt32(task.Trim());
 
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_RPM)
-                                weapon.rpm = Convert.ToInt32(task.Trim());
+                                weapon.roundsPerMinute = Convert.ToInt32(task.Trim());
 
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_CLIPS)
-                                weapon.clips = Convert.ToInt32(task.Trim());
+                                weapon.roundsPerClip = Convert.ToInt32(task.Trim());
 
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_BURST)
                                 weapon.burst = Convert.ToInt32(task.Trim());
@@ -229,7 +240,7 @@ namespace IGIEditor
                                     weapon.minRandSpeed = float.Parse(task.Trim());
 
                                 else if (taskIndex == (int)WEAPONCFG.WEAPON_MAX_RAND_SPEED)
-                                    weapon.maxRangeSpeed = float.Parse(task.Trim());
+                                    weapon.maxRandSpeed = float.Parse(task.Trim());
 
                                 else if (taskIndex == (int)WEAPONCFG.WEAPON_FIX_VIEW_CHANGE_X)
                                     weapon.fixViewX = float.Parse(task.Trim());
@@ -243,6 +254,8 @@ namespace IGIEditor
                                 else if (taskIndex == (int)WEAPONCFG.WEAPON_RAND_VIEW_CHANGE_Z)
                                     weapon.randViewZ = float.Parse(task.Trim());
 
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_TYPE_STR)
+                                    weapon.typeStr = task.Trim();
 
                                 //Animations of fire reload/walk etc.
                                 else if (taskIndex == (int)WEAPONCFG.WEAPON_FIRE_ANIM1)
@@ -284,9 +297,18 @@ namespace IGIEditor
                                 else if (taskIndex == (int)WEAPONCFG.WEAPON_UPPERBODYCROUCHRUN_ANIM)
                                     weapon.animUpperbodycrouchrun = Convert.ToInt32(task.Trim());
 
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_DETECTION_RANGE)
+                                    weapon.detectionRange = task.Trim();
+
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_PROJECTILE_TASK_TYPE)
+                                    weapon.projectileTaskType = task.Trim();
+
+                                else if (taskIndex == (int)WEAPONCFG.WEAPON_TASK_TYPE)
+                                    weapon.weaponTaskType = task.Trim();
+
                                 //Empty weapon selected.
                                 else if (taskIndex == (int)WEAPONCFG.WEAPON_EMPTY_ON_CLEAR)
-                                    weapon.emptyOnClear = Convert.ToBoolean(task.Trim());
+                                    weapon.emptyOnClear = Convert.ToBoolean(task.Replace(")",String.Empty).Trim());
                             }
 
 

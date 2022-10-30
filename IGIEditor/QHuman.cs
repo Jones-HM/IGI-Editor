@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace IGIEditor
 {
@@ -153,16 +152,12 @@ namespace IGIEditor
         internal static List<Dictionary<string, int>> GetWeaponsList()
         {
             var weaponsList = new List<Dictionary<string, int>>();
-            for (int index = 1; index <= (int)QUtils.GAME_WEAPON.WEAPON_ID_SENTRY; index++)
+            foreach (var weapon in QUtils.weaponDataList)
             {
-                var weaponIndex = (QUtils.GAME_WEAPON)index;
-                string weaponStr = weaponIndex.ToString();
-                if (weaponStr.Length > 2)
-                {
-                    var weaponObj = new Dictionary<string, int>();
-                    weaponObj.Add(weaponStr.Replace("WEAPON_ID_", String.Empty), index);
-                    weaponsList.Add(weaponObj);
-                }
+                var weaponObj = new Dictionary<string, int>();
+                string weaponName = weapon.scriptId.Replace(QUtils.weaponId, String.Empty).Replace("\"", String.Empty);
+                weaponObj.Add(weaponName, weapon.weaponId);
+                weaponsList.Add(weaponObj);
             }
             return weaponsList;
         }

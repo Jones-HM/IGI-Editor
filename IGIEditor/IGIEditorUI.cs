@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using QLibc;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,9 @@ using System.Web;
 using System.Windows.Forms;
 using UXLib.UX;
 using static IGIEditor.QUtils;
-using Timer = System.Windows.Forms.Timer;
-using static System.Drawing.FontStyle;
 using static System.Drawing.Color;
-using Newtonsoft.Json.Linq;
+using static System.Drawing.FontStyle;
+using Timer = System.Windows.Forms.Timer;
 
 namespace IGIEditor
 {
@@ -71,8 +71,6 @@ namespace IGIEditor
                 editorTabs.TabPages.RemoveByKey("objectEditor");
                 editorTabs.TabPages.RemoveByKey("threeDEditor");
 #elif DEBUG
-                configLoadBtn.Visible = configSaveBtn.Visible = compileBtn.Visible = true;
-                compileBtn.Enabled = true;
                 //appSupportBtn.Visible = false;
                 GAME_MAX_LEVEL = 14;
                 versionLbl.Text = "DBG";
@@ -170,9 +168,14 @@ namespace IGIEditor
 
                 if (!File.Exists(QUtils.objectsQsc) && File.Exists(inputQscPath))
                 {
-                    QUtils.FileCopy(inputQscPath, QUtils.objectsQsc);
+                    QUtils.FileIOCopy(inputQscPath, QUtils.objectsQsc);
                 }
                 else if (!File.Exists(inputQscPath)) throw new Exception("File 'objects.qsc' is missing from path '" + QUtils.cfgQscPath + gameLevel + "\\'");
+
+                if (!File.Exists(QUtils.weaponConfigQSC) && File.Exists(QUtils.weaponsCfgQscPath))
+                {
+                    QUtils.FileIOCopy(weaponsCfgQscPath, QUtils.weaponConfigQSC);
+                }
 
                 if (gameReset) QUtils.ResetScriptFile(gameLevel);
 
@@ -789,7 +792,7 @@ namespace IGIEditor
             }
         }
 
-        private void InitUIComponents(int level, bool initialInit = true, bool objItems = true, bool aiItems = true, bool missionItems = true)
+        private void InitUIComponents(int level, bool initialInit = true, bool objItems = true, bool aiItems = true, bool missionItems = true, bool weaponAdvanceData = true)
         {
             try
             {
@@ -798,7 +801,7 @@ namespace IGIEditor
                     //Init Weapons list.
                     weaponDD.Items.Clear();
                     aiWeaponDD.Items.Clear();
-
+                    QUtils.weaponDataList = QWeapon.GetWeaponTaskList(weaponAdvanceData);
                     QUtils.weaponList = QHuman.GetWeaponsList();
                     foreach (var weapon in QUtils.weaponList)
                     {
@@ -934,7 +937,7 @@ namespace IGIEditor
             try
             {
                 qIniParser = new QIniParser(iniCfgFile);
-                QUtils.gameAbsPath = qIniParser.Read("game_path", PATH_SEC);
+                QUtils.gameAbsPath = qIniParser.Read("game_path", PATH_SECTION);
                 QUtils.editorOnline = QUtils.IsNetworkAvailable();
 
                 //Initialize app data for QEditor.
@@ -2415,7 +2418,7 @@ namespace IGIEditor
         {
             string nppCmd = (QUtils.nppInstalled) ? "notepad++ -titleAdd=\"IGI Editor Logs\" -nosession -notabbar -alwaysOnTop -lcpp " : "notepad ";
             var appLogFile = Path.GetFullPath(editorAppName + ".log");
-            string appLogPath = (File.Exists(appLogFile)) ? appLogFile :QUtils.cachePathAppLogs + editorAppName + ".log";
+            string appLogPath = (File.Exists(appLogFile)) ? appLogFile : QUtils.cachePathAppLogs + editorAppName + ".log";
 
             if (viewLogsCb.Checked)
             {
@@ -2433,7 +2436,7 @@ namespace IGIEditor
             else if (shareLogsCb.Checked)
             {
                 string mailToUrl = @"mailto:igiproz.hm@gmail.com?subject=IGI%20Editor%20Logs&body=Hi%2Ci%20have%20encountered%20error"
-                + @"%20while%20using%20editor%20please%20check%20the%20logs%20attached.%0D%0APlease%20attach%20the%20Logs%20file%20located%20at" 
+                + @"%20while%20using%20editor%20please%20check%20the%20logs%20attached.%0D%0APlease%20attach%20the%20Logs%20file%20located%20at"
                 + @"%20'" + appLogPath + @"'%20location%20in%20the%20attachment%20to%20this%20email.";
                 QUtils.ShellExecUrl(mailToUrl);
                 QUtils.ShowWarning("Please attach the log file located at '" + appLogPath + "' with this email.");
@@ -4321,6 +4324,44 @@ namespace IGIEditor
         {
             QUtils.ShowPathExplorer(QUtils.cachePath);
             QUtils.ShowPathExplorer(QUtils.igiEditorQEdPath);
+        }
+
+        private void saveWeaponNameBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void updateWeaponNameBtn_Click(object sender, EventArgs e)
+        {
+            string qscData = QUtils.LoadFile(weaponConfigQSC);
+            var weapon = QUtils.weaponDataList[weaponDD.SelectedIndex];
+
+            var qscDataSplit = qscData.Split(new string[] { QUtils.taskNew }, StringSplitOptions.None);
+            string weaponName = weaponList[weaponDD.SelectedIndex].Keys.ElementAt(0);
+
+            foreach (var data in qscDataSplit)
+            {
+                if (data.Contains(weaponName))
+                {
+                    int qtaskIndex = qscData.IndexOf(data);
+                    int newlineIndex = qscData.IndexOf(QUtils.taskNew, qtaskIndex);
+
+                    string objectTask = QUtils.taskNew + "(-1," + "\"WeaponConfig\"," + weapon.weaponName + "," + weapon.weaponId + "," + weapon.scriptId + "," + weapon.weaponName
+                        + "," + weapon.manufacturer + "," + weapon.description + "," + weapon.typeEnum + "," + weapon.crosshairType + "," + weapon.ammoDispType
+                       + "," + weapon.mass + "," + weapon.caliberId + "," + weapon.damage + "," + weapon.power + "," + weapon.reloadTime + "," + weapon.muzzleVelocity
+                        + "," + weapon.bullets + "," + weapon.roundsPerMinute + "," + weapon.roundsPerClip + "," + weapon.burst + "," + weapon.minRandSpeed
+                         + "," + weapon.maxRandSpeed + "," + weapon.fixViewX + "," + weapon.fixViewZ + "," + weapon.randViewX + "," + weapon.randViewZ
+                          + "," + weapon.typeStr + "," + weapon.weaponRange + "," + weapon.weaponUsers + "," + weapon.weaponLength + "," + weapon.barrelLength
+                           + "," + weapon.gunModel + "," + weapon.casingModel + "," + weapon.animStand + "," + weapon.animMove + "," + weapon.animFire1 + "," + weapon.animFire2 + "," + weapon.animFire3
+                            + "," + weapon.animReload + "," + weapon.animUpperbodystand + "," + weapon.animUpperbodywalk + "," + weapon.animUpperbodycrouch + "," + weapon.animUpperbodycrouchrun
+                            + "," + weapon.animUpperbodyrun + "," + weapon.animUpperbodyfire + "," + weapon.animUpperbodyreload + "," + weapon.soundSingle + "," + weapon.soundLoop
+                            + "," + weapon.detectionRange + "," + weapon.projectileTaskType + "," + weapon.weaponTaskType + "," + weapon.emptyOnClear.ToString().ToUpper() + ")," + "\n";
+                    qscData = qscData.Remove(qtaskIndex, newlineIndex - qtaskIndex).Insert(qtaskIndex, objectTask);
+                    break;
+                }
+            }
+            QUtils.SaveFile(weaponConfigQSC, qscData);
+            QUtils.ShowLogStatus("", "Weapon '" + weaponName + "'properties updated success");
         }
 
         private void graphsMarkCb_CheckedChanged(object sender, EventArgs e)
