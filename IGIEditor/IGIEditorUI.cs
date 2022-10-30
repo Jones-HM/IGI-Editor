@@ -800,14 +800,26 @@ namespace IGIEditor
                 {
                     //Init Weapons list.
                     weaponDD.Items.Clear();
+                    weaponCfgDD.Items.Clear();
                     aiWeaponDD.Items.Clear();
                     QUtils.weaponDataList = QWeapon.GetWeaponTaskList(weaponAdvanceData);
                     QUtils.weaponList = QHuman.GetWeaponsList();
+                    QUtils.weaponSFXList = QWeapon.GetWeaponSFXList();
+
+                    //Adding Weapon list.
                     foreach (var weapon in QUtils.weaponList)
                     {
                         var weaponName = weapon.Keys.ElementAt(0);
                         weaponDD.Items.Add(weaponName);
+                        weaponCfgDD.Items.Add(weaponName);
                         aiWeaponDD.Items.Add(weaponName);
+                    }
+
+                    //Adding Weapon SFX list.
+                    foreach (var weaponSfx in QUtils.weaponSFXList)
+                    {
+                        weaponSfx1DD.Items.Add(weaponSfx);
+                        weaponSfx2DD.Items.Add(weaponSfx);
                     }
 
 
@@ -4305,11 +4317,6 @@ namespace IGIEditor
             teamIdText.Value = (aiFriendlyCb.Checked) ? TEAM_ID_FRIENDLY : TEAM_ID_ENEMY;
         }
 
-        private void sendLogsBtn_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void shareLogsCb_CheckedChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked) viewLogsCb.Checked = false;
@@ -4326,42 +4333,181 @@ namespace IGIEditor
             QUtils.ShowPathExplorer(QUtils.igiEditorQEdPath);
         }
 
-        private void saveWeaponNameBtn_Click(object sender, EventArgs e)
+        private bool UpdateWeaponProperties(bool updateWeaponDetails = false, bool updateWeaponUI = false, bool updateWeaponSFX = false, bool updateWeaponPower = false)
         {
-
-        }
-
-        private void updateWeaponNameBtn_Click(object sender, EventArgs e)
-        {
+            bool status = false;
             string qscData = QUtils.LoadFile(weaponConfigQSC);
-            var weapon = QUtils.weaponDataList[weaponDD.SelectedIndex];
+            var weapon = QUtils.weaponDataList[weaponCfgDD.SelectedIndex];
 
             var qscDataSplit = qscData.Split(new string[] { QUtils.taskNew }, StringSplitOptions.None);
-            string weaponName = weaponList[weaponDD.SelectedIndex].Keys.ElementAt(0);
+            string weaponSelected = weaponList[weaponCfgDD.SelectedIndex].Keys.ElementAt(0);
+
+            //Trim the weapon data.
+            weapon.weaponName = weapon.weaponName.Replace("\"", String.Empty);
+            weapon.description = weapon.description.Replace("\"", String.Empty);
+            weapon.soundSingle = weapon.soundSingle.Replace("\"", String.Empty);
+            weapon.soundLoop = weapon.soundLoop.Replace("\"", String.Empty);
+
+            if (updateWeaponDetails)
+            {
+                //Get Weapon description data.
+                string weaponName = weaponNameTxt.Text;
+                string weaponDescription = weaponDescriptionTxt.Text;
+
+                //Update the Weapon description data.
+                weapon.weaponName = weaponName;
+                weapon.description = weaponDescription;
+            }
+
+            if (updateWeaponUI)
+            {
+                //Get Weapon UI data.
+                string weaponSightType = weaponSightTypeDD.Text;
+                string weaponDisplayType = weaponDisplayTypeDD.Text;
+
+                //Update the Weapon UI data.
+                weapon.crosshairType = QUtils.sightDisplayType + weaponSightType;
+                weapon.ammoDispType = QUtils.ammoDisplayType + weaponDisplayType;
+            }
+
+            if (updateWeaponSFX)
+            {
+                //Get Weapon SFX data.
+                string weaponSFX1 = weaponSfx1DD.Text;
+                string weaponSFX2 = weaponSfx2DD.Text;
+
+                //Update the Weapon SFX data.
+                weapon.soundSingle = weaponSFX1;
+                weapon.soundLoop = weaponSFX2;
+            }
+
+
+            if (updateWeaponPower)
+            {
+                //Get Weapon Power data.
+                Single weaponDamage = Single.Parse(weaponDamageTxt.Text);
+                Single weaponPower = Single.Parse(weaponPowerTxt.Text);
+                Single weaponRange = Single.Parse(weaponRangeTxt.Text);
+                Int32 weaponBullets = Int32.Parse(weaponBulletsTxt.Text);
+                Int32 weaponRoundPerMinute = Int32.Parse(weaponRoundPerMinuteTxt.Text);
+                Int32 weaponRoundPerClip = Int32.Parse(numericUpDown1.Text);
+
+                //Update the Weapon Power data.
+                weapon.damage = weaponDamage;
+                weapon.power = weaponPower;
+                weapon.bullets = weaponBullets;
+                weapon.roundsPerMinute = weaponRoundPerMinute;
+                weapon.roundsPerClip = weaponRoundPerClip;
+                weapon.weaponRange = weaponRange;
+            }
 
             foreach (var data in qscDataSplit)
             {
-                if (data.Contains(weaponName))
+                if (data.Contains(weaponSelected))
                 {
                     int qtaskIndex = qscData.IndexOf(data);
                     int newlineIndex = qscData.IndexOf(QUtils.taskNew, qtaskIndex);
 
-                    string objectTask = QUtils.taskNew + "(-1," + "\"WeaponConfig\"," + weapon.weaponName + "," + weapon.weaponId + "," + weapon.scriptId + "," + weapon.weaponName
-                        + "," + weapon.manufacturer + "," + weapon.description + "," + weapon.typeEnum + "," + weapon.crosshairType + "," + weapon.ammoDispType
+                    string objectTask = "(-1," + "\"WeaponConfig\",\"" + weapon.weaponName + "\"," + weapon.weaponId + "," + weapon.scriptId + ",\"" + weapon.weaponName
+                        + "\"," + weapon.manufacturer + ",\"" + weapon.description + "\"," + weapon.typeEnum + "," + weapon.crosshairType + "," + weapon.ammoDispType
                        + "," + weapon.mass + "," + weapon.caliberId + "," + weapon.damage + "," + weapon.power + "," + weapon.reloadTime + "," + weapon.muzzleVelocity
                         + "," + weapon.bullets + "," + weapon.roundsPerMinute + "," + weapon.roundsPerClip + "," + weapon.burst + "," + weapon.minRandSpeed
                          + "," + weapon.maxRandSpeed + "," + weapon.fixViewX + "," + weapon.fixViewZ + "," + weapon.randViewX + "," + weapon.randViewZ
                           + "," + weapon.typeStr + "," + weapon.weaponRange + "," + weapon.weaponUsers + "," + weapon.weaponLength + "," + weapon.barrelLength
                            + "," + weapon.gunModel + "," + weapon.casingModel + "," + weapon.animStand + "," + weapon.animMove + "," + weapon.animFire1 + "," + weapon.animFire2 + "," + weapon.animFire3
                             + "," + weapon.animReload + "," + weapon.animUpperbodystand + "," + weapon.animUpperbodywalk + "," + weapon.animUpperbodycrouch + "," + weapon.animUpperbodycrouchrun
-                            + "," + weapon.animUpperbodyrun + "," + weapon.animUpperbodyfire + "," + weapon.animUpperbodyreload + "," + weapon.soundSingle + "," + weapon.soundLoop
-                            + "," + weapon.detectionRange + "," + weapon.projectileTaskType + "," + weapon.weaponTaskType + "," + weapon.emptyOnClear.ToString().ToUpper() + ")," + "\n";
+                            + "," + weapon.animUpperbodyrun + "," + weapon.animUpperbodyfire + "," + weapon.animUpperbodyreload + ",\"" + weapon.soundSingle + "\",\"" + weapon.soundLoop
+                            + "\"," + weapon.detectionRange + "," + weapon.projectileTaskType + "," + weapon.weaponTaskType + "," + weapon.emptyOnClear.ToString().ToUpper() + ")," + "\n";
                     qscData = qscData.Remove(qtaskIndex, newlineIndex - qtaskIndex).Insert(qtaskIndex, objectTask);
                     break;
                 }
             }
-            QUtils.SaveFile(weaponConfigQSC, qscData);
-            QUtils.ShowLogStatus("", "Weapon '" + weaponName + "'properties updated success");
+            QUtils.SaveFile(weaponConfigQSC, qscData);//Save the file at the end.
+
+            status = QCompiler.Compile(weaponConfigQSC, QUtils.weaponsGamePath, 0x0);//Start compiling.
+            return status;
+        }
+
+        private void updateWeaponPropertiesBtn_Click(object sender, EventArgs e)
+        {
+            bool status = UpdateWeaponProperties(true, true, true,true);
+            if (status)
+            {
+                QInternals.WeaponConfigRead();
+                QUtils.ShowLogStatus("", "Weapon properties updated success");
+            }
+        }
+
+        private void weaponCfgDD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var weapon = QUtils.weaponDataList[weaponCfgDD.SelectedIndex];
+
+                //Set Weapon description data.
+                weaponNameTxt.Text = weapon.weaponName.Replace("\"", String.Empty);
+                weaponDescriptionTxt.Text = weapon.description.Replace("\"", String.Empty);
+
+                //Set Weapon UI data.
+                weaponSightTypeDD.Text = weapon.crosshairType.Replace(QUtils.sightDisplayType, String.Empty);
+                weaponDisplayTypeDD.Text = weapon.ammoDispType.Replace(QUtils.ammoDisplayType, String.Empty);
+
+                // Set Weapon SFX Sample & Loop.
+                weaponSfx1DD.SelectedItem = weapon.soundSingle.Replace("\"", String.Empty);
+                weaponSfx2DD.SelectedItem = weapon.soundLoop.Replace("\"", String.Empty);
+
+                // Set Weapon Power data.
+                weaponDamageTxt.Text = weapon.damage.ToString();
+                weaponPowerTxt.Text = weapon.power.ToString();
+                weaponRangeTxt.Text = weapon.weaponRange.ToString();
+                weaponBulletsTxt.Value = weapon.bullets;
+                weaponRoundPerMinuteTxt.Value = weapon.roundsPerMinute;
+                numericUpDown1.Value = weapon.roundsPerClip;
+            }
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
+        }
+
+        private void updateWeaponDetailsBtn_Click(object sender, EventArgs e)
+        {
+            bool status = UpdateWeaponProperties(true);
+            if (status)
+            {
+                QInternals.WeaponConfigRead();
+                QUtils.ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Weapon details properties updated success");
+            }
+        }
+
+        private void updateWeaponUIBtn_Click(object sender, EventArgs e)
+        {
+            bool status = UpdateWeaponProperties(false, true);
+            if (status)
+            {
+                QInternals.WeaponConfigRead();
+                QUtils.ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Weapon UI properties updated success");
+            }
+        }
+
+        private void updateWeaponSFXBtn_Click(object sender, EventArgs e)
+        {
+            bool status = UpdateWeaponProperties(false, false, true);
+            if (status)
+            {
+                QInternals.WeaponConfigRead();
+                QUtils.ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Weapon SFX properties updated success");
+            }
+        }
+
+        private void updateWeaponPowerDamageBtn_Click(object sender, EventArgs e)
+        {
+            bool status = UpdateWeaponProperties(false, false, false, true);
+            if (status)
+            {
+                QInternals.WeaponConfigRead();
+                QUtils.ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Weapon Power properties updated success");
+            }
         }
 
         private void graphsMarkCb_CheckedChanged(object sender, EventArgs e)

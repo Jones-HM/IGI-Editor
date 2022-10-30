@@ -88,7 +88,7 @@ namespace IGIEditor
             animUpperbodywalk, animUpperbodycrouch, animUpperbodycrouchrun, animUpperbodyrun, animUpperbodyfire, animUpperbodyreload;
 
         //Properties in Real32.
-        public float damage, power, reloadTime, muzzleVelocity, minRandSpeed, maxRandSpeed, weaponRange, fixViewX, fixViewZ, randViewX, randViewZ;
+        public Single damage, power, reloadTime, muzzleVelocity, minRandSpeed, maxRandSpeed, weaponRange, fixViewX, fixViewZ, randViewX, randViewZ;
 
         //Properties in String256
         public string scriptId, weaponName, manufacturer, description, typeStr, weaponUsers, gunModel, casingModel, soundSingle, soundLoop;
@@ -109,6 +109,30 @@ namespace IGIEditor
         private static string weaponsConfigOut = QUtils.weaponsGamePath;
         private static string weaponCfgTask = "WeaponConfig";
         //private static string weaponCfgTask = "Task_New(-1, \"WeaponConfig\",";
+
+        internal static List<String> GetWeaponSFXList()
+        {
+            var sfxList = new List<string>()
+             {
+                 "ak47_loop_e","ak47_reload_1","ak47_reload_2","ak47_reload_3",
+                 "glock_reload_1","glock_reload_2","glock_reload_3","glock_shot_1","glock_shot_2",
+                 "jackh_loop","jackh_loop_e","jackh_reload_1","jackh_reload_2","jackh_reload_3","jackh_reload_4",
+                 "knife_1","knife_2",
+                 "m16_loop","m16_loop_e","m16_reload_1","m16_reload_2","m16_reload_3",
+                 "m203_launch_1","m2hb_loop","m2hb_loop_e","mil_loop",
+                 "minimi_loop","minimi_loop_e","minimi_reload_1","minimi_reload_2",
+                 "missile_away_01","missile_imp_01","missile_loop_01",
+                 "mp5sd_loop","mp5sd_loop_e","mp5_reload_5",
+                 "rpg_launch_1","stab_0",
+                 "sentrygun_cut","sentrygun_cut2",
+                 "spas12_bulins_1","spas12_bulins_2","spas12_bulins_3","spas12_bulins_4",
+                 "spas12_reload_1","spas12_reload_2","spas12_shot_1",
+                 "uzi_loop","uzix2_loop","uzi_loop_e","uzi_reload_1","uzi_reload_2","uzi_reload_3",
+                 "colt_shot_1","deagle_shot_1","svddrag_shot_1",
+                 "grenade_shot_1","bin_zoom_1"
+                 };
+            return sfxList;
+        }
 
         internal static List<Weapon> GetWeaponTaskList(bool advanceData = false)
         {
@@ -187,19 +211,19 @@ namespace IGIEditor
                                 weapon.caliberId = Convert.ToInt32(task.Trim());
 
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_DAMAGE)
-                                weapon.damage = float.Parse(task.Trim());
+                                weapon.damage = Single.Parse(task.Trim());
 
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_POWER)
-                                weapon.power = float.Parse(task.Trim());
+                                weapon.power = Single.Parse(task.Trim());
 
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_RELOAD_TIME)
-                                weapon.reloadTime = float.Parse(task.Trim());
+                                weapon.reloadTime = Single.Parse(task.Trim());
 
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_MUZZLE_VEL)
-                                weapon.muzzleVelocity = float.Parse(task.Trim());
+                                weapon.muzzleVelocity = Single.Parse(task.Trim());
 
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_RANGE)
-                                weapon.weaponRange = float.Parse(task.Trim());
+                                weapon.weaponRange = Single.Parse(task.Trim());
 
                             else if (taskIndex == (int)WEAPONCFG.WEAPON_BULLETS)
                                 weapon.bullets = Convert.ToInt32(task.Trim());
@@ -237,22 +261,22 @@ namespace IGIEditor
 
                                 //Speed & view change.
                                 else if (taskIndex == (int)WEAPONCFG.WEAPON_MIN_RAND_SPEED)
-                                    weapon.minRandSpeed = float.Parse(task.Trim());
+                                    weapon.minRandSpeed = Single.Parse(task.Trim());
 
                                 else if (taskIndex == (int)WEAPONCFG.WEAPON_MAX_RAND_SPEED)
-                                    weapon.maxRandSpeed = float.Parse(task.Trim());
+                                    weapon.maxRandSpeed = Single.Parse(task.Trim());
 
                                 else if (taskIndex == (int)WEAPONCFG.WEAPON_FIX_VIEW_CHANGE_X)
-                                    weapon.fixViewX = float.Parse(task.Trim());
+                                    weapon.fixViewX = Single.Parse(task.Trim());
 
                                 else if (taskIndex == (int)WEAPONCFG.WEAPON_FIX_VIEW_CHANGE_Z)
-                                    weapon.fixViewZ = float.Parse(task.Trim());
+                                    weapon.fixViewZ = Single.Parse(task.Trim());
 
                                 else if (taskIndex == (int)WEAPONCFG.WEAPON_RAND_VIEW_CHANGE_X)
-                                    weapon.randViewX = float.Parse(task.Trim());
+                                    weapon.randViewX = Single.Parse(task.Trim());
 
                                 else if (taskIndex == (int)WEAPONCFG.WEAPON_RAND_VIEW_CHANGE_Z)
-                                    weapon.randViewZ = float.Parse(task.Trim());
+                                    weapon.randViewZ = Single.Parse(task.Trim());
 
                                 else if (taskIndex == (int)WEAPONCFG.WEAPON_TYPE_STR)
                                     weapon.typeStr = task.Trim();
@@ -308,7 +332,7 @@ namespace IGIEditor
 
                                 //Empty weapon selected.
                                 else if (taskIndex == (int)WEAPONCFG.WEAPON_EMPTY_ON_CLEAR)
-                                    weapon.emptyOnClear = Convert.ToBoolean(task.Replace(")",String.Empty).Trim());
+                                    weapon.emptyOnClear = Convert.ToBoolean(task.Replace(")", String.Empty).Trim());
                             }
 
 

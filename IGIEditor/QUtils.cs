@@ -144,7 +144,7 @@ namespace IGIEditor
 
         #region App Version
         internal static string versionFileName = "VERSION";
-        internal static string appEditorSubVersion = "0.5.0.3";
+        internal static string appEditorSubVersion = "0.6.0.0";
         internal static float viewPortDelta = 10000.0f;
         #endregion
 
@@ -265,6 +265,8 @@ namespace IGIEditor
         internal const string exeExt = ".exe";
         internal const string batExt = ".bat";
         internal const string iniExt = ".ini";
+        internal const string sightDisplayType = "SIGHTDISPLAYTYPE_";
+        internal const string ammoDisplayType = "AMMODISPLAYTYPE_";
         #endregion
 
         #region Address_Ptr
@@ -375,6 +377,7 @@ namespace IGIEditor
         internal static List<int> qIdsList = new List<int>();
         internal static List<HumanAi> humanAiList = new List<HumanAi>();
         internal static List<Weapon> weaponDataList = new List<Weapon>();
+        internal static List<string> weaponSFXList = new List<string>();
         #endregion
 
         //Server data list.
