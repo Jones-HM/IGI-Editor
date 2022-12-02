@@ -144,7 +144,7 @@ namespace IGIEditor
 
         #region App Version
         internal static string versionFileName = "VERSION";
-        internal static string appEditorSubVersion = "0.6.0.0";
+        internal static string appEditorSubVersion = "0.7.0.0";
         internal static float viewPortDelta = 10000.0f;
         #endregion
 
@@ -624,56 +624,6 @@ namespace IGIEditor
         private DialogResult ShowOptionInfo(string infoMsg)
         {
             return DialogMsgBox.ShowBox("Edit Mode", infoMsg);
-        }
-
-        //Private method to get machine id.
-        private static string GetUUID()
-        {
-            string uidArgs = "wmic csproduct get UUID";
-            string uuidOut = ShellExec(uidArgs);
-            string uid = uuidOut.Split(new[] { Environment.NewLine }, StringSplitOptions.None)[1];
-            return uid.Trim();
-        }
-
-        //Private method to get GUID.
-        private static string GetGUID()
-        {
-            Guid guidObj = Guid.NewGuid();
-            string guid = guidObj.ToString();
-            return guid;
-        }
-
-
-        //Private method to get MAC/Physical address.
-        internal static string GetMACAddress()
-        {
-            string macAddrArgs = "wmic nic get MACAddress";
-            string macAddressOut = ShellExec(macAddrArgs);
-            var macAddressList = macAddressOut.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            string macAddress = null;
-
-            foreach (var address in macAddressList)
-            {
-                if (!String.IsNullOrEmpty(address) && address.Count(c => c == ':') > 4)
-                {
-                    macAddress = address;
-                    break;
-                }
-            }
-            return macAddress.Trim();
-        }
-
-        internal static string GetPrivateIP()
-        {
-            string ipAddrArgs = "ipconfig /all | findstr /c:IPv4";
-            const string ipOut = "   IPv4 Address. . . . . . . . . . . : ";
-            string ipAddressOut = ShellExec(ipAddrArgs);
-            string[] ips = ipAddressOut.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            List<string> ipAddresses = new List<string>(ips);
-
-            int ipLens = ipAddresses.Count - 1;
-            string privateIp = ipAddresses[ipLens].Substring(ipOut.Length).Replace("(Preferred)", "").Trim();
-            return privateIp;
         }
 
         internal static void SwitchEditorUI()
@@ -1304,44 +1254,6 @@ namespace IGIEditor
             var qData = QHuman.UpdateTeamId(aiEvent ? TEAM_ID_ENEMY : TEAM_ID_FRIENDLY);
             if (!String.IsNullOrEmpty(qData)) idleStatus = QCompiler.Compile(qData, gamePath, false, true, false);
             return idleStatus;
-
-            //Old way - Slow File version.
-            //var aiFilesList = new List<string>() { "ekk.qvm", "guard.qvm", "gunner.qvm", "patrol.qvm", "radioguard.qvm", "sniper.qvm" };
-            //bool idleStatus = true;
-            //string commonPath = gameAbsPath + @"common\";
-            //string aiCommonPath = gameAbsPath + @"common\ai\";
-            //string aiIdleFile = aiCommonPath + QUtils.aiIdleFile;
-
-            //if (aiEvent)
-            //{
-            //    if (Directory.Exists(commonPath + @"\ai_copy"))
-            //    {
-            //        return false;
-            //    }
-
-            //    FileCopy(aiIdlePath, aiIdleFile);
-
-            //    if (!File.Exists(commonPath + @"\ai_copy"))
-            //    {
-            //        string copyDirCmd = "xcopy " + commonPath + @"\ai " + commonPath + @"\ai_copy" + " /e /i /h ";
-            //        ShellExec(copyDirCmd, true);
-            //    }
-
-            //    string tmpFile = "tmp_copy.qvm";
-
-            //    foreach (var aiFile in aiFilesList)
-            //    {
-            //        //FileIODelete(aiCommonPath + aiFile);
-            //        FileCopy(aiIdleFile, aiCommonPath + tmpFile);
-            //        FileIOMove(aiCommonPath + tmpFile, aiCommonPath + aiFile);
-            //    }
-            //}
-            //else
-            //{
-            //    Sleep(2.5f);
-            //    DirectoryIOMove(gameAbsPath + @"common\ai_copy\", aiCommonPath);
-            //}
-            return idleStatus;
         }
 
         protected static string InitAuthBearer()
@@ -1373,7 +1285,7 @@ namespace IGIEditor
             return Result.ToString();
         }
 
-        internal static bool RegisterUser(string content)
+        internal static bool RegisterUser(string userData)
         {
             if (!editorOnline) { ShowSystemFatalError("Cannot register new user,Check your internet connection."); return false; }
             string id = 67141.ToString() + Reverse("be14c82cfbe782a") + "94a965e45a3c";
@@ -1387,7 +1299,7 @@ namespace IGIEditor
                 var requestUri = new Uri(gistUrl);
                 var request = new HttpRequestMessage(new HttpMethod("PATCH"), requestUri);
 
-                string editData = EditContent(description, targetFilename, content);
+                string editData = EditContent(description, targetFilename, userData);
                 request.Content = new StringContent(editData, Encoding.UTF8, "application/json");
 
                 var response = httpClient.SendAsync(request);
@@ -1437,22 +1349,16 @@ namespace IGIEditor
             //Register new user.
             if (!keyExist && !keyFileExist)
             {
-                //Get machine properties.
+                //Get User properties.
                 string userName = GetCurrentUserName();
-                string machineId = GetUUID();
-                string macAddress = GetMACAddress();
-                string ipAddress = GetPrivateIP();
-
                 string city = QUserInfo.GetUserCity();
                 string country = QUserInfo.GetUserCountry();
 
+                // Version 0.7 doesn't update private information on server.
                 string userData = null;
                 userData += "  <user>" + "\n";
                 userData += "\t<name>" + userName + "</name>" + "\n";
                 userData += "\t<key>" + deviceId + "</key>" + "\n";
-                userData += "\t<uuid>" + machineId + "</uuid>" + "\n";
-                userData += "\t<mac>" + macAddress + "</mac>" + "\n";
-                userData += "\t<ip>" + ipAddress + "</ip>" + "\n";
                 userData += "\t<city>" + city + "</city>" + "\n";
                 userData += "\t<country>" + country + "</country>" + "\n";
                 userData += "\t<date>" + DateTime.Now.ToString() + "</date>" + "\n";
@@ -1513,19 +1419,13 @@ namespace IGIEditor
                     //Parse all the user data.
                     string name = userData.Slice(userData.IndexOf("<name>") + "<name>".Length, userData.IndexOf("</name>"));
                     string keyId = userData.Slice(userData.IndexOf("<key>") + "<key>".Length, userData.IndexOf("</key>"));
-                    string uuid = userData.Slice(userData.IndexOf("<uuid>") + "<uuid>".Length, userData.IndexOf("</uuid>"));
-                    string macAddress = userData.Slice(userData.IndexOf("<mac>") + "<mac>".Length, userData.IndexOf("</mac>"));
-                    string ipAddress = userData.Slice(userData.IndexOf("<ip>") + "<ip>".Length, userData.IndexOf("</ip>"));
                     string city = userData.Slice(userData.IndexOf("<city>") + "<city>".Length, userData.IndexOf("</city>"));
                     string country = userData.Slice(userData.IndexOf("<country>") + "<country>".Length, userData.IndexOf("</country>"));
                     string dateRegistered = userData.Slice(userData.IndexOf("<date>") + "<date>".Length, userData.IndexOf("</date>"));
 
                     //Append all user data.
                     userRequestedDataXML = "Name: " + name + "\n" +
-                        "Unique Identifier: " + uuid + "\n" +
                         "License Key: " + keyId + "\n" +
-                        "Mac Address: " + macAddress + "\n" +
-                        "IP Address: " + ipAddress + "\n" +
                         "City: " + city + "\n" +
                         "Country: " + country + "\n" +
                         "Account created on " + dateRegistered + "\n";
