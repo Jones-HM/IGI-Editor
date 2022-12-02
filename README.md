@@ -83,7 +83,7 @@ This editor only offers _3 Levels_, and some features are disabled at the moment
 [![QEditor](https://img.youtube.com/vi/zH0a8Ma_tQ8/0.jpg)](https://www.youtube.com/watch?v=zH0a8Ma_tQ8)
 
 ## Version Update:
-**Editor version 0.4.0.6 Latest.**
+**Editor version 0.6.0.0 Latest.**
 
 # **DOWNLOAD LINKS**</br>
 - **Project I.G.I 1 Editor** Version 0.4.0.6 _RELEASED_</br>
