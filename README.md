@@ -2,6 +2,52 @@
 
 [Project I.G.I](https://en.wikipedia.org/wiki/Project_I.G.I.) Editor is all in one game editor which lets you edit all game objects including _Buildings/3D/AI/Weapons_ and lets you to design your own _custom level_ in the game and lets you _upload/download_ your level to server and share with your friends.
 
+## Pre-Requisite
+- **General section.**
+- [DLL File](https://en.wikipedia.org/wiki/Dynamic-link_library) - This project uses [IGI Natives.dll](https://github.com/IGI-Research-Devs/IGI_Internal/) file and inject that into Game to call game native methods. .</br>
+- [DLL Injection](https://en.wikipedia.org/wiki/DLL_injection) - This project needs DLL injection into _IGI_ game.</br>
+- **Game specific section.**
+- [IGI Graphs Structure](https://github.com/IGI-Research-Devs/IGI-Research-Data/blob/main/Research/GRAPH/Graph-Structure.txt) - Project IGI 1 Graph structure data.
+- [IGI 3D Models](https://github.com/IGI-Research-Devs/IGI-Research-Data/blob/main/Research/Natives/IGI-Models.txt) - Project IGI uses 3D models in 
+form of _MEF_ (**M**esh **E**xternal **F**ile).
+- [IGI Camera View](https://www.researchgate.net/figure/Definition-of-pitch-roll-and-yaw-angle-for-camera-state-estimation_fig15_273225757) - IGI use game Camera called [Viewport](https://en.wikipedia.org/wiki/Viewport) to display the game.
+
+## Editor components.
+Editor has several components which it needs in order to work fully to its functionality.
+- Server : Located at [OrgFree](http://igiresearchdevelopers.orgfree.com/) which contains Mission files and Resources like Weapon/A.I images for editor.
+- Database : Located at Github Gist private repo contains privacy information like _I.P,Mac Address_ and _Key_ for Editor.
+- Internal DLL : Located at [IGI-Internals](https://github.com/IGI-Research-Devs/IGI_Internal) is used to call IGI Game internal native methods.
+- QEditor - Located at path `C:\Users\my_username\AppData\Roaming\QEditor`  This is appdata file comes pre-installed with any version of editor and can be downloaded from here [QEditor Full Version](https://cutt.ly/p1ASiQX).</br>
+
+## QEditor components.
+**Q**Editor was the initial name of the project because editor actually modifies **Q** files of games like _QVM,QSC,QAS_ files but later it was changed.</br>
+
+    .
+    ├── AIFiles                 # AI Script and Path files.
+    ├── QCompiler               # Compiler/Decompiler for IGI.
+    ├── QFiles                  # Source files - QSC, Binary files - QVM.
+    ├── QGraphs                 # Graphs files and areas.
+    ├── QMissions               # Custom Missions files.
+    ├── QWeapons                # Custom Weapons files.
+    ├── Void                    # Empty Mission files.
+    ├── aiIdle.qvm              # File for setting AI to idle state.
+    ├── IGIModels.txt           # Contains 3D Models information.
+    ├── keywords.txt            # Keywords for QVM Editor.
+    ├── QChecks.dat             # Contain MD5 Hashes to check file integrity.
+    └── weaponconfig.qvm        # Weapon config file.
+
+
+## Editor Working flow.
+Editor most of the time just compiles the script file _QSC_ called _Q_ script source into _QVM_ called _Q_ virtual machine and Restart the level in order to see the affected changes. 
+Here is workflow mentioned.
+1. Get game level and select proper source file of level located at `QEditor\QFiles\IGI_QSC\missions\location0\level`.</br>
+2. Updates the script file with new script depends upon logic Add/Update/Delete commands.</br>
+**Internal compiler**</br>
+3. Copies script file from Editor `C:\IGI-Editor` to `D:\IGI\` and compiles them to binary _QVM_ file and moves them to proper destination.</br>
+**External compiler**</br>
+3. Copies script file from Editor `C:\IGI-Editor` to `QEditor\QCompiler\Compile\input` and compiles them to binary _QVM_ file and convert compiled QVM v7 (IGI 2) to QVM v5 (IGI 1) using _DConv_ tool and moves them to proper destination.</br>
+4. Restart the level and see the changes.</br>
+
 ## Editor sections.
 ### Level Editor:
 **Level Editor**: Lets you to `Add` or `Remove` Building/Objects in level at any position you want select list of objects to add in level and add then in `Edit mode`.</br>
@@ -56,7 +102,7 @@ This section supports **[ONLINE MODE]**.
 
 ### IGI Editor License Key:
 This editor requires _license key_ to run contact via _email_ or _discord_ and mention your **Username** to identify yourself.</br>
-And within no time you will get your  _license key_ to use Editor.</br> 
+And now you can generate Key from KeyGen for your editor for free.</br> 
 
 ### IGI Editor demo limit:
 This editor only offers _3 Levels_, and some features are disabled at the moment like **3D/Resource/Compiler/PlayerProfile editor.**</br> 
@@ -96,3 +142,5 @@ If you encounter any issues with Editor just contact me at</br>
 - Email: igiproz.hm@gmail.com</br>
 - Follow Project: [GitHub](https://github.com/IGI-Research-Devs/)</br>
 - Subscribe Channel: [YouTube](https://www.youtube.com/channel/UChGryl0a0dii81NfDZ12LwA/)</br>
+
+Original Author : _HeavenHM@2022_.
