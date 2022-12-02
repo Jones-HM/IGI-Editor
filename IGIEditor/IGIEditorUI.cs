@@ -958,77 +958,22 @@ namespace IGIEditor
                 string userName = QUtils.GetCurrentUserName();
                 userName = userName.Replace("-", " ").Replace("_", " ");
 
-                string keyFileAbsPath = QUtils.igiEditorQEdPath + Path.DirectorySeparatorChar + QUtils.editorAppName + "Key.txt";
-                string deviceKey = QUtils.GetMachineDeviceId();
-                string inputKey = null, welcomeMsg = "Welcome " + userName + " to IGI 1 Editor";
+                string welcomeMsg = "Welcome " + userName + " to IGI 1 Editor";
 
                 bool initUser = false;
-                //Check if user key exist.
-                keyFileExist = File.Exists(keyFileAbsPath);
-
-                //Initialize user info - Offline.
-                if (!QUtils.editorOnline)
-                {
-                    if (keyFileExist)
-                    {
-                        inputKey = File.ReadAllText(keyFileAbsPath);
-                        initUser = (inputKey == deviceKey);
-                        if (deviceKey != inputKey)
-                            QUtils.ShowSystemFatalError("Wrong key encountered! ERROR_INVALID_KEY_USAGE (Error : 0x0000000C)");
-                    }
-                }
 
                 //Initialize user info - Online.
-                else initUser = QUtils.InitUserInfo();
+                initUser = QUtils.InitUserInfo();
 
                 if (initUser)
                 {
                     licensedToLbl.Text += " " + userName;
-                    SetStatusText(welcomeMsg);
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, welcomeMsg);
+                    QUtils.ShowLogInfo(MethodBase.GetCurrentMethod().Name, welcomeMsg);
                 }
 
                 else
                 {
                     QUtils.ShowError("Error occurred while initializing user data. (Error: SERVER_ERR)");
-                }
-
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Device Id Exist : " + QUtils.keyExist);
-
-                //Check if Machine key is already saved.
-                if (QUtils.keyFileExist)
-                {
-                    inputKey = File.ReadAllText(keyFileAbsPath);
-                }
-
-                if (!editorOnline) QUtils.keyExist = (inputKey == deviceKey);
-
-                if (QUtils.keyFileExist && !QUtils.keyExist)
-                {
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "KeyFileExist : " + QUtils.keyFileExist + "\nkeyExist : " + QUtils.keyExist);
-                    QUtils.ShowSystemFatalError("No such user found in our database, ERROR_NO_USER_FOUND (0x0000525).");
-                }
-                else
-                {
-                    if (String.IsNullOrEmpty(inputKey))
-                    {
-                        var inputDlgResult = DialogMsgBox.ShowBox("Welcome Enter your IGI 1 Editor Key", "editorkey", MsgBoxButtons.YesNo, true, true);
-                        if (inputDlgResult == DialogResult.Yes)
-                            inputKey = DialogMsgBox.GetInputBoxData();
-
-                        if (deviceKey != inputKey)
-                        {
-                            QUtils.ShowSystemFatalError("Wrong key encountered! ERROR_INVALID_KEY_USAGE (Error : 0x0000000C)");
-                        }
-                        else
-                        {
-                            var dlgResult = QUtils.ShowDialog("Do you want to remember this key for your machine ?");
-                            if (dlgResult == DialogResult.Yes)
-                            {
-                                QUtils.SaveFile(keyFileAbsPath, deviceKey);
-                            }
-                        }
-                    }
                 }
 
                 //Show Game set path dialog.
@@ -1065,11 +1010,6 @@ namespace IGIEditor
 
                 string gamePathTmp = QUtils.cfgGamePath;
                 var gameAbsPath = gamePathTmp.Slice(0, gamePathTmp.IndexOf("\\", gamePathTmp.IndexOf("\\") + 1));
-
-                //Move Humanplayer config file for Weapon ammo limitations.
-                //var humanplayerAbsPath = gameAbsPath + Path.DirectorySeparatorChar + QUtils.humanplayerPath + Path.DirectorySeparatorChar + QUtils.humanplayerQvm;
-                //if (File.Exists(QUtils.humanplayerQvm) && !File.Exists(humanplayerAbsPath))
-                //    QUtils.FileIOMove(Path.GetFullPath(QUtils.humanplayerQvm), humanplayerAbsPath);
 
                 //Check if Notepad++ is installed.
                 QUtils.nppInstalled = QUtils.CheckAppInstalled("notepad++.exe", "--help");
@@ -4297,19 +4237,7 @@ namespace IGIEditor
         {
             string machineDeviceId = QUtils.GetMachineDeviceId();
             string userDataReuquested = QUtils.GetUserRequestedData();
-            var inputDlgResult = DialogMsgBox.ShowBox("Enter your IGI license key to view data", "editorkey", MsgBoxButtons.YesNo, true, true);
-            if (inputDlgResult == DialogResult.Yes)
-            {
-                string inputKey = DialogMsgBox.GetInputBoxData();
-                if (machineDeviceId == inputKey)
-                {
-                    QUtils.ShowInfo(userDataReuquested);
-                }
-                else
-                {
-                    QUtils.ShowError("Invalid license key encountered. Please check your key and try again");
-                }
-            }
+            QUtils.ShowInfo(userDataReuquested);
         }
 
         private void aiFriendlyCb_CheckedChanged(object sender, EventArgs e)
