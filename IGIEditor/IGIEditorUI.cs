@@ -961,10 +961,7 @@ namespace IGIEditor
 
                 string welcomeMsg = "Welcome " + userName + " to IGI 1 Editor";
 
-                bool initUser = false;
-
-                //Initialize user info - Online.
-                initUser = QUtils.InitUserInfo();
+                bool initUser = !String.IsNullOrEmpty(userName);
 
                 if (initUser)
                 {
@@ -2405,9 +2402,7 @@ namespace IGIEditor
                     editorOnline = true;
                     editorOnlineCb.Text = "Online";
                     editorOnlineCb.ForeColor = Green;
-                    registeredUsersLbl.Visible = true;
                     downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = updateIntervalTxt.Enabled = true;
-                    registeredUsersLbl.Text = "Users: " + QUtils.GetRegisteredUsers();
                     InitMissionsOnline(true);
                     SetStatusText("Editor online mode enabled...");
                 }
@@ -2416,7 +2411,6 @@ namespace IGIEditor
                     editorOnline = false;
                     editorOnlineCb.Text = "Offline";
                     editorOnlineCb.ForeColor = Red;
-                    registeredUsersLbl.Visible = false;
                     (((CheckBox)sender).Checked) = false;
                     downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = updateCheckerCb.Checked = updateIntervalTxt.Enabled = false;
                     SetStatusText("Please check your internet connection.");
@@ -2427,7 +2421,6 @@ namespace IGIEditor
                 editorOnline = false;
                 editorOnlineCb.Text = "Offline";
                 editorOnlineCb.ForeColor = Red;
-                registeredUsersLbl.Visible = false;
                 downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = updateCheckerCb.Checked = updateIntervalTxt.Enabled = false;
                 SetStatusText("Editor offline mode enabled...");
             }
@@ -4232,14 +4225,6 @@ namespace IGIEditor
             {
                 QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
             }
-        }
-
-        private void requestDataBtn_Click(object sender, EventArgs e)
-        {
-            string machineDeviceId = QUtils.GetMachineDeviceId();
-            string userDataReuquested = QUtils.GetUserRequestedData();
-            if (!String.IsNullOrEmpty(userDataReuquested))
-                QUtils.ShowInfo(userDataReuquested);
         }
 
         private void aiFriendlyCb_CheckedChanged(object sender, EventArgs e)

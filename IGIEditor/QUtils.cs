@@ -1,6 +1,4 @@
-﻿using Codeplex.Data;
-using DeviceId;
-using IWshRuntimeLibrary;
+﻿using IWshRuntimeLibrary;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using QLibc;
@@ -10,11 +8,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
@@ -301,7 +297,7 @@ namespace IGIEditor
         internal const string EDITOR_LEVEL_ERR = "EDITOR ERROR";
         internal const string alarmControl = "AlarmControl";
         internal const string stationaryGun = "StationaryGun";
-        internal const string EXTERNAL_COMPILER_ERR = "External Compiler not found in QEditor directory." + "\n" +"Try switching to External compiler from settings";
+        internal const string EXTERNAL_COMPILER_ERR = "External Compiler not found in QEditor directory." + "\n" + "Try switching to External compiler from settings";
         #endregion
 
         #region About Info
@@ -515,6 +511,10 @@ namespace IGIEditor
                 CreateCacheDir();
             }
 
+            //Init QEditor path for Appdata.
+            MoveQEditorAppdata();
+            MoveAppImagesCache();
+
             if (!Directory.Exists(igiEditorQEdPath)) { initErrReason = "QEditor"; initStatus = false; }
             else if (!Directory.Exists(qMissionsPath)) { initErrReason = @"QEditor\QMissions"; initStatus = false; }
             else if (!Directory.Exists(qQVMPath)) { initErrReason = @"QEditor\QFiles\IGI_QVM"; initStatus = false; }
@@ -532,13 +532,25 @@ namespace IGIEditor
 
             if (String.IsNullOrEmpty(gameAbsPath)) return false;
 
-            if (!File.Exists(deviceIdDLLPath))
+            return initStatus;
+        }
+
+        internal static void MoveQEditorAppdata()
+        {
+            string qEditorPath = editorCurrPath + @"\" + qEditor;
+            if (Directory.Exists(qEditorPath))
             {
-                AddLog(MethodBase.GetCurrentMethod().Name, "Error DeviceId.dll file is missing from the directory");
-                ShowSystemFatalError("Some impportant files are missing from the directory. Error (0x0005D11)");
+                DirectoryIOMove(qEditorPath, igiEditorQEdPath);
+            }
+        }
+
+        internal static void MoveAppImagesCache()
+        {
+            if (Directory.Exists(currPathAppImages))
+            {
+                DirectoryIOMove(currPathAppImages, cachePathAppImages);
             }
 
-            return initStatus;
         }
 
         internal static void CreateCacheDir()
@@ -858,6 +870,13 @@ namespace IGIEditor
                 status = false;
 
             if (!status) ShowSystemFatalError("Editor internal files were not found in directory (ERROR: 0xC33000F)");
+        }
+
+        internal static string GetCurrentUserName()
+        {
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            userName = userName.Substring(userName.LastIndexOf('\\') + 1);
+            return userName;
         }
 
         internal static bool CheckAppInstalled(string appName, string helpVerText = "--version")
@@ -1244,13 +1263,6 @@ namespace IGIEditor
                 bool idleStatus = false;
                 var qData = QHuman.UpdateTeamId(TEAM_ID_FRIENDLY);
                 if (!String.IsNullOrEmpty(qData)) idleStatus = QCompiler.Compile(qData, gamePath, false, true, false);
-
-                //if (idleStatus)
-                //{
-                //    RestoreLevel(gGameLevel);
-                //    ResetFile(gGameLevel);
-                //    QMemory.RestartLevel(true);
-                //}
             }
         }
 
@@ -1262,192 +1274,6 @@ namespace IGIEditor
             var qData = QHuman.UpdateTeamId(aiEvent ? TEAM_ID_ENEMY : TEAM_ID_FRIENDLY);
             if (!String.IsNullOrEmpty(qData)) idleStatus = QCompiler.Compile(qData, gamePath, false, true, false);
             return idleStatus;
-        }
-
-        protected static string InitAuthBearer()
-        {
-            string tok1 = "3n5pfkJinhrZj";
-            string tok2 = Reverse("7F268pIpW2jvS");
-            string tok3 = "vsXD0dXzHi";
-            return tok1 + tok2 + tok3;
-        }
-
-        protected static HttpClient CreateHttpClient()
-        {
-            string authBearer = "ghp_" + InitAuthBearer();
-
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
-            client.DefaultRequestHeaders.UserAgent.ParseAdd("Chrome");
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + authBearer);
-            return client;
-        }
-
-        protected static string EditContent(string Description, string TargetFileName, string Content)
-        {
-            dynamic Result = new DynamicJson();
-            dynamic file = new DynamicJson();
-            Result.description = Description;
-            Result.files = new { };
-            Result.files[TargetFileName] = new { content = Content };
-            return Result.ToString();
-        }
-
-        internal static bool RegisterUser(string userData)
-        {
-            if (!editorOnline) { ShowSystemFatalError("Cannot register new user,Check your internet connection."); return false; }
-
-            string description = "IGI 1 Editor Users information", targetFilename = "IGI1Editor_Users.xml";
-            string sourceUrl = InitsourceUrl(true);
-
-            bool status = false;
-
-            using (HttpClient httpClient = CreateHttpClient())
-            {
-                var requestUri = new Uri(sourceUrl);
-                var request = new HttpRequestMessage(new HttpMethod("PATCH"), requestUri);
-
-                string editData = EditContent(description, targetFilename, userData);
-                request.Content = new StringContent(editData, Encoding.UTF8, "application/json");
-
-                var response = httpClient.SendAsync(request);
-                status = response.Result.IsSuccessStatusCode;
-            }
-            return status;
-        }
-
-        internal static string InitsourceUrl(bool apiMode=false)
-        {
-            string gitHash = "e6cbc" + Reverse("702a5e608ab3") + "4f1d522361395d7";
-            string sourceUrl;
-
-            if (apiMode)
-                sourceUrl = $"https://api.github.com/gists/{gitHash}";
-            else
-                sourceUrl = $"https://gist.githubusercontent.com/{gitUserName}/{gitHash}/raw/{gitUserFile}";
-
-            QUtils.AddLog("SourceUrl", $"apiMode {apiMode} Source URL '{sourceUrl}'");
-            return sourceUrl;
-        }
-
-        internal static bool InitUserInfo()
-        {
-            string sourceUrl = InitsourceUrl();
-            bool status = true;
-            string infoStr = "</users-info>";
-            string sourceData = WebReader(sourceUrl);
-
-            if (String.IsNullOrEmpty(sourceData)) return false;
-
-            var userDataContent = new StringBuilder(sourceData);
-            int infoStrIndex = sourceData.IndexOf(infoStr);
-            if (infoStrIndex == -1) ShowSystemFatalError("Invalid data encountered from backend. (ERROR : 0x7FFFFFFF)");
-            userDataContent = userDataContent.Remove(infoStrIndex, infoStr.Length);
-
-            string deviceId = GetMachineDeviceId();
-            var userDataLines = sourceData.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-
-            //Parse the key.
-            string keyIdStr = "<key>";
-
-            foreach (var userDataLine in userDataLines)
-            {
-                if (userDataLine.Contains(keyIdStr))
-                {
-                    string keyId = userDataLine.Slice(userDataLine.IndexOf(keyIdStr) + keyIdStr.Length, userDataLine.IndexOf("</key>"));
-                    keyExist = deviceId == keyId;
-                    if (keyExist) break;
-                }
-            }
-
-            //Register new user.
-            if (!keyExist && !keyFileExist)
-            {
-                //Get User properties.
-                string userName = GetCurrentUserName();
-                string city = QUserInfo.GetUserCity();
-                string country = QUserInfo.GetUserCountry();
-
-                // Version 0.7 doesn't update private information on server.
-                string userData = null;
-                userData += "  <user>" + "\n";
-                userData += "\t<name>" + userName + "</name>" + "\n";
-                userData += "\t<key>" + deviceId + "</key>" + "\n";
-                userData += "\t<city>" + city + "</city>" + "\n";
-                userData += "\t<country>" + country + "</country>" + "\n";
-                userData += "\t<date>" + DateTime.Now.ToString() + "</date>" + "\n";
-                userData += "  </user>" + "\n";
-
-                userDataContent.Append(userData);
-                userDataContent.Append(infoStr);
-                status = RegisterUser(userDataContent.ToString());
-            }
-
-            return status;
-        }
-
-        internal static int GetRegisteredUsers()
-        {
-            var sourceUrl = InitsourceUrl();
-            string sourceData = WebReader(sourceUrl);
-            int registeredUsers = new Regex(Regex.Escape("<user>")).Matches(sourceData).Count;
-            AddLog(MethodBase.GetCurrentMethod().Name, "registeredUsers " + registeredUsers);
-            return registeredUsers;
-        }
-
-        internal static string GetCurrentUserName()
-        {
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            userName = userName.Substring(userName.LastIndexOf('\\') + 1);
-            return userName;
-        }
-
-        internal static string GetMachineDeviceId()
-        {
-            string deviceId = new DeviceIdBuilder().AddMachineName().AddMacAddress().AddOsVersion().AddUserName().ToString();
-            return deviceId;
-        }
-
-        internal static string GetUserRequestedData()
-        {
-            string userRequestedData = string.Empty;
-
-            string sourceUrl = InitsourceUrl();
-            string userInfoTag = "</users-info>";
-            string sourceData = WebReader(sourceUrl);
-
-            if (String.IsNullOrEmpty(sourceData)) return userRequestedData;
-
-            var userDataContent = new StringBuilder(sourceData);
-            int infoStrIndex = sourceData.IndexOf(userInfoTag);
-            if (infoStrIndex == -1) ShowSystemFatalError("Invalid data encountered from backend. (ERROR : 0x7FFFFFFF)");
-            userDataContent = userDataContent.Remove(infoStrIndex, userInfoTag.Length);
-
-            string deviceId = GetMachineDeviceId();
-            var userDataLines = sourceData.Split(new string[] { "<user>" }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var userData in userDataLines)
-            {
-                if (userData.Contains(deviceId))
-                {
-                    //Parse all the user data.
-                    string name = userData.Slice(userData.IndexOf("<name>") + "<name>".Length, userData.IndexOf("</name>"));
-                    string keyId = userData.Slice(userData.IndexOf("<key>") + "<key>".Length, userData.IndexOf("</key>"));
-                    string city = userData.Slice(userData.IndexOf("<city>") + "<city>".Length, userData.IndexOf("</city>"));
-                    string country = userData.Slice(userData.IndexOf("<country>") + "<country>".Length, userData.IndexOf("</country>"));
-                    string dateRegistered = userData.Slice(userData.IndexOf("<date>") + "<date>".Length, userData.IndexOf("</date>"));
-
-                    //Append all user data.
-                    userRequestedData = "Name: " + name + "\n" +
-                        "License Key: " + keyId + "\n" +
-                        "City: " + city + "\n" +
-                        "Country: " + country + "\n" +
-                        "Account created on " + dateRegistered + "\n";
-                    break;
-                }
-            }
-
-            return userRequestedData;
         }
 
         internal static void ShowPathExplorer(string path)
