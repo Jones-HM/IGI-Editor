@@ -40,7 +40,6 @@
             this.quitLevelBtn = new System.Windows.Forms.Button();
             this.editorOnlineCb = new System.Windows.Forms.CheckBox();
             this.editorModeCb = new System.Windows.Forms.CheckBox();
-            this.registeredUsersLbl = new System.Windows.Forms.Label();
             this.levelStartTxt = new System.Windows.Forms.NumericUpDown();
             this.posCoordCb = new System.Windows.Forms.CheckBox();
             this.posMetersCb = new System.Windows.Forms.CheckBox();
@@ -313,7 +312,6 @@
             this.minutesLbl = new System.Windows.Forms.Label();
             this.showAppDataCachePathBtn = new System.Windows.Forms.Button();
             this.gamePathBtn = new System.Windows.Forms.Button();
-            this.requestDataBtn = new System.Windows.Forms.Button();
             this.editorUpdaterBtn = new System.Windows.Forms.Button();
             this.gameSettingsLbl = new System.Windows.Forms.Label();
             this.appSettingLbl = new System.Windows.Forms.Label();
@@ -437,7 +435,6 @@
             this.editorMainPanel.Controls.Add(this.quitLevelBtn);
             this.editorMainPanel.Controls.Add(this.editorOnlineCb);
             this.editorMainPanel.Controls.Add(this.editorModeCb);
-            this.editorMainPanel.Controls.Add(this.registeredUsersLbl);
             this.editorMainPanel.Controls.Add(this.levelStartTxt);
             this.editorMainPanel.Controls.Add(this.posCoordCb);
             this.editorMainPanel.Controls.Add(this.posMetersCb);
@@ -591,19 +588,6 @@
             this.editorModeCb.Text = "Play Mode";
             this.editorModeCb.UseVisualStyleBackColor = true;
             this.editorModeCb.CheckedChanged += new System.EventHandler(this.editorModeCb_CheckedChanged);
-            // 
-            // registeredUsersLbl
-            // 
-            this.registeredUsersLbl.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.registeredUsersLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.registeredUsersLbl.Location = new System.Drawing.Point(365, 78);
-            this.registeredUsersLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.registeredUsersLbl.Name = "registeredUsersLbl";
-            this.registeredUsersLbl.Size = new System.Drawing.Size(79, 19);
-            this.registeredUsersLbl.TabIndex = 43;
-            this.registeredUsersLbl.Text = "Users ";
-            this.registeredUsersLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.registeredUsersLbl.Visible = false;
             // 
             // levelStartTxt
             // 
@@ -4512,7 +4496,6 @@
             this.miscEditor.Controls.Add(this.minutesLbl);
             this.miscEditor.Controls.Add(this.showAppDataCachePathBtn);
             this.miscEditor.Controls.Add(this.gamePathBtn);
-            this.miscEditor.Controls.Add(this.requestDataBtn);
             this.miscEditor.Controls.Add(this.editorUpdaterBtn);
             this.miscEditor.Controls.Add(this.gameSettingsLbl);
             this.miscEditor.Controls.Add(this.appSettingLbl);
@@ -4674,21 +4657,6 @@
             this.gamePathBtn.UseVisualStyleBackColor = true;
             this.gamePathBtn.Click += new System.EventHandler(this.gamePathBtn_Click);
             this.gamePathBtn.MouseEnter += new System.EventHandler(this.editorUpdaterBtn_MouseEnter);
-            // 
-            // requestDataBtn
-            // 
-            this.requestDataBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.requestDataBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.requestDataBtn.ForeColor = System.Drawing.Color.Tomato;
-            this.requestDataBtn.Location = new System.Drawing.Point(267, 307);
-            this.requestDataBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.requestDataBtn.Name = "requestDataBtn";
-            this.requestDataBtn.Size = new System.Drawing.Size(190, 38);
-            this.requestDataBtn.TabIndex = 41;
-            this.requestDataBtn.Text = "Request User Data";
-            this.requestDataBtn.UseVisualStyleBackColor = true;
-            this.requestDataBtn.Click += new System.EventHandler(this.requestDataBtn_Click);
-            this.requestDataBtn.MouseEnter += new System.EventHandler(this.editorUpdaterBtn_MouseEnter);
             // 
             // editorUpdaterBtn
             // 
@@ -5569,7 +5537,6 @@
         private System.Windows.Forms.Label peekTimeLbl;
         private System.Windows.Forms.Label peekCrouchLbl;
         private System.Windows.Forms.Label peekLRLbl;
-        private System.Windows.Forms.Label registeredUsersLbl;
         private System.Windows.Forms.Button showAppLogBtn;
         private System.Windows.Forms.CheckBox editorOnlineCb;
         private System.Windows.Forms.CheckBox disableWarningsCb;
@@ -5734,7 +5701,6 @@
         private System.Windows.Forms.Label modelIdOutLbl;
         private System.Windows.Forms.TextBox modelNameTxt;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button requestDataBtn;
         private System.Windows.Forms.Label aboutBtn;
         private System.Windows.Forms.Label minimizeBtn;
         private System.Windows.Forms.Label closeBtn;
