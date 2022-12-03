@@ -163,6 +163,7 @@
             this.weaponEditor = new System.Windows.Forms.TabPage();
             this.weaponEditorTabs = new System.Windows.Forms.TabControl();
             this.weaponEditorMainTab = new System.Windows.Forms.TabPage();
+            this.currentWeaponCb = new System.Windows.Forms.CheckBox();
             this.weaponGroupFileTxt = new System.Windows.Forms.TextBox();
             this.loadWeaponGroupBtn = new System.Windows.Forms.Button();
             this.saveWeaponGroupBtn = new System.Windows.Forms.Button();
@@ -176,12 +177,15 @@
             this.label5 = new System.Windows.Forms.Label();
             this.addWeaponBtn = new System.Windows.Forms.Button();
             this.weaponCfgEditor = new System.Windows.Forms.TabPage();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.resetWeaponBtn = new System.Windows.Forms.Button();
+            this.weaponRangeTxt = new System.Windows.Forms.NumericUpDown();
+            this.weaponRangeLbl = new System.Windows.Forms.Label();
             this.weaponRoundPerMinuteTxt = new System.Windows.Forms.NumericUpDown();
             this.weaponBulletsTxt = new System.Windows.Forms.NumericUpDown();
             this.weaponPowerTxt = new System.Windows.Forms.NumericUpDown();
             this.weaponDamageTxt = new System.Windows.Forms.NumericUpDown();
-            this.weaponRoundPerClipTxt = new System.Windows.Forms.Label();
+            this.weaponRoundPerClipTxt = new System.Windows.Forms.NumericUpDown();
+            this.weaponRoundPerClipLbl = new System.Windows.Forms.Label();
             this.weaponRoundPerMinuteLbl = new System.Windows.Forms.Label();
             this.updateWeaponPowerDamageBtn = new System.Windows.Forms.Button();
             this.weaponBulletsLbl = new System.Windows.Forms.Label();
@@ -201,7 +205,7 @@
             this.weaponDescriptionTxt = new System.Windows.Forms.TextBox();
             this.weaponNameLbl = new System.Windows.Forms.Label();
             this.weaponCfgDD = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.weaponTypeLblDD = new System.Windows.Forms.Label();
             this.updateWeaponDetailsBtn = new System.Windows.Forms.Button();
             this.weaponNameTxt = new System.Windows.Forms.TextBox();
             this.updateWeaponPropertiesBtn = new System.Windows.Forms.Button();
@@ -361,8 +365,6 @@
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.gameLogoLbl = new System.Windows.Forms.Label();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.weaponRangeTxt = new System.Windows.Forms.NumericUpDown();
-            this.weaponRangeLbl = new System.Windows.Forms.Label();
             this.editorMainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -401,11 +403,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.weaponAmmoTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponImgBox)).BeginInit();
             this.weaponCfgEditor.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.weaponRangeTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponRoundPerMinuteTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponBulletsTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponPowerTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponDamageTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.weaponRoundPerClipTxt)).BeginInit();
             this.threeDEditor.SuspendLayout();
             this.missionEditor.SuspendLayout();
             this.graphEditor.SuspendLayout();
@@ -419,7 +422,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.musicTrackBar)).BeginInit();
             this.devMode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.weaponRangeTxt)).BeginInit();
             this.SuspendLayout();
             // 
             // editorMainPanel
@@ -2439,6 +2441,7 @@
             // weaponEditorMainTab
             // 
             this.weaponEditorMainTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.weaponEditorMainTab.Controls.Add(this.currentWeaponCb);
             this.weaponEditorMainTab.Controls.Add(this.weaponGroupFileTxt);
             this.weaponEditorMainTab.Controls.Add(this.loadWeaponGroupBtn);
             this.weaponEditorMainTab.Controls.Add(this.saveWeaponGroupBtn);
@@ -2459,6 +2462,20 @@
             this.weaponEditorMainTab.Size = new System.Drawing.Size(1129, 357);
             this.weaponEditorMainTab.TabIndex = 0;
             this.weaponEditorMainTab.Text = "Main Editor";
+            this.weaponEditorMainTab.Click += new System.EventHandler(this.weaponEditorMainTab_Click);
+            // 
+            // currentWeaponCb
+            // 
+            this.currentWeaponCb.AutoSize = true;
+            this.currentWeaponCb.Font = new System.Drawing.Font("Century Gothic", 7.8F);
+            this.currentWeaponCb.Location = new System.Drawing.Point(966, 329);
+            this.currentWeaponCb.Margin = new System.Windows.Forms.Padding(4);
+            this.currentWeaponCb.Name = "currentWeaponCb";
+            this.currentWeaponCb.Size = new System.Drawing.Size(148, 23);
+            this.currentWeaponCb.TabIndex = 156;
+            this.currentWeaponCb.Text = "Current Weapon";
+            this.currentWeaponCb.UseVisualStyleBackColor = true;
+            this.currentWeaponCb.CheckedChanged += new System.EventHandler(this.currentWeaponCb_CheckedChanged);
             // 
             // weaponGroupFileTxt
             // 
@@ -2527,7 +2544,7 @@
             // 
             this.markWeaponsCb.AutoSize = true;
             this.markWeaponsCb.Font = new System.Drawing.Font("Century Gothic", 7.8F);
-            this.markWeaponsCb.Location = new System.Drawing.Point(675, 49);
+            this.markWeaponsCb.Location = new System.Drawing.Point(966, 308);
             this.markWeaponsCb.Margin = new System.Windows.Forms.Padding(4);
             this.markWeaponsCb.Name = "markWeaponsCb";
             this.markWeaponsCb.Size = new System.Drawing.Size(131, 23);
@@ -2539,7 +2556,7 @@
             // 
             this.allWeaponsCb.AutoSize = true;
             this.allWeaponsCb.Font = new System.Drawing.Font("Century Gothic", 7.8F);
-            this.allWeaponsCb.Location = new System.Drawing.Point(894, 49);
+            this.allWeaponsCb.Location = new System.Drawing.Point(966, 284);
             this.allWeaponsCb.Margin = new System.Windows.Forms.Padding(4);
             this.allWeaponsCb.Name = "allWeaponsCb";
             this.allWeaponsCb.Size = new System.Drawing.Size(117, 23);
@@ -2624,14 +2641,15 @@
             // weaponCfgEditor
             // 
             this.weaponCfgEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.weaponCfgEditor.Controls.Add(this.resetWeaponBtn);
             this.weaponCfgEditor.Controls.Add(this.weaponRangeTxt);
             this.weaponCfgEditor.Controls.Add(this.weaponRangeLbl);
-            this.weaponCfgEditor.Controls.Add(this.numericUpDown1);
             this.weaponCfgEditor.Controls.Add(this.weaponRoundPerMinuteTxt);
             this.weaponCfgEditor.Controls.Add(this.weaponBulletsTxt);
             this.weaponCfgEditor.Controls.Add(this.weaponPowerTxt);
             this.weaponCfgEditor.Controls.Add(this.weaponDamageTxt);
             this.weaponCfgEditor.Controls.Add(this.weaponRoundPerClipTxt);
+            this.weaponCfgEditor.Controls.Add(this.weaponRoundPerClipLbl);
             this.weaponCfgEditor.Controls.Add(this.weaponRoundPerMinuteLbl);
             this.weaponCfgEditor.Controls.Add(this.updateWeaponPowerDamageBtn);
             this.weaponCfgEditor.Controls.Add(this.weaponBulletsLbl);
@@ -2651,7 +2669,7 @@
             this.weaponCfgEditor.Controls.Add(this.weaponDescriptionTxt);
             this.weaponCfgEditor.Controls.Add(this.weaponNameLbl);
             this.weaponCfgEditor.Controls.Add(this.weaponCfgDD);
-            this.weaponCfgEditor.Controls.Add(this.label1);
+            this.weaponCfgEditor.Controls.Add(this.weaponTypeLblDD);
             this.weaponCfgEditor.Controls.Add(this.updateWeaponDetailsBtn);
             this.weaponCfgEditor.Controls.Add(this.weaponNameTxt);
             this.weaponCfgEditor.Controls.Add(this.updateWeaponPropertiesBtn);
@@ -2663,26 +2681,59 @@
             this.weaponCfgEditor.Size = new System.Drawing.Size(1129, 357);
             this.weaponCfgEditor.TabIndex = 1;
             this.weaponCfgEditor.Text = "Weapon Editor";
+            this.weaponCfgEditor.Click += new System.EventHandler(this.weaponCfgEditor_Click);
             // 
-            // numericUpDown1
+            // resetWeaponBtn
             // 
-            this.numericUpDown1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.numericUpDown1.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.numericUpDown1.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.numericUpDown1.Location = new System.Drawing.Point(453, 310);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.resetWeaponBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.resetWeaponBtn.Font = new System.Drawing.Font("Century Gothic", 9.75F);
+            this.resetWeaponBtn.ForeColor = System.Drawing.Color.Tomato;
+            this.resetWeaponBtn.Location = new System.Drawing.Point(949, 314);
+            this.resetWeaponBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.resetWeaponBtn.Name = "resetWeaponBtn";
+            this.resetWeaponBtn.Size = new System.Drawing.Size(159, 31);
+            this.resetWeaponBtn.TabIndex = 155;
+            this.resetWeaponBtn.Text = "Reset";
+            this.resetWeaponBtn.UseVisualStyleBackColor = true;
+            this.resetWeaponBtn.Click += new System.EventHandler(this.resetWeaponBtn_Click);
+            // 
+            // weaponRangeTxt
+            // 
+            this.weaponRangeTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.weaponRangeTxt.DecimalPlaces = 2;
+            this.weaponRangeTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.weaponRangeTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.weaponRangeTxt.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.weaponRangeTxt.Location = new System.Drawing.Point(676, 313);
+            this.weaponRangeTxt.Maximum = new decimal(new int[] {
             -805306368,
             967903254,
             1843143693,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(100, 30);
-            this.numericUpDown1.TabIndex = 151;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            5,
+            this.weaponRangeTxt.Name = "weaponRangeTxt";
+            this.weaponRangeTxt.Size = new System.Drawing.Size(100, 30);
+            this.weaponRangeTxt.TabIndex = 153;
+            this.weaponRangeTxt.Value = new decimal(new int[] {
+            20,
             0,
             0,
             0});
+            // 
+            // weaponRangeLbl
+            // 
+            this.weaponRangeLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.weaponRangeLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.weaponRangeLbl.Location = new System.Drawing.Point(585, 310);
+            this.weaponRangeLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.weaponRangeLbl.Name = "weaponRangeLbl";
+            this.weaponRangeLbl.Size = new System.Drawing.Size(84, 33);
+            this.weaponRangeLbl.TabIndex = 152;
+            this.weaponRangeLbl.Text = "Range";
+            this.weaponRangeLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // weaponRoundPerMinuteTxt
             // 
@@ -2778,15 +2829,37 @@
             // 
             // weaponRoundPerClipTxt
             // 
+            this.weaponRoundPerClipTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
             this.weaponRoundPerClipTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.weaponRoundPerClipTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.weaponRoundPerClipTxt.Location = new System.Drawing.Point(312, 310);
+            this.weaponRoundPerClipTxt.Location = new System.Drawing.Point(453, 314);
             this.weaponRoundPerClipTxt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.weaponRoundPerClipTxt.Maximum = new decimal(new int[] {
+            -805306368,
+            967903254,
+            1843143693,
+            0});
             this.weaponRoundPerClipTxt.Name = "weaponRoundPerClipTxt";
-            this.weaponRoundPerClipTxt.Size = new System.Drawing.Size(134, 33);
+            this.weaponRoundPerClipTxt.Size = new System.Drawing.Size(101, 30);
             this.weaponRoundPerClipTxt.TabIndex = 147;
-            this.weaponRoundPerClipTxt.Text = "Rounds/Clip";
-            this.weaponRoundPerClipTxt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.weaponRoundPerClipTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.weaponRoundPerClipTxt.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // weaponRoundPerClipLbl
+            // 
+            this.weaponRoundPerClipLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.weaponRoundPerClipLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.weaponRoundPerClipLbl.Location = new System.Drawing.Point(305, 313);
+            this.weaponRoundPerClipLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.weaponRoundPerClipLbl.Name = "weaponRoundPerClipLbl";
+            this.weaponRoundPerClipLbl.Size = new System.Drawing.Size(131, 33);
+            this.weaponRoundPerClipLbl.TabIndex = 154;
+            this.weaponRoundPerClipLbl.Text = "Rounds/Clip";
+            this.weaponRoundPerClipLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // weaponRoundPerMinuteLbl
             // 
@@ -2805,10 +2878,10 @@
             this.updateWeaponPowerDamageBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updateWeaponPowerDamageBtn.Font = new System.Drawing.Font("Century Gothic", 9.75F);
             this.updateWeaponPowerDamageBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.updateWeaponPowerDamageBtn.Location = new System.Drawing.Point(897, 254);
+            this.updateWeaponPowerDamageBtn.Location = new System.Drawing.Point(784, 254);
             this.updateWeaponPowerDamageBtn.Margin = new System.Windows.Forms.Padding(4);
             this.updateWeaponPowerDamageBtn.Name = "updateWeaponPowerDamageBtn";
-            this.updateWeaponPowerDamageBtn.Size = new System.Drawing.Size(211, 31);
+            this.updateWeaponPowerDamageBtn.Size = new System.Drawing.Size(324, 31);
             this.updateWeaponPowerDamageBtn.TabIndex = 146;
             this.updateWeaponPowerDamageBtn.Text = "Update Power";
             this.updateWeaponPowerDamageBtn.UseVisualStyleBackColor = true;
@@ -2953,10 +3026,10 @@
             this.updateWeaponSFXBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updateWeaponSFXBtn.Font = new System.Drawing.Font("Century Gothic", 9.75F);
             this.updateWeaponSFXBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.updateWeaponSFXBtn.Location = new System.Drawing.Point(896, 190);
+            this.updateWeaponSFXBtn.Location = new System.Drawing.Point(784, 190);
             this.updateWeaponSFXBtn.Margin = new System.Windows.Forms.Padding(4);
             this.updateWeaponSFXBtn.Name = "updateWeaponSFXBtn";
-            this.updateWeaponSFXBtn.Size = new System.Drawing.Size(211, 31);
+            this.updateWeaponSFXBtn.Size = new System.Drawing.Size(323, 31);
             this.updateWeaponSFXBtn.TabIndex = 137;
             this.updateWeaponSFXBtn.Text = "Update SFX";
             this.updateWeaponSFXBtn.UseVisualStyleBackColor = true;
@@ -2979,10 +3052,10 @@
             this.updateWeaponUIBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updateWeaponUIBtn.Font = new System.Drawing.Font("Century Gothic", 9.75F);
             this.updateWeaponUIBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.updateWeaponUIBtn.Location = new System.Drawing.Point(896, 124);
+            this.updateWeaponUIBtn.Location = new System.Drawing.Point(784, 124);
             this.updateWeaponUIBtn.Margin = new System.Windows.Forms.Padding(4);
             this.updateWeaponUIBtn.Name = "updateWeaponUIBtn";
-            this.updateWeaponUIBtn.Size = new System.Drawing.Size(211, 31);
+            this.updateWeaponUIBtn.Size = new System.Drawing.Size(323, 31);
             this.updateWeaponUIBtn.TabIndex = 137;
             this.updateWeaponUIBtn.Text = "Update UI";
             this.updateWeaponUIBtn.UseVisualStyleBackColor = true;
@@ -3040,27 +3113,27 @@
             this.weaponCfgDD.TabIndex = 123;
             this.weaponCfgDD.SelectedIndexChanged += new System.EventHandler(this.weaponCfgDD_SelectedIndexChanged);
             // 
-            // label1
+            // weaponTypeLblDD
             // 
-            this.label1.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.label1.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.label1.Location = new System.Drawing.Point(125, 2);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(173, 33);
-            this.label1.TabIndex = 122;
-            this.label1.Text = "Weapon";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.weaponTypeLblDD.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.weaponTypeLblDD.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.weaponTypeLblDD.Location = new System.Drawing.Point(125, 2);
+            this.weaponTypeLblDD.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.weaponTypeLblDD.Name = "weaponTypeLblDD";
+            this.weaponTypeLblDD.Size = new System.Drawing.Size(173, 33);
+            this.weaponTypeLblDD.TabIndex = 122;
+            this.weaponTypeLblDD.Text = "Weapon";
+            this.weaponTypeLblDD.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // updateWeaponDetailsBtn
             // 
             this.updateWeaponDetailsBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updateWeaponDetailsBtn.Font = new System.Drawing.Font("Century Gothic", 9.75F);
             this.updateWeaponDetailsBtn.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.updateWeaponDetailsBtn.Location = new System.Drawing.Point(897, 70);
+            this.updateWeaponDetailsBtn.Location = new System.Drawing.Point(784, 70);
             this.updateWeaponDetailsBtn.Margin = new System.Windows.Forms.Padding(4);
             this.updateWeaponDetailsBtn.Name = "updateWeaponDetailsBtn";
-            this.updateWeaponDetailsBtn.Size = new System.Drawing.Size(211, 31);
+            this.updateWeaponDetailsBtn.Size = new System.Drawing.Size(324, 31);
             this.updateWeaponDetailsBtn.TabIndex = 121;
             this.updateWeaponDetailsBtn.Text = "Update Details";
             this.updateWeaponDetailsBtn.UseVisualStyleBackColor = true;
@@ -3085,12 +3158,12 @@
             this.updateWeaponPropertiesBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.updateWeaponPropertiesBtn.Font = new System.Drawing.Font("Century Gothic", 9.75F);
             this.updateWeaponPropertiesBtn.ForeColor = System.Drawing.Color.SpringGreen;
-            this.updateWeaponPropertiesBtn.Location = new System.Drawing.Point(779, 4);
+            this.updateWeaponPropertiesBtn.Location = new System.Drawing.Point(783, 314);
             this.updateWeaponPropertiesBtn.Margin = new System.Windows.Forms.Padding(4);
             this.updateWeaponPropertiesBtn.Name = "updateWeaponPropertiesBtn";
-            this.updateWeaponPropertiesBtn.Size = new System.Drawing.Size(329, 31);
+            this.updateWeaponPropertiesBtn.Size = new System.Drawing.Size(166, 31);
             this.updateWeaponPropertiesBtn.TabIndex = 119;
-            this.updateWeaponPropertiesBtn.Text = "Update Weapon";
+            this.updateWeaponPropertiesBtn.Text = "Update";
             this.updateWeaponPropertiesBtn.UseVisualStyleBackColor = true;
             this.updateWeaponPropertiesBtn.Click += new System.EventHandler(this.updateWeaponPropertiesBtn_Click);
             // 
@@ -5298,44 +5371,6 @@
             this.gameLogoLbl.TabIndex = 0;
             this.gameLogoLbl.Text = "IGI 1";
             // 
-            // weaponRangeTxt
-            // 
-            this.weaponRangeTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
-            this.weaponRangeTxt.DecimalPlaces = 2;
-            this.weaponRangeTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.weaponRangeTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.weaponRangeTxt.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            131072});
-            this.weaponRangeTxt.Location = new System.Drawing.Point(676, 313);
-            this.weaponRangeTxt.Maximum = new decimal(new int[] {
-            -805306368,
-            967903254,
-            1843143693,
-            0});
-            this.weaponRangeTxt.Name = "weaponRangeTxt";
-            this.weaponRangeTxt.Size = new System.Drawing.Size(100, 30);
-            this.weaponRangeTxt.TabIndex = 153;
-            this.weaponRangeTxt.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            // 
-            // weaponRangeLbl
-            // 
-            this.weaponRangeLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.weaponRangeLbl.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.weaponRangeLbl.Location = new System.Drawing.Point(585, 310);
-            this.weaponRangeLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.weaponRangeLbl.Name = "weaponRangeLbl";
-            this.weaponRangeLbl.Size = new System.Drawing.Size(84, 33);
-            this.weaponRangeLbl.TabIndex = 152;
-            this.weaponRangeLbl.Text = "Range";
-            this.weaponRangeLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // IGIEditorUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -5393,11 +5428,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.weaponImgBox)).EndInit();
             this.weaponCfgEditor.ResumeLayout(false);
             this.weaponCfgEditor.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.weaponRangeTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponRoundPerMinuteTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponBulletsTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponPowerTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponDamageTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.weaponRoundPerClipTxt)).EndInit();
             this.threeDEditor.ResumeLayout(false);
             this.missionEditor.ResumeLayout(false);
             this.missionEditor.PerformLayout();
@@ -5416,7 +5452,6 @@
             this.devMode.ResumeLayout(false);
             this.devMode.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.weaponRangeTxt)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -5723,7 +5758,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button addWeaponBtn;
         private System.Windows.Forms.ComboBox weaponCfgDD;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label weaponTypeLblDD;
         private System.Windows.Forms.Button updateWeaponDetailsBtn;
         private System.Windows.Forms.TextBox weaponNameTxt;
         private System.Windows.Forms.Button updateWeaponPropertiesBtn;
@@ -5752,10 +5787,12 @@
         private System.Windows.Forms.Label weaponBulletsLbl;
         private System.Windows.Forms.Label weaponPowerLbl;
         private System.Windows.Forms.Label weaponDamageLbl;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Label weaponRoundPerClipTxt;
+        private System.Windows.Forms.NumericUpDown weaponRoundPerClipTxt;
+        private System.Windows.Forms.Label weaponRoundPerClipLbl;
         private System.Windows.Forms.NumericUpDown weaponRangeTxt;
         private System.Windows.Forms.Label weaponRangeLbl;
+        private System.Windows.Forms.Button resetWeaponBtn;
+        private System.Windows.Forms.CheckBox currentWeaponCb;
     }
 }
 

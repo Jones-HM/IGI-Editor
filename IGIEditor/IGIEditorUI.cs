@@ -810,6 +810,7 @@ namespace IGIEditor
                     foreach (var weapon in QUtils.weaponList)
                     {
                         var weaponName = weapon.Keys.ElementAt(0);
+                        weaponDDList.Add(weaponName);
                         weaponDD.Items.Add(weaponName);
                         weaponCfgDD.Items.Add(weaponName);
                         aiWeaponDD.Items.Add(weaponName);
@@ -958,77 +959,22 @@ namespace IGIEditor
                 string userName = QUtils.GetCurrentUserName();
                 userName = userName.Replace("-", " ").Replace("_", " ");
 
-                string keyFileAbsPath = QUtils.igiEditorQEdPath + Path.DirectorySeparatorChar + QUtils.editorAppName + "Key.txt";
-                string deviceKey = QUtils.GetMachineDeviceId();
-                string inputKey = null, welcomeMsg = "Welcome " + userName + " to IGI 1 Editor";
+                string welcomeMsg = "Welcome " + userName + " to IGI 1 Editor";
 
                 bool initUser = false;
-                //Check if user key exist.
-                keyFileExist = File.Exists(keyFileAbsPath);
-
-                //Initialize user info - Offline.
-                if (!QUtils.editorOnline)
-                {
-                    if (keyFileExist)
-                    {
-                        inputKey = File.ReadAllText(keyFileAbsPath);
-                        initUser = (inputKey == deviceKey);
-                        if (deviceKey != inputKey)
-                            QUtils.ShowSystemFatalError("Wrong key encountered! ERROR_INVALID_KEY_USAGE (Error : 0x0000000C)");
-                    }
-                }
 
                 //Initialize user info - Online.
-                else initUser = QUtils.InitUserInfo();
+                initUser = QUtils.InitUserInfo();
 
                 if (initUser)
                 {
                     licensedToLbl.Text += " " + userName;
-                    SetStatusText(welcomeMsg);
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, welcomeMsg);
+                    QUtils.ShowLogInfo(MethodBase.GetCurrentMethod().Name, welcomeMsg);
                 }
 
                 else
                 {
                     QUtils.ShowError("Error occurred while initializing user data. (Error: SERVER_ERR)");
-                }
-
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Device Id Exist : " + QUtils.keyExist);
-
-                //Check if Machine key is already saved.
-                if (QUtils.keyFileExist)
-                {
-                    inputKey = File.ReadAllText(keyFileAbsPath);
-                }
-
-                if (!editorOnline) QUtils.keyExist = (inputKey == deviceKey);
-
-                if (QUtils.keyFileExist && !QUtils.keyExist)
-                {
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "KeyFileExist : " + QUtils.keyFileExist + "\nkeyExist : " + QUtils.keyExist);
-                    QUtils.ShowSystemFatalError("No such user found in our database, ERROR_NO_USER_FOUND (0x0000525).");
-                }
-                else
-                {
-                    if (String.IsNullOrEmpty(inputKey))
-                    {
-                        var inputDlgResult = DialogMsgBox.ShowBox("Welcome Enter your IGI 1 Editor Key", "editorkey", MsgBoxButtons.YesNo, true, true);
-                        if (inputDlgResult == DialogResult.Yes)
-                            inputKey = DialogMsgBox.GetInputBoxData();
-
-                        if (deviceKey != inputKey)
-                        {
-                            QUtils.ShowSystemFatalError("Wrong key encountered! ERROR_INVALID_KEY_USAGE (Error : 0x0000000C)");
-                        }
-                        else
-                        {
-                            var dlgResult = QUtils.ShowDialog("Do you want to remember this key for your machine ?");
-                            if (dlgResult == DialogResult.Yes)
-                            {
-                                QUtils.SaveFile(keyFileAbsPath, deviceKey);
-                            }
-                        }
-                    }
                 }
 
                 //Show Game set path dialog.
@@ -1065,11 +1011,6 @@ namespace IGIEditor
 
                 string gamePathTmp = QUtils.cfgGamePath;
                 var gameAbsPath = gamePathTmp.Slice(0, gamePathTmp.IndexOf("\\", gamePathTmp.IndexOf("\\") + 1));
-
-                //Move Humanplayer config file for Weapon ammo limitations.
-                //var humanplayerAbsPath = gameAbsPath + Path.DirectorySeparatorChar + QUtils.humanplayerPath + Path.DirectorySeparatorChar + QUtils.humanplayerQvm;
-                //if (File.Exists(QUtils.humanplayerQvm) && !File.Exists(humanplayerAbsPath))
-                //    QUtils.FileIOMove(Path.GetFullPath(QUtils.humanplayerQvm), humanplayerAbsPath);
 
                 //Check if Notepad++ is installed.
                 QUtils.nppInstalled = QUtils.CheckAppInstalled("notepad++.exe", "--help");
@@ -4297,19 +4238,8 @@ namespace IGIEditor
         {
             string machineDeviceId = QUtils.GetMachineDeviceId();
             string userDataReuquested = QUtils.GetUserRequestedData();
-            var inputDlgResult = DialogMsgBox.ShowBox("Enter your IGI license key to view data", "editorkey", MsgBoxButtons.YesNo, true, true);
-            if (inputDlgResult == DialogResult.Yes)
-            {
-                string inputKey = DialogMsgBox.GetInputBoxData();
-                if (machineDeviceId == inputKey)
-                {
-                    QUtils.ShowInfo(userDataReuquested);
-                }
-                else
-                {
-                    QUtils.ShowError("Invalid license key encountered. Please check your key and try again");
-                }
-            }
+            if (!String.IsNullOrEmpty(userDataReuquested))
+                QUtils.ShowInfo(userDataReuquested);
         }
 
         private void aiFriendlyCb_CheckedChanged(object sender, EventArgs e)
@@ -4390,7 +4320,7 @@ namespace IGIEditor
                 Single weaponRange = Single.Parse(weaponRangeTxt.Text);
                 Int32 weaponBullets = Int32.Parse(weaponBulletsTxt.Text);
                 Int32 weaponRoundPerMinute = Int32.Parse(weaponRoundPerMinuteTxt.Text);
-                Int32 weaponRoundPerClip = Int32.Parse(numericUpDown1.Text);
+                Int32 weaponRoundPerClip = Int32.Parse(weaponRoundPerClipTxt.Text);
 
                 //Update the Weapon Power data.
                 weapon.damage = weaponDamage;
@@ -4399,6 +4329,17 @@ namespace IGIEditor
                 weapon.roundsPerMinute = weaponRoundPerMinute;
                 weapon.roundsPerClip = weaponRoundPerClip;
                 weapon.weaponRange = weaponRange;
+            }
+
+            bool hasItemReal32 = false;
+
+            if (weaponSelected.Contains("MP5") || weaponSelected.Contains("M16")
+                || weaponSelected.Contains("DRAG") || weaponSelected.Contains("GRENADE")
+               || weaponSelected.Contains("PROXI") || weaponSelected.Contains("MEDIPACK")
+               || weaponSelected.Contains("BINO")
+                )
+            {
+                hasItemReal32 = true;
             }
 
             foreach (var data in qscDataSplit)
@@ -4417,7 +4358,7 @@ namespace IGIEditor
                            + "," + weapon.gunModel + "," + weapon.casingModel + "," + weapon.animStand + "," + weapon.animMove + "," + weapon.animFire1 + "," + weapon.animFire2 + "," + weapon.animFire3
                             + "," + weapon.animReload + "," + weapon.animUpperbodystand + "," + weapon.animUpperbodywalk + "," + weapon.animUpperbodycrouch + "," + weapon.animUpperbodycrouchrun
                             + "," + weapon.animUpperbodyrun + "," + weapon.animUpperbodyfire + "," + weapon.animUpperbodyreload + ",\"" + weapon.soundSingle + "\",\"" + weapon.soundLoop
-                            + "\"," + weapon.detectionRange + "," + weapon.projectileTaskType + "," + weapon.weaponTaskType + "," + weapon.emptyOnClear.ToString().ToUpper() + ")," + "\n";
+                            + "\"," + weapon.detectionRange + "," + weapon.projectileTaskType + "," + weapon.weaponTaskType + "," + weapon.emptyOnClear.ToString().ToUpper() + ((hasItemReal32) ? "," :  "),") + "\n";
                     qscData = qscData.Remove(qtaskIndex, newlineIndex - qtaskIndex).Insert(qtaskIndex, objectTask);
                     break;
                 }
@@ -4430,7 +4371,7 @@ namespace IGIEditor
 
         private void updateWeaponPropertiesBtn_Click(object sender, EventArgs e)
         {
-            bool status = UpdateWeaponProperties(true, true, true,true);
+            bool status = UpdateWeaponProperties(true, true, true, true);
             if (status)
             {
                 QInternals.WeaponConfigRead();
@@ -4462,7 +4403,7 @@ namespace IGIEditor
                 weaponRangeTxt.Text = weapon.weaponRange.ToString();
                 weaponBulletsTxt.Value = weapon.bullets;
                 weaponRoundPerMinuteTxt.Value = weapon.roundsPerMinute;
-                numericUpDown1.Value = weapon.roundsPerClip;
+                weaponRoundPerClipTxt.Value = weapon.roundsPerClip;
             }
             catch (Exception ex)
             {
@@ -4508,6 +4449,59 @@ namespace IGIEditor
                 QInternals.WeaponConfigRead();
                 QUtils.ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Weapon Power properties updated success");
             }
+        }
+
+
+        private void currentWeaponCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                weaponDD.SelectedIndex = QWeapon.WeaponUpdateCurrent();
+                Application.DoEvents();
+            }
+        }
+
+        private void weaponEditorMainTab_Click(object sender, EventArgs e)
+        {
+            if (currentWeaponCb.Checked)
+            {
+                weaponDD.SelectedIndex = QWeapon.WeaponUpdateCurrent();
+                Application.DoEvents();
+            }
+        }
+
+        private void resetWeaponBtn_Click(object sender, EventArgs e)
+        {
+            int weaponIndex = 0;
+            if (currentWeaponCb.Checked)
+            {
+                weaponIndex = QWeapon.WeaponUpdateCurrent();
+            }
+            else
+            {
+                weaponIndex = weaponDD.SelectedIndex;
+            }
+            var weapon = QUtils.weaponDataList[weaponIndex];
+
+            bool status = UpdateWeaponProperties();
+            if (status)
+            {
+                QInternals.WeaponConfigRead();
+                QUtils.ShowLogStatus("", "Weapon reset success");
+            }
+        }
+
+        private void weaponCfgEditor_Click(object sender, EventArgs e)
+        {
+            if (currentWeaponCb.Checked)
+            {
+                weaponCfgDD.SelectedIndex = QWeapon.WeaponUpdateCurrent();
+            }
+            else
+            {
+                weaponCfgDD.SelectedIndex = weaponDD.SelectedIndex;
+            }
+            weaponCfgDD_SelectedIndexChanged(sender,e);
         }
 
         private void graphsMarkCb_CheckedChanged(object sender, EventArgs e)
