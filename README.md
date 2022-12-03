@@ -15,7 +15,7 @@ form of _MEF_ (**M**esh **E**xternal **F**ile).
 ## Editor components.
 Editor has several components which it needs in order to work fully to its functionality.
 - Server : Located at [OrgFree](http://igiresearchdevelopers.orgfree.com/) which contains Mission files and Resources like Weapon/A.I images for editor.
-- Database : Located at Github Gist private repo contains privacy information like _I.P,Mac Address_ and _Key_ for Editor.
+- ~~Database : Located at Github Gist private repo contains privacy information like _I.P,Mac Address_ and _Key_ for Editor.~~
 - Internal DLL : Located at [IGI-Internals](https://github.com/IGI-Research-Devs/IGI_Internal) is used to call IGI Game internal native methods.
 - QEditor - Located at path `C:\Users\my_username\AppData\Roaming\QEditor`  This is appdata file comes pre-installed with any version of editor and can be downloaded from here [QEditor Full Version](https://cutt.ly/p1ASiQX).</br>
 
@@ -133,6 +133,10 @@ This editor only offers _3 Levels_, and some features are disabled at the moment
 
 ## Full version of Editor.
 If you're a developer and know how to build this tool by yourself then you could figure our the _MAX_LEVEL_ constant defined in editor to unlock the full version. Good Luck.
+
+## Privacy Policy:
+The editor onwards version 0.7 doesn't store any type of data from _User,Machine_ the editor doesn't maintain any sort of database now.
+
 
 # **DOWNLOAD LINKS**</br>
 - **Project I.G.I 1 Editor** Version 0.7.0.0 _RELEASED_</br>
