@@ -79,13 +79,13 @@ namespace IGIEditor
         #region Internal Keys Map for - Ctrl-F1-F12 Keys.
         internal static void DebugMode() { InternalExec(null, GT.VK.F1, true); }
         internal static void RestartLevel() { InternalExec(null, GT.VK.F2, true); }
-        internal static void WeaponPickup(string weapon_id) { InternalExec(weapon_id, GT.VK.F3, true); }
+        internal static void WeaponPickup(string weaponId) { InternalExec(weaponId, GT.VK.F3, true); }
         internal static void FramesSet(string frames) { InternalExec(frames, GT.VK.F4, true); }
         internal static void GameConfigRead() { InternalExec(null, GT.VK.F5, true); }
         internal static void GameConfigWrite() { InternalExec(null, GT.VK.F6, true); }
         internal static void WeaponConfigRead() { InternalExec(null, GT.VK.F7, true); }
         internal static void HumanplayerLoad() { InternalExec(null, GT.VK.F8, true); }
-        internal static void HumanCameraView(string cam_view) { InternalExec(cam_view, GT.VK.F9, true); }
+        internal static void HumanCameraView(string camView) { InternalExec(camView, GT.VK.F9, true); }
         internal static void HumanInputEnable() { InternalExec(null, GT.VK.F10, true); }
         internal static void HumanInputDisable() { InternalExec(null, GT.VK.F11, true); }
         internal static void HumanFreeCam() { InternalExec(null, GT.VK.F12, true); }
