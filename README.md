@@ -101,8 +101,8 @@ This section supports **[ONLINE MODE]**.
 ![](https://i.ibb.co/GT0kbtR/IGI-Editor-Misc-Ed.png)
 
 ### IGI Editor License Key:
-This editor requires _license key_ to run contact via _email_ or _discord_ and mention your **Username** to identify yourself.</br>
-And now you can generate Key from KeyGen for your editor for free.</br> 
+~~This editor requires _license key_ to run contact via _email_ or _discord_ and mention your **Username** to identify yourself.</br>
+And now you can generate Key from KeyGen for your editor for free.</br>~~
 
 ### IGI Editor demo limit:
 This editor only offers _3 Levels_, and some features are disabled at the moment like **3D/Resource/Compiler/PlayerProfile editor.**</br> 
@@ -129,12 +129,14 @@ This editor only offers _3 Levels_, and some features are disabled at the moment
 [![QEditor](https://img.youtube.com/vi/zH0a8Ma_tQ8/0.jpg)](https://www.youtube.com/watch?v=zH0a8Ma_tQ8)
 
 ## Version Update:
-**Editor version 0.6.0.0 Latest.**
+**Editor version 0.7.0.0 Latest.**
+
+## Full version of Editor.
+If you're a developer and know how to build this tool by yourself then you could figure our the _MAX_LEVEL_ constant defined in editor to unlock the full version. Good Luck.
 
 # **DOWNLOAD LINKS**</br>
-- **Project I.G.I 1 Editor** Version 0.4.0.6 _RELEASED_</br>
-[IGI1Editor_0.4_Setup-Internal](https://cutt.ly/LGyoa3g)</br>
-[IGI1Editor_0.4_Setup-External](https://cutt.ly/rGypWBE)</br>
+- **Project I.G.I 1 Editor** Version 0.7.0.0 _RELEASED_</br>
+[IGI1Editor_0.7_Setup](https://cutt.ly/11GUGGO)</br>
 
 If you encounter any issues with Editor just contact me at</br>
 
