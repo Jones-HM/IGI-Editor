@@ -77,6 +77,12 @@ namespace IGIEditor
             public int Ammo { get => ammo; set => ammo = value; }
         }
 
+        #region Git-Config
+        // WARNING - DO NOT EDIT.
+        private const string gitUserName = "IGI-Research-Devs";
+        private const string gitUserFile = "IGI1Editor_Users.xml";
+        #endregion
+
         #region Task Decl
         internal static string taskNew = "Task_New";
         internal static string taskDecl = "Task_DeclareParameters";
@@ -378,6 +384,7 @@ namespace IGIEditor
         internal static List<HumanAi> humanAiList = new List<HumanAi>();
         internal static List<Weapon> weaponDataList = new List<Weapon>();
         internal static List<string> weaponSFXList = new List<string>();
+        internal static List<string> weaponDDList = new List<string>();
         #endregion
 
         //Server data list.
@@ -443,6 +450,7 @@ namespace IGIEditor
             "AITYPE_CIVILIAN", "AITYPE_PATROL_AK", "AITYPE_GUARD_AK",
             "AITYPE_SECURITY_PATROL_UZI", "AITYPE_MAFIA_PATROL_UZI", "AITYPE_MAFIA_GUARD_AK",
             "AITYPE_SPETNAZ_PATROL_AK", "AITYPE_SPETNAZ_GUARD_AK" };
+
 
         internal static bool InitEditorAppData()
         {
@@ -948,20 +956,20 @@ namespace IGIEditor
 
 
         //File Operation Utilities C# Version.
-        internal static void FileMove(string srcPath, string destPath)
+        internal static void FileMove(string sourcePath, string destPath)
         {
             try
             {
-                if (File.Exists(srcPath)) File.Move(srcPath, destPath);
+                if (File.Exists(sourcePath)) File.Move(sourcePath, destPath);
             }
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
-        internal static void FileCopy(string srcPath, string destPath, bool overwirte = true)
+        internal static void FileCopy(string sourcePath, string destPath, bool overwirte = true)
         {
             try
             {
-                if (File.Exists(srcPath)) File.Copy(srcPath, destPath, overwirte);
+                if (File.Exists(sourcePath)) File.Copy(sourcePath, destPath, overwirte);
             }
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
@@ -976,39 +984,39 @@ namespace IGIEditor
         }
 
         //File Operation Utilities VB Version.
-        internal static void FileIOMove(string srcPath, string destPath, bool overwrite = true)
+        internal static void FileIOMove(string sourcePath, string destPath, bool overwrite = true)
         {
             try
             {
-                if (File.Exists(srcPath)) FileSystem.MoveFile(srcPath, destPath, overwrite);
+                if (File.Exists(sourcePath)) FileSystem.MoveFile(sourcePath, destPath, overwrite);
             }
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
 
-        internal static void FileIOMove(string srcPath, string destPath, FileIO.UIOption showUI, FileIO.UICancelOption onUserCancel)
+        internal static void FileIOMove(string sourcePath, string destPath, FileIO.UIOption showUI, FileIO.UICancelOption onUserCancel)
         {
             try
             {
-                if (File.Exists(srcPath)) FileSystem.MoveFile(srcPath, destPath, showUI, onUserCancel);
+                if (File.Exists(sourcePath)) FileSystem.MoveFile(sourcePath, destPath, showUI, onUserCancel);
             }
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
-        internal static void FileIOCopy(string srcPath, string destPath, bool overwrite = true)
+        internal static void FileIOCopy(string sourcePath, string destPath, bool overwrite = true)
         {
             try
             {
-                if (File.Exists(srcPath)) FileSystem.CopyFile(srcPath, destPath, overwrite);
+                if (File.Exists(sourcePath)) FileSystem.CopyFile(sourcePath, destPath, overwrite);
             }
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
-        internal static void FileIOCopy(string srcPath, string destPath, FileIO.UIOption showUI, FileIO.UICancelOption onUserCancel)
+        internal static void FileIOCopy(string sourcePath, string destPath, FileIO.UIOption showUI, FileIO.UICancelOption onUserCancel)
         {
             try
             {
-                if (File.Exists(srcPath)) FileSystem.CopyFile(srcPath, destPath);
+                if (File.Exists(sourcePath)) FileSystem.CopyFile(sourcePath, destPath);
             }
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
@@ -1033,36 +1041,36 @@ namespace IGIEditor
 
 
         //Directory Operation Utilities C#.
-        internal static void DirectoryMove(string srcPath, string destPath)
+        internal static void DirectoryMove(string sourcePath, string destPath)
         {
             try
             {
-                if (Directory.Exists(srcPath)) Directory.Move(srcPath, destPath);
+                if (Directory.Exists(sourcePath)) Directory.Move(sourcePath, destPath);
             }
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
-        internal static void DirectoryMove(string srcPath, string destPath, int __ignore)
+        internal static void DirectoryMove(string sourcePath, string destPath, int __ignore)
         {
-            var mvCmd = "mv " + srcPath + " " + destPath;
-            var moveCmd = "move " + srcPath + " " + destPath + " /y";
+            var mvCmd = "mv " + sourcePath + " " + destPath;
+            var moveCmd = "move " + sourcePath + " " + destPath + " /y";
 
             try
             {
                 //#1 solution to move with same root directory.
-                Directory.Move(srcPath, destPath);
+                Directory.Move(sourcePath, destPath);
             }
             catch (IOException ex)
             {
                 if (ex.Message.Contains("already exist"))
                 {
-                    DirectoryDelete(srcPath);
+                    DirectoryDelete(sourcePath);
                 }
                 else
                 {
                     //#2 solution to move with POSIX 'mv' command.
                     ShellExec(mvCmd, true, true, "powershell.exe");
-                    if (Directory.Exists(srcPath))
+                    if (Directory.Exists(sourcePath))
                         //#3 solution to move with 'move' command.
                         ShellExec(moveCmd, true);
                 }
@@ -1087,39 +1095,39 @@ namespace IGIEditor
         }
 
         //Directory Operation Utilities VB.
-        internal static void DirectoryIOMove(string srcPath, string destPath, bool overwrite = true)
+        internal static void DirectoryIOMove(string sourcePath, string destPath, bool overwrite = true)
         {
             try
             {
-                if (Directory.Exists(srcPath)) FileSystem.MoveDirectory(srcPath, destPath, overwrite);
+                if (Directory.Exists(sourcePath)) FileSystem.MoveDirectory(sourcePath, destPath, overwrite);
             }
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
-        internal static void DirectoryIOMove(string srcPath, string destPath, FileIO.UIOption showUI, FileIO.UICancelOption onUserCancel)
+        internal static void DirectoryIOMove(string sourcePath, string destPath, FileIO.UIOption showUI, FileIO.UICancelOption onUserCancel)
         {
             try
             {
-                if (Directory.Exists(srcPath)) FileSystem.MoveDirectory(srcPath, destPath, showUI, onUserCancel);
+                if (Directory.Exists(sourcePath)) FileSystem.MoveDirectory(sourcePath, destPath, showUI, onUserCancel);
             }
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
-        internal static void DirectoryIOCopy(string srcPath, string destPath, bool overwirte = true)
+        internal static void DirectoryIOCopy(string sourcePath, string destPath, bool overwirte = true)
         {
             try
             {
-                if (Directory.Exists(srcPath)) FileSystem.CopyDirectory(srcPath, destPath, overwirte);
+                if (Directory.Exists(sourcePath)) FileSystem.CopyDirectory(sourcePath, destPath, overwirte);
             }
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
 
-        internal static void DirectoryIOCopy(string srcPath, string destPath, FileIO.UIOption showUI, FileIO.UICancelOption onUserCancel)
+        internal static void DirectoryIOCopy(string sourcePath, string destPath, FileIO.UIOption showUI, FileIO.UICancelOption onUserCancel)
         {
             try
             {
-                if (Directory.Exists(srcPath)) FileSystem.CopyDirectory(srcPath, destPath, showUI, onUserCancel);
+                if (Directory.Exists(sourcePath)) FileSystem.CopyDirectory(sourcePath, destPath, showUI, onUserCancel);
             }
             catch (Exception ex) { ShowLogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
@@ -1288,15 +1296,15 @@ namespace IGIEditor
         internal static bool RegisterUser(string userData)
         {
             if (!editorOnline) { ShowSystemFatalError("Cannot register new user,Check your internet connection."); return false; }
-            string id = 67141.ToString() + Reverse("be14c82cfbe782a") + "94a965e45a3c";
 
             string description = "IGI 1 Editor Users information", targetFilename = "IGI1Editor_Users.xml";
-            bool status = true;
-            string gistUrl = "https://api." + Reverse("tig") + "hub.com/" + Reverse("stsig") + "/" + id;
+            string sourceUrl = InitsourceUrl(true);
+
+            bool status = false;
 
             using (HttpClient httpClient = CreateHttpClient())
             {
-                var requestUri = new Uri(gistUrl);
+                var requestUri = new Uri(sourceUrl);
                 var request = new HttpRequestMessage(new HttpMethod("PATCH"), requestUri);
 
                 string editData = EditContent(description, targetFilename, userData);
@@ -1308,30 +1316,36 @@ namespace IGIEditor
             return status;
         }
 
-        internal static string InitSrcUrl()
+        internal static string InitsourceUrl(bool apiMode=false)
         {
-            string bitLyUrl = "p#y" + "W@8" + "$NB" + (2 + 1).ToString();
-            bitLyUrl = bitLyUrl.Replace("$", String.Empty).Replace("@", String.Empty).Replace("#", String.Empty);
-            string srcUrl = "http://" + Reverse("tib") + ".ly/" + Reverse(bitLyUrl);
-            return srcUrl;
+            string gitHash = "e6cbc" + Reverse("702a5e608ab3") + "4f1d522361395d7";
+            string sourceUrl;
+
+            if (apiMode)
+                sourceUrl = $"https://api.github.com/gists/{gitHash}";
+            else
+                sourceUrl = $"https://gist.githubusercontent.com/{gitUserName}/{gitHash}/raw/{gitUserFile}";
+
+            QUtils.AddLog("SourceUrl", $"apiMode {apiMode} Source URL '{sourceUrl}'");
+            return sourceUrl;
         }
 
         internal static bool InitUserInfo()
         {
-            string srcUrl = InitSrcUrl();
+            string sourceUrl = InitsourceUrl();
             bool status = true;
             string infoStr = "</users-info>";
-            string srcData = WebReader(srcUrl);
+            string sourceData = WebReader(sourceUrl);
 
-            if (String.IsNullOrEmpty(srcData)) return false;
+            if (String.IsNullOrEmpty(sourceData)) return false;
 
-            var userDataContent = new StringBuilder(srcData);
-            int infoStrIndex = srcData.IndexOf(infoStr);
+            var userDataContent = new StringBuilder(sourceData);
+            int infoStrIndex = sourceData.IndexOf(infoStr);
             if (infoStrIndex == -1) ShowSystemFatalError("Invalid data encountered from backend. (ERROR : 0x7FFFFFFF)");
             userDataContent = userDataContent.Remove(infoStrIndex, infoStr.Length);
 
             string deviceId = GetMachineDeviceId();
-            var userDataLines = srcData.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var userDataLines = sourceData.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
             //Parse the key.
             string keyIdStr = "<key>";
@@ -1374,9 +1388,9 @@ namespace IGIEditor
 
         internal static int GetRegisteredUsers()
         {
-            var srcUrl = InitSrcUrl();
-            string srcData = WebReader(srcUrl);
-            int registeredUsers = new Regex(Regex.Escape("<user>")).Matches(srcData).Count;
+            var sourceUrl = InitsourceUrl();
+            string sourceData = WebReader(sourceUrl);
+            int registeredUsers = new Regex(Regex.Escape("<user>")).Matches(sourceData).Count;
             AddLog(MethodBase.GetCurrentMethod().Name, "registeredUsers " + registeredUsers);
             return registeredUsers;
         }
@@ -1396,21 +1410,21 @@ namespace IGIEditor
 
         internal static string GetUserRequestedData()
         {
-            string userRequestedDataXML = string.Empty;
+            string userRequestedData = string.Empty;
 
-            string srcUrl = InitSrcUrl();
-            string infoStr = "</users-info>";
-            string srcData = WebReader(srcUrl);
+            string sourceUrl = InitsourceUrl();
+            string userInfoTag = "</users-info>";
+            string sourceData = WebReader(sourceUrl);
 
-            if (String.IsNullOrEmpty(srcData)) return userRequestedDataXML;
+            if (String.IsNullOrEmpty(sourceData)) return userRequestedData;
 
-            var userDataContent = new StringBuilder(srcData);
-            int infoStrIndex = srcData.IndexOf(infoStr);
+            var userDataContent = new StringBuilder(sourceData);
+            int infoStrIndex = sourceData.IndexOf(userInfoTag);
             if (infoStrIndex == -1) ShowSystemFatalError("Invalid data encountered from backend. (ERROR : 0x7FFFFFFF)");
-            userDataContent = userDataContent.Remove(infoStrIndex, infoStr.Length);
+            userDataContent = userDataContent.Remove(infoStrIndex, userInfoTag.Length);
 
             string deviceId = GetMachineDeviceId();
-            var userDataLines = srcData.Split(new string[] { "<user>" }, StringSplitOptions.RemoveEmptyEntries);
+            var userDataLines = sourceData.Split(new string[] { "<user>" }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var userData in userDataLines)
             {
@@ -1424,17 +1438,16 @@ namespace IGIEditor
                     string dateRegistered = userData.Slice(userData.IndexOf("<date>") + "<date>".Length, userData.IndexOf("</date>"));
 
                     //Append all user data.
-                    userRequestedDataXML = "Name: " + name + "\n" +
+                    userRequestedData = "Name: " + name + "\n" +
                         "License Key: " + keyId + "\n" +
                         "City: " + city + "\n" +
                         "Country: " + country + "\n" +
                         "Account created on " + dateRegistered + "\n";
-
                     break;
                 }
             }
 
-            return userRequestedDataXML;
+            return userRequestedData;
         }
 
         internal static void ShowPathExplorer(string path)

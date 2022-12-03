@@ -98,6 +98,12 @@ namespace IGIEditor
             return humanBaseAddr;
         }
 
+        internal static IntPtr GetWeaponAddress()
+        {
+            var humanAddr = GetHumanBaseAddress() + (int)0xD48;
+            return humanAddr;
+        }
+
         internal static IntPtr GetStatusMsgAddr()
         {
             IntPtr statusMsgBasePointer = IntPtr.Zero, statusMsgAddress = IntPtr.Zero;

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using QLibc;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace IGIEditor
@@ -141,6 +143,26 @@ namespace IGIEditor
             return weaponTaskList;
         }
 
+        internal static int WeaponUpdateCurrent()
+        {
+            int weaponIndex = 0;
+            IntPtr weaponAddress = QMemory.GetWeaponAddress();
+            int currentWeaponId = (int)GT.GT_ReadInt(weaponAddress);
+
+            string weaponName = GT.GT_ReadString((IntPtr)0x00943A18);
+            weaponName = weaponName.Replace("weapons/strings/", String.Empty).Replace(" ", String.Empty);
+
+            foreach (var weaponDDName in QUtils.weaponDDList.Select((value, index) => new { index, value }))
+            {
+                if (weaponName.ToUpper().Contains(weaponDDName.value.ToUpper()))
+                {
+                    weaponIndex = weaponDDName.index;
+                    break;
+                }
+            }
+            return weaponIndex;
+        }
+
         private static string LoadWeaponsConfig()
         {
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "weaponsConfigIn : " + weaponsConfigIn);
@@ -175,7 +197,7 @@ namespace IGIEditor
 
                         foreach (var task in taskNew)
                         {
-                            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, " taskName : " + taskName + " taskIndex " + taskIndex + " data  : " + task.Trim());
+                            //QUtils.AddLog(MethodBase.GetCurrentMethod().Name, " taskName : " + taskName + " taskIndex " + taskIndex + " data  : " + task.Trim());
 
                             if (taskIndex == (int)WEAPONCFG.WEAPON_ID)
                                 weapon.weaponId = Convert.ToInt32(task.Trim());

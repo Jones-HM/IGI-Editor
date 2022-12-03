@@ -810,6 +810,7 @@ namespace IGIEditor
                     foreach (var weapon in QUtils.weaponList)
                     {
                         var weaponName = weapon.Keys.ElementAt(0);
+                        weaponDDList.Add(weaponName);
                         weaponDD.Items.Add(weaponName);
                         weaponCfgDD.Items.Add(weaponName);
                         aiWeaponDD.Items.Add(weaponName);
@@ -4237,7 +4238,8 @@ namespace IGIEditor
         {
             string machineDeviceId = QUtils.GetMachineDeviceId();
             string userDataReuquested = QUtils.GetUserRequestedData();
-            QUtils.ShowInfo(userDataReuquested);
+            if (!String.IsNullOrEmpty(userDataReuquested))
+                QUtils.ShowInfo(userDataReuquested);
         }
 
         private void aiFriendlyCb_CheckedChanged(object sender, EventArgs e)
@@ -4318,7 +4320,7 @@ namespace IGIEditor
                 Single weaponRange = Single.Parse(weaponRangeTxt.Text);
                 Int32 weaponBullets = Int32.Parse(weaponBulletsTxt.Text);
                 Int32 weaponRoundPerMinute = Int32.Parse(weaponRoundPerMinuteTxt.Text);
-                Int32 weaponRoundPerClip = Int32.Parse(numericUpDown1.Text);
+                Int32 weaponRoundPerClip = Int32.Parse(weaponRoundPerClipTxt.Text);
 
                 //Update the Weapon Power data.
                 weapon.damage = weaponDamage;
@@ -4327,6 +4329,17 @@ namespace IGIEditor
                 weapon.roundsPerMinute = weaponRoundPerMinute;
                 weapon.roundsPerClip = weaponRoundPerClip;
                 weapon.weaponRange = weaponRange;
+            }
+
+            bool hasItemReal32 = false;
+
+            if (weaponSelected.Contains("MP5") || weaponSelected.Contains("M16")
+                || weaponSelected.Contains("DRAG") || weaponSelected.Contains("GRENADE")
+               || weaponSelected.Contains("PROXI") || weaponSelected.Contains("MEDIPACK")
+               || weaponSelected.Contains("BINO")
+                )
+            {
+                hasItemReal32 = true;
             }
 
             foreach (var data in qscDataSplit)
@@ -4345,7 +4358,7 @@ namespace IGIEditor
                            + "," + weapon.gunModel + "," + weapon.casingModel + "," + weapon.animStand + "," + weapon.animMove + "," + weapon.animFire1 + "," + weapon.animFire2 + "," + weapon.animFire3
                             + "," + weapon.animReload + "," + weapon.animUpperbodystand + "," + weapon.animUpperbodywalk + "," + weapon.animUpperbodycrouch + "," + weapon.animUpperbodycrouchrun
                             + "," + weapon.animUpperbodyrun + "," + weapon.animUpperbodyfire + "," + weapon.animUpperbodyreload + ",\"" + weapon.soundSingle + "\",\"" + weapon.soundLoop
-                            + "\"," + weapon.detectionRange + "," + weapon.projectileTaskType + "," + weapon.weaponTaskType + "," + weapon.emptyOnClear.ToString().ToUpper() + ")," + "\n";
+                            + "\"," + weapon.detectionRange + "," + weapon.projectileTaskType + "," + weapon.weaponTaskType + "," + weapon.emptyOnClear.ToString().ToUpper() + ((hasItemReal32) ? "," :  "),") + "\n";
                     qscData = qscData.Remove(qtaskIndex, newlineIndex - qtaskIndex).Insert(qtaskIndex, objectTask);
                     break;
                 }
@@ -4358,7 +4371,7 @@ namespace IGIEditor
 
         private void updateWeaponPropertiesBtn_Click(object sender, EventArgs e)
         {
-            bool status = UpdateWeaponProperties(true, true, true,true);
+            bool status = UpdateWeaponProperties(true, true, true, true);
             if (status)
             {
                 QInternals.WeaponConfigRead();
@@ -4390,7 +4403,7 @@ namespace IGIEditor
                 weaponRangeTxt.Text = weapon.weaponRange.ToString();
                 weaponBulletsTxt.Value = weapon.bullets;
                 weaponRoundPerMinuteTxt.Value = weapon.roundsPerMinute;
-                numericUpDown1.Value = weapon.roundsPerClip;
+                weaponRoundPerClipTxt.Value = weapon.roundsPerClip;
             }
             catch (Exception ex)
             {
@@ -4436,6 +4449,59 @@ namespace IGIEditor
                 QInternals.WeaponConfigRead();
                 QUtils.ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Weapon Power properties updated success");
             }
+        }
+
+
+        private void currentWeaponCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                weaponDD.SelectedIndex = QWeapon.WeaponUpdateCurrent();
+                Application.DoEvents();
+            }
+        }
+
+        private void weaponEditorMainTab_Click(object sender, EventArgs e)
+        {
+            if (currentWeaponCb.Checked)
+            {
+                weaponDD.SelectedIndex = QWeapon.WeaponUpdateCurrent();
+                Application.DoEvents();
+            }
+        }
+
+        private void resetWeaponBtn_Click(object sender, EventArgs e)
+        {
+            int weaponIndex = 0;
+            if (currentWeaponCb.Checked)
+            {
+                weaponIndex = QWeapon.WeaponUpdateCurrent();
+            }
+            else
+            {
+                weaponIndex = weaponDD.SelectedIndex;
+            }
+            var weapon = QUtils.weaponDataList[weaponIndex];
+
+            bool status = UpdateWeaponProperties();
+            if (status)
+            {
+                QInternals.WeaponConfigRead();
+                QUtils.ShowLogStatus("", "Weapon reset success");
+            }
+        }
+
+        private void weaponCfgEditor_Click(object sender, EventArgs e)
+        {
+            if (currentWeaponCb.Checked)
+            {
+                weaponCfgDD.SelectedIndex = QWeapon.WeaponUpdateCurrent();
+            }
+            else
+            {
+                weaponCfgDD.SelectedIndex = weaponDD.SelectedIndex;
+            }
+            weaponCfgDD_SelectedIndexChanged(sender,e);
         }
 
         private void graphsMarkCb_CheckedChanged(object sender, EventArgs e)
