@@ -511,6 +511,10 @@ namespace IGIEditor
                 CreateCacheDir();
             }
 
+            //Init QEditor path for Appdata.
+            MoveQEditorAppdata();
+            MoveAppImagesCache();
+
             if (!Directory.Exists(igiEditorQEdPath)) { initErrReason = "QEditor"; initStatus = false; }
             else if (!Directory.Exists(qMissionsPath)) { initErrReason = @"QEditor\QMissions"; initStatus = false; }
             else if (!Directory.Exists(qQVMPath)) { initErrReason = @"QEditor\QFiles\IGI_QVM"; initStatus = false; }
@@ -529,6 +533,24 @@ namespace IGIEditor
             if (String.IsNullOrEmpty(gameAbsPath)) return false;
 
             return initStatus;
+        }
+
+        internal static void MoveQEditorAppdata()
+        {
+            string qEditorPath = editorCurrPath + @"\" + qEditor;
+            if (Directory.Exists(qEditorPath))
+            {
+                DirectoryIOMove(qEditorPath, igiEditorQEdPath);
+            }
+        }
+
+        internal static void MoveAppImagesCache()
+        {
+            if (Directory.Exists(currPathAppImages))
+            {
+                DirectoryIOMove(currPathAppImages, cachePathAppImages);
+            }
+
         }
 
         internal static void CreateCacheDir()
