@@ -59,7 +59,6 @@ namespace IGIEditor
 
                 InitializeComponent();
                 UXWorker formMover = new UXWorker();
-                formMover.CustomFormMover(formMoverPanel, this);
                 editorRef = this;
                 this.KeyPreview = true;
                 QUtils.appEditorSubVersion = devVersionTxt.Text = ParseEditorVersion();
@@ -965,7 +964,6 @@ namespace IGIEditor
 
                 if (initUser)
                 {
-                    licensedToLbl.Text += " " + userName;
                     QUtils.ShowLogInfo(MethodBase.GetCurrentMethod().Name, welcomeMsg);
                 }
 
@@ -1382,18 +1380,6 @@ namespace IGIEditor
         private void minimizeBtn_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void closeBtn_MouseMove(object sender, MouseEventArgs e)
-        {
-            closeBtn.BackColor = Tomato;
-            closeBtn.ForeColor = Transparent;
-        }
-
-        private void closeBtn_MouseLeave(object sender, EventArgs e)
-        {
-            closeBtn.BackColor = Transparent;
-            closeBtn.ForeColor = Tomato;
         }
 
         private void resetLevelBtn_Click(object sender, EventArgs e)

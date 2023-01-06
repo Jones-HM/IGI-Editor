@@ -53,7 +53,7 @@ namespace IGIEditor
             // 
             this.dialogBoxPanel.AutoSize = true;
             this.dialogBoxPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.dialogBoxPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.dialogBoxPanel.BackColor = System.Drawing.SystemColors.Control;
             this.dialogBoxPanel.Controls.Add(this.dialogInputBoxTxt);
             this.dialogBoxPanel.Controls.Add(this.dialogBoxBtnYes);
             this.dialogBoxPanel.Controls.Add(this.dialogBoxMsg);
@@ -68,11 +68,11 @@ namespace IGIEditor
             // 
             // dialogInputBoxTxt
             // 
-            this.dialogInputBoxTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.dialogInputBoxTxt.BackColor = System.Drawing.SystemColors.Control;
             this.dialogInputBoxTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.dialogInputBoxTxt.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.dialogInputBoxTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.dialogInputBoxTxt.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.dialogInputBoxTxt.ForeColor = System.Drawing.SystemColors.ControlText;
             this.dialogInputBoxTxt.HideSelection = false;
             this.dialogInputBoxTxt.Location = new System.Drawing.Point(13, 47);
             this.dialogInputBoxTxt.Margin = new System.Windows.Forms.Padding(4);
@@ -87,7 +87,7 @@ namespace IGIEditor
             this.dialogBoxBtnYes.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.dialogBoxBtnYes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.dialogBoxBtnYes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F);
-            this.dialogBoxBtnYes.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.dialogBoxBtnYes.ForeColor = System.Drawing.SystemColors.ControlText;
             this.dialogBoxBtnYes.Location = new System.Drawing.Point(229, 101);
             this.dialogBoxBtnYes.Name = "dialogBoxBtnYes";
             this.dialogBoxBtnYes.Size = new System.Drawing.Size(102, 30);
@@ -99,10 +99,10 @@ namespace IGIEditor
             // dialogBoxMsg
             // 
             this.dialogBoxMsg.AutoSize = true;
-            this.dialogBoxMsg.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(35)))), ((int)(((byte)(54)))));
+            this.dialogBoxMsg.BackColor = System.Drawing.SystemColors.Control;
             this.dialogBoxMsg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dialogBoxMsg.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dialogBoxMsg.ForeColor = System.Drawing.Color.White;
+            this.dialogBoxMsg.ForeColor = System.Drawing.SystemColors.ControlText;
             this.dialogBoxMsg.Location = new System.Drawing.Point(15, 44);
             this.dialogBoxMsg.MaximumSize = new System.Drawing.Size(480, 0);
             this.dialogBoxMsg.Name = "dialogBoxMsg";
@@ -116,7 +116,7 @@ namespace IGIEditor
             this.dialogBoxBtnNo.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.dialogBoxBtnNo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.dialogBoxBtnNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F);
-            this.dialogBoxBtnNo.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.dialogBoxBtnNo.ForeColor = System.Drawing.SystemColors.ControlText;
             this.dialogBoxBtnNo.Location = new System.Drawing.Point(337, 101);
             this.dialogBoxBtnNo.Name = "dialogBoxBtnNo";
             this.dialogBoxBtnNo.Size = new System.Drawing.Size(102, 30);
@@ -131,7 +131,7 @@ namespace IGIEditor
             this.dialogBoxTitle.BackColor = System.Drawing.Color.Transparent;
             this.dialogBoxTitle.Dock = System.Windows.Forms.DockStyle.Top;
             this.dialogBoxTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dialogBoxTitle.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.dialogBoxTitle.ForeColor = System.Drawing.SystemColors.ControlText;
             this.dialogBoxTitle.Location = new System.Drawing.Point(15, 15);
             this.dialogBoxTitle.Name = "dialogBoxTitle";
             this.dialogBoxTitle.Size = new System.Drawing.Size(66, 29);
