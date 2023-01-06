@@ -776,13 +776,13 @@ namespace IGIEditor
             {
                 if (internalsAttached)
                 {
-                    internalsStatusLbl.Text = "Attached";
-                    internalsStatusLbl.ForeColor = SpringGreen;
+                    gameStatusToolStripMenuItem.Text = "Attached";
+                    gameStatusToolStripMenuItem.ForeColor = SpringGreen;
                 }
                 else
                 {
-                    internalsStatusLbl.Text = "Detached";
-                    internalsStatusLbl.ForeColor = Tomato;
+                    gameStatusToolStripMenuItem.Text = "Detached";
+                    gameStatusToolStripMenuItem.ForeColor = Tomato;
                 }
             }
             catch (Exception ex)
@@ -964,7 +964,7 @@ namespace IGIEditor
 
                 if (initUser)
                 {
-                    QUtils.ShowLogInfo(MethodBase.GetCurrentMethod().Name, welcomeMsg);
+                    //QUtils.ShowLogInfo(MethodBase.GetCurrentMethod().Name, welcomeMsg);
                 }
 
                 else
@@ -988,7 +988,7 @@ namespace IGIEditor
                 autoResetCb.Checked = gameReset;
                 autoRefreshGameCb.Checked = gameRefresh;
                 editorOnlineCb.Checked = editorOnline;
-                updateIntervalTxt.Text = updateTimeInterval.ToString();
+                updateIntervalTxtx.Text = updateTimeInterval.ToString();
                 updateCheckerCb.Checked = editorUpdateCheck;
                 internalCompilerCb.Checked = internalCompiler;
                 externalCompilerCb.Checked = externalCompiler;
@@ -1413,16 +1413,6 @@ namespace IGIEditor
         {
             Clipboard.SetText(zPosLbl.Text);
             SetStatusText("Z-Position Copied successfully");
-        }
-
-        private void posCoordCb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((CheckBox)sender).Checked) posMetersCb.Checked = false; else if (!posMetersCb.Checked) ((CheckBox)sender).Checked = true;
-        }
-
-        private void posMetersCb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((CheckBox)sender).Checked) posCoordCb.Checked = false; else if (!posCoordCb.Checked) ((CheckBox)sender).Checked = true;
         }
 
         private void posOffCb_CheckedChanged(object sender, EventArgs e)
@@ -2388,7 +2378,7 @@ namespace IGIEditor
                     editorOnline = true;
                     editorOnlineCb.Text = "Online";
                     editorOnlineCb.ForeColor = Green;
-                    downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = updateIntervalTxt.Enabled = true;
+                    downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = updateIntervalTxtx.Enabled = true;
                     InitMissionsOnline(true);
                     SetStatusText("Editor online mode enabled...");
                 }
@@ -2398,7 +2388,7 @@ namespace IGIEditor
                     editorOnlineCb.Text = "Offline";
                     editorOnlineCb.ForeColor = Red;
                     (((CheckBox)sender).Checked) = false;
-                    downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = updateCheckerCb.Checked = updateIntervalTxt.Enabled = false;
+                    downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = updateCheckerCb.Checked = updateIntervalTxtx.Enabled = false;
                     SetStatusText("Please check your internet connection.");
                 }
             }
@@ -2407,7 +2397,7 @@ namespace IGIEditor
                 editorOnline = false;
                 editorOnlineCb.Text = "Offline";
                 editorOnlineCb.ForeColor = Red;
-                downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = updateCheckerCb.Checked = updateIntervalTxt.Enabled = false;
+                downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = updateCheckerCb.Checked = updateIntervalTxtx.Enabled = false;
                 SetStatusText("Editor offline mode enabled...");
             }
         }
@@ -4473,6 +4463,44 @@ namespace IGIEditor
                 weaponCfgDD.SelectedIndex = weaponDD.SelectedIndex;
             }
             weaponCfgDD_SelectedIndexChanged(sender,e);
+        }
+
+        private void appContextMenu_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            aboutBtn_Click(sender, e);
+        }
+
+        private void liveEditorCb_Click(object sender, EventArgs e)
+        {
+            liveEditorCb.Checked = !liveEditorCb.Checked;
+        }
+
+        private void editorOnlineCb_Click(object sender, EventArgs e)
+        {
+            if (editorOnlineCb.Checked)
+            {
+                editorOnlineCb.Text = "Online";
+            }
+            else
+            {
+                editorOnlineCb.Text = "Offline";
+            }
+            editorOnlineCb.Checked = !editorOnlineCb.Checked;
+        }
+
+        private void posCoordCb_Click(object sender, EventArgs e)
+        {
+            if (posCoordCb.Checked) posMetersCb.Checked = false; else if (!posMetersCb.Checked) ((CheckBox)sender).Checked = true;
+        }
+
+        private void posMetersCb_Click(object sender, EventArgs e)
+        {
+            if (posMetersCb.Checked) posCoordCb.Checked = false; else if (!posCoordCb.Checked) ((CheckBox)sender).Checked = true;
         }
 
         private void graphsMarkCb_CheckedChanged(object sender, EventArgs e)
