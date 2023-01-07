@@ -998,7 +998,7 @@ namespace IGIEditor
                 aiIdleCb.Checked = gameAiIdleMode;
                 debugModeCb.Checked = gameDebugMode;
                 disableWarningsCb.Checked = gameDisableWarns;
-                framesTxt.Value = Convert.ToDecimal(gameFPS.ToString());
+                framesTxt.Text = gameFPS.ToString();
 
                 //Genrate scriptId according to Level A.I.
                 GenerateAIScriptId(true);
@@ -2515,7 +2515,8 @@ namespace IGIEditor
 
         private void disableWarningsCb_CheckedChanged(object sender, EventArgs e)
         {
-            if (((CheckBox)sender).Checked)
+            disableWarningsCb.Checked = !disableWarningsCb.Checked;
+            if (disableWarningsCb.Checked)
             {
                 QMemory.DisableGameWarnings();
             }
@@ -3051,7 +3052,8 @@ namespace IGIEditor
 
         private void aiIdleCb_CheckedChanged(object sender, EventArgs e)
         {
-            if (((CheckBox)sender).Checked)
+            aiIdleCb.Checked = !aiIdleCb.Checked;
+            if (aiIdleCb.Checked)
             {
                 bool status = QUtils.SetAIEventIdle(true);
                 SetStatusText("A.I Idle Mode Enabled");
@@ -3086,6 +3088,7 @@ namespace IGIEditor
         {
             string frames = framesTxt.Text;
             QInternals.FramesSet(frames);
+            SetStatusText("Frames has been set to '" + frames + "'");
         }
 
         private void quitLevelBtn_Click(object sender, EventArgs e)
@@ -3095,76 +3098,29 @@ namespace IGIEditor
 
         private void debugModeCb_CheckedChanged(object sender, EventArgs e)
         {
+            debugModeCb.Checked = !debugModeCb.Checked;
             QInternals.DebugMode();
-            QUtils.gameDebugMode = ((CheckBox)sender).Checked;
-        }
-
-        private void udpateMusicBtn_Click(object sender, EventArgs e)
-        {
-            float musicVal = (float)musicTrackBar.Value / 10.0f;
-            string musicVolStr = musicVal.ToString();
-
-            if (String.IsNullOrEmpty(musicVolStr)) return;
-            else
-            {
-                if (sfxMusicCb.Checked)
-                {
-                    QInternals.MusicSFXVolumeSet(musicVolStr);
-                    SetStatusText("SFX Volume set to " + musicVolStr);
-                }
-                else if (musicSoundCb.Checked)
-                {
-                    QInternals.MusicVolumeSet(musicVolStr);
-                    SetStatusText("Game Volume set to " + musicVolStr);
-                }
-            }
+            QUtils.gameDebugMode = debugModeCb.Checked;
         }
 
         private void enableMusicCb_CheckedChanged(object sender, EventArgs e)
         {
-            if (((CheckBox)sender).Checked)
+            enableMusicCb.Checked = !enableMusicCb.Checked;
+            string statusMusic;
+            if (enableMusicCb.Checked)
             {
                 QInternals.MusicEnable();
-                ((CheckBox)sender).Text = "Music Enabled";
-                ((CheckBox)sender).ForeColor = Green;
+                statusMusic = "Music Enabled";
+                enableMusicCb.ForeColor = Green;
             }
             else
             {
                 QInternals.MusicDisable();
-                ((CheckBox)sender).Text = "Music Disabled";
-                ((CheckBox)sender).ForeColor = Tomato;
+                statusMusic = "Music Disabled";
+                enableMusicCb.ForeColor = Tomato;
             }
-            SetStatusText(((CheckBox)sender).Text + " successfully.");
-            QUtils.gameMusicEnabled = ((CheckBox)sender).Checked;
-        }
-
-        private void musicSoundCb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((CheckBox)sender).Checked) sfxMusicCb.Checked = false;
-        }
-
-        private void sfxMusicCb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((CheckBox)sender).Checked) musicSoundCb.Checked = false;
-        }
-
-        private void liveEditorCb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((CheckBox)sender).Checked)
-            {
-                ((CheckBox)sender).ForeColor = SpringGreen;
-                SetStatusText("Live Editor enabled.");
-                addBuildingBtn.Text = "Restore Building";
-                addObjectBtn.Text = "Restore Object";
-            }
-            else
-            {
-                ((CheckBox)sender).ForeColor = DeepSkyBlue;
-                SetStatusText("Live Editor disabled.");
-                addBuildingBtn.Text = "Add Building";
-                addObjectBtn.Text = "Add Object";
-            }
-            removeWeaponBtn.Enabled = !((CheckBox)sender).Checked;
+            SetStatusText(statusMusic + " successfully.");
+            QUtils.gameMusicEnabled = enableMusicCb.Checked;
         }
 
         private void gfxResetBtn_Click(object sender, EventArgs e)
@@ -4478,9 +4434,23 @@ namespace IGIEditor
 
         private void liveEditorCb_Click(object sender, EventArgs e)
         {
-            string modeStatus = !liveEditorCb.Checked ? "Enabled" : "Disabled";
-            SetStatusText("Editor mode status is now  '" + modeStatus + " " + liveEditorCb.Text + "'");
             liveEditorCb.Checked = !liveEditorCb.Checked;
+            string modeStatus = liveEditorCb.Checked ? "Enabled" : "Disabled";
+            SetStatusText("Editor mode status is now  '" + modeStatus + " " + liveEditorCb.Text + "'");
+
+            if (liveEditorCb.Checked)
+            {
+                liveEditorCb.ForeColor = SpringGreen;
+                addBuildingBtn.Text = "Restore Building";
+                addObjectBtn.Text = "Restore Object";
+            }
+            else
+            {
+                liveEditorCb.ForeColor = DeepSkyBlue;
+                addBuildingBtn.Text = "Add Building";
+                addObjectBtn.Text = "Add Object";
+            }
+            removeWeaponBtn.Enabled = !((CheckBox)sender).Checked;
         }
 
         private void editorOnlineCb_Click(object sender, EventArgs e)
@@ -4573,6 +4543,40 @@ namespace IGIEditor
                 editorModeCb.Checked = false;
             }
             else if (!editorModeCb.Checked) playModeCb.Checked = true;
+        }
+
+        private void musicVolumeUpdateBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void sfxVolumeUpdateBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void framesTxt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                setFramesBtn_Click(sender, e);
+            }
+        }
+
+        private void musicVolumeUpdateTxt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                musicVolumeUpdateBtn_Click(sender, e);
+            }
+        }
+
+        private void sfxVolumeUpdateTxt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                sfxVolumeUpdateBtn_Click(sender, e);
+            }
         }
 
         private void graphsMarkCb_CheckedChanged(object sender, EventArgs e)

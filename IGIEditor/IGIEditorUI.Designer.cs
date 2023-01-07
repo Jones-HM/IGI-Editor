@@ -293,27 +293,14 @@
             this.shareLogsCb = new System.Windows.Forms.CheckBox();
             this.externalCompilerCb = new System.Windows.Forms.CheckBox();
             this.internalCompilerCb = new System.Windows.Forms.CheckBox();
-            this.framesTxt = new System.Windows.Forms.NumericUpDown();
             this.minutesLbl = new System.Windows.Forms.Label();
             this.showAppDataCachePathBtn = new System.Windows.Forms.Button();
             this.gamePathBtn = new System.Windows.Forms.Button();
             this.editorUpdaterBtn = new System.Windows.Forms.Button();
             this.gameSettingsLbl = new System.Windows.Forms.Label();
             this.appSettingLbl = new System.Windows.Forms.Label();
-            this.configLoadBtn = new System.Windows.Forms.Button();
-            this.configSaveBtn = new System.Windows.Forms.Button();
             this.updateIntervalTxtx = new System.Windows.Forms.NumericUpDown();
-            this.musicTrackBar = new System.Windows.Forms.TrackBar();
-            this.musicSoundCb = new System.Windows.Forms.CheckBox();
-            this.sfxMusicCb = new System.Windows.Forms.CheckBox();
-            this.enableMusicCb = new System.Windows.Forms.CheckBox();
-            this.debugModeCb = new System.Windows.Forms.CheckBox();
-            this.udpateMusicBtn = new System.Windows.Forms.Button();
-            this.gfxResetBtn = new System.Windows.Forms.Button();
-            this.setFramesBtn = new System.Windows.Forms.Button();
-            this.aiIdleCb = new System.Windows.Forms.CheckBox();
             this.appSupportBtn = new System.Windows.Forms.Button();
-            this.disableWarningsCb = new System.Windows.Forms.CheckBox();
             this.showAppLogBtn = new System.Windows.Forms.Button();
             this.xmlCb = new System.Windows.Forms.CheckBox();
             this.jsonCb = new System.Windows.Forms.CheckBox();
@@ -322,9 +309,6 @@
             this.appLogsCb = new System.Windows.Forms.CheckBox();
             this.autoRefreshGameCb = new System.Windows.Forms.CheckBox();
             this.autoResetCb = new System.Windows.Forms.CheckBox();
-            this.cutsceneRemoveBtn = new System.Windows.Forms.Button();
-            this.resetScriptsFileBtn = new System.Windows.Forms.Button();
-            this.resetLevelBtn = new System.Windows.Forms.Button();
             this.clearCacheBtn = new System.Windows.Forms.Button();
             this.exportObjectsBtn = new System.Windows.Forms.Button();
             this.devMode = new System.Windows.Forms.TabPage();
@@ -377,23 +361,23 @@
             this.versionLbl = new System.Windows.Forms.ToolStripTextBox();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
             this.musicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.enableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enableMusicCb = new System.Windows.Forms.ToolStripMenuItem();
             this.volumeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.musicToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.sFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.framesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripTextBox();
-            this.debugModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.musicVolumeUpdateBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.sfxVolumeUpdateBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.setFramesBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.framesTxt = new System.Windows.Forms.ToolStripTextBox();
+            this.debugModeCb = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.graphicsResetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.levelResetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fileResetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gfxResetBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetLevelBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetScriptsFileBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configSaveBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.configLoadBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.disableWarningsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeCutscenesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disableWarningsCb = new System.Windows.Forms.ToolStripMenuItem();
+            this.cutsceneRemoveBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.shareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -413,8 +397,9 @@
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripTextBox();
             this.exportObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cSVToolStripMenuItem = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripTextBox();
+            this.musicVolumeUpdateTxt = new System.Windows.Forms.ToolStripTextBox();
+            this.sfxVolumeUpdateTxt = new System.Windows.Forms.ToolStripTextBox();
+            this.aiIdleCb = new System.Windows.Forms.ToolStripMenuItem();
             this.editorMainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -467,9 +452,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.betaTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).BeginInit();
             this.miscEditor.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.framesTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.updateIntervalTxtx)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.musicTrackBar)).BeginInit();
             this.devMode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).BeginInit();
             this.appMenuSettings.SuspendLayout();
@@ -4327,27 +4310,14 @@
             this.miscEditor.Controls.Add(this.shareLogsCb);
             this.miscEditor.Controls.Add(this.externalCompilerCb);
             this.miscEditor.Controls.Add(this.internalCompilerCb);
-            this.miscEditor.Controls.Add(this.framesTxt);
             this.miscEditor.Controls.Add(this.minutesLbl);
             this.miscEditor.Controls.Add(this.showAppDataCachePathBtn);
             this.miscEditor.Controls.Add(this.gamePathBtn);
             this.miscEditor.Controls.Add(this.editorUpdaterBtn);
             this.miscEditor.Controls.Add(this.gameSettingsLbl);
             this.miscEditor.Controls.Add(this.appSettingLbl);
-            this.miscEditor.Controls.Add(this.configLoadBtn);
-            this.miscEditor.Controls.Add(this.configSaveBtn);
             this.miscEditor.Controls.Add(this.updateIntervalTxtx);
-            this.miscEditor.Controls.Add(this.musicTrackBar);
-            this.miscEditor.Controls.Add(this.musicSoundCb);
-            this.miscEditor.Controls.Add(this.sfxMusicCb);
-            this.miscEditor.Controls.Add(this.enableMusicCb);
-            this.miscEditor.Controls.Add(this.debugModeCb);
-            this.miscEditor.Controls.Add(this.udpateMusicBtn);
-            this.miscEditor.Controls.Add(this.gfxResetBtn);
-            this.miscEditor.Controls.Add(this.setFramesBtn);
-            this.miscEditor.Controls.Add(this.aiIdleCb);
             this.miscEditor.Controls.Add(this.appSupportBtn);
-            this.miscEditor.Controls.Add(this.disableWarningsCb);
             this.miscEditor.Controls.Add(this.showAppLogBtn);
             this.miscEditor.Controls.Add(this.xmlCb);
             this.miscEditor.Controls.Add(this.jsonCb);
@@ -4356,9 +4326,6 @@
             this.miscEditor.Controls.Add(this.appLogsCb);
             this.miscEditor.Controls.Add(this.autoRefreshGameCb);
             this.miscEditor.Controls.Add(this.autoResetCb);
-            this.miscEditor.Controls.Add(this.cutsceneRemoveBtn);
-            this.miscEditor.Controls.Add(this.resetScriptsFileBtn);
-            this.miscEditor.Controls.Add(this.resetLevelBtn);
             this.miscEditor.Controls.Add(this.clearCacheBtn);
             this.miscEditor.Controls.Add(this.exportObjectsBtn);
             this.miscEditor.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -4423,32 +4390,6 @@
             this.internalCompilerCb.Text = "Internal";
             this.internalCompilerCb.UseVisualStyleBackColor = true;
             this.internalCompilerCb.CheckedChanged += new System.EventHandler(this.internalCompilerCb_CheckedChanged);
-            // 
-            // framesTxt
-            // 
-            this.framesTxt.BackColor = System.Drawing.SystemColors.Control;
-            this.framesTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.framesTxt.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.framesTxt.Location = new System.Drawing.Point(980, 56);
-            this.framesTxt.Maximum = new decimal(new int[] {
-            240,
-            0,
-            0,
-            0});
-            this.framesTxt.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.framesTxt.Name = "framesTxt";
-            this.framesTxt.Size = new System.Drawing.Size(101, 30);
-            this.framesTxt.TabIndex = 45;
-            this.framesTxt.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            this.framesTxt.ValueChanged += new System.EventHandler(this.framesTxt_ValueChanged);
             // 
             // minutesLbl
             // 
@@ -4532,34 +4473,6 @@
             this.appSettingLbl.Text = "Application Settings";
             this.appSettingLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // configLoadBtn
-            // 
-            this.configLoadBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.configLoadBtn.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.configLoadBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.configLoadBtn.Location = new System.Drawing.Point(759, 260);
-            this.configLoadBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.configLoadBtn.Name = "configLoadBtn";
-            this.configLoadBtn.Size = new System.Drawing.Size(190, 38);
-            this.configLoadBtn.TabIndex = 35;
-            this.configLoadBtn.Text = "Config Load";
-            this.configLoadBtn.UseVisualStyleBackColor = true;
-            this.configLoadBtn.Click += new System.EventHandler(this.configLoadBtn_Click);
-            // 
-            // configSaveBtn
-            // 
-            this.configSaveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.configSaveBtn.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.configSaveBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.configSaveBtn.Location = new System.Drawing.Point(759, 215);
-            this.configSaveBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.configSaveBtn.Name = "configSaveBtn";
-            this.configSaveBtn.Size = new System.Drawing.Size(190, 38);
-            this.configSaveBtn.TabIndex = 34;
-            this.configSaveBtn.Text = "Config Save";
-            this.configSaveBtn.UseVisualStyleBackColor = true;
-            this.configSaveBtn.Click += new System.EventHandler(this.configSaveBtn_Click);
-            // 
             // updateIntervalTxtx
             // 
             this.updateIntervalTxtx.BackColor = System.Drawing.SystemColors.Control;
@@ -4586,123 +4499,6 @@
             0});
             this.updateIntervalTxtx.ValueChanged += new System.EventHandler(this.autoUpdateTimeTxt_TextChanged);
             // 
-            // musicTrackBar
-            // 
-            this.musicTrackBar.AutoSize = false;
-            this.musicTrackBar.Location = new System.Drawing.Point(958, 96);
-            this.musicTrackBar.Name = "musicTrackBar";
-            this.musicTrackBar.Size = new System.Drawing.Size(171, 37);
-            this.musicTrackBar.TabIndex = 33;
-            // 
-            // musicSoundCb
-            // 
-            this.musicSoundCb.AutoSize = true;
-            this.musicSoundCb.Checked = true;
-            this.musicSoundCb.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.musicSoundCb.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.musicSoundCb.Location = new System.Drawing.Point(975, 138);
-            this.musicSoundCb.Margin = new System.Windows.Forms.Padding(4);
-            this.musicSoundCb.Name = "musicSoundCb";
-            this.musicSoundCb.Size = new System.Drawing.Size(70, 23);
-            this.musicSoundCb.TabIndex = 32;
-            this.musicSoundCb.Text = "Music";
-            this.musicSoundCb.UseVisualStyleBackColor = true;
-            this.musicSoundCb.CheckedChanged += new System.EventHandler(this.musicSoundCb_CheckedChanged);
-            // 
-            // sfxMusicCb
-            // 
-            this.sfxMusicCb.AutoSize = true;
-            this.sfxMusicCb.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.sfxMusicCb.Location = new System.Drawing.Point(1053, 138);
-            this.sfxMusicCb.Margin = new System.Windows.Forms.Padding(4);
-            this.sfxMusicCb.Name = "sfxMusicCb";
-            this.sfxMusicCb.Size = new System.Drawing.Size(54, 23);
-            this.sfxMusicCb.TabIndex = 32;
-            this.sfxMusicCb.Text = "SFX";
-            this.sfxMusicCb.UseVisualStyleBackColor = true;
-            this.sfxMusicCb.CheckedChanged += new System.EventHandler(this.sfxMusicCb_CheckedChanged);
-            // 
-            // enableMusicCb
-            // 
-            this.enableMusicCb.AutoSize = true;
-            this.enableMusicCb.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.enableMusicCb.Location = new System.Drawing.Point(539, 49);
-            this.enableMusicCb.Margin = new System.Windows.Forms.Padding(4);
-            this.enableMusicCb.Name = "enableMusicCb";
-            this.enableMusicCb.Size = new System.Drawing.Size(142, 25);
-            this.enableMusicCb.TabIndex = 32;
-            this.enableMusicCb.Text = "Music Enable";
-            this.enableMusicCb.UseVisualStyleBackColor = true;
-            this.enableMusicCb.CheckedChanged += new System.EventHandler(this.enableMusicCb_CheckedChanged);
-            // 
-            // debugModeCb
-            // 
-            this.debugModeCb.AutoSize = true;
-            this.debugModeCb.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.debugModeCb.Location = new System.Drawing.Point(539, 106);
-            this.debugModeCb.Margin = new System.Windows.Forms.Padding(4);
-            this.debugModeCb.Name = "debugModeCb";
-            this.debugModeCb.Size = new System.Drawing.Size(145, 25);
-            this.debugModeCb.TabIndex = 32;
-            this.debugModeCb.Text = "Debug Mode";
-            this.debugModeCb.UseVisualStyleBackColor = true;
-            this.debugModeCb.CheckedChanged += new System.EventHandler(this.debugModeCb_CheckedChanged);
-            // 
-            // udpateMusicBtn
-            // 
-            this.udpateMusicBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.udpateMusicBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.udpateMusicBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.udpateMusicBtn.Location = new System.Drawing.Point(759, 95);
-            this.udpateMusicBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.udpateMusicBtn.Name = "udpateMusicBtn";
-            this.udpateMusicBtn.Size = new System.Drawing.Size(190, 38);
-            this.udpateMusicBtn.TabIndex = 25;
-            this.udpateMusicBtn.Text = "Set Music";
-            this.udpateMusicBtn.UseVisualStyleBackColor = true;
-            this.udpateMusicBtn.Click += new System.EventHandler(this.udpateMusicBtn_Click);
-            // 
-            // gfxResetBtn
-            // 
-            this.gfxResetBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.gfxResetBtn.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gfxResetBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.gfxResetBtn.Location = new System.Drawing.Point(759, 170);
-            this.gfxResetBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.gfxResetBtn.Name = "gfxResetBtn";
-            this.gfxResetBtn.Size = new System.Drawing.Size(190, 38);
-            this.gfxResetBtn.TabIndex = 25;
-            this.gfxResetBtn.Text = "Graphics Reset";
-            this.gfxResetBtn.UseVisualStyleBackColor = true;
-            this.gfxResetBtn.Click += new System.EventHandler(this.gfxResetBtn_Click);
-            // 
-            // setFramesBtn
-            // 
-            this.setFramesBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.setFramesBtn.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.setFramesBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.setFramesBtn.Location = new System.Drawing.Point(759, 50);
-            this.setFramesBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.setFramesBtn.Name = "setFramesBtn";
-            this.setFramesBtn.Size = new System.Drawing.Size(190, 38);
-            this.setFramesBtn.TabIndex = 25;
-            this.setFramesBtn.Text = "Set Frames";
-            this.setFramesBtn.UseVisualStyleBackColor = true;
-            this.setFramesBtn.Click += new System.EventHandler(this.setFramesBtn_Click);
-            // 
-            // aiIdleCb
-            // 
-            this.aiIdleCb.AutoSize = true;
-            this.aiIdleCb.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.aiIdleCb.Location = new System.Drawing.Point(539, 74);
-            this.aiIdleCb.Margin = new System.Windows.Forms.Padding(4);
-            this.aiIdleCb.Name = "aiIdleCb";
-            this.aiIdleCb.Size = new System.Drawing.Size(147, 25);
-            this.aiIdleCb.TabIndex = 24;
-            this.aiIdleCb.Text = "A.I Idle Mode";
-            this.aiIdleCb.UseVisualStyleBackColor = true;
-            this.aiIdleCb.CheckedChanged += new System.EventHandler(this.aiIdleCb_CheckedChanged);
-            // 
             // appSupportBtn
             // 
             this.appSupportBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -4716,21 +4512,6 @@
             this.appSupportBtn.Text = "App Support";
             this.appSupportBtn.UseVisualStyleBackColor = true;
             this.appSupportBtn.Click += new System.EventHandler(this.appSupportBtn_Click);
-            // 
-            // disableWarningsCb
-            // 
-            this.disableWarningsCb.AutoSize = true;
-            this.disableWarningsCb.Checked = true;
-            this.disableWarningsCb.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.disableWarningsCb.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.disableWarningsCb.Location = new System.Drawing.Point(539, 138);
-            this.disableWarningsCb.Margin = new System.Windows.Forms.Padding(4);
-            this.disableWarningsCb.Name = "disableWarningsCb";
-            this.disableWarningsCb.Size = new System.Drawing.Size(166, 25);
-            this.disableWarningsCb.TabIndex = 22;
-            this.disableWarningsCb.Text = "Disable Warning";
-            this.disableWarningsCb.UseVisualStyleBackColor = true;
-            this.disableWarningsCb.CheckedChanged += new System.EventHandler(this.disableWarningsCb_CheckedChanged);
             // 
             // showAppLogBtn
             // 
@@ -4839,48 +4620,6 @@
             this.autoResetCb.Text = "Auto reset level";
             this.autoResetCb.UseVisualStyleBackColor = true;
             this.autoResetCb.CheckedChanged += new System.EventHandler(this.autoResetCb_CheckedChanged);
-            // 
-            // cutsceneRemoveBtn
-            // 
-            this.cutsceneRemoveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cutsceneRemoveBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.cutsceneRemoveBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.cutsceneRemoveBtn.Location = new System.Drawing.Point(542, 260);
-            this.cutsceneRemoveBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.cutsceneRemoveBtn.Name = "cutsceneRemoveBtn";
-            this.cutsceneRemoveBtn.Size = new System.Drawing.Size(190, 38);
-            this.cutsceneRemoveBtn.TabIndex = 18;
-            this.cutsceneRemoveBtn.Text = "Remove Cutscenes";
-            this.cutsceneRemoveBtn.UseVisualStyleBackColor = true;
-            this.cutsceneRemoveBtn.Click += new System.EventHandler(this.cutsceneRemoveBtn_Click);
-            // 
-            // resetScriptsFileBtn
-            // 
-            this.resetScriptsFileBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.resetScriptsFileBtn.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.resetScriptsFileBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.resetScriptsFileBtn.Location = new System.Drawing.Point(542, 215);
-            this.resetScriptsFileBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.resetScriptsFileBtn.Name = "resetScriptsFileBtn";
-            this.resetScriptsFileBtn.Size = new System.Drawing.Size(190, 38);
-            this.resetScriptsFileBtn.TabIndex = 18;
-            this.resetScriptsFileBtn.Text = "Reset File";
-            this.resetScriptsFileBtn.UseVisualStyleBackColor = true;
-            this.resetScriptsFileBtn.Click += new System.EventHandler(this.resetScriptsFileBtn_Click);
-            // 
-            // resetLevelBtn
-            // 
-            this.resetLevelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.resetLevelBtn.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.resetLevelBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.resetLevelBtn.Location = new System.Drawing.Point(542, 170);
-            this.resetLevelBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.resetLevelBtn.Name = "resetLevelBtn";
-            this.resetLevelBtn.Size = new System.Drawing.Size(190, 38);
-            this.resetLevelBtn.TabIndex = 18;
-            this.resetLevelBtn.Text = "Reset Level";
-            this.resetLevelBtn.UseVisualStyleBackColor = true;
-            this.resetLevelBtn.Click += new System.EventHandler(this.resetLevelBtn_Click);
             // 
             // clearCacheBtn
             // 
@@ -5133,6 +4872,7 @@
             // 
             // levelStartTxtMenu
             // 
+            this.levelStartTxtMenu.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.levelStartTxtMenu.Name = "levelStartTxtMenu";
             this.levelStartTxtMenu.Size = new System.Drawing.Size(224, 27);
             this.levelStartTxtMenu.Text = "1";
@@ -5263,6 +5003,7 @@
             // 
             // gameProfileNameLbl
             // 
+            this.gameProfileNameLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.gameProfileNameLbl.Name = "gameProfileNameLbl";
             this.gameProfileNameLbl.Size = new System.Drawing.Size(224, 27);
             this.gameProfileNameLbl.Text = "N/A";
@@ -5283,6 +5024,7 @@
             // 
             // compilerTypeLbl
             // 
+            this.compilerTypeLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.compilerTypeLbl.Name = "compilerTypeLbl";
             this.compilerTypeLbl.Size = new System.Drawing.Size(224, 27);
             this.compilerTypeLbl.Text = "Internal";
@@ -5323,8 +5065,8 @@
             // 
             this.gameSettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.musicToolStripMenuItem,
-            this.framesToolStripMenuItem1,
-            this.debugModeToolStripMenuItem,
+            this.setFramesBtn,
+            this.debugModeCb,
             this.resetToolStripMenuItem,
             this.configToolStripMenuItem,
             this.miscToolStripMenuItem});
@@ -5373,139 +5115,152 @@
             // 
             // versionLbl
             // 
+            this.versionLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.versionLbl.Name = "versionLbl";
             this.versionLbl.Size = new System.Drawing.Size(224, 27);
-            this.versionLbl.Text = "rw";
+            this.versionLbl.Text = "IGI-1.1";
             // 
             // musicToolStripMenuItem
             // 
             this.musicToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.enableToolStripMenuItem,
+            this.enableMusicCb,
             this.volumeToolStripMenuItem});
             this.musicToolStripMenuItem.Name = "musicToolStripMenuItem";
             this.musicToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.musicToolStripMenuItem.Text = "Music";
             // 
-            // enableToolStripMenuItem
+            // enableMusicCb
             // 
-            this.enableToolStripMenuItem.Name = "enableToolStripMenuItem";
-            this.enableToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.enableToolStripMenuItem.Text = "Enable";
+            this.enableMusicCb.Name = "enableMusicCb";
+            this.enableMusicCb.Size = new System.Drawing.Size(224, 26);
+            this.enableMusicCb.Text = "Enable";
+            this.enableMusicCb.Click += new System.EventHandler(this.enableMusicCb_CheckedChanged);
             // 
             // volumeToolStripMenuItem
             // 
             this.volumeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.musicToolStripMenuItem1,
-            this.sFXToolStripMenuItem});
+            this.musicVolumeUpdateBtn,
+            this.sfxVolumeUpdateBtn});
             this.volumeToolStripMenuItem.Name = "volumeToolStripMenuItem";
             this.volumeToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.volumeToolStripMenuItem.Text = "Volume";
             // 
-            // musicToolStripMenuItem1
+            // musicVolumeUpdateBtn
             // 
-            this.musicToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2});
-            this.musicToolStripMenuItem1.Name = "musicToolStripMenuItem1";
-            this.musicToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
-            this.musicToolStripMenuItem1.Text = "Music";
+            this.musicVolumeUpdateBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.musicVolumeUpdateTxt});
+            this.musicVolumeUpdateBtn.Name = "musicVolumeUpdateBtn";
+            this.musicVolumeUpdateBtn.Size = new System.Drawing.Size(224, 26);
+            this.musicVolumeUpdateBtn.Text = "Music";
             // 
-            // sFXToolStripMenuItem
+            // sfxVolumeUpdateBtn
             // 
-            this.sFXToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem3});
-            this.sFXToolStripMenuItem.Name = "sFXToolStripMenuItem";
-            this.sFXToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.sFXToolStripMenuItem.Text = "SFX";
+            this.sfxVolumeUpdateBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sfxVolumeUpdateTxt});
+            this.sfxVolumeUpdateBtn.Name = "sfxVolumeUpdateBtn";
+            this.sfxVolumeUpdateBtn.Size = new System.Drawing.Size(224, 26);
+            this.sfxVolumeUpdateBtn.Text = "SFX";
             // 
-            // framesToolStripMenuItem1
+            // setFramesBtn
             // 
-            this.framesToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem4});
-            this.framesToolStripMenuItem1.Name = "framesToolStripMenuItem1";
-            this.framesToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
-            this.framesToolStripMenuItem1.Text = "Frames";
+            this.setFramesBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.framesTxt});
+            this.setFramesBtn.Name = "setFramesBtn";
+            this.setFramesBtn.Size = new System.Drawing.Size(224, 26);
+            this.setFramesBtn.Text = "Frames";
             // 
-            // toolStripMenuItem4
+            // framesTxt
             // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(224, 27);
-            this.toolStripMenuItem4.Text = "30";
+            this.framesTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.framesTxt.Name = "framesTxt";
+            this.framesTxt.Size = new System.Drawing.Size(224, 27);
+            this.framesTxt.Text = "30";
+            this.framesTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.framesTxt_KeyDown);
             // 
-            // debugModeToolStripMenuItem
+            // debugModeCb
             // 
-            this.debugModeToolStripMenuItem.Name = "debugModeToolStripMenuItem";
-            this.debugModeToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.debugModeToolStripMenuItem.Text = "Debug Mode";
+            this.debugModeCb.Name = "debugModeCb";
+            this.debugModeCb.Size = new System.Drawing.Size(224, 26);
+            this.debugModeCb.Text = "Debug Mode";
+            this.debugModeCb.Click += new System.EventHandler(this.debugModeCb_CheckedChanged);
             // 
             // resetToolStripMenuItem
             // 
             this.resetToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.graphicsResetToolStripMenuItem,
-            this.levelResetToolStripMenuItem,
-            this.fileResetToolStripMenuItem});
+            this.gfxResetBtn,
+            this.resetLevelBtn,
+            this.resetScriptsFileBtn});
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
             this.resetToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.resetToolStripMenuItem.Text = "Reset";
             // 
-            // graphicsResetToolStripMenuItem
+            // gfxResetBtn
             // 
-            this.graphicsResetToolStripMenuItem.Name = "graphicsResetToolStripMenuItem";
-            this.graphicsResetToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.graphicsResetToolStripMenuItem.Text = "Graphics Reset";
+            this.gfxResetBtn.Name = "gfxResetBtn";
+            this.gfxResetBtn.Size = new System.Drawing.Size(224, 26);
+            this.gfxResetBtn.Text = "Graphics Reset";
+            this.gfxResetBtn.Click += new System.EventHandler(this.gfxResetBtn_Click);
             // 
-            // levelResetToolStripMenuItem
+            // resetLevelBtn
             // 
-            this.levelResetToolStripMenuItem.Name = "levelResetToolStripMenuItem";
-            this.levelResetToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.levelResetToolStripMenuItem.Text = "Level Reset";
+            this.resetLevelBtn.Name = "resetLevelBtn";
+            this.resetLevelBtn.Size = new System.Drawing.Size(224, 26);
+            this.resetLevelBtn.Text = "Level Reset";
+            this.resetLevelBtn.Click += new System.EventHandler(this.resetLevelBtn_Click);
             // 
-            // fileResetToolStripMenuItem
+            // resetScriptsFileBtn
             // 
-            this.fileResetToolStripMenuItem.Name = "fileResetToolStripMenuItem";
-            this.fileResetToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.fileResetToolStripMenuItem.Text = "File Reset";
+            this.resetScriptsFileBtn.Name = "resetScriptsFileBtn";
+            this.resetScriptsFileBtn.Size = new System.Drawing.Size(224, 26);
+            this.resetScriptsFileBtn.Text = "File Reset";
+            this.resetScriptsFileBtn.Click += new System.EventHandler(this.resetScriptsFileBtn_Click);
             // 
             // configToolStripMenuItem
             // 
             this.configToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem,
-            this.loadToolStripMenuItem});
+            this.configSaveBtn,
+            this.configLoadBtn});
             this.configToolStripMenuItem.Name = "configToolStripMenuItem";
             this.configToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.configToolStripMenuItem.Text = "Config";
             // 
-            // saveToolStripMenuItem
+            // configSaveBtn
             // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.saveToolStripMenuItem.Text = "Save";
+            this.configSaveBtn.Name = "configSaveBtn";
+            this.configSaveBtn.Size = new System.Drawing.Size(224, 26);
+            this.configSaveBtn.Text = "Save";
+            this.configSaveBtn.Click += new System.EventHandler(this.configSaveBtn_Click);
             // 
-            // loadToolStripMenuItem
+            // configLoadBtn
             // 
-            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.loadToolStripMenuItem.Text = "Load";
+            this.configLoadBtn.Name = "configLoadBtn";
+            this.configLoadBtn.Size = new System.Drawing.Size(224, 26);
+            this.configLoadBtn.Text = "Load";
+            this.configLoadBtn.Click += new System.EventHandler(this.configLoadBtn_Click);
             // 
             // miscToolStripMenuItem
             // 
             this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.disableWarningsToolStripMenuItem,
-            this.removeCutscenesToolStripMenuItem});
+            this.disableWarningsCb,
+            this.cutsceneRemoveBtn,
+            this.aiIdleCb});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
             this.miscToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
-            // disableWarningsToolStripMenuItem
+            // disableWarningsCb
             // 
-            this.disableWarningsToolStripMenuItem.Name = "disableWarningsToolStripMenuItem";
-            this.disableWarningsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.disableWarningsToolStripMenuItem.Text = "Disable Warnings";
+            this.disableWarningsCb.Name = "disableWarningsCb";
+            this.disableWarningsCb.Size = new System.Drawing.Size(224, 26);
+            this.disableWarningsCb.Text = "Disable Warnings";
+            this.disableWarningsCb.Click += new System.EventHandler(this.disableWarningsCb_CheckedChanged);
             // 
-            // removeCutscenesToolStripMenuItem
+            // cutsceneRemoveBtn
             // 
-            this.removeCutscenesToolStripMenuItem.Name = "removeCutscenesToolStripMenuItem";
-            this.removeCutscenesToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.removeCutscenesToolStripMenuItem.Text = "Remove Cutscenes";
+            this.cutsceneRemoveBtn.Name = "cutsceneRemoveBtn";
+            this.cutsceneRemoveBtn.Size = new System.Drawing.Size(224, 26);
+            this.cutsceneRemoveBtn.Text = "Remove Cutscenes";
+            this.cutsceneRemoveBtn.Click += new System.EventHandler(this.cutsceneRemoveBtn_Click);
             // 
             // logsToolStripMenuItem
             // 
@@ -5620,6 +5375,7 @@
             // 
             // toolStripMenuItem5
             // 
+            this.toolStripMenuItem5.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
             this.toolStripMenuItem5.Size = new System.Drawing.Size(224, 27);
             this.toolStripMenuItem5.Text = "15";
@@ -5642,17 +5398,28 @@
             this.cSVToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
             this.cSVToolStripMenuItem.Text = "CSV";
             // 
-            // toolStripMenuItem2
+            // musicVolumeUpdateTxt
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(224, 27);
-            this.toolStripMenuItem2.Text = "5.0";
+            this.musicVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.musicVolumeUpdateTxt.Name = "musicVolumeUpdateTxt";
+            this.musicVolumeUpdateTxt.Size = new System.Drawing.Size(224, 27);
+            this.musicVolumeUpdateTxt.Text = "5.0";
+            this.musicVolumeUpdateTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.musicVolumeUpdateTxt_KeyDown);
             // 
-            // toolStripMenuItem3
+            // sfxVolumeUpdateTxt
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(224, 27);
-            this.toolStripMenuItem3.Text = "3.5";
+            this.sfxVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.sfxVolumeUpdateTxt.Name = "sfxVolumeUpdateTxt";
+            this.sfxVolumeUpdateTxt.Size = new System.Drawing.Size(224, 27);
+            this.sfxVolumeUpdateTxt.Text = "3.5";
+            this.sfxVolumeUpdateTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.sfxVolumeUpdateTxt_KeyDown);
+            // 
+            // aiIdleCb
+            // 
+            this.aiIdleCb.Name = "aiIdleCb";
+            this.aiIdleCb.Size = new System.Drawing.Size(224, 26);
+            this.aiIdleCb.Text = "Enemy Idle state";
+            this.aiIdleCb.Click += new System.EventHandler(this.aiIdleCb_CheckedChanged);
             // 
             // IGIEditorUI
             // 
@@ -5729,9 +5496,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).EndInit();
             this.miscEditor.ResumeLayout(false);
             this.miscEditor.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.framesTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.updateIntervalTxtx)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.musicTrackBar)).EndInit();
             this.devMode.ResumeLayout(false);
             this.devMode.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).EndInit();
@@ -5770,7 +5535,6 @@
         private System.Windows.Forms.Button exportObjectsBtn;
         private System.Windows.Forms.CheckBox appLogsCb;
         private System.Windows.Forms.CheckBox autoResetCb;
-        private System.Windows.Forms.Button resetLevelBtn;
         private System.Windows.Forms.TabPage weaponEditor;
         private System.Windows.Forms.Button installMissionBtn;
         private System.Windows.Forms.TextBox missionDescTxt;
@@ -5788,7 +5552,6 @@
         private System.Windows.Forms.CheckBox csvCb;
         private System.Windows.Forms.Button clearCacheBtn;
         private System.Windows.Forms.Button clearAllLvlBtn;
-        private System.Windows.Forms.Button cutsceneRemoveBtn;
         private System.Windows.Forms.CheckBox posCurrentCb;
         private System.Windows.Forms.CheckBox posMeterCb;
         private System.Windows.Forms.CheckBox posOffCb;
@@ -5832,7 +5595,6 @@
         private System.Windows.Forms.Label peekCrouchLbl;
         private System.Windows.Forms.Label peekLRLbl;
         private System.Windows.Forms.Button showAppLogBtn;
-        private System.Windows.Forms.CheckBox disableWarningsCb;
         private System.Windows.Forms.Button appSupportBtn;
         private System.Windows.Forms.TabPage graphEditor;
         private System.Windows.Forms.TextBox graphAreaLbl;
@@ -5875,22 +5637,11 @@
         private System.Windows.Forms.Label missionSizeLbl;
         private System.Windows.Forms.Label missionLevelLbl;
         private System.Windows.Forms.Button missionRefreshBtn;
-        private System.Windows.Forms.CheckBox aiIdleCb;
         private System.Windows.Forms.Label damageScaleLbl;
         private System.Windows.Forms.Label teamIdLbl;
         private System.Windows.Forms.Button updateHumanBtn;
-        private System.Windows.Forms.Button setFramesBtn;
         private System.Windows.Forms.Label humanViewCamLbl;
-        private System.Windows.Forms.CheckBox debugModeCb;
-        private System.Windows.Forms.Button udpateMusicBtn;
-        private System.Windows.Forms.TrackBar musicTrackBar;
-        private System.Windows.Forms.CheckBox enableMusicCb;
-        private System.Windows.Forms.CheckBox sfxMusicCb;
-        private System.Windows.Forms.CheckBox musicSoundCb;
-        private System.Windows.Forms.Button configLoadBtn;
-        private System.Windows.Forms.Button configSaveBtn;
         private System.Windows.Forms.Button restoreModelBtn;
-        private System.Windows.Forms.Button gfxResetBtn;
         private System.Windows.Forms.CheckBox resetPosCb;
         private System.Windows.Forms.Label gameSettingsLbl;
         private System.Windows.Forms.Label appSettingLbl;
@@ -5919,7 +5670,6 @@
         private System.Windows.Forms.CheckBox devClearContentsCb;
         private System.Windows.Forms.CheckBox devAutoFormatCb;
         private System.Windows.Forms.CheckBox nodesInfoCb;
-        private System.Windows.Forms.NumericUpDown framesTxt;
         private System.Windows.Forms.NumericUpDown movementSpeedTxt;
         private System.Windows.Forms.NumericUpDown upwardJumpTxt;
         private System.Windows.Forms.NumericUpDown forwardJumpTxt;
@@ -5976,7 +5726,6 @@
         private System.Windows.Forms.CheckBox aiJsonEditModeCb;
         private System.Windows.Forms.CheckBox externalCompilerCb;
         private System.Windows.Forms.CheckBox internalCompilerCb;
-        private System.Windows.Forms.Button resetScriptsFileBtn;
         private System.Windows.Forms.NumericUpDown buildingsResetTxt;
         private System.Windows.Forms.NumericUpDown objectsResetTxt;
         private System.Windows.Forms.NumericUpDown buildingsRemoveTxt;
@@ -6090,23 +5839,23 @@
         private System.Windows.Forms.ToolStripMenuItem internalsStatusLbl;
         private System.Windows.Forms.ToolStripMenuItem gameProfileMissionLbl;
         private System.Windows.Forms.ToolStripMenuItem musicToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem enableToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem enableMusicCb;
         private System.Windows.Forms.ToolStripMenuItem volumeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem musicToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem sFXToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem framesToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripTextBox toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem debugModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem musicVolumeUpdateBtn;
+        private System.Windows.Forms.ToolStripMenuItem sfxVolumeUpdateBtn;
+        private System.Windows.Forms.ToolStripMenuItem setFramesBtn;
+        private System.Windows.Forms.ToolStripTextBox framesTxt;
+        private System.Windows.Forms.ToolStripMenuItem debugModeCb;
         private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem graphicsResetToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem levelResetToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fileResetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gfxResetBtn;
+        private System.Windows.Forms.ToolStripMenuItem resetLevelBtn;
+        private System.Windows.Forms.ToolStripMenuItem resetScriptsFileBtn;
         private System.Windows.Forms.ToolStripMenuItem configToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem configSaveBtn;
+        private System.Windows.Forms.ToolStripMenuItem configLoadBtn;
         private System.Windows.Forms.ToolStripMenuItem miscToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem disableWarningsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem removeCutscenesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem disableWarningsCb;
+        private System.Windows.Forms.ToolStripMenuItem cutsceneRemoveBtn;
         private System.Windows.Forms.ToolStripMenuItem logsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem enableToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem shareToolStripMenuItem;
@@ -6126,8 +5875,9 @@
         private System.Windows.Forms.ToolStripMenuItem supportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportObjectsToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox cSVToolStripMenuItem;
-        private System.Windows.Forms.ToolStripTextBox toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripTextBox toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripTextBox musicVolumeUpdateTxt;
+        private System.Windows.Forms.ToolStripTextBox sfxVolumeUpdateTxt;
+        private System.Windows.Forms.ToolStripMenuItem aiIdleCb;
     }
 }
 
