@@ -289,28 +289,8 @@
             this.xPosLbl_O = new System.Windows.Forms.Label();
             this.updateObjPosition = new System.Windows.Forms.Button();
             this.miscEditor = new System.Windows.Forms.TabPage();
-            this.viewLogsCb = new System.Windows.Forms.CheckBox();
-            this.shareLogsCb = new System.Windows.Forms.CheckBox();
-            this.externalCompilerCb = new System.Windows.Forms.CheckBox();
-            this.internalCompilerCb = new System.Windows.Forms.CheckBox();
-            this.minutesLbl = new System.Windows.Forms.Label();
-            this.showAppDataCachePathBtn = new System.Windows.Forms.Button();
-            this.gamePathBtn = new System.Windows.Forms.Button();
-            this.editorUpdaterBtn = new System.Windows.Forms.Button();
             this.gameSettingsLbl = new System.Windows.Forms.Label();
             this.appSettingLbl = new System.Windows.Forms.Label();
-            this.updateIntervalTxtx = new System.Windows.Forms.NumericUpDown();
-            this.appSupportBtn = new System.Windows.Forms.Button();
-            this.showAppLogBtn = new System.Windows.Forms.Button();
-            this.xmlCb = new System.Windows.Forms.CheckBox();
-            this.jsonCb = new System.Windows.Forms.CheckBox();
-            this.csvCb = new System.Windows.Forms.CheckBox();
-            this.updateCheckerCb = new System.Windows.Forms.CheckBox();
-            this.appLogsCb = new System.Windows.Forms.CheckBox();
-            this.autoRefreshGameCb = new System.Windows.Forms.CheckBox();
-            this.autoResetCb = new System.Windows.Forms.CheckBox();
-            this.clearCacheBtn = new System.Windows.Forms.Button();
-            this.exportObjectsBtn = new System.Windows.Forms.Button();
             this.devMode = new System.Windows.Forms.TabPage();
             this.devAutoFormatCb = new System.Windows.Forms.CheckBox();
             this.devClearContentsCb = new System.Windows.Forms.CheckBox();
@@ -354,17 +334,13 @@
             this.posMetersCb = new System.Windows.Forms.ToolStripMenuItem();
             this.appSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gameSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.applicationSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.versionLbl = new System.Windows.Forms.ToolStripTextBox();
-            this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
             this.musicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableMusicCb = new System.Windows.Forms.ToolStripMenuItem();
             this.volumeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.musicVolumeUpdateBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.musicVolumeUpdateTxt = new System.Windows.Forms.ToolStripTextBox();
             this.sfxVolumeUpdateBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.sfxVolumeUpdateTxt = new System.Windows.Forms.ToolStripTextBox();
             this.setFramesBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.framesTxt = new System.Windows.Forms.ToolStripTextBox();
             this.debugModeCb = new System.Windows.Forms.ToolStripMenuItem();
@@ -378,28 +354,36 @@
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disableWarningsCb = new System.Windows.Forms.ToolStripMenuItem();
             this.cutsceneRemoveBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.enableToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.shareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.appdataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearCacheToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.autoOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.automaticResetLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.automaticRefreshLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.supportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.compilerSelectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.manualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.automaticToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.timeInMinutesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripTextBox();
-            this.exportObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cSVToolStripMenuItem = new System.Windows.Forms.ToolStripComboBox();
-            this.musicVolumeUpdateTxt = new System.Windows.Forms.ToolStripTextBox();
-            this.sfxVolumeUpdateTxt = new System.Windows.Forms.ToolStripTextBox();
             this.aiIdleCb = new System.Windows.Forms.ToolStripMenuItem();
+            this.applicationSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.appLogsCb = new System.Windows.Forms.ToolStripMenuItem();
+            this.shareAppLogsBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewAppLogsBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.appdataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showAppDataCachePathBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearCacheBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoResetCb = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoRefreshGameCb = new System.Windows.Forms.ToolStripMenuItem();
+            this.compilerSelectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.internalCompilerCb = new System.Windows.Forms.ToolStripMenuItem();
+            this.externalCompilerCb = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editorUpdaterBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateCheckerAutomaticOption = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateIntervalTxt = new System.Windows.Forms.ToolStripTextBox();
+            this.updateCheckerCb = new System.Windows.Forms.ToolStripMenuItem();
+            this.appSupportBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportObjectsDD = new System.Windows.Forms.ToolStripComboBox();
+            this.gamePathBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.versionLbl = new System.Windows.Forms.ToolStripTextBox();
+            this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
+            this.exportObjectsBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.editorMainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -452,7 +436,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.betaTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).BeginInit();
             this.miscEditor.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.updateIntervalTxtx)).BeginInit();
             this.devMode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).BeginInit();
             this.appMenuSettings.SuspendLayout();
@@ -4306,148 +4289,14 @@
             // miscEditor
             // 
             this.miscEditor.BackColor = System.Drawing.SystemColors.Control;
-            this.miscEditor.Controls.Add(this.viewLogsCb);
-            this.miscEditor.Controls.Add(this.shareLogsCb);
-            this.miscEditor.Controls.Add(this.externalCompilerCb);
-            this.miscEditor.Controls.Add(this.internalCompilerCb);
-            this.miscEditor.Controls.Add(this.minutesLbl);
-            this.miscEditor.Controls.Add(this.showAppDataCachePathBtn);
-            this.miscEditor.Controls.Add(this.gamePathBtn);
-            this.miscEditor.Controls.Add(this.editorUpdaterBtn);
             this.miscEditor.Controls.Add(this.gameSettingsLbl);
             this.miscEditor.Controls.Add(this.appSettingLbl);
-            this.miscEditor.Controls.Add(this.updateIntervalTxtx);
-            this.miscEditor.Controls.Add(this.appSupportBtn);
-            this.miscEditor.Controls.Add(this.showAppLogBtn);
-            this.miscEditor.Controls.Add(this.xmlCb);
-            this.miscEditor.Controls.Add(this.jsonCb);
-            this.miscEditor.Controls.Add(this.csvCb);
-            this.miscEditor.Controls.Add(this.updateCheckerCb);
-            this.miscEditor.Controls.Add(this.appLogsCb);
-            this.miscEditor.Controls.Add(this.autoRefreshGameCb);
-            this.miscEditor.Controls.Add(this.autoResetCb);
-            this.miscEditor.Controls.Add(this.clearCacheBtn);
-            this.miscEditor.Controls.Add(this.exportObjectsBtn);
             this.miscEditor.ForeColor = System.Drawing.SystemColors.ControlText;
             this.miscEditor.Location = new System.Drawing.Point(4, 30);
             this.miscEditor.Name = "miscEditor";
             this.miscEditor.Size = new System.Drawing.Size(1137, 387);
             this.miscEditor.TabIndex = 6;
             this.miscEditor.Text = "Misc";
-            // 
-            // viewLogsCb
-            // 
-            this.viewLogsCb.AutoSize = true;
-            this.viewLogsCb.Checked = true;
-            this.viewLogsCb.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewLogsCb.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.viewLogsCb.Location = new System.Drawing.Point(162, 233);
-            this.viewLogsCb.Margin = new System.Windows.Forms.Padding(4);
-            this.viewLogsCb.Name = "viewLogsCb";
-            this.viewLogsCb.Size = new System.Drawing.Size(64, 23);
-            this.viewLogsCb.TabIndex = 58;
-            this.viewLogsCb.Text = "View";
-            this.viewLogsCb.UseVisualStyleBackColor = true;
-            this.viewLogsCb.CheckedChanged += new System.EventHandler(this.viewLogsCb_CheckedChanged);
-            // 
-            // shareLogsCb
-            // 
-            this.shareLogsCb.AutoSize = true;
-            this.shareLogsCb.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.shareLogsCb.Location = new System.Drawing.Point(162, 214);
-            this.shareLogsCb.Margin = new System.Windows.Forms.Padding(4);
-            this.shareLogsCb.Name = "shareLogsCb";
-            this.shareLogsCb.Size = new System.Drawing.Size(70, 23);
-            this.shareLogsCb.TabIndex = 57;
-            this.shareLogsCb.Text = "Share";
-            this.shareLogsCb.UseVisualStyleBackColor = true;
-            this.shareLogsCb.CheckedChanged += new System.EventHandler(this.shareLogsCb_CheckedChanged);
-            // 
-            // externalCompilerCb
-            // 
-            this.externalCompilerCb.AutoSize = true;
-            this.externalCompilerCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.externalCompilerCb.Location = new System.Drawing.Point(149, 354);
-            this.externalCompilerCb.Margin = new System.Windows.Forms.Padding(4);
-            this.externalCompilerCb.Name = "externalCompilerCb";
-            this.externalCompilerCb.Size = new System.Drawing.Size(86, 23);
-            this.externalCompilerCb.TabIndex = 56;
-            this.externalCompilerCb.Text = "External";
-            this.externalCompilerCb.UseVisualStyleBackColor = true;
-            this.externalCompilerCb.CheckedChanged += new System.EventHandler(this.externalCompilerCb_CheckedChanged);
-            // 
-            // internalCompilerCb
-            // 
-            this.internalCompilerCb.AutoSize = true;
-            this.internalCompilerCb.Checked = true;
-            this.internalCompilerCb.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.internalCompilerCb.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.internalCompilerCb.Location = new System.Drawing.Point(42, 354);
-            this.internalCompilerCb.Margin = new System.Windows.Forms.Padding(4);
-            this.internalCompilerCb.Name = "internalCompilerCb";
-            this.internalCompilerCb.Size = new System.Drawing.Size(83, 23);
-            this.internalCompilerCb.TabIndex = 56;
-            this.internalCompilerCb.Text = "Internal";
-            this.internalCompilerCb.UseVisualStyleBackColor = true;
-            this.internalCompilerCb.CheckedChanged += new System.EventHandler(this.internalCompilerCb_CheckedChanged);
-            // 
-            // minutesLbl
-            // 
-            this.minutesLbl.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.minutesLbl.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.minutesLbl.Location = new System.Drawing.Point(334, 177);
-            this.minutesLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.minutesLbl.Name = "minutesLbl";
-            this.minutesLbl.Size = new System.Drawing.Size(96, 33);
-            this.minutesLbl.TabIndex = 44;
-            this.minutesLbl.Text = "minutes";
-            this.minutesLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.minutesLbl.MouseEnter += new System.EventHandler(this.minutesLbl_MouseEnter);
-            // 
-            // showAppDataCachePathBtn
-            // 
-            this.showAppDataCachePathBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.showAppDataCachePathBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.showAppDataCachePathBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.showAppDataCachePathBtn.Location = new System.Drawing.Point(42, 264);
-            this.showAppDataCachePathBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.showAppDataCachePathBtn.Name = "showAppDataCachePathBtn";
-            this.showAppDataCachePathBtn.Size = new System.Drawing.Size(190, 38);
-            this.showAppDataCachePathBtn.TabIndex = 41;
-            this.showAppDataCachePathBtn.Text = "Show AppData Path";
-            this.showAppDataCachePathBtn.UseVisualStyleBackColor = true;
-            this.showAppDataCachePathBtn.Click += new System.EventHandler(this.showAppDataCachePathBtn_Click);
-            this.showAppDataCachePathBtn.MouseEnter += new System.EventHandler(this.editorUpdaterBtn_MouseEnter);
-            // 
-            // gamePathBtn
-            // 
-            this.gamePathBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.gamePathBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.gamePathBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.gamePathBtn.Location = new System.Drawing.Point(267, 262);
-            this.gamePathBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.gamePathBtn.Name = "gamePathBtn";
-            this.gamePathBtn.Size = new System.Drawing.Size(190, 38);
-            this.gamePathBtn.TabIndex = 41;
-            this.gamePathBtn.Text = "Set Game Path";
-            this.gamePathBtn.UseVisualStyleBackColor = true;
-            this.gamePathBtn.Click += new System.EventHandler(this.gamePathBtn_Click);
-            this.gamePathBtn.MouseEnter += new System.EventHandler(this.editorUpdaterBtn_MouseEnter);
-            // 
-            // editorUpdaterBtn
-            // 
-            this.editorUpdaterBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.editorUpdaterBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.editorUpdaterBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.editorUpdaterBtn.Location = new System.Drawing.Point(267, 214);
-            this.editorUpdaterBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.editorUpdaterBtn.Name = "editorUpdaterBtn";
-            this.editorUpdaterBtn.Size = new System.Drawing.Size(190, 38);
-            this.editorUpdaterBtn.TabIndex = 41;
-            this.editorUpdaterBtn.Text = "Manual Update";
-            this.editorUpdaterBtn.UseVisualStyleBackColor = true;
-            this.editorUpdaterBtn.Click += new System.EventHandler(this.editorUpdaterBtn_Click);
-            this.editorUpdaterBtn.MouseEnter += new System.EventHandler(this.editorUpdaterBtn_MouseEnter);
             // 
             // gameSettingsLbl
             // 
@@ -4472,182 +4321,6 @@
             this.appSettingLbl.TabIndex = 40;
             this.appSettingLbl.Text = "Application Settings";
             this.appSettingLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // updateIntervalTxtx
-            // 
-            this.updateIntervalTxtx.BackColor = System.Drawing.SystemColors.Control;
-            this.updateIntervalTxtx.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.updateIntervalTxtx.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.updateIntervalTxtx.Location = new System.Drawing.Point(267, 177);
-            this.updateIntervalTxtx.Maximum = new decimal(new int[] {
-            120,
-            0,
-            0,
-            0});
-            this.updateIntervalTxtx.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.updateIntervalTxtx.Name = "updateIntervalTxtx";
-            this.updateIntervalTxtx.Size = new System.Drawing.Size(63, 30);
-            this.updateIntervalTxtx.TabIndex = 42;
-            this.updateIntervalTxtx.Value = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
-            this.updateIntervalTxtx.ValueChanged += new System.EventHandler(this.autoUpdateTimeTxt_TextChanged);
-            // 
-            // appSupportBtn
-            // 
-            this.appSupportBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.appSupportBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.appSupportBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.appSupportBtn.Location = new System.Drawing.Point(42, 307);
-            this.appSupportBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.appSupportBtn.Name = "appSupportBtn";
-            this.appSupportBtn.Size = new System.Drawing.Size(190, 38);
-            this.appSupportBtn.TabIndex = 23;
-            this.appSupportBtn.Text = "App Support";
-            this.appSupportBtn.UseVisualStyleBackColor = true;
-            this.appSupportBtn.Click += new System.EventHandler(this.appSupportBtn_Click);
-            // 
-            // showAppLogBtn
-            // 
-            this.showAppLogBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.showAppLogBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.showAppLogBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.showAppLogBtn.Location = new System.Drawing.Point(42, 216);
-            this.showAppLogBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.showAppLogBtn.Name = "showAppLogBtn";
-            this.showAppLogBtn.Size = new System.Drawing.Size(112, 38);
-            this.showAppLogBtn.TabIndex = 21;
-            this.showAppLogBtn.Text = "App Logs";
-            this.showAppLogBtn.UseVisualStyleBackColor = true;
-            this.showAppLogBtn.Click += new System.EventHandler(this.showAppLogBtn_Click);
-            // 
-            // xmlCb
-            // 
-            this.xmlCb.AutoSize = true;
-            this.xmlCb.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.xmlCb.Location = new System.Drawing.Point(190, 96);
-            this.xmlCb.Margin = new System.Windows.Forms.Padding(4);
-            this.xmlCb.Name = "xmlCb";
-            this.xmlCb.Size = new System.Drawing.Size(62, 24);
-            this.xmlCb.TabIndex = 20;
-            this.xmlCb.Text = "XML";
-            this.xmlCb.UseVisualStyleBackColor = true;
-            this.xmlCb.CheckedChanged += new System.EventHandler(this.xmlCb_CheckedChanged);
-            // 
-            // jsonCb
-            // 
-            this.jsonCb.AutoSize = true;
-            this.jsonCb.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.jsonCb.Location = new System.Drawing.Point(113, 96);
-            this.jsonCb.Margin = new System.Windows.Forms.Padding(4);
-            this.jsonCb.Name = "jsonCb";
-            this.jsonCb.Size = new System.Drawing.Size(69, 24);
-            this.jsonCb.TabIndex = 20;
-            this.jsonCb.Text = "JSON";
-            this.jsonCb.UseVisualStyleBackColor = true;
-            this.jsonCb.CheckedChanged += new System.EventHandler(this.jsonCb_CheckedChanged);
-            // 
-            // csvCb
-            // 
-            this.csvCb.AutoSize = true;
-            this.csvCb.Checked = true;
-            this.csvCb.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.csvCb.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.csvCb.Location = new System.Drawing.Point(42, 96);
-            this.csvCb.Margin = new System.Windows.Forms.Padding(4);
-            this.csvCb.Name = "csvCb";
-            this.csvCb.Size = new System.Drawing.Size(61, 24);
-            this.csvCb.TabIndex = 20;
-            this.csvCb.Text = "CSV";
-            this.csvCb.UseVisualStyleBackColor = true;
-            this.csvCb.CheckedChanged += new System.EventHandler(this.csvCb_CheckedChanged);
-            // 
-            // updateCheckerCb
-            // 
-            this.updateCheckerCb.AutoSize = true;
-            this.updateCheckerCb.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.updateCheckerCb.Location = new System.Drawing.Point(267, 146);
-            this.updateCheckerCb.Margin = new System.Windows.Forms.Padding(4);
-            this.updateCheckerCb.Name = "updateCheckerCb";
-            this.updateCheckerCb.Size = new System.Drawing.Size(194, 25);
-            this.updateCheckerCb.TabIndex = 20;
-            this.updateCheckerCb.Text = "Check For Updates";
-            this.updateCheckerCb.UseVisualStyleBackColor = true;
-            this.updateCheckerCb.CheckedChanged += new System.EventHandler(this.updateCheckerCb_CheckedChanged);
-            this.updateCheckerCb.MouseEnter += new System.EventHandler(this.updateCheckerCb_MouseEnter);
-            // 
-            // appLogsCb
-            // 
-            this.appLogsCb.AutoSize = true;
-            this.appLogsCb.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.appLogsCb.Location = new System.Drawing.Point(267, 103);
-            this.appLogsCb.Margin = new System.Windows.Forms.Padding(4);
-            this.appLogsCb.Name = "appLogsCb";
-            this.appLogsCb.Size = new System.Drawing.Size(166, 25);
-            this.appLogsCb.TabIndex = 20;
-            this.appLogsCb.Text = "Application logs";
-            this.appLogsCb.UseVisualStyleBackColor = true;
-            this.appLogsCb.CheckedChanged += new System.EventHandler(this.appLogsCb_CheckedChanged);
-            // 
-            // autoRefreshGameCb
-            // 
-            this.autoRefreshGameCb.AutoSize = true;
-            this.autoRefreshGameCb.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.autoRefreshGameCb.Location = new System.Drawing.Point(267, 75);
-            this.autoRefreshGameCb.Margin = new System.Windows.Forms.Padding(4);
-            this.autoRefreshGameCb.Name = "autoRefreshGameCb";
-            this.autoRefreshGameCb.Size = new System.Drawing.Size(186, 25);
-            this.autoRefreshGameCb.TabIndex = 19;
-            this.autoRefreshGameCb.Text = "Auto refresh game";
-            this.autoRefreshGameCb.UseVisualStyleBackColor = true;
-            this.autoRefreshGameCb.CheckedChanged += new System.EventHandler(this.autoRefreshGameCb_CheckedChanged);
-            // 
-            // autoResetCb
-            // 
-            this.autoResetCb.AutoSize = true;
-            this.autoResetCb.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.autoResetCb.Location = new System.Drawing.Point(267, 50);
-            this.autoResetCb.Margin = new System.Windows.Forms.Padding(4);
-            this.autoResetCb.Name = "autoResetCb";
-            this.autoResetCb.Size = new System.Drawing.Size(163, 25);
-            this.autoResetCb.TabIndex = 19;
-            this.autoResetCb.Text = "Auto reset level";
-            this.autoResetCb.UseVisualStyleBackColor = true;
-            this.autoResetCb.CheckedChanged += new System.EventHandler(this.autoResetCb_CheckedChanged);
-            // 
-            // clearCacheBtn
-            // 
-            this.clearCacheBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clearCacheBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.clearCacheBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.clearCacheBtn.Location = new System.Drawing.Point(42, 170);
-            this.clearCacheBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.clearCacheBtn.Name = "clearCacheBtn";
-            this.clearCacheBtn.Size = new System.Drawing.Size(190, 38);
-            this.clearCacheBtn.TabIndex = 16;
-            this.clearCacheBtn.Text = "Clear Cache";
-            this.clearCacheBtn.UseVisualStyleBackColor = true;
-            this.clearCacheBtn.Click += new System.EventHandler(this.clearCacheBtn_Click);
-            // 
-            // exportObjectsBtn
-            // 
-            this.exportObjectsBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.exportObjectsBtn.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.exportObjectsBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.exportObjectsBtn.Location = new System.Drawing.Point(42, 50);
-            this.exportObjectsBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.exportObjectsBtn.Name = "exportObjectsBtn";
-            this.exportObjectsBtn.Size = new System.Drawing.Size(193, 38);
-            this.exportObjectsBtn.TabIndex = 16;
-            this.exportObjectsBtn.Text = "Export objects";
-            this.exportObjectsBtn.UseVisualStyleBackColor = true;
-            this.exportObjectsBtn.Click += new System.EventHandler(this.exportObjectsBtn_Click);
             // 
             // devMode
             // 
@@ -4832,7 +4505,7 @@
             this.helpToolStripMenuItem});
             this.appMenuSettings.Location = new System.Drawing.Point(0, 0);
             this.appMenuSettings.Name = "appMenuSettings";
-            this.appMenuSettings.Size = new System.Drawing.Size(1145, 28);
+            this.appMenuSettings.Size = new System.Drawing.Size(1145, 30);
             this.appMenuSettings.TabIndex = 49;
             this.appMenuSettings.Text = "menuStrip1";
             // 
@@ -4847,7 +4520,7 @@
             this.compilerToolStripMenuItem,
             this.positionToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(64, 26);
             this.settingsToolStripMenuItem.Text = " Menu";
             // 
             // editorOnlineToolStripMenuItem
@@ -4858,7 +4531,7 @@
             this.quitLevelBtnMenu,
             this.refreshGameBtnMenu});
             this.editorOnlineToolStripMenuItem.Name = "editorOnlineToolStripMenuItem";
-            this.editorOnlineToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.editorOnlineToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.editorOnlineToolStripMenuItem.Text = "Level Menu";
             // 
             // startGameBtnMenu
@@ -4866,7 +4539,7 @@
             this.startGameBtnMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.levelStartTxtMenu});
             this.startGameBtnMenu.Name = "startGameBtnMenu";
-            this.startGameBtnMenu.Size = new System.Drawing.Size(224, 26);
+            this.startGameBtnMenu.Size = new System.Drawing.Size(141, 26);
             this.startGameBtnMenu.Text = "Start";
             this.startGameBtnMenu.Click += new System.EventHandler(this.startGameBtnMenu_Click);
             // 
@@ -4880,21 +4553,21 @@
             // restartLevelBtnMenu
             // 
             this.restartLevelBtnMenu.Name = "restartLevelBtnMenu";
-            this.restartLevelBtnMenu.Size = new System.Drawing.Size(224, 26);
+            this.restartLevelBtnMenu.Size = new System.Drawing.Size(141, 26);
             this.restartLevelBtnMenu.Text = "Restart";
             this.restartLevelBtnMenu.Click += new System.EventHandler(this.restartLevelBtn_Click);
             // 
             // quitLevelBtnMenu
             // 
             this.quitLevelBtnMenu.Name = "quitLevelBtnMenu";
-            this.quitLevelBtnMenu.Size = new System.Drawing.Size(224, 26);
+            this.quitLevelBtnMenu.Size = new System.Drawing.Size(141, 26);
             this.quitLevelBtnMenu.Text = "Quit";
             this.quitLevelBtnMenu.Click += new System.EventHandler(this.quitLevelBtn_Click);
             // 
             // refreshGameBtnMenu
             // 
             this.refreshGameBtnMenu.Name = "refreshGameBtnMenu";
-            this.refreshGameBtnMenu.Size = new System.Drawing.Size(224, 26);
+            this.refreshGameBtnMenu.Size = new System.Drawing.Size(141, 26);
             this.refreshGameBtnMenu.Text = "Refresh";
             this.refreshGameBtnMenu.Click += new System.EventHandler(this.refreshGame_Click);
             // 
@@ -4905,27 +4578,27 @@
             this.editorModeCb,
             this.liveEditorCb});
             this.selectEditorModeToolStripMenuItem.Name = "selectEditorModeToolStripMenuItem";
-            this.selectEditorModeToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.selectEditorModeToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.selectEditorModeToolStripMenuItem.Text = "Editor Mode";
             // 
             // playModeCb
             // 
             this.playModeCb.Name = "playModeCb";
-            this.playModeCb.Size = new System.Drawing.Size(224, 26);
+            this.playModeCb.Size = new System.Drawing.Size(162, 26);
             this.playModeCb.Text = "Play Mode";
             this.playModeCb.Click += new System.EventHandler(this.playModeCb_Click);
             // 
             // editorModeCb
             // 
             this.editorModeCb.Name = "editorModeCb";
-            this.editorModeCb.Size = new System.Drawing.Size(224, 26);
+            this.editorModeCb.Size = new System.Drawing.Size(162, 26);
             this.editorModeCb.Text = "Edit Mode";
             this.editorModeCb.Click += new System.EventHandler(this.editorModeCb_Click);
             // 
             // liveEditorCb
             // 
             this.liveEditorCb.Name = "liveEditorCb";
-            this.liveEditorCb.Size = new System.Drawing.Size(224, 26);
+            this.liveEditorCb.Size = new System.Drawing.Size(162, 26);
             this.liveEditorCb.Text = "Live Mode";
             this.liveEditorCb.Click += new System.EventHandler(this.liveEditorCb_Click);
             // 
@@ -4934,7 +4607,7 @@
             this.editorConnectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editorOnlineCb});
             this.editorConnectionToolStripMenuItem.Name = "editorConnectionToolStripMenuItem";
-            this.editorConnectionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.editorConnectionToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.editorConnectionToolStripMenuItem.Text = "Editor Connection";
             // 
             // editorOnlineCb
@@ -4942,7 +4615,7 @@
             this.editorOnlineCb.Checked = true;
             this.editorOnlineCb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.editorOnlineCb.Name = "editorOnlineCb";
-            this.editorOnlineCb.Size = new System.Drawing.Size(224, 26);
+            this.editorOnlineCb.Size = new System.Drawing.Size(135, 26);
             this.editorOnlineCb.Text = "Online";
             this.editorOnlineCb.Click += new System.EventHandler(this.editorOnlineCb_Click);
             // 
@@ -4952,7 +4625,7 @@
             this.startWindowedGameBtn,
             this.startFullScreenGameBtn});
             this.startGameToolStripMenuItem.Name = "startGameToolStripMenuItem";
-            this.startGameToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.startGameToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.startGameToolStripMenuItem.Text = "Start Game";
             // 
             // startWindowedGameBtn
@@ -4975,7 +4648,7 @@
             this.internalsStatusMenu,
             this.profileToolStripMenuItem});
             this.gameStatusToolStripMenuItem.Name = "gameStatusToolStripMenuItem";
-            this.gameStatusToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.gameStatusToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.gameStatusToolStripMenuItem.Text = "Game Status";
             // 
             // internalsStatusMenu
@@ -5019,7 +4692,7 @@
             this.compilerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.compilerTypeLbl});
             this.compilerToolStripMenuItem.Name = "compilerToolStripMenuItem";
-            this.compilerToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.compilerToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.compilerToolStripMenuItem.Text = "Compiler";
             // 
             // compilerTypeLbl
@@ -5035,20 +4708,20 @@
             this.posCoordCb,
             this.posMetersCb});
             this.positionToolStripMenuItem.Name = "positionToolStripMenuItem";
-            this.positionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.positionToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.positionToolStripMenuItem.Text = "Position";
             // 
             // posCoordCb
             // 
             this.posCoordCb.Name = "posCoordCb";
-            this.posCoordCb.Size = new System.Drawing.Size(224, 26);
+            this.posCoordCb.Size = new System.Drawing.Size(172, 26);
             this.posCoordCb.Text = "Coordinates";
             this.posCoordCb.Click += new System.EventHandler(this.posCoordCb_Click);
             // 
             // posMetersCb
             // 
             this.posMetersCb.Name = "posMetersCb";
-            this.posMetersCb.Size = new System.Drawing.Size(224, 26);
+            this.posMetersCb.Size = new System.Drawing.Size(172, 26);
             this.posMetersCb.Text = "Meter";
             this.posMetersCb.Click += new System.EventHandler(this.posMetersCb_Click);
             // 
@@ -5058,7 +4731,7 @@
             this.gameSettingsToolStripMenuItem,
             this.applicationSettingsToolStripMenuItem});
             this.appSettingsToolStripMenuItem.Name = "appSettingsToolStripMenuItem";
-            this.appSettingsToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
+            this.appSettingsToolStripMenuItem.Size = new System.Drawing.Size(76, 26);
             this.appSettingsToolStripMenuItem.Text = "Settings";
             // 
             // gameSettingsToolStripMenuItem
@@ -5074,52 +4747,6 @@
             this.gameSettingsToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.gameSettingsToolStripMenuItem.Text = "Game Settings";
             // 
-            // applicationSettingsToolStripMenuItem
-            // 
-            this.applicationSettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.logsToolStripMenuItem,
-            this.appdataToolStripMenuItem,
-            this.clearCacheToolStripMenuItem,
-            this.autoOptionsToolStripMenuItem,
-            this.compilerSelectToolStripMenuItem,
-            this.updateToolStripMenuItem,
-            this.supportToolStripMenuItem,
-            this.exportObjectsToolStripMenuItem});
-            this.applicationSettingsToolStripMenuItem.Name = "applicationSettingsToolStripMenuItem";
-            this.applicationSettingsToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
-            this.applicationSettingsToolStripMenuItem.Text = "Application Settings";
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem,
-            this.versionToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
-            // versionToolStripMenuItem
-            // 
-            this.versionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.versionLbl});
-            this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
-            this.versionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.versionToolStripMenuItem.Text = "Version";
-            // 
-            // versionLbl
-            // 
-            this.versionLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.versionLbl.Name = "versionLbl";
-            this.versionLbl.Size = new System.Drawing.Size(224, 27);
-            this.versionLbl.Text = "IGI-1.1";
-            // 
             // musicToolStripMenuItem
             // 
             this.musicToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -5132,7 +4759,7 @@
             // enableMusicCb
             // 
             this.enableMusicCb.Name = "enableMusicCb";
-            this.enableMusicCb.Size = new System.Drawing.Size(224, 26);
+            this.enableMusicCb.Size = new System.Drawing.Size(142, 26);
             this.enableMusicCb.Text = "Enable";
             this.enableMusicCb.Click += new System.EventHandler(this.enableMusicCb_CheckedChanged);
             // 
@@ -5142,7 +4769,7 @@
             this.musicVolumeUpdateBtn,
             this.sfxVolumeUpdateBtn});
             this.volumeToolStripMenuItem.Name = "volumeToolStripMenuItem";
-            this.volumeToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.volumeToolStripMenuItem.Size = new System.Drawing.Size(142, 26);
             this.volumeToolStripMenuItem.Text = "Volume";
             // 
             // musicVolumeUpdateBtn
@@ -5150,16 +4777,32 @@
             this.musicVolumeUpdateBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.musicVolumeUpdateTxt});
             this.musicVolumeUpdateBtn.Name = "musicVolumeUpdateBtn";
-            this.musicVolumeUpdateBtn.Size = new System.Drawing.Size(224, 26);
+            this.musicVolumeUpdateBtn.Size = new System.Drawing.Size(130, 26);
             this.musicVolumeUpdateBtn.Text = "Music";
+            // 
+            // musicVolumeUpdateTxt
+            // 
+            this.musicVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.musicVolumeUpdateTxt.Name = "musicVolumeUpdateTxt";
+            this.musicVolumeUpdateTxt.Size = new System.Drawing.Size(224, 27);
+            this.musicVolumeUpdateTxt.Text = "5.0";
+            this.musicVolumeUpdateTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.musicVolumeUpdateTxt_KeyDown);
             // 
             // sfxVolumeUpdateBtn
             // 
             this.sfxVolumeUpdateBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sfxVolumeUpdateTxt});
             this.sfxVolumeUpdateBtn.Name = "sfxVolumeUpdateBtn";
-            this.sfxVolumeUpdateBtn.Size = new System.Drawing.Size(224, 26);
+            this.sfxVolumeUpdateBtn.Size = new System.Drawing.Size(130, 26);
             this.sfxVolumeUpdateBtn.Text = "SFX";
+            // 
+            // sfxVolumeUpdateTxt
+            // 
+            this.sfxVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.sfxVolumeUpdateTxt.Name = "sfxVolumeUpdateTxt";
+            this.sfxVolumeUpdateTxt.Size = new System.Drawing.Size(224, 27);
+            this.sfxVolumeUpdateTxt.Text = "3.5";
+            this.sfxVolumeUpdateTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.sfxVolumeUpdateTxt_KeyDown);
             // 
             // setFramesBtn
             // 
@@ -5197,21 +4840,21 @@
             // gfxResetBtn
             // 
             this.gfxResetBtn.Name = "gfxResetBtn";
-            this.gfxResetBtn.Size = new System.Drawing.Size(224, 26);
+            this.gfxResetBtn.Size = new System.Drawing.Size(189, 26);
             this.gfxResetBtn.Text = "Graphics Reset";
             this.gfxResetBtn.Click += new System.EventHandler(this.gfxResetBtn_Click);
             // 
             // resetLevelBtn
             // 
             this.resetLevelBtn.Name = "resetLevelBtn";
-            this.resetLevelBtn.Size = new System.Drawing.Size(224, 26);
+            this.resetLevelBtn.Size = new System.Drawing.Size(189, 26);
             this.resetLevelBtn.Text = "Level Reset";
             this.resetLevelBtn.Click += new System.EventHandler(this.resetLevelBtn_Click);
             // 
             // resetScriptsFileBtn
             // 
             this.resetScriptsFileBtn.Name = "resetScriptsFileBtn";
-            this.resetScriptsFileBtn.Size = new System.Drawing.Size(224, 26);
+            this.resetScriptsFileBtn.Size = new System.Drawing.Size(189, 26);
             this.resetScriptsFileBtn.Text = "File Reset";
             this.resetScriptsFileBtn.Click += new System.EventHandler(this.resetScriptsFileBtn_Click);
             // 
@@ -5227,14 +4870,14 @@
             // configSaveBtn
             // 
             this.configSaveBtn.Name = "configSaveBtn";
-            this.configSaveBtn.Size = new System.Drawing.Size(224, 26);
+            this.configSaveBtn.Size = new System.Drawing.Size(125, 26);
             this.configSaveBtn.Text = "Save";
             this.configSaveBtn.Click += new System.EventHandler(this.configSaveBtn_Click);
             // 
             // configLoadBtn
             // 
             this.configLoadBtn.Name = "configLoadBtn";
-            this.configLoadBtn.Size = new System.Drawing.Size(224, 26);
+            this.configLoadBtn.Size = new System.Drawing.Size(125, 26);
             this.configLoadBtn.Text = "Load";
             this.configLoadBtn.Click += new System.EventHandler(this.configLoadBtn_Click);
             // 
@@ -5251,175 +4894,250 @@
             // disableWarningsCb
             // 
             this.disableWarningsCb.Name = "disableWarningsCb";
-            this.disableWarningsCb.Size = new System.Drawing.Size(224, 26);
+            this.disableWarningsCb.Size = new System.Drawing.Size(215, 26);
             this.disableWarningsCb.Text = "Disable Warnings";
             this.disableWarningsCb.Click += new System.EventHandler(this.disableWarningsCb_CheckedChanged);
             // 
             // cutsceneRemoveBtn
             // 
             this.cutsceneRemoveBtn.Name = "cutsceneRemoveBtn";
-            this.cutsceneRemoveBtn.Size = new System.Drawing.Size(224, 26);
+            this.cutsceneRemoveBtn.Size = new System.Drawing.Size(215, 26);
             this.cutsceneRemoveBtn.Text = "Remove Cutscenes";
             this.cutsceneRemoveBtn.Click += new System.EventHandler(this.cutsceneRemoveBtn_Click);
-            // 
-            // logsToolStripMenuItem
-            // 
-            this.logsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.enableToolStripMenuItem1,
-            this.shareToolStripMenuItem,
-            this.viewToolStripMenuItem});
-            this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            this.logsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.logsToolStripMenuItem.Text = "Logs";
-            // 
-            // enableToolStripMenuItem1
-            // 
-            this.enableToolStripMenuItem1.Name = "enableToolStripMenuItem1";
-            this.enableToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
-            this.enableToolStripMenuItem1.Text = "Enable";
-            // 
-            // shareToolStripMenuItem
-            // 
-            this.shareToolStripMenuItem.Name = "shareToolStripMenuItem";
-            this.shareToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.shareToolStripMenuItem.Text = "Share";
-            // 
-            // viewToolStripMenuItem
-            // 
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.viewToolStripMenuItem.Text = "View";
-            // 
-            // appdataToolStripMenuItem
-            // 
-            this.appdataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showPathToolStripMenuItem});
-            this.appdataToolStripMenuItem.Name = "appdataToolStripMenuItem";
-            this.appdataToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.appdataToolStripMenuItem.Text = "Appdata";
-            // 
-            // showPathToolStripMenuItem
-            // 
-            this.showPathToolStripMenuItem.Name = "showPathToolStripMenuItem";
-            this.showPathToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.showPathToolStripMenuItem.Text = "Show Path";
-            // 
-            // clearCacheToolStripMenuItem
-            // 
-            this.clearCacheToolStripMenuItem.Name = "clearCacheToolStripMenuItem";
-            this.clearCacheToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.clearCacheToolStripMenuItem.Text = "Clear Cache";
-            // 
-            // autoOptionsToolStripMenuItem
-            // 
-            this.autoOptionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.automaticResetLevelToolStripMenuItem,
-            this.automaticRefreshLevelToolStripMenuItem});
-            this.autoOptionsToolStripMenuItem.Name = "autoOptionsToolStripMenuItem";
-            this.autoOptionsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.autoOptionsToolStripMenuItem.Text = "Auto level options";
-            // 
-            // automaticResetLevelToolStripMenuItem
-            // 
-            this.automaticResetLevelToolStripMenuItem.Name = "automaticResetLevelToolStripMenuItem";
-            this.automaticResetLevelToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
-            this.automaticResetLevelToolStripMenuItem.Text = "Automatic reset level";
-            // 
-            // automaticRefreshLevelToolStripMenuItem
-            // 
-            this.automaticRefreshLevelToolStripMenuItem.Name = "automaticRefreshLevelToolStripMenuItem";
-            this.automaticRefreshLevelToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
-            this.automaticRefreshLevelToolStripMenuItem.Text = "Automatic refresh level";
-            // 
-            // updateToolStripMenuItem
-            // 
-            this.updateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manualToolStripMenuItem,
-            this.automaticToolStripMenuItem});
-            this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
-            this.updateToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.updateToolStripMenuItem.Text = "Update";
-            // 
-            // supportToolStripMenuItem
-            // 
-            this.supportToolStripMenuItem.Name = "supportToolStripMenuItem";
-            this.supportToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.supportToolStripMenuItem.Text = "Support";
-            // 
-            // compilerSelectToolStripMenuItem
-            // 
-            this.compilerSelectToolStripMenuItem.Name = "compilerSelectToolStripMenuItem";
-            this.compilerSelectToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.compilerSelectToolStripMenuItem.Text = "Compiler select";
-            // 
-            // manualToolStripMenuItem
-            // 
-            this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
-            this.manualToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.manualToolStripMenuItem.Text = "Manual";
-            // 
-            // automaticToolStripMenuItem
-            // 
-            this.automaticToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem5,
-            this.timeInMinutesToolStripMenuItem});
-            this.automaticToolStripMenuItem.Name = "automaticToolStripMenuItem";
-            this.automaticToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.automaticToolStripMenuItem.Text = "Automatic";
-            // 
-            // timeInMinutesToolStripMenuItem
-            // 
-            this.timeInMinutesToolStripMenuItem.Name = "timeInMinutesToolStripMenuItem";
-            this.timeInMinutesToolStripMenuItem.Size = new System.Drawing.Size(298, 26);
-            this.timeInMinutesToolStripMenuItem.Text = "Time in Minutes";
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(224, 27);
-            this.toolStripMenuItem5.Text = "15";
-            // 
-            // exportObjectsToolStripMenuItem
-            // 
-            this.exportObjectsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cSVToolStripMenuItem});
-            this.exportObjectsToolStripMenuItem.Name = "exportObjectsToolStripMenuItem";
-            this.exportObjectsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.exportObjectsToolStripMenuItem.Text = "Export Objects";
-            // 
-            // cSVToolStripMenuItem
-            // 
-            this.cSVToolStripMenuItem.Items.AddRange(new object[] {
-            "CSV",
-            "JSON",
-            "XML"});
-            this.cSVToolStripMenuItem.Name = "cSVToolStripMenuItem";
-            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
-            this.cSVToolStripMenuItem.Text = "CSV";
-            // 
-            // musicVolumeUpdateTxt
-            // 
-            this.musicVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.musicVolumeUpdateTxt.Name = "musicVolumeUpdateTxt";
-            this.musicVolumeUpdateTxt.Size = new System.Drawing.Size(224, 27);
-            this.musicVolumeUpdateTxt.Text = "5.0";
-            this.musicVolumeUpdateTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.musicVolumeUpdateTxt_KeyDown);
-            // 
-            // sfxVolumeUpdateTxt
-            // 
-            this.sfxVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.sfxVolumeUpdateTxt.Name = "sfxVolumeUpdateTxt";
-            this.sfxVolumeUpdateTxt.Size = new System.Drawing.Size(224, 27);
-            this.sfxVolumeUpdateTxt.Text = "3.5";
-            this.sfxVolumeUpdateTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.sfxVolumeUpdateTxt_KeyDown);
             // 
             // aiIdleCb
             // 
             this.aiIdleCb.Name = "aiIdleCb";
-            this.aiIdleCb.Size = new System.Drawing.Size(224, 26);
+            this.aiIdleCb.Size = new System.Drawing.Size(215, 26);
             this.aiIdleCb.Text = "Enemy Idle state";
             this.aiIdleCb.Click += new System.EventHandler(this.aiIdleCb_CheckedChanged);
+            // 
+            // applicationSettingsToolStripMenuItem
+            // 
+            this.applicationSettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.logsToolStripMenuItem,
+            this.appdataToolStripMenuItem,
+            this.autoOptionsToolStripMenuItem,
+            this.compilerSelectToolStripMenuItem,
+            this.updateToolStripMenuItem,
+            this.appSupportBtn,
+            this.exportObjectsToolStripMenuItem,
+            this.gamePathBtn});
+            this.applicationSettingsToolStripMenuItem.Name = "applicationSettingsToolStripMenuItem";
+            this.applicationSettingsToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
+            this.applicationSettingsToolStripMenuItem.Text = "Application Settings";
+            // 
+            // logsToolStripMenuItem
+            // 
+            this.logsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.appLogsCb,
+            this.shareAppLogsBtn,
+            this.viewAppLogsBtn});
+            this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
+            this.logsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.logsToolStripMenuItem.Text = "Logs";
+            // 
+            // appLogsCb
+            // 
+            this.appLogsCb.Name = "appLogsCb";
+            this.appLogsCb.Size = new System.Drawing.Size(137, 26);
+            this.appLogsCb.Text = "Enable";
+            this.appLogsCb.Click += new System.EventHandler(this.appLogsCb_CheckedChanged);
+            // 
+            // shareAppLogsBtn
+            // 
+            this.shareAppLogsBtn.Name = "shareAppLogsBtn";
+            this.shareAppLogsBtn.Size = new System.Drawing.Size(137, 26);
+            this.shareAppLogsBtn.Text = "Share";
+            this.shareAppLogsBtn.Click += new System.EventHandler(this.shareAppLogsBtn_Click);
+            // 
+            // viewAppLogsBtn
+            // 
+            this.viewAppLogsBtn.Name = "viewAppLogsBtn";
+            this.viewAppLogsBtn.Size = new System.Drawing.Size(137, 26);
+            this.viewAppLogsBtn.Text = "View";
+            this.viewAppLogsBtn.Click += new System.EventHandler(this.viewAppLogsBtn_Click);
+            // 
+            // appdataToolStripMenuItem
+            // 
+            this.appdataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showAppDataCachePathBtn,
+            this.clearCacheBtn});
+            this.appdataToolStripMenuItem.Name = "appdataToolStripMenuItem";
+            this.appdataToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.appdataToolStripMenuItem.Text = "Appdata";
+            // 
+            // showAppDataCachePathBtn
+            // 
+            this.showAppDataCachePathBtn.Name = "showAppDataCachePathBtn";
+            this.showAppDataCachePathBtn.Size = new System.Drawing.Size(224, 26);
+            this.showAppDataCachePathBtn.Text = "Show Path";
+            this.showAppDataCachePathBtn.Click += new System.EventHandler(this.showAppDataCachePathBtn_Click);
+            // 
+            // clearCacheBtn
+            // 
+            this.clearCacheBtn.Name = "clearCacheBtn";
+            this.clearCacheBtn.Size = new System.Drawing.Size(224, 26);
+            this.clearCacheBtn.Text = "Clear Cache";
+            this.clearCacheBtn.Click += new System.EventHandler(this.clearCacheBtn_Click);
+            // 
+            // autoOptionsToolStripMenuItem
+            // 
+            this.autoOptionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.autoResetCb,
+            this.autoRefreshGameCb});
+            this.autoOptionsToolStripMenuItem.Name = "autoOptionsToolStripMenuItem";
+            this.autoOptionsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.autoOptionsToolStripMenuItem.Text = "Auto level options";
+            // 
+            // autoResetCb
+            // 
+            this.autoResetCb.Name = "autoResetCb";
+            this.autoResetCb.Size = new System.Drawing.Size(245, 26);
+            this.autoResetCb.Text = "Automatic reset level";
+            this.autoResetCb.Click += new System.EventHandler(this.autoResetCb_CheckedChanged);
+            // 
+            // autoRefreshGameCb
+            // 
+            this.autoRefreshGameCb.Name = "autoRefreshGameCb";
+            this.autoRefreshGameCb.Size = new System.Drawing.Size(245, 26);
+            this.autoRefreshGameCb.Text = "Automatic refresh level";
+            this.autoRefreshGameCb.Click += new System.EventHandler(this.autoRefreshGameCb_CheckedChanged);
+            // 
+            // compilerSelectToolStripMenuItem
+            // 
+            this.compilerSelectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.internalCompilerCb,
+            this.externalCompilerCb});
+            this.compilerSelectToolStripMenuItem.Name = "compilerSelectToolStripMenuItem";
+            this.compilerSelectToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.compilerSelectToolStripMenuItem.Text = "Compiler select";
+            // 
+            // internalCompilerCb
+            // 
+            this.internalCompilerCb.Name = "internalCompilerCb";
+            this.internalCompilerCb.Size = new System.Drawing.Size(224, 26);
+            this.internalCompilerCb.Text = "Internal";
+            this.internalCompilerCb.Click += new System.EventHandler(this.internalCompilerCb_CheckedChanged);
+            // 
+            // externalCompilerCb
+            // 
+            this.externalCompilerCb.Name = "externalCompilerCb";
+            this.externalCompilerCb.Size = new System.Drawing.Size(224, 26);
+            this.externalCompilerCb.Text = "External";
+            this.externalCompilerCb.Click += new System.EventHandler(this.externalCompilerCb_CheckedChanged);
+            // 
+            // updateToolStripMenuItem
+            // 
+            this.updateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editorUpdaterBtn,
+            this.updateCheckerAutomaticOption});
+            this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
+            this.updateToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.updateToolStripMenuItem.Text = "Update";
+            // 
+            // editorUpdaterBtn
+            // 
+            this.editorUpdaterBtn.Name = "editorUpdaterBtn";
+            this.editorUpdaterBtn.Size = new System.Drawing.Size(224, 26);
+            this.editorUpdaterBtn.Text = "Manual";
+            this.editorUpdaterBtn.Click += new System.EventHandler(this.editorUpdaterBtn_Click);
+            // 
+            // updateCheckerAutomaticOption
+            // 
+            this.updateCheckerAutomaticOption.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.updateIntervalTxt,
+            this.updateCheckerCb});
+            this.updateCheckerAutomaticOption.Name = "updateCheckerAutomaticOption";
+            this.updateCheckerAutomaticOption.Size = new System.Drawing.Size(224, 26);
+            this.updateCheckerAutomaticOption.Text = "Automatic";
+            // 
+            // updateIntervalTxt
+            // 
+            this.updateIntervalTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.updateIntervalTxt.Name = "updateIntervalTxt";
+            this.updateIntervalTxt.Size = new System.Drawing.Size(224, 27);
+            this.updateIntervalTxt.Text = "15";
+            this.updateIntervalTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.updateIntervalTxt_KeyDown);
+            this.updateIntervalTxt.TextChanged += new System.EventHandler(this.updateIntervalTxt_TextChanged);
+            // 
+            // updateCheckerCb
+            // 
+            this.updateCheckerCb.Name = "updateCheckerCb";
+            this.updateCheckerCb.Size = new System.Drawing.Size(298, 26);
+            this.updateCheckerCb.Text = "Enable Timer";
+            this.updateCheckerCb.Click += new System.EventHandler(this.updateCheckerCb_Click);
+            // 
+            // appSupportBtn
+            // 
+            this.appSupportBtn.Name = "appSupportBtn";
+            this.appSupportBtn.Size = new System.Drawing.Size(224, 26);
+            this.appSupportBtn.Text = "Support";
+            this.appSupportBtn.Click += new System.EventHandler(this.appSupportBtn_Click);
+            // 
+            // exportObjectsToolStripMenuItem
+            // 
+            this.exportObjectsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportObjectsDD,
+            this.exportObjectsBtn});
+            this.exportObjectsToolStripMenuItem.Name = "exportObjectsToolStripMenuItem";
+            this.exportObjectsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exportObjectsToolStripMenuItem.Text = "Export Objects";
+            // 
+            // exportObjectsDD
+            // 
+            this.exportObjectsDD.Items.AddRange(new object[] {
+            "CSV",
+            "XML",
+            "JSON"});
+            this.exportObjectsDD.Name = "exportObjectsDD";
+            this.exportObjectsDD.Size = new System.Drawing.Size(224, 28);
+            this.exportObjectsDD.Text = "CSV";
+            // 
+            // gamePathBtn
+            // 
+            this.gamePathBtn.Name = "gamePathBtn";
+            this.gamePathBtn.Size = new System.Drawing.Size(224, 26);
+            this.gamePathBtn.Text = "Set Game path";
+            this.gamePathBtn.Click += new System.EventHandler(this.gamePathBtn_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem,
+            this.versionToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // versionToolStripMenuItem
+            // 
+            this.versionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.versionLbl});
+            this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
+            this.versionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.versionToolStripMenuItem.Text = "Version";
+            // 
+            // versionLbl
+            // 
+            this.versionLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.versionLbl.Name = "versionLbl";
+            this.versionLbl.Size = new System.Drawing.Size(224, 27);
+            this.versionLbl.Text = "IGI-1.1";
+            // 
+            // exportObjectsBtn
+            // 
+            this.exportObjectsBtn.Name = "exportObjectsBtn";
+            this.exportObjectsBtn.Size = new System.Drawing.Size(298, 26);
+            this.exportObjectsBtn.Text = "Export";
+            this.exportObjectsBtn.Click += new System.EventHandler(this.exportObjectsBtn_Click);
             // 
             // IGIEditorUI
             // 
@@ -5495,8 +5213,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.betaTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).EndInit();
             this.miscEditor.ResumeLayout(false);
-            this.miscEditor.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.updateIntervalTxtx)).EndInit();
             this.devMode.ResumeLayout(false);
             this.devMode.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).EndInit();
@@ -5532,9 +5248,6 @@
         private System.Windows.Forms.Button addBuildingBtn;
         private System.Windows.Forms.Button resume3DEditorBtn;
         private System.Windows.Forms.Button start3DEditorBtn;
-        private System.Windows.Forms.Button exportObjectsBtn;
-        private System.Windows.Forms.CheckBox appLogsCb;
-        private System.Windows.Forms.CheckBox autoResetCb;
         private System.Windows.Forms.TabPage weaponEditor;
         private System.Windows.Forms.Button installMissionBtn;
         private System.Windows.Forms.TextBox missionDescTxt;
@@ -5547,10 +5260,6 @@
         private System.Windows.Forms.ComboBox objectSelectDD;
         private System.Windows.Forms.ComboBox buildingSelectDD;
         private System.Windows.Forms.TabPage aiEditor;
-        private System.Windows.Forms.CheckBox xmlCb;
-        private System.Windows.Forms.CheckBox jsonCb;
-        private System.Windows.Forms.CheckBox csvCb;
-        private System.Windows.Forms.Button clearCacheBtn;
         private System.Windows.Forms.Button clearAllLvlBtn;
         private System.Windows.Forms.CheckBox posCurrentCb;
         private System.Windows.Forms.CheckBox posMeterCb;
@@ -5594,8 +5303,6 @@
         private System.Windows.Forms.Label peekTimeLbl;
         private System.Windows.Forms.Label peekCrouchLbl;
         private System.Windows.Forms.Label peekLRLbl;
-        private System.Windows.Forms.Button showAppLogBtn;
-        private System.Windows.Forms.Button appSupportBtn;
         private System.Windows.Forms.TabPage graphEditor;
         private System.Windows.Forms.TextBox graphAreaLbl;
         private System.Windows.Forms.ComboBox graphIdDD;
@@ -5653,11 +5360,7 @@
         private System.Windows.Forms.CheckBox graphsMarkCb;
         private System.Windows.Forms.Button refreshLinksBtn;
         private System.Windows.Forms.Button refreshNodesBtn;
-        private System.Windows.Forms.Button editorUpdaterBtn;
         private System.Windows.Forms.CheckBox showAllGraphsCb;
-        private System.Windows.Forms.CheckBox updateCheckerCb;
-        private System.Windows.Forms.NumericUpDown updateIntervalTxtx;
-        private System.Windows.Forms.Label minutesLbl;
         private System.Windows.Forms.TabPage devMode;
         private System.Windows.Forms.Button uploadUpdateBtn;
         private System.Windows.Forms.TextBox devVersionTxt;
@@ -5720,12 +5423,8 @@
         private System.Windows.Forms.TextBox aiFileSizeTxt;
         private System.Windows.Forms.TextBox aiJsonVersionTxt;
         private System.Windows.Forms.Button aiJsonSaveAiBtn;
-        private System.Windows.Forms.Button gamePathBtn;
         private System.Windows.Forms.Button saveAIBtn;
-        private System.Windows.Forms.CheckBox autoRefreshGameCb;
         private System.Windows.Forms.CheckBox aiJsonEditModeCb;
-        private System.Windows.Forms.CheckBox externalCompilerCb;
-        private System.Windows.Forms.CheckBox internalCompilerCb;
         private System.Windows.Forms.NumericUpDown buildingsResetTxt;
         private System.Windows.Forms.NumericUpDown objectsResetTxt;
         private System.Windows.Forms.NumericUpDown buildingsRemoveTxt;
@@ -5738,9 +5437,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown teamIdText;
         private System.Windows.Forms.Label teamIdLabel;
-        private System.Windows.Forms.CheckBox shareLogsCb;
-        private System.Windows.Forms.CheckBox viewLogsCb;
-        private System.Windows.Forms.Button showAppDataCachePathBtn;
         private System.Windows.Forms.TabControl weaponEditorTabs;
         private System.Windows.Forms.TabPage weaponEditorMainTab;
         private System.Windows.Forms.TabPage weaponCfgEditor;
@@ -5857,27 +5553,31 @@
         private System.Windows.Forms.ToolStripMenuItem disableWarningsCb;
         private System.Windows.Forms.ToolStripMenuItem cutsceneRemoveBtn;
         private System.Windows.Forms.ToolStripMenuItem logsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem enableToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem shareToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem appLogsCb;
+        private System.Windows.Forms.ToolStripMenuItem shareAppLogsBtn;
+        private System.Windows.Forms.ToolStripMenuItem viewAppLogsBtn;
         private System.Windows.Forms.ToolStripMenuItem appdataToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showPathToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clearCacheToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showAppDataCachePathBtn;
         private System.Windows.Forms.ToolStripMenuItem autoOptionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem automaticResetLevelToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem automaticRefreshLevelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem autoResetCb;
+        private System.Windows.Forms.ToolStripMenuItem autoRefreshGameCb;
         private System.Windows.Forms.ToolStripMenuItem compilerSelectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem manualToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem automaticToolStripMenuItem;
-        private System.Windows.Forms.ToolStripTextBox toolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem timeInMinutesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem supportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editorUpdaterBtn;
+        private System.Windows.Forms.ToolStripMenuItem updateCheckerAutomaticOption;
+        private System.Windows.Forms.ToolStripTextBox updateIntervalTxt;
+        private System.Windows.Forms.ToolStripMenuItem updateCheckerCb;
+        private System.Windows.Forms.ToolStripMenuItem appSupportBtn;
         private System.Windows.Forms.ToolStripMenuItem exportObjectsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripComboBox cSVToolStripMenuItem;
+        private System.Windows.Forms.ToolStripComboBox exportObjectsDD;
         private System.Windows.Forms.ToolStripTextBox musicVolumeUpdateTxt;
         private System.Windows.Forms.ToolStripTextBox sfxVolumeUpdateTxt;
         private System.Windows.Forms.ToolStripMenuItem aiIdleCb;
+        private System.Windows.Forms.ToolStripMenuItem internalCompilerCb;
+        private System.Windows.Forms.ToolStripMenuItem externalCompilerCb;
+        private System.Windows.Forms.ToolStripMenuItem clearCacheBtn;
+        private System.Windows.Forms.ToolStripMenuItem gamePathBtn;
+        private System.Windows.Forms.ToolStripMenuItem exportObjectsBtn;
     }
 }
 

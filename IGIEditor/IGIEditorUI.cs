@@ -988,8 +988,8 @@ namespace IGIEditor
                 autoResetCb.Checked = gameReset;
                 autoRefreshGameCb.Checked = gameRefresh;
                 editorOnlineCb.Checked = editorOnline;
-                updateIntervalTxtx.Text = updateTimeInterval.ToString();
-                updateCheckerCb.Checked = editorUpdateCheck;
+                updateIntervalTxt.Text = updateTimeInterval.ToString();
+                updateCheckerAutomaticOption.Checked = editorUpdateCheck;
                 internalCompilerCb.Checked = internalCompiler;
                 externalCompilerCb.Checked = externalCompiler;
 
@@ -1717,31 +1717,20 @@ namespace IGIEditor
         private void exportObjectsBtn_Click(object sender, EventArgs e)
         {
             var qtaskList = QTask.GetQTaskList(false, true);
-            if (csvCb.Checked)
-                QUtils.ExportCSV(QUtils.objects + QUtils.csvExt, qtaskList);
-            else if (xmlCb.Checked)
-                QUtils.ExportXML(QUtils.objects + QUtils.xmlExt);
-            else if (jsonCb.Checked)
-                QUtils.ExportJson(QUtils.objects + QUtils.jsonExt);
-            if (!csvCb.Checked && !xmlCb.Checked && !jsonCb.Checked)
-                QUtils.ShowError("Atleast one option should be selected for exporting data");
-            else
-                SetStatusText("Data exported success");
-        }
 
-        private void csvCb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (csvCb.Checked) xmlCb.Checked = jsonCb.Checked = false;
-        }
-
-        private void jsonCb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (jsonCb.Checked) xmlCb.Checked = csvCb.Checked = false;
-        }
-
-        private void xmlCb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (xmlCb.Checked) jsonCb.Checked = csvCb.Checked = false;
+            switch (exportObjectsDD.SelectedIndex)
+            {
+                case 0:
+                    QUtils.ExportCSV(QUtils.objects + QUtils.csvExt, qtaskList);
+                    break;
+                case 1:
+                    QUtils.ExportXML(QUtils.objects + QUtils.xmlExt);
+                    break;
+                case 2:
+                    QUtils.ExportJson(QUtils.objects + QUtils.jsonExt);
+                    break;
+            }
+            SetStatusText("Data exported success");
         }
 
         private void objectSelectDD_Click(object sender, EventArgs e)
@@ -1768,6 +1757,8 @@ namespace IGIEditor
 
         private void appLogsCb_CheckedChanged(object sender, EventArgs e)
         {
+            appLogsCb.Checked = !appLogsCb.Checked;
+
             if (appLogsCb.Checked)
             {
                 QUtils.appLogs = true;
@@ -1784,6 +1775,7 @@ namespace IGIEditor
 
         private void autoResetCb_CheckedChanged(object sender, EventArgs e)
         {
+            autoResetCb.Checked = !autoResetCb.Checked;
             if (autoResetCb.Checked)
             {
                 QUtils.gameReset = true;
@@ -2341,35 +2333,6 @@ namespace IGIEditor
             }
         }
 
-        private void showAppLogBtn_Click(object sender, EventArgs e)
-        {
-            string nppCmd = (QUtils.nppInstalled) ? "notepad++ -titleAdd=\"IGI Editor Logs\" -nosession -notabbar -alwaysOnTop -lcpp " : "notepad ";
-            var appLogFile = Path.GetFullPath(editorAppName + ".log");
-            string appLogPath = (File.Exists(appLogFile)) ? appLogFile : QUtils.cachePathAppLogs + editorAppName + ".log";
-
-            if (viewLogsCb.Checked)
-            {
-                if (File.Exists(appLogFile))
-                {
-                    QUtils.ShellExec(nppCmd + appLogFile, false, false);
-                    QUtils.ShowPathExplorer(QUtils.editorCurrPath);
-                }
-                else
-                {
-                    QUtils.ShellExec(nppCmd + QUtils.appLogFileTmp + editorAppName + ".log", false, false);
-                    QUtils.ShowPathExplorer(QUtils.cachePathAppLogs);
-                }
-            }
-            else if (shareLogsCb.Checked)
-            {
-                string mailToUrl = @"mailto:igiproz.hm@gmail.com?subject=IGI%20Editor%20Logs&body=Hi%2Ci%20have%20encountered%20error"
-                + @"%20while%20using%20editor%20please%20check%20the%20logs%20attached.%0D%0APlease%20attach%20the%20Logs%20file%20located%20at"
-                + @"%20'" + appLogPath + @"'%20location%20in%20the%20attachment%20to%20this%20email.";
-                QUtils.ShellExecUrl(mailToUrl);
-                QUtils.ShowWarning("Please attach the log file located at '" + appLogPath + "' with this email.");
-            }
-        }
-
         private void editorOnlineCb_CheckedChanged(object sender, EventArgs e)
         {
             if ((((CheckBox)sender).Checked))
@@ -2379,7 +2342,7 @@ namespace IGIEditor
                     editorOnline = true;
                     editorOnlineCb.Text = "Online";
                     editorOnlineCb.ForeColor = Green;
-                    downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = updateIntervalTxtx.Enabled = true;
+                    downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerAutomaticOption.Enabled = updateIntervalTxt.Enabled = true;
                     InitMissionsOnline(true);
                     SetStatusText("Editor online mode enabled...");
                 }
@@ -2389,7 +2352,7 @@ namespace IGIEditor
                     editorOnlineCb.Text = "Offline";
                     editorOnlineCb.ForeColor = Red;
                     (((CheckBox)sender).Checked) = false;
-                    downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = updateCheckerCb.Checked = updateIntervalTxtx.Enabled = false;
+                    downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerAutomaticOption.Enabled = updateCheckerAutomaticOption.Checked = updateIntervalTxt.Enabled = false;
                     SetStatusText("Please check your internet connection.");
                 }
             }
@@ -2398,7 +2361,7 @@ namespace IGIEditor
                 editorOnline = false;
                 editorOnlineCb.Text = "Offline";
                 editorOnlineCb.ForeColor = Red;
-                downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerCb.Enabled = updateCheckerCb.Checked = updateIntervalTxtx.Enabled = false;
+                downloadMissionBtn.Enabled = uploadMissionBtn.Enabled = missionsOnlineDD.Enabled = missionRefreshBtn.Enabled = editorUpdaterBtn.Enabled = updateCheckerAutomaticOption.Enabled = updateCheckerAutomaticOption.Checked = updateIntervalTxt.Enabled = false;
                 SetStatusText("Editor offline mode enabled...");
             }
         }
@@ -3393,29 +3356,9 @@ namespace IGIEditor
             catch (Exception ex) { QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex); }
         }
 
-        private void autoUpdateTimeTxt_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var updateTimeTxt = ((NumericUpDown)sender).Value.ToString();
-                QUtils.updateTimeInterval = Convert.ToInt32(updateTimeTxt);
-                //Check for Max Update time
-                if (QUtils.updateTimeInterval < 0 || QUtils.updateTimeInterval > MAX_UPDATE_TIME)
-                {
-                    ((NumericUpDown)sender).Value = QUtils.updateTimeInterval = 5;
-                }
-            }
-            catch (Exception ex)
-            {
-                QUtils.updateTimeInterval = MAX_UPDATE_TIME;
-                ((TextBox)sender).Text = QUtils.updateTimeInterval.ToString();
-                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
-            }
-        }
-
         private void updateCheckerCb_CheckedChanged(object sender, EventArgs e)
         {
-            if (((CheckBox)sender).Checked)
+            if (updateCheckerCb.Checked)
             {
                 var dlgResult = QUtils.ShowDialog("Do you want to check for new updates in every " + QUtils.updateTimeInterval + " minutes?");
                 if (dlgResult == DialogResult.Yes)
@@ -3425,7 +3368,7 @@ namespace IGIEditor
                     SetStatusText("Editor will check for update every " + QUtils.updateTimeInterval + " minutes");
                     QUtils.editorUpdateCheck = true;
                 }
-                else ((CheckBox)sender).Checked = false;
+                else updateCheckerCb.Checked = false;
             }
             else
             {
@@ -3438,21 +3381,6 @@ namespace IGIEditor
         private void editorUpdaterBtn_Click(object sender, EventArgs e)
         {
             downloadUpdaterWorker.RunWorkerAsync();
-        }
-
-        private void editorUpdaterBtn_MouseEnter(object sender, EventArgs e)
-        {
-            if (!editorOnline) SetStatusText("Turn on Editor online mode to use this feature");
-        }
-
-        private void updateCheckerCb_MouseEnter(object sender, EventArgs e)
-        {
-            if (!editorOnline) SetStatusText("Turn on Editor online mode to use this feature");
-        }
-
-        private void minutesLbl_MouseEnter(object sender, EventArgs e)
-        {
-            if (!editorOnline) SetStatusText("Turn on Editor online mode to use this feature");
         }
 
         internal void RichViewerUpdateFormat()
@@ -3976,8 +3904,9 @@ namespace IGIEditor
 
         private void autoRefreshGameCb_CheckedChanged(object sender, EventArgs e)
         {
+            autoRefreshGameCb.Checked = !autoRefreshGameCb.Checked;
             QUtils.gameRefresh = ((CheckBox)sender).Checked;
-            if (((CheckBox)sender).Checked)
+            if (autoRefreshGameCb.Checked)
             {
                 internalsAttachTimer.Start();
                 levelRunTimer.Start();
@@ -4003,25 +3932,25 @@ namespace IGIEditor
 
         private void internalCompilerCb_CheckedChanged(object sender, EventArgs e)
         {
-            if (((CheckBox)sender).Checked)
+            if (internalCompilerCb.Checked)
             {
                 var dlgResult = QUtils.ShowDialog("Do you want to change Compiler to Internal?\nCompiler - Internal [Fast]\nRequires - Internals.dll", "Select Game Compiler");
 
                 if (dlgResult == DialogResult.Yes)
                 {
-                    ((CheckBox)sender).Checked = QUtils.internalCompiler = true;
+                    internalCompilerCb.Checked = QUtils.internalCompiler = true;
                     externalCompilerCb.Checked = QUtils.externalCompiler = false;
                     SetStatusText("Compiler changed to internal.");
                     compilerTypeLbl.Text = "internal";
                 }
-                else ((CheckBox)sender).Checked = false;
+                else internalCompilerCb.Checked = false;
             }
-            else if (!externalCompilerCb.Checked) ((CheckBox)sender).Checked = true;
+            else if (!externalCompilerCb.Checked) internalCompilerCb.Checked = true;
         }
 
         private void externalCompilerCb_CheckedChanged(object sender, EventArgs e)
         {
-            if (((CheckBox)sender).Checked)
+            if (externalCompilerCb.Checked)
             {
                 var dlgResult = QUtils.ShowDialog("Do you want to change Compiler to External?\nCompiler - External [Slow]\nRequires - GConv/DConv Tools.", "Select Game Compiler");
 
@@ -4029,7 +3958,7 @@ namespace IGIEditor
                 {
                     if (QCompiler.CheckQCompilerExist())
                     {
-                        ((CheckBox)sender).Checked = QUtils.externalCompiler = true;
+                        externalCompilerCb.Checked = QUtils.externalCompiler = true;
                         internalCompilerCb.Checked = QUtils.internalCompiler = false;
                         SetStatusText("Compiler changed to external.");
                         compilerTypeLbl.Text = "external";
@@ -4037,12 +3966,12 @@ namespace IGIEditor
                     else
                     {
                         internalCompilerCb.Checked = QUtils.internalCompiler = true;
-                        ((CheckBox)sender).Checked = false;
+                        externalCompilerCb.Checked = false;
                     }
                 }
-                else ((CheckBox)sender).Checked = false;
+                else externalCompilerCb.Checked = false;
             }
-            else if (!internalCompilerCb.Checked) ((CheckBox)sender).Checked = true;
+            else if (!internalCompilerCb.Checked) externalCompilerCb.Checked = true;
         }
 
         private void resetScriptsFileBtn_Click(object sender, EventArgs e)
@@ -4170,16 +4099,6 @@ namespace IGIEditor
             teamIdText.Value = (aiFriendlyCb.Checked) ? TEAM_ID_FRIENDLY : TEAM_ID_ENEMY;
         }
 
-        private void shareLogsCb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((CheckBox)sender).Checked) viewLogsCb.Checked = false;
-        }
-
-        private void viewLogsCb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((CheckBox)sender).Checked) shareLogsCb.Checked = false;
-        }
-
         private void showAppDataCachePathBtn_Click(object sender, EventArgs e)
         {
             QUtils.ShowPathExplorer(QUtils.cachePath);
@@ -4281,7 +4200,7 @@ namespace IGIEditor
                            + "," + weapon.gunModel + "," + weapon.casingModel + "," + weapon.animStand + "," + weapon.animMove + "," + weapon.animFire1 + "," + weapon.animFire2 + "," + weapon.animFire3
                             + "," + weapon.animReload + "," + weapon.animUpperbodystand + "," + weapon.animUpperbodywalk + "," + weapon.animUpperbodycrouch + "," + weapon.animUpperbodycrouchrun
                             + "," + weapon.animUpperbodyrun + "," + weapon.animUpperbodyfire + "," + weapon.animUpperbodyreload + ",\"" + weapon.soundSingle + "\",\"" + weapon.soundLoop
-                            + "\"," + weapon.detectionRange + "," + weapon.projectileTaskType + "," + weapon.weaponTaskType + "," + weapon.emptyOnClear.ToString().ToUpper() + ((hasItemReal32) ? "," :  "),") + "\n";
+                            + "\"," + weapon.detectionRange + "," + weapon.projectileTaskType + "," + weapon.weaponTaskType + "," + weapon.emptyOnClear.ToString().ToUpper() + ((hasItemReal32) ? "," : "),") + "\n";
                     qscData = qscData.Remove(qtaskIndex, newlineIndex - qtaskIndex).Insert(qtaskIndex, objectTask);
                     break;
                 }
@@ -4424,7 +4343,7 @@ namespace IGIEditor
             {
                 weaponCfgDD.SelectedIndex = weaponDD.SelectedIndex;
             }
-            weaponCfgDD_SelectedIndexChanged(sender,e);
+            weaponCfgDD_SelectedIndexChanged(sender, e);
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4576,6 +4495,71 @@ namespace IGIEditor
             if (e.KeyCode == Keys.Enter)
             {
                 sfxVolumeUpdateBtn_Click(sender, e);
+            }
+        }
+
+        private void shareAppLogsBtn_Click(object sender, EventArgs e)
+        {
+            string nppCmd = (QUtils.nppInstalled) ? "notepad++ -titleAdd=\"IGI Editor Logs\" -nosession -notabbar -alwaysOnTop -lcpp " : "notepad ";
+            var appLogFile = Path.GetFullPath(editorAppName + ".log");
+            string appLogPath = (File.Exists(appLogFile)) ? appLogFile : QUtils.cachePathAppLogs + editorAppName + ".log";
+
+            string mailToUrl = @"mailto:igiproz.hm@gmail.com?subject=IGI%20Editor%20Logs&body=Hi%2Ci%20have%20encountered%20error"
+            + @"%20while%20using%20editor%20please%20check%20the%20logs%20attached.%0D%0APlease%20attach%20the%20Logs%20file%20located%20at"
+            + @"%20'" + appLogPath + @"'%20location%20in%20the%20attachment%20to%20this%20email.";
+            QUtils.ShellExecUrl(mailToUrl);
+            QUtils.ShowWarning("Please attach the log file located at '" + appLogPath + "' with this email.");
+        }
+
+        private void viewAppLogsBtn_Click(object sender, EventArgs e)
+        {
+            string nppCmd = (QUtils.nppInstalled) ? "notepad++ -titleAdd=\"IGI Editor Logs\" -nosession -notabbar -alwaysOnTop -lcpp " : "notepad ";
+            var appLogFile = Path.GetFullPath(editorAppName + ".log");
+            string appLogPath = (File.Exists(appLogFile)) ? appLogFile : QUtils.cachePathAppLogs + editorAppName + ".log";
+
+            if (File.Exists(appLogFile))
+            {
+                QUtils.ShellExec(nppCmd + appLogFile, false, false);
+                QUtils.ShowPathExplorer(QUtils.editorCurrPath);
+            }
+            else
+            {
+                QUtils.ShellExec(nppCmd + QUtils.appLogFileTmp + editorAppName + ".log", false, false);
+                QUtils.ShowPathExplorer(QUtils.cachePathAppLogs);
+            }
+
+        }
+
+        private void updateIntervalTxt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                updateCheckerCb_CheckedChanged(sender, e);
+            }
+        }
+
+        private void updateCheckerCb_Click(object sender, EventArgs e)
+        {
+            updateCheckerCb.Checked = !updateCheckerCb.Checked;
+        }
+
+        private void updateIntervalTxt_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var updateTimeTxt = updateIntervalTxt.ToString();
+                QUtils.updateTimeInterval = Convert.ToInt32(updateTimeTxt);
+                //Check for Max Update time
+                if (QUtils.updateTimeInterval < 0 || QUtils.updateTimeInterval > MAX_UPDATE_TIME)
+                {
+                    updateIntervalTxt.Text = "5"; QUtils.updateTimeInterval = 5;
+                }
+            }
+            catch (Exception ex)
+            {
+                QUtils.updateTimeInterval = MAX_UPDATE_TIME;
+                updateIntervalTxt.Text = QUtils.updateTimeInterval.ToString();
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
             }
         }
 
