@@ -3695,7 +3695,7 @@ namespace IGIEditor
                 //Reset before Load File.
                 aiJsonEditorTxt.Text = String.Empty;
                 aiJsonEditorTxt.Clear();
-                aiJsonEditorTxt.SelectionColor = White;
+                aiJsonEditorTxt.SelectionColor = Black;
                 aiJsonEditorTxt.SelectionFont = new Font("Arial", 10);
 
                 string aiJsonPath = QUtils.qedAiJsonPath;
@@ -4369,7 +4369,7 @@ namespace IGIEditor
                 addBuildingBtn.Text = "Add Building";
                 addObjectBtn.Text = "Add Object";
             }
-            removeWeaponBtn.Enabled = !((CheckBox)sender).Checked;
+            removeWeaponBtn.Enabled = !liveEditorCb.Checked;
         }
 
         private void editorOnlineCb_Click(object sender, EventArgs e)
@@ -4561,6 +4561,11 @@ namespace IGIEditor
                 updateIntervalTxt.Text = QUtils.updateTimeInterval.ToString();
                 QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
             }
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         private void graphsMarkCb_CheckedChanged(object sender, EventArgs e)

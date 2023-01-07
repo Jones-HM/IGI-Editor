@@ -43,15 +43,6 @@
             this.yPosLbl_M = new System.Windows.Forms.Label();
             this.xPosLbl_M = new System.Windows.Forms.Label();
             this.editorTabs = new System.Windows.Forms.TabControl();
-            this.levelEditor = new System.Windows.Forms.TabPage();
-            this.objectImgBox = new System.Windows.Forms.PictureBox();
-            this.clearAllLvlBtn = new System.Windows.Forms.Button();
-            this.objectSelectDD = new System.Windows.Forms.ComboBox();
-            this.buildingSelectDD = new System.Windows.Forms.ComboBox();
-            this.removeObjectBtn = new System.Windows.Forms.Button();
-            this.removeBuildingBtn = new System.Windows.Forms.Button();
-            this.addObjectBtn = new System.Windows.Forms.Button();
-            this.addBuildingBtn = new System.Windows.Forms.Button();
             this.objectEditor = new System.Windows.Forms.TabPage();
             this.modelIdOutLbl = new System.Windows.Forms.Label();
             this.modelNameTxt = new System.Windows.Forms.TextBox();
@@ -288,9 +279,6 @@
             this.xPosObjTxt = new System.Windows.Forms.TextBox();
             this.xPosLbl_O = new System.Windows.Forms.Label();
             this.updateObjPosition = new System.Windows.Forms.Button();
-            this.miscEditor = new System.Windows.Forms.TabPage();
-            this.gameSettingsLbl = new System.Windows.Forms.Label();
-            this.appSettingLbl = new System.Windows.Forms.Label();
             this.devMode = new System.Windows.Forms.TabPage();
             this.devAutoFormatCb = new System.Windows.Forms.CheckBox();
             this.devClearContentsCb = new System.Windows.Forms.CheckBox();
@@ -328,7 +316,6 @@
             this.gameProfileNameLbl = new System.Windows.Forms.ToolStripTextBox();
             this.gameProfileMissionLbl = new System.Windows.Forms.ToolStripMenuItem();
             this.compilerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.compilerTypeLbl = new System.Windows.Forms.ToolStripTextBox();
             this.positionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.posCoordCb = new System.Windows.Forms.ToolStripMenuItem();
             this.posMetersCb = new System.Windows.Forms.ToolStripMenuItem();
@@ -384,11 +371,19 @@
             this.versionLbl = new System.Windows.Forms.ToolStripTextBox();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
             this.exportObjectsBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.addBuildingBtn = new System.Windows.Forms.Button();
+            this.addObjectBtn = new System.Windows.Forms.Button();
+            this.removeBuildingBtn = new System.Windows.Forms.Button();
+            this.removeObjectBtn = new System.Windows.Forms.Button();
+            this.buildingSelectDD = new System.Windows.Forms.ComboBox();
+            this.objectSelectDD = new System.Windows.Forms.ComboBox();
+            this.clearAllLvlBtn = new System.Windows.Forms.Button();
+            this.objectImgBox = new System.Windows.Forms.PictureBox();
+            this.levelEditor = new System.Windows.Forms.TabPage();
+            this.compilerTypeLbl = new System.Windows.Forms.ToolStripMenuItem();
             this.editorMainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
-            this.levelEditor.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).BeginInit();
             this.objectEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buildingsResetTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.objectsResetTxt)).BeginInit();
@@ -435,10 +430,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.gammaTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.betaTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).BeginInit();
-            this.miscEditor.SuspendLayout();
             this.devMode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).BeginInit();
             this.appMenuSettings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).BeginInit();
+            this.levelEditor.SuspendLayout();
             this.SuspendLayout();
             // 
             // editorMainPanel
@@ -635,7 +631,6 @@
             this.editorTabs.Controls.Add(this.missionEditor);
             this.editorTabs.Controls.Add(this.graphEditor);
             this.editorTabs.Controls.Add(this.positionEditor);
-            this.editorTabs.Controls.Add(this.miscEditor);
             this.editorTabs.Controls.Add(this.devMode);
             this.editorTabs.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editorTabs.HotTrack = true;
@@ -650,130 +645,6 @@
             this.editorTabs.TabIndex = 6;
             this.infoViewer.SetToolTip(this.editorTabs, "\r\n");
             this.editorTabs.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabContainer_Selected);
-            // 
-            // levelEditor
-            // 
-            this.levelEditor.BackColor = System.Drawing.SystemColors.Control;
-            this.levelEditor.Controls.Add(this.objectImgBox);
-            this.levelEditor.Controls.Add(this.clearAllLvlBtn);
-            this.levelEditor.Controls.Add(this.objectSelectDD);
-            this.levelEditor.Controls.Add(this.buildingSelectDD);
-            this.levelEditor.Controls.Add(this.removeObjectBtn);
-            this.levelEditor.Controls.Add(this.removeBuildingBtn);
-            this.levelEditor.Controls.Add(this.addObjectBtn);
-            this.levelEditor.Controls.Add(this.addBuildingBtn);
-            this.levelEditor.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.levelEditor.Location = new System.Drawing.Point(4, 30);
-            this.levelEditor.Margin = new System.Windows.Forms.Padding(4);
-            this.levelEditor.Name = "levelEditor";
-            this.levelEditor.Padding = new System.Windows.Forms.Padding(4);
-            this.levelEditor.Size = new System.Drawing.Size(1137, 387);
-            this.levelEditor.TabIndex = 1;
-            this.levelEditor.Text = "Level Editor";
-            // 
-            // objectImgBox
-            // 
-            this.objectImgBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.objectImgBox.Location = new System.Drawing.Point(36, 46);
-            this.objectImgBox.Margin = new System.Windows.Forms.Padding(4);
-            this.objectImgBox.Name = "objectImgBox";
-            this.objectImgBox.Size = new System.Drawing.Size(199, 311);
-            this.objectImgBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.objectImgBox.TabIndex = 44;
-            this.objectImgBox.TabStop = false;
-            // 
-            // clearAllLvlBtn
-            // 
-            this.clearAllLvlBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clearAllLvlBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.clearAllLvlBtn.Location = new System.Drawing.Point(919, 173);
-            this.clearAllLvlBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.clearAllLvlBtn.Name = "clearAllLvlBtn";
-            this.clearAllLvlBtn.Size = new System.Drawing.Size(211, 31);
-            this.clearAllLvlBtn.TabIndex = 43;
-            this.clearAllLvlBtn.Text = "Clear level";
-            this.clearAllLvlBtn.UseVisualStyleBackColor = true;
-            this.clearAllLvlBtn.Click += new System.EventHandler(this.clearAllLevelBtn_Click);
-            // 
-            // objectSelectDD
-            // 
-            this.objectSelectDD.BackColor = System.Drawing.SystemColors.Control;
-            this.objectSelectDD.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.objectSelectDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.objectSelectDD.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.objectSelectDD.FormattingEnabled = true;
-            this.objectSelectDD.Location = new System.Drawing.Point(256, 107);
-            this.objectSelectDD.Name = "objectSelectDD";
-            this.objectSelectDD.Size = new System.Drawing.Size(419, 29);
-            this.objectSelectDD.TabIndex = 32;
-            this.objectSelectDD.SelectedIndexChanged += new System.EventHandler(this.objectSelectDD_SelectedIndexChanged);
-            this.objectSelectDD.Click += new System.EventHandler(this.objectSelectDD_Click);
-            // 
-            // buildingSelectDD
-            // 
-            this.buildingSelectDD.BackColor = System.Drawing.SystemColors.Control;
-            this.buildingSelectDD.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buildingSelectDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.buildingSelectDD.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.buildingSelectDD.FormattingEnabled = true;
-            this.buildingSelectDD.Location = new System.Drawing.Point(256, 46);
-            this.buildingSelectDD.Name = "buildingSelectDD";
-            this.buildingSelectDD.Size = new System.Drawing.Size(419, 29);
-            this.buildingSelectDD.TabIndex = 31;
-            this.buildingSelectDD.SelectedIndexChanged += new System.EventHandler(this.buildingSelectDD_SelectedIndexChanged);
-            this.buildingSelectDD.Click += new System.EventHandler(this.buildingSelectDD_Click);
-            // 
-            // removeObjectBtn
-            // 
-            this.removeObjectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.removeObjectBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.removeObjectBtn.Location = new System.Drawing.Point(919, 107);
-            this.removeObjectBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.removeObjectBtn.Name = "removeObjectBtn";
-            this.removeObjectBtn.Size = new System.Drawing.Size(211, 31);
-            this.removeObjectBtn.TabIndex = 20;
-            this.removeObjectBtn.Text = "Remove object";
-            this.removeObjectBtn.UseVisualStyleBackColor = true;
-            this.removeObjectBtn.Click += new System.EventHandler(this.removeObjectBtn_Click);
-            // 
-            // removeBuildingBtn
-            // 
-            this.removeBuildingBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.removeBuildingBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.removeBuildingBtn.Location = new System.Drawing.Point(919, 43);
-            this.removeBuildingBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.removeBuildingBtn.Name = "removeBuildingBtn";
-            this.removeBuildingBtn.Size = new System.Drawing.Size(210, 31);
-            this.removeBuildingBtn.TabIndex = 19;
-            this.removeBuildingBtn.Text = "Remove building";
-            this.removeBuildingBtn.UseVisualStyleBackColor = true;
-            this.removeBuildingBtn.Click += new System.EventHandler(this.removeBuildingBtn_Click);
-            // 
-            // addObjectBtn
-            // 
-            this.addObjectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.addObjectBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.addObjectBtn.Location = new System.Drawing.Point(702, 107);
-            this.addObjectBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.addObjectBtn.Name = "addObjectBtn";
-            this.addObjectBtn.Size = new System.Drawing.Size(210, 31);
-            this.addObjectBtn.TabIndex = 11;
-            this.addObjectBtn.Text = "Add object";
-            this.addObjectBtn.UseVisualStyleBackColor = true;
-            this.addObjectBtn.Click += new System.EventHandler(this.addObjectBtn_Click);
-            // 
-            // addBuildingBtn
-            // 
-            this.addBuildingBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.addBuildingBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.addBuildingBtn.Location = new System.Drawing.Point(702, 43);
-            this.addBuildingBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.addBuildingBtn.Name = "addBuildingBtn";
-            this.addBuildingBtn.Size = new System.Drawing.Size(210, 31);
-            this.addBuildingBtn.TabIndex = 8;
-            this.addBuildingBtn.Text = "Add building";
-            this.addBuildingBtn.UseVisualStyleBackColor = true;
-            this.addBuildingBtn.Click += new System.EventHandler(this.addBuildingBtn_Click);
             // 
             // objectEditor
             // 
@@ -2128,7 +1999,7 @@
             this.aiFileNameTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.aiFileNameTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.aiFileNameTxt.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.aiFileNameTxt.Location = new System.Drawing.Point(881, 36);
+            this.aiFileNameTxt.Location = new System.Drawing.Point(881, 45);
             this.aiFileNameTxt.Margin = new System.Windows.Forms.Padding(4);
             this.aiFileNameTxt.Name = "aiFileNameTxt";
             this.aiFileNameTxt.ReadOnly = true;
@@ -2141,7 +2012,7 @@
             this.aiFileSizeTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.aiFileSizeTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.aiFileSizeTxt.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.aiFileSizeTxt.Location = new System.Drawing.Point(881, 74);
+            this.aiFileSizeTxt.Location = new System.Drawing.Point(881, 83);
             this.aiFileSizeTxt.Margin = new System.Windows.Forms.Padding(4);
             this.aiFileSizeTxt.Name = "aiFileSizeTxt";
             this.aiFileSizeTxt.ReadOnly = true;
@@ -2154,7 +2025,7 @@
             this.aiJsonVersionTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.aiJsonVersionTxt.Font = new System.Drawing.Font("Century Gothic", 11F);
             this.aiJsonVersionTxt.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.aiJsonVersionTxt.Location = new System.Drawing.Point(881, -2);
+            this.aiJsonVersionTxt.Location = new System.Drawing.Point(881, 7);
             this.aiJsonVersionTxt.Margin = new System.Windows.Forms.Padding(4);
             this.aiJsonVersionTxt.Name = "aiJsonVersionTxt";
             this.aiJsonVersionTxt.Size = new System.Drawing.Size(223, 30);
@@ -4286,42 +4157,6 @@
             this.updateObjPosition.UseVisualStyleBackColor = true;
             this.updateObjPosition.Click += new System.EventHandler(this.updateObjPosition_Click);
             // 
-            // miscEditor
-            // 
-            this.miscEditor.BackColor = System.Drawing.SystemColors.Control;
-            this.miscEditor.Controls.Add(this.gameSettingsLbl);
-            this.miscEditor.Controls.Add(this.appSettingLbl);
-            this.miscEditor.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.miscEditor.Location = new System.Drawing.Point(4, 30);
-            this.miscEditor.Name = "miscEditor";
-            this.miscEditor.Size = new System.Drawing.Size(1137, 387);
-            this.miscEditor.TabIndex = 6;
-            this.miscEditor.Text = "Misc";
-            // 
-            // gameSettingsLbl
-            // 
-            this.gameSettingsLbl.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gameSettingsLbl.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.gameSettingsLbl.Location = new System.Drawing.Point(511, 12);
-            this.gameSettingsLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.gameSettingsLbl.Name = "gameSettingsLbl";
-            this.gameSettingsLbl.Size = new System.Drawing.Size(398, 33);
-            this.gameSettingsLbl.TabIndex = 40;
-            this.gameSettingsLbl.Text = "Game Settings";
-            this.gameSettingsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // appSettingLbl
-            // 
-            this.appSettingLbl.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.appSettingLbl.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.appSettingLbl.Location = new System.Drawing.Point(42, 12);
-            this.appSettingLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.appSettingLbl.Name = "appSettingLbl";
-            this.appSettingLbl.Size = new System.Drawing.Size(398, 33);
-            this.appSettingLbl.TabIndex = 40;
-            this.appSettingLbl.Text = "Application Settings";
-            this.appSettingLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // devMode
             // 
             this.devMode.BackColor = System.Drawing.SystemColors.Control;
@@ -4505,7 +4340,7 @@
             this.helpToolStripMenuItem});
             this.appMenuSettings.Location = new System.Drawing.Point(0, 0);
             this.appMenuSettings.Name = "appMenuSettings";
-            this.appMenuSettings.Size = new System.Drawing.Size(1145, 30);
+            this.appMenuSettings.Size = new System.Drawing.Size(1145, 28);
             this.appMenuSettings.TabIndex = 49;
             this.appMenuSettings.Text = "menuStrip1";
             // 
@@ -4520,7 +4355,7 @@
             this.compilerToolStripMenuItem,
             this.positionToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(64, 26);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
             this.settingsToolStripMenuItem.Text = " Menu";
             // 
             // editorOnlineToolStripMenuItem
@@ -4531,7 +4366,7 @@
             this.quitLevelBtnMenu,
             this.refreshGameBtnMenu});
             this.editorOnlineToolStripMenuItem.Name = "editorOnlineToolStripMenuItem";
-            this.editorOnlineToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.editorOnlineToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.editorOnlineToolStripMenuItem.Text = "Level Menu";
             // 
             // startGameBtnMenu
@@ -4578,27 +4413,27 @@
             this.editorModeCb,
             this.liveEditorCb});
             this.selectEditorModeToolStripMenuItem.Name = "selectEditorModeToolStripMenuItem";
-            this.selectEditorModeToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.selectEditorModeToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.selectEditorModeToolStripMenuItem.Text = "Editor Mode";
             // 
             // playModeCb
             // 
             this.playModeCb.Name = "playModeCb";
-            this.playModeCb.Size = new System.Drawing.Size(162, 26);
+            this.playModeCb.Size = new System.Drawing.Size(224, 26);
             this.playModeCb.Text = "Play Mode";
             this.playModeCb.Click += new System.EventHandler(this.playModeCb_Click);
             // 
             // editorModeCb
             // 
             this.editorModeCb.Name = "editorModeCb";
-            this.editorModeCb.Size = new System.Drawing.Size(162, 26);
+            this.editorModeCb.Size = new System.Drawing.Size(224, 26);
             this.editorModeCb.Text = "Edit Mode";
             this.editorModeCb.Click += new System.EventHandler(this.editorModeCb_Click);
             // 
             // liveEditorCb
             // 
             this.liveEditorCb.Name = "liveEditorCb";
-            this.liveEditorCb.Size = new System.Drawing.Size(162, 26);
+            this.liveEditorCb.Size = new System.Drawing.Size(224, 26);
             this.liveEditorCb.Text = "Live Mode";
             this.liveEditorCb.Click += new System.EventHandler(this.liveEditorCb_Click);
             // 
@@ -4607,7 +4442,7 @@
             this.editorConnectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editorOnlineCb});
             this.editorConnectionToolStripMenuItem.Name = "editorConnectionToolStripMenuItem";
-            this.editorConnectionToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.editorConnectionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.editorConnectionToolStripMenuItem.Text = "Editor Connection";
             // 
             // editorOnlineCb
@@ -4625,7 +4460,7 @@
             this.startWindowedGameBtn,
             this.startFullScreenGameBtn});
             this.startGameToolStripMenuItem.Name = "startGameToolStripMenuItem";
-            this.startGameToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.startGameToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.startGameToolStripMenuItem.Text = "Start Game";
             // 
             // startWindowedGameBtn
@@ -4648,7 +4483,7 @@
             this.internalsStatusMenu,
             this.profileToolStripMenuItem});
             this.gameStatusToolStripMenuItem.Name = "gameStatusToolStripMenuItem";
-            this.gameStatusToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.gameStatusToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.gameStatusToolStripMenuItem.Text = "Game Status";
             // 
             // internalsStatusMenu
@@ -4692,15 +4527,8 @@
             this.compilerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.compilerTypeLbl});
             this.compilerToolStripMenuItem.Name = "compilerToolStripMenuItem";
-            this.compilerToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.compilerToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.compilerToolStripMenuItem.Text = "Compiler";
-            // 
-            // compilerTypeLbl
-            // 
-            this.compilerTypeLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.compilerTypeLbl.Name = "compilerTypeLbl";
-            this.compilerTypeLbl.Size = new System.Drawing.Size(224, 27);
-            this.compilerTypeLbl.Text = "Internal";
             // 
             // positionToolStripMenuItem
             // 
@@ -4708,20 +4536,22 @@
             this.posCoordCb,
             this.posMetersCb});
             this.positionToolStripMenuItem.Name = "positionToolStripMenuItem";
-            this.positionToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.positionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.positionToolStripMenuItem.Text = "Position";
             // 
             // posCoordCb
             // 
+            this.posCoordCb.Checked = true;
+            this.posCoordCb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.posCoordCb.Name = "posCoordCb";
-            this.posCoordCb.Size = new System.Drawing.Size(172, 26);
+            this.posCoordCb.Size = new System.Drawing.Size(224, 26);
             this.posCoordCb.Text = "Coordinates";
             this.posCoordCb.Click += new System.EventHandler(this.posCoordCb_Click);
             // 
             // posMetersCb
             // 
             this.posMetersCb.Name = "posMetersCb";
-            this.posMetersCb.Size = new System.Drawing.Size(172, 26);
+            this.posMetersCb.Size = new System.Drawing.Size(224, 26);
             this.posMetersCb.Text = "Meter";
             this.posMetersCb.Click += new System.EventHandler(this.posMetersCb_Click);
             // 
@@ -4731,7 +4561,7 @@
             this.gameSettingsToolStripMenuItem,
             this.applicationSettingsToolStripMenuItem});
             this.appSettingsToolStripMenuItem.Name = "appSettingsToolStripMenuItem";
-            this.appSettingsToolStripMenuItem.Size = new System.Drawing.Size(76, 26);
+            this.appSettingsToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
             this.appSettingsToolStripMenuItem.Text = "Settings";
             // 
             // gameSettingsToolStripMenuItem
@@ -5107,7 +4937,7 @@
             this.aboutToolStripMenuItem,
             this.versionToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
@@ -5139,6 +4969,136 @@
             this.exportObjectsBtn.Text = "Export";
             this.exportObjectsBtn.Click += new System.EventHandler(this.exportObjectsBtn_Click);
             // 
+            // addBuildingBtn
+            // 
+            this.addBuildingBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addBuildingBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.addBuildingBtn.Location = new System.Drawing.Point(702, 43);
+            this.addBuildingBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.addBuildingBtn.Name = "addBuildingBtn";
+            this.addBuildingBtn.Size = new System.Drawing.Size(210, 31);
+            this.addBuildingBtn.TabIndex = 8;
+            this.addBuildingBtn.Text = "Add building";
+            this.addBuildingBtn.UseVisualStyleBackColor = true;
+            this.addBuildingBtn.Click += new System.EventHandler(this.addBuildingBtn_Click);
+            // 
+            // addObjectBtn
+            // 
+            this.addObjectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addObjectBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.addObjectBtn.Location = new System.Drawing.Point(702, 107);
+            this.addObjectBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.addObjectBtn.Name = "addObjectBtn";
+            this.addObjectBtn.Size = new System.Drawing.Size(210, 31);
+            this.addObjectBtn.TabIndex = 11;
+            this.addObjectBtn.Text = "Add object";
+            this.addObjectBtn.UseVisualStyleBackColor = true;
+            this.addObjectBtn.Click += new System.EventHandler(this.addObjectBtn_Click);
+            // 
+            // removeBuildingBtn
+            // 
+            this.removeBuildingBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.removeBuildingBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.removeBuildingBtn.Location = new System.Drawing.Point(919, 43);
+            this.removeBuildingBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.removeBuildingBtn.Name = "removeBuildingBtn";
+            this.removeBuildingBtn.Size = new System.Drawing.Size(210, 31);
+            this.removeBuildingBtn.TabIndex = 19;
+            this.removeBuildingBtn.Text = "Remove building";
+            this.removeBuildingBtn.UseVisualStyleBackColor = true;
+            this.removeBuildingBtn.Click += new System.EventHandler(this.removeBuildingBtn_Click);
+            // 
+            // removeObjectBtn
+            // 
+            this.removeObjectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.removeObjectBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.removeObjectBtn.Location = new System.Drawing.Point(919, 107);
+            this.removeObjectBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.removeObjectBtn.Name = "removeObjectBtn";
+            this.removeObjectBtn.Size = new System.Drawing.Size(211, 31);
+            this.removeObjectBtn.TabIndex = 20;
+            this.removeObjectBtn.Text = "Remove object";
+            this.removeObjectBtn.UseVisualStyleBackColor = true;
+            this.removeObjectBtn.Click += new System.EventHandler(this.removeObjectBtn_Click);
+            // 
+            // buildingSelectDD
+            // 
+            this.buildingSelectDD.BackColor = System.Drawing.SystemColors.Control;
+            this.buildingSelectDD.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buildingSelectDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.buildingSelectDD.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.buildingSelectDD.FormattingEnabled = true;
+            this.buildingSelectDD.Location = new System.Drawing.Point(256, 46);
+            this.buildingSelectDD.Name = "buildingSelectDD";
+            this.buildingSelectDD.Size = new System.Drawing.Size(419, 29);
+            this.buildingSelectDD.TabIndex = 31;
+            this.buildingSelectDD.SelectedIndexChanged += new System.EventHandler(this.buildingSelectDD_SelectedIndexChanged);
+            this.buildingSelectDD.Click += new System.EventHandler(this.buildingSelectDD_Click);
+            // 
+            // objectSelectDD
+            // 
+            this.objectSelectDD.BackColor = System.Drawing.SystemColors.Control;
+            this.objectSelectDD.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.objectSelectDD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.objectSelectDD.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.objectSelectDD.FormattingEnabled = true;
+            this.objectSelectDD.Location = new System.Drawing.Point(256, 107);
+            this.objectSelectDD.Name = "objectSelectDD";
+            this.objectSelectDD.Size = new System.Drawing.Size(419, 29);
+            this.objectSelectDD.TabIndex = 32;
+            this.objectSelectDD.SelectedIndexChanged += new System.EventHandler(this.objectSelectDD_SelectedIndexChanged);
+            this.objectSelectDD.Click += new System.EventHandler(this.objectSelectDD_Click);
+            // 
+            // clearAllLvlBtn
+            // 
+            this.clearAllLvlBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clearAllLvlBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.clearAllLvlBtn.Location = new System.Drawing.Point(919, 173);
+            this.clearAllLvlBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.clearAllLvlBtn.Name = "clearAllLvlBtn";
+            this.clearAllLvlBtn.Size = new System.Drawing.Size(211, 31);
+            this.clearAllLvlBtn.TabIndex = 43;
+            this.clearAllLvlBtn.Text = "Clear level";
+            this.clearAllLvlBtn.UseVisualStyleBackColor = true;
+            this.clearAllLvlBtn.Click += new System.EventHandler(this.clearAllLevelBtn_Click);
+            // 
+            // objectImgBox
+            // 
+            this.objectImgBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.objectImgBox.Location = new System.Drawing.Point(36, 46);
+            this.objectImgBox.Margin = new System.Windows.Forms.Padding(4);
+            this.objectImgBox.Name = "objectImgBox";
+            this.objectImgBox.Size = new System.Drawing.Size(199, 311);
+            this.objectImgBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.objectImgBox.TabIndex = 44;
+            this.objectImgBox.TabStop = false;
+            // 
+            // levelEditor
+            // 
+            this.levelEditor.BackColor = System.Drawing.SystemColors.Control;
+            this.levelEditor.Controls.Add(this.objectImgBox);
+            this.levelEditor.Controls.Add(this.clearAllLvlBtn);
+            this.levelEditor.Controls.Add(this.objectSelectDD);
+            this.levelEditor.Controls.Add(this.buildingSelectDD);
+            this.levelEditor.Controls.Add(this.removeObjectBtn);
+            this.levelEditor.Controls.Add(this.removeBuildingBtn);
+            this.levelEditor.Controls.Add(this.addObjectBtn);
+            this.levelEditor.Controls.Add(this.addBuildingBtn);
+            this.levelEditor.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.levelEditor.Location = new System.Drawing.Point(4, 30);
+            this.levelEditor.Margin = new System.Windows.Forms.Padding(4);
+            this.levelEditor.Name = "levelEditor";
+            this.levelEditor.Padding = new System.Windows.Forms.Padding(4);
+            this.levelEditor.Size = new System.Drawing.Size(1137, 387);
+            this.levelEditor.TabIndex = 1;
+            this.levelEditor.Text = "Level Editor";
+            // 
+            // compilerTypeLbl
+            // 
+            this.compilerTypeLbl.Name = "compilerTypeLbl";
+            this.compilerTypeLbl.Size = new System.Drawing.Size(224, 26);
+            this.compilerTypeLbl.Text = "Internal";
+            // 
             // IGIEditorUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -5146,18 +5106,17 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1147, 741);
             this.Controls.Add(this.editorMainPanel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.appMenuSettings;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "IGIEditorUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "IGI 1 Editor ";
+            this.Text = "IGI 1 Editor - HM@2022";
             this.editorMainPanel.ResumeLayout(false);
             this.editorMainPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).EndInit();
             this.editorTabs.ResumeLayout(false);
-            this.levelEditor.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).EndInit();
             this.objectEditor.ResumeLayout(false);
             this.objectEditor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buildingsResetTxt)).EndInit();
@@ -5212,12 +5171,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.gammaTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.betaTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).EndInit();
-            this.miscEditor.ResumeLayout(false);
             this.devMode.ResumeLayout(false);
             this.devMode.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).EndInit();
             this.appMenuSettings.ResumeLayout(false);
             this.appMenuSettings.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).EndInit();
+            this.levelEditor.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -5227,12 +5187,10 @@
         private System.Windows.Forms.Panel editorMainPanel;
         private System.Windows.Forms.TabControl editorTabs;
         private System.Windows.Forms.TabPage objectEditor;
-        private System.Windows.Forms.TabPage levelEditor;
         private System.Windows.Forms.TabPage humanEditor;
         private System.Windows.Forms.TabPage threeDEditor;
         private System.Windows.Forms.TabPage missionEditor;
         private System.Windows.Forms.TabPage positionEditor;
-        private System.Windows.Forms.TabPage miscEditor;
         private System.Windows.Forms.TextBox modelIDTxt;
         private System.Windows.Forms.Label modelIdLbl;
         private System.Windows.Forms.Button removeModelBtn;
@@ -5242,10 +5200,6 @@
         private System.Windows.Forms.Button resetBuildingsBtn;
         private System.Windows.Forms.Button resetObjectsBtn;
         private System.Windows.Forms.Label modelNameOutLbl;
-        private System.Windows.Forms.Button removeObjectBtn;
-        private System.Windows.Forms.Button removeBuildingBtn;
-        private System.Windows.Forms.Button addObjectBtn;
-        private System.Windows.Forms.Button addBuildingBtn;
         private System.Windows.Forms.Button resume3DEditorBtn;
         private System.Windows.Forms.Button start3DEditorBtn;
         private System.Windows.Forms.TabPage weaponEditor;
@@ -5257,10 +5211,7 @@
         private System.Windows.Forms.Label missionNameLbl;
         private System.Windows.Forms.Button loadMissionBtn;
         private System.Windows.Forms.Button saveMissionBtn;
-        private System.Windows.Forms.ComboBox objectSelectDD;
-        private System.Windows.Forms.ComboBox buildingSelectDD;
         private System.Windows.Forms.TabPage aiEditor;
-        private System.Windows.Forms.Button clearAllLvlBtn;
         private System.Windows.Forms.CheckBox posCurrentCb;
         private System.Windows.Forms.CheckBox posMeterCb;
         private System.Windows.Forms.CheckBox posOffCb;
@@ -5332,7 +5283,6 @@
         private System.Windows.Forms.CheckBox missionLevelFlowTimerCb;
         private System.Windows.Forms.Button teleportToGraphBtn;
         private System.Windows.Forms.CheckBox autoTeleportGraphCb;
-        private System.Windows.Forms.PictureBox objectImgBox;
         private System.Windows.Forms.CheckBox manualTeleportGraphCb;
         private System.Windows.Forms.CheckBox manualTeleportNodeCb;
         private System.Windows.Forms.Button downloadMissionBtn;
@@ -5350,8 +5300,6 @@
         private System.Windows.Forms.Label humanViewCamLbl;
         private System.Windows.Forms.Button restoreModelBtn;
         private System.Windows.Forms.CheckBox resetPosCb;
-        private System.Windows.Forms.Label gameSettingsLbl;
-        private System.Windows.Forms.Label appSettingLbl;
         private System.Windows.Forms.Button addLinksBtn;
         private System.Windows.Forms.Button removeLinksBtn;
         private System.Windows.Forms.Button removeNodesBtn;
@@ -5523,7 +5471,6 @@
         private System.Windows.Forms.ToolStripTextBox versionLbl;
         private System.Windows.Forms.ToolStripMenuItem gameStatusToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem compilerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripTextBox compilerTypeLbl;
         private System.Windows.Forms.ToolStripMenuItem profileToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox gameProfileNameLbl;
         private System.Windows.Forms.ToolStripMenuItem liveEditorCb;
@@ -5578,6 +5525,16 @@
         private System.Windows.Forms.ToolStripMenuItem clearCacheBtn;
         private System.Windows.Forms.ToolStripMenuItem gamePathBtn;
         private System.Windows.Forms.ToolStripMenuItem exportObjectsBtn;
+        private System.Windows.Forms.TabPage levelEditor;
+        private System.Windows.Forms.PictureBox objectImgBox;
+        private System.Windows.Forms.Button clearAllLvlBtn;
+        private System.Windows.Forms.ComboBox objectSelectDD;
+        private System.Windows.Forms.ComboBox buildingSelectDD;
+        private System.Windows.Forms.Button removeObjectBtn;
+        private System.Windows.Forms.Button removeBuildingBtn;
+        private System.Windows.Forms.Button addObjectBtn;
+        private System.Windows.Forms.Button addBuildingBtn;
+        private System.Windows.Forms.ToolStripMenuItem compilerTypeLbl;
     }
 }
 
