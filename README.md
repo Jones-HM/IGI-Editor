@@ -126,10 +126,10 @@ This editor only offers _3 Levels_, and some features are disabled at the moment
 **QCompiler editor**: Lets you `Compile/Assemble/Parse` game files which game uses internaly to save/edit game data.</br>
 
 # Editor Tutorial on YouTube :
-[![QEditor](https://img.youtube.com/vi/zH0a8Ma_tQ8/0.jpg)](https://www.youtube.com/watch?v=zH0a8Ma_tQ8)
+[![QEditor](https://img.youtube.com/vi/wMyAlgIm2AY/0.jpg)](https://www.youtube.com/watch?v=wMyAlgIm2AY)
 
 ## Version Update:
-**Editor version 0.7.0.0 Latest.**
+**Editor version 0.7.1.0 Latest.**
 
 ## Full version of Editor.
 If you're a developer and know how to build this tool by yourself then you could figure our the _MAX_LEVEL_ constant defined in editor to unlock the full version. Good Luck.
@@ -139,8 +139,8 @@ The editor onwards version 0.7 doesn't store any type of data from _User,Machine
 
 
 # **DOWNLOAD LINKS**</br>
-- **Project I.G.I 1 Editor** Version 0.7.0.0 _RELEASED_</br>
-[IGI1Editor_0.7_Setup](https://cutt.ly/11GUGGO)</br>
+- **Project I.G.I 1 Editor** Version 0.7.1.0 _RELEASED_</br>
+[IGI1Editor_0.7_Setup](https://cutt.ly/L2mIxfi)</br>
 
 If you encounter any issues with Editor just contact me at</br>
 
