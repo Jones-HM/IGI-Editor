@@ -117,36 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="gameIconBtn.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
-        cQAAEnEB89x6jgAAAyhJREFUaEPtV1uSozAMzEduxJ18J+7EnbJqWW1kIxtnajNMquiqrgHr4W5hyO7j
-        k0jb8rLL78Rt4GrcBq7GbeAKQHSPlvL30BMZ3Ud5/wUvg91WsNAhRjFRDKDQKK5FBlsqsOW3asomUTCK
-        teJ8jJgxwBwCa3YZohtHALDbChYqMb8p132cmIkBUb8euvFRIWP4204MYLwFcnsxDRhw35oA7LZCb30K
-        kfgRPp1fkNYkkz2npRdEOT+htVNE8YiWnrFt26vH1Zi29QWjVqIbRfmeq9SwfsRl3SePmqgXWGrWWos+
-        AU2QQESIXdLyWpa8EcWvq6erkTylX+sQfdqJqvEgl4SO5/M5MlAL0umLARQhl1M4Mq8jT3PVRC93J/aG
-        DooaG5Dc5VEZVgO1qGZTaVhEnRhIKZVckL2wrk9FBgFjak6utc4MQBiO09kTQF/NJ04NCLVINugasDUv
-        Hr0hGk9Pj5/UlxjECmlK3wMaqPZv99pK74LxVDO5YZyb7xH34oEcswmfITRwZGxgUJSE2hyPv2dAYq14
-        gGtcxwvb+4LRAK7r/jWrPfDjoU1FGM6pfm085RFXlA2QRzKvFRqh9Aj6oxcMlEFFWjxVt31+IT67jgjX
-        Nh1s1EyPeUs6Hh8gmvbeG+Rk89mGOM3RFznIldhhSLsBNsvE0QFxXQyER0jO/8DA2ftFco+eFl5PG9gp
-        E7bHWz59DSMDejRhgNMbcJEjg1o8gbP8o4GJKSURj8JsIM5ljrUtx8dPr1cL4cXA4HeAHxTbQl4svJSd
-        Y1EIEbYBanpPAeKQw7x6+nL+e3XWG8zDDHIc8YJzDzWwHx//113bC1WKBD0TFIKc/E23mOTn4+Hz8x74
-        VWadPrFigDqcFvvrtTwwXRUUUZqvKmR/AkSUTyGIq4Fm3eeS3kCSGjDK8+QeFdgkIqZXnT2HKB/r+Fa3
-        8fa+JWpgPIq1RK+3gMZ2OQUamMW7/X+EdzZ5x8CviCdmN5v9P+6viidmpjtj4BLxhL5wA5EjA2e1v4r8
-        L9pMW1K09xT9Z4RH8GZaWsr34CtFe9wGrsZt4GrcBq7GbeBqfN7A4/EPvs8ScboPiRkAAAAASUVORK5C
-        YII=
-</value>
-  </data>
   <metadata name="infoViewer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>3, 9</value>
   </metadata>
-  <metadata name="infoViewer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>3, 9</value>
+  <metadata name="appMenuSettings.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>132, 9</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>32</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAABAAABMLAAATCwAAAAAAAAAA
