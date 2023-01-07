@@ -33,13 +33,12 @@
             this.editorMainPanel = new System.Windows.Forms.Panel();
             this.quitLevelBtn = new System.Windows.Forms.Button();
             this.levelStartTxt = new System.Windows.Forms.NumericUpDown();
-            this.restartLevel = new System.Windows.Forms.Button();
+            this.restartLevelBtn = new System.Windows.Forms.Button();
             this.startGameBtn = new System.Windows.Forms.Button();
             this.xPosLbl = new System.Windows.Forms.Label();
             this.yPosLbl = new System.Windows.Forms.Label();
             this.zPosLbl = new System.Windows.Forms.Label();
             this.statusTxt = new System.Windows.Forms.Label();
-            this.statusLbl = new System.Windows.Forms.Label();
             this.zPosLbl_M = new System.Windows.Forms.Label();
             this.yPosLbl_M = new System.Windows.Forms.Label();
             this.xPosLbl_M = new System.Windows.Forms.Label();
@@ -344,25 +343,31 @@
             this.appMenuSettings = new System.Windows.Forms.MenuStrip();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editorOnlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.levelFrom114ToolStripMenuItem = new System.Windows.Forms.ToolStripTextBox();
-            this.restartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startGameBtnMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.levelStartTxtMenu = new System.Windows.Forms.ToolStripTextBox();
+            this.restartLevelBtnMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.quitLevelBtnMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshGameBtnMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.selectEditorModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.playModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.playModeCb = new System.Windows.Forms.ToolStripMenuItem();
             this.editorModeCb = new System.Windows.Forms.ToolStripMenuItem();
             this.liveEditorCb = new System.Windows.Forms.ToolStripMenuItem();
             this.editorConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editorOnlineCb = new System.Windows.Forms.ToolStripMenuItem();
             this.startGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fullScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startWindowedGameBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.startFullScreenGameBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.gameStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.internalsStatusLbl = new System.Windows.Forms.ToolStripTextBox();
+            this.internalsStatusMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.internalsStatusLbl = new System.Windows.Forms.ToolStripMenuItem();
             this.profileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gameProfileLbl = new System.Windows.Forms.ToolStripTextBox();
+            this.gameProfileNameLbl = new System.Windows.Forms.ToolStripTextBox();
+            this.gameProfileMissionLbl = new System.Windows.Forms.ToolStripMenuItem();
             this.compilerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.compilerTypeLbl = new System.Windows.Forms.ToolStripTextBox();
+            this.positionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.posCoordCb = new System.Windows.Forms.ToolStripMenuItem();
+            this.posMetersCb = new System.Windows.Forms.ToolStripMenuItem();
             this.appSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gameSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.applicationSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -371,10 +376,6 @@
             this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.versionLbl = new System.Windows.Forms.ToolStripTextBox();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
-            this.positionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.posCoordCb = new System.Windows.Forms.ToolStripMenuItem();
-            this.posMetersCb = new System.Windows.Forms.ToolStripMenuItem();
-            this.refreshGame = new System.Windows.Forms.ToolStripMenuItem();
             this.editorMainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -441,13 +442,12 @@
             this.editorMainPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.editorMainPanel.Controls.Add(this.quitLevelBtn);
             this.editorMainPanel.Controls.Add(this.levelStartTxt);
-            this.editorMainPanel.Controls.Add(this.restartLevel);
+            this.editorMainPanel.Controls.Add(this.restartLevelBtn);
             this.editorMainPanel.Controls.Add(this.startGameBtn);
             this.editorMainPanel.Controls.Add(this.xPosLbl);
             this.editorMainPanel.Controls.Add(this.yPosLbl);
             this.editorMainPanel.Controls.Add(this.zPosLbl);
             this.editorMainPanel.Controls.Add(this.statusTxt);
-            this.editorMainPanel.Controls.Add(this.statusLbl);
             this.editorMainPanel.Controls.Add(this.zPosLbl_M);
             this.editorMainPanel.Controls.Add(this.yPosLbl_M);
             this.editorMainPanel.Controls.Add(this.xPosLbl_M);
@@ -502,19 +502,19 @@
             0});
             this.levelStartTxt.ValueChanged += new System.EventHandler(this.levelStartTxt_ValueChanged);
             // 
-            // restartLevel
+            // restartLevelBtn
             // 
-            this.restartLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.restartLevel.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.restartLevel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.restartLevel.Location = new System.Drawing.Point(575, 124);
-            this.restartLevel.Margin = new System.Windows.Forms.Padding(4);
-            this.restartLevel.Name = "restartLevel";
-            this.restartLevel.Size = new System.Drawing.Size(165, 33);
-            this.restartLevel.TabIndex = 26;
-            this.restartLevel.Text = "Restart";
-            this.restartLevel.UseVisualStyleBackColor = true;
-            this.restartLevel.Click += new System.EventHandler(this.restartLevel_Click);
+            this.restartLevelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.restartLevelBtn.Font = new System.Drawing.Font("Century Gothic", 11F);
+            this.restartLevelBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.restartLevelBtn.Location = new System.Drawing.Point(575, 124);
+            this.restartLevelBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.restartLevelBtn.Name = "restartLevelBtn";
+            this.restartLevelBtn.Size = new System.Drawing.Size(165, 33);
+            this.restartLevelBtn.TabIndex = 26;
+            this.restartLevelBtn.Text = "Restart";
+            this.restartLevelBtn.UseVisualStyleBackColor = true;
+            this.restartLevelBtn.Click += new System.EventHandler(this.restartLevelBtn_Click);
             // 
             // startGameBtn
             // 
@@ -571,26 +571,16 @@
             // 
             // statusTxt
             // 
-            this.statusTxt.Font = new System.Drawing.Font("Century Gothic", 12.8F);
-            this.statusTxt.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.statusTxt.Location = new System.Drawing.Point(321, 222);
+            this.statusTxt.AutoSize = true;
+            this.statusTxt.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusTxt.ForeColor = System.Drawing.Color.Gray;
+            this.statusTxt.Location = new System.Drawing.Point(327, 227);
             this.statusTxt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.statusTxt.Name = "statusTxt";
-            this.statusTxt.Size = new System.Drawing.Size(419, 33);
+            this.statusTxt.Size = new System.Drawing.Size(100, 23);
             this.statusTxt.TabIndex = 11;
+            this.statusTxt.Text = "Staus Text";
             this.statusTxt.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // statusLbl
-            // 
-            this.statusLbl.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.statusLbl.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.statusLbl.Location = new System.Drawing.Point(236, 222);
-            this.statusLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.statusLbl.Name = "statusLbl";
-            this.statusLbl.Size = new System.Drawing.Size(83, 33);
-            this.statusLbl.TabIndex = 10;
-            this.statusLbl.Text = "Status ";
-            this.statusLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // zPosLbl_M
             // 
@@ -2290,6 +2280,7 @@
             this.loadWeaponGroupBtn.TabIndex = 121;
             this.loadWeaponGroupBtn.Text = "Load Group";
             this.loadWeaponGroupBtn.UseVisualStyleBackColor = true;
+            this.loadWeaponGroupBtn.Click += new System.EventHandler(this.loadWeaponGroupBtn_Click);
             // 
             // saveWeaponGroupBtn
             // 
@@ -2302,6 +2293,7 @@
             this.saveWeaponGroupBtn.TabIndex = 120;
             this.saveWeaponGroupBtn.Text = "Save Group";
             this.saveWeaponGroupBtn.UseVisualStyleBackColor = true;
+            this.saveWeaponGroupBtn.Click += new System.EventHandler(this.saveWeaponGroupBtn_Click);
             // 
             // weaponAmmoTxt
             // 
@@ -5083,66 +5075,79 @@
             // editorOnlineToolStripMenuItem
             // 
             this.editorOnlineToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.startToolStripMenuItem,
-            this.restartToolStripMenuItem,
-            this.quitToolStripMenuItem,
-            this.refreshGame});
+            this.startGameBtnMenu,
+            this.restartLevelBtnMenu,
+            this.quitLevelBtnMenu,
+            this.refreshGameBtnMenu});
             this.editorOnlineToolStripMenuItem.Name = "editorOnlineToolStripMenuItem";
             this.editorOnlineToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.editorOnlineToolStripMenuItem.Text = "Level Menu";
             // 
-            // startToolStripMenuItem
+            // startGameBtnMenu
             // 
-            this.startToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.levelFrom114ToolStripMenuItem});
-            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.startToolStripMenuItem.Text = "Start";
+            this.startGameBtnMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.levelStartTxtMenu});
+            this.startGameBtnMenu.Name = "startGameBtnMenu";
+            this.startGameBtnMenu.Size = new System.Drawing.Size(224, 26);
+            this.startGameBtnMenu.Text = "Start";
+            this.startGameBtnMenu.Click += new System.EventHandler(this.startGameBtnMenu_Click);
             // 
-            // levelFrom114ToolStripMenuItem
+            // levelStartTxtMenu
             // 
-            this.levelFrom114ToolStripMenuItem.Name = "levelFrom114ToolStripMenuItem";
-            this.levelFrom114ToolStripMenuItem.Size = new System.Drawing.Size(224, 27);
-            this.levelFrom114ToolStripMenuItem.Text = "4";
+            this.levelStartTxtMenu.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.levelStartTxtMenu.Name = "levelStartTxtMenu";
+            this.levelStartTxtMenu.Size = new System.Drawing.Size(224, 27);
+            this.levelStartTxtMenu.Text = "1";
             // 
-            // restartToolStripMenuItem
+            // restartLevelBtnMenu
             // 
-            this.restartToolStripMenuItem.Name = "restartToolStripMenuItem";
-            this.restartToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.restartToolStripMenuItem.Text = "Restart";
+            this.restartLevelBtnMenu.Name = "restartLevelBtnMenu";
+            this.restartLevelBtnMenu.Size = new System.Drawing.Size(224, 26);
+            this.restartLevelBtnMenu.Text = "Restart";
+            this.restartLevelBtnMenu.Click += new System.EventHandler(this.restartLevelBtn_Click);
             // 
-            // quitToolStripMenuItem
+            // quitLevelBtnMenu
             // 
-            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.quitToolStripMenuItem.Text = "Quit";
+            this.quitLevelBtnMenu.Name = "quitLevelBtnMenu";
+            this.quitLevelBtnMenu.Size = new System.Drawing.Size(224, 26);
+            this.quitLevelBtnMenu.Text = "Quit";
+            this.quitLevelBtnMenu.Click += new System.EventHandler(this.quitLevelBtn_Click);
+            // 
+            // refreshGameBtnMenu
+            // 
+            this.refreshGameBtnMenu.Name = "refreshGameBtnMenu";
+            this.refreshGameBtnMenu.Size = new System.Drawing.Size(224, 26);
+            this.refreshGameBtnMenu.Text = "Refresh";
+            this.refreshGameBtnMenu.Click += new System.EventHandler(this.refreshGame_Click);
             // 
             // selectEditorModeToolStripMenuItem
             // 
             this.selectEditorModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.playModeToolStripMenuItem,
+            this.playModeCb,
             this.editorModeCb,
             this.liveEditorCb});
             this.selectEditorModeToolStripMenuItem.Name = "selectEditorModeToolStripMenuItem";
             this.selectEditorModeToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.selectEditorModeToolStripMenuItem.Text = "Editor Mode";
             // 
-            // playModeToolStripMenuItem
+            // playModeCb
             // 
-            this.playModeToolStripMenuItem.Name = "playModeToolStripMenuItem";
-            this.playModeToolStripMenuItem.Size = new System.Drawing.Size(162, 26);
-            this.playModeToolStripMenuItem.Text = "Play Mode";
+            this.playModeCb.Name = "playModeCb";
+            this.playModeCb.Size = new System.Drawing.Size(224, 26);
+            this.playModeCb.Text = "Play Mode";
+            this.playModeCb.Click += new System.EventHandler(this.playModeCb_Click);
             // 
             // editorModeCb
             // 
             this.editorModeCb.Name = "editorModeCb";
-            this.editorModeCb.Size = new System.Drawing.Size(162, 26);
+            this.editorModeCb.Size = new System.Drawing.Size(224, 26);
             this.editorModeCb.Text = "Edit Mode";
+            this.editorModeCb.Click += new System.EventHandler(this.editorModeCb_Click);
             // 
             // liveEditorCb
             // 
             this.liveEditorCb.Name = "liveEditorCb";
-            this.liveEditorCb.Size = new System.Drawing.Size(162, 26);
+            this.liveEditorCb.Size = new System.Drawing.Size(224, 26);
             this.liveEditorCb.Text = "Live Mode";
             this.liveEditorCb.Click += new System.EventHandler(this.liveEditorCb_Click);
             // 
@@ -5166,52 +5171,70 @@
             // startGameToolStripMenuItem
             // 
             this.startGameToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.windowToolStripMenuItem,
-            this.fullScreenToolStripMenuItem});
+            this.startWindowedGameBtn,
+            this.startFullScreenGameBtn});
             this.startGameToolStripMenuItem.Name = "startGameToolStripMenuItem";
             this.startGameToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.startGameToolStripMenuItem.Text = "Start Game";
             // 
-            // windowToolStripMenuItem
+            // startWindowedGameBtn
             // 
-            this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
-            this.windowToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.windowToolStripMenuItem.Text = "Window";
+            this.startWindowedGameBtn.Name = "startWindowedGameBtn";
+            this.startWindowedGameBtn.Size = new System.Drawing.Size(163, 26);
+            this.startWindowedGameBtn.Text = "Window";
+            this.startWindowedGameBtn.Click += new System.EventHandler(this.startWindowedGameBtn_Click);
             // 
-            // fullScreenToolStripMenuItem
+            // startFullScreenGameBtn
             // 
-            this.fullScreenToolStripMenuItem.Name = "fullScreenToolStripMenuItem";
-            this.fullScreenToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.fullScreenToolStripMenuItem.Text = "Full Screen";
+            this.startFullScreenGameBtn.Name = "startFullScreenGameBtn";
+            this.startFullScreenGameBtn.Size = new System.Drawing.Size(163, 26);
+            this.startFullScreenGameBtn.Text = "Full Screen";
+            this.startFullScreenGameBtn.Click += new System.EventHandler(this.startFullScreenGameBtn_Click);
             // 
             // gameStatusToolStripMenuItem
             // 
             this.gameStatusToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.internalsStatusLbl,
+            this.internalsStatusMenu,
             this.profileToolStripMenuItem});
             this.gameStatusToolStripMenuItem.Name = "gameStatusToolStripMenuItem";
             this.gameStatusToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.gameStatusToolStripMenuItem.Text = "Game Status";
             // 
+            // internalsStatusMenu
+            // 
+            this.internalsStatusMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.internalsStatusLbl});
+            this.internalsStatusMenu.Name = "internalsStatusMenu";
+            this.internalsStatusMenu.Size = new System.Drawing.Size(148, 26);
+            this.internalsStatusMenu.Text = "Internals";
+            // 
             // internalsStatusLbl
             // 
             this.internalsStatusLbl.Name = "internalsStatusLbl";
-            this.internalsStatusLbl.Size = new System.Drawing.Size(224, 27);
-            this.internalsStatusLbl.Text = "Internals";
+            this.internalsStatusLbl.Size = new System.Drawing.Size(119, 26);
+            this.internalsStatusLbl.Text = "N/A";
             // 
             // profileToolStripMenuItem
             // 
             this.profileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gameProfileLbl});
+            this.gameProfileNameLbl,
+            this.gameProfileMissionLbl});
             this.profileToolStripMenuItem.Name = "profileToolStripMenuItem";
-            this.profileToolStripMenuItem.Size = new System.Drawing.Size(298, 26);
+            this.profileToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
             this.profileToolStripMenuItem.Text = "Profile";
             // 
-            // gameProfileLbl
+            // gameProfileNameLbl
             // 
-            this.gameProfileLbl.Name = "gameProfileLbl";
-            this.gameProfileLbl.Size = new System.Drawing.Size(224, 27);
-            this.gameProfileLbl.Text = "Jones";
+            this.gameProfileNameLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.gameProfileNameLbl.Name = "gameProfileNameLbl";
+            this.gameProfileNameLbl.Size = new System.Drawing.Size(224, 27);
+            this.gameProfileNameLbl.Text = "N/A";
+            // 
+            // gameProfileMissionLbl
+            // 
+            this.gameProfileMissionLbl.Name = "gameProfileMissionLbl";
+            this.gameProfileMissionLbl.Size = new System.Drawing.Size(298, 26);
+            this.gameProfileMissionLbl.Text = "N/A";
             // 
             // compilerToolStripMenuItem
             // 
@@ -5223,9 +5246,33 @@
             // 
             // compilerTypeLbl
             // 
+            this.compilerTypeLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.compilerTypeLbl.Name = "compilerTypeLbl";
             this.compilerTypeLbl.Size = new System.Drawing.Size(224, 27);
             this.compilerTypeLbl.Text = "Internal";
+            // 
+            // positionToolStripMenuItem
+            // 
+            this.positionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.posCoordCb,
+            this.posMetersCb});
+            this.positionToolStripMenuItem.Name = "positionToolStripMenuItem";
+            this.positionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.positionToolStripMenuItem.Text = "Position";
+            // 
+            // posCoordCb
+            // 
+            this.posCoordCb.Name = "posCoordCb";
+            this.posCoordCb.Size = new System.Drawing.Size(224, 26);
+            this.posCoordCb.Text = "Coordinates";
+            this.posCoordCb.Click += new System.EventHandler(this.posCoordCb_Click);
+            // 
+            // posMetersCb
+            // 
+            this.posMetersCb.Name = "posMetersCb";
+            this.posMetersCb.Size = new System.Drawing.Size(224, 26);
+            this.posMetersCb.Text = "Meter";
+            this.posMetersCb.Click += new System.EventHandler(this.posMetersCb_Click);
             // 
             // appSettingsToolStripMenuItem
             // 
@@ -5274,41 +5321,10 @@
             // 
             // versionLbl
             // 
+            this.versionLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.versionLbl.Name = "versionLbl";
             this.versionLbl.Size = new System.Drawing.Size(224, 27);
             this.versionLbl.Text = "rw";
-            // 
-            // positionToolStripMenuItem
-            // 
-            this.positionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.posCoordCb,
-            this.posMetersCb});
-            this.positionToolStripMenuItem.Name = "positionToolStripMenuItem";
-            this.positionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.positionToolStripMenuItem.Text = "Position";
-            // 
-            // posCoordCb
-            // 
-            this.posCoordCb.Checked = true;
-            this.posCoordCb.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.posCoordCb.Name = "posCoordCb";
-            this.posCoordCb.Size = new System.Drawing.Size(224, 26);
-            this.posCoordCb.Text = "Coordinates";
-            this.posCoordCb.Click += new System.EventHandler(this.posCoordCb_Click);
-            // 
-            // posMetersCb
-            // 
-            this.posMetersCb.Name = "posMetersCb";
-            this.posMetersCb.Size = new System.Drawing.Size(224, 26);
-            this.posMetersCb.Text = "Meter";
-            this.posMetersCb.Click += new System.EventHandler(this.posMetersCb_Click);
-            // 
-            // refreshGame
-            // 
-            this.refreshGame.Name = "refreshGame";
-            this.refreshGame.Size = new System.Drawing.Size(224, 26);
-            this.refreshGame.Text = "Refresh";
-            this.refreshGame.Click += new System.EventHandler(this.refreshGame_Click);
             // 
             // IGIEditorUI
             // 
@@ -5699,13 +5715,12 @@
         private System.Windows.Forms.CheckBox currentWeaponCb;
         private System.Windows.Forms.Button quitLevelBtn;
         private System.Windows.Forms.NumericUpDown levelStartTxt;
-        private System.Windows.Forms.Button restartLevel;
+        private System.Windows.Forms.Button restartLevelBtn;
         private System.Windows.Forms.Button startGameBtn;
         private System.Windows.Forms.Label xPosLbl;
         private System.Windows.Forms.Label yPosLbl;
         private System.Windows.Forms.Label zPosLbl;
         private System.Windows.Forms.Label statusTxt;
-        private System.Windows.Forms.Label statusLbl;
         private System.Windows.Forms.Label zPosLbl_M;
         private System.Windows.Forms.Label yPosLbl_M;
         private System.Windows.Forms.Label xPosLbl_M;
@@ -5715,7 +5730,7 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editorOnlineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectEditorModeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem playModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem playModeCb;
         private System.Windows.Forms.ToolStripMenuItem editorModeCb;
         private System.Windows.Forms.ToolStripMenuItem appSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gameSettingsToolStripMenuItem;
@@ -5725,25 +5740,27 @@
         private System.Windows.Forms.ToolStripMenuItem editorConnectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editorOnlineCb;
         private System.Windows.Forms.ToolStripMenuItem startGameToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fullScreenToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
-        private System.Windows.Forms.ToolStripTextBox levelFrom114ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem restartToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startWindowedGameBtn;
+        private System.Windows.Forms.ToolStripMenuItem startFullScreenGameBtn;
+        private System.Windows.Forms.ToolStripMenuItem startGameBtnMenu;
+        private System.Windows.Forms.ToolStripTextBox levelStartTxtMenu;
+        private System.Windows.Forms.ToolStripMenuItem restartLevelBtnMenu;
+        private System.Windows.Forms.ToolStripMenuItem quitLevelBtnMenu;
         private System.Windows.Forms.ToolStripMenuItem versionToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox versionLbl;
         private System.Windows.Forms.ToolStripMenuItem gameStatusToolStripMenuItem;
-        private System.Windows.Forms.ToolStripTextBox internalsStatusLbl;
         private System.Windows.Forms.ToolStripMenuItem compilerToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox compilerTypeLbl;
         private System.Windows.Forms.ToolStripMenuItem profileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripTextBox gameProfileLbl;
+        private System.Windows.Forms.ToolStripTextBox gameProfileNameLbl;
         private System.Windows.Forms.ToolStripMenuItem liveEditorCb;
         private System.Windows.Forms.ToolStripMenuItem positionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem posCoordCb;
         private System.Windows.Forms.ToolStripMenuItem posMetersCb;
-        private System.Windows.Forms.ToolStripMenuItem refreshGame;
+        private System.Windows.Forms.ToolStripMenuItem refreshGameBtnMenu;
+        private System.Windows.Forms.ToolStripMenuItem internalsStatusMenu;
+        private System.Windows.Forms.ToolStripMenuItem internalsStatusLbl;
+        private System.Windows.Forms.ToolStripMenuItem gameProfileMissionLbl;
     }
 }
 

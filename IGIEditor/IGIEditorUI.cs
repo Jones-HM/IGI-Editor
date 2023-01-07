@@ -776,13 +776,13 @@ namespace IGIEditor
             {
                 if (internalsAttached)
                 {
-                    gameStatusToolStripMenuItem.Text = "Attached";
-                    gameStatusToolStripMenuItem.ForeColor = SpringGreen;
+                    internalsStatusLbl.Text = "Attached";
+                    internalsStatusLbl.ForeColor = SpringGreen;
                 }
                 else
                 {
-                    gameStatusToolStripMenuItem.Text = "Detached";
-                    gameStatusToolStripMenuItem.ForeColor = Tomato;
+                    internalsStatusLbl.Text = "Detached";
+                    internalsStatusLbl.ForeColor = Tomato;
                 }
             }
             catch (Exception ex)
@@ -1085,7 +1085,8 @@ namespace IGIEditor
                     string playerActiveMission = QInternals.Player_ActiveMission();
 
                     string gameProfileText = "Gamer: " + playerActiveName + " Mission: " + playerActiveMission;
-                    gameProfileLbl.Text = gameProfileText;
+                    gameProfileNameLbl.Text = playerActiveName;
+                    gameProfileMissionLbl.Text = playerActiveMission;
                     QUtils.gameProfileLoaded = true;
                 }
             }
@@ -1995,7 +1996,7 @@ namespace IGIEditor
             isObjectDD = false;
         }
 
-        private void restartLevel_Click(object sender, EventArgs e)
+        private void restartLevelBtn_Click(object sender, EventArgs e)
         {
             QInternals.RestartLevel();
 
@@ -2224,7 +2225,7 @@ namespace IGIEditor
                 SetStatusText(itemsCount + " Objects reset success");
         }
 
-        private void igiIconBtn_Click(object sender, EventArgs e)
+        private void startFullScreenGameBtn_Click(object sender, EventArgs e)
         {
             try
             {
@@ -2473,32 +2474,37 @@ namespace IGIEditor
             }
         }
 
+        private void StartGameLevelNow(int gameLevel)
+        {
+            RefreshUIComponents(gameLevel);
+            InitEditorPaths(gameLevel);
+            QUtils.graphAreas.Clear();
+            CleanUpAiFiles();
+
+            if (liveEditorCb.Checked)
+            {
+                QUtils.gameFound = QMemory.FindGame();
+                if (QUtils.gameFound)
+                    QInternals.StartLevel(gameLevel.ToString());
+                else
+                {
+                    SetStatusText("Live Editor - Error game not running.");
+                    liveEditorCb.Checked = false;
+                    StartGameLevel(gameLevel, true);
+
+                }
+            }
+            else
+                StartGameLevel(gameLevel, true);
+        }
+
+
         private void startGameBtn_Click(object sender, EventArgs e)
         {
             try
             {
                 gameLevel = Convert.ToInt32(levelStartTxt.Text.ToString());
-
-                RefreshUIComponents(gameLevel);
-                InitEditorPaths(gameLevel);
-                QUtils.graphAreas.Clear();
-                CleanUpAiFiles();
-
-                if (liveEditorCb.Checked)
-                {
-                    QUtils.gameFound = QMemory.FindGame();
-                    if (QUtils.gameFound)
-                        QInternals.StartLevel(gameLevel.ToString());
-                    else
-                    {
-                        SetStatusText("Live Editor - Error game not running.");
-                        liveEditorCb.Checked = false;
-                        StartGameLevel(gameLevel, true);
-
-                    }
-                }
-                else
-                    StartGameLevel(gameLevel, true);
+                StartGameLevelNow(gameLevel);
                 refreshGame_Click(sender, e);
             }
             catch (Exception ex)
@@ -4465,11 +4471,6 @@ namespace IGIEditor
             weaponCfgDD_SelectedIndexChanged(sender,e);
         }
 
-        private void appContextMenu_Opening(object sender, CancelEventArgs e)
-        {
-
-        }
-
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             aboutBtn_Click(sender, e);
@@ -4477,6 +4478,8 @@ namespace IGIEditor
 
         private void liveEditorCb_Click(object sender, EventArgs e)
         {
+            string modeStatus = !liveEditorCb.Checked ? "Enabled" : "Disabled";
+            SetStatusText("Editor mode status is now  '" + modeStatus + " " + liveEditorCb.Text + "'");
             liveEditorCb.Checked = !liveEditorCb.Checked;
         }
 
@@ -4485,22 +4488,91 @@ namespace IGIEditor
             if (editorOnlineCb.Checked)
             {
                 editorOnlineCb.Text = "Online";
+                editorOnline = true;
             }
             else
             {
                 editorOnlineCb.Text = "Offline";
+                editorOnline = false;
             }
-            editorOnlineCb.Checked = !editorOnlineCb.Checked;
+            SetStatusText("Editor connection status is now '" + (!editorOnline).ToString() + "'");
+            editorOnlineCb.Checked = !editorOnline;
         }
 
         private void posCoordCb_Click(object sender, EventArgs e)
         {
-            if (posCoordCb.Checked) posMetersCb.Checked = false; else if (!posMetersCb.Checked) ((CheckBox)sender).Checked = true;
+            posCoordCb.Checked = !posCoordCb.Checked;
+            if (posCoordCb.Checked) posMetersCb.Checked = false; else if (!posMetersCb.Checked) posCoordCb.Checked = true;
         }
 
         private void posMetersCb_Click(object sender, EventArgs e)
         {
-            if (posMetersCb.Checked) posCoordCb.Checked = false; else if (!posCoordCb.Checked) ((CheckBox)sender).Checked = true;
+            posMetersCb.Checked = !posMetersCb.Checked;
+            if (posMetersCb.Checked) posCoordCb.Checked = false; else if (!posCoordCb.Checked) posMetersCb.Checked = true;
+        }
+
+        private void startGameBtnMenu_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                gameLevel = Convert.ToInt32(levelStartTxtMenu.Text.ToString());
+                StartGameLevelNow(gameLevel);
+                refreshGame_Click(sender, e);
+            }
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
+        }
+
+        private void startWindowedGameBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int level = Convert.ToInt32(levelStartTxt.Text);
+                gameLevel = Convert.ToInt32(levelStartTxt.Text.ToString());
+
+                RefreshUIComponents(gameLevel);
+                InitEditorPaths(gameLevel);
+                QUtils.graphAreas.Clear();
+                CleanUpAiFiles();
+                StartGameLevel(level, true);
+            }
+            catch (Exception ex)
+            {
+                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
+        }
+
+        private void editorModeCb_Click(object sender, EventArgs e)
+        {
+            editorModeCb.Checked = !editorModeCb.Checked;
+            string modeStatus = editorModeCb.Checked ? "Enabled" : "Disabled";
+            SetStatusText("Editor mode status is now  '" + modeStatus + " " + editorModeCb.Text + "'");
+
+            if (editorModeCb.Checked)
+            {
+                QInternals.HumanFreeCam();
+                QInternals.StatusMessageShow("Editor mode enabled. use Arrows keys to move ALT/SPACE change height");
+                playModeCb.Checked = false;
+            }
+            else if (!playModeCb.Checked) editorModeCb.Checked = true;
+        }
+
+        private void playModeCb_Click(object sender, EventArgs e)
+        {
+            playModeCb.Checked = !playModeCb.Checked;
+            string modeStatus = playModeCb.Checked ? "Enabled" : "Disabled";
+            SetStatusText("Editor mode status is now  '" + modeStatus + " " + playModeCb.Text + "'");
+
+            if (playModeCb.Checked)
+            {
+                GT.GT_SendKeyStroke("HOME");
+                QUtils.Sleep(0.5f);
+                QInternals.StatusMessageShow("Play mode enabled - Play level.");
+                editorModeCb.Checked = false;
+            }
+            else if (!editorModeCb.Checked) playModeCb.Checked = true;
         }
 
         private void graphsMarkCb_CheckedChanged(object sender, EventArgs e)
