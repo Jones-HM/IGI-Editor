@@ -105,7 +105,7 @@ This section supports **[ONLINE MODE]**.
 And now you can generate Key from KeyGen for your editor for free.</br>~~
 
 ### IGI Editor demo limit:
-This editor only offers _3 Levels_, and some features are disabled at the moment like **3D/Resource/Compiler/PlayerProfile editor.**</br> 
+This editor only offers upto _14 Levels_, and some features are disabled at the moment like **3D/Resource/Compiler/PlayerProfile editor.**</br> 
 
 ## Full version includes:
 * All **14 levels** with More **advanced editor**.
@@ -129,7 +129,7 @@ This editor only offers _3 Levels_, and some features are disabled at the moment
 [![QEditor](https://img.youtube.com/vi/wMyAlgIm2AY/0.jpg)](https://www.youtube.com/watch?v=wMyAlgIm2AY)
 
 ## Version Update:
-**Editor version 0.7.1.0 Latest.**
+**Editor version 0.7.2.0 Latest.**
 
 ## Full version of Editor.
 If you're a developer and know how to build this tool by yourself then you could figure our the _MAX_LEVEL_ constant defined in editor to unlock the full version. Good Luck.
