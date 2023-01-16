@@ -29,8 +29,8 @@ Global
 		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.External|Any CPU.Build.0 = External|Any CPU
 		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.External|x86.ActiveCfg = External|x86
 		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.External|x86.Build.0 = External|x86
-		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.Release|Any CPU.ActiveCfg = Release|x86
+		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.Release|Any CPU.Build.0 = Release|x86
 		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.Release|x86.ActiveCfg = Release|x86
 		{1BBBB5FC-3CF7-46C3-8837-9DBEE8BBD41F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection

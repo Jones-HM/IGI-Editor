@@ -77,7 +77,7 @@ namespace IGIEditor
                 editorTabs.TabPages.RemoveByKey("devMode");
                 gameItemsLbl.Visible = true;
 #else
-                GAME_MAX_LEVEL = 3;
+                GAME_MAX_LEVEL = 14;
                 editorTabs.TabPages.RemoveByKey("threeDEditor");
                 //editorTabs.TabPages.RemoveByKey("graphEditor");
                 versionLbl.Text = appEditorSubVersion;
@@ -3089,7 +3089,7 @@ namespace IGIEditor
         private void gfxResetBtn_Click(object sender, EventArgs e)
         {
             QInternals.GraphicsReset();
-            QInternals.StatusMessageShow("Graphics settings reset");
+            SetStatusText("Graphics settings reset");
         }
 
         private void resetPosCb_CheckedChanged(object sender, EventArgs e)
@@ -3603,7 +3603,7 @@ namespace IGIEditor
             }
             catch (Exception ex)
             {
-                QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+                QUtils.ShowException(MethodBase.GetCurrentMethod().Name, ex);
             }
         }
 
@@ -3905,7 +3905,7 @@ namespace IGIEditor
         private void autoRefreshGameCb_CheckedChanged(object sender, EventArgs e)
         {
             autoRefreshGameCb.Checked = !autoRefreshGameCb.Checked;
-            QUtils.gameRefresh = ((CheckBox)sender).Checked;
+            QUtils.gameRefresh = autoRefreshGameCb.Checked;
             if (autoRefreshGameCb.Checked)
             {
                 internalsAttachTimer.Start();
@@ -4466,12 +4466,20 @@ namespace IGIEditor
 
         private void musicVolumeUpdateBtn_Click(object sender, EventArgs e)
         {
-
+            var musicVolume = musicVolumeUpdateTxt.Text;
+            float volume = Convert.ToSingle(musicVolume);
+            if (volume < 0.0f || volume > 10.0f) musicVolume = "5.0";
+            QInternals.MusicVolumeSet(musicVolume);
+            SetStatusText("Music volume has been set to " + musicVolume);
         }
 
         private void sfxVolumeUpdateBtn_Click(object sender, EventArgs e)
         {
-
+            var sfxVolume = sfxVolumeUpdateTxt.Text;
+            float volume = Convert.ToSingle(sfxVolume);
+            if (volume < 0.0f || volume > 10.0f) sfxVolume = "5.0";
+            QInternals.MusicSFXVolumeSet(sfxVolume);
+            SetStatusText("SFX volume has been set to " + sfxVolume);
         }
 
         private void framesTxt_KeyDown(object sender, KeyEventArgs e)
