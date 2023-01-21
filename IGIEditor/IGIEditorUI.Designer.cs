@@ -4606,6 +4606,9 @@
             this.textureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.textureBox.TabIndex = 45;
             this.textureBox.TabStop = false;
+            this.textureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textureBox_MouseDown);
+            this.textureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.textureBox_MouseMove);
+            this.textureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.textureBox_MouseUp);
             // 
             // levelNameLbl
             // 
@@ -4631,6 +4634,7 @@
             // 
             // appMenuSettings
             // 
+            this.appMenuSettings.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.appMenuSettings.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.appMenuSettings.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
@@ -4679,6 +4683,7 @@
             // 
             // levelStartTxtMenu
             // 
+            this.levelStartTxtMenu.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.levelStartTxtMenu.Name = "levelStartTxtMenu";
             this.levelStartTxtMenu.Size = new System.Drawing.Size(224, 39);
             this.levelStartTxtMenu.Text = "1";
@@ -4809,6 +4814,7 @@
             // 
             // gameProfileNameLbl
             // 
+            this.gameProfileNameLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.gameProfileNameLbl.Name = "gameProfileNameLbl";
             this.gameProfileNameLbl.Size = new System.Drawing.Size(224, 39);
             this.gameProfileNameLbl.Text = "N/A";
@@ -4915,6 +4921,7 @@
             // 
             // musicVolumeUpdateTxt
             // 
+            this.musicVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.musicVolumeUpdateTxt.Name = "musicVolumeUpdateTxt";
             this.musicVolumeUpdateTxt.Size = new System.Drawing.Size(224, 39);
             this.musicVolumeUpdateTxt.Text = "5.0";
@@ -4930,6 +4937,7 @@
             // 
             // sfxVolumeUpdateTxt
             // 
+            this.sfxVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.sfxVolumeUpdateTxt.Name = "sfxVolumeUpdateTxt";
             this.sfxVolumeUpdateTxt.Size = new System.Drawing.Size(224, 39);
             this.sfxVolumeUpdateTxt.Text = "3.5";
@@ -4945,6 +4953,7 @@
             // 
             // framesTxt
             // 
+            this.framesTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.framesTxt.Name = "framesTxt";
             this.framesTxt.Size = new System.Drawing.Size(224, 39);
             this.framesTxt.Text = "30";
@@ -5185,6 +5194,7 @@
             // 
             // updateIntervalTxt
             // 
+            this.updateIntervalTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.updateIntervalTxt.Name = "updateIntervalTxt";
             this.updateIntervalTxt.Size = new System.Drawing.Size(224, 39);
             this.updateIntervalTxt.Text = "15";
@@ -5264,6 +5274,7 @@
             // 
             // versionLbl
             // 
+            this.versionLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.versionLbl.Name = "versionLbl";
             this.versionLbl.Size = new System.Drawing.Size(224, 39);
             this.versionLbl.Text = "IGI-1.1";

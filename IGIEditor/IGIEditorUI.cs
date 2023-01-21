@@ -4735,7 +4735,7 @@ namespace IGIEditor
                     {
                         QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "No output PNG file found");
                     }
-
+                    SetStatusText($"File {sourceFileNameWithoutExt} loaded as texture successfully.");
                 }
             }
             catch (Exception ex)
@@ -4747,8 +4747,63 @@ namespace IGIEditor
 
         private void saveTextureBtn_Click(object sender, EventArgs e)
         {
+            try
+            {
+                // Get the input file path from the texture box
+                string inputFilePath = null;
+                if (textureBox.Image != null)
+                {
+                    inputFilePath = Path.Combine(Path.GetTempPath(), "texture.png");
+                    textureBox.Image.Save(inputFilePath);
+                }
 
+                // Select output directory using file dialog
+                FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string sourceFileNameWithoutExt = Path.GetFileNameWithoutExtension(inputFilePath);
+                    string outputDirectoryPath = folderBrowserDialog.SelectedPath;
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Selected output directory: {outputDirectoryPath}");
+
+                    // Run TGAConv to convert PNG to TGA
+                    string tgaConvPath = Path.Combine(QUtils.qTools, @"TGAConv");
+                    string tgaConvExePath = Path.Combine(tgaConvPath, "tgaconv.exe");
+                    string tgaConvArgs = $"{inputFilePath} -ToTga";
+                    string tgaConvDir = Path.Combine(QUtils.qTools, @"TGAConv");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Running TGAConv: {tgaConvExePath} {tgaConvArgs} in directory {tgaConvDir}");
+                    QUtils.ShellExec($"cd {tgaConvDir} && {tgaConvExePath} {tgaConvArgs}");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "TGAConv conversion completed");
+
+                    // Generate MakeTex script
+                    string makeTexScriptPath = Path.Combine(QUtils.qTools, "maketex.qsc");
+                    string tgaFilePath = Path.Combine(tgaConvPath, $"{sourceFileNameWithoutExt}.tga");
+                    string texFilePath = Path.Combine(outputDirectoryPath, $"{sourceFileNameWithoutExt}.tex");
+                    string makeTexCmd = $"MakeTexture(\"{tgaFilePath}\", \"{texFilePath}\");";
+                    File.WriteAllText(makeTexScriptPath, makeTexCmd + "\r\n");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Added MakeTex command: {makeTexCmd}");
+
+
+                    // Run GConv to generate .tex file
+                    string gconvPath = Path.Combine(QUtils.qTools, "gconv.exe");
+                    string gconvArgs = $"\"{makeTexScriptPath}\"";
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Running GConv: {gconvPath} {gconvArgs}");
+                    QUtils.ShellExec($"{gconvPath} {gconvArgs}");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GConv conversion completed");
+
+                    // Clean up directories
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Cleaning up directories");
+                    File.Delete(inputFilePath);
+                    File.Delete(makeTexScriptPath);
+                    SetStatusText($"File {sourceFileNameWithoutExt} saved as texture successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
         }
+
+
 
         private void packTextureBtn_Click(object sender, EventArgs e)
         {
@@ -4757,8 +4812,74 @@ namespace IGIEditor
 
         private void unpackTextureBtn_Click(object sender, EventArgs e)
         {
+            // Select resource file using file dialog
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Resource files (*.res)|*.res|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string sourcePath = openFileDialog.FileName;
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Selected resource file: {sourcePath}");
 
+                // Create input and output directories
+                string inputDirectoryPath = Path.GetDirectoryName(sourcePath);
+                string outputDirectoryPath = inputDirectoryPath;
+
+                // Generate decompile script
+                string decompileScriptPath = Path.Combine(QUtils.qTools, "decompile.qsc");
+                string decompileCmd = $"ExtractResource(\"{Path.GetFileName(sourcePath)}\");";
+                File.WriteAllText(decompileScriptPath, decompileCmd);
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Created decompile script: {decompileCmd}");
+
+                // Run GConv to decompile the resource file
+                string gconvPath = Path.Combine(QUtils.qTools, @"GConv\gconv.exe");
+                string gconvArgs = $"\"{decompileScriptPath}\" -InputPath=\"{inputDirectoryPath}\" -OutputPath=\"{outputDirectoryPath}\"";
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Running GConv: {gconvPath} {gconvArgs}");
+                QUtils.ShellExec($"{gconvPath} {gconvArgs}");
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GConv decompilation completed");
+
+                // Delete decompile script
+                //File.Delete(decompileScriptPath);
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Deleted decompile script: {decompileScriptPath}");
+            }
         }
+
+
+
+
+
+
+        private Point lastPoint;
+        private bool isDrawing = false;
+
+        private void textureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            isDrawing = true;
+            lastPoint = e.Location;
+        }
+
+        private void textureBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDrawing)
+            {
+                using (Graphics g = textureBox.CreateGraphics())
+                {
+                    g.DrawLine(Pens.Black, lastPoint, e.Location);
+                }
+                lastPoint = e.Location;
+            }
+        }
+
+        private void textureBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            isDrawing = false;
+            Bitmap bitmap = new Bitmap(textureBox.Image);
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                g.DrawLine(Pens.Black, lastPoint, e.Location);
+            }
+            textureBox.Image = bitmap;
+        }
+
 
         private void clearTempToolStripMenuItem_Click(object sender, EventArgs e)
         {
