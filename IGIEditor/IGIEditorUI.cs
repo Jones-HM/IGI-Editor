@@ -1105,7 +1105,7 @@ namespace IGIEditor
             {
                 //load level Description.
                 levelNameLbl.Text = QMission.GetMissionInfo(level);
-                var imgPath = "mission_" + level + QUtils.jpgExt;
+                var imgPath = "mission_" + level + QUtils.pngExt;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
 
                 //Load level image from Cache.
@@ -1655,7 +1655,7 @@ namespace IGIEditor
                 weaponName = QUtils.weaponList[index].Keys.ElementAt(0);
                 //Weapon image paths.
                 //imgUrl = baseImgUrl + weaponsImgUrl[index];
-                imgPath = weaponName + QUtils.jpgExt;
+                imgPath = weaponName + QUtils.pngExt;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
 
                 //Load image from Cache.
@@ -2246,7 +2246,7 @@ namespace IGIEditor
                 var aiModelName = QAI.GetAiModelNamesList(gameLevel)[aiModelSelectDD.SelectedIndex];
                 var aiModelId = QAI.GetAiModelId4Name(aiModelName);
 
-                var imgPath = aiModelName + QUtils.jpgExt;
+                var imgPath = aiModelName + QUtils.pngExt;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
                 var aiModelQualifyName = aiModelName.Contains("_") ? aiModelName.Substring(0, aiModelName.IndexOf("_")) : aiModelName;
                 aiModelNameLbl.Text = aiModelQualifyName;
@@ -5160,7 +5160,7 @@ namespace IGIEditor
 
         internal void PopulateImageBox(string modelId, PictureBox imgBox)
         {
-            var imgTmpPath = QUtils.cachePathAppImages + "\\" + modelId + QUtils.jpgExt;
+            var imgTmpPath = QUtils.cachePathAppImages + "\\" + modelId + QUtils.pngExt;
 
             //Load image from Cache.
             if (File.Exists(imgTmpPath))

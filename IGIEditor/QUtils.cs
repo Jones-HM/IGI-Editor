@@ -146,7 +146,7 @@ namespace IGIEditor
 
         #region App Version
         internal static string versionFileName = "VERSION";
-        internal static string appEditorSubVersion = "0.7.3.0";
+        internal static string appEditorSubVersion = "0.8.0.0";
         internal static float viewPortDelta = 10000.0f;
         #endregion
 
