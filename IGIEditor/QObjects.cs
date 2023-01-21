@@ -364,20 +364,20 @@ namespace IGIEditor
         }
 
         // Read models from JSON file
-        internal static dynamic ReadModels()
-        {
-            try
-            {
-                string jsonModels = LoadFile(QUtils.objectsModelsList);
-                dynamic jsonModelsData = JsonConvert.DeserializeObject(jsonModels);
-                return jsonModelsData;
-            }
-            catch (Exception ex)
-            {
-                LogException(MethodBase.GetCurrentMethod().Name, ex);
-                return null;
-            }
-        }
+internal static dynamic ReadModels()
+{
+    try
+    {
+        string jsonModels = LoadFile(QUtils.objectsModelsList);
+        dynamic jsonModelsData = JsonConvert.DeserializeObject(jsonModels);
+        return jsonModelsData;
+    }
+    catch (Exception ex)
+    {
+        LogException(MethodBase.GetCurrentMethod().Name, ex);
+        return null;
+    }
+}
 
 
         // Find model name from ID
@@ -611,7 +611,7 @@ namespace IGIEditor
                 qscData = qscData.Replace(ligthmap, ligthmap);
             return qscData;
         }
-
+        
         internal static string RemoveObject(string qscData, string model, bool fixErrors = true, bool checkModel = false)
         {
             if (checkModel)

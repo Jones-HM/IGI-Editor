@@ -18,10 +18,10 @@ namespace IGIEditor
 
         private string compileStart = "compile.bat";
         private string decompileStart = "decompile.bat";
-        internal static string compilePath = QUtils.igiEditorQEdPath + "\\" + QUtils.qCompiler + @"\Compile";
-        private string compileInputPath = QUtils.igiEditorQEdPath + "\\" + QUtils.qCompiler + @"\Compile\input";
-        internal static string decompilePath = QUtils.igiEditorQEdPath + "\\" + QUtils.qCompiler + @"\Decompile";
-        private string decompileInputPath = QUtils.igiEditorQEdPath + "\\" + QUtils.qCompiler + @"\Decompile\input";
+        internal static string compilePath = QUtils.qCompiler + @"\Compile";
+        private string compileInputPath = QUtils.qCompiler + @"\Compile\input";
+        internal static string decompilePath = QUtils.qCompiler + @"\Decompile";
+        private string decompileInputPath = QUtils.qCompiler + @"\Decompile\input";
         private string copyNoneErr = "0 File(s) copied";
         private string moveNoneErr = "0 File(s) moved";
         private string qappPath;
@@ -42,7 +42,7 @@ namespace IGIEditor
 
         internal static bool CheckQCompilerExist()
         {
-            var qCompilerPath = QUtils.igiEditorQEdPath + "\\" + QUtils.qCompiler;
+            var qCompilerPath = QUtils.qCompiler;
             bool exist = Directory.Exists(qCompilerPath);
             if (!exist)
             {
@@ -126,7 +126,7 @@ namespace IGIEditor
             if (File.Exists(qscFile))
             {
                 string scriptFile = "";
-                string outScriptPath = gamePath + "\\" + qscFile;
+                string outScriptPath = gamePath + Path.DirectorySeparatorChar + qscFile;
                 string scriptWeaponFile = "LOCAL:weapons/weaponconfig.qsc";
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QFile : Output path '" + outScriptPath + "'");
 
@@ -189,7 +189,7 @@ namespace IGIEditor
                     //Compile for Objets.
                     QUtils.SaveFile(qscData, appendData);
                     QUtils.gamePath = QUtils.cfgGamePath + QMemory.GetRunningLevel();
-                    string outScriptPath = QUtils.gamePath + "\\" + QUtils.objectsQsc;
+                    string outScriptPath = QUtils.gamePath + Path.DirectorySeparatorChar + QUtils.objectsQsc;
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "QData : Output Path: '" + outScriptPath + "'");
 
                     if (File.Exists(outScriptPath))

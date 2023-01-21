@@ -4669,6 +4669,122 @@ namespace IGIEditor
             }
         }
 
+
+        private void loadTextureBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Clear the PictureBox
+                textureBox.Image = null;
+
+                // Select TEX file using file dialog
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Texture files (*.tex)|*.tex|All files (*.*)|*.*";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Selecting the source Tex file.
+                    string sourcePath = openFileDialog.FileName;
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Selected TEX file: {sourcePath}");
+
+                    // Move TEX file to DConv input directory
+                    string destPath = Path.Combine(QUtils.qTools, @"DConv\input");
+                    QUtils.FileMove(sourcePath, Path.Combine(destPath, Path.GetFileName(sourcePath)));
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Moved TEX file to DConv input directory: {Path.Combine(destPath, Path.GetFileName(sourcePath))}");
+
+                    // Run DConv to convert TEX to PNG
+                    string dconvPath = Path.Combine(QUtils.qTools, @"DConv\dconv.exe");
+                    string dconvArgs = "convert tex input output";
+                    string dconvDir = Path.Combine(QUtils.qTools, @"DConv");
+                    QUtils.ShellExec($"cd {dconvDir} && {dconvPath} {dconvArgs}");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "DConv conversion completed");
+
+                    // Move files to TGAConv directory
+                    string tgaConvPath = Path.Combine(QUtils.qTools, @"TGAConv");
+                    destPath = Path.Combine(tgaConvPath, "");
+                    string sourceFileNameWithoutExt = Path.GetFileNameWithoutExtension(sourcePath);
+                    string sourceFileTgaPath = Path.Combine(QUtils.qTools, @"DConv\output", $"{sourceFileNameWithoutExt}.tga");
+                    if (File.Exists(sourceFileTgaPath))
+                    {
+                        QUtils.FileMove(sourceFileTgaPath, Path.Combine(destPath, $"{sourceFileNameWithoutExt}.tga"));
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Moved TGA file to TGAConv directory: {Path.Combine(destPath, $"{sourceFileNameWithoutExt}.tga")}");
+                    }
+                    else
+                    {
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "No TGA file found");
+                    }
+
+
+                    // Run TGAConv to convert PNG to TGA
+                    string tgaConvExePath = Path.Combine(tgaConvPath, "tgaconv.exe");
+                    string tgaConvArgs = $"{sourceFileNameWithoutExt}.tga" + " -ToPng";
+                    string tgaConvDir = Path.Combine(QUtils.qTools, @"TGAConv");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Running TGAConv: {tgaConvExePath} {tgaConvArgs} in directory {tgaConvDir}");
+                    QUtils.ShellExec($"cd {tgaConvDir} && {tgaConvExePath} {tgaConvArgs}");
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "TGAConv conversion completed");
+
+
+                    // Load output TGA file into picture box
+                    string pngFilePath = Path.Combine(tgaConvPath, $"{sourceFileNameWithoutExt}.png");
+                    if (File.Exists(pngFilePath))
+                    {
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Output PNG file: {pngFilePath}");
+                        Bitmap bitmap = new Bitmap(pngFilePath);
+                        textureBox.Image = bitmap;
+                    }
+                    else
+                    {
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "No output PNG file found");
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
+        }
+
+
+        private void saveTextureBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void packTextureBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void unpackTextureBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void clearTempToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            // Clear the PictureBox
+            textureBox.Image = null;
+
+            // Cleaning up directories
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Cleaning up directories");
+            string[] dconvFiles = Directory.GetFiles(Path.Combine(QUtils.qTools, @"DConv\input")).Concat(Directory.GetFiles(Path.Combine(QUtils.qTools, @"DConv\output"))).ToArray();
+            string[] tgaConvFiles = Directory.GetFiles(Path.Combine(QUtils.qTools, @"TGAConv")).ToArray();
+            foreach (string file in dconvFiles.Concat(tgaConvFiles))
+            {
+                try
+                {
+                    if (file.Contains(".exe")) continue; // Skip the TGAConv file.
+                    File.Delete(file);
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Removed file: {file} successfully.");
+                }
+                catch (Exception ex)
+                {
+                    QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+                }
+            }
+        }
+
         private void graphsMarkCb_CheckedChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked) graphsAllCb.Checked = false;

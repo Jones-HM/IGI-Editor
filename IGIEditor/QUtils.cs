@@ -190,7 +190,8 @@ namespace IGIEditor
         internal static string qfilesPath = @"\QFiles";
         internal static string qEditor = "QEditor";
         internal static string qconv = "QConv";
-        internal static string qCompiler = "QCompiler";
+        internal static string qCompiler;
+        internal static string qTools;
         internal static string qfiles = "QFiles";
         internal static string qGraphs = "QGraphs";
         internal static string iniCfgFile;
@@ -474,6 +475,8 @@ namespace IGIEditor
             menusystemGamePath = gameAbsPath + @"\menusystem";
             missionsGamePath = gameAbsPath + @"\missions";
             commonGamePath = gameAbsPath + @"\common";
+            qCompiler = igiEditorQEdPath + @"\QCompiler";
+            qTools = qCompiler + @"\Tools";
             qQVMPath = igiEditorQEdPath + qfilesPath + qedQvmPath;
             qQSCPath = igiEditorQEdPath + qfilesPath + qedQscPath;
             aiIdlePath = igiEditorQEdPath + Path.DirectorySeparatorChar + "aiIdle.qvm";

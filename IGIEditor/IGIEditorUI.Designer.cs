@@ -301,6 +301,12 @@
             this.devFileSizeTxt = new System.Windows.Forms.TextBox();
             this.devVersionTxt = new System.Windows.Forms.TextBox();
             this.createUpdateBtn = new System.Windows.Forms.Button();
+            this.texEditor = new System.Windows.Forms.TabPage();
+            this.saveTextureBtn = new System.Windows.Forms.Button();
+            this.unpackTextureBtn = new System.Windows.Forms.Button();
+            this.packTextureBtn = new System.Windows.Forms.Button();
+            this.loadTextureBtn = new System.Windows.Forms.Button();
+            this.textureBox = new System.Windows.Forms.PictureBox();
             this.levelNameLbl = new System.Windows.Forms.Label();
             this.levelImgBox = new System.Windows.Forms.PictureBox();
             this.appMenuSettings = new System.Windows.Forms.MenuStrip();
@@ -383,6 +389,7 @@
             this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.versionLbl = new System.Windows.Forms.ToolStripTextBox();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
+            this.clearTempToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editorMainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -435,6 +442,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.betaTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).BeginInit();
             this.devMode.SuspendLayout();
+            this.texEditor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).BeginInit();
             this.appMenuSettings.SuspendLayout();
             this.SuspendLayout();
@@ -635,6 +644,7 @@
             this.editorTabs.Controls.Add(this.graphEditor);
             this.editorTabs.Controls.Add(this.positionEditor);
             this.editorTabs.Controls.Add(this.devMode);
+            this.editorTabs.Controls.Add(this.texEditor);
             this.editorTabs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editorTabs.HotTrack = true;
             this.editorTabs.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -4520,6 +4530,83 @@
             this.createUpdateBtn.UseVisualStyleBackColor = true;
             this.createUpdateBtn.Click += new System.EventHandler(this.createUpdateBtn_Click);
             // 
+            // texEditor
+            // 
+            this.texEditor.BackColor = System.Drawing.SystemColors.Control;
+            this.texEditor.Controls.Add(this.saveTextureBtn);
+            this.texEditor.Controls.Add(this.unpackTextureBtn);
+            this.texEditor.Controls.Add(this.packTextureBtn);
+            this.texEditor.Controls.Add(this.loadTextureBtn);
+            this.texEditor.Controls.Add(this.textureBox);
+            this.texEditor.Location = new System.Drawing.Point(8, 44);
+            this.texEditor.Name = "texEditor";
+            this.texEditor.Size = new System.Drawing.Size(1702, 606);
+            this.texEditor.TabIndex = 11;
+            this.texEditor.Text = "Texture Editor";
+            // 
+            // saveTextureBtn
+            // 
+            this.saveTextureBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.saveTextureBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.saveTextureBtn.Location = new System.Drawing.Point(1340, 115);
+            this.saveTextureBtn.Margin = new System.Windows.Forms.Padding(6);
+            this.saveTextureBtn.Name = "saveTextureBtn";
+            this.saveTextureBtn.Size = new System.Drawing.Size(326, 48);
+            this.saveTextureBtn.TabIndex = 46;
+            this.saveTextureBtn.Text = "Save Texture";
+            this.saveTextureBtn.UseVisualStyleBackColor = true;
+            this.saveTextureBtn.Click += new System.EventHandler(this.saveTextureBtn_Click);
+            // 
+            // unpackTextureBtn
+            // 
+            this.unpackTextureBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.unpackTextureBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.unpackTextureBtn.Location = new System.Drawing.Point(1340, 528);
+            this.unpackTextureBtn.Margin = new System.Windows.Forms.Padding(6);
+            this.unpackTextureBtn.Name = "unpackTextureBtn";
+            this.unpackTextureBtn.Size = new System.Drawing.Size(326, 48);
+            this.unpackTextureBtn.TabIndex = 46;
+            this.unpackTextureBtn.Text = "Unpack Texture";
+            this.unpackTextureBtn.UseVisualStyleBackColor = true;
+            this.unpackTextureBtn.Click += new System.EventHandler(this.unpackTextureBtn_Click);
+            // 
+            // packTextureBtn
+            // 
+            this.packTextureBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.packTextureBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.packTextureBtn.Location = new System.Drawing.Point(1340, 437);
+            this.packTextureBtn.Margin = new System.Windows.Forms.Padding(6);
+            this.packTextureBtn.Name = "packTextureBtn";
+            this.packTextureBtn.Size = new System.Drawing.Size(326, 48);
+            this.packTextureBtn.TabIndex = 46;
+            this.packTextureBtn.Text = "Pack Texture";
+            this.packTextureBtn.UseVisualStyleBackColor = true;
+            this.packTextureBtn.Click += new System.EventHandler(this.packTextureBtn_Click);
+            // 
+            // loadTextureBtn
+            // 
+            this.loadTextureBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.loadTextureBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.loadTextureBtn.Location = new System.Drawing.Point(1340, 19);
+            this.loadTextureBtn.Margin = new System.Windows.Forms.Padding(6);
+            this.loadTextureBtn.Name = "loadTextureBtn";
+            this.loadTextureBtn.Size = new System.Drawing.Size(326, 48);
+            this.loadTextureBtn.TabIndex = 46;
+            this.loadTextureBtn.Text = "Load Texture";
+            this.loadTextureBtn.UseVisualStyleBackColor = true;
+            this.loadTextureBtn.Click += new System.EventHandler(this.loadTextureBtn_Click);
+            // 
+            // textureBox
+            // 
+            this.textureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textureBox.Location = new System.Drawing.Point(14, 6);
+            this.textureBox.Margin = new System.Windows.Forms.Padding(6);
+            this.textureBox.Name = "textureBox";
+            this.textureBox.Size = new System.Drawing.Size(1303, 602);
+            this.textureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.textureBox.TabIndex = 45;
+            this.textureBox.TabStop = false;
+            // 
             // levelNameLbl
             // 
             this.levelNameLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -4544,7 +4631,6 @@
             // 
             // appMenuSettings
             // 
-            this.appMenuSettings.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.appMenuSettings.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.appMenuSettings.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
@@ -4593,7 +4679,6 @@
             // 
             // levelStartTxtMenu
             // 
-            this.levelStartTxtMenu.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.levelStartTxtMenu.Name = "levelStartTxtMenu";
             this.levelStartTxtMenu.Size = new System.Drawing.Size(224, 39);
             this.levelStartTxtMenu.Text = "1";
@@ -4724,7 +4809,6 @@
             // 
             // gameProfileNameLbl
             // 
-            this.gameProfileNameLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.gameProfileNameLbl.Name = "gameProfileNameLbl";
             this.gameProfileNameLbl.Size = new System.Drawing.Size(224, 39);
             this.gameProfileNameLbl.Text = "N/A";
@@ -4831,7 +4915,6 @@
             // 
             // musicVolumeUpdateTxt
             // 
-            this.musicVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.musicVolumeUpdateTxt.Name = "musicVolumeUpdateTxt";
             this.musicVolumeUpdateTxt.Size = new System.Drawing.Size(224, 39);
             this.musicVolumeUpdateTxt.Text = "5.0";
@@ -4847,7 +4930,6 @@
             // 
             // sfxVolumeUpdateTxt
             // 
-            this.sfxVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.sfxVolumeUpdateTxt.Name = "sfxVolumeUpdateTxt";
             this.sfxVolumeUpdateTxt.Size = new System.Drawing.Size(224, 39);
             this.sfxVolumeUpdateTxt.Text = "3.5";
@@ -4863,7 +4945,6 @@
             // 
             // framesTxt
             // 
-            this.framesTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.framesTxt.Name = "framesTxt";
             this.framesTxt.Size = new System.Drawing.Size(224, 39);
             this.framesTxt.Text = "30";
@@ -4983,7 +5064,7 @@
             this.shareAppLogsBtn,
             this.viewAppLogsBtn});
             this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            this.logsToolStripMenuItem.Size = new System.Drawing.Size(344, 44);
+            this.logsToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.logsToolStripMenuItem.Text = "Logs";
             // 
             // appLogsCb
@@ -5011,22 +5092,23 @@
             // 
             this.appdataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showAppDataCachePathBtn,
-            this.clearCacheBtn});
+            this.clearCacheBtn,
+            this.clearTempToolStripMenuItem});
             this.appdataToolStripMenuItem.Name = "appdataToolStripMenuItem";
-            this.appdataToolStripMenuItem.Size = new System.Drawing.Size(344, 44);
+            this.appdataToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.appdataToolStripMenuItem.Text = "Appdata";
             // 
             // showAppDataCachePathBtn
             // 
             this.showAppDataCachePathBtn.Name = "showAppDataCachePathBtn";
-            this.showAppDataCachePathBtn.Size = new System.Drawing.Size(275, 44);
+            this.showAppDataCachePathBtn.Size = new System.Drawing.Size(359, 44);
             this.showAppDataCachePathBtn.Text = "Show Path";
             this.showAppDataCachePathBtn.Click += new System.EventHandler(this.showAppDataCachePathBtn_Click);
             // 
             // clearCacheBtn
             // 
             this.clearCacheBtn.Name = "clearCacheBtn";
-            this.clearCacheBtn.Size = new System.Drawing.Size(275, 44);
+            this.clearCacheBtn.Size = new System.Drawing.Size(359, 44);
             this.clearCacheBtn.Text = "Clear Cache";
             this.clearCacheBtn.Click += new System.EventHandler(this.clearCacheBtn_Click);
             // 
@@ -5036,7 +5118,7 @@
             this.autoResetCb,
             this.autoRefreshGameCb});
             this.autoOptionsToolStripMenuItem.Name = "autoOptionsToolStripMenuItem";
-            this.autoOptionsToolStripMenuItem.Size = new System.Drawing.Size(344, 44);
+            this.autoOptionsToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.autoOptionsToolStripMenuItem.Text = "Auto level options";
             // 
             // autoResetCb
@@ -5059,7 +5141,7 @@
             this.internalCompilerCb,
             this.externalCompilerCb});
             this.compilerSelectToolStripMenuItem.Name = "compilerSelectToolStripMenuItem";
-            this.compilerSelectToolStripMenuItem.Size = new System.Drawing.Size(344, 44);
+            this.compilerSelectToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.compilerSelectToolStripMenuItem.Text = "Compiler select";
             // 
             // internalCompilerCb
@@ -5082,7 +5164,7 @@
             this.editorUpdaterBtn,
             this.updateCheckerAutomaticOption});
             this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
-            this.updateToolStripMenuItem.Size = new System.Drawing.Size(344, 44);
+            this.updateToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.updateToolStripMenuItem.Text = "Update";
             // 
             // editorUpdaterBtn
@@ -5103,7 +5185,6 @@
             // 
             // updateIntervalTxt
             // 
-            this.updateIntervalTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.updateIntervalTxt.Name = "updateIntervalTxt";
             this.updateIntervalTxt.Size = new System.Drawing.Size(224, 39);
             this.updateIntervalTxt.Text = "15";
@@ -5120,7 +5201,7 @@
             // appSupportBtn
             // 
             this.appSupportBtn.Name = "appSupportBtn";
-            this.appSupportBtn.Size = new System.Drawing.Size(344, 44);
+            this.appSupportBtn.Size = new System.Drawing.Size(359, 44);
             this.appSupportBtn.Text = "Support";
             this.appSupportBtn.Click += new System.EventHandler(this.appSupportBtn_Click);
             // 
@@ -5130,7 +5211,7 @@
             this.exportObjectsDD,
             this.exportObjectsBtn});
             this.exportObjectsToolStripMenuItem.Name = "exportObjectsToolStripMenuItem";
-            this.exportObjectsToolStripMenuItem.Size = new System.Drawing.Size(344, 44);
+            this.exportObjectsToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.exportObjectsToolStripMenuItem.Text = "Export Objects";
             // 
             // exportObjectsDD
@@ -5153,7 +5234,7 @@
             // gamePathBtn
             // 
             this.gamePathBtn.Name = "gamePathBtn";
-            this.gamePathBtn.Size = new System.Drawing.Size(344, 44);
+            this.gamePathBtn.Size = new System.Drawing.Size(359, 44);
             this.gamePathBtn.Text = "Set Game path";
             this.gamePathBtn.Click += new System.EventHandler(this.gamePathBtn_Click);
             // 
@@ -5183,10 +5264,16 @@
             // 
             // versionLbl
             // 
-            this.versionLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.versionLbl.Name = "versionLbl";
             this.versionLbl.Size = new System.Drawing.Size(224, 39);
             this.versionLbl.Text = "IGI-1.1";
+            // 
+            // clearTempToolStripMenuItem
+            // 
+            this.clearTempToolStripMenuItem.Name = "clearTempToolStripMenuItem";
+            this.clearTempToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.clearTempToolStripMenuItem.Text = "Clear Temp";
+            this.clearTempToolStripMenuItem.Click += new System.EventHandler(this.clearTempToolStripMenuItem_Click);
             // 
             // IGIEditorUI
             // 
@@ -5264,6 +5351,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.alphaTxt)).EndInit();
             this.devMode.ResumeLayout(false);
             this.devMode.PerformLayout();
+            this.texEditor.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.textureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.levelImgBox)).EndInit();
             this.appMenuSettings.ResumeLayout(false);
             this.appMenuSettings.PerformLayout();
@@ -5626,6 +5715,13 @@
         private System.Windows.Forms.ToolStripMenuItem compilerTypeLbl;
         private System.Windows.Forms.Button loadWeaponProps;
         private System.Windows.Forms.Button saveWeaponProps;
+        private System.Windows.Forms.TabPage texEditor;
+        private System.Windows.Forms.Button saveTextureBtn;
+        private System.Windows.Forms.Button unpackTextureBtn;
+        private System.Windows.Forms.Button packTextureBtn;
+        private System.Windows.Forms.Button loadTextureBtn;
+        private System.Windows.Forms.PictureBox textureBox;
+        private System.Windows.Forms.ToolStripMenuItem clearTempToolStripMenuItem;
     }
 }
 
