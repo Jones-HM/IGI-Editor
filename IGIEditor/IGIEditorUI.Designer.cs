@@ -303,8 +303,8 @@
             this.createUpdateBtn = new System.Windows.Forms.Button();
             this.texEditor = new System.Windows.Forms.TabPage();
             this.saveTextureBtn = new System.Windows.Forms.Button();
-            this.unpackTextureBtn = new System.Windows.Forms.Button();
-            this.packTextureBtn = new System.Windows.Forms.Button();
+            this.unpackResourceBtn = new System.Windows.Forms.Button();
+            this.packResourceBtn = new System.Windows.Forms.Button();
             this.loadTextureBtn = new System.Windows.Forms.Button();
             this.textureBox = new System.Windows.Forms.PictureBox();
             this.levelNameLbl = new System.Windows.Forms.Label();
@@ -4534,8 +4534,8 @@
             // 
             this.texEditor.BackColor = System.Drawing.SystemColors.Control;
             this.texEditor.Controls.Add(this.saveTextureBtn);
-            this.texEditor.Controls.Add(this.unpackTextureBtn);
-            this.texEditor.Controls.Add(this.packTextureBtn);
+            this.texEditor.Controls.Add(this.unpackResourceBtn);
+            this.texEditor.Controls.Add(this.packResourceBtn);
             this.texEditor.Controls.Add(this.loadTextureBtn);
             this.texEditor.Controls.Add(this.textureBox);
             this.texEditor.Location = new System.Drawing.Point(8, 44);
@@ -4557,31 +4557,31 @@
             this.saveTextureBtn.UseVisualStyleBackColor = true;
             this.saveTextureBtn.Click += new System.EventHandler(this.saveTextureBtn_Click);
             // 
-            // unpackTextureBtn
+            // unpackResourceBtn
             // 
-            this.unpackTextureBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.unpackTextureBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.unpackTextureBtn.Location = new System.Drawing.Point(1340, 528);
-            this.unpackTextureBtn.Margin = new System.Windows.Forms.Padding(6);
-            this.unpackTextureBtn.Name = "unpackTextureBtn";
-            this.unpackTextureBtn.Size = new System.Drawing.Size(326, 48);
-            this.unpackTextureBtn.TabIndex = 46;
-            this.unpackTextureBtn.Text = "Unpack Texture";
-            this.unpackTextureBtn.UseVisualStyleBackColor = true;
-            this.unpackTextureBtn.Click += new System.EventHandler(this.unpackTextureBtn_Click);
+            this.unpackResourceBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.unpackResourceBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.unpackResourceBtn.Location = new System.Drawing.Point(1340, 528);
+            this.unpackResourceBtn.Margin = new System.Windows.Forms.Padding(6);
+            this.unpackResourceBtn.Name = "unpackResourceBtn";
+            this.unpackResourceBtn.Size = new System.Drawing.Size(326, 48);
+            this.unpackResourceBtn.TabIndex = 46;
+            this.unpackResourceBtn.Text = "Unpack Reesource";
+            this.unpackResourceBtn.UseVisualStyleBackColor = true;
+            this.unpackResourceBtn.Click += new System.EventHandler(this.unpackResourceBtn_Click);
             // 
-            // packTextureBtn
+            // packResourceBtn
             // 
-            this.packTextureBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.packTextureBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.packTextureBtn.Location = new System.Drawing.Point(1340, 437);
-            this.packTextureBtn.Margin = new System.Windows.Forms.Padding(6);
-            this.packTextureBtn.Name = "packTextureBtn";
-            this.packTextureBtn.Size = new System.Drawing.Size(326, 48);
-            this.packTextureBtn.TabIndex = 46;
-            this.packTextureBtn.Text = "Pack Texture";
-            this.packTextureBtn.UseVisualStyleBackColor = true;
-            this.packTextureBtn.Click += new System.EventHandler(this.packTextureBtn_Click);
+            this.packResourceBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.packResourceBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.packResourceBtn.Location = new System.Drawing.Point(1340, 437);
+            this.packResourceBtn.Margin = new System.Windows.Forms.Padding(6);
+            this.packResourceBtn.Name = "packResourceBtn";
+            this.packResourceBtn.Size = new System.Drawing.Size(326, 48);
+            this.packResourceBtn.TabIndex = 46;
+            this.packResourceBtn.Text = "Pack Resource";
+            this.packResourceBtn.UseVisualStyleBackColor = true;
+            this.packResourceBtn.Click += new System.EventHandler(this.packResourceBtn_Click);
             // 
             // loadTextureBtn
             // 
@@ -5728,8 +5728,8 @@
         private System.Windows.Forms.Button saveWeaponProps;
         private System.Windows.Forms.TabPage texEditor;
         private System.Windows.Forms.Button saveTextureBtn;
-        private System.Windows.Forms.Button unpackTextureBtn;
-        private System.Windows.Forms.Button packTextureBtn;
+        private System.Windows.Forms.Button unpackResourceBtn;
+        private System.Windows.Forms.Button packResourceBtn;
         private System.Windows.Forms.Button loadTextureBtn;
         private System.Windows.Forms.PictureBox textureBox;
         private System.Windows.Forms.ToolStripMenuItem clearTempToolStripMenuItem;

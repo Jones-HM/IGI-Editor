@@ -4679,7 +4679,7 @@ namespace IGIEditor
 
                 // Select TEX file using file dialog
                 OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Texture files (*.tex)|*.tex|All files (*.*)|*.*";
+                openFileDialog.Filter = "Texture files (*.tex, *.spr, *.pic)|*.tex;*.spr;*.pic|All files (*.*)|*.*";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     // Selecting the source Tex file.
@@ -4794,7 +4794,7 @@ namespace IGIEditor
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Cleaning up directories");
                     File.Delete(inputFilePath);
                     File.Delete(makeTexScriptPath);
-                    SetStatusText($"File {sourceFileNameWithoutExt} saved as texture successfully.");
+                    SetStatusText($"Resource {sourceFileNameWithoutExt} saved as texture successfully.");
                 }
             }
             catch (Exception ex)
@@ -4803,14 +4803,34 @@ namespace IGIEditor
             }
         }
 
-
-
-        private void packTextureBtn_Click(object sender, EventArgs e)
+        private void packResourceBtn_Click(object sender, EventArgs e)
         {
+            // Select QSC file using file dialog
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Resource script files (*.qsc)|*.qsc|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string scriptPath = openFileDialog.FileName;
+                string sourceFileNameWithoutExt = Path.GetFileNameWithoutExtension(scriptPath);
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Selected GConv script file: {scriptPath}");
 
+                // Get the input path from the QSC file
+                string inputPath = Path.GetDirectoryName(scriptPath);
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Input path: {inputPath}");
+
+                // Run GConv to process the script
+                string gconvPath = Path.Combine(QUtils.qTools, @"GConv\gconv.exe");
+                string gconvDir = Path.Combine(QUtils.qTools, @"GConv");
+                string gconvArgs = $"\"{scriptPath}\" -InputPath=\"{inputPath}\"";
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Running GConv: {gconvPath} {gconvArgs}");
+                QUtils.ShellExec($"cd {gconvDir} && {gconvPath} {gconvArgs}");
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GConv script execution completed");
+                SetStatusText($"Resource {sourceFileNameWithoutExt} packed successfully.");
+            }
         }
 
-        private void unpackTextureBtn_Click(object sender, EventArgs e)
+
+        private void unpackResourceBtn_Click(object sender, EventArgs e)
         {
             // Select resource file using file dialog
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -4818,6 +4838,7 @@ namespace IGIEditor
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string sourcePath = openFileDialog.FileName;
+                string sourceFileNameWithoutExt = Path.GetFileNameWithoutExtension(sourcePath);
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Selected resource file: {sourcePath}");
 
                 // Create input and output directories
@@ -4838,8 +4859,9 @@ namespace IGIEditor
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GConv decompilation completed");
 
                 // Delete decompile script
-                //File.Delete(decompileScriptPath);
+                File.Delete(decompileScriptPath);
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Deleted decompile script: {decompileScriptPath}");
+                SetStatusText($"Resource {sourceFileNameWithoutExt} unpacked successfully.");
             }
         }
 
