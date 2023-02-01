@@ -178,10 +178,12 @@ namespace IGIEditor
                     QUtils.FileIOCopy(weaponsCfgQscPath, QUtils.weaponConfigQSC);
                 }
 
+                // Reset section.
                 if (gameReset)
                 { 
                     QUtils.ResetScriptFile(gameLevel);
                 }
+                clearTempToolStripMenuItem_Click(null, null);
 
                 if (appLogs)
                 {
@@ -4662,16 +4664,25 @@ namespace IGIEditor
             }
         }
 
-        private string ConvertTextureImage(string textureFilePath)
+        private string ConvertTextureImage(string textureFilePath,bool resourceFile=false)
         {
             try
             {
                 // Clear the PictureBox
                 textureBox.Image = null;
+                string sourceDir = null;
+                string destDir = null;
 
                 // Move all files from source path to DConv input directory
-                string sourceDir = Path.GetDirectoryName(textureFilePath);
-                string destDir = Path.Combine(QUtils.qTools, @"DConv\input");
+                if (!resourceFile)
+                {
+                    sourceDir = Path.GetDirectoryName(textureFilePath);
+                }
+                else
+                {
+                    sourceDir = textureFilePath;
+                }
+                destDir = Path.Combine(QUtils.qTools, @"DConv\input");
 
                 // Copy all files to DConv directory.
                 Directory.CreateDirectory(destDir);
@@ -4759,11 +4770,27 @@ namespace IGIEditor
                 {
                     var selectedPath = Path.GetDirectoryName(folderBrowser.FileName) + Path.DirectorySeparatorChar;
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"selectedPath: {selectedPath}");
+                    string outputPath = null;
 
-                    string outputPath = ConvertTextureImage(selectedPath);
-                    texFiles = Directory.GetFiles(outputPath, "*.png");
+                    if (folderBrowser.FileName.Contains(".res"))
+                    {
+                        QUtils.ShowWarning("Resource file needs to be unpacked first.");
+                        UnpackResourceFile(folderBrowser.FileName);
+                        SetStatusText($"File {folderBrowser.FileName} unpacked success");
+                        var basePathName = Path.GetFileName(Path.GetDirectoryName(folderBrowser.FileName));
+                        selectedPath += Path.DirectorySeparatorChar + basePathName;
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"After Unpacking new path: {selectedPath}");
+                        
+                        outputPath = ConvertTextureImage(selectedPath, true);
+                        texFiles = Directory.GetFiles(outputPath, "*.png");
+                    }
+                    else
+                    {
+                        outputPath = ConvertTextureImage(selectedPath);
+                        texFiles = Directory.GetFiles(outputPath, "*.png");
+                    }
 
-                    if (selectedPath.Length > 0)
+                    if (texFiles.Length > 0)
                     {
                         SetStatusText("All textures were loaded successfully.");
                         SetTextureImage(texFiles[0]);
@@ -4849,22 +4876,53 @@ namespace IGIEditor
                 string scriptPath = openFileDialog.FileName;
                 string sourceFileNameWithoutExt = Path.GetFileNameWithoutExtension(scriptPath);
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Selected GConv script file: {scriptPath}");
-
-                // Get the input path from the QSC file
-                string inputPath = Path.GetDirectoryName(scriptPath);
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Input path: {inputPath}");
-
-                // Run GConv to process the script
-                string gconvPath = Path.Combine(QUtils.qTools, @"GConv\gconv.exe");
-                string gconvDir = Path.Combine(QUtils.qTools, @"GConv");
-                string gconvArgs = $"\"{scriptPath}\" -InputPath=\"{inputPath}\"";
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Running GConv: {gconvPath} {gconvArgs}");
-                QUtils.ShellExec($"cd {gconvDir} && {gconvPath} {gconvArgs}");
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GConv script execution completed");
-                SetStatusText($"Resource {sourceFileNameWithoutExt} packed successfully.");
+                PackResourceFile(scriptPath);
             }
         }
 
+        private void PackResourceFile(string resourceFile)
+        {
+            // Get the input path from the QSC file
+            string inputPath = Path.GetDirectoryName(resourceFile);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Input path: {inputPath}");
+            string sourceFileNameWithoutExt = Path.GetFileNameWithoutExtension(resourceFile);
+
+            // Run GConv to process the script
+            string gconvPath = Path.Combine(QUtils.qTools, @"GConv\gconv.exe");
+            string gconvDir = Path.Combine(QUtils.qTools, @"GConv");
+            string gconvArgs = $"\"{resourceFile}\" -InputPath=\"{inputPath}\"";
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Running GConv: {gconvPath} {gconvArgs}");
+            QUtils.ShellExec($"cd {gconvDir} && {gconvPath} {gconvArgs}");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GConv script execution completed");
+            SetStatusText($"Resource {sourceFileNameWithoutExt} packed successfully.");
+        }
+
+        private void UnpackResourceFile(string resourceFile)
+        {
+
+            // Create input and output directories
+            string inputDirectoryPath = Path.GetDirectoryName(resourceFile);
+            string outputDirectoryPath = inputDirectoryPath;
+            string sourceFileNameWithoutExt = Path.GetFileNameWithoutExtension(resourceFile);
+
+            // Generate decompile script
+            string decompileScriptPath = Path.Combine(QUtils.qTools, "decompile.qsc");
+            string decompileCmd = $"ExtractResource(\"{Path.GetFileName(resourceFile)}\");";
+            File.WriteAllText(decompileScriptPath, decompileCmd);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Created decompile script: {decompileCmd}");
+
+            // Run GConv to decompile the resource file
+            string gconvPath = Path.Combine(QUtils.qTools, @"GConv\gconv.exe");
+            string gconvArgs = $"\"{decompileScriptPath}\" -InputPath=\"{inputDirectoryPath}\" -OutputPath=\"{outputDirectoryPath}\"";
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Running GConv: {gconvPath} {gconvArgs}");
+            QUtils.ShellExec($"{gconvPath} {gconvArgs}");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GConv decompilation completed");
+
+            // Delete decompile script
+            File.Delete(decompileScriptPath);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Deleted decompile script: {decompileScriptPath}");
+            SetStatusText($"Resource {sourceFileNameWithoutExt} unpacked successfully.");
+        }
 
         private void unpackResourceBtn_Click(object sender, EventArgs e)
         {
@@ -4876,34 +4934,9 @@ namespace IGIEditor
                 string sourcePath = openFileDialog.FileName;
                 string sourceFileNameWithoutExt = Path.GetFileNameWithoutExtension(sourcePath);
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Selected resource file: {sourcePath}");
-
-                // Create input and output directories
-                string inputDirectoryPath = Path.GetDirectoryName(sourcePath);
-                string outputDirectoryPath = inputDirectoryPath;
-
-                // Generate decompile script
-                string decompileScriptPath = Path.Combine(QUtils.qTools, "decompile.qsc");
-                string decompileCmd = $"ExtractResource(\"{Path.GetFileName(sourcePath)}\");";
-                File.WriteAllText(decompileScriptPath, decompileCmd);
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Created decompile script: {decompileCmd}");
-
-                // Run GConv to decompile the resource file
-                string gconvPath = Path.Combine(QUtils.qTools, @"GConv\gconv.exe");
-                string gconvArgs = $"\"{decompileScriptPath}\" -InputPath=\"{inputDirectoryPath}\" -OutputPath=\"{outputDirectoryPath}\"";
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Running GConv: {gconvPath} {gconvArgs}");
-                QUtils.ShellExec($"{gconvPath} {gconvArgs}");
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GConv decompilation completed");
-
-                // Delete decompile script
-                File.Delete(decompileScriptPath);
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Deleted decompile script: {decompileScriptPath}");
-                SetStatusText($"Resource {sourceFileNameWithoutExt} unpacked successfully.");
+                UnpackResourceFile(sourcePath);
             }
         }
-
-
-
-
 
 
         private Point lastPoint;
