@@ -151,25 +151,25 @@ namespace IGIEditor
                 }
                 else
                 {
-                    QMemory.StartLevel(gameLevel, true);
-                    QUtils.gameFound = true;
-                    Thread.Sleep(3000);
+                    // Game is not running here | SECTION.
+                    QUtils.gameFound = false;
+                }
 
-                    if (autoResetCb.Checked)
+                // Copy file data if game found.
+                if (QUtils.gameFound)
+                {
+                    string inputQscPath = QUtils.cfgQscPath + gameLevel + "\\" + QUtils.objectsQsc;
+                    QUtils.graphsPath = QUtils.cfgGamePath + gameLevel + "\\" + "graphs";
+
+                    if (!File.Exists(QUtils.objectsQsc) && File.Exists(inputQscPath))
                     {
-                        QUtils.RestoreLevel(gameLevel);
-                        QUtils.ResetScriptFile(gameLevel);
+                        QUtils.FileIOCopy(inputQscPath, QUtils.objectsQsc);
+                    }
+                    else if (!File.Exists(inputQscPath))
+                    {
+                        throw new Exception("File 'objects.qsc' is missing from path '" + QUtils.cfgQscPath + gameLevel + "\\'");
                     }
                 }
-
-                var inputQscPath = QUtils.cfgQscPath + gameLevel + "\\" + QUtils.objectsQsc;
-                QUtils.graphsPath = QUtils.cfgGamePath + gameLevel + "\\" + "graphs";
-
-                if (!File.Exists(QUtils.objectsQsc) && File.Exists(inputQscPath))
-                {
-                    QUtils.FileIOCopy(inputQscPath, QUtils.objectsQsc);
-                }
-                else if (!File.Exists(inputQscPath)) throw new Exception("File 'objects.qsc' is missing from path '" + QUtils.cfgQscPath + gameLevel + "\\'");
 
                 if (!File.Exists(QUtils.weaponConfigQSC) && File.Exists(QUtils.weaponsCfgQscPath))
                 {
@@ -474,10 +474,13 @@ namespace IGIEditor
             {
                 int currLevel = QMemory.GetRunningLevel();
                 if (currLevel != gameLevel)
+                {
                     refreshGame_Click(sender, e);
-
+                }
                 else
+                {
                     InitEditorPaths(currLevel);
+                }
             }
 
             //Start Game if not found.
@@ -486,7 +489,6 @@ namespace IGIEditor
                 SetStatusText("Game not running... starting");
                 startGameBtn_Click(sender, e);
             }
-
         }
 
         private void InternalsAttachedTimer(object sender, EventArgs e)
@@ -2483,7 +2485,7 @@ namespace IGIEditor
             {
                 QMemory.DisableGameWarnings();
             }
-            QUtils.gameDisableWarns = ((CheckBox)sender).Checked;
+            QUtils.gameDisableWarns = disableWarningsCb.Checked;
         }
 
         private void addNodesBtn_Click(object sender, EventArgs e)
@@ -4574,6 +4576,96 @@ namespace IGIEditor
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+
+        private void saveWeaponProps_Click(object sender, EventArgs e)
+        {
+            string weaponNameTxtValue = weaponNameTxt.Text;
+            string weaponDescriptionTxtValue = weaponDescriptionTxt.Text;
+            string weaponSightTypeDDValue = weaponSightTypeDD.Text;
+            string weaponDisplayTypeDDValue = weaponDisplayTypeDD.Text;
+            string weaponSfx1DDValue = weaponSfx1DD.Text;
+            string weaponSfx2DDValue = weaponSfx2DD.Text;
+            string weaponDamageTxtValue = weaponDamageTxt.Text;
+            string weaponPowerTxtValue = weaponPowerTxt.Text;
+            string weaponRangeTxtValue = weaponRangeTxt.Text;
+            string weaponBulletsTxtValue = weaponBulletsTxt.Text;
+            string weaponRoundPerMinuteTxtValue = weaponRoundPerMinuteTxt.Text;
+            string weaponRoundPerClipTxtValue = weaponRoundPerClipTxt.Text;
+
+            Dictionary<string, string> weaponProperties = new Dictionary<string, string>
+    {
+        { "weaponNameTxt", weaponNameTxtValue },
+        { "weaponDescriptionTxt", weaponDescriptionTxtValue },
+        { "weaponSightTypeDD", weaponSightTypeDDValue },
+        { "weaponDisplayTypeDD", weaponDisplayTypeDDValue },
+        { "weaponSfx1DD", weaponSfx1DDValue },
+        { "weaponSfx2DD", weaponSfx2DDValue },
+        { "weaponDamageTxt", weaponDamageTxtValue },
+        { "weaponPowerTxt", weaponPowerTxtValue },
+        { "weaponRangeTxt", weaponRangeTxtValue },
+        { "weaponBulletsTxt", weaponBulletsTxtValue },
+        { "weaponRoundPerMinuteTxt", weaponRoundPerMinuteTxtValue },
+        { "weaponRoundPerClipTxt", weaponRoundPerClipTxtValue }
+    };
+
+            string weaponPropertiesJson = JsonConvert.SerializeObject(weaponProperties, Formatting.Indented);
+            var dialogMsgResult = DialogMsgBox.ShowBox("Save Weapon File", "Enter file name", MsgBoxButtons.YesNo, showInput: true, inputHidden: false);
+            if (dialogMsgResult == DialogResult.Yes)
+            {
+                string fileName = DialogMsgBox.GetInputBoxData();
+                if (!string.IsNullOrEmpty(fileName))
+                {
+                    string directoryPath = QUtils.qWeaponsModPath;
+                    if (!Directory.Exists(directoryPath))
+                    {
+                        Directory.CreateDirectory(directoryPath);
+                    }
+                    string filePath = Path.Combine(directoryPath, fileName + ".json");
+                    QUtils.SaveFile(filePath, weaponPropertiesJson);
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Weapon properties saved to file: " + fileName);
+                }
+            }
+        }
+
+        private void loadWeaponProps_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the file weapon file name.
+                var fopenIO = QUtils.ShowOpenFileDlg("Select Weapon File", ".json", "JSON File|*.json|Text file|*.txt", true, QUtils.qWeaponsModPath);
+                string fileName = fopenIO.FileName;
+
+                if (File.Exists(fileName))
+                {
+                    string weaponPropertiesJson = QUtils.LoadFile(fileName);
+                    Dictionary<string, string> weaponProperties = JsonConvert.DeserializeObject<Dictionary<string, string>>(weaponPropertiesJson);
+
+                    weaponNameTxt.Text = weaponProperties["weaponNameTxt"];
+                    weaponDescriptionTxt.Text = weaponProperties["weaponDescriptionTxt"];
+                    weaponSightTypeDD.Text = weaponProperties["weaponSightTypeDD"];
+                    weaponDisplayTypeDD.Text = weaponProperties["weaponDisplayTypeDD"];
+                    weaponSfx1DD.Text = weaponProperties["weaponSfx1DD"];
+                    weaponSfx2DD.Text = weaponProperties["weaponSfx2DD"];
+                    weaponDamageTxt.Text = weaponProperties["weaponDamageTxt"];
+                    weaponPowerTxt.Text = weaponProperties["weaponPowerTxt"];
+                    weaponRangeTxt.Text = weaponProperties["weaponRangeTxt"];
+                    weaponBulletsTxt.Text = weaponProperties["weaponBulletsTxt"];
+                    weaponRoundPerMinuteTxt.Text = weaponProperties["weaponRoundPerMinuteTxt"];
+                    weaponRoundPerClipTxt.Text = weaponProperties["weaponRoundPerClipTxt"];
+
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Weapon properties loaded from file: " + fileName);
+                }
+                else
+                {
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Weapon properties file not found: " + fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
         }
 
         private void graphsMarkCb_CheckedChanged(object sender, EventArgs e)

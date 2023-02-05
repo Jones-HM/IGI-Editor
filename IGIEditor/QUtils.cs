@@ -96,7 +96,7 @@ namespace IGIEditor
         internal static int ekkTeamTaskId = -1;
         internal static int aiScriptId = 0;
         internal static int gGameLevel = 1;
-        internal static int GAME_MAX_LEVEL = 3;
+        internal static int GAME_MAX_LEVEL = 14;
         internal static int currGameLevel = 1;
         internal static int updateTimeInterval = 10;
         internal static int gameFPS = 30;
@@ -146,7 +146,7 @@ namespace IGIEditor
 
         #region App Version
         internal static string versionFileName = "VERSION";
-        internal static string appEditorSubVersion = "0.7.2.0";
+        internal static string appEditorSubVersion = "0.7.3.0";
         internal static float viewPortDelta = 10000.0f;
         #endregion
 
@@ -175,6 +175,7 @@ namespace IGIEditor
         internal static string qGraphsPath;
         internal static string qWeaponsPath;
         internal static string qWeaponsGroupPath;
+        internal static string qWeaponsModPath;
         internal static string qQVMPath;
         internal static string qQSCPath;
         internal static string cfgWeaponsPath;
@@ -467,6 +468,7 @@ namespace IGIEditor
             qGraphsPath = igiEditorQEdPath + @"\QGraphs";
             qWeaponsPath = igiEditorQEdPath + @"\QWeapons";
             qWeaponsGroupPath = qWeaponsPath + "\\" + "Group";
+            qWeaponsModPath = qWeaponsPath + "\\" + "Mod";
             weaponsGamePath = gameAbsPath + @"\weapons";
             humanplayerGamePath = gameAbsPath + @"\humanplayer";
             menusystemGamePath = gameAbsPath + @"\menusystem";

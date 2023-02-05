@@ -161,6 +161,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.addWeaponBtn = new System.Windows.Forms.Button();
             this.weaponCfgEditor = new System.Windows.Forms.TabPage();
+            this.loadWeaponProps = new System.Windows.Forms.Button();
+            this.saveWeaponProps = new System.Windows.Forms.Button();
             this.resetWeaponBtn = new System.Windows.Forms.Button();
             this.weaponRangeTxt = new System.Windows.Forms.NumericUpDown();
             this.weaponRangeLbl = new System.Windows.Forms.Label();
@@ -2453,6 +2455,8 @@
             // weaponCfgEditor
             // 
             this.weaponCfgEditor.BackColor = System.Drawing.SystemColors.Control;
+            this.weaponCfgEditor.Controls.Add(this.loadWeaponProps);
+            this.weaponCfgEditor.Controls.Add(this.saveWeaponProps);
             this.weaponCfgEditor.Controls.Add(this.resetWeaponBtn);
             this.weaponCfgEditor.Controls.Add(this.weaponRangeTxt);
             this.weaponCfgEditor.Controls.Add(this.weaponRangeLbl);
@@ -2491,10 +2495,38 @@
             this.weaponCfgEditor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.weaponCfgEditor.Name = "weaponCfgEditor";
             this.weaponCfgEditor.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.weaponCfgEditor.Size = new System.Drawing.Size(1686, 523);
+            this.weaponCfgEditor.Size = new System.Drawing.Size(1686, 559);
             this.weaponCfgEditor.TabIndex = 1;
             this.weaponCfgEditor.Text = "Weapon Editor";
             this.weaponCfgEditor.Click += new System.EventHandler(this.weaponCfgEditor_Click);
+            // 
+            // loadWeaponProps
+            // 
+            this.loadWeaponProps.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.loadWeaponProps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.loadWeaponProps.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.loadWeaponProps.Location = new System.Drawing.Point(1424, 11);
+            this.loadWeaponProps.Margin = new System.Windows.Forms.Padding(6);
+            this.loadWeaponProps.Name = "loadWeaponProps";
+            this.loadWeaponProps.Size = new System.Drawing.Size(249, 48);
+            this.loadWeaponProps.TabIndex = 157;
+            this.loadWeaponProps.Text = "Load";
+            this.loadWeaponProps.UseVisualStyleBackColor = true;
+            this.loadWeaponProps.Click += new System.EventHandler(this.loadWeaponProps_Click);
+            // 
+            // saveWeaponProps
+            // 
+            this.saveWeaponProps.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.saveWeaponProps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.saveWeaponProps.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.saveWeaponProps.Location = new System.Drawing.Point(1174, 11);
+            this.saveWeaponProps.Margin = new System.Windows.Forms.Padding(6);
+            this.saveWeaponProps.Name = "saveWeaponProps";
+            this.saveWeaponProps.Size = new System.Drawing.Size(249, 48);
+            this.saveWeaponProps.TabIndex = 156;
+            this.saveWeaponProps.Text = "Save";
+            this.saveWeaponProps.UseVisualStyleBackColor = true;
+            this.saveWeaponProps.Click += new System.EventHandler(this.saveWeaponProps_Click);
             // 
             // resetWeaponBtn
             // 
@@ -2997,7 +3029,7 @@
             this.weaponCfgAdvanceEditor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.weaponCfgAdvanceEditor.Name = "weaponCfgAdvanceEditor";
             this.weaponCfgAdvanceEditor.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.weaponCfgAdvanceEditor.Size = new System.Drawing.Size(1686, 523);
+            this.weaponCfgAdvanceEditor.Size = new System.Drawing.Size(1686, 559);
             this.weaponCfgAdvanceEditor.TabIndex = 2;
             this.weaponCfgAdvanceEditor.Text = "Advance Editor";
             // 
@@ -4512,6 +4544,7 @@
             // 
             // appMenuSettings
             // 
+            this.appMenuSettings.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.appMenuSettings.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.appMenuSettings.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
@@ -4560,6 +4593,7 @@
             // 
             // levelStartTxtMenu
             // 
+            this.levelStartTxtMenu.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.levelStartTxtMenu.Name = "levelStartTxtMenu";
             this.levelStartTxtMenu.Size = new System.Drawing.Size(224, 39);
             this.levelStartTxtMenu.Text = "1";
@@ -4690,6 +4724,7 @@
             // 
             // gameProfileNameLbl
             // 
+            this.gameProfileNameLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.gameProfileNameLbl.Name = "gameProfileNameLbl";
             this.gameProfileNameLbl.Size = new System.Drawing.Size(224, 39);
             this.gameProfileNameLbl.Text = "N/A";
@@ -4796,6 +4831,7 @@
             // 
             // musicVolumeUpdateTxt
             // 
+            this.musicVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.musicVolumeUpdateTxt.Name = "musicVolumeUpdateTxt";
             this.musicVolumeUpdateTxt.Size = new System.Drawing.Size(224, 39);
             this.musicVolumeUpdateTxt.Text = "5.0";
@@ -4811,6 +4847,7 @@
             // 
             // sfxVolumeUpdateTxt
             // 
+            this.sfxVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.sfxVolumeUpdateTxt.Name = "sfxVolumeUpdateTxt";
             this.sfxVolumeUpdateTxt.Size = new System.Drawing.Size(224, 39);
             this.sfxVolumeUpdateTxt.Text = "3.5";
@@ -4826,6 +4863,7 @@
             // 
             // framesTxt
             // 
+            this.framesTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.framesTxt.Name = "framesTxt";
             this.framesTxt.Size = new System.Drawing.Size(224, 39);
             this.framesTxt.Text = "30";
@@ -5065,6 +5103,7 @@
             // 
             // updateIntervalTxt
             // 
+            this.updateIntervalTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.updateIntervalTxt.Name = "updateIntervalTxt";
             this.updateIntervalTxt.Size = new System.Drawing.Size(224, 39);
             this.updateIntervalTxt.Text = "15";
@@ -5144,6 +5183,7 @@
             // 
             // versionLbl
             // 
+            this.versionLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.versionLbl.Name = "versionLbl";
             this.versionLbl.Size = new System.Drawing.Size(224, 39);
             this.versionLbl.Text = "IGI-1.1";
@@ -5584,6 +5624,8 @@
         private System.Windows.Forms.Button addObjectBtn;
         private System.Windows.Forms.Button addBuildingBtn;
         private System.Windows.Forms.ToolStripMenuItem compilerTypeLbl;
+        private System.Windows.Forms.Button loadWeaponProps;
+        private System.Windows.Forms.Button saveWeaponProps;
     }
 }
 
