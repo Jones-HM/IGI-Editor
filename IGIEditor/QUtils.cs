@@ -463,7 +463,7 @@ namespace IGIEditor
             deviceIdDLLPath = editorCurrPath + Path.DirectorySeparatorChar + "DeviceId.dll";
 
             //Set new Input QSC & QVM path releative to appdata.
-            objectsModelsList = igiEditorQEdPath + Path.DirectorySeparatorChar + "IGIModels.txt";
+            objectsModelsList = igiEditorQEdPath + Path.DirectorySeparatorChar + "IGIModels" + jsonExt;
             qMissionsPath = igiEditorQEdPath + @"\QMissions";
             qGraphsPath = igiEditorQEdPath + @"\QGraphs";
             qWeaponsPath = igiEditorQEdPath + @"\QWeapons";

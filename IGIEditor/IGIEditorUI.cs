@@ -195,7 +195,7 @@ namespace IGIEditor
 
                     //Init Dropdown,List UI components.
                     InitUIComponents(gameLevel);
-                    QUtils.AttachInternals();
+                    //QUtils.AttachInternals();
                 }
                 else
                     SetStatusText("Game is not running...");

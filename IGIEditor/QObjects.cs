@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -362,6 +363,24 @@ namespace IGIEditor
             return hasMultiObjs;
         }
 
+        // Read models from JSON file
+        internal static dynamic ReadModels()
+        {
+            try
+            {
+                string jsonModels = LoadFile(QUtils.objectsModelsList);
+                dynamic jsonModelsData = JsonConvert.DeserializeObject(jsonModels);
+                return jsonModelsData;
+            }
+            catch (Exception ex)
+            {
+                LogException(MethodBase.GetCurrentMethod().Name, ex);
+                return null;
+            }
+        }
+
+
+        // Find model name from ID
         internal static string FindModelName(string modelId, bool addLogs = false)
         {
             string modelName = "UNKNOWN_OBJECT";
@@ -370,79 +389,73 @@ namespace IGIEditor
                 if (modelId.Contains("\""))
                     modelId = modelId.Replace("\"", String.Empty);
 
-                if (File.Exists(QUtils.objectsModelsList))
-                {
-                    var masterobjList = QUtils.LoadFile(QUtils.objectsModelsList);
-                    var objList = masterobjList.Split('\n');
-                    //QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called with id : \"" + modelId + "\"");
+                dynamic jsonModelsData = ReadModels();
 
-                    foreach (var obj in objList)
+                // Loop through the data to find the matching model ID
+                foreach (var data in jsonModelsData)
+                {
+                    if (data.ModelId.ToString().Equals(modelId))
                     {
-                        if (obj.Contains(modelId))
+                        modelName = data.ModelName.ToString();
+                        if (modelName.Length < 3 || String.IsNullOrEmpty(modelName))
                         {
-                            modelName = obj.Split('=')[0];
-                            if (modelName.Length < 3 || String.IsNullOrEmpty(modelName))
-                            {
-                                if (addLogs)
-                                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "couldn't find model name for Model id : " + modelId);
-                                return modelName;
-                            }
+                            if (addLogs)
+                                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "couldn't find model name for Model id : " + modelId);
+                            return modelName;
                         }
                     }
-
-                    if (modelName.Length > 3 && !String.IsNullOrEmpty(modelName) && addLogs)
-                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Found model name '" + modelName + "' for id : " + modelId);
                 }
+
+                if (modelName.Length > 3 && !String.IsNullOrEmpty(modelName) && addLogs)
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Found model name '" + modelName + "' for id : " + modelId);
             }
             catch (Exception ex)
             {
                 QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
             }
+
             return modelName;
         }
 
+        // Find model ID from name
         internal static string FindModelId(string modelNameInput, bool addLogs = false)
         {
             string modelName = "UNKNOWN_OBJECT_ID";
             string modelId = String.Empty;
             try
             {
-                if (modelName.Contains("\""))
-                    modelName = modelName.Replace("\"", String.Empty);
+                dynamic jsonModelsData = ReadModels();
 
-                if (File.Exists(QUtils.objectsModelsList))
+                // Loop through the data to find the matching model name
+                foreach (var data in jsonModelsData)
                 {
-                    var masterobjList = QUtils.LoadFile(QUtils.objectsModelsList);
-                    var objList = masterobjList.Split('\n');
-
-                    foreach (var obj in objList)
+                    if (data.ModelName.ToString().Equals(modelNameInput, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (obj.Contains(modelNameInput.ToLower()) || obj.Contains(modelNameInput.ToUpper()))
-                        {
-                            modelName = obj.Split('=')[0];
-                            modelId = obj.Split('=')[1];
+                        modelName = data.ModelName.ToString();
+                        modelId = data.ModelId.ToString();
 
-                            var modelRegex = @"\d{3}_\d{2}_\d{1}";
-                            var valueRegex = Regex.Match(modelId, modelRegex).Value;
-                            if (String.IsNullOrEmpty(valueRegex))
-                            {
-                                if (addLogs)
-                                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "couldn't find model name for Model : " + modelNameInput);
-                                return modelName;
-                            }
+                        var modelRegex = @"\d{3}_\d{2}_\d{1}";
+                        var valueRegex = Regex.Match(modelId, modelRegex).Value;
+                        if (String.IsNullOrEmpty(valueRegex))
+                        {
+                            if (addLogs)
+                                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "couldn't find model name for Model : " + modelNameInput);
+                            return modelName;
                         }
                     }
-
-                    if (!String.IsNullOrEmpty(modelId))
-                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Found model id '" + modelId + "' for name : " + modelNameInput);
                 }
+
+                if (!String.IsNullOrEmpty(modelId))
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Found model id '" + modelId + "' for name : " + modelNameInput);
             }
             catch (Exception ex)
             {
                 QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
             }
+
             return modelId;
         }
+
 
 
         internal static string GetModelName(string modelId, bool fullQtaskList = false, bool masterModel = false)
