@@ -302,7 +302,12 @@
             this.devVersionTxt = new System.Windows.Forms.TextBox();
             this.createUpdateBtn = new System.Windows.Forms.Button();
             this.texEditor = new System.Windows.Forms.TabPage();
-            this.saveTextureBtn = new System.Windows.Forms.Button();
+            this.nextTextureBtn = new System.Windows.Forms.Button();
+            this.prevTextureBtn = new System.Windows.Forms.Button();
+            this.textureFileSize = new System.Windows.Forms.TextBox();
+            this.textureFileResolution = new System.Windows.Forms.TextBox();
+            this.textureFileName = new System.Windows.Forms.TextBox();
+            this.replaceTextureBtn = new System.Windows.Forms.Button();
             this.unpackResourceBtn = new System.Windows.Forms.Button();
             this.packResourceBtn = new System.Windows.Forms.Button();
             this.selectTexturesBtn = new System.Windows.Forms.Button();
@@ -388,13 +393,8 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
             this.versionLbl = new System.Windows.Forms.ToolStripMenuItem();
-            this.textureFileName = new System.Windows.Forms.TextBox();
-            this.textureFileResolution = new System.Windows.Forms.TextBox();
-            this.textureFileSize = new System.Windows.Forms.TextBox();
-            this.prevTextureBtn = new System.Windows.Forms.Button();
-            this.nextTextureBtn = new System.Windows.Forms.Button();
+            this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
             this.editorMainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -4543,7 +4543,7 @@
             this.texEditor.Controls.Add(this.textureFileSize);
             this.texEditor.Controls.Add(this.textureFileResolution);
             this.texEditor.Controls.Add(this.textureFileName);
-            this.texEditor.Controls.Add(this.saveTextureBtn);
+            this.texEditor.Controls.Add(this.replaceTextureBtn);
             this.texEditor.Controls.Add(this.unpackResourceBtn);
             this.texEditor.Controls.Add(this.packResourceBtn);
             this.texEditor.Controls.Add(this.selectTexturesBtn);
@@ -4554,18 +4554,80 @@
             this.texEditor.TabIndex = 11;
             this.texEditor.Text = "Texture Editor";
             // 
-            // saveTextureBtn
+            // nextTextureBtn
             // 
-            this.saveTextureBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.saveTextureBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.saveTextureBtn.Location = new System.Drawing.Point(1340, 79);
-            this.saveTextureBtn.Margin = new System.Windows.Forms.Padding(6);
-            this.saveTextureBtn.Name = "saveTextureBtn";
-            this.saveTextureBtn.Size = new System.Drawing.Size(326, 48);
-            this.saveTextureBtn.TabIndex = 46;
-            this.saveTextureBtn.Text = "Save Texture";
-            this.saveTextureBtn.UseVisualStyleBackColor = true;
-            this.saveTextureBtn.Click += new System.EventHandler(this.saveTextureBtn_Click);
+            this.nextTextureBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.nextTextureBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.nextTextureBtn.Location = new System.Drawing.Point(1516, 139);
+            this.nextTextureBtn.Margin = new System.Windows.Forms.Padding(6);
+            this.nextTextureBtn.Name = "nextTextureBtn";
+            this.nextTextureBtn.Size = new System.Drawing.Size(150, 48);
+            this.nextTextureBtn.TabIndex = 57;
+            this.nextTextureBtn.Text = "Next";
+            this.nextTextureBtn.UseVisualStyleBackColor = true;
+            this.nextTextureBtn.Click += new System.EventHandler(this.nextTextureBtn_Click);
+            // 
+            // prevTextureBtn
+            // 
+            this.prevTextureBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.prevTextureBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.prevTextureBtn.Location = new System.Drawing.Point(1340, 139);
+            this.prevTextureBtn.Margin = new System.Windows.Forms.Padding(6);
+            this.prevTextureBtn.Name = "prevTextureBtn";
+            this.prevTextureBtn.Size = new System.Drawing.Size(150, 48);
+            this.prevTextureBtn.TabIndex = 56;
+            this.prevTextureBtn.Text = "Prev";
+            this.prevTextureBtn.UseVisualStyleBackColor = true;
+            this.prevTextureBtn.Click += new System.EventHandler(this.prevTextureBtn_Click);
+            // 
+            // textureFileSize
+            // 
+            this.textureFileSize.BackColor = System.Drawing.SystemColors.Control;
+            this.textureFileSize.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textureFileSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.textureFileSize.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.textureFileSize.Location = new System.Drawing.Point(1340, 349);
+            this.textureFileSize.Margin = new System.Windows.Forms.Padding(6);
+            this.textureFileSize.Name = "textureFileSize";
+            this.textureFileSize.Size = new System.Drawing.Size(334, 41);
+            this.textureFileSize.TabIndex = 55;
+            // 
+            // textureFileResolution
+            // 
+            this.textureFileResolution.BackColor = System.Drawing.SystemColors.Control;
+            this.textureFileResolution.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textureFileResolution.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.textureFileResolution.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.textureFileResolution.Location = new System.Drawing.Point(1340, 284);
+            this.textureFileResolution.Margin = new System.Windows.Forms.Padding(6);
+            this.textureFileResolution.Name = "textureFileResolution";
+            this.textureFileResolution.Size = new System.Drawing.Size(334, 41);
+            this.textureFileResolution.TabIndex = 54;
+            // 
+            // textureFileName
+            // 
+            this.textureFileName.BackColor = System.Drawing.SystemColors.Control;
+            this.textureFileName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textureFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.textureFileName.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.textureFileName.Location = new System.Drawing.Point(1340, 208);
+            this.textureFileName.Margin = new System.Windows.Forms.Padding(6);
+            this.textureFileName.Name = "textureFileName";
+            this.textureFileName.Size = new System.Drawing.Size(334, 41);
+            this.textureFileName.TabIndex = 53;
+            // 
+            // replaceTextureBtn
+            // 
+            this.replaceTextureBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.replaceTextureBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.replaceTextureBtn.Location = new System.Drawing.Point(1340, 79);
+            this.replaceTextureBtn.Margin = new System.Windows.Forms.Padding(6);
+            this.replaceTextureBtn.Name = "replaceTextureBtn";
+            this.replaceTextureBtn.Size = new System.Drawing.Size(326, 48);
+            this.replaceTextureBtn.TabIndex = 46;
+            this.replaceTextureBtn.Text = "Replace Texture";
+            this.replaceTextureBtn.UseVisualStyleBackColor = true;
+            this.replaceTextureBtn.Click += new System.EventHandler(this.replaceTextureBtn_Click);
             // 
             // unpackResourceBtn
             // 
@@ -5173,14 +5235,14 @@
             // internalCompilerCb
             // 
             this.internalCompilerCb.Name = "internalCompilerCb";
-            this.internalCompilerCb.Size = new System.Drawing.Size(359, 44);
+            this.internalCompilerCb.Size = new System.Drawing.Size(233, 44);
             this.internalCompilerCb.Text = "Internal";
             this.internalCompilerCb.Click += new System.EventHandler(this.internalCompilerCb_CheckedChanged);
             // 
             // externalCompilerCb
             // 
             this.externalCompilerCb.Name = "externalCompilerCb";
-            this.externalCompilerCb.Size = new System.Drawing.Size(359, 44);
+            this.externalCompilerCb.Size = new System.Drawing.Size(233, 44);
             this.externalCompilerCb.Text = "External";
             this.externalCompilerCb.Click += new System.EventHandler(this.externalCompilerCb_CheckedChanged);
             // 
@@ -5196,7 +5258,7 @@
             // editorUpdaterBtn
             // 
             this.editorUpdaterBtn.Name = "editorUpdaterBtn";
-            this.editorUpdaterBtn.Size = new System.Drawing.Size(359, 44);
+            this.editorUpdaterBtn.Size = new System.Drawing.Size(258, 44);
             this.editorUpdaterBtn.Text = "Manual";
             this.editorUpdaterBtn.Click += new System.EventHandler(this.editorUpdaterBtn_Click);
             // 
@@ -5206,7 +5268,7 @@
             this.updateIntervalTxt,
             this.updateCheckerCb});
             this.updateCheckerAutomaticOption.Name = "updateCheckerAutomaticOption";
-            this.updateCheckerAutomaticOption.Size = new System.Drawing.Size(359, 44);
+            this.updateCheckerAutomaticOption.Size = new System.Drawing.Size(258, 44);
             this.updateCheckerAutomaticOption.Text = "Automatic";
             // 
             // updateIntervalTxt
@@ -5277,7 +5339,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(227, 44);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -5286,76 +5348,14 @@
             this.versionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.versionLbl});
             this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
-            this.versionToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.versionToolStripMenuItem.Size = new System.Drawing.Size(227, 44);
             this.versionToolStripMenuItem.Text = "Version";
             // 
             // versionLbl
             // 
             this.versionLbl.Name = "versionLbl";
-            this.versionLbl.Size = new System.Drawing.Size(359, 44);
+            this.versionLbl.Size = new System.Drawing.Size(218, 44);
             this.versionLbl.Text = "IGI-1.1";
-            // 
-            // textureFileName
-            // 
-            this.textureFileName.BackColor = System.Drawing.SystemColors.Control;
-            this.textureFileName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textureFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.textureFileName.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.textureFileName.Location = new System.Drawing.Point(1340, 208);
-            this.textureFileName.Margin = new System.Windows.Forms.Padding(6);
-            this.textureFileName.Name = "textureFileName";
-            this.textureFileName.Size = new System.Drawing.Size(334, 41);
-            this.textureFileName.TabIndex = 53;
-            // 
-            // textureFileResolution
-            // 
-            this.textureFileResolution.BackColor = System.Drawing.SystemColors.Control;
-            this.textureFileResolution.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textureFileResolution.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.textureFileResolution.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.textureFileResolution.Location = new System.Drawing.Point(1340, 284);
-            this.textureFileResolution.Margin = new System.Windows.Forms.Padding(6);
-            this.textureFileResolution.Name = "textureFileResolution";
-            this.textureFileResolution.Size = new System.Drawing.Size(334, 41);
-            this.textureFileResolution.TabIndex = 54;
-            // 
-            // textureFileSize
-            // 
-            this.textureFileSize.BackColor = System.Drawing.SystemColors.Control;
-            this.textureFileSize.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textureFileSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.textureFileSize.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.textureFileSize.Location = new System.Drawing.Point(1340, 349);
-            this.textureFileSize.Margin = new System.Windows.Forms.Padding(6);
-            this.textureFileSize.Name = "textureFileSize";
-            this.textureFileSize.Size = new System.Drawing.Size(334, 41);
-            this.textureFileSize.TabIndex = 55;
-            // 
-            // prevTextureBtn
-            // 
-            this.prevTextureBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.prevTextureBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.prevTextureBtn.Location = new System.Drawing.Point(1340, 139);
-            this.prevTextureBtn.Margin = new System.Windows.Forms.Padding(6);
-            this.prevTextureBtn.Name = "prevTextureBtn";
-            this.prevTextureBtn.Size = new System.Drawing.Size(150, 48);
-            this.prevTextureBtn.TabIndex = 56;
-            this.prevTextureBtn.Text = "Prev";
-            this.prevTextureBtn.UseVisualStyleBackColor = true;
-            this.prevTextureBtn.Click += new System.EventHandler(this.prevTextureBtn_Click);
-            // 
-            // nextTextureBtn
-            // 
-            this.nextTextureBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.nextTextureBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.nextTextureBtn.Location = new System.Drawing.Point(1516, 139);
-            this.nextTextureBtn.Margin = new System.Windows.Forms.Padding(6);
-            this.nextTextureBtn.Name = "nextTextureBtn";
-            this.nextTextureBtn.Size = new System.Drawing.Size(150, 48);
-            this.nextTextureBtn.TabIndex = 57;
-            this.nextTextureBtn.Text = "Next";
-            this.nextTextureBtn.UseVisualStyleBackColor = true;
-            this.nextTextureBtn.Click += new System.EventHandler(this.nextTextureBtn_Click);
             // 
             // IGIEditorUI
             // 
@@ -5798,7 +5798,7 @@
         private System.Windows.Forms.Button loadWeaponProps;
         private System.Windows.Forms.Button saveWeaponProps;
         private System.Windows.Forms.TabPage texEditor;
-        private System.Windows.Forms.Button saveTextureBtn;
+        private System.Windows.Forms.Button replaceTextureBtn;
         private System.Windows.Forms.Button unpackResourceBtn;
         private System.Windows.Forms.Button packResourceBtn;
         private System.Windows.Forms.Button selectTexturesBtn;

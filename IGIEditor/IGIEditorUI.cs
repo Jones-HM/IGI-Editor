@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -41,6 +42,7 @@ namespace IGIEditor
         private static FOpenIO fopenIO;
         private string[] texFiles;
         private int texIndex = 0;
+        private string textureSelectedPath = null;
         #endregion
 
         #region timers
@@ -180,7 +182,7 @@ namespace IGIEditor
 
                 // Reset section.
                 if (gameReset)
-                { 
+                {
                     QUtils.ResetScriptFile(gameLevel);
                 }
                 clearTempToolStripMenuItem_Click(null, null);
@@ -744,7 +746,7 @@ namespace IGIEditor
         {
             try
             {
-                FileInegrity.RunFileInegrityCheck(null, new List<string> { QUtils.cfgQFilesPath, QUtils.cfgVoidPath, QUtils.qedAiScriptPath, QUtils.qedAiPatrolPath });
+                FileIntegrity.RunFileIntegrityCheck(null, new List<string> { QUtils.cfgQFilesPath, QUtils.cfgVoidPath, QUtils.qedAiScriptPath, QUtils.qedAiPatrolPath });
             }
             catch (Exception ex)
             {
@@ -4664,7 +4666,51 @@ namespace IGIEditor
             }
         }
 
-        private string ConvertTextureImage(string textureFilePath,bool resourceFile=false)
+        static void ConvertToTga(string inputFilePath, string outputDirectory)
+        {
+            // add a log to indicate that the conversion process has started
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Conversion process started.");
+
+            // log the input file path and name
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Input file path: {inputFilePath}");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Input file name: {Path.GetFileName(inputFilePath)}");
+
+            // load the PNG image from the input file
+            Image pngImage = Image.FromFile(inputFilePath);
+
+            // create a new TGA image with the same size and format as the PNG image
+            Bitmap tgaImage = new Bitmap(pngImage.Width, pngImage.Height, PixelFormat.Format32bppArgb);
+
+            // draw the PNG image onto the TGA image
+            using (Graphics g = Graphics.FromImage(tgaImage))
+            {
+                g.DrawImage(pngImage, 0, 0);
+            }
+
+            // create the output file path in the output directory with the same name as the input file but with the ".tga" extension
+            string outputFilePath = Path.Combine(outputDirectory, Path.GetFileNameWithoutExtension(inputFilePath) + ".tga");
+
+            // update the output file path to save the file in the output directory as "output/filename.tga"
+            string outputFileName = Path.GetFileName(inputFilePath);
+            outputFilePath = Path.Combine(outputDirectory, outputFileName.Substring(0, outputFileName.LastIndexOf('.')) + ".tga");
+
+            // log the output file path and name
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Output file path: {outputFilePath}");
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Output file name: {Path.GetFileName(outputFilePath)}");
+
+            // save the TGA image to the output file
+            tgaImage.Save(outputFilePath, ImageFormat.Tiff);
+
+            // dispose of the images
+            pngImage.Dispose();
+            tgaImage.Dispose();
+
+            // add a log to indicate that the conversion process has completed
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Conversion process completed.");
+        }
+
+
+        private string ConvertTextureImage(string textureFilePath, bool resourceFile = false)
         {
             try
             {
@@ -4765,11 +4811,11 @@ namespace IGIEditor
                 folderBrowser.FileName = "Folder Selection.";
                 folderBrowser.Title = "Select Texture path";
 
-                var dlgResult = folderBrowser.ShowDialog();
-                if (dlgResult == DialogResult.OK)
+                var folderBrowserDlg = folderBrowser.ShowDialog();
+                if (folderBrowserDlg == DialogResult.OK)
                 {
-                    var selectedPath = Path.GetDirectoryName(folderBrowser.FileName) + Path.DirectorySeparatorChar;
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"selectedPath: {selectedPath}");
+                    textureSelectedPath = Path.GetDirectoryName(folderBrowser.FileName) + Path.DirectorySeparatorChar;
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"selectedPath: {textureSelectedPath}");
                     string outputPath = null;
 
                     if (folderBrowser.FileName.Contains(".res"))
@@ -4778,15 +4824,15 @@ namespace IGIEditor
                         UnpackResourceFile(folderBrowser.FileName);
                         SetStatusText($"File {folderBrowser.FileName} unpacked success");
                         var basePathName = Path.GetFileName(Path.GetDirectoryName(folderBrowser.FileName));
-                        selectedPath += Path.DirectorySeparatorChar + basePathName;
-                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"After Unpacking new path: {selectedPath}");
-                        
-                        outputPath = ConvertTextureImage(selectedPath, true);
+                        textureSelectedPath += Path.DirectorySeparatorChar + basePathName;
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"After Unpacking new path: {textureSelectedPath}");
+
+                        outputPath = ConvertTextureImage(textureSelectedPath, true);
                         texFiles = Directory.GetFiles(outputPath, "*.png");
                     }
                     else
                     {
-                        outputPath = ConvertTextureImage(selectedPath);
+                        outputPath = ConvertTextureImage(textureSelectedPath);
                         texFiles = Directory.GetFiles(outputPath, "*.png");
                     }
 
@@ -4807,63 +4853,99 @@ namespace IGIEditor
             }
         }
 
-
-        private void saveTextureBtn_Click(object sender, EventArgs e)
+        private void ConvertTextureImage(string inputFilePath, string outputDirectoryPath, string convertType)
         {
             try
             {
-                // Get the input file path from the texture box
-                string inputFilePath = null;
-                if (textureBox.Image != null)
+                // Get the full path of the image file
+                string imagePath = textureBox.ImageLocation;
+
+                // Delete the file
+                if (!string.IsNullOrEmpty(imagePath))
                 {
-                    inputFilePath = Path.Combine(Path.GetTempPath(), "texture.png");
-                    textureBox.Image.Save(inputFilePath);
+                    File.Delete(imagePath);
+                    textureBox.Image = null;
+                    textureFileName.Text = "";
+                    textureFileResolution.Text = "";
+                    textureFileSize.Text = "";
                 }
 
-                // Select output directory using file dialog
-                FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                string sourceFileNameWithoutExt = Path.GetFileNameWithoutExtension(inputFilePath);
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Selected output directory: {outputDirectoryPath}");
+
+                // Run TGAConv to convert PNG to TGA
+                string tgaConvPath = Path.Combine(QUtils.qTools, @"TGAConv");
+                ConvertToTga(inputFilePath, tgaConvPath);
+
+                string makeTexCmd = null;
+                string makeScriptPath = null;
+                string outConvertPath = null;
+
+                if (convertType == "texture")
                 {
-                    string sourceFileNameWithoutExt = Path.GetFileNameWithoutExtension(inputFilePath);
-                    string outputDirectoryPath = folderBrowserDialog.SelectedPath;
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Selected output directory: {outputDirectoryPath}");
-
-                    // Run TGAConv to convert PNG to TGA
-                    string tgaConvPath = Path.Combine(QUtils.qTools, @"TGAConv");
-                    string tgaConvExePath = Path.Combine(tgaConvPath, "tgaconv.exe");
-                    string tgaConvArgs = $"{inputFilePath} -ToTga";
-                    string tgaConvDir = Path.Combine(QUtils.qTools, @"TGAConv");
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Running TGAConv: {tgaConvExePath} {tgaConvArgs} in directory {tgaConvDir}");
-                    QUtils.ShellExec($"cd {tgaConvDir} && {tgaConvExePath} {tgaConvArgs}");
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "TGAConv conversion completed");
-
                     // Generate MakeTex script
-                    string makeTexScriptPath = Path.Combine(QUtils.qTools, "maketex.qsc");
+                    makeScriptPath = Path.Combine(QUtils.qTools, "maketex.qsc");
                     string tgaFilePath = Path.Combine(tgaConvPath, $"{sourceFileNameWithoutExt}.tga");
                     string texFilePath = Path.Combine(outputDirectoryPath, $"{sourceFileNameWithoutExt}.tex");
-                    string makeTexCmd = $"MakeTexture(\"{tgaFilePath}\", \"{texFilePath}\");";
-                    File.WriteAllText(makeTexScriptPath, makeTexCmd + "\r\n");
+                    makeTexCmd = $"MakeTexture(\"{tgaFilePath}\", \"{texFilePath}\");";
+                    File.WriteAllText(makeScriptPath, makeTexCmd + "\r\n");
+                    outConvertPath = texFilePath;
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Added MakeTex command: {makeTexCmd}");
-
-
-                    // Run GConv to generate .tex file
-                    string gconvPath = Path.Combine(QUtils.qTools, "gconv.exe");
-                    string gconvArgs = $"\"{makeTexScriptPath}\"";
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Running GConv: {gconvPath} {gconvArgs}");
-                    QUtils.ShellExec($"{gconvPath} {gconvArgs}");
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GConv conversion completed");
-
-                    // Clean up directories
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Cleaning up directories");
-                    File.Delete(inputFilePath);
-                    File.Delete(makeTexScriptPath);
-                    SetStatusText($"Resource {sourceFileNameWithoutExt} saved as texture successfully.");
                 }
+
+                else if (convertType == "sprite")
+                {
+                    // Generate MakeTex script
+                    makeScriptPath = Path.Combine(QUtils.qTools, "makespr.qsc");
+                    string tgaFilePath = Path.Combine(tgaConvPath, $"{sourceFileNameWithoutExt}.tga");
+                    string sprFilePath = Path.Combine(outputDirectoryPath, $"{sourceFileNameWithoutExt}.spr");
+                    makeTexCmd = $"MakeSprite(\"{tgaFilePath}\", \"{sprFilePath}\");";
+                    File.WriteAllText(makeScriptPath, makeTexCmd + "\r\n");
+                    outConvertPath = sprFilePath;
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Added MakeTex command: {makeTexCmd}");
+                }
+
+                else if (convertType == "pic")
+                {
+                    // Generate MakeTex script
+                    makeScriptPath = Path.Combine(QUtils.qTools, "makepic.qsc");
+                    string tgaFilePath = Path.Combine(tgaConvPath, $"{sourceFileNameWithoutExt}.tga");
+                    string picFilePath = Path.Combine(outputDirectoryPath, $"{sourceFileNameWithoutExt}.pic");
+                    makeTexCmd = $"MakePicture(\"{tgaFilePath}\", \"{picFilePath}\");";
+                    File.WriteAllText(makeScriptPath, makeTexCmd + "\r\n");
+                    outConvertPath = picFilePath;
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Added MakeTex command: {makeTexCmd}");
+                }
+
+                // Run GConv to generate .tex file
+                string gconvPath = Path.Combine(QUtils.qTools, @"GConv\gconv.exe");
+                string gconvArgs = $"\"{makeScriptPath}\"";
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Running GConv: {gconvPath} {gconvArgs}");
+                QUtils.ShellExec($"{gconvPath} {gconvArgs}");
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GConv conversion completed");
+
+                // Clean up directories
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Cleaning up directories");
+                //File.Delete(makeScriptPath);
+
+                // Rename the output file to the original file name with the ".tga" extension
+                string newFileName = Path.GetFileNameWithoutExtension(outConvertPath) + ".tga";
+                string newFilePath = Path.Combine(outputDirectoryPath, newFileName);
+                File.Move(outConvertPath, newFilePath);
+
+
+                SetStatusText($"Resource {sourceFileNameWithoutExt} saved as texture successfully.");
             }
             catch (Exception ex)
             {
                 QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
             }
+        }
+
+
+        private void saveTextureBtn_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void packResourceBtn_Click(object sender, EventArgs e)
@@ -5017,6 +5099,82 @@ namespace IGIEditor
                 texIndex = texFiles.Length - 1;
             }
             SetTextureImage(texFiles[texIndex]);
+        }
+
+        private void replaceTextureBtn_Click(object sender, EventArgs e)
+        {
+#if !DEBUG
+            QUtils.ShowInfo("Replace texture is coming in next updates.");
+            return;
+#endif
+            try
+            {
+                // Clear the PictureBox
+                textureBox.Image = null;
+
+                // Select image file using file dialog
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Image files (*.jpg, *.png)|*.jpg;*.png;|All files (*.*)|*.*";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Selecting the source image file.
+                    string inputFilePath = openFileDialog.FileName;
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Selected image file: {inputFilePath}");
+
+                    // Get filename and file extension
+                    string filename = Path.GetFileName(inputFilePath);
+
+
+                    // Get output directory path
+                    string outputDirectoryPath = textureSelectedPath;
+
+                    // Get the first file in the output directory
+                    string[] files = Directory.GetFiles(outputDirectoryPath);
+                    string firstFile = files.Length > 0 ? files[0] : string.Empty;
+
+                    // Get the extension of the first file
+                    string extension = Path.GetExtension(firstFile);
+
+                    // Determine convert type based on file extension.
+                    string convertType = ".sprite";
+                    switch (extension)
+                    {
+                        case ".spr":
+                            convertType = "sprite";
+                            break;
+                        case ".tex":
+                            convertType = "texture";
+                            break;
+                        case ".pic":
+                            convertType = "pic";
+                            break;
+                    }
+
+                    // Convert image to texture or sprite or pic
+                    ConvertTextureImage(inputFilePath, outputDirectoryPath, convertType);
+
+                    // Load output image into picture box
+                    string outputFilePath = Path.Combine(outputDirectoryPath, $"{filename}.png");
+                    if (File.Exists(outputFilePath))
+                    {
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Output PNG file: {outputFilePath}");
+                        Bitmap bitmap = new Bitmap(outputFilePath);
+                        textureBox.Image = bitmap;
+                        textureFileName.Text = filename;
+                        textureFileResolution.Text = $"{bitmap.Width}x{bitmap.Height}";
+                        textureFileSize.Text = $"{new FileInfo(outputFilePath).Length / 1024.0:F2} KB";
+                        SetStatusText($"File {filename} loaded as {convertType} successfully.");
+                    }
+                    else
+                    {
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "No output PNG file found");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
+            }
         }
 
 

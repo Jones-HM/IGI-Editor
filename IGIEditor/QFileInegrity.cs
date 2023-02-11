@@ -3,53 +3,67 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
-using System.Threading;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace IGIEditor
 {
-    class FileInegrity
+    class FileIntegrity
     {
-        static string qChecksFile = QUtils.igiEditorQEdPath + @"\QChecks.dat", qChecksFileData = null;
+        static string qChecksFile = Path.Combine(QUtils.igiEditorQEdPath, "QChecks.dat");
+        static string qChecksFileData = null;
 
-        public static void RunFileInegrityCheck(string processName = null, List<string> gameDirs = null)
+        public static void RunFileIntegrityCheck(string processName = null, List<string> gameDirs = null)
         {
-            var exclude_list = new List<string>() { QUtils.customPatrolPathQEd, QUtils.customScriptPathQEd };
-            bool qFilesValid = CheckDirInegrity(gameDirs, exclude_list, true);
-            IGIEditorUI.editorRef.Enabled = qFilesValid;//Disable UI.
+            var excludeList = new HashSet<string> { QUtils.customPatrolPathQEd, QUtils.customScriptPathQEd };
+            bool qFilesValid = CheckDirIntegrity(gameDirs, excludeList, true);
+            IGIEditorUI.editorRef.Enabled = qFilesValid;
         }
 
-        public static bool CheckFileInegrity(string qfilePath, bool showError = true)
+        public static bool CheckFileIntegrity(string qfilePath, bool showError = true)
         {
-            var parentDir = Directory.GetParent(qfilePath).ToString();
-            var filePath = parentDir.Substring(parentDir.LastIndexOf(@"\") + 1) + @"\" + Path.GetFileName(qfilePath);
+            var parentDir = Path.GetDirectoryName(qfilePath);
+            var filePath = Path.Combine(parentDir.Substring(parentDir.LastIndexOf(Path.DirectorySeparatorChar) + 1), Path.GetFileName(qfilePath));
 
-            if (!File.Exists(qChecksFile)) GenerateFileHash(qfilePath);
+            if (!File.Exists(qChecksFile))
+            {
+                GenerateFileHash(qfilePath);
+            }
 
             if (String.IsNullOrEmpty(qChecksFileData))
+            {
                 qChecksFileData = QCryptor.Decrypt(qChecksFile);
+            }
 
             string md5Hash = GenerateMD5(qfilePath);
             if (!File.Exists(qChecksFile) || qChecksFileData.Length < 5)
-                throw new Exception("FileIntegrity hashes generation error with length (0x4C80000)");
+            {
+                if (showError)
+                {
+                    QUtils.ShowError("File integrity hashes generation error with length (0x4C80000)");
+                }
+                return false;
+            }
 
             var fileHashesData = qChecksFileData.Split('\n');
             bool fileMatch = false;
 
-
             if (!qChecksFileData.Contains(qfilePath))
             {
-                QUtils.ShowError("File '" + filePath + "' doesn't exist in check sum");
-                return fileMatch;
+                if (showError)
+                {
+                    QUtils.ShowError($"File '{filePath}' doesn't exist in checksum");
+                }
+                return false;
             }
 
-            string fileName, fileHash = null;
             foreach (var hashDataLine in fileHashesData)
             {
                 if (hashDataLine.Length < 1) continue;
                 var hashData = hashDataLine.Split('=');
 
-                fileName = hashData[0].Trim();
-                fileHash = hashData[1].Trim();
+                var fileName = hashData[0].Trim();
+                var fileHash = hashData[1].Trim();
 
                 if (qfilePath == fileName)
                 {
@@ -60,67 +74,81 @@ namespace IGIEditor
 
             if (!fileMatch && showError)
             {
-                QUtils.ShowError("File '" + filePath + "' has been modified externally");
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "File '" + filePath + "' has been modified externally");
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Hash1: " + md5Hash + "\tHash2: " + fileHash);
+                QUtils.ShowError($"File '{filePath}' has been modified externally");
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"File '{filePath}' has been modified externally");
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Hash1: {md5Hash}");
             }
             return fileMatch;
         }
 
-        public static bool CheckDirInegrity(List<string> dirNames, List<string> exclude_list, bool showError = true)
+        public static bool CheckDirIntegrity(List<string> dirNames, HashSet<string> excludeList, bool showError = true)
         {
-            if (!File.Exists(qChecksFile)) GenerateDirHashes(dirNames);
+            if (!File.Exists(qChecksFile))
+            {
+               var status = GenerateDirHashes(dirNames);
+            }
 
-            bool checkInegrity = true;
+            bool checkIntegrity = true;
             foreach (string dirName in dirNames)
             {
                 string[] allFiles = Directory.GetFiles(dirName, ".", SearchOption.AllDirectories);
-                bool excluded = false;
 
-                foreach (var files in allFiles)
+                foreach (var file in allFiles)
                 {
-                    if (exclude_list.Count > 0)
+                    if (excludeList.Contains(Path.GetFileName(file)))
                     {
-                        foreach (var exclude in exclude_list)
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Exclude file '{Path.GetFileName(file)}', pathFile '{file}'");
+                        continue;
+                    }
+
+                    if (!CheckFileIntegrity(file, showError))
+                    {
+                        checkIntegrity = false;
+                        if (!showError)
                         {
-                            if (Path.GetFileName(files) == Path.GetFileName(exclude))
-                            {
-                                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Exclude file '" + Path.GetFileName(exclude) + "', pathFile '" + Path.GetFileName(files) + "'");
-                                //return checkInegrity;
-                                excluded = true;
-                                continue;
-                            }
+                            break;
                         }
                     }
-                    if (!excluded) checkInegrity = CheckFileInegrity(files, showError);
-                    if (!checkInegrity) return false;
+                }
+                if (!checkIntegrity)
+                {
+                    break;
                 }
             }
-            return checkInegrity;
+            return checkIntegrity;
         }
 
         private static void GenerateFileHash(string fileName, bool append = false)
         {
             var fileHashes = GenerateMD5(fileName);
-            var fileHashesData = fileName + " = " + fileHashes + "\n";
-            if (append) File.AppendAllText(qChecksFile, fileHashesData);
-            else File.WriteAllText(qChecksFile, fileHashesData);
+            var fileHashesData = $"{fileName} = {fileHashes}\n";
+            if (append)
+            {
+                File.AppendAllText(qChecksFile, fileHashesData);
+            }
+            else
+            {
+                File.WriteAllText(qChecksFile, fileHashesData);
+            }
         }
 
-        public static void GenerateDirHashes(List<string> dirNames)
+        public static async Task GenerateDirHashes(List<string> dirNames)
         {
             QUtils.FileIODelete(qChecksFile);
             foreach (string dirName in dirNames)
             {
                 string[] allFiles = Directory.GetFiles(dirName, ".", SearchOption.AllDirectories);
 
-                foreach (var files in allFiles)
+                foreach (var file in allFiles)
                 {
-                    GenerateFileHash(files, true);
+                    await Task.Run(() => GenerateFileHash(file, true));
                 }
             }
-            QUtils.Sleep(1.5f);
-            QCryptor.Encrypt(qChecksFile);
+            await Task.Run(() =>
+            {
+                QUtils.Sleep(1.5f);
+                QCryptor.Encrypt(qChecksFile);
+            });
         }
 
         private static string GenerateMD5(string fileName)
@@ -130,7 +158,12 @@ namespace IGIEditor
                 using (var stream = File.OpenRead(fileName))
                 {
                     var hash = md5.ComputeHash(stream);
-                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                    var stringBuilder = new StringBuilder();
+                    for (int i = 0; i < hash.Length; i++)
+                    {
+                        stringBuilder.Append(hash[i].ToString("x2"));
+                    }
+                    return stringBuilder.ToString();
                 }
             }
         }
