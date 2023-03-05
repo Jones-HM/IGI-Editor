@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -822,11 +823,14 @@ namespace IGIEditor
 
         internal static string GetGraphArea(int graphId)
         {
-            string graphFile = QUtils.qGraphsPath + "\\Areas\\" + "graph_area_level" + QUtils.gGameLevel + ".txt";
+            string graphFile = QUtils.qGraphsPath + "\\Areas\\" + "graph_area_level" + QUtils.gGameLevel + QUtils.jsonExt;
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Level: " + QUtils.gGameLevel + " graphId: " + graphId + " graphFile: " + graphFile);
             if (!System.IO.File.Exists(graphFile)) { return "Area Not Available."; }
 
-            if (QUtils.graphAreas.Count == 0) QUtils.graphAreas = GetGraphAreasList(graphFile);
+            if (QUtils.graphAreas.Count == 0)
+            {
+                QUtils.graphAreas = GetGraphAreasListJSON(graphFile);
+            }
 
             foreach (var graph in QUtils.graphAreas)
             {
@@ -851,6 +855,28 @@ namespace IGIEditor
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, " Level: " + QUtils.gGameLevel + " graphFile: " + graphFile + " retured Area count: " + graphAreas.Count);
             return graphAreas;
         }
+
+        static Dictionary<int, string> GetGraphAreasListJSON(string graphFile)
+        {
+            // Read the data from the JSON file
+            string json = File.ReadAllText(graphFile);
+
+            // Deserialize JSON data to list of dictionaries with Graph and Area keys
+            List<Dictionary<string, string>> data = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(json);
+
+            // Convert list of dictionaries to dictionary with Graph ID keys and Area values
+            Dictionary<int, string> graphAreas = new Dictionary<int, string>();
+            foreach (Dictionary<string, string> dict in data)
+            {
+                string graph = dict["Graph"];
+                int graphId = int.Parse(graph.Substring(graph.IndexOf("#") + 1));
+                string area = dict["Area"];
+                graphAreas[graphId] = area;
+            }
+
+            return graphAreas;
+        }
+
 
         internal static GraphNode GetGraphNodeData(int graphId, int nodeId)
         {

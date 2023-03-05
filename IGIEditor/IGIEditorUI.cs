@@ -192,13 +192,14 @@ namespace IGIEditor
                     levelStartTxt.Text = gameLevel.ToString();
                     SetStatusText("Game is running...");
                     LoadLevelDetails(gameLevel);
+
+                    //Init Dropdown,List UI components.
+                    InitUIComponents(gameLevel);
+                    QUtils.AttachInternals();
                 }
                 else
                     SetStatusText("Game is not running...");
 
-                //Init Dropdown,List UI components.
-                InitUIComponents(gameLevel);
-                QUtils.AttachInternals();
 
                 //Start all timers after app gets configures properly.
                 EnableTimers enableTimers = delegate (bool enable)
