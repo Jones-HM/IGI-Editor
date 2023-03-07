@@ -1135,18 +1135,6 @@ namespace IGIEditor
             }
         }
 
-        private void closeBtn_Click(object sender, EventArgs e)
-        {
-#if DEV_MODE
-            Environment.Exit(0);
-#endif
-            var dlgResult = QUtils.ShowDialog("Do you want to exit the Editor ?", "IGI 1 Editor");
-            if (dlgResult == DialogResult.Yes)
-            {
-                Environment.Exit(0);
-            }
-        }
-
         private void addWeaponBtn_Click(object sender, EventArgs e)
         {
             string weaponName = null, weaponModel = null, weaponStatus = null;
@@ -4677,7 +4665,7 @@ namespace IGIEditor
                 // Clear the PictureBox
                 textureBox.Image = null;
 
-                // Select TEX file using file dialog
+                // Select Texture file using file dialog
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 openFileDialog.Filter = "Texture files (*.tex, *.spr, *.pic)|*.tex;*.spr;*.pic|All files (*.*)|*.*";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -4926,6 +4914,8 @@ namespace IGIEditor
                     QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
                 }
             }
+
+            SetStatusText("Temp data cleared success.");
         }
 
         private void graphsMarkCb_CheckedChanged(object sender, EventArgs e)
