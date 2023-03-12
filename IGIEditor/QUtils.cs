@@ -146,7 +146,7 @@ namespace IGIEditor
 
         #region App Version
         internal static string versionFileName = "VERSION";
-        internal static string appEditorSubVersion = "0.8.0.0";
+        internal static string appEditorSubVersion = "0.8.0.1";
         internal static float viewPortDelta = 10000.0f;
         #endregion
 
@@ -305,7 +305,7 @@ namespace IGIEditor
         #region About Info
         internal static string keyBase = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths";
         internal static string aboutStr = "IGI Editor is powerful editor to edit game levels" + "\n" + "Offers upto " + GAME_MAX_LEVEL + " level\nVersion: v"
-            + appEditorSubVersion + " BETA.\n\nTools/Language: C#(5.0) VS-Studio/Code\nCreated by Haseeb Mir.\n\nCredits & People\nUI Designing - Dark\nResearch data - Dimon Yoejin and GM123.\nQScript/DConv Tools - Artiom.\nTester - Orwa\nIGI-VK Community.";
+            + appEditorSubVersion + " BETA.\n\nTools/Language: C#(5.0) VS-Studio/Code\nCreated by Haseeb Mir.\n\nCredits & People\nUI Designing - Dark\nResearch data - Dimon Yoejin and GM123.\nQScript/DConv Tools - Artiom.\nTester - Orwa\nTexture Editor - Neoxaero\nIGI-VK Community.";
         #endregion
 
         #region Mask Constants
@@ -1874,6 +1874,27 @@ namespace IGIEditor
             return (int)gameitems;
         }
 
+        private void ClearTempFiles()
+        {
+            // Cleaning up directories
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Cleaning up directories");
+            string[] dconvFiles = Directory.GetFiles(Path.Combine(QUtils.qTools, @"DConv\input")).Concat(Directory.GetFiles(Path.Combine(QUtils.qTools, @"DConv\output"))).ToArray();
+            string[] tgaConvFiles = Directory.GetFiles(Path.Combine(QUtils.qTools, @"TGAConv")).ToArray();
+            foreach (string file in dconvFiles.Concat(tgaConvFiles))
+            {
+                try
+                {
+                    if (file.Contains(".exe")) continue; // Skip the TGAConv file.
+                    File.Delete(file);
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Removed file: {file} successfully.");
+                }
+                catch (Exception ex)
+                {
+                    QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+                }
+            }
+        }
+
         internal static void CleanUpAiFiles()
         {
             if (!gameReset) return;
@@ -1892,13 +1913,22 @@ namespace IGIEditor
 
         internal static void CleanUpTmpFiles()
         {
-            foreach (string file in Directory.EnumerateFiles(cachePath, "*.dll"))
+            // Cleaning up directories
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Cleaning up temp directories");
+            string[] dconvFiles = Directory.GetFiles(Path.Combine(QUtils.qTools, @"DConv\input")).Concat(Directory.GetFiles(Path.Combine(QUtils.qTools, @"DConv\output"))).ToArray();
+            string[] tgaConvFiles = Directory.GetFiles(Path.Combine(QUtils.qTools, @"TGAConv")).ToArray();
+            foreach (string file in dconvFiles.Concat(tgaConvFiles))
             {
                 try
                 {
-                    FileIODelete(file);
+                    if (file.Contains(".exe")) continue; // Skip the TGAConv file.
+                    File.Delete(file);
+                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Removed file: {file} successfully.");
                 }
-                catch (Exception ex) { }
+                catch (Exception ex)
+                {
+                    QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+                }
             }
         }
 

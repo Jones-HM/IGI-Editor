@@ -4804,6 +4804,11 @@ namespace IGIEditor
         {
             try
             {
+                // Clean the temp data first.
+                QUtils.CleanUpTmpFiles();
+                textureSelectedPath = null;
+                texFiles = null;
+
                 var folderBrowser = new OpenFileDialog();
                 folderBrowser.ValidateNames = false;
                 folderBrowser.CheckFileExists = false;
@@ -5053,31 +5058,9 @@ namespace IGIEditor
             textureBox.Image = bitmap;
         }
 
-
         private void clearTempToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            // Clear the PictureBox
-            textureBox.Image = null;
-
-            // Cleaning up directories
-            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Cleaning up directories");
-            string[] dconvFiles = Directory.GetFiles(Path.Combine(QUtils.qTools, @"DConv\input")).Concat(Directory.GetFiles(Path.Combine(QUtils.qTools, @"DConv\output"))).ToArray();
-            string[] tgaConvFiles = Directory.GetFiles(Path.Combine(QUtils.qTools, @"TGAConv")).ToArray();
-            foreach (string file in dconvFiles.Concat(tgaConvFiles))
-            {
-                try
-                {
-                    if (file.Contains(".exe")) continue; // Skip the TGAConv file.
-                    File.Delete(file);
-                    QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"Removed file: {file} successfully.");
-                }
-                catch (Exception ex)
-                {
-                    QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
-                }
-            }
-
+            QUtils.CleanUpTmpFiles();
             SetStatusText("Temp data cleared success.");
         }
 
