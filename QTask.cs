@@ -71,82 +71,87 @@ namespace IGIEditor
 
         internal static int GenerateTaskID(bool minimalId = false, bool fromBackup = false)
         {
-            int taskId = 0;
             try
             {
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "called minimal Id : " + minimalId + " fromBackup: " + fromBackup + " Level: " + QUtils.gGameLevel);
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Method called with parameters: minimalId=" + minimalId + ", fromBackup=" + fromBackup + ", Level=" + QUtils.gGameLevel);
 
                 string inputQscPath = cfgQscPath + QUtils.gGameLevel + "\\" + objectsQsc;
-                string qscData = fromBackup ? LoadFile(inputQscPath) : LoadFile();
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "inputQscPath: " + inputQscPath);
 
+                string qscData = fromBackup ? LoadFile(inputQscPath) : LoadFile();
                 qscData = qscData.Replace("\t", String.Empty);
                 string[] qscDataSplit = qscData.Split('\n');
 
+                List<int> qIdsList = new List<int>();
                 foreach (var data in qscDataSplit)
                 {
                     if (data.Contains(taskNew))
                     {
-                        var startIndex = data.IndexOf(',', 14) + 1;
-                        var taskName = (data.Slice(13, startIndex));
-
                         string[] taskNew = data.Split(',');
-                        int taskIndex = 0;
+                        int qid = GetTaskIdFromData(taskNew);
 
-                        foreach (var task in taskNew)
-                        {
-                            if (taskIndex == (int)QTASKINFO.QTASK_ID)
-                            {
-                                var taskIdx = task.IndexOf('(');
-                                if (taskIdx == -1) break;
-                                var qidSub = task.Substring(taskIdx + 1);
-                                int qid = Convert.ToInt32(qidSub);
-                                if (qid == -1) break;
-                                if (qid > QUtils.LEVEL_FLOW_TASK_ID)
-                                    qIdsList.Add(qid);
-                                break;
-                            }
-                        }
+                        if (qid > QUtils.LEVEL_FLOW_TASK_ID)
+                            qIdsList.Add(qid);
                     }
                 }
 
                 qIdsList.Sort();
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "sorting done. count: " + qIdsList.Count);
+                int taskId = GetNextTaskId(qIdsList, minimalId);
 
-                taskId = qIdsList[0] + 1;
-                int maxVal = qIdsList[0], minVal = qIdsList[1];
-
-                if (minimalId)
-                {
-                    int diffVal = 0;
-                    for (int index = 0; index < qIdsList.Count; index++)
-                    {
-                        minVal = qIdsList[index];
-                        maxVal = qIdsList[index + 1];
-                        diffVal = Math.Abs(maxVal - minVal);
-                        //QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "maxVal : " + maxVal + "\tminVal : " + minVal + "\tdiffVal : " + diffVal);
-
-                        if (diffVal >= QUtils.MAX_MINIMAL_ID_DIFF)
-                        {
-                            taskId = minVal + 1;
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    qIdsList.Reverse();
-                    maxVal = qIdsList[0];
-                    taskId = maxVal + 1;
-                }
                 taskId = GetUniqueQTaskId(taskId);
-                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Returned Task Id: " + taskId);
+                QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Unique task ID generated. Task ID: " + taskId);
+
+                return taskId;
             }
             catch (Exception ex)
             {
                 QUtils.ShowLogException(MethodBase.GetCurrentMethod().Name, ex);
+                return 0;
             }
-            return taskId;
         }
+
+        private static int GetTaskIdFromData(string[] taskNew)
+        {
+            int qid = -1;
+            foreach (var task in taskNew)
+            {
+                int taskIndex = Array.IndexOf(taskNew, task);
+                if (taskIndex == (int)QTASKINFO.QTASK_ID)
+                {
+                    var taskIdx = task.IndexOf('(');
+                    if (taskIdx != -1 && int.TryParse(task.Substring(taskIdx + 1), out qid) && qid != -1)
+                    {
+                        break;
+                    }
+                }
+            }
+            return qid;
+        }
+
+        private static int GetNextTaskId(List<int> qIdsList, bool minimalId)
+        {
+            if (minimalId)
+            {
+                for (int index = 0; index < qIdsList.Count - 1; index++)
+                {
+                    int minVal = qIdsList[index];
+                    int maxVal = qIdsList[index + 1];
+                    int diffVal = Math.Abs(maxVal - minVal);
+
+                    if (diffVal >= QUtils.MAX_MINIMAL_ID_DIFF)
+                    {
+                        return minVal + 1;
+                    }
+                }
+            }
+            else
+            {
+                return qIdsList[qIdsList.Count - 1] + 1;
+            }
+
+            return qIdsList[0] + 1;
+        }
+
 
 
 

@@ -185,7 +185,7 @@ namespace IGIEditor
                 {
                     QUtils.ResetScriptFile(gameLevel);
                 }
-                clearTempToolStripMenuItem_Click(null, null);
+                QUtils.CleanUpTmpFiles();
 
                 if (appLogs)
                 {

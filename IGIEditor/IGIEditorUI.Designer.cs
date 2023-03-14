@@ -511,7 +511,7 @@
             0,
             0});
             this.levelStartTxt.Name = "levelStartTxt";
-            this.levelStartTxt.Size = new System.Drawing.Size(56, 41);
+            this.levelStartTxt.Size = new System.Drawing.Size(78, 41);
             this.levelStartTxt.TabIndex = 42;
             this.levelStartTxt.Value = new decimal(new int[] {
             1,
@@ -4706,7 +4706,6 @@
             // 
             // appMenuSettings
             // 
-            this.appMenuSettings.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.appMenuSettings.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.appMenuSettings.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
@@ -4755,7 +4754,6 @@
             // 
             // levelStartTxtMenu
             // 
-            this.levelStartTxtMenu.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.levelStartTxtMenu.Name = "levelStartTxtMenu";
             this.levelStartTxtMenu.Size = new System.Drawing.Size(224, 39);
             this.levelStartTxtMenu.Text = "1";
@@ -4886,7 +4884,6 @@
             // 
             // gameProfileNameLbl
             // 
-            this.gameProfileNameLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.gameProfileNameLbl.Name = "gameProfileNameLbl";
             this.gameProfileNameLbl.Size = new System.Drawing.Size(224, 39);
             this.gameProfileNameLbl.Text = "N/A";
@@ -4993,7 +4990,6 @@
             // 
             // musicVolumeUpdateTxt
             // 
-            this.musicVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.musicVolumeUpdateTxt.Name = "musicVolumeUpdateTxt";
             this.musicVolumeUpdateTxt.Size = new System.Drawing.Size(224, 39);
             this.musicVolumeUpdateTxt.Text = "5.0";
@@ -5009,7 +5005,6 @@
             // 
             // sfxVolumeUpdateTxt
             // 
-            this.sfxVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.sfxVolumeUpdateTxt.Name = "sfxVolumeUpdateTxt";
             this.sfxVolumeUpdateTxt.Size = new System.Drawing.Size(224, 39);
             this.sfxVolumeUpdateTxt.Text = "3.5";
@@ -5025,7 +5020,6 @@
             // 
             // framesTxt
             // 
-            this.framesTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.framesTxt.Name = "framesTxt";
             this.framesTxt.Size = new System.Drawing.Size(224, 39);
             this.framesTxt.Text = "30";
@@ -5145,7 +5139,7 @@
             this.shareAppLogsBtn,
             this.viewAppLogsBtn});
             this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            this.logsToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.logsToolStripMenuItem.Size = new System.Drawing.Size(344, 44);
             this.logsToolStripMenuItem.Text = "Logs";
             // 
             // appLogsCb
@@ -5176,27 +5170,27 @@
             this.clearCacheBtn,
             this.clearTempToolStripMenuItem});
             this.appdataToolStripMenuItem.Name = "appdataToolStripMenuItem";
-            this.appdataToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.appdataToolStripMenuItem.Size = new System.Drawing.Size(344, 44);
             this.appdataToolStripMenuItem.Text = "Appdata";
             // 
             // showAppDataCachePathBtn
             // 
             this.showAppDataCachePathBtn.Name = "showAppDataCachePathBtn";
-            this.showAppDataCachePathBtn.Size = new System.Drawing.Size(359, 44);
+            this.showAppDataCachePathBtn.Size = new System.Drawing.Size(275, 44);
             this.showAppDataCachePathBtn.Text = "Show Path";
             this.showAppDataCachePathBtn.Click += new System.EventHandler(this.showAppDataCachePathBtn_Click);
             // 
             // clearCacheBtn
             // 
             this.clearCacheBtn.Name = "clearCacheBtn";
-            this.clearCacheBtn.Size = new System.Drawing.Size(359, 44);
+            this.clearCacheBtn.Size = new System.Drawing.Size(275, 44);
             this.clearCacheBtn.Text = "Clear Cache";
             this.clearCacheBtn.Click += new System.EventHandler(this.clearCacheBtn_Click);
             // 
             // clearTempToolStripMenuItem
             // 
             this.clearTempToolStripMenuItem.Name = "clearTempToolStripMenuItem";
-            this.clearTempToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.clearTempToolStripMenuItem.Size = new System.Drawing.Size(275, 44);
             this.clearTempToolStripMenuItem.Text = "Clear Temp";
             this.clearTempToolStripMenuItem.Click += new System.EventHandler(this.clearTempToolStripMenuItem_Click);
             // 
@@ -5206,7 +5200,7 @@
             this.autoResetCb,
             this.autoRefreshGameCb});
             this.autoOptionsToolStripMenuItem.Name = "autoOptionsToolStripMenuItem";
-            this.autoOptionsToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.autoOptionsToolStripMenuItem.Size = new System.Drawing.Size(344, 44);
             this.autoOptionsToolStripMenuItem.Text = "Auto level options";
             // 
             // autoResetCb
@@ -5229,7 +5223,7 @@
             this.internalCompilerCb,
             this.externalCompilerCb});
             this.compilerSelectToolStripMenuItem.Name = "compilerSelectToolStripMenuItem";
-            this.compilerSelectToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.compilerSelectToolStripMenuItem.Size = new System.Drawing.Size(344, 44);
             this.compilerSelectToolStripMenuItem.Text = "Compiler select";
             // 
             // internalCompilerCb
@@ -5252,7 +5246,7 @@
             this.editorUpdaterBtn,
             this.updateCheckerAutomaticOption});
             this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
-            this.updateToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.updateToolStripMenuItem.Size = new System.Drawing.Size(344, 44);
             this.updateToolStripMenuItem.Text = "Update";
             // 
             // editorUpdaterBtn
@@ -5273,7 +5267,6 @@
             // 
             // updateIntervalTxt
             // 
-            this.updateIntervalTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.updateIntervalTxt.Name = "updateIntervalTxt";
             this.updateIntervalTxt.Size = new System.Drawing.Size(224, 39);
             this.updateIntervalTxt.Text = "15";
@@ -5290,7 +5283,7 @@
             // appSupportBtn
             // 
             this.appSupportBtn.Name = "appSupportBtn";
-            this.appSupportBtn.Size = new System.Drawing.Size(359, 44);
+            this.appSupportBtn.Size = new System.Drawing.Size(344, 44);
             this.appSupportBtn.Text = "Support";
             this.appSupportBtn.Click += new System.EventHandler(this.appSupportBtn_Click);
             // 
@@ -5300,7 +5293,7 @@
             this.exportObjectsDD,
             this.exportObjectsBtn});
             this.exportObjectsToolStripMenuItem.Name = "exportObjectsToolStripMenuItem";
-            this.exportObjectsToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.exportObjectsToolStripMenuItem.Size = new System.Drawing.Size(344, 44);
             this.exportObjectsToolStripMenuItem.Text = "Export Objects";
             // 
             // exportObjectsDD
@@ -5323,7 +5316,7 @@
             // gamePathBtn
             // 
             this.gamePathBtn.Name = "gamePathBtn";
-            this.gamePathBtn.Size = new System.Drawing.Size(359, 44);
+            this.gamePathBtn.Size = new System.Drawing.Size(344, 44);
             this.gamePathBtn.Text = "Set Game path";
             this.gamePathBtn.Click += new System.EventHandler(this.gamePathBtn_Click);
             // 
