@@ -16,7 +16,7 @@ namespace IGIEditor
         public static void RunFileIntegrityCheck(string processName = null, List<string> gameDirs = null)
         {
             var excludeList = new HashSet<string> { QUtils.customPatrolPathQEd, QUtils.customScriptPathQEd };
-            bool qFilesValid = CheckDirIntegrity(gameDirs, excludeList, true);
+            bool qFilesValid = CheckDirIntegrity(gameDirs, excludeList, false);
             IGIEditorUI.editorRef.Enabled = qFilesValid;
         }
 
@@ -85,7 +85,7 @@ namespace IGIEditor
         {
             if (!File.Exists(qChecksFile))
             {
-               var status = GenerateDirHashes(dirNames);
+                var status = GenerateDirHashes(dirNames);
             }
 
             bool checkIntegrity = true;

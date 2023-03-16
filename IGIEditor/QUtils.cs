@@ -748,14 +748,14 @@ namespace IGIEditor
 
             if (String.IsNullOrEmpty(cfgGamePath))
             {
-                ShowWarning("Game path could not be detected automatically! Please select game path in config file", CAPTION_CONFIG_ERR);
+                //ShowWarning("Game path could not be detected automatically! Please select game path in config file", CAPTION_CONFIG_ERR);
                 gameFound = false;
             }
             else
             {
                 if (!File.Exists(gameAbsPath + Path.DirectorySeparatorChar + QMemory.gameName + ".exe"))
                 {
-                    ShowError("Invalid path selected! Game 'IGI' not found at path '" + gameAbsPath + "'", CAPTION_FATAL_SYS_ERR);
+                    //ShowError("Invalid path selected! Game 'IGI' not found at path '" + gameAbsPath + "'", CAPTION_FATAL_SYS_ERR);
                     gameFound = false;
                 }
             }
@@ -779,7 +779,7 @@ namespace IGIEditor
             qIniParser.Write("disable_warnings", gameDisableWarns.ToString().ToLower(), GAME_SECTION);
             qIniParser.Write("game_fps", gameFPS.ToString().ToLower(), GAME_SECTION);
 
-            if (!gameFound) Environment.Exit(1);
+            //if (!gameFound) Environment.Exit(1);
         }
 
         internal static void ParseConfig()
@@ -798,8 +798,8 @@ namespace IGIEditor
                         gPath = configPath = gPath.Replace("\"", String.Empty);
                     if (!File.Exists(gPath + Path.DirectorySeparatorChar + QMemory.gameName + ".exe"))
                     {
-                        ShowError("Invalid path selected! Game 'IGI' not found at path '" + gPath + "'", CAPTION_FATAL_SYS_ERR);
-                        while (ShowGamePathDialog() != DialogResult.OK) ; //Prompt for Game path on invalid path.
+                        //ShowError("Invalid path selected! Game 'IGI' not found at path '" + gPath + "'", CAPTION_FATAL_SYS_ERR);
+                        //if (ShowGamePathDialog() != DialogResult.OK) ; //Prompt for Game path on invalid path.
                         //Environment.Exit(1);
                     }
                     else
@@ -830,7 +830,7 @@ namespace IGIEditor
                 }
                 else
                 {
-                    ShowWarning("Config file not found in current directory", CAPTION_CONFIG_ERR);
+                    //ShowWarning("Config file not found in current directory", CAPTION_CONFIG_ERR);
                     CreateConfig();
                 }
             }

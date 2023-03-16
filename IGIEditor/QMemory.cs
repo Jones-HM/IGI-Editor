@@ -52,7 +52,7 @@ namespace IGIEditor
                 if (level > QUtils.GAME_MAX_LEVEL) QUtils.ShowSystemFatalError("IGI Editor demo is limited to " + QUtils.GAME_MAX_LEVEL + " levels only.");
                 return (int)level;
             }
-            catch (Exception ex) { return 1; }
+            catch (Exception ex) { return -1; }
         }
 
         internal static void DisableGameWarnings()

@@ -985,9 +985,10 @@ namespace IGIEditor
                 }
 
                 //Show Game set path dialog.
-                if (!File.Exists(QUtils.iniCfgFile))
+                /*if (!File.Exists(QUtils.iniCfgFile))
                     QUtils.gamePathSet = QUtils.ShowGamePathDialog() == DialogResult.OK;
-                else QUtils.gamePathSet = true;
+                else QUtils.gamePathSet = true;*/
+                QUtils.gamePathSet = false;
 
                 //Start parsing data from Config file.
                 QUtils.ParseConfig();
@@ -4801,6 +4802,7 @@ namespace IGIEditor
                 QUtils.CleanUpTmpFiles();
                 textureSelectedPath = null;
                 texFiles = null;
+                texIndex = 0;
 
                 var folderBrowser = new OpenFileDialog();
                 folderBrowser.ValidateNames = false;
@@ -4956,7 +4958,7 @@ namespace IGIEditor
                 }
 
                 // Rename the output file to the new file name
-                File.Move(newFilePath,outputConvertPath);
+                File.Move(newFilePath, outputConvertPath);
 
 
                 SetStatusText($"Resource {sourceFileNameWithoutExt} saved as texture successfully.");
