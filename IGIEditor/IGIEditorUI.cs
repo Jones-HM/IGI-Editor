@@ -79,11 +79,12 @@ namespace IGIEditor
                 versionLbl.Text = "DBG";
                 editorTabs.TabPages.RemoveByKey("threeDEditor");
                 editorTabs.TabPages.RemoveByKey("devMode");
+                editorTabs.TabPages.RemoveByKey("objectEditor");
                 gameItemsLbl.Visible = true;
 #else
                 GAME_MAX_LEVEL = 14;
                 editorTabs.TabPages.RemoveByKey("threeDEditor");
-                //editorTabs.TabPages.RemoveByKey("graphEditor");
+                editorTabs.TabPages.RemoveByKey("objectEditor");
                 versionLbl.Text = appEditorSubVersion;
                 editorTabs.TabPages.RemoveByKey("devMode");
                 gameItemsLbl.Visible = false;
@@ -854,34 +855,7 @@ namespace IGIEditor
                     }
 
                     //Init AI Graph list.
-                    QUtils.aiGraphIdStr.Clear();
-                    QUtils.aiGraphNodeIdStr.Clear();
-
-                    var graphIdList = QGraphs.GetGraphIds(level);
-
-                    foreach (var graphId in graphIdList)
-                    {
-                        //Add all Graphs. (with Cutsceneces).
-                        if (showAllGraphsCb.Checked)
-                        {
-                            aiGraphIdStr.Add(graphId);
-                            if (initialInit) aiGraphIdDD.Items.Add(graphId);
-                        }
-
-                        //Show Real Graphs only. (without Cutsceneces).
-                        else if (!showAllGraphsCb.Checked)
-                        {
-                            var nodesList = QGraphs.GetNodesForGraph(graphId);
-                            if (nodesList != null)
-                            {
-                                if (nodesList.Count > 1)
-                                {
-                                    aiGraphIdStr.Add(graphId);
-                                    if (initialInit) aiGraphIdDD.Items.Add(graphId);
-                                }
-                            }
-                        }
-                    }
+                    QGraphs.GraphLevelInit(level, showAllGraphsCb.Checked, initialInit,ref aiGraphIdDD);
                 }
 
                 if (objItems)
@@ -1866,6 +1840,15 @@ namespace IGIEditor
             {
                 try
                 {
+                    if (!gameFound)
+                    {
+                        //Init AI Graph list.
+                        int level = Convert.ToInt32(levelStartTxt.Text);
+                        bool initialInit = true;
+                        QGraphs.GraphLevelInit(level, showAllGraphsCb.Checked, initialInit, ref aiGraphIdDD);
+                    }
+
+
                     UpdateUIComponent(graphIdDD, QUtils.aiGraphIdStr);
                     UpdateUIComponent(nodeIdDD, QUtils.aiGraphNodeIdStr);
                     if (graphIdDD.Items.Count > 0 && nodeIdDD.Items.Count > 0)
@@ -1996,20 +1979,6 @@ namespace IGIEditor
             //Genrate random scriptId according to Level A.I.
             GenerateAIScriptId();
         }
-
-        private void clearAllLevelBtn_Click(object sender, EventArgs e)
-        {
-            var voidLevelPath = QUtils.cfgVoidPath + "\\objects_void_" + QUtils.gGameLevel + QUtils.qscExt;
-            QUtils.FileCopy(voidLevelPath, QUtils.objectsQsc);
-
-            var qscData = QUtils.LoadFile();
-
-            QUtils.levelFlowData = File.ReadLines(QUtils.objectsQsc).Last();
-            compileStatus = QCompiler.CompileEx(qscData);
-
-            if (compileStatus) SetStatusText("Level cleared out success");
-        }
-
 
         //Testing phase - remove in final build
         private void compileBtn_Click(object sender, EventArgs e)
@@ -2525,9 +2494,10 @@ namespace IGIEditor
         {
             try
             {
+                int graphLevel = QUtils.gameFound ? QMemory.GetRunningLevel() : Convert.ToInt32(levelStartTxt.Value);
                 graphIdDD.SelectedIndex = (graphIdDD.SelectedIndex == -1) ? 0 : graphIdDD.SelectedIndex;
                 aiGraphId = QUtils.aiGraphIdStr[graphIdDD.SelectedIndex];
-                graphPos = QGraphs.GetGraphPosition(aiGraphId);
+                graphPos = QGraphs.GetGraphPosition(aiGraphId, graphLevel);
 
                 SetStatusText("Updating GraphNodes data please wait....");
                 aiGraphNodeIdStr = QGraphs.GetNodesForGraph(aiGraphId);
@@ -5178,6 +5148,18 @@ namespace IGIEditor
             }
         }
 
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var voidLevelPath = QUtils.cfgVoidPath + "\\objects_void_" + QUtils.gGameLevel + QUtils.qscExt;
+            QUtils.FileCopy(voidLevelPath, QUtils.objectsQsc);
+
+            var qscData = QUtils.LoadFile();
+
+            QUtils.levelFlowData = File.ReadLines(QUtils.objectsQsc).Last();
+            compileStatus = QCompiler.CompileEx(qscData);
+
+            if (compileStatus) SetStatusText("Level cleared out success");
+        }
 
         private void graphsMarkCb_CheckedChanged(object sender, EventArgs e)
         {

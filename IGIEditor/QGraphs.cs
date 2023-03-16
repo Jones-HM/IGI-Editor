@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace IGIEditor
 {
@@ -154,14 +155,14 @@ namespace IGIEditor
             return GetGraphNodeIds(gameLevel);
         }
 
-        internal static Real64 GetGraphPosition(int graphId)
+        internal static Real64 GetGraphPosition(int graphId,int level = -1)
         {
-            return GetGraphPosition(graphId.ToString());
+            return GetGraphPosition(graphId.ToString(),level);
         }
 
-        internal static Real64 GetGraphPosition(string graphId)
+        internal static Real64 GetGraphPosition(string graphId,int level = -1)
         {
-            var qGraphList = GetQTaskGraphList(true, true);
+            var qGraphList = GetQTaskGraphList(true,true,level);
             Real64 qGraphPos = new Real64();
 
             foreach (var qGraph in qGraphList)
@@ -385,7 +386,13 @@ namespace IGIEditor
         internal static List<QTaskGraph> GetQTaskGraphList(bool sorted = false, bool fromBackup = false, int level = -1)
         {
             //For current level.
-            if (level == -1) level = QMemory.GetRunningLevel();
+            if (level == -1)
+            {
+                if (QUtils.gameFound)
+                {
+                    level = QMemory.GetRunningLevel();
+                }
+            }
 
             string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Called with level : " + level + " backup : " + fromBackup);
@@ -892,6 +899,38 @@ namespace IGIEditor
                     return node;
             }
             return null;
+        }
+
+        internal static void GraphLevelInit(int level,bool showAllGraphsCb,bool initialInit,ref ComboBox aiGraphIdDD)
+        {
+            QUtils.aiGraphIdStr.Clear();
+            QUtils.aiGraphNodeIdStr.Clear();
+
+            var graphIdList = QGraphs.GetGraphIds(level);
+
+            foreach (var graphId in graphIdList)
+            {
+                //Add all Graphs. (with Cutsceneces).
+                if (showAllGraphsCb)
+                {
+                    QUtils.aiGraphIdStr.Add(graphId);
+                    if (initialInit) aiGraphIdDD.Items.Add(graphId);
+                }
+
+                //Show Real Graphs only. (without Cutsceneces).
+                else if (!showAllGraphsCb)
+                {
+                    var nodesList = QGraphs.GetNodesForGraph(graphId);
+                    if (nodesList != null)
+                    {
+                        if (nodesList.Count > 1)
+                        {
+                            QUtils.aiGraphIdStr.Add(graphId);
+                            if (initialInit) aiGraphIdDD.Items.Add(graphId);
+                        }
+                    }
+                }
+            }
         }
 
     }

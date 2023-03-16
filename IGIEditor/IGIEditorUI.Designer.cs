@@ -44,8 +44,11 @@
             this.xPosLbl_M = new System.Windows.Forms.Label();
             this.editorTabs = new System.Windows.Forms.TabControl();
             this.levelEditor = new System.Windows.Forms.TabPage();
+            this.modelIdOutLbl = new System.Windows.Forms.Label();
+            this.modelNameTxt = new System.Windows.Forms.TextBox();
+            this.modelNameOutLbl = new System.Windows.Forms.Label();
+            this.modelIDTxt = new System.Windows.Forms.TextBox();
             this.objectImgBox = new System.Windows.Forms.PictureBox();
-            this.clearAllLvlBtn = new System.Windows.Forms.Button();
             this.objectSelectDD = new System.Windows.Forms.ComboBox();
             this.buildingSelectDD = new System.Windows.Forms.ComboBox();
             this.removeObjectBtn = new System.Windows.Forms.Button();
@@ -53,18 +56,12 @@
             this.addObjectBtn = new System.Windows.Forms.Button();
             this.addBuildingBtn = new System.Windows.Forms.Button();
             this.objectEditor = new System.Windows.Forms.TabPage();
-            this.modelIdOutLbl = new System.Windows.Forms.Label();
-            this.modelNameTxt = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.buildingsResetTxt = new System.Windows.Forms.NumericUpDown();
             this.objectsResetTxt = new System.Windows.Forms.NumericUpDown();
             this.buildingsRemoveTxt = new System.Windows.Forms.NumericUpDown();
             this.objectsRemoveTxt = new System.Windows.Forms.NumericUpDown();
             this.resetBuildingsBtn = new System.Windows.Forms.Button();
             this.resetObjectsBtn = new System.Windows.Forms.Button();
-            this.modelNameOutLbl = new System.Windows.Forms.Label();
-            this.modelIDTxt = new System.Windows.Forms.TextBox();
-            this.modelIdLbl = new System.Windows.Forms.Label();
             this.restoreModelBtn = new System.Windows.Forms.Button();
             this.removeModelBtn = new System.Windows.Forms.Button();
             this.removeBuildingsBtn = new System.Windows.Forms.Button();
@@ -146,7 +143,7 @@
             this.aiPatrolPathEditor = new System.Windows.Forms.TabPage();
             this.weaponEditor = new System.Windows.Forms.TabPage();
             this.weaponEditorTabs = new System.Windows.Forms.TabControl();
-            this.weaponEditorMainTab = new System.Windows.Forms.TabPage();
+            this.weaponMainEditor = new System.Windows.Forms.TabPage();
             this.currentWeaponCb = new System.Windows.Forms.CheckBox();
             this.weaponGroupFileTxt = new System.Windows.Forms.TextBox();
             this.loadWeaponGroupBtn = new System.Windows.Forms.Button();
@@ -195,7 +192,6 @@
             this.updateWeaponDetailsBtn = new System.Windows.Forms.Button();
             this.weaponNameTxt = new System.Windows.Forms.TextBox();
             this.updateWeaponPropertiesBtn = new System.Windows.Forms.Button();
-            this.weaponCfgAdvanceEditor = new System.Windows.Forms.TabPage();
             this.threeDEditor = new System.Windows.Forms.TabPage();
             this.resume3DEditorBtn = new System.Windows.Forms.Button();
             this.start3DEditorBtn = new System.Windows.Forms.Button();
@@ -395,6 +391,8 @@
             this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.versionLbl = new System.Windows.Forms.ToolStripMenuItem();
             this.infoViewer = new System.Windows.Forms.ToolTip(this.components);
+            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modelInfoLbl = new System.Windows.Forms.Label();
             this.editorMainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).BeginInit();
             this.editorTabs.SuspendLayout();
@@ -429,7 +427,7 @@
             this.aiJSONEditor.SuspendLayout();
             this.weaponEditor.SuspendLayout();
             this.weaponEditorTabs.SuspendLayout();
-            this.weaponEditorMainTab.SuspendLayout();
+            this.weaponMainEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weaponAmmoTxt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponImgBox)).BeginInit();
             this.weaponCfgEditor.SuspendLayout();
@@ -640,9 +638,8 @@
             // 
             this.editorTabs.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.editorTabs.Controls.Add(this.levelEditor);
-            this.editorTabs.Controls.Add(this.objectEditor);
-            this.editorTabs.Controls.Add(this.humanEditor);
             this.editorTabs.Controls.Add(this.aiEditor);
+            this.editorTabs.Controls.Add(this.humanEditor);
             this.editorTabs.Controls.Add(this.weaponEditor);
             this.editorTabs.Controls.Add(this.threeDEditor);
             this.editorTabs.Controls.Add(this.missionEditor);
@@ -650,6 +647,7 @@
             this.editorTabs.Controls.Add(this.positionEditor);
             this.editorTabs.Controls.Add(this.devMode);
             this.editorTabs.Controls.Add(this.texEditor);
+            this.editorTabs.Controls.Add(this.objectEditor);
             this.editorTabs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editorTabs.HotTrack = true;
             this.editorTabs.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -667,8 +665,12 @@
             // levelEditor
             // 
             this.levelEditor.BackColor = System.Drawing.SystemColors.Control;
+            this.levelEditor.Controls.Add(this.modelInfoLbl);
+            this.levelEditor.Controls.Add(this.modelIdOutLbl);
+            this.levelEditor.Controls.Add(this.modelNameTxt);
+            this.levelEditor.Controls.Add(this.modelNameOutLbl);
+            this.levelEditor.Controls.Add(this.modelIDTxt);
             this.levelEditor.Controls.Add(this.objectImgBox);
-            this.levelEditor.Controls.Add(this.clearAllLvlBtn);
             this.levelEditor.Controls.Add(this.objectSelectDD);
             this.levelEditor.Controls.Add(this.buildingSelectDD);
             this.levelEditor.Controls.Add(this.removeObjectBtn);
@@ -684,6 +686,60 @@
             this.levelEditor.TabIndex = 1;
             this.levelEditor.Text = "Level Editor";
             // 
+            // modelIdOutLbl
+            // 
+            this.modelIdOutLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modelIdOutLbl.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.modelIdOutLbl.Location = new System.Drawing.Point(1474, 415);
+            this.modelIdOutLbl.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.modelIdOutLbl.Name = "modelIdOutLbl";
+            this.modelIdOutLbl.Size = new System.Drawing.Size(217, 52);
+            this.modelIdOutLbl.TabIndex = 58;
+            this.modelIdOutLbl.Text = "Model Id";
+            this.modelIdOutLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // modelNameTxt
+            // 
+            this.modelNameTxt.BackColor = System.Drawing.SystemColors.Control;
+            this.modelNameTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.modelNameTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.modelNameTxt.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.modelNameTxt.Location = new System.Drawing.Point(1051, 415);
+            this.modelNameTxt.Margin = new System.Windows.Forms.Padding(6);
+            this.modelNameTxt.Name = "modelNameTxt";
+            this.modelNameTxt.Size = new System.Drawing.Size(411, 41);
+            this.modelNameTxt.TabIndex = 57;
+            this.modelNameTxt.Text = "WaterTower";
+            this.infoViewer.SetToolTip(this.modelNameTxt, "Model id of object like 435_01_1 for WaterTower");
+            this.modelNameTxt.TextChanged += new System.EventHandler(this.modelNameTxt_TextChanged);
+            // 
+            // modelNameOutLbl
+            // 
+            this.modelNameOutLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modelNameOutLbl.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.modelNameOutLbl.Location = new System.Drawing.Point(1227, 334);
+            this.modelNameOutLbl.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.modelNameOutLbl.Name = "modelNameOutLbl";
+            this.modelNameOutLbl.Size = new System.Drawing.Size(467, 52);
+            this.modelNameOutLbl.TabIndex = 55;
+            this.modelNameOutLbl.Text = "Model Name";
+            this.modelNameOutLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // modelIDTxt
+            // 
+            this.modelIDTxt.BackColor = System.Drawing.SystemColors.Control;
+            this.modelIDTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.modelIDTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.modelIDTxt.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.modelIDTxt.Location = new System.Drawing.Point(1055, 334);
+            this.modelIDTxt.Margin = new System.Windows.Forms.Padding(6);
+            this.modelIDTxt.Name = "modelIDTxt";
+            this.modelIDTxt.Size = new System.Drawing.Size(160, 41);
+            this.modelIDTxt.TabIndex = 54;
+            this.modelIDTxt.Text = "435_01_1";
+            this.infoViewer.SetToolTip(this.modelIDTxt, "Model id of object like 435_01_1 for WaterTower");
+            this.modelIDTxt.TextChanged += new System.EventHandler(this.objectIDTxt_TextChanged);
+            // 
             // objectImgBox
             // 
             this.objectImgBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -694,19 +750,6 @@
             this.objectImgBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.objectImgBox.TabIndex = 44;
             this.objectImgBox.TabStop = false;
-            // 
-            // clearAllLvlBtn
-            // 
-            this.clearAllLvlBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clearAllLvlBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.clearAllLvlBtn.Location = new System.Drawing.Point(1378, 270);
-            this.clearAllLvlBtn.Margin = new System.Windows.Forms.Padding(6);
-            this.clearAllLvlBtn.Name = "clearAllLvlBtn";
-            this.clearAllLvlBtn.Size = new System.Drawing.Size(316, 48);
-            this.clearAllLvlBtn.TabIndex = 43;
-            this.clearAllLvlBtn.Text = "Clear level";
-            this.clearAllLvlBtn.UseVisualStyleBackColor = true;
-            this.clearAllLvlBtn.Click += new System.EventHandler(this.clearAllLevelBtn_Click);
             // 
             // objectSelectDD
             // 
@@ -793,18 +836,12 @@
             // objectEditor
             // 
             this.objectEditor.BackColor = System.Drawing.SystemColors.Control;
-            this.objectEditor.Controls.Add(this.modelIdOutLbl);
-            this.objectEditor.Controls.Add(this.modelNameTxt);
-            this.objectEditor.Controls.Add(this.label3);
             this.objectEditor.Controls.Add(this.buildingsResetTxt);
             this.objectEditor.Controls.Add(this.objectsResetTxt);
             this.objectEditor.Controls.Add(this.buildingsRemoveTxt);
             this.objectEditor.Controls.Add(this.objectsRemoveTxt);
             this.objectEditor.Controls.Add(this.resetBuildingsBtn);
             this.objectEditor.Controls.Add(this.resetObjectsBtn);
-            this.objectEditor.Controls.Add(this.modelNameOutLbl);
-            this.objectEditor.Controls.Add(this.modelIDTxt);
-            this.objectEditor.Controls.Add(this.modelIdLbl);
             this.objectEditor.Controls.Add(this.restoreModelBtn);
             this.objectEditor.Controls.Add(this.removeModelBtn);
             this.objectEditor.Controls.Add(this.removeBuildingsBtn);
@@ -817,45 +854,6 @@
             this.objectEditor.Size = new System.Drawing.Size(1702, 606);
             this.objectEditor.TabIndex = 0;
             this.objectEditor.Text = "Object Editor";
-            // 
-            // modelIdOutLbl
-            // 
-            this.modelIdOutLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.modelIdOutLbl.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.modelIdOutLbl.Location = new System.Drawing.Point(566, 170);
-            this.modelIdOutLbl.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.modelIdOutLbl.Name = "modelIdOutLbl";
-            this.modelIdOutLbl.Size = new System.Drawing.Size(434, 52);
-            this.modelIdOutLbl.TabIndex = 52;
-            this.modelIdOutLbl.Text = "Model Id";
-            this.modelIdOutLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // modelNameTxt
-            // 
-            this.modelNameTxt.BackColor = System.Drawing.SystemColors.Control;
-            this.modelNameTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.modelNameTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.modelNameTxt.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.modelNameTxt.Location = new System.Drawing.Point(237, 170);
-            this.modelNameTxt.Margin = new System.Windows.Forms.Padding(6);
-            this.modelNameTxt.Name = "modelNameTxt";
-            this.modelNameTxt.Size = new System.Drawing.Size(311, 41);
-            this.modelNameTxt.TabIndex = 51;
-            this.modelNameTxt.Text = "WaterTower";
-            this.infoViewer.SetToolTip(this.modelNameTxt, "Model id of object like 435_01_1 for WaterTower");
-            this.modelNameTxt.TextChanged += new System.EventHandler(this.modelNameTxt_TextChanged);
-            // 
-            // label3
-            // 
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label3.Location = new System.Drawing.Point(12, 169);
-            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(213, 52);
-            this.label3.TabIndex = 50;
-            this.label3.Text = "Model Name";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // buildingsResetTxt
             // 
@@ -966,46 +964,6 @@
             this.resetObjectsBtn.Text = "Reset Objects";
             this.resetObjectsBtn.UseVisualStyleBackColor = true;
             this.resetObjectsBtn.Click += new System.EventHandler(this.resetObjectsBtn_Click);
-            // 
-            // modelNameOutLbl
-            // 
-            this.modelNameOutLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.modelNameOutLbl.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.modelNameOutLbl.Location = new System.Drawing.Point(566, 77);
-            this.modelNameOutLbl.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.modelNameOutLbl.Name = "modelNameOutLbl";
-            this.modelNameOutLbl.Size = new System.Drawing.Size(434, 52);
-            this.modelNameOutLbl.TabIndex = 9;
-            this.modelNameOutLbl.Text = "Model Name";
-            this.modelNameOutLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // modelIDTxt
-            // 
-            this.modelIDTxt.BackColor = System.Drawing.SystemColors.Control;
-            this.modelIDTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.modelIDTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.modelIDTxt.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.modelIDTxt.Location = new System.Drawing.Point(237, 77);
-            this.modelIDTxt.Margin = new System.Windows.Forms.Padding(6);
-            this.modelIDTxt.Name = "modelIDTxt";
-            this.modelIDTxt.Size = new System.Drawing.Size(311, 41);
-            this.modelIDTxt.TabIndex = 7;
-            this.modelIDTxt.Text = "435_01_1";
-            this.infoViewer.SetToolTip(this.modelIDTxt, "Model id of object like 435_01_1 for WaterTower");
-            this.modelIDTxt.TextChanged += new System.EventHandler(this.objectIDTxt_TextChanged);
-            this.modelIDTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.objectIDTxt_KeyDown);
-            // 
-            // modelIdLbl
-            // 
-            this.modelIdLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.modelIdLbl.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.modelIdLbl.Location = new System.Drawing.Point(50, 75);
-            this.modelIdLbl.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.modelIdLbl.Name = "modelIdLbl";
-            this.modelIdLbl.Size = new System.Drawing.Size(176, 52);
-            this.modelIdLbl.TabIndex = 6;
-            this.modelIdLbl.Text = "Model Id";
-            this.modelIdLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // restoreModelBtn
             // 
@@ -2250,9 +2208,8 @@
             // 
             // weaponEditorTabs
             // 
-            this.weaponEditorTabs.Controls.Add(this.weaponEditorMainTab);
+            this.weaponEditorTabs.Controls.Add(this.weaponMainEditor);
             this.weaponEditorTabs.Controls.Add(this.weaponCfgEditor);
-            this.weaponEditorTabs.Controls.Add(this.weaponCfgAdvanceEditor);
             this.weaponEditorTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.weaponEditorTabs.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.weaponEditorTabs.Location = new System.Drawing.Point(0, 0);
@@ -2263,31 +2220,31 @@
             this.weaponEditorTabs.Size = new System.Drawing.Size(1702, 606);
             this.weaponEditorTabs.TabIndex = 86;
             // 
-            // weaponEditorMainTab
+            // weaponMainEditor
             // 
-            this.weaponEditorMainTab.BackColor = System.Drawing.SystemColors.Control;
-            this.weaponEditorMainTab.Controls.Add(this.currentWeaponCb);
-            this.weaponEditorMainTab.Controls.Add(this.weaponGroupFileTxt);
-            this.weaponEditorMainTab.Controls.Add(this.loadWeaponGroupBtn);
-            this.weaponEditorMainTab.Controls.Add(this.saveWeaponGroupBtn);
-            this.weaponEditorMainTab.Controls.Add(this.weaponAmmoTxt);
-            this.weaponEditorMainTab.Controls.Add(this.markWeaponsCb);
-            this.weaponEditorMainTab.Controls.Add(this.allWeaponsCb);
-            this.weaponEditorMainTab.Controls.Add(this.label4);
-            this.weaponEditorMainTab.Controls.Add(this.weaponDD);
-            this.weaponEditorMainTab.Controls.Add(this.weaponImgBox);
-            this.weaponEditorMainTab.Controls.Add(this.removeWeaponBtn);
-            this.weaponEditorMainTab.Controls.Add(this.label5);
-            this.weaponEditorMainTab.Controls.Add(this.addWeaponBtn);
-            this.weaponEditorMainTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
-            this.weaponEditorMainTab.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.weaponEditorMainTab.Location = new System.Drawing.Point(8, 39);
-            this.weaponEditorMainTab.Margin = new System.Windows.Forms.Padding(6);
-            this.weaponEditorMainTab.Name = "weaponEditorMainTab";
-            this.weaponEditorMainTab.Size = new System.Drawing.Size(1686, 559);
-            this.weaponEditorMainTab.TabIndex = 0;
-            this.weaponEditorMainTab.Text = "Main Editor";
-            this.weaponEditorMainTab.Click += new System.EventHandler(this.weaponEditorMainTab_Click);
+            this.weaponMainEditor.BackColor = System.Drawing.SystemColors.Control;
+            this.weaponMainEditor.Controls.Add(this.currentWeaponCb);
+            this.weaponMainEditor.Controls.Add(this.weaponGroupFileTxt);
+            this.weaponMainEditor.Controls.Add(this.loadWeaponGroupBtn);
+            this.weaponMainEditor.Controls.Add(this.saveWeaponGroupBtn);
+            this.weaponMainEditor.Controls.Add(this.weaponAmmoTxt);
+            this.weaponMainEditor.Controls.Add(this.markWeaponsCb);
+            this.weaponMainEditor.Controls.Add(this.allWeaponsCb);
+            this.weaponMainEditor.Controls.Add(this.label4);
+            this.weaponMainEditor.Controls.Add(this.weaponDD);
+            this.weaponMainEditor.Controls.Add(this.weaponImgBox);
+            this.weaponMainEditor.Controls.Add(this.removeWeaponBtn);
+            this.weaponMainEditor.Controls.Add(this.label5);
+            this.weaponMainEditor.Controls.Add(this.addWeaponBtn);
+            this.weaponMainEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.weaponMainEditor.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.weaponMainEditor.Location = new System.Drawing.Point(8, 39);
+            this.weaponMainEditor.Margin = new System.Windows.Forms.Padding(6);
+            this.weaponMainEditor.Name = "weaponMainEditor";
+            this.weaponMainEditor.Size = new System.Drawing.Size(1686, 559);
+            this.weaponMainEditor.TabIndex = 0;
+            this.weaponMainEditor.Text = "Weapon Editor";
+            this.weaponMainEditor.Click += new System.EventHandler(this.weaponEditorMainTab_Click);
             // 
             // currentWeaponCb
             // 
@@ -2512,7 +2469,7 @@
             this.weaponCfgEditor.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.weaponCfgEditor.Size = new System.Drawing.Size(1686, 559);
             this.weaponCfgEditor.TabIndex = 1;
-            this.weaponCfgEditor.Text = "Weapon Editor";
+            this.weaponCfgEditor.Text = "Advance Editor";
             this.weaponCfgEditor.Click += new System.EventHandler(this.weaponCfgEditor_Click);
             // 
             // loadWeaponProps
@@ -3036,17 +2993,6 @@
             this.updateWeaponPropertiesBtn.Text = "Update";
             this.updateWeaponPropertiesBtn.UseVisualStyleBackColor = true;
             this.updateWeaponPropertiesBtn.Click += new System.EventHandler(this.updateWeaponPropertiesBtn_Click);
-            // 
-            // weaponCfgAdvanceEditor
-            // 
-            this.weaponCfgAdvanceEditor.BackColor = System.Drawing.SystemColors.Control;
-            this.weaponCfgAdvanceEditor.Location = new System.Drawing.Point(8, 39);
-            this.weaponCfgAdvanceEditor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.weaponCfgAdvanceEditor.Name = "weaponCfgAdvanceEditor";
-            this.weaponCfgAdvanceEditor.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.weaponCfgAdvanceEditor.Size = new System.Drawing.Size(1686, 559);
-            this.weaponCfgAdvanceEditor.TabIndex = 2;
-            this.weaponCfgAdvanceEditor.Text = "Advance Editor";
             // 
             // threeDEditor
             // 
@@ -4706,6 +4652,7 @@
             // 
             // appMenuSettings
             // 
+            this.appMenuSettings.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.appMenuSettings.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.appMenuSettings.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
@@ -4738,9 +4685,10 @@
             this.startGameBtnMenu,
             this.restartLevelBtnMenu,
             this.quitLevelBtnMenu,
-            this.refreshGameBtnMenu});
+            this.refreshGameBtnMenu,
+            this.clearToolStripMenuItem});
             this.editorOnlineToolStripMenuItem.Name = "editorOnlineToolStripMenuItem";
-            this.editorOnlineToolStripMenuItem.Size = new System.Drawing.Size(341, 44);
+            this.editorOnlineToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.editorOnlineToolStripMenuItem.Text = "Level Menu";
             // 
             // startGameBtnMenu
@@ -4748,12 +4696,13 @@
             this.startGameBtnMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.levelStartTxtMenu});
             this.startGameBtnMenu.Name = "startGameBtnMenu";
-            this.startGameBtnMenu.Size = new System.Drawing.Size(228, 44);
+            this.startGameBtnMenu.Size = new System.Drawing.Size(359, 44);
             this.startGameBtnMenu.Text = "Start";
             this.startGameBtnMenu.Click += new System.EventHandler(this.startGameBtnMenu_Click);
             // 
             // levelStartTxtMenu
             // 
+            this.levelStartTxtMenu.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.levelStartTxtMenu.Name = "levelStartTxtMenu";
             this.levelStartTxtMenu.Size = new System.Drawing.Size(224, 39);
             this.levelStartTxtMenu.Text = "1";
@@ -4761,21 +4710,21 @@
             // restartLevelBtnMenu
             // 
             this.restartLevelBtnMenu.Name = "restartLevelBtnMenu";
-            this.restartLevelBtnMenu.Size = new System.Drawing.Size(228, 44);
+            this.restartLevelBtnMenu.Size = new System.Drawing.Size(359, 44);
             this.restartLevelBtnMenu.Text = "Restart";
             this.restartLevelBtnMenu.Click += new System.EventHandler(this.restartLevelBtn_Click);
             // 
             // quitLevelBtnMenu
             // 
             this.quitLevelBtnMenu.Name = "quitLevelBtnMenu";
-            this.quitLevelBtnMenu.Size = new System.Drawing.Size(228, 44);
+            this.quitLevelBtnMenu.Size = new System.Drawing.Size(359, 44);
             this.quitLevelBtnMenu.Text = "Quit";
             this.quitLevelBtnMenu.Click += new System.EventHandler(this.quitLevelBtn_Click);
             // 
             // refreshGameBtnMenu
             // 
             this.refreshGameBtnMenu.Name = "refreshGameBtnMenu";
-            this.refreshGameBtnMenu.Size = new System.Drawing.Size(228, 44);
+            this.refreshGameBtnMenu.Size = new System.Drawing.Size(359, 44);
             this.refreshGameBtnMenu.Text = "Refresh";
             this.refreshGameBtnMenu.Click += new System.EventHandler(this.refreshGame_Click);
             // 
@@ -4786,7 +4735,7 @@
             this.editorModeCb,
             this.liveEditorCb});
             this.selectEditorModeToolStripMenuItem.Name = "selectEditorModeToolStripMenuItem";
-            this.selectEditorModeToolStripMenuItem.Size = new System.Drawing.Size(341, 44);
+            this.selectEditorModeToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.selectEditorModeToolStripMenuItem.Text = "Editor Mode";
             // 
             // playModeCb
@@ -4815,7 +4764,7 @@
             this.editorConnectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editorOnlineCb});
             this.editorConnectionToolStripMenuItem.Name = "editorConnectionToolStripMenuItem";
-            this.editorConnectionToolStripMenuItem.Size = new System.Drawing.Size(341, 44);
+            this.editorConnectionToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.editorConnectionToolStripMenuItem.Text = "Editor Connection";
             // 
             // editorOnlineCb
@@ -4833,7 +4782,7 @@
             this.startWindowedGameBtn,
             this.startFullScreenGameBtn});
             this.startGameToolStripMenuItem.Name = "startGameToolStripMenuItem";
-            this.startGameToolStripMenuItem.Size = new System.Drawing.Size(341, 44);
+            this.startGameToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.startGameToolStripMenuItem.Text = "Start Game";
             // 
             // startWindowedGameBtn
@@ -4856,7 +4805,7 @@
             this.internalsStatusMenu,
             this.profileToolStripMenuItem});
             this.gameStatusToolStripMenuItem.Name = "gameStatusToolStripMenuItem";
-            this.gameStatusToolStripMenuItem.Size = new System.Drawing.Size(341, 44);
+            this.gameStatusToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.gameStatusToolStripMenuItem.Text = "Game Status";
             // 
             // internalsStatusMenu
@@ -4884,6 +4833,7 @@
             // 
             // gameProfileNameLbl
             // 
+            this.gameProfileNameLbl.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.gameProfileNameLbl.Name = "gameProfileNameLbl";
             this.gameProfileNameLbl.Size = new System.Drawing.Size(224, 39);
             this.gameProfileNameLbl.Text = "N/A";
@@ -4899,7 +4849,7 @@
             this.compilerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.compilerTypeLbl});
             this.compilerToolStripMenuItem.Name = "compilerToolStripMenuItem";
-            this.compilerToolStripMenuItem.Size = new System.Drawing.Size(341, 44);
+            this.compilerToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.compilerToolStripMenuItem.Text = "Compiler";
             // 
             // compilerTypeLbl
@@ -4914,7 +4864,7 @@
             this.posCoordCb,
             this.posMetersCb});
             this.positionToolStripMenuItem.Name = "positionToolStripMenuItem";
-            this.positionToolStripMenuItem.Size = new System.Drawing.Size(341, 44);
+            this.positionToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.positionToolStripMenuItem.Text = "Position";
             // 
             // posCoordCb
@@ -4990,6 +4940,7 @@
             // 
             // musicVolumeUpdateTxt
             // 
+            this.musicVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.musicVolumeUpdateTxt.Name = "musicVolumeUpdateTxt";
             this.musicVolumeUpdateTxt.Size = new System.Drawing.Size(224, 39);
             this.musicVolumeUpdateTxt.Text = "5.0";
@@ -5005,6 +4956,7 @@
             // 
             // sfxVolumeUpdateTxt
             // 
+            this.sfxVolumeUpdateTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.sfxVolumeUpdateTxt.Name = "sfxVolumeUpdateTxt";
             this.sfxVolumeUpdateTxt.Size = new System.Drawing.Size(224, 39);
             this.sfxVolumeUpdateTxt.Text = "3.5";
@@ -5020,6 +4972,7 @@
             // 
             // framesTxt
             // 
+            this.framesTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.framesTxt.Name = "framesTxt";
             this.framesTxt.Size = new System.Drawing.Size(224, 39);
             this.framesTxt.Text = "30";
@@ -5267,6 +5220,7 @@
             // 
             // updateIntervalTxt
             // 
+            this.updateIntervalTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.updateIntervalTxt.Name = "updateIntervalTxt";
             this.updateIntervalTxt.Size = new System.Drawing.Size(224, 39);
             this.updateIntervalTxt.Text = "15";
@@ -5350,6 +5304,25 @@
             this.versionLbl.Size = new System.Drawing.Size(218, 44);
             this.versionLbl.Text = "IGI-1.1";
             // 
+            // clearToolStripMenuItem
+            // 
+            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.clearToolStripMenuItem.Text = "Clear ";
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
+            // 
+            // modelInfoLbl
+            // 
+            this.modelInfoLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modelInfoLbl.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.modelInfoLbl.Location = new System.Drawing.Point(1161, 262);
+            this.modelInfoLbl.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.modelInfoLbl.Name = "modelInfoLbl";
+            this.modelInfoLbl.Size = new System.Drawing.Size(362, 52);
+            this.modelInfoLbl.TabIndex = 59;
+            this.modelInfoLbl.Text = "Model Information";
+            this.modelInfoLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // IGIEditorUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -5369,9 +5342,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.levelStartTxt)).EndInit();
             this.editorTabs.ResumeLayout(false);
             this.levelEditor.ResumeLayout(false);
+            this.levelEditor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectImgBox)).EndInit();
             this.objectEditor.ResumeLayout(false);
-            this.objectEditor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buildingsResetTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.objectsResetTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.buildingsRemoveTxt)).EndInit();
@@ -5402,8 +5375,8 @@
             this.aiJSONEditor.PerformLayout();
             this.weaponEditor.ResumeLayout(false);
             this.weaponEditorTabs.ResumeLayout(false);
-            this.weaponEditorMainTab.ResumeLayout(false);
-            this.weaponEditorMainTab.PerformLayout();
+            this.weaponMainEditor.ResumeLayout(false);
+            this.weaponMainEditor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weaponAmmoTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weaponImgBox)).EndInit();
             this.weaponCfgEditor.ResumeLayout(false);
@@ -5445,15 +5418,12 @@
         private System.Windows.Forms.TabPage threeDEditor;
         private System.Windows.Forms.TabPage missionEditor;
         private System.Windows.Forms.TabPage positionEditor;
-        private System.Windows.Forms.TextBox modelIDTxt;
-        private System.Windows.Forms.Label modelIdLbl;
         private System.Windows.Forms.Button removeModelBtn;
         private System.Windows.Forms.Button removeBuildingsBtn;
         private System.Windows.Forms.Button removeObjsBtn;
         private System.Windows.Forms.ToolTip infoViewer;
         private System.Windows.Forms.Button resetBuildingsBtn;
         private System.Windows.Forms.Button resetObjectsBtn;
-        private System.Windows.Forms.Label modelNameOutLbl;
         private System.Windows.Forms.Button resume3DEditorBtn;
         private System.Windows.Forms.Button start3DEditorBtn;
         private System.Windows.Forms.TabPage weaponEditor;
@@ -5634,15 +5604,11 @@
         private System.Windows.Forms.NumericUpDown damageScaleFallTxt;
         private System.Windows.Forms.Label fallDamageLbl;
         private System.Windows.Forms.CheckBox removeAllAiCb;
-        private System.Windows.Forms.Label modelIdOutLbl;
-        private System.Windows.Forms.TextBox modelNameTxt;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown teamIdText;
         private System.Windows.Forms.Label teamIdLabel;
         private System.Windows.Forms.TabControl weaponEditorTabs;
-        private System.Windows.Forms.TabPage weaponEditorMainTab;
+        private System.Windows.Forms.TabPage weaponMainEditor;
         private System.Windows.Forms.TabPage weaponCfgEditor;
-        private System.Windows.Forms.TabPage weaponCfgAdvanceEditor;
         private System.Windows.Forms.NumericUpDown weaponAmmoTxt;
         private System.Windows.Forms.CheckBox markWeaponsCb;
         private System.Windows.Forms.CheckBox allWeaponsCb;
@@ -5780,7 +5746,6 @@
         private System.Windows.Forms.ToolStripMenuItem exportObjectsBtn;
         private System.Windows.Forms.TabPage levelEditor;
         private System.Windows.Forms.PictureBox objectImgBox;
-        private System.Windows.Forms.Button clearAllLvlBtn;
         private System.Windows.Forms.ComboBox objectSelectDD;
         private System.Windows.Forms.ComboBox buildingSelectDD;
         private System.Windows.Forms.Button removeObjectBtn;
@@ -5803,6 +5768,12 @@
         private System.Windows.Forms.TextBox textureFileName;
         private System.Windows.Forms.Button nextTextureBtn;
         private System.Windows.Forms.Button prevTextureBtn;
+        private System.Windows.Forms.Label modelIdOutLbl;
+        private System.Windows.Forms.TextBox modelNameTxt;
+        private System.Windows.Forms.Label modelNameOutLbl;
+        private System.Windows.Forms.TextBox modelIDTxt;
+        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
+        private System.Windows.Forms.Label modelInfoLbl;
     }
 }
 
