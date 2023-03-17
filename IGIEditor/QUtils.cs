@@ -146,7 +146,7 @@ namespace IGIEditor
 
         #region App Version
         internal static string versionFileName = "VERSION";
-        internal static string appEditorSubVersion = "0.8.2.0";
+        internal static string appEditorSubVersion = "0.8.5.0";
         internal static float viewPortDelta = 10000.0f;
         #endregion
 
@@ -271,7 +271,7 @@ namespace IGIEditor
             public const string Bat = ".bat";
             public const string Ini = ".ini";
             public const string Spr = ".spr";
-            public const string Text = ".text";
+            public const string Text = ".txt";
             public const string Pic = ".pic";
         }
 

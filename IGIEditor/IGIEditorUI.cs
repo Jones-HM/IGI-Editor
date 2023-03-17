@@ -3581,23 +3581,15 @@ namespace IGIEditor
                         //Delete previous updated from Dev path.
                         QUtils.FileIODelete(QUtils.editorUpdater);
 
-                        //Rename for x86 version.
-                        QUtils.FileRename(dbgPath + "\\" + editorExe, editorx86);
-                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Renaming file '" + dbgPath + "\\" + editorExe + "' to " + editorx86);
-
-                        //Moving Editor exe to cache.
-                        QUtils.FileIOMove(dbgPath + "\\" + editorx86, cachePath + "\\" + editorx86);
-                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Moving file '" + dbgPath + "\\" + editorx86 + "\\" + editorExe + "' to '" + cachePath + "\\" + editorx86 + "'");
-
                         QUtils.FileIOCopy(rlsPath + "\\" + editorExe, cachePath + "\\" + editorExe);
-                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Moving file '" + rlsPath + "\\" + editorExe + "\\" + editorExe + "' to " + cachePath + "\\" + editorExe + "'");
+                        QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Moving file '" + rlsPath + "\\" + editorExe + "' to " + cachePath + "\\" + editorExe + "'");
 
                         //Moving bin folder to cache.
                         QUtils.DirectoryIOCopy(devPathBin, cachePathBin);
                         QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Moving bin folder from '" + dbgPathBin + "' to '" + cachePathBin + "'");
 
                         //Archive all path to .zip
-                        string zipCmd = "7z a -tzip " + editorUpdater + " " + cachePath + "\\" + editorx86 + " " + cachePath + "\\" + editorExe + " " + cachePathBin + " " + changelogsPath + " " + versionPath + " " + readmePath;
+                        string zipCmd = "7z a -tzip " + editorUpdater + " " + cachePath + "\\" + editorExe + " " + cachePathBin + " " + changelogsPath + " " + versionPath + " " + readmePath;
                         QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Running zip command '" + zipCmd + "'");
                         string shellOut = QUtils.ShellExec(zipCmd, true);
                         QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Shell output: '" + shellOut + "'");
