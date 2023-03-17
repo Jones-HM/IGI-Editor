@@ -52,43 +52,56 @@ Here is workflow mentioned.
 ### Level Editor:
 **Level Editor**: Lets you to `Add` or `Remove` Building/Objects in level at any position you want select list of objects to add in level and add then in `Edit mode`.</br>
 
-![](https://i.ibb.co/qJrt9fx/IGI-Editor-Main.png)
-
-### Object Editor
-**Object Editor**: Lets you to `Remove` or `Restore` objects in level `permanently` or `temporary` depends which mode is selected `Live` or `Normal` mode.</br>
-
-![](https://i.ibb.co/yqjspnJ/IGI-Editor-Object-Ed.png)
+![](https://github.com/IGI-Research-Devs/IGI-Editor/blob/master/resources/level_editor.png)
 
 ### Human Editor:
 **Human Editor**: Lets you to Update human Speed/Jump,Health Scale peek and Team Id/Human Camera (1st Person,3rd person).</br>
 
-![](https://i.ibb.co/hZxhghk/IGI-Editor-Human-Ed.png)
+![](https://github.com/IGI-Research-Devs/IGI-Editor/blob/master/resources/human_editor.png)
 
 ### Weapon Editor:
 **Weapon Editor**: Lets you to `Add` or `Remove` new weapons in level `permanently` or `temporary` depends which mode is selected `Live` or `Normal` mode.</br>
 
-![](https://i.ibb.co/269CSkz/IGI-Editor-Weapon-Ed.png)
+![](https://github.com/IGI-Research-Devs/IGI-Editor/blob/master/resources/weapon_editor.png)
+
+### Weapon Advance Editor:
+**Weapon Advance Editor**: Lets you to `Update` Weapon's advance data like _Name,UI Type,Ammo Damage, Weapon Power/RPM and more_.</br>
+
+![](https://github.com/IGI-Research-Devs/IGI-Editor/blob/master/resources/weapon_advance_editor.png)
 
 ### A.I Editor:
 **A.I Editor**: Lets you to `Add` or `Remove` `Friendly/Enemy` A.I into level with various properties like _invincible_,_advance view_,_guard generator_ etc.</br>
 
-![](https://i.ibb.co/RPNf61h/IGI-Editor-AI-Main-Ed.png)
+![](https://github.com/IGI-Research-Devs/IGI-Editor/blob/master/resources/ai__editor.png)
 
 ### A.I JSON Editor.
 **JSON Editor**: Lets you to `Save` or `Load` A.I to `JSON` file _permanently_ for later use, and you can edit/share json files into editor.</br>
-![](https://i.ibb.co/GMY6fmz/IGI-Editor-AI-JSONEd.png)
+![](https://github.com/IGI-Research-Devs/IGI-Editor/blob/master/resources/ai_json_editor.png)
 
 
 ### Mission Editor
 **Mission Editor**: Lets you to `Add` or `Remove` `Missions` into level after you design your own custom level enter _Name_ and _Description_ and **Save** your Mission</br>
 You can also **Upload** or **Download** new missions from _Server_ and load into your game and play them directly..</br>
-This section supports **[ONLINE MODE]**.
-![](https://i.ibb.co/xG0QMnC/IGI-Editor-Mission-Ed.png)
+
+![](https://github.com/IGI-Research-Devs/IGI-Editor/blob/master/resources/mission_editor.png)
+
+### Position Editor
+**Position Editor**: Lets you to `Update` or `Reset` `Positions` and `Orientation` of Game objects and Humanplayer you can Rotate them to `180` degree or move them to different location easily.</br>
+
+![](https://github.com/IGI-Research-Devs/IGI-Editor/blob/master/resources/position_editor.png)
+
+
+### Texture Editor
+**Texture Editor**: Lets you to `View` and `Replace` `Textures` of game easily with inbuilt custom tools now you can view all game textures and replace them with your own Textures in `.JPG/.PNG` files .</br>
+- This can automatically Import textures from `.RES` Resource packed file annd view them directly into editor.</br>
+- This can automatically Replace Images from `JPG/PNG` to `TGA` Game supported format and turn that into game texture easily.</br>
+
+![](https://github.com/IGI-Research-Devs/IGI-Editor/blob/master/resources/texture_editor.png)
 
 ### Graph Editor.</br> 
 **Graph editor**: Lets you see visualization of Graph and nodes information, You can `teleport` or `Auto traverse` to Graph or Nodes in _real time_ and see where graph or nodes are in selected level..</br>
 
-![](https://i.ibb.co/17B96Z5/IGI-Editor-Graph-Ed.png)
+![](https://github.com/IGI-Research-Devs/IGI-Editor/blob/master/resources/graph_editor.png)
 
 ### Graph & Links - Level 5. ( IGI 1 Editor).
 ![](https://i.ibb.co/px7fWfS/Node-Links-L5-Area2.png)
@@ -98,49 +111,42 @@ This section supports **[ONLINE MODE]**.
 
 ### Misc Editor:
 **Misc editor**: Lets you to `Reset/Remove` levels back to normal and `Remove Cutscenes`, Export level data,Set Game Frames `FPS` Update Game Music and more.</br>
-![](https://i.ibb.co/GT0kbtR/IGI-Editor-Misc-Ed.png)
 
 ### IGI Editor License Key:
 ~~This editor requires _license key_ to run contact via _email_ or _discord_ and mention your **Username** to identify yourself.</br>
 And now you can generate Key from KeyGen for your editor for free.</br>~~
 
-### IGI Editor demo limit:
-This editor only offers upto _14 Levels_, and some features are disabled at the moment like **3D/Resource/Compiler/PlayerProfile editor.**</br> 
-
-## Full version includes:
-* All **14 levels** with More **advanced editor**.
+## Future version includes:
+* All **new UI/UX Design** with More **advanced editor**.
 * **Real Time Editor Support**.
 * **Resource/Profile/GameConfig/QCompiler** editor.
 * **Compiler** and **Assembler** with _Parser_ output like **.qsc** to **.qas** to **.qvm**.
 
-### Profile Editor: **_Available in Full version_**.</br> 
+### Profile Editor: **_Available in Future version_**.</br> 
 **Profile editor**: Lets you manage your `Game Profiles` you can update _Name,Level,Mission_ details or  `Add` or `Remove` new player profile for your player.</br>
 
-### Resource Editor: **_Available in Full version_**.</br> 
+### Resource Editor: **_Available in Future version_**.</br> 
 **Resource editor**: Lets you see all details of Game resources information like Resource _Name,Address,Id_ and can `Load` or `Unload` any resource in _Real time_.</br>
 
-### GameConfig Editor: **_Available in Full version_**.</br> 
+### GameConfig Editor: **_Available in Future version_**.</br> 
 **GameConfig editor**: Lets you edit game configuration like _Level,Password,ActiveMission,Graphics/Music/Mouse settings,Game Key controls,Game difficulty_ and more.</br> 
 
-### QCompiler Editor: **_Available in Full version_**.</br> 
+### QCompiler Editor: **_Available in Future version_**.</br> 
 **QCompiler editor**: Lets you `Compile/Assemble/Parse` game files which game uses internaly to save/edit game data.</br>
 
 # Editor Tutorial on YouTube :
 [![QEditor](https://img.youtube.com/vi/wMyAlgIm2AY/0.jpg)](https://www.youtube.com/watch?v=wMyAlgIm2AY)
 
 ## Version Update:
-**Editor version 0.8.0.0 Latest.**
-
-## Full version of Editor.
-If you're a developer and know how to build this tool by yourself then you could figure our the _MAX_LEVEL_ constant defined in editor to unlock the full version. Good Luck.
+**Editor version 0.8.5.0 Latest.**
 
 ## Privacy Policy:
 The editor onwards version 0.7 doesn't store any type of data from _User,Machine_ the editor doesn't maintain any sort of database now.
 
 
 # **DOWNLOAD LINKS**</br>
-- **Project I.G.I 1 Editor** Version 0.7.1.0 _RELEASED_</br>
-[IGI1Editor_0.7_Setup](https://cutt.ly/L2mIxfi)</br>
+- **Project I.G.I 1 Editor** Version 0.8.5.0 _RELEASED_</br>
+[IGI Editor](https://github.com/IGI-Research-Devs/IGI-Editor/releases/tag/0.8.5.0)</br>
 
 If you encounter any issues with Editor just contact me at</br>
 
