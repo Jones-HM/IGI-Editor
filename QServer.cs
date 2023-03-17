@@ -143,7 +143,7 @@ namespace IGIEditor
                 try
                 {
                     qServer.FileName = extensions.Any(dirData[dirDataSize - 1].Contains) ? dirData[dirDataSize - 1] : dirData[dirDataSize - 1] + dirData[dirDataSize];
-                    if (dirName == missionDir && !qServer.FileName.Contains(QUtils.missionExt)) continue;
+                    if (dirName == missionDir && !qServer.FileName.Contains(QUtils.FileExtensions.Mission)) continue;
                     qServer.Persmission = dirData[0];
                     qServer.OwnerGroup = dirData[5];
 
@@ -178,7 +178,7 @@ namespace IGIEditor
                     }
                 }
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "using normal method.");
-                var dirList = GetDirList(missionDir, useCache, new List<string>() { QUtils.missionExt });
+                var dirList = GetDirList(missionDir, useCache, new List<string>() { QUtils.FileExtensions.Mission });
 
                 foreach (var dir in dirList)
                 {

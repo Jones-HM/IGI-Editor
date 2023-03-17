@@ -331,7 +331,7 @@ namespace IGIEditor
         internal static List<int> GetNodesForGraph(int graphId)
         {
             List<int> graphNodeIds = new List<int>();
-            string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
+            string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.FileExtensions.Dat;
 
             QUtils.graphNodesList = QGraphs.ReadGraphNodeData(graphFile);
             int totalNodes = QUtils.graphNodesList.Count;
@@ -523,7 +523,7 @@ namespace IGIEditor
         internal static string ShowGraphNodesVisual(int graphId, QUtils.GRAPH_VISUAL visualType = QUtils.GRAPH_VISUAL.OBJECTS, bool showNodesInfo = false, string nodeObject = "000_00_0", string markerColor = "MARKER_COLOR_YELLOW")
         {
             string qscData = null;
-            string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
+            string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.FileExtensions.Dat;
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Graph File: '" + graphFile + "'");
             var nodeData = ReadGraphNodeData(graphFile);
             var graphPos = GetGraphPosition(graphId.ToString());
@@ -578,7 +578,7 @@ namespace IGIEditor
 
         internal static List<string> GraphNodeLinks(int graphId)
         {
-            string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
+            string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.FileExtensions.Dat;
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GraphFile: '" + graphFile + "'");
             var graphData = ReadGraphNodeData(graphFile);
             List<string> nodeLinks = new List<string>();
@@ -830,7 +830,7 @@ namespace IGIEditor
 
         internal static string GetGraphArea(int graphId)
         {
-            string graphFile = QUtils.qGraphsPath + "\\Areas\\" + "graph_area_level" + QUtils.gGameLevel + QUtils.jsonExt;
+            string graphFile = QUtils.qGraphsPath + "\\Areas\\" + "graph_area_level" + QUtils.gGameLevel + QUtils.FileExtensions.Json;
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Level: " + QUtils.gGameLevel + " graphId: " + graphId + " graphFile: " + graphFile);
             if (!System.IO.File.Exists(graphFile)) { return "Area Not Available."; }
 
@@ -887,7 +887,7 @@ namespace IGIEditor
 
         internal static GraphNode GetGraphNodeData(int graphId, int nodeId)
         {
-            string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.datExt;
+            string graphFile = QUtils.graphsPath + "\\" + "graph" + graphId + QUtils.FileExtensions.Dat;
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "GraphFile: '" + graphFile + "'");
 
             if (QUtils.graphNodesList.Count == 0) QUtils.graphNodesList = QGraphs.ReadGraphNodeData(graphFile);

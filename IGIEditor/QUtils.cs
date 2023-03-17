@@ -252,22 +252,29 @@ namespace IGIEditor
         #endregion
 
         #region Extensions Constants
-        internal const string qvmExt = ".qvm";
-        internal const string qscExt = ".qsc";
-        internal const string datExt = ".dat";
-        internal const string csvExt = ".csv";
-        internal const string jsonExt = ".json";
-        internal const string txtExt = ".txt";
-        internal const string xmlExt = ".xml";
-        internal const string dllExt = ".dll";
-        internal const string missionExt = ".igimsf";
-        internal const string jpgExt = ".jpg";
-        internal const string pngExt = ".png";
-        internal const string rarExt = ".rar";
-        internal const string zipExt = ".zip";
-        internal const string exeExt = ".exe";
-        internal const string batExt = ".bat";
-        internal const string iniExt = ".ini";
+        public static class FileExtensions
+        {
+            public const string Qvm = ".qvm";
+            public const string Qsc = ".qsc";
+            public const string Dat = ".dat";
+            public const string Csv = ".csv";
+            public const string Json = ".json";
+            public const string Txt = ".txt";
+            public const string Xml = ".xml";
+            public const string Dll = ".dll";
+            public const string Mission = ".igimsf";
+            public const string Jpg = ".jpg";
+            public const string Png = ".png";
+            public const string Rar = ".rar";
+            public const string Zip = ".zip";
+            public const string Exe = ".exe";
+            public const string Bat = ".bat";
+            public const string Ini = ".ini";
+            public const string Spr = ".spr";
+            public const string Text = ".text";
+            public const string Pic = ".pic";
+        }
+
         internal const string sightDisplayType = "SIGHTDISPLAYTYPE_";
         internal const string ammoDisplayType = "AMMODISPLAYTYPE_";
         #endregion
@@ -463,7 +470,7 @@ namespace IGIEditor
             deviceIdDLLPath = editorCurrPath + Path.DirectorySeparatorChar + "DeviceId.dll";
 
             //Set new Input QSC & QVM path releative to appdata.
-            objectsModelsList = igiEditorQEdPath + Path.DirectorySeparatorChar + "IGIModels" + jsonExt;
+            objectsModelsList = igiEditorQEdPath + Path.DirectorySeparatorChar + "IGIModels" + QUtils.FileExtensions.Json;
             qMissionsPath = igiEditorQEdPath + @"\QMissions";
             qGraphsPath = igiEditorQEdPath + @"\QGraphs";
             qWeaponsPath = igiEditorQEdPath + @"\QWeapons";
@@ -504,10 +511,10 @@ namespace IGIEditor
             weaponsModQvmPath = cfgWeaponsPath + @"\" + weaponsModQvm;
             weaponsOrgCfgPath = cfgWeaponsPath + @"\" + weaponConfigQVM;
             weaponsCfgQscPath = qQSCPath + @"\weapons\" + weaponConfigQSC;
-            editorUpdaterFile = cachePath + @"\" + editorUpdaterDir + zipExt;
+            editorUpdaterFile = cachePath + @"\" + editorUpdaterDir + QUtils.FileExtensions.Zip;
             editorUpdaterAbsDir = cachePath + @"\" + editorUpdaterDir;
-            autoUpdaterBatch = editorAppName + "-" + autoUpdaterFile + batExt;
-            editorUpdater = editorAppName + "_" + "Update" + zipExt;
+            autoUpdaterBatch = editorAppName + "-" + autoUpdaterFile + FileExtensions.Bat;
+            editorUpdater = editorAppName + "_" + "Update" + QUtils.FileExtensions.Zip;
 
             //Init Temp path for Cache.
             if (!Directory.Exists(cachePath))
@@ -1431,14 +1438,14 @@ namespace IGIEditor
                 AddLog(MethodBase.GetCurrentMethod().Name, "Called with File '" + updateFile + "'" + " action: " + updateAction.ToString() + " Batch File: " + updateBatch);
                 ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Updating application please wait...");
                 string updateUrl = QServer.serverBaseURL + QServer.updateDir;
-                string localFileName = cachePath + "\\" + (String.IsNullOrEmpty(updateFile) ? editorUpdaterDir : updateFile) + zipExt;
+                string localFileName = cachePath + "\\" + (String.IsNullOrEmpty(updateFile) ? editorUpdaterDir : updateFile) + QUtils.FileExtensions.Zip;
                 string updateName = editorUpdaterDir;
-                string localUpdateFile = cachePath + "\\" + updateName + zipExt;
+                string localUpdateFile = cachePath + "\\" + updateName + QUtils.FileExtensions.Zip;
                 string localUpdatePath = cachePath + "\\" + editorUpdaterDir;
-                string localChangelogsPath = cachePath + "\\" + QUtils.editorChangeLogs + txtExt;
-                string localReadmePath = cachePath + "\\" + QUtils.editorReadme + txtExt;
-                string editorReadmePath = editorCurrPath + "\\" + QUtils.editorReadme + txtExt;
-                string editorChangelogsPath = editorCurrPath + "\\" + QUtils.editorReadme + txtExt;
+                string localChangelogsPath = cachePath + "\\" + QUtils.editorChangeLogs + QUtils.FileExtensions.Text;
+                string localReadmePath = cachePath + "\\" + QUtils.editorReadme + QUtils.FileExtensions.Text;
+                string editorReadmePath = editorCurrPath + "\\" + QUtils.editorReadme + QUtils.FileExtensions.Text;
+                string editorChangelogsPath = editorCurrPath + "\\" + QUtils.editorReadme + QUtils.FileExtensions.Text;
                 bool status = false;
 
                 //Extract the updater if found.
@@ -1492,7 +1499,7 @@ namespace IGIEditor
                     {
                         updateUrl = updateUrl + "/" + updateName;
                         string updateNamePath = localFileName;
-                        string updateUrlPath = "/" + QServer.updateDir + "/" + updateName + zipExt;
+                        string updateUrlPath = "/" + QServer.updateDir + "/" + updateName + QUtils.FileExtensions.Zip;
 
                         AddLog(MethodBase.GetCurrentMethod().Name, "Downloading new updater file '" + updateNamePath + "'");
                         ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Downloading new update please wait...");
@@ -1519,11 +1526,11 @@ namespace IGIEditor
                     string batchUpdaterData =
                         "@echo off\n" +
                         "timeout 5\n" + //Timeout for updating in external thread.
-                        "move /y " + "\"" + localUpdatePath + "\\" + editorAppName + exeExt + "\" \"" + editorCurrPath + "\\" + editorAppName + exeExt + "\"" + "\n" +
-                        "move /y " + "\"" + localUpdatePath + "\\" + editorAppName + "_x86" + exeExt + "\" \"" + editorCurrPath + "\\" + editorAppName + "_x86" + exeExt + "\"" + "\n" +
+                        "move /y " + "\"" + localUpdatePath + "\\" + editorAppName + QUtils.FileExtensions.Exe + "\" \"" + editorCurrPath + "\\" + editorAppName + QUtils.FileExtensions.Exe + "\"" + "\n" +
+                        "move /y " + "\"" + localUpdatePath + "\\" + editorAppName + "_x86" + QUtils.FileExtensions.Exe + "\" \"" + editorCurrPath + "\\" + editorAppName + "_x86" + QUtils.FileExtensions.Exe + "\"" + "\n" +
                         "timeout 5\n" + //Timeout for Restarting editor app.
-                       "\"" + editorCurrPath + "\\" + editorAppName + exeExt + "\"\n" +
-                      (QUtils.nppInstalled ? "notepad++ - nosession - notabbar - alwaysOnTop - multiInst - lhaskell \"" : "notepad \"") + editorCurrPath + "\\" + editorChangeLogs + txtExt + "\"\n";
+                       "\"" + editorCurrPath + "\\" + editorAppName + QUtils.FileExtensions.Exe + "\"\n" +
+                      (QUtils.nppInstalled ? "notepad++ - nosession - notabbar - alwaysOnTop - multiInst - lhaskell \"" : "notepad \"") + editorCurrPath + "\\" + editorChangeLogs + QUtils.FileExtensions.Text + "\"\n";
 
                     File.WriteAllText(updaterBatchFile, batchUpdaterData);
                     AddLog(MethodBase.GetCurrentMethod().Name, "Updating batch file '" + updateBatch + "' created");
@@ -1645,7 +1652,7 @@ namespace IGIEditor
                 csvFile = LoadFile(csvFile);
             else
             {
-                csvFile = objects + csvExt;
+                csvFile = objects + QUtils.FileExtensions.Csv;
                 ExportCSV(csvFile, qtaskList);
             }
 
@@ -1662,14 +1669,14 @@ namespace IGIEditor
 
         internal static void ExportJson(string fileName)
         {
-            string xmlFile = objects + xmlExt;
+            string xmlFile = objects + QUtils.FileExtensions.Xml;
             string xmlData = null;
 
             if (File.Exists(xmlFile))
                 xmlData = LoadFile(xmlFile);
             else
             {
-                xmlFile = objects + xmlExt;
+                xmlFile = objects + QUtils.FileExtensions.Xml;
                 ExportXML(xmlFile);
                 xmlData = LoadFile(xmlFile);
             }
@@ -1737,10 +1744,10 @@ namespace IGIEditor
             AddLog(MethodBase.GetCurrentMethod().Name, "Path : " + internalsDllPath);
 
 #if DEBUG
-            internalsDllFile = Path.GetFileNameWithoutExtension(internalsDll) + "-Dbg" + dllExt;
+            internalsDllFile = Path.GetFileNameWithoutExtension(internalsDll) + "-Dbg" + QUtils.FileExtensions.Dll;
             internalsDllPath = @"bin\" + internalsDllFile;
 #else
-            internalsDllFile = Path.GetFileNameWithoutExtension(internalsDll) + "-Rls" + dllExt;
+            internalsDllFile = Path.GetFileNameWithoutExtension(internalsDll) + "-Rls" + QUtils.FileExtensions.Dll;
             internalsDllPath = @"bin\" + internalsDllFile;
 #endif
 

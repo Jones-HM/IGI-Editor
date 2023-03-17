@@ -332,20 +332,20 @@ namespace IGIEditor
         {
             try
             {
-                if (!File.Exists(QUtils.versionFileName + txtExt))
+                if (!File.Exists(QUtils.versionFileName + QUtils.FileExtensions.Text))
                 {
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Editor version file is missing from directory, couldn't get correct version");
-                    QUtils.SaveFile(QUtils.versionFileName.ToUpper() + txtExt, appEditorSubVersion);
+                    QUtils.SaveFile(QUtils.versionFileName.ToUpper() + QUtils.FileExtensions.Text, appEditorSubVersion);
                     return appEditorSubVersion;
                 }
 
-                string subVersion = QUtils.LoadFile(QUtils.versionFileName + txtExt);
+                string subVersion = QUtils.LoadFile(QUtils.versionFileName + QUtils.FileExtensions.Text);
                 var versionCount = subVersion.Count(c => c == '.');
 
                 if (versionCount != 3 || subVersion != appEditorSubVersion)
                 {
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Editor version file has incorrect format.");
-                    QUtils.SaveFile(QUtils.versionFileName.ToUpper() + txtExt, appEditorSubVersion);
+                    QUtils.SaveFile(QUtils.versionFileName.ToUpper() + QUtils.FileExtensions.Text, appEditorSubVersion);
                     return appEditorSubVersion;
                 }
             }
@@ -362,22 +362,22 @@ namespace IGIEditor
             {
                 updateCheckerTimer.Stop();//Dont check for new updates while updating - 'Macht keinen Sense oder?'
                 string updateName = QUtils.editorUpdaterDir;
-                string updateNameAbs = QUtils.cachePath + "\\" + updateName + zipExt;
+                string updateNameAbs = QUtils.cachePath + "\\" + updateName + QUtils.FileExtensions.Zip;
                 string tmpUpdateName = QUtils.GenerateRandStr(6);
                 string updaterVersion = null, updaterMask = "Updater-";
 
                 long updateSize = 0, tmpUpdateSize = 0;
                 bool updateAvailable = false, downgradeAvailable = false;
 
-                var dirData = QServer.GetDirList(QServer.updateDir, false, new List<string>() { zipExt, txtExt });
+                var dirData = QServer.GetDirList(QServer.updateDir, false, new List<string>() { QUtils.FileExtensions.Zip, QUtils.FileExtensions.Text });
                 foreach (var dir in dirData)
                 {
                     if (dir.FileName.Contains("Updater-"))
                     {
-                        updaterVersion = dir.FileName.Replace(updaterMask, String.Empty).Replace(txtExt, String.Empty);
+                        updaterVersion = dir.FileName.Replace(updaterMask, String.Empty).Replace(QUtils.FileExtensions.Text, String.Empty);
                     }
 
-                    else if (Path.GetFileName(dir.FileName) == QUtils.editorUpdaterDir + zipExt)
+                    else if (Path.GetFileName(dir.FileName) == QUtils.editorUpdaterDir + QUtils.FileExtensions.Zip)
                     {
                         QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Server: File '" + dir.FileName + "' size: " + Convert.ToInt32(dir.FileSize) / 1024 + "Kb");
                         tmpUpdateSize = Convert.ToInt32(dir.FileSize);
@@ -559,7 +559,7 @@ namespace IGIEditor
                     //ShowInfo("Mission Path: " + missionUrl + "\nmissionNamePath: " + missionNamePath);
 
                     var missionAuthor = QUtils.GetCurrentUserName().Replace(" ", "-");
-                    var missionFullName = Path.GetFileNameWithoutExtension(missionName) + "@" + missionAuthor + "#" + gameLevel + missionExt;
+                    var missionFullName = Path.GetFileNameWithoutExtension(missionName) + "@" + missionAuthor + "#" + gameLevel + QUtils.FileExtensions.Mission;
                     missionFullName = HttpUtility.UrlEncode(missionFullName);
                     string missionUrlPath = "/" + QServer.missionDir + "/" + missionFullName;
 
@@ -582,7 +582,7 @@ namespace IGIEditor
                 string missionUrl = QServer.serverBaseURL + QServer.missionDir;
                 string missionName = missionData.MissionName + "@" + missionData.MissionAuthor + "#" + missionData.MissionLevel;
 
-                string missionEscapeUri = HttpUtility.UrlEncode(missionName) + missionExt;
+                string missionEscapeUri = HttpUtility.UrlEncode(missionName) + QUtils.FileExtensions.Mission;
                 missionUrl = missionUrl + "/" + missionEscapeUri;
 
                 string missionNamePath = null;
@@ -591,7 +591,7 @@ namespace IGIEditor
 
                 Invoke((Action)(() =>
                 {
-                    missionNamePath = missionsOnlineDD.Text + missionExt;
+                    missionNamePath = missionsOnlineDD.Text + QUtils.FileExtensions.Mission;
                 }));
 
                 QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Url: '" + missionUrl + "' file '" + missionNamePath + "'");
@@ -1116,7 +1116,7 @@ namespace IGIEditor
             {
                 //load level Description.
                 levelNameLbl.Text = QMission.GetMissionInfo(level);
-                var imgPath = "mission" + level + QUtils.pngExt;
+                var imgPath = "mission" + level + QUtils.FileExtensions.Png;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
 
                 //Load level image from Cache.
@@ -1132,7 +1132,7 @@ namespace IGIEditor
                 else
                 {
                     QUtils.ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Downloading resource please wait...");
-                    var imgUrl = "/" + QServer.resourceDir + "/" + "mission_" + level + jpgExt;
+                    var imgUrl = "/" + QServer.resourceDir + "/" + "mission_" + level + QUtils.FileExtensions.Jpg;
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Downloading resource URL: '" + imgUrl + "'");
                     QServer.Download(imgUrl, imgPath, imgTmpPath);
                     //LoadImgBoxWeb(imgUrl, levelImgBox);
@@ -1675,7 +1675,7 @@ namespace IGIEditor
                 weaponName = QUtils.weaponList[index].Keys.ElementAt(0);
                 //Weapon image paths.
                 //imgUrl = baseImgUrl + weaponsImgUrl[index];
-                imgPath = weaponName + QUtils.pngExt;
+                imgPath = weaponName + QUtils.FileExtensions.Png;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
 
                 //Load image from Cache.
@@ -1691,7 +1691,7 @@ namespace IGIEditor
                 else
                 {
                     QUtils.ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Downloading resource please wait...");
-                    imgUrl = "/" + QServer.resourceDir + "/" + weaponName + jpgExt;
+                    imgUrl = "/" + QServer.resourceDir + "/" + weaponName + QUtils.FileExtensions.Jpg;
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Downloading resource URL: '" + imgUrl + "'");
                     QServer.Download(imgUrl, imgPath, imgTmpPath);
                     imgBox.Refresh();
@@ -1737,13 +1737,13 @@ namespace IGIEditor
             switch (exportObjectsDD.SelectedIndex)
             {
                 case 0:
-                    QUtils.ExportCSV(QUtils.objects + QUtils.csvExt, qtaskList);
+                    QUtils.ExportCSV(QUtils.objects + QUtils.FileExtensions.Csv, qtaskList);
                     break;
                 case 1:
-                    QUtils.ExportXML(QUtils.objects + QUtils.xmlExt);
+                    QUtils.ExportXML(QUtils.objects + QUtils.FileExtensions.Xml);
                     break;
                 case 2:
-                    QUtils.ExportJson(QUtils.objects + QUtils.jsonExt);
+                    QUtils.ExportJson(QUtils.objects + QUtils.FileExtensions.Json);
                     break;
             }
             SetStatusText("Data exported success");
@@ -1807,7 +1807,7 @@ namespace IGIEditor
         private void aboutBtn_Click(object sender, EventArgs e)
         {
             QUtils.ShowInfo(QUtils.aboutStr, "ABOUT");
-            string readmeCmd = (QUtils.nppInstalled ? "notepad++  -nosession -notabbar -alwaysOnTop -multiInst -lhaskell \"" : "notepad \"") + QUtils.editorCurrPath + "\\" + QUtils.editorReadme + txtExt + "\"";
+            string readmeCmd = (QUtils.nppInstalled ? "notepad++  -nosession -notabbar -alwaysOnTop -multiInst -lhaskell \"" : "notepad \"") + QUtils.editorCurrPath + "\\" + QUtils.editorReadme + QUtils.FileExtensions.Text + "\"";
             QUtils.AddLog(MethodBase.GetCurrentMethod().Name, readmeCmd);
             QUtils.ShellExec(readmeCmd);
         }
@@ -2172,7 +2172,7 @@ namespace IGIEditor
 
         private void readHumanBtn_Click(object sender, EventArgs e)
         {
-            var humanPlayerFile = QUtils.cfgHumanplayerPathQsc + @"\humanplayer" + QUtils.qscExt;
+            var humanPlayerFile = QUtils.cfgHumanplayerPathQsc + @"\humanplayer" + QUtils.FileExtensions.Qsc;
             string humanFileName = "humanplayer.qsc";
             string humanPlayerData = QUtils.LoadFile(humanPlayerFile);
 
@@ -2254,7 +2254,7 @@ namespace IGIEditor
                 var aiModelName = QAI.GetAiModelNamesList(gameLevel)[aiModelSelectDD.SelectedIndex];
                 var aiModelId = QAI.GetAiModelId4Name(aiModelName);
 
-                var imgPath = aiModelName + QUtils.pngExt;
+                var imgPath = aiModelName + QUtils.FileExtensions.Png;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
                 var aiModelQualifyName = aiModelName.Contains("_") ? aiModelName.Substring(0, aiModelName.IndexOf("_")) : aiModelName;
                 aiModelNameLbl.Text = aiModelQualifyName;
@@ -2274,7 +2274,7 @@ namespace IGIEditor
                 {
                     QUtils.ShowLogStatus(MethodBase.GetCurrentMethod().Name, "Downloading resource please wait...");
                     //A.I image paths.
-                    var imgUrl = "/" + QServer.resourceDir + "/" + aiModelName + jpgExt;
+                    var imgUrl = "/" + QServer.resourceDir + "/" + aiModelName + QUtils.FileExtensions.Jpg;
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Downloading image resource: URL : " + imgUrl);
                     QServer.Download(imgUrl, imgPath, imgTmpPath);
                     aiImgBox.Refresh();
@@ -2658,7 +2658,7 @@ namespace IGIEditor
 
                     if (String.IsNullOrEmpty(missionName)) throw new Exception("Mission name cannot be empty");
 
-                    //string missionNameExt = missionName + QUtils.missionExt;
+                    //string missionNameExt = missionName + QUtils.FileExtensions.Mission;
                     var mFilesList = new List<string>() { QUtils.missionLevelFile, QUtils.missionDescFile, QUtils.objectsQsc };
 
                     if (File.Exists(QUtils.qMissionsPath + @"\" + missionName))
@@ -2667,7 +2667,7 @@ namespace IGIEditor
                         return;
                     }
                     bool isValidMission = QZip.FilesExist(missionNamePath, mFilesList);
-                    isValidMission = QZip.FileExist(missionNamePath, null, QUtils.qscExt);
+                    isValidMission = QZip.FileExist(missionNamePath, null, QUtils.FileExtensions.Qsc);
 
                     if (!isValidMission) throw new Exception("Mission '" + missionName + "' is invalid mission file and cannot be installed");
 
@@ -2713,7 +2713,7 @@ namespace IGIEditor
                 if (String.IsNullOrEmpty(missionName)) throw new Exception("Mission name cannot be empty");
 
                 QMission.ChangeMissionDetails(QUtils.gGameLevel, missionName, missionDesc);
-                var missionNameExt = missionName + QUtils.missionExt;
+                var missionNameExt = missionName + QUtils.FileExtensions.Mission;
 
                 //Create mission folder.
                 Directory.CreateDirectory(missionName);
@@ -2737,7 +2737,7 @@ namespace IGIEditor
                 QUtils.FileIOMove(QUtils.missionDescFile, missionName + @"\" + QUtils.missionDescFile);
                 QUtils.FileIOMove(QUtils.missionLevelFile, missionName + @"\" + QUtils.missionLevelFile);
 
-                QZip.Create(missionName, QUtils.missionExt, true);
+                QZip.Create(missionName, QUtils.FileExtensions.Mission, true);
                 QUtils.FileIOMove(missionNameExt, QUtils.qMissionsPath + @"\" + missionNameExt);
                 QUtils.ShowInfo("Mission '" + missionName + "' was saved successfully");
             }
@@ -2765,7 +2765,7 @@ namespace IGIEditor
                 var missionPath = QUtils.qMissionsPath + Path.DirectorySeparatorChar + missionName;
 
                 var missionDescFile = missionPath + @"\" + QUtils.missionDescFile;
-                var missionPathExt = missionPath + QUtils.missionExt;
+                var missionPathExt = missionPath + QUtils.FileExtensions.Mission;
 
                 //if (!File.Exists(missionPathExt)) throw new FileNotFoundException("Mission '" + missionName + "' does not exist");
                 bool missionAiExist = false;
@@ -3410,7 +3410,7 @@ namespace IGIEditor
 
         internal void RichViewerUpdateFormat()
         {
-            if (devFileNameTxt.Text == QUtils.editorChangeLogs + txtExt)
+            if (devFileNameTxt.Text == QUtils.editorChangeLogs + QUtils.FileExtensions.Text)
             {
                 var keywords = new List<string>() { "CHANGELOGS", "BETA", "version", "Updated", "Added", "Removed", "fixed", "Offline mode" };
                 var colors = new List<Color>() { Red, Violet, Cyan, Green, Green, Red, DarkSeaGreen, Gray };
@@ -3419,7 +3419,7 @@ namespace IGIEditor
                 RichViewerFormatter(devViewerTxt, keywords, colors, "Consolas", 12, fontStyles);
             }
 
-            if (devFileNameTxt.Text == editorAppName + iniExt)
+            if (devFileNameTxt.Text == editorAppName + QUtils.FileExtensions.Ini)
             {
                 var keywords = new List<string>() { "[PATH]", "[EDITOR]", "game_path", "game_reset", "app_logs", "app_online", "update_check", "update_interval", "true", "false" };
                 var colors = new List<Color>() { Red, Red, Green, Cyan, Cyan, Cyan, Cyan, Cyan, DarkGreen, Olive };
@@ -3428,7 +3428,7 @@ namespace IGIEditor
                 RichViewerFormatter(devViewerTxt, keywords, colors, "Consolas", 10, fontStyles);
             }
 
-            if (aiFileNameTxt.Text.Contains(jsonExt))
+            if (aiFileNameTxt.Text.Contains(QUtils.FileExtensions.Json))
             {
                 var keywords = new List<string>() { "aiCount", "aiType", "model", "graphId", "weapon", "friendly", "guardGenerator", "maxSpawns", "teamId", "invincible", "advanceView", "true", "false" };
                 var colors = new List<Color>() { Red, Red, Green, Cyan, Cyan, Cyan, Cyan, Cyan, Cyan, Cyan, Cyan, DarkGreen, Olive };
@@ -3548,12 +3548,12 @@ namespace IGIEditor
                 string cachePathBin = cachePath + "\\bin";
                 string devPathBin = devPath + "\\bin";
                 string dbgPathBin = dbgPath + "\\bin";
-                string editorx86 = QUtils.editorAppName + "_x86" + exeExt;
-                string editorExe = QUtils.editorAppName + exeExt;
-                string changelogsPath = QUtils.editorCurrPath + "\\" + QUtils.editorChangeLogs + txtExt;
-                string versionPath = QUtils.editorCurrPath + "\\" + QUtils.versionFileName + txtExt;
-                string readmePath = QUtils.editorCurrPath + "\\" + QUtils.editorReadme + txtExt;
-                string changeLogsData = QUtils.LoadFile(QUtils.editorChangeLogs + txtExt);
+                string editorx86 = QUtils.editorAppName + "_x86" + QUtils.FileExtensions.Exe;
+                string editorExe = QUtils.editorAppName + QUtils.FileExtensions.Exe;
+                string changelogsPath = QUtils.editorCurrPath + "\\" + QUtils.editorChangeLogs + QUtils.FileExtensions.Text;
+                string versionPath = QUtils.editorCurrPath + "\\" + QUtils.versionFileName + QUtils.FileExtensions.Text;
+                string readmePath = QUtils.editorCurrPath + "\\" + QUtils.editorReadme + QUtils.FileExtensions.Text;
+                string changeLogsData = QUtils.LoadFile(QUtils.editorChangeLogs + QUtils.FileExtensions.Text);
 
                 var dlgRes = QUtils.ShowDialog("Did you Cleaned and Batch Build the new Project ?");
                 if (dlgRes == DialogResult.Yes)
@@ -3636,12 +3636,12 @@ namespace IGIEditor
         {
             try
             {
-                string updaterMask = "Updater-", updaterVersionTag = updaterMask + QUtils.appEditorSubVersion + txtExt, updaterVerTag = updaterVersionTag;
+                string updaterMask = "Updater-", updaterVersionTag = updaterMask + QUtils.appEditorSubVersion + QUtils.FileExtensions.Text, updaterVerTag = updaterVersionTag;
                 if (!File.Exists(QUtils.editorUpdater) || !File.Exists(updaterVersionTag)) { QUtils.ShowLogError(MethodBase.GetCurrentMethod().Name, "Updater file not found in current directory."); return; }
 
                 float fileSize = new FileInfo(QUtils.editorUpdater).Length / 1024;
                 //Get the remote version accordinly to current version.
-                var updaterVersion = updaterVerTag.Replace(updaterMask, String.Empty).Replace(txtExt, String.Empty);
+                var updaterVersion = updaterVerTag.Replace(updaterMask, String.Empty).Replace(QUtils.FileExtensions.Text, String.Empty);
                 var version = (updaterVersion[updaterVersion.Length - 1] - 1) - 0x30;
                 var remoteVersion = updaterVersion.Slice(0, updaterVersion.Length - 1) + version.ToString();
 
@@ -3650,7 +3650,7 @@ namespace IGIEditor
                 {
                     string updateUrlPath = "/" + QServer.updateDir + "/" + QUtils.editorUpdater;
                     string updateVersionUrlPath = "/" + QServer.updateDir + "/" + updaterVersionTag;
-                    string remoteVersionUrlPath = "/" + QServer.updateDir + "/" + updaterMask + remoteVersion + txtExt;
+                    string remoteVersionUrlPath = "/" + QServer.updateDir + "/" + updaterMask + remoteVersion + QUtils.FileExtensions.Text;
 
                     QUtils.AddLog(MethodBase.GetCurrentMethod().Name, "Url: '" + updateUrlPath + "' file '" + devFileNameTxt.Text + "'");
                     var status = QServer.Upload(updateUrlPath, QUtils.editorUpdater);
@@ -3755,7 +3755,7 @@ namespace IGIEditor
                 if (QUtils.ShowGamePathDialog() == DialogResult.OK)
                 {
 
-                    QUtils.FileIODelete(QUtils.editorAppName + iniExt);
+                    QUtils.FileIODelete(QUtils.editorAppName + QUtils.FileExtensions.Ini);
 
                     //Create new config.
                     QUtils.CreateConfig();
@@ -3904,7 +3904,7 @@ namespace IGIEditor
             var humanAi = new HumanAi(aiCount, aiType, aiGraphId, aiWeapon, aiModel, guardGeneratorCb.Checked, maxSpawns, teamId, aiInvincibleCb.Checked, aiAdvanceViewCb.Checked);
             var humanJSON = JsonConvert.SerializeObject(humanAi, Formatting.Indented);
 
-            var inputDlgMsg = DialogMsgBox.ShowBox("Enter A.I File name", aiModelName + "_" + gameLevel + jsonExt, MsgBoxButtons.YesNo, true);
+            var inputDlgMsg = DialogMsgBox.ShowBox("Enter A.I File name", aiModelName + "_" + gameLevel + QUtils.FileExtensions.Json, MsgBoxButtons.YesNo, true);
             if (inputDlgMsg == DialogResult.Yes)
             {
                 var aiJsonFile = qedAiJsonPath + "\\level" + gameLevel + (aiFriendlyCb.Checked ? @"\friendly\" : @"\enemies\");
@@ -3920,7 +3920,7 @@ namespace IGIEditor
                     Directory.CreateDirectory(qedAiJsonPath + "\\level" + gameLevel);
 
                 //Save the JSON A.I file.
-                var inputFile = DialogMsgBox.GetInputBoxData() + jsonExt;
+                var inputFile = DialogMsgBox.GetInputBoxData() + QUtils.FileExtensions.Json;
                 aiJsonFile += inputFile;
                 QUtils.SaveFile(aiJsonFile, humanJSON);
                 SetStatusText("File '" + inputFile + "' saved successfully.");
@@ -4068,7 +4068,7 @@ namespace IGIEditor
 
                 string weaponsGroupJsonFile = weaponGroupFileName;
                 string weaponJsonData = JsonConvert.SerializeObject(weaponsGroupList);
-                var weaponsGroupDir = qWeaponsGroupPath + @"\" + weaponsGroupJsonFile + jsonExt;
+                var weaponsGroupDir = qWeaponsGroupPath + @"\" + weaponsGroupJsonFile + QUtils.FileExtensions.Json;
                 QUtils.SaveFile(weaponsGroupDir, weaponJsonData);
                 SetStatusText("Weapon Group '" + weaponsGroupJsonFile + "'  saved successfully");
 
@@ -5204,7 +5204,7 @@ namespace IGIEditor
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var voidLevelPath = QUtils.cfgVoidPath + "\\objects_void_" + QUtils.gGameLevel + QUtils.qscExt;
+            var voidLevelPath = QUtils.cfgVoidPath + "\\objects_void_" + QUtils.gGameLevel + QUtils.FileExtensions.Qsc;
             QUtils.FileCopy(voidLevelPath, QUtils.objectsQsc);
 
             var qscData = QUtils.LoadFile();
@@ -5449,7 +5449,7 @@ namespace IGIEditor
 
         internal void PopulateImageBox(string modelId, PictureBox imgBox)
         {
-            var imgTmpPath = QUtils.cachePathAppImages + "\\" + modelId + QUtils.pngExt;
+            var imgTmpPath = QUtils.cachePathAppImages + "\\" + modelId + QUtils.FileExtensions.Png;
 
             //Load image from Cache.
             if (File.Exists(imgTmpPath))
