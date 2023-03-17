@@ -933,5 +933,49 @@ namespace IGIEditor
             }
         }
 
+        struct AIGraphData
+        {
+            public int GraphId;
+            public int TotalNodes;
+            public int MaxNodes;
+        }
+
+        private static List<AIGraphData> ExtractAIGraphData(string filePath)
+        {
+            var aiGraphDataList = new List<AIGraphData>();
+
+            string[] fileContentSplit = File.ReadAllLines(filePath);
+            foreach (var data in fileContentSplit)
+            {
+                if (data.Contains("Task_New") && data.Contains("\"AIGraph\""))
+                {
+                    var aiGraphData = new AIGraphData();
+
+                    var taskNew = data.Split(',');
+
+                    aiGraphData.GraphId = int.Parse(taskNew[0].Substring(taskNew[0].IndexOf('(') + 1));
+                    aiGraphData.TotalNodes = int.Parse(taskNew[7]);
+                    aiGraphData.MaxNodes = int.Parse(taskNew[8]);
+
+                    aiGraphDataList.Add(aiGraphData);
+                }
+            }
+            return aiGraphDataList;
+        }
+
+        internal static int ExtractNodesData4mQScript(int graphId)
+        {
+            //For current level.
+            int level = QUtils.gGameLevel;
+
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name, $"called with level {level} with graphId {graphId}");
+
+            string inputQscPath = QUtils.cfgQscPath + level + "\\" + QUtils.objectsQsc;
+
+            var aiGraphDataList = ExtractAIGraphData(inputQscPath);
+            var aiGraphData = aiGraphDataList.Find(x => x.GraphId == graphId);
+            QUtils.AddLog(MethodBase.GetCurrentMethod().Name,$"Total Nodes {aiGraphData.TotalNodes} MaxNodes {aiGraphData.MaxNodes}");
+            return aiGraphData.TotalNodes;
+        }
     }
 }

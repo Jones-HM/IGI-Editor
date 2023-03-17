@@ -42,9 +42,9 @@ namespace IGIEditor
             if (QUtils.gamePathSet) QUtils.CreateConfig();
 
             //Move Logs and data to cache.
-            if (File.Exists(QUtils.logFile))
+            if (File.Exists(QUtils.editorLogFile))
             {
-                QUtils.FileIOMove(QUtils.logFile, QUtils.cachePathAppLogs + "\\"  + QUtils.logFile);
+                QUtils.FileIOCopy(QUtils.editorLogFile, QUtils.cachePathAppLogs + "\\"  + QUtils.editorLogFile);
                 QUtils.FileIOMove(QUtils.qLibLogsFile, QUtils.cachePathAppLogs + "\\" + QUtils.qLibLogsFile);
             }
             QUtils.FileIOMove(QUtils.internalsLogPath, QUtils.cachePathAppLogs + "\\" + QUtils.internalsLogPath);

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -30,8 +29,6 @@ namespace IGIEditor
         private List<QUtils.QScriptTask> qtaskList = new List<QUtils.QScriptTask>();
         private int buildingsCount = 0, rigidObjCount = 0;
         private static bool isBuildingDD = false, isObjectDD = true, internalsAttached = false;
-        private static string model3d, blenderModel;
-        private static int randPosOffset = 0, posOffset = 3000;
         string inputQvmPath, inputQscPath;
         private static int gameLevel = 1, aiGraphId = 1, nodeId = 1;
         private Real64 graphPos, nodeRealPos;
@@ -59,7 +56,7 @@ namespace IGIEditor
             try
             {
                 var updatePositionTimer = new Timer();
-                var fileCheckerTimer = new Timer();
+                var fileIntegrityCheckerTimer = new Timer();
 
                 InitializeComponent();
                 UXWorker formMover = new UXWorker();
@@ -95,8 +92,8 @@ namespace IGIEditor
                 updatePositionTimer.Interval = 500;
 
                 //Start File Integrity timer.
-                fileCheckerTimer.Tick += new EventHandler(FileIntegrityCheckerTimer);
-                fileCheckerTimer.Interval = 60000;//1 Minute.
+                fileIntegrityCheckerTimer.Tick += new EventHandler(FileIntegrityCheckerTimer);
+                fileIntegrityCheckerTimer.Interval = 60000;//1 Minute.
 
                 //Internals Attach/Detach timer.
                 internalsAttachTimer.Tick += new EventHandler(InternalsAttachedTimer);
@@ -208,7 +205,12 @@ namespace IGIEditor
                     //QUtils.AttachInternals();
                 }
                 else
+                {
+                    //Init Dropdown,List UI components.
+                    QUtils.gGameLevel = gameLevel = Convert.ToInt32(levelStartTxt.Value);
+                    InitUIComponents(gameLevel);
                     SetStatusText("Game is not running...");
+                }
 
 
                 //Start all timers after app gets configures properly.
@@ -223,7 +225,7 @@ namespace IGIEditor
 #else
                     if (enable)
                     {
-                        fileCheckerTimer.Start();
+                        fileIntegrityCheckerTimer.Start();
                         updatePositionTimer.Start();
                         if (QUtils.gameRefresh)
                         {
@@ -234,7 +236,8 @@ namespace IGIEditor
 #endif
                 };
 
-                enableTimers(true);
+                //Enbale editor timer's only if game found.
+                enableTimers(QUtils.gameFound);
                 //Delete previous Updater from Cache.
                 QUtils.DirectoryIODelete(QUtils.editorUpdaterAbsDir);
             }
@@ -818,14 +821,21 @@ namespace IGIEditor
                     QUtils.weaponList = QHuman.GetWeaponsList();
                     QUtils.weaponSFXList = QWeapon.GetWeaponSFXList();
 
-                    //Adding Weapon list.
-                    foreach (var weapon in QUtils.weaponList)
+                    try
                     {
-                        var weaponName = weapon.Keys.ElementAt(0);
-                        weaponDDList.Add(weaponName);
-                        weaponDD.Items.Add(weaponName);
-                        weaponCfgDD.Items.Add(weaponName);
-                        aiWeaponDD.Items.Add(weaponName);
+                        //Adding Weapon list.
+                        foreach (var weapon in QUtils.weaponList)
+                        {
+                            var weaponName = weapon.Keys.ElementAt(0);
+                            weaponDDList.Add(weaponName);
+                            weaponDD.Items.Add(weaponName);
+                            weaponCfgDD.Items.Add(weaponName);
+                            aiWeaponDD.Items.Add(weaponName);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
                     }
 
                     //Adding Weapon SFX list.
@@ -835,27 +845,47 @@ namespace IGIEditor
                         weaponSfx2DD.Items.Add(weaponSfx);
                     }
 
-
-                    //Init AI model list.
-                    QUtils.aiModelsListStr.Clear();
-                    var aiModelNamesList = QAI.GetAiModelNamesList(level);
-                    foreach (var aiModelName in aiModelNamesList)
+                    try
                     {
-                        aiModelsListStr.Add(aiModelName);
-                        if (initialInit)
-                            aiModelSelectDD.Items.Add(aiModelName);
+                        //Init AI model list.
+                        QUtils.aiModelsListStr.Clear();
+                        var aiModelNamesList = QAI.GetAiModelNamesList(level);
+                        foreach (var aiModelName in aiModelNamesList)
+                        {
+                            aiModelsListStr.Add(aiModelName);
+                            if (initialInit)
+                                aiModelSelectDD.Items.Add(aiModelName);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
                     }
 
-                    //Init AI types list.
-                    aiTypeDD.Items.Clear();
-                    var aiTypesList = QAI.GetAiTypes();
-                    foreach (var aiType in aiTypesList)
+                    try
                     {
-                        aiTypeDD.Items.Add(aiType.Replace("AITYPE_", String.Empty).Replace("_AK", String.Empty).Replace("_UZI", String.Empty));
+                        //Init AI types list.
+                        aiTypeDD.Items.Clear();
+                        var aiTypesList = QAI.GetAiTypes();
+                        foreach (var aiType in aiTypesList)
+                        {
+                            aiTypeDD.Items.Add(aiType.Replace("AITYPE_", String.Empty).Replace("_AK", String.Empty).Replace("_UZI", String.Empty));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
                     }
 
                     //Init AI Graph list.
-                    QGraphs.GraphLevelInit(level, showAllGraphsCb.Checked, initialInit,ref aiGraphIdDD);
+                    try
+                    {
+                        QGraphs.GraphLevelInit(level, showAllGraphsCb.Checked, initialInit, ref aiGraphIdDD);
+                    }
+                    catch (Exception ex)
+                    {
+                        QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
+                    }
                 }
 
                 if (objItems)
@@ -991,9 +1021,6 @@ namespace IGIEditor
                 GenerateAIScriptId(true);
                 QUtils.aiScriptFiles.Clear();
 
-                string gamePathTmp = QUtils.cfgGamePath;
-                var gameAbsPath = gamePathTmp.Slice(0, gamePathTmp.IndexOf("\\", gamePathTmp.IndexOf("\\") + 1));
-
                 //Check if Notepad++ is installed.
                 QUtils.nppInstalled = QUtils.CheckAppInstalled("notepad++.exe", "--help");
                 if (!QUtils.nppInstalled) QUtils.nppInstalled = QUtils.LocateExecutable("notepad++.exe") != null;
@@ -1089,7 +1116,7 @@ namespace IGIEditor
             {
                 //load level Description.
                 levelNameLbl.Text = QMission.GetMissionInfo(level);
-                var imgPath = "mission_" + level + QUtils.pngExt;
+                var imgPath = "mission" + level + QUtils.pngExt;
                 var imgTmpPath = QUtils.cachePathAppImages + "\\" + imgPath;
 
                 //Load level image from Cache.
@@ -1375,21 +1402,31 @@ namespace IGIEditor
 
         private void xPosLbl_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(xPosLbl.Text);
-            SetStatusText("X-Position Copied successfully");
+            if (!string.IsNullOrEmpty(xPosLbl.Text))
+            {
+                Clipboard.SetText(xPosLbl.Text);
+                SetStatusText("X-Position Copied successfully");
+            }
         }
 
         private void yPosLbl_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(yPosLbl.Text);
-            SetStatusText("Y-Position Copied successfully");
+            if (!string.IsNullOrEmpty(yPosLbl.Text))
+            {
+                Clipboard.SetText(yPosLbl.Text);
+                SetStatusText("Y-Position Copied successfully");
+            }
         }
 
         private void zPosLbl_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(zPosLbl.Text);
-            SetStatusText("Z-Position Copied successfully");
+            if (!string.IsNullOrEmpty(zPosLbl.Text))
+            {
+                Clipboard.SetText(zPosLbl.Text);
+                SetStatusText("Z-Position Copied successfully");
+            }
         }
+
 
         private void posOffCb_CheckedChanged(object sender, EventArgs e)
         {
@@ -1406,51 +1443,62 @@ namespace IGIEditor
             if (posCurrentCb.Checked) posOffCb.Checked = posMeterCb.Checked = false;
         }
 
-        private void refreshGame_Click(object sender, EventArgs e)
+        private void RefreshGame(bool findGame, bool attachInternals)
         {
             try
             {
-                QUtils.gameFound = QMemory.FindGame();
-                if (!QUtils.gameFound)
+                if (findGame)
                 {
-                    QMemory.StartGame();
-                    SetStatusText("Game not found! starting new game");
-                    QUtils.Sleep(8);
+                    QUtils.gameFound = QMemory.FindGame();
+                    if (!QUtils.gameFound)
+                    {
+                        QMemory.StartGame();
+                        SetStatusText("Game not found! starting new game");
+                        QUtils.Sleep(8);
 
-                    QUtils.gGameLevel = gameLevel = QMemory.GetRunningLevel();
-                    levelStartTxt.Text = gameLevel.ToString();
-                    InitEditorPaths(QUtils.gGameLevel);
-                    QUtils.gameFound = true;
+                        QUtils.gGameLevel = gameLevel = QMemory.GetRunningLevel();
+                        levelStartTxt.Text = gameLevel.ToString();
+                        InitEditorPaths(QUtils.gGameLevel);
+                        QUtils.gameFound = true;
+                    }
                 }
 
-                if (QUtils.gameFound)
+                SetStatusText("Game found success");
+                QUtils.gGameLevel = QUtils.gameFound ? QMemory.GetRunningLevel() : Convert.ToInt32(levelStartTxt.Value);
+                LoadLevelDetails(gameLevel);
+                RefreshUIComponents(gameLevel);
+                CleanUpAiFiles();
+                InitEditorPaths(gameLevel);
+
+                if (autoResetCb.Checked)
                 {
-                    SetStatusText("Game found success");
-                    QUtils.gGameLevel = gameLevel = QMemory.GetRunningLevel();
-                    LoadLevelDetails(gameLevel);
-                    RefreshUIComponents(gameLevel);
-                    CleanUpAiFiles();
-                    InitEditorPaths(gameLevel);
-
-                    if (autoResetCb.Checked)
+                    var dlgResult = QUtils.ShowDialog("Auto-Reset option is selected and will reset your level\nDo you want to continue?");
+                    if (dlgResult == DialogResult.Yes)
                     {
-                        var dlgResult = QUtils.ShowDialog("Auto-Reset option is selected and will reset your level\nDo you want to continue?");
-                        if (dlgResult == DialogResult.Yes)
-                        {
-                            QUtils.ResetScriptFile(gameLevel);
-                            QUtils.RestoreLevel(gameLevel);
-                        }
-
+                        QUtils.ResetScriptFile(gameLevel);
+                        QUtils.RestoreLevel(gameLevel);
                     }
+
+                }
+
+                // Attach internals if selected.
+                if (attachInternals)
+                {
                     QUtils.attachStatus = QUtils.CheckInternalsAttached();
                     if (!QUtils.attachStatus) QUtils.AttachInternals();
-                    QUtils.graphAreas.Clear();
                 }
+                QUtils.graphAreas.Clear();
+
             }
             catch (Exception ex)
             {
                 QUtils.LogException(MethodBase.GetCurrentMethod().Name, ex);
             }
+        }
+
+        private void refreshGame_Click(object sender, EventArgs e)
+        {
+            RefreshGame(true, true);
         }
 
         private void updateObjPosition_Click(object sender, EventArgs e)
@@ -1661,13 +1709,6 @@ namespace IGIEditor
             string qscData = null, weaponName = null;
             try
             {
-                //if (!editorModeCb.Checked && !liveEditorCb.Checked)
-                //{
-                //    var result = QUtils.ShowEditModeDialog();
-                //    if (result) editorModeCb.Checked = true;
-                //    else return;
-                //}
-
                 if (allWeaponsCb.Checked)
                 {
                     qscData = QHuman.RemoveWeapons();
@@ -2494,22 +2535,35 @@ namespace IGIEditor
         {
             try
             {
-                int graphLevel = QUtils.gameFound ? QMemory.GetRunningLevel() : Convert.ToInt32(levelStartTxt.Value);
+                QUtils.gGameLevel = QUtils.gameFound ? QMemory.GetRunningLevel() : Convert.ToInt32(levelStartTxt.Value);
                 graphIdDD.SelectedIndex = (graphIdDD.SelectedIndex == -1) ? 0 : graphIdDD.SelectedIndex;
                 aiGraphId = QUtils.aiGraphIdStr[graphIdDD.SelectedIndex];
-                graphPos = QGraphs.GetGraphPosition(aiGraphId, graphLevel);
 
                 SetStatusText("Updating GraphNodes data please wait....");
-                aiGraphNodeIdStr = QGraphs.GetNodesForGraph(aiGraphId);
-                graphTotalNodes = aiGraphNodeIdStr.Count;
-                SetStatusText("Updating GraphNodes data done....");
 
-                //Update Graph Nodes.
-                UpdateUIComponent(nodeIdDD, QUtils.aiGraphNodeIdStr);
+                // Extract Nodes Data from Graph file.
+                if (QUtils.gameFound)
+                {
+                    graphPos = QGraphs.GetGraphPosition(aiGraphId, QUtils.gGameLevel);
+                    aiGraphNodeIdStr = QGraphs.GetNodesForGraph(aiGraphId);
+                    graphTotalNodes = aiGraphNodeIdStr.Count;
+                    graphTotalNodesTxt.Text = graphTotalNodes.ToString();
+                    SetStatusText("Updating GraphNodes data done....");
+
+                    //Update Graph Nodes.
+                    UpdateUIComponent(nodeIdDD, QUtils.aiGraphNodeIdStr);
+                }
+
+                // Extract Nodes Data from QScript file.
+                else
+                {
+                    int totalNodes = QGraphs.ExtractNodesData4mQScript(aiGraphId);
+                    graphTotalNodesTxt.Text = totalNodes.ToString();
+                }
 
                 string graphArea = QGraphs.GetGraphArea(aiGraphId);
                 graphAreaLbl.Text = graphArea;
-                graphTotalNodesTxt.Text = graphTotalNodes.ToString();
+
 
                 //Add all marked GraphIds.
                 if (graphsMarkCb.Checked)
@@ -4754,8 +4808,6 @@ namespace IGIEditor
                 textureFileName.Text = Path.GetFileName(textureFile);
                 textureFileResolution.Text = $"{bitmap.Width} x {bitmap.Height}";
                 textureFileSize.Text = $"{new FileInfo(textureFile).Length} bytes";
-
-                SetStatusText($"File {sourceFileNameWithoutExt} loaded as texture successfully.");
             }
             else
             {
@@ -5042,6 +5094,8 @@ namespace IGIEditor
         private void textureBox_MouseUp(object sender, MouseEventArgs e)
         {
             isDrawing = false;
+            if (textureBox == null || textureBox.Image == null) return;
+
             Bitmap bitmap = new Bitmap(textureBox.Image);
             using (Graphics g = Graphics.FromImage(bitmap))
             {
@@ -5169,13 +5223,15 @@ namespace IGIEditor
 
         private void levelStartTxt_ValueChanged(object sender, EventArgs e)
         {
-            var levelTxt = ((NumericUpDown)sender).Value.ToString();
-            int level = Convert.ToInt32(levelTxt);
+            int level = Convert.ToInt32(levelStartTxt.Value);
             //Check for Max Level.
             if (level <= 0 || level > GAME_MAX_LEVEL)
             {
-                ((NumericUpDown)sender).Value = level = 1;
+                levelStartTxt.Value = level = 1;
             }
+
+            QUtils.gGameLevel = gameLevel = QUtils.gameFound ? QMemory.GetRunningLevel() : level;
+            RefreshGame(false, false);
         }
 
         private void missionsOnlineDD_SelectedIndexChanged(object sender, EventArgs e)

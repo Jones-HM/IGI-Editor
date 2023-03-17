@@ -104,7 +104,7 @@ namespace IGIEditor
         #endregion
 
         #region Log & Custom Scripts
-        internal static string logFile = "app.log";
+        internal static string editorLogFile = "app.log";
         internal static string qLibLogsFile = "QLibc_logs.log";
         internal static string aiIdleFile = "aiIdle.qvm";
         internal static string objectsModelsList;
@@ -115,7 +115,7 @@ namespace IGIEditor
         internal static string customPatrolPathQEd;
         internal static string appLogFileTmp = @"%tmp%\IGIEditorCache\AppLogs\";
         internal static string nativesFile = @"\IGI-Natives.json";
-        internal static string modelsFile = @"\IGI-Models.txt";
+        internal static string modelsFile = @"\IGI-Models.json";
         internal static string internalsLogFile = @"\IGI-Internals.log";
         #endregion
 
@@ -146,7 +146,7 @@ namespace IGIEditor
 
         #region App Version
         internal static string versionFileName = "VERSION";
-        internal static string appEditorSubVersion = "0.8.0.1";
+        internal static string appEditorSubVersion = "0.8.2.0";
         internal static float viewPortDelta = 10000.0f;
         #endregion
 
@@ -231,7 +231,6 @@ namespace IGIEditor
         internal static string internalsDll = "IGI-Internals.dll";
         internal static string internalsDllPath = @"bin\IGI-Internals.dll";
         internal static string qLibcPath = @"lib\GTLibc_x86.so";
-        internal static string tmpDllPath;
         internal static string internalDllInjectorPath = @"bin\IGI-Injector.exe";
         internal static string internalDllGTInjectorPath = @"bin\IGI-Injector-GT.exe";
         internal static string qedQscPath = @"\IGI_QSC";
@@ -459,7 +458,7 @@ namespace IGIEditor
 
             editorAppName = AppDomain.CurrentDomain.FriendlyName.Replace(".exe", String.Empty);
             iniCfgFile = editorAppName + ".ini";
-            logFile = editorAppName + ".log";
+            editorLogFile = editorAppName + ".log";
             editorCurrPath = Directory.GetCurrentDirectory();
             deviceIdDLLPath = editorCurrPath + Path.DirectorySeparatorChar + "DeviceId.dll";
 
@@ -1949,7 +1948,7 @@ namespace IGIEditor
             if (logEnabled)
             {
                 methodName = methodName.Replace("Btn_Click", String.Empty).Replace("_SelectedIndexChanged", String.Empty).Replace("_SelectedValueChanged", String.Empty);
-                File.AppendAllText(logFile, "[" + DateTime.Now.ToString("yyyy-MM-dd - HH:mm:ss") + "] " + methodName + "(): " + logMsg + "\n");
+                File.AppendAllText(editorLogFile, "[" + DateTime.Now.ToString("yyyy-MM-dd - HH:mm:ss") + "] " + methodName + "(): " + logMsg + "\n");
             }
         }
 
